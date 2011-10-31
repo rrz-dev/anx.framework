@@ -1,14 +1,7 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
+﻿using System;
 using System.IO;
-
-#endregion // Using Statements
+using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
 
 #region License
 
@@ -59,6 +52,9 @@ using System.IO;
 
 namespace ANX.Framework.Windows.GL3
 {
+	/// <summary>
+	/// OpenGL graphics creator.
+	/// </summary>
 	public class Creator : IRenderSystemCreator
 	{
 		#region Public
@@ -91,13 +87,13 @@ namespace ANX.Framework.Windows.GL3
 		#region CreateEffect
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Stream byteCode)
 		{
-			return new EffectGL3(graphics, byteCode);
+			return new EffectGL3(byteCode);
 		}
 
 		public INativeEffect CreateEffect(GraphicsDevice graphics,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			return new EffectGL3(graphics, vertexShaderByteCode, pixelShaderByteCode);
+			return new EffectGL3(vertexShaderByteCode, pixelShaderByteCode);
 		}
 		#endregion
 
@@ -129,17 +125,40 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region CreateIndexBuffer
+		/// <summary>
+		/// Create a native index buffer.
+		/// </summary>
+		/// <param name="graphics">The current graphics device.</param>
+		/// <param name="size">The size of a single index element.</param>
+		/// <param name="indexCount">The number of indices stored in the buffer.
+		/// </param>
+		/// <param name="usage">The usage type of the buffer.</param>
+		/// <returns>Native OpenGL index buffer.</returns>
 		public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
 			IndexElementSize size, int indexCount, BufferUsage usage)
 		{
-			throw new NotImplementedException();
+			return new IndexBufferGL3(size, indexCount, usage);
 		}
+		#endregion
 
+		#region CreateVertexBuffer
+		/// <summary>
+		/// Create a native vertex buffer.
+		/// </summary>
+		/// <param name="graphics">The current graphics device.</param>
+		/// <param name="size">The vertex declaration for the buffer.</param>
+		/// <param name="indexCount">The number of vertices stored in the buffer.
+		/// </param>
+		/// <param name="usage">The usage type of the buffer.</param>
+		/// <returns>Native OpenGL vertex buffer.</returns>
 		public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+			VertexDeclaration vertexDeclaration, int vertexCount,
+			BufferUsage usage)
 		{
-			throw new NotImplementedException();
+			return new VertexBufferGL3(vertexDeclaration, vertexCount, usage);
 		}
+		#endregion
 
 		#region CreateBlendState
 		/// <summary>
@@ -185,6 +204,12 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region GetShaderByteCode (TODO)
+		/// <summary>
+		/// Get the byte code of a pre defined shader.
+		/// </summary>
+		/// <param name="type">Pre defined shader type.</param>
+		/// <returns>Byte code of the shader.</returns>
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
 			switch (type)
@@ -197,5 +222,6 @@ namespace ANX.Framework.Windows.GL3
 						"' isn't supported yet!");
 			}
 		}
+		#endregion
 	}
 }

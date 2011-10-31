@@ -138,7 +138,8 @@ namespace ANX.Framework.Windows.GL3
 				presentationParameters.DeviceWindowHandle);
 
 			GraphicsMode graphicsMode = new GraphicsMode(
-				SurfaceToColorFormat(presentationParameters.BackBufferFormat),
+				DatatypesMapping.SurfaceToColorFormat(
+					presentationParameters.BackBufferFormat),
 				depth, stencil,
 				// AntiAlias Samples: 2/4/8/16/32
 				presentationParameters.MultiSampleCount);
@@ -146,31 +147,6 @@ namespace ANX.Framework.Windows.GL3
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
 			nativeContext.LoadAll();
-		}
-		#endregion
-
-		#region SurfaceToColorFormat (TODO)
-		/// <summary>
-		/// Translate the XNA surface format to an OpenGL ColorFormat.
-		/// </summary>
-		/// <param name="format">XNA surface format.</param>
-		/// <returns>Translated color format for OpenGL.</returns>
-		private static ColorFormat SurfaceToColorFormat(SurfaceFormat format)
-		{
-			switch(format)
-			{
-				case SurfaceFormat.Bgra4444:
-					return new ColorFormat(4, 4, 4, 4);
-
-				case SurfaceFormat.Bgra5551:
-					return new ColorFormat(5, 5, 5, 1);
-
-					// TODO: rest of the stuff
-
-				default:
-				case SurfaceFormat.Color:
-					return new ColorFormat(8, 8, 8, 8);
-			}
 		}
 		#endregion
 

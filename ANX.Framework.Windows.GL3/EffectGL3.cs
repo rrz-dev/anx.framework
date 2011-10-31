@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -53,16 +54,97 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Windows.GL3
 {
+	/// <summary>
+	/// Native OpenGL Effect implementation.
+	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
-		public EffectGL3(GraphicsDevice device, Stream vertexShaderByteCode,
+		#region Private
+		/// <summary>
+		/// The native shader handle.
+		/// </summary>
+		private int programHandle;
+		#endregion
+
+		#region Constructor (TODO)
+		/// <summary>
+		/// Create a new effect instance of separate streams.
+		/// </summary>
+		/// <param name="vertexShaderByteCode">The vertex shader code.</param>
+		/// <param name="pixelShaderByteCode">The fragment shader code.</param>
+		public EffectGL3(Stream vertexShaderByteCode,
 			Stream pixelShaderByteCode)
 		{
+			CreateShader("", "");
 		}
 
-		public EffectGL3(GraphicsDevice device, Stream byteCode)
+		/// <summary>
+		/// Create a new effect instance of one streams.
+		/// </summary>
+		/// <param name="byteCode">The byte code of the shader.</param>
+		public EffectGL3(Stream byteCode)
 		{
+			CreateShader("", "");
 		}
+		#endregion
+
+		#region CreateShader
+		private void CreateShader(string vertexSource, string fragmentSource)
+		{
+			int vertexShader = GL.CreateShader(ShaderType.VertexShader);
+			string vertexError = CompileShader(vertexShader, vertexSource);
+			if (String.IsNullOrEmpty(vertexError) == false)
+			{
+				throw new InvalidDataException("Failed to compile the vertex " +
+					"shader because of: " + vertexError);
+			}
+
+			int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+			string fragmentError = CompileShader(fragmentShader, fragmentSource);
+			if (String.IsNullOrEmpty(fragmentError) == false)
+			{
+				throw new InvalidDataException("Failed to compile the fragment " +
+					"shader because of: " + fragmentError);
+			}
+
+			programHandle = GL.CreateProgram();
+			GL.AttachShader(programHandle, vertexShader);
+			GL.AttachShader(programHandle, fragmentShader);
+			GL.LinkProgram(programHandle);
+
+			int result;
+			GL.GetProgram(programHandle, ProgramParameter.LinkStatus, out result);
+			if (result == 0)
+			{
+				string programError;
+				GL.GetProgramInfoLog(programHandle, out programError);
+				throw new InvalidDataException("Failed to link the shader program " +
+					"because of: " + programError);
+			}
+		}
+		#endregion
+
+		#region CompileShader
+		private string CompileShader(int shader, string source)
+		{
+			GL.ShaderSource(shader, source);
+			GL.CompileShader(shader);
+			
+			int result;
+			GL.GetShader(shader, ShaderParameter.CompileStatus, out result);
+			if (result == 0)
+			{
+				string error = "";
+				GL.GetShaderInfoLog(shader, out error);
+
+				GL.DeleteShader(shader);
+
+				return error;
+			}
+
+			return null;
+		}
+		#endregion
 
 		#region INativeEffect Member
 
@@ -99,13 +181,24 @@ namespace ANX.Framework.Windows.GL3
 
 		#endregion
 
-		#region IDisposable Member
-
+		#region Dispose
+		/// <summary>
+		/// Dispose the native shader data.
+		/// </summary>
 		public void Dispose()
 		{
-			throw new NotImplementedException();
-		}
+			GL.DeleteProgram(programHandle);
 
+			int result;
+			GL.GetProgram(programHandle, ProgramParameter.DeleteStatus, out result);
+			if (result == 0)
+			{
+				string deleteError;
+				GL.GetProgramInfoLog(programHandle, out deleteError);
+				throw new Exception("Failed to delete the shader program because of: " +
+					deleteError);
+			}
+		}
 		#endregion
 	}
 }
