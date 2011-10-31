@@ -200,5 +200,11 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 		#endregion
-	}
+
+        public static byte[] CompileShader(string effectCode)
+        {
+            //TODO: implement to be used by ContentPipeline
+            throw new NotImplementedException();
+        }
+    }
 }

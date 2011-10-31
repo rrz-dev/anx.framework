@@ -58,7 +58,7 @@ namespace ANX.Framework.ContentPipeline
         DX10_HLSL = 1,
         DX11_HLSL = 2,
         DX11_1_HLSL = 3,
-        OPEN_GL_GLSL = 4,
+        OPEN_GL3_GLSL = 4,
         MULTIFORMAT = 5,
     }
 }

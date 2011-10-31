@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline;
@@ -60,74 +59,43 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 using TInput = Microsoft.Xna.Framework.Content.Pipeline.Graphics.EffectContent;
 using TOutput = Microsoft.Xna.Framework.Content.Pipeline.Processors.CompiledEffectContent;
+using ANX.Framework.Windows.GL3;
 
 namespace ANX.Framework.ContentPipeline
 {
-    [ContentProcessor(DisplayName = "Effect - ANX Framework")]
-    public class AnxEffectProcessor : ContentProcessor<TInput, TOutput>
+    [ContentProcessor(DisplayName = "OpenGL3 Effect - ANX Framework")]
+    public class GL3_EffectProcessor : ContentProcessor<TInput, TOutput>
     {
-        Microsoft.Xna.Framework.Content.Pipeline.Processors.EffectProcessor processor;
-        private EffectProcessorOutputFormat outputFormat;
-
-        public AnxEffectProcessor()
-        {
-            processor = new Microsoft.Xna.Framework.Content.Pipeline.Processors.EffectProcessor();
-            processor.DebugMode = EffectProcessorDebugMode.Auto;
-        }
-
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
-            switch (this.outputFormat)
-            {
-                case EffectProcessorOutputFormat.XNA_BYTE_CODE:
-                    return processor.Process(input, context);
-                case EffectProcessorOutputFormat.DX10_HLSL:
-                    DX10_EffectProcessor dx10EffectProcessor = new DX10_EffectProcessor();
-                    return dx10EffectProcessor.Process(input, context);
-                case EffectProcessorOutputFormat.OPEN_GL3_GLSL:
-                    GL3_EffectProcessor gl3EffectProcessor = new GL3_EffectProcessor();
-                    return gl3EffectProcessor.Process(input, context);
-                default:
-                    throw new NotSupportedException("Currently it is not possible to create effect with format '" + outputFormat.ToString() + "'");
-            }
+            byte[] effectByteCode = EffectGL3.CompileShader(input.EffectCode);
+
+            Byte[] byteCode = new Byte[3 + 2 + 1 + 4 + effectByteCode.Length];
+
+            StringToByteArray("ANX").CopyTo(byteCode, 0);               // Magic Number to recognize format
+            byteCode[3] = 0;                                            // Major Version
+            byteCode[4] = 2;                                            // Minor Version
+            byteCode[5] = (byte)EffectProcessorOutputFormat.OPEN_GL3_GLSL;  // Format of byte array
+
+            int dataStart = 6;
+
+            BitConverter.GetBytes(effectByteCode.Length).CopyTo(byteCode, dataStart); // length of vertexShaderByteCode
+            Array.Copy(effectByteCode, 0, byteCode, dataStart + 4, effectByteCode.Length);
+
+            return new TOutput(byteCode);
         }
 
-        [DefaultValue(EffectProcessorOutputFormat.XNA_BYTE_CODE)]
-        public EffectProcessorOutputFormat OutputFormat
+        private byte[] StringToByteArray(string str)
         {
-            get
-            {
-                return this.outputFormat;
-            }
-            set
-            {
-                this.outputFormat = value;
-            }
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            return enc.GetBytes(str);
         }
 
-        [DefaultValue(EffectProcessorDebugMode.Auto)]
-        public EffectProcessorDebugMode DebugMode
+        private string ByteArrayToString(byte[] arr)
         {
-            get
-            {
-                return processor.DebugMode;
-            }
-            set
-            {
-                processor.DebugMode = value;
-            }
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            return enc.GetString(arr);
         }
 
-        public string Defines
-        {
-            get
-            {
-                return processor.Defines;
-            }
-            set
-            {
-                processor.Defines = value;
-            }
-        }
     }
 }

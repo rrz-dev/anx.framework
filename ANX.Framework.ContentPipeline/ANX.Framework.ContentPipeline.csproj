@@ -56,12 +56,17 @@
   <ItemGroup>
     <Compile Include="DX10_EffectProcessor.cs" />
     <Compile Include="EffectProcessor.cs" />
+    <Compile Include="GL3_EffectProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework.Windows.DX10\ANX.Framework.Windows.DX10.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
       <Name>ANX.Framework.Windows.DX10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ANX.Framework.Windows.GL3\ANX.Framework.Windows.GL3.csproj">
+      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
+      <Name>ANX.Framework.Windows.GL3</Name>
     </ProjectReference>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
