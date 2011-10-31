@@ -118,7 +118,16 @@ namespace ANX.InputSystem.Windows.XInput
 
         public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
-            throw new NotImplementedException();
+            if (controller[(int)playerIndex].IsConnected)
+            {
+                Vibration vib = new Vibration();
+                vib.LeftMotorSpeed = Convert.ToInt16(leftMotor * short.MaxValue);
+                vib.RightMotorSpeed = Convert.ToInt16(rightMotor * short.MaxValue);
+                controller[(int)playerIndex].SetVibration(vib);
+                return true;
+            }
+            return false;
+
         }
     }
 }
