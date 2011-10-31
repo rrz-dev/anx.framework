@@ -110,6 +110,7 @@ namespace ANX.Framework.Content
             switch (format)
             {
                 case EffectProcessorOutputFormat.DX10_HLSL:
+                case EffectProcessorOutputFormat.OPEN_GL3_GLSL:
                     //return rfc.CreateEffect(gds.GraphicsDevice, new MemoryStream(vertexShaderByteCode, false), new MemoryStream(pixelShaderByteCode, false));
                     //return rfc.CreateEffect(gds.GraphicsDevice, new MemoryStream(effectByteCode, false));
                     return new Effect(gds.GraphicsDevice, effectByteCode);
