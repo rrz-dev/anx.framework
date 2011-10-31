@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Diese Datei enthält eine XML-Beschreibung einer Schriftart und wird von der XNA
+Framework Inhalts-Pipeline gelesen. Befolgen Sie die Kommentare zur Anpassung des Erscheinungsbilds
+der Schriftart in Ihrem Spiel und zum Ändern der Zeichen, die für das Zeichnen verfügbar
+sind.
+-->
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+  <Asset Type="Graphics:FontDescription">
+
+    <!--
+    Ändern Sie diesen String, um die Schriftart, die importiert wird, zu ändern.
+    -->
+    <FontName>Segoe UI Mono</FontName>
+
+    <!--
+    Größe ist ein Float-Wert, der in Punkten gemessen wird. Ändern Sie diesen Wert, um
+    die Größe der Schriftart zu ändern.
+    -->
+    <Size>14</Size>
+
+    <!--
+    Zeichenabstand ist ein Float-Wert, der in Pixel gemessen wird. Ändern Sie diesen Wert, um
+    den Zeichenabstand zu ändern.
+    -->
+    <Spacing>0</Spacing>
+
+    <!--
+    UseKerning  steuert das Layout der Schriftart. Wenn dieser Wert wahr ist, werden Kerning-Informationen
+    bei der Platzierung von Zeichen verwendet.
+    -->
+    <UseKerning>true</UseKerning>
+
+    <!--
+    Style steuert den Stil der Schriftart. Gültige Einträge sind "Normal", "Fett", "Kursiv"
+    und "Fett, Kursiv", dabei muss die Groß- und Kleinschreibung beachtet werden.
+    -->
+    <Style>Regular</Style>
+
+    <!--
+    Wenn Sie den Kommentar von dieser Zeile entfernen, wird das Standardzeichen ersetzt, wenn Sie zeichnen
+    oder Text messen, der Zeichen enthält, die in der Schriftart nicht enthalten sind.
+    -->
+    <!-- <DefaultCharacter>*</DefaultCharacter> -->
+
+    <!--
+    CharacterRegions steuert, welche Buchstaben in der Schriftart verfügbar sind. Jedes
+    Zeichen von Start bis Ende wird erstellt und für das Zeichnen verfügbar gemacht. Der
+    Standardbereich ist von 32, (ASCII-Leerzeichen), bis 126, ('~'), und deckt den grundlegenden lateinischen
+    Zeichensatz ab. Die Zeichen werden gemäß dem Unicode-Standard geordnet.
+    Weitere Informationen finden Sie in der Dokumentation.
+    -->
+    <CharacterRegions>
+      <CharacterRegion>
+        <Start>&#32;</Start>
+        <End>&#126;</End>
+      </CharacterRegion>
+    </CharacterRegions>
+  </Asset>
+</XnaContent>

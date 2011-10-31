@@ -1,0 +1,2490 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharpDX.XAudio2</name>
+    </assembly>
+    <members>
+        <member name="T:SharpDX.XAudio2.EffectDescriptor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_DESCRIPTOR']/*"/>	
+            <unmanaged>XAUDIO2_EFFECT_DESCRIPTOR</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.EffectDescriptor.#ctor(SharpDX.XAPO.AudioProcessor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.EffectDescriptor"/> class with a Stereo Effect.
+            </summary>
+            <param name="effect">The effect.</param>
+        </member>
+        <member name="M:SharpDX.XAudio2.EffectDescriptor.#ctor(SharpDX.XAPO.AudioProcessor,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.EffectDescriptor"/> class.
+            </summary>
+            <param name="effect">The effect.</param>
+            <param name="outputChannelCount">The output channel count.</param>
+        </member>
+        <member name="F:SharpDX.XAudio2.EffectDescriptor.EffectPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_DESCRIPTOR::pEffect']/*"/>	
+            <unmanaged>IUnknown* pEffect</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.EffectDescriptor.OutputChannelCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_DESCRIPTOR::OutputChannels']/*"/>	
+            <unmanaged>unsigned int OutputChannels</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.EffectDescriptor.Effect">
+            <summary>
+            Gets or sets the AudioProcessor. The AudioProcessor cannot be set more than one.
+            </summary>
+            <value>The effect.</value>
+        </member>
+        <member name="P:SharpDX.XAudio2.EffectDescriptor.InitialState">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_DESCRIPTOR::InitialState']/*"/>	
+            <unmanaged>BOOL InitialState</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.AudioBuffer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER']/*"/>	
+            <unmanaged>XAUDIO2_BUFFER</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.LoopInfinite">
+            <summary>Constant LoopInfinite.</summary>
+            <unmanaged>XAUDIO2_LOOP_INFINITE</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.Flags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::Flags']/*"/>	
+            <unmanaged>XAUDIO2_BUFFER_FLAGS Flags</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.AudioBytes">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::AudioBytes']/*"/>	
+            <unmanaged>unsigned int AudioBytes</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.AudioDataPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::pAudioData']/*"/>	
+            <unmanaged>const unsigned char* pAudioData</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.PlayBegin">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::PlayBegin']/*"/>	
+            <unmanaged>unsigned int PlayBegin</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.PlayLength">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::PlayLength']/*"/>	
+            <unmanaged>unsigned int PlayLength</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.LoopBegin">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::LoopBegin']/*"/>	
+            <unmanaged>unsigned int LoopBegin</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.LoopLength">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::LoopLength']/*"/>	
+            <unmanaged>unsigned int LoopLength</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.LoopCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::LoopCount']/*"/>	
+            <unmanaged>unsigned int LoopCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.AudioBuffer.Context">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER::pContext']/*"/>	
+            <unmanaged>void* pContext</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.AudioBuffer.Stream">
+            <summary>
+            Gets or sets the datastream associated to this audio buffer
+            </summary>
+            <value>The stream.</value>
+        </member>
+        <member name="T:SharpDX.XAudio2.EngineCallback">
+            <summary>	
+            The IXAudio2EngineCallback interface contains methods that notify the client when certain events happen in the <see cref="T:SharpDX.XAudio2.XAudio2"/> engine. This interface should be implemented by the XAudio2 client. XAudio2 calls these methods via an interface pointer provided by the client, using either the {{XAudio2Create}} or <see cref="M:SharpDX.XAudio2.XAudio2.Initialize(System.Int32,SharpDX.XAudio2.ProcessorSpecifier)"/> method. Methods in this interface return void, rather than an HRESULT.	
+            </summary>	
+            <unmanaged>IXAudio2EngineCallback</unmanaged>
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Failed to insert some or all of included XML --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2EngineCallback']/*"/>	
+            <unmanaged>IXAudio2EngineCallback</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.EngineCallback.OnProcessingPassStart">
+            <summary>	
+            Called by XAudio2 just before an audio processing pass begins.	
+            </summary>	
+            <unmanaged>void IXAudio2EngineCallback::OnProcessingPassStart()</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.EngineCallback.OnProcessingPassEnd">
+            <summary>	
+            Called by XAudio2 just after an audio processing pass ends.	
+            </summary>	
+            <unmanaged>void IXAudio2EngineCallback::OnProcessingPassEnd()</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.EngineCallback.OnCriticalError(SharpDX.Result)">
+            <summary>	
+            Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.	
+            </summary>	
+            <param name="error"> Error code returned by XAudio2. </param>
+            <unmanaged>void IXAudio2EngineCallback::OnCriticalError([None] HRESULT Error)</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.EngineShadow">
+            <summary>
+            Internal EngineCallback Callback Impl
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.EngineShadow.ToIntPtr(SharpDX.XAudio2.EngineCallback)">
+            <summary>
+            Return a pointer to the unamanged version of this callback.
+            </summary>
+            <param name="callback">The callback.</param>
+            <returns>A pointer to a shadow c++ callback</returns>
+        </member>
+        <member name="T:SharpDX.XAudio2.EngineShadow.EngineVtbl.OnProcessingPassEndDelegate">
+            <summary>	
+            Called by XAudio2 just after an audio processing pass ends.	
+            </summary>	
+            <unmanaged>void IXAudio2EngineCallback::OnProcessingPassEnd()</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.EngineShadow.EngineVtbl.OnCriticalErrorDelegate">
+            <summary>	
+            Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.	
+            </summary>
+            <param name="thisObject">This pointer</param>
+            <param name="error"> Error code returned by XAudio2. </param>
+            <unmanaged>void IXAudio2EngineCallback::OnCriticalError([None] HRESULT Error)</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.ErrorEventArgs">
+            <summary>
+            EventArgs used by <see cref="E:SharpDX.XAudio2.XAudio2.CriticalError"/>.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.ErrorEventArgs.#ctor(SharpDX.Result)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.ErrorEventArgs"/> class.
+            </summary>
+            <param name="errorCode">The error code.</param>
+        </member>
+        <member name="P:SharpDX.XAudio2.ErrorEventArgs.ErrorCode">
+            <summary>
+            Gets or sets the error code.
+            </summary>
+            <value>The error code.</value>
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.XAudio2FxContants">
+            <summary>
+            XAudio2FxContants Functions.
+            </summary>
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.XAudio2FxContants.CLSID_AudioReverb">
+            <summary>Constant None.</summary>
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.XAudio2FxContants.CLSID_AudioReverb_Debug">
+            <summary>Constant None.</summary>
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.XAudio2FxContants.CLSID_AudioVolumeMeter">
+            <summary>Constant None.</summary>
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.XAudio2FxContants.CLSID_AudioVolumeMeter_Debug">
+            <summary>Constant None.</summary>
+        </member>
+        <member name="T:SharpDX.XAudio2.BufferFlags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER_FLAGS']/*"/>	
+            <unmanaged>XAUDIO2_BUFFER_FLAGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.BufferFlags.EndOfStream">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_END_OF_STREAM']/*"/>	
+            <unmanaged>XAUDIO2_END_OF_STREAM</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.BufferFlags.None">
+            <summary>	
+            None.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='']/*"/>	
+            <unmanaged>None</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.DeviceRole">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_ROLE']/*"/>	
+            <unmanaged>XAUDIO2_DEVICE_ROLE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.NotDefaultDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='NotDefaultDevice']/*"/>	
+            <unmanaged>NotDefaultDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.DefaultConsoleDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DefaultConsoleDevice']/*"/>	
+            <unmanaged>DefaultConsoleDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.DefaultMultimediaDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DefaultMultimediaDevice']/*"/>	
+            <unmanaged>DefaultMultimediaDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.DefaultCommunicationsDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DefaultCommunicationsDevice']/*"/>	
+            <unmanaged>DefaultCommunicationsDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.DefaultGameDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DefaultGameDevice']/*"/>	
+            <unmanaged>DefaultGameDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.GlobalDefaultDevice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='GlobalDefaultDevice']/*"/>	
+            <unmanaged>GlobalDefaultDevice</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceRole.InvalidDeviceRole">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='InvalidDeviceRole']/*"/>	
+            <unmanaged>InvalidDeviceRole</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.FilterType">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_TYPE']/*"/>	
+            <unmanaged>XAUDIO2_FILTER_TYPE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterType.LowPassFilter">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='LowPassFilter']/*"/>	
+            <unmanaged>LowPassFilter</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterType.BandPassFilter">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='BandPassFilter']/*"/>	
+            <unmanaged>BandPassFilter</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterType.HighPassFilter">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HighPassFilter']/*"/>	
+            <unmanaged>HighPassFilter</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterType.NotchFilter">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='NotchFilter']/*"/>	
+            <unmanaged>NotchFilter</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.LogType">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_TYPE']/*"/>	
+            <unmanaged>XAUDIO2_LOG_TYPE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Errors">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_ERRORS']/*"/>	
+            <unmanaged>XAUDIO2_LOG_ERRORS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Warnings">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_WARNINGS']/*"/>	
+            <unmanaged>XAUDIO2_LOG_WARNINGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Information">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_INFO']/*"/>	
+            <unmanaged>XAUDIO2_LOG_INFO</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Detail">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_DETAIL']/*"/>	
+            <unmanaged>XAUDIO2_LOG_DETAIL</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.ApiCalls">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_API_CALLS']/*"/>	
+            <unmanaged>XAUDIO2_LOG_API_CALLS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.FunctionCalls">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_FUNC_CALLS']/*"/>	
+            <unmanaged>XAUDIO2_LOG_FUNC_CALLS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Timing">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_TIMING']/*"/>	
+            <unmanaged>XAUDIO2_LOG_TIMING</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Locks">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_LOCKS']/*"/>	
+            <unmanaged>XAUDIO2_LOG_LOCKS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Memory">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_MEMORY']/*"/>	
+            <unmanaged>XAUDIO2_LOG_MEMORY</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.LogType.Streaming">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_LOG_STREAMING']/*"/>	
+            <unmanaged>XAUDIO2_LOG_STREAMING</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.PlayFlags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PLAY_FLAGS']/*"/>	
+            <unmanaged>XAUDIO2_PLAY_FLAGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PlayFlags.Tails">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PLAY_TAILS']/*"/>	
+            <unmanaged>XAUDIO2_PLAY_TAILS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PlayFlags.None">
+            <summary>	
+            None.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='']/*"/>	
+            <unmanaged>None</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.ProcessorSpecifier">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER']/*"/>	
+            <unmanaged>XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor1">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor1']/*"/>	
+            <unmanaged>Processor1</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor2">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor2']/*"/>	
+            <unmanaged>Processor2</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor3">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor3']/*"/>	
+            <unmanaged>Processor3</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor4">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor4']/*"/>	
+            <unmanaged>Processor4</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor5">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor5']/*"/>	
+            <unmanaged>Processor5</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor6">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor6']/*"/>	
+            <unmanaged>Processor6</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor7">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor7']/*"/>	
+            <unmanaged>Processor7</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor8">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor8']/*"/>	
+            <unmanaged>Processor8</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor9">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor9']/*"/>	
+            <unmanaged>Processor9</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor10">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor10']/*"/>	
+            <unmanaged>Processor10</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor11">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor11']/*"/>	
+            <unmanaged>Processor11</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor12">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor12']/*"/>	
+            <unmanaged>Processor12</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor13">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor13']/*"/>	
+            <unmanaged>Processor13</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor14">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor14']/*"/>	
+            <unmanaged>Processor14</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor15">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor15']/*"/>	
+            <unmanaged>Processor15</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor16">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor16']/*"/>	
+            <unmanaged>Processor16</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor17">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor17']/*"/>	
+            <unmanaged>Processor17</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor18">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor18']/*"/>	
+            <unmanaged>Processor18</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor19">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor19']/*"/>	
+            <unmanaged>Processor19</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor20">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor20']/*"/>	
+            <unmanaged>Processor20</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor21">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor21']/*"/>	
+            <unmanaged>Processor21</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor22">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor22']/*"/>	
+            <unmanaged>Processor22</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor23">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor23']/*"/>	
+            <unmanaged>Processor23</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor24">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor24']/*"/>	
+            <unmanaged>Processor24</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor25">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor25']/*"/>	
+            <unmanaged>Processor25</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor26">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor26']/*"/>	
+            <unmanaged>Processor26</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor27">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor27']/*"/>	
+            <unmanaged>Processor27</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor28">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor28']/*"/>	
+            <unmanaged>Processor28</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor29">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor29']/*"/>	
+            <unmanaged>Processor29</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor30">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor30']/*"/>	
+            <unmanaged>Processor30</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor31">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor31']/*"/>	
+            <unmanaged>Processor31</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.Processor32">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='Processor32']/*"/>	
+            <unmanaged>Processor32</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.AnyProcessor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_ANY_PROCESSOR']/*"/>	
+            <unmanaged>XAUDIO2_ANY_PROCESSOR</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.ProcessorSpecifier.DefaultProcessor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEFAULT_PROCESSOR']/*"/>	
+            <unmanaged>XAUDIO2_DEFAULT_PROCESSOR</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceFlags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_FLAGS']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_FLAGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceFlags.Nopitch">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_NOPITCH']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_NOPITCH</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceFlags.Nosrc">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_NOSRC']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_NOSRC</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceFlags.Music">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_MUSIC']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_MUSIC</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceFlags.None">
+            <summary>	
+            None.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='']/*"/>	
+            <unmanaged>None</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceSendFlags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_SEND_FLAGS']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_SEND_FLAGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendFlags.Usefilter">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_USEFILTER']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_USEFILTER</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendFlags.None">
+            <summary>	
+            None.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='']/*"/>	
+            <unmanaged>None</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.XAudio2Flags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FLAGS']/*"/>	
+            <unmanaged>XAUDIO2_FLAGS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2Flags.DebugEngine">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_ENGINE']/*"/>	
+            <unmanaged>XAUDIO2_DEBUG_ENGINE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2Flags.None">
+            <summary>	
+            None.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='']/*"/>	
+            <unmanaged>None</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.XAudio2Functions">
+            <summary>	
+            Functions	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.XAudio2.XAudio2Functions']/*"/>	
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS']/*"/>	
+            <unmanaged>XAUDIO2FX_REVERB_I3DL2_PARAMETERS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.WetDryMix">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::WetDryMix']/*"/>	
+            <unmanaged>float WetDryMix</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.Room">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::Room']/*"/>	
+            <unmanaged>int Room</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.RoomHF">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::RoomHF']/*"/>	
+            <unmanaged>int RoomHF</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.RoomRolloffFactor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::RoomRolloffFactor']/*"/>	
+            <unmanaged>float RoomRolloffFactor</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.DecayTime">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::DecayTime']/*"/>	
+            <unmanaged>float DecayTime</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.DecayHFRatio">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::DecayHFRatio']/*"/>	
+            <unmanaged>float DecayHFRatio</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.Reflections">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::Reflections']/*"/>	
+            <unmanaged>int Reflections</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.ReflectionsDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::ReflectionsDelay']/*"/>	
+            <unmanaged>float ReflectionsDelay</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.Reverb">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::Reverb']/*"/>	
+            <unmanaged>int Reverb</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.ReverbDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::ReverbDelay']/*"/>	
+            <unmanaged>float ReverbDelay</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.Diffusion">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::Diffusion']/*"/>	
+            <unmanaged>float Diffusion</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.Density">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::Density']/*"/>	
+            <unmanaged>float Density</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbI3DL2Parameters.HFReference">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_I3DL2_PARAMETERS::HFReference']/*"/>	
+            <unmanaged>float HFReference</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.ReverbParameters">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS']/*"/>	
+            <unmanaged>XAUDIO2FX_REVERB_PARAMETERS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.WetDryMix">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::WetDryMix']/*"/>	
+            <unmanaged>float WetDryMix</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.ReflectionsDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::ReflectionsDelay']/*"/>	
+            <unmanaged>unsigned int ReflectionsDelay</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.ReverbDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::ReverbDelay']/*"/>	
+            <unmanaged>unsigned char ReverbDelay</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.RearDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::RearDelay']/*"/>	
+            <unmanaged>unsigned char RearDelay</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.PositionLeft">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::PositionLeft']/*"/>	
+            <unmanaged>unsigned char PositionLeft</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.PositionRight">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::PositionRight']/*"/>	
+            <unmanaged>unsigned char PositionRight</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.PositionMatrixLeft">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::PositionMatrixLeft']/*"/>	
+            <unmanaged>unsigned char PositionMatrixLeft</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.PositionMatrixRight">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::PositionMatrixRight']/*"/>	
+            <unmanaged>unsigned char PositionMatrixRight</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.EarlyDiffusion">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::EarlyDiffusion']/*"/>	
+            <unmanaged>unsigned char EarlyDiffusion</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.LateDiffusion">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::LateDiffusion']/*"/>	
+            <unmanaged>unsigned char LateDiffusion</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.LowEQGain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::LowEQGain']/*"/>	
+            <unmanaged>unsigned char LowEQGain</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.LowEQCutoff">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::LowEQCutoff']/*"/>	
+            <unmanaged>unsigned char LowEQCutoff</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.HighEQGain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::HighEQGain']/*"/>	
+            <unmanaged>unsigned char HighEQGain</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.HighEQCutoff">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::HighEQCutoff']/*"/>	
+            <unmanaged>unsigned char HighEQCutoff</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.RoomFilterFreq">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::RoomFilterFreq']/*"/>	
+            <unmanaged>float RoomFilterFreq</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.RoomFilterMain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::RoomFilterMain']/*"/>	
+            <unmanaged>float RoomFilterMain</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.RoomFilterHF">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::RoomFilterHF']/*"/>	
+            <unmanaged>float RoomFilterHF</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.ReflectionsGain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::ReflectionsGain']/*"/>	
+            <unmanaged>float ReflectionsGain</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.ReverbGain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::ReverbGain']/*"/>	
+            <unmanaged>float ReverbGain</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.DecayTime">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::DecayTime']/*"/>	
+            <unmanaged>float DecayTime</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.Density">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::Density']/*"/>	
+            <unmanaged>float Density</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.ReverbParameters.RoomSize">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_REVERB_PARAMETERS::RoomSize']/*"/>	
+            <unmanaged>float RoomSize</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.VolumemeterLevels">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_VOLUMEMETER_LEVELS']/*"/>	
+            <unmanaged>XAUDIO2FX_VOLUMEMETER_LEVELS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.VolumemeterLevels.PeakLevelPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_VOLUMEMETER_LEVELS::pPeakLevels']/*"/>	
+            <unmanaged>float* pPeakLevels</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.VolumemeterLevels.RmsLevelsPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels']/*"/>	
+            <unmanaged>float* pRMSLevels</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.Fx.VolumemeterLevels.ChannelCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2FX_VOLUMEMETER_LEVELS::ChannelCount']/*"/>	
+            <unmanaged>unsigned int ChannelCount</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.MasteringVoice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2MasteringVoice']/*"/>	
+            <unmanaged>IXAudio2MasteringVoice</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.Voice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice']/*"/>	
+            <unmanaged>IXAudio2Voice</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.Voice"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetVoiceDetails(SharpDX.XAudio2.VoiceDetails@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="voiceDetailsRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetVoiceDetails']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetVoiceDetails([Out] XAUDIO2_VOICE_DETAILS* pVoiceDetails)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputVoices(System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors})">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="sendListRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetOutputVoices']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputVoices([In, Optional] const XAUDIO2_VOICE_SENDS* pSendList)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectChain(System.Nullable{SharpDX.XAudio2.EffectChain})">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectChainRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetEffectChain']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectChain([In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.EnableEffect(System.Int32,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectIndex">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::EnableEffect']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::EnableEffect([In] unsigned int EffectIndex,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.DisableEffect(System.Int32,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectIndex">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::DisableEffect']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::DisableEffect([In] unsigned int EffectIndex,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.IsEffectEnabled(System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectIndex">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetEffectState']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetEffectState([In] unsigned int EffectIndex,[Out] BOOL* pEnabled)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectParameters(System.Int32,System.IntPtr,System.Int32,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectIndex">No documentation.</param>	
+            <param name="parametersRef">No documentation.</param>	
+            <param name="parametersByteSize">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetEffectParameters']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([In] unsigned int EffectIndex,[In, Buffer] const void* pParameters,[In] unsigned int ParametersByteSize,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetEffectParameters(System.Int32,System.IntPtr,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="effectIndex">No documentation.</param>	
+            <param name="parametersRef">No documentation.</param>	
+            <param name="parametersByteSize">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetEffectParameters']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::GetEffectParameters([In] unsigned int EffectIndex,[Out, Buffer] void* pParameters,[In] unsigned int ParametersByteSize)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetFilterParameters(SharpDX.XAudio2.FilterParameters,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="parametersRef">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetFilterParameters']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetFilterParameters([In] const XAUDIO2_FILTER_PARAMETERS* pParameters,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetFilterParameters(SharpDX.XAudio2.FilterParameters@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="parametersRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetFilterParameters']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetFilterParameters([Out] XAUDIO2_FILTER_PARAMETERS* pParameters)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputFilterParameters(SharpDX.XAudio2.Voice,SharpDX.XAudio2.FilterParameters,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="destinationVoiceRef">No documentation.</param>	
+            <param name="parametersRef">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetOutputFilterParameters']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputFilterParameters([In, Optional] IXAudio2Voice* pDestinationVoice,[In] const XAUDIO2_FILTER_PARAMETERS* pParameters,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetOutputFilterParameters(SharpDX.XAudio2.Voice,SharpDX.XAudio2.FilterParameters@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="destinationVoiceRef">No documentation.</param>	
+            <param name="parametersRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetOutputFilterParameters']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetOutputFilterParameters([In, Optional] IXAudio2Voice* pDestinationVoice,[Out] XAUDIO2_FILTER_PARAMETERS* pParameters)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetVolume(System.Single,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="volume">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetVolume']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetVolume([In] float Volume,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetVolume(System.Single@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="volumeRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetVolume']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetVolume([Out] float* pVolume)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetChannelVolumes(System.Int32,System.Single[],System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="channels">No documentation.</param>	
+            <param name="volumesRef">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetChannelVolumes']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetChannelVolumes([In] unsigned int Channels,[In, Buffer] const float* pVolumes,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetChannelVolumes(System.Int32,System.Single[])">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="channels">No documentation.</param>	
+            <param name="volumesRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetChannelVolumes']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetChannelVolumes([In] unsigned int Channels,[Out, Buffer] float* pVolumes)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputMatrix(SharpDX.XAudio2.Voice,System.Int32,System.Int32,System.Single[],System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="destinationVoiceRef">No documentation.</param>	
+            <param name="sourceChannels">No documentation.</param>	
+            <param name="destinationChannels">No documentation.</param>	
+            <param name="levelMatrixRef">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetOutputMatrix']/*"/>	
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputMatrix([In, Optional] IXAudio2Voice* pDestinationVoice,[In] unsigned int SourceChannels,[In] unsigned int DestinationChannels,[In, Buffer] const float* pLevelMatrix,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetOutputMatrix(SharpDX.XAudio2.Voice,System.Int32,System.Int32,System.Single[])">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="destinationVoiceRef">No documentation.</param>	
+            <param name="sourceChannels">No documentation.</param>	
+            <param name="destinationChannels">No documentation.</param>	
+            <param name="levelMatrixRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetOutputMatrix']/*"/>	
+            <unmanaged>void IXAudio2Voice::GetOutputMatrix([In, Optional] IXAudio2Voice* pDestinationVoice,[In] unsigned int SourceChannels,[In] unsigned int DestinationChannels,[Out, Buffer] float* pLevelMatrix)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.DestroyVoice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::DestroyVoice']/*"/>	
+            <unmanaged>void IXAudio2Voice::DestroyVoice()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.EnableEffect(System.Int32)">
+            <summary>	
+            Enables the effect at a given position in the effect chain of the voice.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect in the effect chain of the voice. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::EnableEffect([None] UINT32 EffectIndex,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.DisableEffect(System.Int32)">
+            <summary>	
+            Disables the effect at a given position in the effect chain of the voice.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect in the effect chain of the voice. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::DisableEffect([None] UINT32 EffectIndex,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetEffectParameters``1(System.Int32)">
+            <summary>	
+            Sets parameters for a given effect in the voice's effect chain.
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <returns>Returns the current values of the effect-specific parameters.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([None] UINT32 EffectIndex,[In, Buffer] const void* pParameters,[None] UINT32 ParametersByteSize,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.GetEffectParameters(System.Int32,System.Byte[])">
+            <summary>	
+            Returns the current effect-specific parameters of a given effect in the voice's effect chain.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <param name="effectParameters">[out]  Returns the current values of the effect-specific parameters. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::GetEffectParameters([None] UINT32 EffectIndex,[Out, Buffer] void* pParameters,[None] UINT32 ParametersByteSize)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectParameters(System.Int32,System.Byte[])">
+            <summary>	
+            Sets parameters for a given effect in the voice's effect chain.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <param name="effectParameter">[in]  Returns the current values of the effect-specific parameters. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([None] UINT32 EffectIndex,[In, Buffer] const void* pParameters,[None] UINT32 ParametersByteSize,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectParameters(System.Int32,System.Byte[],System.Int32)">
+            <summary>	
+            Sets parameters for a given effect in the voice's effect chain.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <param name="effectParameter">[in]  Returns the current values of the effect-specific parameters. </param>
+            <param name="operationSet">[in]  Identifies this call as part of a deferred batch. See the {{XAudio2 Operation Sets}} overview  for more information. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([None] UINT32 EffectIndex,[In, Buffer] const void* pParameters,[None] UINT32 ParametersByteSize,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectParameters``1(System.Int32,``0)">
+            <summary>	
+            Sets parameters for a given effect in the voice's effect chain.
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <param name="effectParameter">[in]  Returns the current values of the effect-specific parameters. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([None] UINT32 EffectIndex,[In, Buffer] const void* pParameters,[None] UINT32 ParametersByteSize,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectParameters``1(System.Int32,``0,System.Int32)">
+            <summary>	
+            Sets parameters for a given effect in the voice's effect chain.	
+            </summary>	
+            <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+            <param name="effectParameter">[in]  Returns the current values of the effect-specific parameters. </param>
+            <param name="operationSet">[in]  Identifies this call as part of a deferred batch. See the {{XAudio2 Operation Sets}} overview  for more information. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectParameters([None] UINT32 EffectIndex,[In, Buffer] const void* pParameters,[None] UINT32 ParametersByteSize,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetEffectChain(SharpDX.XAudio2.EffectDescriptor[])">
+            <summary>	
+            Replaces the effect chain of the voice.	
+            </summary>	
+            <param name="effectDescriptors">[in, optional]  an array of <see cref="T:SharpDX.XAudio2.EffectDescriptor"/> structure that describes the new effect chain to use. If NULL is passed, the current effect chain is removed. If array is non null, its length must be at least of 1. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetEffectChain([In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputVoices(SharpDX.XAudio2.VoiceSendDescriptor[])">
+            <summary>	
+            Designates a new set of submix or mastering voices to receive the output of the voice.	
+            </summary>	
+            <param name="outputVoices">[in]  Array of <see cref="T:SharpDX.XAudio2.VoiceSendDescriptor"/> structure pointers to destination voices. If outputVoices is NULL, the voice will send its output to the current mastering voice. To set the voice to not send its output anywhere set an array of lenvth 0. All of the voices in a send list must have the same input sample rate, see {{XAudio2 Sample Rate Conversions}} for additional information. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputVoices([In, Optional] const XAUDIO2_VOICE_SENDS* pSendList)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputMatrix(System.Int32,System.Int32,System.Single[])">
+            <summary>	
+            Sets the volume level of each channel of the final output for the voice. These channels are mapped to the input channels of a specified destination voice.	
+            </summary>	
+            <param name="sourceChannels">[in]  Confirms the output channel count of the voice. This is the number of channels that are produced by the last effect in the chain. </param>
+            <param name="destinationChannels">[in]  Confirms the input channel count of the destination voice. </param>
+            <param name="levelMatrixRef">[in]  Array of [SourceChannels ? DestinationChannels] volume levels sent to the destination voice. The level sent from source channel S to destination channel D is specified in the form pLevelMatrix[SourceChannels ? D + S]. For example, when rendering two-channel stereo input into 5.1 output that is weighted toward the front channels?but is absent from the center and low-frequency channels?the matrix might have the values shown in the following table.  OutputLeft InputRight Input Left1.00.0 Right0.01.0 Front Center0.00.0 LFE0.00.0 Rear Left0.80.0 Rear Right0.00.8  Note that the left and right input are fully mapped to the output left and right channels; 80 percent of the left and right input is mapped to the rear left and right channels. See Remarks for more information on volume levels. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputMatrix([In, Optional] IXAudio2Voice* pDestinationVoice,[None] UINT32 SourceChannels,[None] UINT32 DestinationChannels,[In, Buffer] const float* pLevelMatrix,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputMatrix(SharpDX.XAudio2.Voice,System.Int32,System.Int32,System.Single[])">
+            <summary>	
+            Sets the volume level of each channel of the final output for the voice. These channels are mapped to the input channels of a specified destination voice.	
+            </summary>	
+            <param name="destinationVoiceRef">[in]  Pointer to a destination <see cref="T:SharpDX.XAudio2.Voice"/> for which to set volume levels. Note If the voice sends to a single target voice then specifying NULL will cause SetOutputMatrix to operate on that target voice. </param>
+            <param name="sourceChannels">[in]  Confirms the output channel count of the voice. This is the number of channels that are produced by the last effect in the chain. </param>
+            <param name="destinationChannels">[in]  Confirms the input channel count of the destination voice. </param>
+            <param name="levelMatrixRef">[in]  Array of [SourceChannels ? DestinationChannels] volume levels sent to the destination voice. The level sent from source channel S to destination channel D is specified in the form pLevelMatrix[SourceChannels ? D + S]. For example, when rendering two-channel stereo input into 5.1 output that is weighted toward the front channels?but is absent from the center and low-frequency channels?the matrix might have the values shown in the following table.  OutputLeft InputRight Input Left1.00.0 Right0.01.0 Front Center0.00.0 LFE0.00.0 Rear Left0.80.0 Rear Right0.00.8  Note that the left and right input are fully mapped to the output left and right channels; 80 percent of the left and right input is mapped to the rear left and right channels. See Remarks for more information on volume levels. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputMatrix([In, Optional] IXAudio2Voice* pDestinationVoice,[None] UINT32 SourceChannels,[None] UINT32 DestinationChannels,[In, Buffer] const float* pLevelMatrix,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.Voice.SetOutputMatrix(System.Int32,System.Int32,System.Single[],System.Int32)">
+            <summary>	
+            Sets the volume level of each channel of the final output for the voice. These channels are mapped to the input channels of a specified destination voice.	
+            </summary>	
+            <param name="sourceChannels">[in]  Confirms the output channel count of the voice. This is the number of channels that are produced by the last effect in the chain. </param>
+            <param name="destinationChannels">[in]  Confirms the input channel count of the destination voice. </param>
+            <param name="levelMatrixRef">[in]  Array of [SourceChannels ? DestinationChannels] volume levels sent to the destination voice. The level sent from source channel S to destination channel D is specified in the form pLevelMatrix[SourceChannels ? D + S]. For example, when rendering two-channel stereo input into 5.1 output that is weighted toward the front channels?but is absent from the center and low-frequency channels?the matrix might have the values shown in the following table.  OutputLeft InputRight Input Left1.00.0 Right0.01.0 Front Center0.00.0 LFE0.00.0 Rear Left0.80.0 Rear Right0.00.8  Note that the left and right input are fully mapped to the output left and right channels; 80 percent of the left and right input is mapped to the rear left and right channels. See Remarks for more information on volume levels. </param>
+            <param name="operationSet">[in]  Identifies this call as part of a deferred batch. See the {{XAudio2 Operation Sets}} overview for more information. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputMatrix([In, Optional] IXAudio2Voice* pDestinationVoice,[None] UINT32 SourceChannels,[None] UINT32 DestinationChannels,[In, Buffer] const float* pLevelMatrix,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.Voice.VoiceDetails">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetVoiceDetails']/*"/>	
+            <unmanaged>GetVoiceDetails</unmanaged>	
+            <unmanaged>void IXAudio2Voice::GetVoiceDetails([Out] XAUDIO2_VOICE_DETAILS* pVoiceDetails)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.Voice.OutputVoices">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::SetOutputVoices']/*"/>	
+            <unmanaged>SetOutputVoices</unmanaged>	
+            <unmanaged>HRESULT IXAudio2Voice::SetOutputVoices([In, Optional] const XAUDIO2_VOICE_SENDS* pSendList)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.Voice.FilterParameters">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetFilterParameters']/*"/>	
+            <unmanaged>GetFilterParameters</unmanaged>	
+            <unmanaged>void IXAudio2Voice::GetFilterParameters([Out] XAUDIO2_FILTER_PARAMETERS* pParameters)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.Voice.Volume">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2Voice::GetVolume']/*"/>	
+            <unmanaged>GetVolume</unmanaged>	
+            <unmanaged>void IXAudio2Voice::GetVolume([Out] float* pVolume)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.MasteringVoice.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.MasteringVoice"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.XAudio2.MasteringVoice.#ctor(SharpDX.XAudio2.XAudio2,System.Int32,System.Int32,System.Int32)">
+            <summary>	
+            Creates and configures a mastering voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="inputChannels">[in]  Number of channels the mastering voice expects in its input audio. InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. InputChannels can be set to XAUDIO2_DEFAULT_CHANNELS, with the default being determined by the current platform. Windows  Attempts to detect the system speaker configuration setup.  Xbox 360  Defaults to 5.1 surround.  </param>
+            <param name="inputSampleRate">[in]  Sample rate of the input audio data of the mastering voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. InputSampleRate can be set to XAUDIO2_DEFAULT_SAMPLERATE, with the default being determined by the current platform. Windows  Windows XP defaults to 44100. Windows Vista and Windows 7 default to the setting specified in the Sound Control Panel. The default for this setting is 44100 (or 48000 if required by the driver).  Xbox 360  Defaults to 48000.  </param>
+            <param name="deviceIndex">[in]  Index of the output device that will be sent input by the mastering voice. Specifying the default value of 0 causes XAudio2 to select the global default audio device. </param>
+            <unmanaged>HRESULT IXAudio2::CreateMasteringVoice([Out] IXAudio2MasteringVoice** ppMasteringVoice,[None] UINT32 InputChannels,[None] UINT32 InputSampleRate,[None] UINT32 Flags,[None] UINT32 DeviceIndex,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.SourceVoice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice']/*"/>	
+            <unmanaged>IXAudio2SourceVoice</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.SourceVoice"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.Start(System.Int32,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="flags">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::Start']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::Start([In] unsigned int Flags,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.Stop(SharpDX.XAudio2.PlayFlags,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="flags">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::Stop']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::Stop([In] XAUDIO2_PLAY_FLAGS Flags,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.SubmitSourceBuffer(SharpDX.XAudio2.AudioBuffer,System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="bufferRef">No documentation.</param>	
+            <param name="bufferWMARef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SubmitSourceBuffer']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::SubmitSourceBuffer([In] const XAUDIO2_BUFFER* pBuffer,[In] const void* pBufferWMA)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.FlushSourceBuffers">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::FlushSourceBuffers']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::FlushSourceBuffers()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.Discontinuity">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::Discontinuity']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::Discontinuity()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.ExitLoop(System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::ExitLoop']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::ExitLoop([In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.GetState(SharpDX.XAudio2.VoiceState@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="voiceStateRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::GetState']/*"/>	
+            <unmanaged>void IXAudio2SourceVoice::GetState([Out] XAUDIO2_VOICE_STATE* pVoiceState)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="ratio">No documentation.</param>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SetFrequencyRatio']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::SetFrequencyRatio([In] float Ratio,[In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.GetFrequencyRatio(System.Single@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="ratioRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::GetFrequencyRatio']/*"/>	
+            <unmanaged>void IXAudio2SourceVoice::GetFrequencyRatio([Out] float* pRatio)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.SetSourceSampleRate(System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="newSourceSampleRate">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SetSourceSampleRate']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::SetSourceSampleRate([In] unsigned int NewSourceSampleRate)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,System.Boolean)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="enableCallbackEvents">True to enable delegate callbacks on this instance. Default is false</param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,SharpDX.XAudio2.VoiceFlags)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice, the voice's  outputs must have the same sample rate.Note The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?XAUDIO2_VOICE_MUSICThe voice is used to play background music. The system automatically  can replace the voice with music selected by the user.? </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,SharpDX.XAudio2.VoiceFlags,System.Boolean)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice, the voice's  outputs must have the same sample rate.Note The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?XAUDIO2_VOICE_MUSICThe voice is used to play background music. The system automatically  can replace the voice with music selected by the user.? </param>
+            <param name="enableCallbackEvents">True to enable delegate callbacks on this instance. Default is false</param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,SharpDX.XAudio2.VoiceFlags,System.Single)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice, the voice's  outputs must have the same sample rate.Note The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?XAUDIO2_VOICE_MUSICThe voice is used to play background music. The system automatically  can replace the voice with music selected by the user.? </param>
+            <param name="maxFrequencyRatio">[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between XAUDIO2_MIN_FREQ_RATIO and MaxFrequencyRatio. The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves. If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0). Xbox 360  For XMA voices there is an additional restriction on the MaxFrequencyRatio argument and the voice's sample rate. The product of these two numbers cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels. If the value specified for MaxFrequencyRatio is too high for the specified format, the call to CreateSourceVoice fails and produces a debug message.  Note XAudio2's memory usage can be reduced by using the lowest possible MaxFrequencyRatio value. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,SharpDX.XAudio2.VoiceFlags,System.Single,SharpDX.XAudio2.VoiceCallback)">
+            <summary>	
+            Creates and configures a source voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice, the voice's  outputs must have the same sample rate.Note The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?XAUDIO2_VOICE_MUSICThe voice is used to play background music. The system automatically  can replace the voice with music selected by the user.? </param>
+            <param name="maxFrequencyRatio">[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between XAUDIO2_MIN_FREQ_RATIO and MaxFrequencyRatio. The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves. If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0). Xbox 360  For XMA voices there is an additional restriction on the MaxFrequencyRatio argument and the voice's sample rate. The product of these two numbers cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels. If the value specified for MaxFrequencyRatio is too high for the specified format, the call to CreateSourceVoice fails and produces a debug message.  Note XAudio2's memory usage can be reduced by using the lowest possible MaxFrequencyRatio value. </param>
+            <param name="callback">[in, optional]  Pointer to a client-provided callback interface, <see cref="T:SharpDX.XAudio2.VoiceCallback"/>. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.#ctor(SharpDX.XAudio2.XAudio2,SharpDX.Multimedia.WaveFormat,SharpDX.XAudio2.VoiceFlags,System.Single,System.Boolean)">
+            <summary>	
+            Creates and configures a source voice with callback through delegates.
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="sourceFormat">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. XAudio2 supports voice types of PCM, xWMA, ADPCM (Windows only), and XMA (Xbox 360 only). XAudio2 supports the following PCM formats.   8-bit (unsigned) integer PCM   16-bit integer PCM (Optimal format for XAudio2)   20-bit integer PCM (either in 24 or 32 bit containers)   24-bit integer PCM (either in 24 or 32 bit containers)   32-bit integer PCM   32-bit float PCM (Preferred format after 16-bit integer)   The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. Note Data formats such as XMA, {{ADPCM}}, and {{xWMA}} that require more information than provided by <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structure. When creating a source voice with one of those formats cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure and use it as the value for pSourceFormat. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice, the voice's  outputs must have the same sample rate.Note The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?XAUDIO2_VOICE_MUSICThe voice is used to play background music. The system automatically  can replace the voice with music selected by the user.? </param>
+            <param name="maxFrequencyRatio">[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between XAUDIO2_MIN_FREQ_RATIO and MaxFrequencyRatio. The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves. If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0). Xbox 360  For XMA voices there is an additional restriction on the MaxFrequencyRatio argument and the voice's sample rate. The product of these two numbers cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels. If the value specified for MaxFrequencyRatio is too high for the specified format, the call to CreateSourceVoice fails and produces a debug message.  Note XAudio2's memory usage can be reduced by using the lowest possible MaxFrequencyRatio value. </param>
+            <param name="enableDelegateCallbacks">True to enable delegate callbacks on this instance. Default is false</param>
+            <returns>No enableCallbackEvents.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[None] UINT32 Flags,[None] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.Start">
+            <summary>	
+            Starts consumption and processing of audio by the voice. Delivers the result to any connected submix or mastering voices, or to the output device, with CommitNow changes.
+            </summary>	
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2SourceVoice::Start([None] UINT32 Flags,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single)">
+            <summary>
+            Sets the frequency ratio.
+            </summary>
+            <param name="ratio">The ratio.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.Start(System.Int32)">
+            <summary>	
+            Starts consumption and processing of audio by the voice. Delivers the result to any connected submix or mastering voices, or to the output device.	
+            </summary>	
+            <param name="operationSet">[in]  Identifies this call as part of a deferred batch. See the {{XAudio2 Operation Sets}} overview for more information. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2SourceVoice::Start([None] UINT32 Flags,[None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SourceVoice.SubmitSourceBuffer(SharpDX.XAudio2.AudioBuffer,System.UInt32[])">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="bufferRef">No documentation.</param>	
+            <param name="decodedXMWAPacketInfo">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Failed to insert some or all of included XML --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SubmitSourceBuffer']/*"/>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::SubmitSourceBuffer([In] const XAUDIO2_BUFFER* pBuffer,[In, Optional] const XAUDIO2_BUFFER_WMA* pBufferWMA)</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.SourceVoice.State">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::GetState']/*"/>	
+            <unmanaged>GetState</unmanaged>	
+            <unmanaged>void IXAudio2SourceVoice::GetState([Out] XAUDIO2_VOICE_STATE* pVoiceState)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.SourceVoice.FrequencyRatio">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::GetFrequencyRatio']/*"/>	
+            <unmanaged>GetFrequencyRatio</unmanaged>	
+            <unmanaged>void IXAudio2SourceVoice::GetFrequencyRatio([Out] float* pRatio)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.SourceVoice.SourceSampleRate">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SetSourceSampleRate']/*"/>	
+            <unmanaged>SetSourceSampleRate</unmanaged>	
+            <unmanaged>HRESULT IXAudio2SourceVoice::SetSourceSampleRate([In] unsigned int NewSourceSampleRate)</unmanaged>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.ProcessingPassStart">
+            <summary>
+            Occurs just before the processing pass for the voice begins.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.ProcessingPassEnd">
+            <summary>
+            Occurs just after the processing pass for the voice ends.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.StreamEnd">
+            <summary>
+            Occurs when the voice has just finished playing a contiguous audio stream.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.BufferStart">
+            <summary>
+            Occurs when the voice is about to start processing a new audio buffer.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.BufferEnd">
+            <summary>
+            Occurs when the voice finishes processing a buffer.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.LoopEnd">
+            <summary>
+            Occurs when a critical error occurs during voice processing.
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="E:SharpDX.XAudio2.SourceVoice.VoiceError">
+            <summary>
+            Occurs when [voice error].
+            </summary>
+            <remarks>
+            In order to use this delegate, this instance must have been intialized with events delegate support.
+            </remarks>
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceCallback">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2VoiceCallback']/*"/>	
+            <unmanaged>IXAudio2VoiceCallback</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnVoiceProcessingPassStart(System.Int32)">
+            <summary>	
+            Called during each processing pass for each voice, just before XAudio2 reads data from the voice's buffer queue.	
+            </summary>	
+            <param name="bytesRequired"> The number of bytes that must be submitted immediately to avoid starvation. This allows the implementation of just-in-time streaming scenarios; the client can keep the absolute minimum data queued on the voice at all times, and pass it fresh data just before the data is required. This model provides the lowest possible latency attainable with XAudio2. For xWMA and XMA data BytesRequired will always be zero, since the concept of a frame of xWMA or XMA data is meaningless. Note In a situation where there is always plenty of data available on the source voice, BytesRequired should always report zero, because it doesn't need any samples immediately to avoid glitching. </param>
+            <unmanaged>void IXAudio2VoiceCallback::OnVoiceProcessingPassStart([None] UINT32 BytesRequired)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnVoiceProcessingPassEnd">
+            <summary>	
+            Called just after the processing pass for the voice ends.	
+            </summary>	
+            <unmanaged>void IXAudio2VoiceCallback::OnVoiceProcessingPassEnd()</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnStreamEnd">
+            <summary>	
+            Called when the voice has just finished playing a contiguous audio stream.	
+            </summary>	
+            <unmanaged>void IXAudio2VoiceCallback::OnStreamEnd()</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnBufferStart(System.IntPtr)">
+            <summary>	
+            Called when the voice is about to start processing a new audio buffer.	
+            </summary>	
+            <param name="context"> Context pointer that was assigned to the pContext member of the <see cref="T:SharpDX.XAudio2.AudioBuffer"/> structure when the buffer was submitted. </param>
+            <unmanaged>void IXAudio2VoiceCallback::OnBufferStart([None] void* pBufferContext)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnBufferEnd(System.IntPtr)">
+            <summary>	
+            Called when the voice finishes processing a buffer.	
+            </summary>	
+            <param name="context"> Context pointer assigned to the pContext member of the <see cref="T:SharpDX.XAudio2.AudioBuffer"/> structure when the buffer was submitted. </param>
+            <unmanaged>void IXAudio2VoiceCallback::OnBufferEnd([None] void* pBufferContext)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnLoopEnd(System.IntPtr)">
+            <summary>	
+            Called when the voice reaches the end position of a loop.	
+            </summary>	
+            <param name="context"> Context pointer that was assigned to the pContext member of the <see cref="T:SharpDX.XAudio2.AudioBuffer"/> structure when the buffer was submitted. </param>
+            <unmanaged>void IXAudio2VoiceCallback::OnLoopEnd([None] void* pBufferContext)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceCallback.OnVoiceError(System.IntPtr,SharpDX.Result)">
+            <summary>	
+            Called when a critical error occurs during voice processing.	
+            </summary>	
+            <param name="context"> Context pointer that was assigned to the pContext member of the <see cref="T:SharpDX.XAudio2.AudioBuffer"/> structure when the buffer was submitted. </param>
+            <param name="error"> The HRESULT code of the error encountered. </param>
+            <unmanaged>void IXAudio2VoiceCallback::OnVoiceError([None] void* pBufferContext,[None] HRESULT Error)</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.SubmixVoice">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SubmixVoice']/*"/>	
+            <unmanaged>IXAudio2SubmixVoice</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SubmixVoice.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.SubmixVoice"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.XAudio2.SubmixVoice.#ctor(SharpDX.XAudio2.XAudio2)">
+            <summary>	
+            Creates and configures a mastering voice on the default audio device, with stereo channels at 44100Hz.
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <unmanaged>HRESULT IXAudio2::CreateSubmixVoice([Out] IXAudio2SubmixVoice** ppSubmixVoice,[None] UINT32 InputChannels,[None] UINT32 InputSampleRate,[None] UINT32 Flags,[None] UINT32 DeviceIndex,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SubmixVoice.#ctor(SharpDX.XAudio2.XAudio2,System.Int32)">
+            <summary>	
+            Creates and configures a mastering voice on the default audio device and 44100Hz.
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="inputChannels">[in]  Number of channels the mastering voice expects in its input audio. InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. InputChannels can be set to XAUDIO2_DEFAULT_CHANNELS, with the default being determined by the current platform. Windows  Attempts to detect the system speaker configuration setup.  Xbox 360  Defaults to 5.1 surround.  </param>
+            <unmanaged>HRESULT IXAudio2::CreateSubmixVoice([Out] IXAudio2SubmixVoice** ppSubmixVoice,[None] UINT32 InputChannels,[None] UINT32 InputSampleRate,[None] UINT32 Flags,[None] UINT32 DeviceIndex,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SubmixVoice.#ctor(SharpDX.XAudio2.XAudio2,System.Int32,System.Int32)">
+            <summary>	
+            Creates and configures a mastering voice on the default audio device.
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="inputChannels">[in]  Number of channels the mastering voice expects in its input audio. InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. InputChannels can be set to XAUDIO2_DEFAULT_CHANNELS, with the default being determined by the current platform. Windows  Attempts to detect the system speaker configuration setup.  Xbox 360  Defaults to 5.1 surround.  </param>
+            <param name="inputSampleRate">[in]  Sample rate of the input audio data of the mastering voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. InputSampleRate can be set to XAUDIO2_DEFAULT_SAMPLERATE, with the default being determined by the current platform. Windows  Windows XP defaults to 44100. Windows Vista and Windows 7 default to the setting specified in the Sound Control Panel. The default for this setting is 44100 (or 48000 if required by the driver).  Xbox 360  Defaults to 48000.  </param>
+            <unmanaged>HRESULT IXAudio2::CreateSubmixVoice([Out] IXAudio2SubmixVoice** ppSubmixVoice,[None] UINT32 InputChannels,[None] UINT32 InputSampleRate,[None] UINT32 Flags,[None] UINT32 DeviceIndex,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.SubmixVoice.#ctor(SharpDX.XAudio2.XAudio2,System.Int32,System.Int32,SharpDX.XAudio2.VoiceSendFlags,System.Int32)">
+            <summary>	
+            Creates and configures a submix voice.	
+            </summary>	
+            <param name="device">an instance of <see cref="T:SharpDX.XAudio2.XAudio2"/></param>
+            <param name="inputChannels">[in]  Number of channels in the input audio data of the submix voice. InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. </param>
+            <param name="inputSampleRate">[in]  Sample rate of the input audio data of submix voice. This rate must be a multiple of  XAUDIO2_QUANTUM_DENOMINATOR.  InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. </param>
+            <param name="flags">[in]  Flags that specify the behavior of the submix voice. Can be 0 or the following: ValueDescriptionXAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.? </param>
+            <param name="processingStage">[in]  An arbitrary number that specifies when this voice is processed with respect to other submix  voices, if the XAudio2 engine is running other submix voices. The voice is processed after all other  voices that include a smaller ProcessingStage value, and before all other voices  that include a larger ProcessingStage value. Voices that include the same  ProcessingStage value are processed in any order. A submix voice cannot send to  another submix voice with a lower or equal ProcessingStage value; this prevents  audio being lost due to a submix cycle. </param>
+            <returns>No documentation.</returns>
+            <unmanaged>HRESULT IXAudio2::CreateSubmixVoice([Out] IXAudio2SubmixVoice** ppSubmixVoice,[None] UINT32 InputChannels,[None] UINT32 InputSampleRate,[None] UINT32 Flags,[None] UINT32 ProcessingStage,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>
+        </member>
+        <member name="T:SharpDX.XAudio2.XAudio2">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2']/*"/>	
+            <unmanaged>IXAudio2</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.XAudio2"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.CLSID_XAudio2">
+            <summary>Constant CLSID_XAudio2.</summary>
+            <unmanaged>CLSID_XAudio2</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.CLSID_XAudio2_Debug">
+            <summary>Constant CLSID_XAudio2_Debug.</summary>
+            <unmanaged>CLSID_XAudio2_Debug</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.IID_IXAudio2">
+            <summary>Constant IID_IXAudio2.</summary>
+            <unmanaged>IID_IXAudio2</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.GetDeviceCount(System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="countRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::GetDeviceCount']/*"/>	
+            <unmanaged>HRESULT IXAudio2::GetDeviceCount([Out] unsigned int* pCount)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.GetDeviceDetails(System.Int32,SharpDX.XAudio2.DeviceDetails@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="index">No documentation.</param>	
+            <param name="deviceDetailsRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::GetDeviceDetails']/*"/>	
+            <unmanaged>HRESULT IXAudio2::GetDeviceDetails([In] unsigned int Index,[Out] XAUDIO2_DEVICE_DETAILS* pDeviceDetails)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.Initialize(System.Int32,SharpDX.XAudio2.ProcessorSpecifier)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="flags">No documentation.</param>	
+            <param name="xAudio2Processor">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::Initialize']/*"/>	
+            <unmanaged>HRESULT IXAudio2::Initialize([In] unsigned int Flags,[In] XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER XAudio2Processor)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.RegisterForCallbacks_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="callbackRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::RegisterForCallbacks']/*"/>	
+            <unmanaged>HRESULT IXAudio2::RegisterForCallbacks([In] IXAudio2EngineCallback* pCallback)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.UnregisterForCallbacks_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="callbackRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::UnregisterForCallbacks']/*"/>	
+            <unmanaged>void IXAudio2::UnregisterForCallbacks([In] IXAudio2EngineCallback* pCallback)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,SharpDX.Multimedia.WaveFormat@,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="sourceVoiceOut">No documentation.</param>	
+            <param name="sourceFormatRef">No documentation.</param>	
+            <param name="flags">No documentation.</param>	
+            <param name="maxFrequencyRatio">No documentation.</param>	
+            <param name="callbackRef">No documentation.</param>	
+            <param name="sendListRef">No documentation.</param>	
+            <param name="effectChainRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CreateSourceVoice']/*"/>	
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out, Fast] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[In] XAUDIO2_VOICE_FLAGS Flags,[In] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CreateSubmixVoice(SharpDX.XAudio2.SubmixVoice,System.Int32,System.Int32,SharpDX.XAudio2.VoiceSendFlags,System.Int32,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="submixVoiceOut">No documentation.</param>	
+            <param name="inputChannels">No documentation.</param>	
+            <param name="inputSampleRate">No documentation.</param>	
+            <param name="flags">No documentation.</param>	
+            <param name="processingStage">No documentation.</param>	
+            <param name="sendListRef">No documentation.</param>	
+            <param name="effectChainRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CreateSubmixVoice']/*"/>	
+            <unmanaged>HRESULT IXAudio2::CreateSubmixVoice([Out, Fast] IXAudio2SubmixVoice** ppSubmixVoice,[In] unsigned int InputChannels,[In] unsigned int InputSampleRate,[In] XAUDIO2_VOICE_SEND_FLAGS Flags,[In] unsigned int ProcessingStage,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CreateMasteringVoice(SharpDX.XAudio2.MasteringVoice,System.Int32,System.Int32,System.Int32,System.Int32,System.Nullable{SharpDX.XAudio2.EffectChain})">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="masteringVoiceOut">No documentation.</param>	
+            <param name="inputChannels">No documentation.</param>	
+            <param name="inputSampleRate">No documentation.</param>	
+            <param name="flags">No documentation.</param>	
+            <param name="deviceIndex">No documentation.</param>	
+            <param name="effectChainRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CreateMasteringVoice']/*"/>	
+            <unmanaged>HRESULT IXAudio2::CreateMasteringVoice([Out, Fast] IXAudio2MasteringVoice** ppMasteringVoice,[In] unsigned int InputChannels,[In] unsigned int InputSampleRate,[In] unsigned int Flags,[In] unsigned int DeviceIndex,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.StartEngine">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::StartEngine']/*"/>	
+            <unmanaged>HRESULT IXAudio2::StartEngine()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.StopEngine">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::StopEngine']/*"/>	
+            <unmanaged>void IXAudio2::StopEngine()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CommitChanges(System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="operationSet">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CommitChanges']/*"/>	
+            <unmanaged>HRESULT IXAudio2::CommitChanges([In] unsigned int OperationSet)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.GetPerformanceData(SharpDX.XAudio2.PerformanceData@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="perfDataRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::GetPerformanceData']/*"/>	
+            <unmanaged>void IXAudio2::GetPerformanceData([Out] XAUDIO2_PERFORMANCE_DATA* pPerfData)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.SetDebugConfiguration(System.Nullable{SharpDX.XAudio2.DebugConfiguration},System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="debugConfigurationRef">No documentation.</param>	
+            <param name="reservedRef">No documentation.</param>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::SetDebugConfiguration']/*"/>	
+            <unmanaged>void IXAudio2::SetDebugConfiguration([In, Optional] const XAUDIO2_DEBUG_CONFIGURATION* pDebugConfiguration,[In, Optional] void* pReserved)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.XAudio2"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.#ctor(SharpDX.XAudio2.XAudio2Flags,SharpDX.XAudio2.ProcessorSpecifier)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.XAudio2"/> class.
+            </summary>
+            <param name="flags">Specify a Debug or Normal XAudio2 instance.</param>
+            <param name="processorSpecifier">The processor specifier.</param>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.GetDeviceDetails(System.Int32)">
+            <summary>	
+            Returns information about an audio output device.	
+            </summary>	
+            <param name="index">[in]  Index of the device to be queried. This value must be less than the count returned by <see cref="M:SharpDX.XAudio2.XAudio2.GetDeviceCount(System.Int32@)"/>. </param>
+            <returns>On success, pointer to an <see cref="T:SharpDX.XAudio2.DeviceDetails"/> structure that is returned. </returns>
+            <unmanaged>HRESULT IXAudio2::GetDeviceDetails([None] UINT32 Index,[Out] XAUDIO2_DEVICE_DETAILS* pDeviceDetails)</unmanaged>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.AmplitudeRatioToDecibels(System.Single)">
+            <summary>
+            Calculate a decibel from a volume.
+            </summary>
+            <param name="volume">The volume.</param>
+            <returns>a dB value</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CutoffFrequencyToRadians(System.Single,System.Int32)">
+            <summary>
+            Calculate radians from a cutoffs frequency.
+            </summary>
+            <param name="cutoffFrequency">The cutoff frequency.</param>
+            <param name="sampleRate">The sample rate.</param>
+            <returns>radian</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.RadiansToCutoffFrequency(System.Single,System.Single)">
+            <summary>
+            Calculate a cutoff frequency from a radian.
+            </summary>
+            <param name="radians">The radians.</param>
+            <param name="sampleRate">The sample rate.</param>
+            <returns>cutoff frequency</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.DecibelsToAmplitudeRatio(System.Single)">
+            <summary>
+            Calculate a volume from a decibel
+            </summary>
+            <param name="decibels">a dB value</param>
+            <returns>an amplitude value</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.FrequencyRatioToSemitones(System.Single)">
+            <summary>
+            Calculate semitones from a Frequency ratio
+            </summary>
+            <param name="frequencyRatio">The frequency ratio.</param>
+            <returns>semitones</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.SemitonesToFrequencyRatio(System.Single)">
+            <summary>
+            Calculate frequency from semitones.
+            </summary>
+            <param name="semitones">The semitones.</param>
+            <returns>the frequency</returns>
+        </member>
+        <member name="M:SharpDX.XAudio2.XAudio2.CommitChanges">
+            <summary>	
+            Atomically applies a set of operations for all pending operations.
+            </summary>	
+            <unmanaged>HRESULT IXAudio2::CommitChanges([None] UINT32 OperationSet)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.XAudio2.DeviceCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::GetDeviceCount']/*"/>	
+            <unmanaged>GetDeviceCount</unmanaged>	
+            <unmanaged>HRESULT IXAudio2::GetDeviceCount([Out] unsigned int* pCount)</unmanaged>
+        </member>
+        <member name="P:SharpDX.XAudio2.XAudio2.PerformanceData">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::GetPerformanceData']/*"/>	
+            <unmanaged>GetPerformanceData</unmanaged>	
+            <unmanaged>void IXAudio2::GetPerformanceData([Out] XAUDIO2_PERFORMANCE_DATA* pPerfData)</unmanaged>
+        </member>
+        <member name="E:SharpDX.XAudio2.XAudio2.ProcessingPassStart">
+            <summary>	
+            Called by XAudio2 just before an audio processing pass begins.	
+            </summary>	
+        </member>
+        <member name="E:SharpDX.XAudio2.XAudio2.ProcessingPassEnd">
+            <summary>	
+            Called by XAudio2 just after an audio processing pass ends.	
+            </summary>	
+        </member>
+        <member name="E:SharpDX.XAudio2.XAudio2.CriticalError">
+            <summary>
+            Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.
+            </summary>
+        </member>
+        <member name="T:SharpDX.XAudio2.BufferWma">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER_WMA']/*"/>	
+            <unmanaged>XAUDIO2_BUFFER_WMA</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.BufferWma.DecodedPacketCumulativeBytesPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER_WMA::pDecodedPacketCumulativeBytes']/*"/>	
+            <unmanaged>const unsigned int* pDecodedPacketCumulativeBytes</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.BufferWma.PacketCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_BUFFER_WMA::PacketCount']/*"/>	
+            <unmanaged>unsigned int PacketCount</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.DebugConfiguration">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION']/*"/>	
+            <unmanaged>XAUDIO2_DEBUG_CONFIGURATION</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DebugConfiguration.TraceMask">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::TraceMask']/*"/>	
+            <unmanaged>unsigned int TraceMask</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DebugConfiguration.BreakMask">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::BreakMask']/*"/>	
+            <unmanaged>unsigned int BreakMask</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.DebugConfiguration.LogThreadID">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::LogThreadID']/*"/>	
+            <unmanaged>BOOL LogThreadID</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.DebugConfiguration.LogFileline">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::LogFileline']/*"/>	
+            <unmanaged>BOOL LogFileline</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.DebugConfiguration.LogFunctionName">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::LogFunctionName']/*"/>	
+            <unmanaged>BOOL LogFunctionName</unmanaged>	
+        </member>
+        <member name="P:SharpDX.XAudio2.DebugConfiguration.LogTiming">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEBUG_CONFIGURATION::LogTiming']/*"/>	
+            <unmanaged>BOOL LogTiming</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.DeviceDetails">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_DETAILS']/*"/>	
+            <unmanaged>XAUDIO2_DEVICE_DETAILS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceDetails.DeviceID">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_DETAILS::DeviceID']/*"/>	
+            <unmanaged>wchar_t DeviceID[256]</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceDetails.DisplayName">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_DETAILS::DisplayName']/*"/>	
+            <unmanaged>wchar_t DisplayName[256]</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceDetails.Role">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_DETAILS::Role']/*"/>	
+            <unmanaged>XAUDIO2_DEVICE_ROLE Role</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.DeviceDetails.OutputFormat">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_DEVICE_DETAILS::OutputFormat']/*"/>	
+            <unmanaged>WAVEFORMATEXTENSIBLE OutputFormat</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.EffectChain">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_CHAIN']/*"/>	
+            <unmanaged>XAUDIO2_EFFECT_CHAIN</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.EffectChain.EffectCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_CHAIN::EffectCount']/*"/>	
+            <unmanaged>unsigned int EffectCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.EffectChain.EffectDescriptorPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_EFFECT_CHAIN::pEffectDescriptors']/*"/>	
+            <unmanaged>XAUDIO2_EFFECT_DESCRIPTOR* pEffectDescriptors</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.FilterParameters">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS']/*"/>	
+            <unmanaged>XAUDIO2_FILTER_PARAMETERS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterParameters.Type">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS::Type']/*"/>	
+            <unmanaged>XAUDIO2_FILTER_TYPE Type</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterParameters.Frequency">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS::Frequency']/*"/>	
+            <unmanaged>float Frequency</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.FilterParameters.OneOverQ">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS::OneOverQ']/*"/>	
+            <unmanaged>float OneOverQ</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.PerformanceData">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA']/*"/>	
+            <unmanaged>XAUDIO2_PERFORMANCE_DATA</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.AudioCyclesSinceLastQuery">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::AudioCyclesSinceLastQuery']/*"/>	
+            <unmanaged>unsigned longlong AudioCyclesSinceLastQuery</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.TotalCyclesSinceLastQuery">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::TotalCyclesSinceLastQuery']/*"/>	
+            <unmanaged>unsigned longlong TotalCyclesSinceLastQuery</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.MinimumCyclesPerQuantum">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::MinimumCyclesPerQuantum']/*"/>	
+            <unmanaged>unsigned int MinimumCyclesPerQuantum</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.MaximumCyclesPerQuantum">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::MaximumCyclesPerQuantum']/*"/>	
+            <unmanaged>unsigned int MaximumCyclesPerQuantum</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.MemoryUsageInBytes">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::MemoryUsageInBytes']/*"/>	
+            <unmanaged>unsigned int MemoryUsageInBytes</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.CurrentLatencyInSamples">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::CurrentLatencyInSamples']/*"/>	
+            <unmanaged>unsigned int CurrentLatencyInSamples</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.GlitchesSinceEngineStarted">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::GlitchesSinceEngineStarted']/*"/>	
+            <unmanaged>unsigned int GlitchesSinceEngineStarted</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveSourceVoiceCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveSourceVoiceCount']/*"/>	
+            <unmanaged>unsigned int ActiveSourceVoiceCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.TotalSourceVoiceCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::TotalSourceVoiceCount']/*"/>	
+            <unmanaged>unsigned int TotalSourceVoiceCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveSubmixVoiceCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveSubmixVoiceCount']/*"/>	
+            <unmanaged>unsigned int ActiveSubmixVoiceCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveResamplerCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveResamplerCount']/*"/>	
+            <unmanaged>unsigned int ActiveResamplerCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveMatrixMixCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveMatrixMixCount']/*"/>	
+            <unmanaged>unsigned int ActiveMatrixMixCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveXmaSourceVoices">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveXmaSourceVoices']/*"/>	
+            <unmanaged>unsigned int ActiveXmaSourceVoices</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.PerformanceData.ActiveXmaStreams">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_PERFORMANCE_DATA::ActiveXmaStreams']/*"/>	
+            <unmanaged>unsigned int ActiveXmaStreams</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceDetails">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_DETAILS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceDetails.CreationFlags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS::CreationFlags']/*"/>	
+            <unmanaged>unsigned int CreationFlags</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceDetails.InputChanneCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS::InputChannels']/*"/>	
+            <unmanaged>unsigned int InputChannels</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceDetails.InputSampleRate">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS::InputSampleRate']/*"/>	
+            <unmanaged>unsigned int InputSampleRate</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceSendDescriptor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_SEND_DESCRIPTOR']/*"/>	
+            <unmanaged>XAUDIO2_SEND_DESCRIPTOR</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendDescriptor.Flags">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_SEND_DESCRIPTOR::Flags']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_SEND_FLAGS Flags</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendDescriptor.OutputVoicePointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_SEND_DESCRIPTOR::pOutputVoice']/*"/>	
+            <unmanaged>IXAudio2Voice* pOutputVoice</unmanaged>	
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceSendDescriptor.#ctor(SharpDX.XAudio2.Voice)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.VoiceSendDescriptor"/> struct.
+            </summary>
+            <param name="outputVoice">The output voice.</param>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceSendDescriptor.#ctor(SharpDX.XAudio2.VoiceSendFlags,SharpDX.XAudio2.Voice)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.VoiceSendDescriptor"/> struct.
+            </summary>
+            <param name="flags">The send flags.</param>
+            <param name="outputVoice">The output voice.</param>
+        </member>
+        <member name="P:SharpDX.XAudio2.VoiceSendDescriptor.OutputVoice">
+            <summary>
+            Gets or sets the output voice. This parameter cannot be null.
+            </summary>
+            <value>The output voice.</value>
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceSendDescriptors">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_SENDS']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_SENDS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendDescriptors.SendCount">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_SENDS::SendCount']/*"/>	
+            <unmanaged>unsigned int SendCount</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceSendDescriptors.SendPointer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_SENDS::pSends']/*"/>	
+            <unmanaged>XAUDIO2_SEND_DESCRIPTOR* pSends</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceState">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_STATE']/*"/>	
+            <unmanaged>XAUDIO2_VOICE_STATE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceState.Context">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_STATE::pCurrentBufferContext']/*"/>	
+            <unmanaged>void* pCurrentBufferContext</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceState.BuffersQueued">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_STATE::BuffersQueued']/*"/>	
+            <unmanaged>unsigned int BuffersQueued</unmanaged>	
+        </member>
+        <member name="F:SharpDX.XAudio2.VoiceState.SamplesPlayed">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_STATE::SamplesPlayed']/*"/>	
+            <unmanaged>unsigned longlong SamplesPlayed</unmanaged>	
+        </member>
+        <member name="T:SharpDX.XAudio2.VoiceShadow">
+            <summary>
+            Internal VoiceCallback callback Impl
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.VoiceShadow.ToIntPtr(SharpDX.XAudio2.VoiceCallback)">
+            <summary>
+            Return a pointer to the unamanged version of this callback.
+            </summary>
+            <param name="callback">The callback.</param>
+            <returns>A pointer to a shadow c++ callback</returns>
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.Reverb">
+            <summary>
+            A Reverb XAudio2 AudioProcessor.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.Fx.Reverb.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.Fx.Reverb"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.Fx.Reverb.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.Fx.Reverb"/> class.
+            </summary>
+        </member>
+        <member name="T:SharpDX.XAudio2.Fx.VolumeMeter">
+            <summary>
+            A VolumeMeter XAudio2 AudioProcessor.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.Fx.VolumeMeter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.Fx.VolumeMeter"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.XAudio2.Fx.VolumeMeter.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.XAudio2.Fx.VolumeMeter"/> class.
+            </summary>
+        </member>
+    </members>
+</doc>

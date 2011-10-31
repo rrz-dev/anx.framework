@@ -1,0 +1,134 @@
+﻿#region Using Statements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ANX.Framework.Windows.DX10;
+
+#endregion // Using Statements
+
+#region License
+
+//
+// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
+//
+// This file is released under the Ms-PL license.
+//
+//
+//
+// Microsoft Public License (Ms-PL)
+//
+// This license governs use of the accompanying software. If you use the software, you accept this license. 
+// If you do not accept the license, do not use the software.
+//
+// 1.Definitions
+//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
+//   here as under U.S. copyright law.
+//   A "contribution" is the original software, or any additions or changes to the software.
+//   A "contributor" is any person that distributes its contribution under this license.
+//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
+//
+// 2.Grant of Rights
+//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
+//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
+//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
+//       or any derivative works that you create.
+//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
+//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
+//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
+//       in the software or derivative works of the contribution in the software.
+//
+// 3.Conditions and Limitations
+//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
+//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
+//       patent license from such contributor to the software ends automatically.
+//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
+//       notices that are present in the software.
+//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
+//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
+//       object code form, you may only do so under a license that complies with this license.
+//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
+//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
+//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
+//       particular purpose and non-infringement.
+
+#endregion // License
+
+namespace ANX.Framework
+{
+    public class WindowsGameHost : GameHost
+    {
+        private Game game;
+        private WindowsGameWindow gameWindow;
+        private bool exitRequested;
+
+        public WindowsGameHost(Game game)
+            : base(game)
+        {
+            this.game = game;
+            //this.LockThreadToProcessor();
+            this.gameWindow = new WindowsGameWindow();
+            //Mouse.WindowHandle = this.gameWindow.Handle;
+            //TouchPanel.WindowHandle = this.gameWindow.Handle;
+            //this.gameWindow.IsMouseVisible = game.IsMouseVisible;
+            this.gameWindow.Activated += new EventHandler<EventArgs>(this.GameWindowActivated);
+            this.gameWindow.Deactivated += new EventHandler<EventArgs>(this.GameWindowDeactivated);
+            //this.gameWindow.Suspend += new EventHandler<EventArgs>(this.GameWindowSuspend);
+            //this.gameWindow.Resume += new EventHandler<EventArgs>(this.GameWindowResume);
+        
+        }
+
+        public override void Run()
+        {
+            Application.Idle += new EventHandler(this.ApplicationIdle);
+            Application.Run(this.gameWindow.Form);
+            Application.Idle -= this.ApplicationIdle;
+        }
+
+        public void RunOneFrame()
+        {
+            //this.gameWindow.Tick();
+            base.OnIdle();
+        }
+
+        public override GameWindow Window
+        {
+            get 
+            { 
+                return this.gameWindow; 
+            }
+        }
+
+        public override void Exit()
+        {
+            this.exitRequested = true;
+        }
+
+        private void GameWindowActivated(object sender, EventArgs e)
+        {
+            base.OnActivated();
+        }
+
+        private void GameWindowDeactivated(object sender, EventArgs e)
+        {
+            base.OnDeactivated();
+        }
+
+        private void ApplicationIdle(object sender, EventArgs e)
+        {
+            NativeMethods.Message message;
+            while (!NativeMethods.PeekMessage(out message, IntPtr.Zero, 0, 0, 0))
+            {
+                if (this.exitRequested)
+                {
+                    this.gameWindow.Close();
+                }
+                else
+                {
+                    this.RunOneFrame();
+                }
+            }
+        }
+    }
+}

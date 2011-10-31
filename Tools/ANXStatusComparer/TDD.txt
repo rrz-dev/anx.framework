@@ -1,0 +1,26 @@
+﻿- Command Line Tool																		(DONE)
+
+- Input is Config-File (Xml)													(DONE)
+	-> Paths to assemblies for:
+		-> XNA
+		-> ANX
+
+- Reads from assemblies:
+	-> Namespaces																				(DONE)
+	-> Classes																					(DONE)
+	-> Structures																				(DONE)
+	-> Interfaces																				(DONE)
+	-> Enumerations																			(DONE)
+
+- Cmd Parameter for which parts to compare (above)
+
+- Compare XNA with ANX implementations
+	-> Equalities																				(DONE)
+	-> Missing stuff																		(DONE)
+	-> Wrong stuff (accessability, parameters, etc.)		(DONE)
+
+- Read Special Attributes in ANX for:
+	-> State description
+	-> Percentage complete
+	-> Percentage documentation complete
+	-> Percentage only raw construct
