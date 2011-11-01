@@ -213,7 +213,7 @@ namespace ANX.Framework
         }
         public static bool operator !=(BoundingBox a, BoundingBox b)
         {
-            throw new Exception("operator overloading has not yet been implemented");
+            return a.Max != b.Max || a.Min != b.Min;
         }
         #endregion
     }
