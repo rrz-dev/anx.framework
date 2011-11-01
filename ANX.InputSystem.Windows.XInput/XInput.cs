@@ -67,7 +67,7 @@ namespace ANX.InputSystem.Windows.XInput
 
         public XInput()
         {
-            controller = new Controller[5];
+            controller = new Controller[4];
             controller[0] = new Controller(UserIndex.One);
             controller[1] = new Controller(UserIndex.Two);
             controller[2] = new Controller(UserIndex.Three);
@@ -118,11 +118,30 @@ namespace ANX.InputSystem.Windows.XInput
 
         public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
+            short left;
+            short right;
+            if (Math.Abs(leftMotor)>1)
+            {
+                left = 1;
+            }
+            else
+            {
+                left = Convert.ToInt16(Math.Abs(leftMotor) * short.MaxValue);
+            }
+            if (Math.Abs(rightMotor) > 1)
+            {
+                right = 1;
+            }
+            else
+            {
+                right = Convert.ToInt16(Math.Abs(rightMotor) * short.MaxValue);
+            }
+
             if (controller[(int)playerIndex].IsConnected)
             {
                 Vibration vib = new Vibration();
-                vib.LeftMotorSpeed = Convert.ToInt16(leftMotor * short.MaxValue);
-                vib.RightMotorSpeed = Convert.ToInt16(rightMotor * short.MaxValue);
+                vib.LeftMotorSpeed = left;
+                vib.RightMotorSpeed = right;
                 controller[(int)playerIndex].SetVibration(vib);
                 return true;
             }
