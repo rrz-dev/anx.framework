@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010 Express for Windows Phone
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework", "ANX.Framework\ANX.Framework.csproj", "{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.Windows.DX10", "ANX.Framework.Windows.DX10\ANX.Framework.Windows.DX10.csproj", "{5BE49183-2F6F-4527-AC90-D816911FCF90}"
@@ -15,7 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockEffects", "StockEffect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX11.1", "ANX.RenderSystem.Windows.DX11.1\ANX.RenderSystem.Windows.DX11.1.csproj", "{B30DE9C2-0926-46B6-8351-9AF276C472D5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B24A8593-562A-4A25-BB08-46C163F10F3F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANXStatusComparer", "Tools\ANXStatusComparer\ANXStatusComparer.csproj", "{9D8DC781-2E0D-4348-BAD9-745F91428A3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RenderSystems", "RenderSystems", "{D421509A-9AE3-4D7E-881B-EAFED598B028}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9B0DD48B-3912-4F33-AF3F-691AF02B73F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertexIndexBuffer", "Samples\VertexIndexBuffer\VertexIndexBuffer.csproj", "{F945515B-394D-4ED4-80E0-98EB59B69D24}"
 EndProject
@@ -25,7 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRendering", "Samples\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContent", "Samples\SampleContent\SampleContent.contentproj", "{FA6E229D-4504-47B1-8A23-2D3FCC13F778}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputSystems", "InputSystems", "{7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Windows.XInput", "ANX.InputSystem.Windows.XInput\ANX.InputSystem.Windows.XInput.csproj", "{60D08399-244F-46A3-91F1-4CFD26D961A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoundSystems", "SoundSystems", "{5725DA44-4F5C-4E93-A957-AC5C85603EE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.Windows.XAudio", "SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio.csproj", "{6A582788-C4D2-410C-96CD-177F75712D65}"
 EndProject
@@ -34,6 +44,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame", "Samples\WindowsGame\WindowsGame.csproj", "{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -200,10 +214,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
