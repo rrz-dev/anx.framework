@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Framework;
 
 using XNAVector2 = Microsoft.Xna.Framework.Vector2;
 using ANXVector2 = ANX.Framework.Vector2;
 
-using NUnit.Framework;
+using XNAMatrix = Microsoft.Xna.Framework.Matrix;
+using ANXMatrix = ANX.Framework.Matrix;
 
 #endregion // Using Statements
 
@@ -75,6 +77,19 @@ namespace ANX.Framework.TestCenter.Strukturen
             else
             {
                 Assert.Fail(test + " failed: xna({" + xna.X + "}{" + xna.Y + "}) anx({" + anx.X + "}{" + anx.Y + "})");
+            }
+        }
+
+        public void ConvertEquals(ANXVector2 xna, ANXVector2 anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if (anx.X.ToString().Equals(anx.X.ToString()) && anx.Y.ToString().Equals(anx.Y.ToString()))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(test + " failed: anx({" + xna.X + "}{" + xna.Y + "}) compared to anx({" + anx.X + "}{" + anx.Y + "})");
             }
         }
 
@@ -524,6 +539,51 @@ namespace ANX.Framework.TestCenter.Strukturen
             String anxR = anx1.ToString();
 
             Assert.AreEqual(xnaR, anxR);
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void StaticTransform(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xnaResult;
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) * XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anxResult;
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+
+            XNAVector2.Transform(ref xna1, ref xnaMatrix, out xnaResult);
+            ANXVector2.Transform(ref anx1, ref anxMatrix, out anxResult);
+
+            ConvertEquals(xnaResult, anxResult, "StaticTransform");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void StaticTransform2(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) * XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
+            XNAVector2 xnaResult = XNAVector2.Transform(xna1, xnaMatrix);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+            ANXVector2 anxResult = ANXVector2.Transform(anx1, anxMatrix);
+
+            ConvertEquals(xnaResult, anxResult, "StaticTransform2");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void StaticTransform3_ANXonly(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+
+            ANXVector2 anxResult1 = ANXVector2.Transform(anx1, anxMatrix);
+            ANXVector2 anxResult2;
+
+            Vector2.Transform(ref anx1, ref anxMatrix, out anxResult2);
+
+            ConvertEquals(anxResult1, anxResult2, "StaticTransform3_ANXonly");
         }
 
 /*

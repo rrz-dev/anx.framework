@@ -166,6 +166,60 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("sixteenfloats")]
+        public void Multiply(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ConvertEquals(XNAMatrix.Multiply(xnaM1, xnaM2), ANXMatrix.Multiply(anxM1, anxM2), "Multiply");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Multiply2(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaResult;
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxResult;
+
+            XNAMatrix.Multiply(ref xnaM1, ref xnaM2, out xnaResult);
+            ANXMatrix.Multiply(ref anxM1, ref anxM2, out anxResult);
+
+            ConvertEquals(xnaResult, anxResult, "Multiply2");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Multiply3(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ConvertEquals(XNAMatrix.Multiply(xnaM1, m11), ANXMatrix.Multiply(anxM1, m11), "Multiply3");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Multiply4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaResult;
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxResult;
+
+            XNAMatrix.Multiply(ref xnaM1, m11, out xnaResult);
+            ANXMatrix.Multiply(ref anxM1, m11, out anxResult);
+
+            ConvertEquals(xnaResult, anxResult, "Multiply4");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
         public void AddOperator(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
@@ -199,6 +253,43 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             ConvertEquals(xnaM1 / xnaM2, anxM1 / anxM2, "DivideOperator");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void CreateRotationX(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(m11);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(m11);
+
+            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationX");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void CreateRotationY(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationY(m11);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationY(m11);
+
+            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationY");
+        }
+
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void CreateRotationZ(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationZ(m11);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationZ(m11);
+
+            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationZ");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void CreateTranslation(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaMatrix = XNAMatrix.CreateTranslation(m11, m12, m13);
+            ANXMatrix anxMatrix = ANXMatrix.CreateTranslation(m11, m12, m13);
+
+            ConvertEquals(xnaMatrix, anxMatrix, "CreateTranslation");
         }
 
     }

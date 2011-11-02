@@ -56,6 +56,7 @@ namespace ANX.Framework.Graphics
 {
     public sealed class SpriteFont
     {
+        #region Private Members
         private Texture2D texture;
         private List<Rectangle> glyphs;
         private List<Rectangle> cropping;
@@ -64,8 +65,10 @@ namespace ANX.Framework.Graphics
         private float horizontalSpacing;
         private List<Vector3> kerning;
         private char? defaultCharacter;
-
         private ReadOnlyCollection<Char> characters;
+
+        #endregion // Private Members
+
         public ReadOnlyCollection<Char> Characters
         {
             get { return characters; }
@@ -98,7 +101,7 @@ namespace ANX.Framework.Graphics
 
 
         internal SpriteFont(
-            Texture2D texture, List<Rectangle> glyphs, List<Rectangle> cropping, List<char> charMap, 
+            Texture2D texture, List<Rectangle> glyphs, List<Rectangle> cropping, List<char> charMap,
             int lineSpacing, float horizontalSpacing, List<Vector3> kerning, char? defaultCharacter)
         {
             this.texture = texture;
@@ -120,7 +123,7 @@ namespace ANX.Framework.Graphics
                 throw new ArgumentNullException("text");
             }
 
-            throw new NotImplementedException();
+            return InternalMeasure(ref text);
         }
 
         public Vector2 MeasureString(StringBuilder text)
@@ -130,29 +133,139 @@ namespace ANX.Framework.Graphics
                 throw new ArgumentNullException("text");
             }
 
-            throw new NotImplementedException();
+            String cachedText = text.ToString();
+            return InternalMeasure(ref cachedText);
         }
 
-        internal void DrawString(ref String text, SpriteBatch spriteBatch, Vector2 position, Color color, Vector2 scale, Vector2 origin, float rotation, float layerDepth, SpriteEffects effects)
+        internal void DrawString(ref String text, SpriteBatch spriteBatch, Vector2 textPos, Color color, Vector2 scale, Vector2 origin, float rotation, float layerDepth, SpriteEffects effects)
         {
-            int posX = (int)position.X;
-            int posY = (int)position.Y;
+            Matrix transformation = Matrix.CreateRotationZ(rotation) * Matrix.CreateTranslation(-origin.X * scale.X, -origin.Y * scale.Y, 0f);
+            int horizontalFlipModifier = 1;
+            float width = 0f;
+            Vector2 topLeft = new Vector2();
+            bool firstCharacterInLine = true;
+
+            if ((effects & SpriteEffects.FlipHorizontally) == SpriteEffects.FlipHorizontally)
+            {
+                topLeft.X = width = this.InternalMeasure(ref text).X * scale.X;
+                horizontalFlipModifier = -1;
+            }
+
+            if ((effects & SpriteEffects.FlipVertically) == SpriteEffects.FlipVertically)
+            {
+                topLeft.Y = (this.InternalMeasure(ref text).Y - this.lineSpacing) * scale.Y;
+            }
 
             for (int i = 0; i < text.Length; i++)
             {
                 char currentCharacter = text[i];
-                int characterIndex = GetIndexForCharacter(currentCharacter);
-                Vector3 kerning = this.kerning[characterIndex];
-                Rectangle glyphRect = this.glyphs[characterIndex];
-                Rectangle croppingRect = this.cropping[characterIndex];
+                switch (currentCharacter)
+                {
+                    case '\r':
+                        break;
 
-                posX += (int)(croppingRect.X);
-                posY = (int)(position.Y + croppingRect.Y);
+                    case '\n':
+                        firstCharacterInLine = true;
+                        topLeft.X = width;
+                        if ((effects & SpriteEffects.FlipVertically) == SpriteEffects.FlipVertically)
+                        {
+                            topLeft.Y -= this.lineSpacing * scale.Y;
+                        }
+                        else
+                        {
+                            topLeft.Y += this.lineSpacing * scale.Y;
+                        }
+                        break;
 
-                spriteBatch.Draw(this.texture, new Rectangle(posX, posY, glyphRect.Width, glyphRect.Height), glyphRect, color, 0.0f, origin, SpriteEffects.None, layerDepth);
+                    default:
+                        {
+                            int characterIndex = GetIndexForCharacter(currentCharacter);
+                            Vector3 kerning = this.kerning[characterIndex];
+                            Rectangle glyphRect = this.glyphs[characterIndex];
+                            Rectangle croppingRect = this.cropping[characterIndex];
 
-                posX += (int)(glyphRect.Width + this.Spacing + kerning.X);
+                            if (firstCharacterInLine)
+                            {
+                                kerning.X = Math.Max(kerning.X, 0f);
+                            }
+                            else
+                            {
+                                topLeft.X += (this.Spacing * scale.X) * horizontalFlipModifier;
+                            }
+                            topLeft.X += (kerning.X * scale.X) * horizontalFlipModifier;
+
+                            if ((effects & SpriteEffects.FlipVertically) == SpriteEffects.FlipVertically)
+                            {
+                                croppingRect.Y = (this.lineSpacing - glyphRect.Height) - croppingRect.Y;
+                            }
+                            if ((effects & SpriteEffects.FlipHorizontally) == SpriteEffects.FlipHorizontally)
+                            {
+                                croppingRect.X -= croppingRect.Width;
+                            }
+                            Vector2 position = Vector2.Transform(topLeft + (new Vector2(croppingRect.X, croppingRect.Y) * scale), transformation);
+                            spriteBatch.Draw(this.texture, position + textPos, glyphRect, color, rotation, Vector2.Zero, scale, effects, layerDepth);
+                            firstCharacterInLine = false;
+                            topLeft.X += ((kerning.Y + kerning.Z) * scale.X) * horizontalFlipModifier;
+                            break;
+                        }
+                }
             }
+        }
+
+        private Vector2 InternalMeasure(ref String text)
+        {
+            if (text.Length < 1)
+            {
+                return Vector2.Zero;
+            }
+
+            Vector2 size = Vector2.Zero;
+            size.Y = this.lineSpacing;
+            float maxWidth = 0f;
+            int currentCharacter = 0;
+            float z = 0f;
+            bool firstCharacterInLine = true;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                char currentChar = text[i];
+
+                if (currentChar == '\r')
+                {
+                    continue;
+                }
+
+                if (currentChar == '\n')
+                {
+                    size.X += Math.Max(z, 0f);
+                    z = 0f;
+                    maxWidth = Math.Max(size.X, maxWidth);
+                    size = Vector2.Zero;
+                    size.Y = this.lineSpacing;
+                    firstCharacterInLine = true;
+                    currentCharacter++;
+                }
+                else
+                {
+                    int currentCharIndex = this.GetIndexForCharacter(currentChar);
+                    Vector3 kerning = this.kerning[currentCharIndex];
+                    if (firstCharacterInLine)
+                    {
+                        kerning.X = Math.Max(kerning.X, 0f);
+                    }
+                    else
+                    {
+                        size.X += this.Spacing + z;
+                    }
+                    size.X += kerning.X + kerning.Y;
+                    z = kerning.Z;
+                    size.Y = Math.Max(size.Y, (float)this.cropping[currentCharIndex].Height);
+                    firstCharacterInLine = false;
+                }
+            }
+            size.Y += currentCharacter * this.lineSpacing;
+            size.X = Math.Max(Math.Max(z, 0) + size.X, maxWidth);
+            return size;
         }
 
         private int GetIndexForCharacter(char character)

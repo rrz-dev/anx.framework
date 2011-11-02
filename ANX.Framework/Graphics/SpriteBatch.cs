@@ -163,7 +163,7 @@ namespace ANX.Framework.Graphics
 
         public void Draw(Texture2D texture, Rectangle destinationRectangle, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, SpriteEffects effects, Single layerDepth)
         {
-            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width, destinationRectangle.Height), sourceRectangle, color, origin, layerDepth, 0.0f, Vector2.One, effects);
+            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width, destinationRectangle.Height), sourceRectangle, color, origin, layerDepth, rotation, Vector2.One, effects);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Color color)
@@ -173,17 +173,20 @@ namespace ANX.Framework.Graphics
 
         public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color)
         {
-            Draw(texture, position, new Vector2(texture.Width, texture.Height), sourceRectangle, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
+            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
+            Draw(texture, position, size, sourceRectangle, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
         {
-            Draw(texture, position, new Vector2(texture.Width, texture.Height), sourceRectangle, color, origin, layerDepth, rotation, new Vector2(scale), effects);
+            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
+            Draw(texture, position, size, sourceRectangle, color, origin, layerDepth, rotation, new Vector2(scale), effects);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
         {
-            Draw(texture, position, new Vector2(texture.Width, texture.Height), sourceRectangle, color, origin, layerDepth, rotation, scale, effects);
+            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
+            Draw(texture, position, size, sourceRectangle, color, origin, layerDepth, rotation, scale, effects);
         }
 
         #endregion // Draw-Method

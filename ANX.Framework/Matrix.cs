@@ -936,7 +936,8 @@ namespace ANX.Framework
         {
             result = Matrix.Identity;
             result.M11 = (float)Math.Cos(radians);
-            result.M13 = (float)Math.Sin(radians);
+            result.M13 = (float)-Math.Sin(radians);
+            result.M22 = 1f;
             result.M31 = -result.M13;
             result.M33 = result.M11;
         }

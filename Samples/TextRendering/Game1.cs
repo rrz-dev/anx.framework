@@ -103,8 +103,11 @@ namespace TextRendering
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
             spriteBatch.DrawString(this.debugFont, "Hello World!", new Vector2(100, 100), Color.White);
 
-            spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!", new Vector2( 99, 101 + this.debugFont.LineSpacing), Color.Black, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!", new Vector2(100, 100 + this.debugFont.LineSpacing), Color.Red, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1.0f);
+            spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!\r\nsecond line", new Vector2(100, 100 + this.debugFont.LineSpacing), Color.Black, 0.0f, new Vector2(1, -1), Vector2.One, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!\r\nsecond line", new Vector2(100, 100 + this.debugFont.LineSpacing), Color.Red, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1.0f);
+
+            spriteBatch.DrawString(this.debugFont, "rotated Text", new Vector2(100, 150), Color.Green, MathHelper.ToRadians(90), Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
