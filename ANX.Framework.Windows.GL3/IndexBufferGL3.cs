@@ -68,6 +68,8 @@ namespace ANX.Framework.Windows.GL3
 		private IndexElementSize elementSize;
 
 		private BufferUsage usage;
+
+		private BufferUsageHint usageHint;
 		#endregion
 
 		#region Constructor
@@ -81,36 +83,77 @@ namespace ANX.Framework.Windows.GL3
 			elementSize = setElementSize;
 			usage = setUsage;
 
-			GL.GenBuffers(1, out bufferHandle);
+			// TODO: evaluate whats best
+			// StaticDraw: set once, use often
+			// DynamicDraw: set frequently, use repeatadly
+			// StreamDraw: set every tick, use once
+			usageHint = BufferUsageHint.DynamicDraw;
 
+			GL.GenBuffers(1, out bufferHandle);
 		}
 		#endregion
 
-		#region SetData (TODO)
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
 			where T : struct
 		{
-			// TODO: check
-			IntPtr size = (IntPtr)((elementSize == IndexElementSize.SixteenBits ?
-				16 : 32) * data.Length);
-
-			// TODO: check
-			BufferUsageHint usageHint = usage == BufferUsage.WriteOnly ?
-				BufferUsageHint.StaticDraw :
-				BufferUsageHint.DynamicDraw;
-
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferHandle);
-			GL.BufferData(BufferTarget.ElementArrayBuffer, size, data, usageHint);
+			BufferData(data, 0);
 		}
+		#endregion
 
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
 			int startIndex, int elementCount) where T : struct
 		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, 0);
+			}
+			else
+			{
+				BufferData(data, 0);
+			}
 		}
+		#endregion
 
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
 			T[] data, int startIndex, int elementCount) where T : struct
 		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, offsetInBytes);
+			}
+			else
+			{
+				BufferData(data, offsetInBytes);
+			}
+		}
+		#endregion
+
+		#region BufferData (private helper)
+		private void BufferData<T>(T[] data, int offset) where T : struct
+		{
+			IntPtr size = (IntPtr)((elementSize == IndexElementSize.SixteenBits ?
+				2 : 4) * data.Length);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferHandle);
+
+			if (offset != 0)
+			{
+				GL.BufferData(BufferTarget.ElementArrayBuffer, size, data, usageHint);
+			}
+			else
+			{
+				GL.BufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)offset,
+					size, data);
+			}
 		}
 		#endregion
 

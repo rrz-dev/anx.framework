@@ -64,34 +64,92 @@ namespace ANX.Framework.Windows.GL3
 		/// Native vertex buffer handle.
 		/// </summary>
 		private int bufferHandle;
+
+		private VertexDeclaration vertexDeclaration;
+
+		private BufferUsage usage;
+
+		private int vertexCount;
+
+		private BufferUsageHint usageHint;
 		#endregion
 
 		#region Constructor
 		/// <summary>
 		/// Create a new Vertex Buffer object.
 		/// </summary>
-		internal VertexBufferGL3(VertexDeclaration vertexDeclaration,
-			int vertexCount, BufferUsage usage)
+		internal VertexBufferGL3(VertexDeclaration setVertexDeclaration,
+			int setVertexCount, BufferUsage setUsage)
 		{
+			vertexDeclaration = setVertexDeclaration;
+			usage = setUsage;
+			vertexCount = setVertexCount;
+
+			// TODO: evaluate whats best
+			// StaticDraw: set once, use often
+			// DynamicDraw: set frequently, use repeatadly
+			// StreamDraw: set every tick, use once
+			usageHint = BufferUsageHint.DynamicDraw;
+
 			GL.GenBuffers(1, out bufferHandle);
+			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * setVertexCount);
+			GL.BufferData(BufferTarget.ArrayBuffer, size, IntPtr.Zero, usageHint);
 		}
 		#endregion
 
-		#region SetData (TODO)
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
 			where T : struct
 		{
-			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			BufferData(data, 0);
 		}
+		#endregion
 
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
 			int startIndex, int elementCount) where T : struct
 		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, 0);
+			}
+			else
+			{
+				BufferData(data, 0);
+			}
 		}
+		#endregion
 
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
 			T[] data, int startIndex, int elementCount) where T : struct
 		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, offsetInBytes);
+			}
+			else
+			{
+				BufferData(data, offsetInBytes);
+			}
+		}
+		#endregion
+
+		#region BufferData (private helper) (TODO)
+		private void BufferData<T>(T[] data, int offset) where T : struct
+		{
+			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * data.Length);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+
+			// TODO: check the different handling with MapBuffer etc. (See link above)
+			//GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)offset, size, data);
 		}
 		#endregion
 
