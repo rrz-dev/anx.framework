@@ -58,13 +58,21 @@ namespace ANX.Framework
 {
     public class GraphicsDeviceManager : IGraphicsDeviceManager, IDisposable, IGraphicsDeviceService
     {
+        #region Private Members
         private Game game;
         private GraphicsDevice graphicsDevice;
 
+        public static readonly int DefaultBackBufferWidth = 800;
+        public static readonly int DefaultBackBufferHeight = 600;   //TODO: this is 480 in the original XNA
+
+        public event EventHandler<EventArgs> Disposed;
         public event EventHandler<EventArgs> DeviceCreated;
         public event EventHandler<EventArgs> DeviceDisposing;
         public event EventHandler<EventArgs> DeviceReset;
         public event EventHandler<EventArgs> DeviceResetting;
+        public event EventHandler<PreparingDeviceSettingsEventArgs> PreparingDeviceSettings;
+
+        #endregion // Private Members
 
         public GraphicsDeviceManager(Game game)
         {
@@ -95,8 +103,8 @@ namespace ANX.Framework
 
             PresentationParameters presentationParameters = new PresentationParameters();
             presentationParameters.DeviceWindowHandle = game.Window.Handle;
-            presentationParameters.BackBufferWidth = 800;   //TODO: set real default sizes
-            presentationParameters.BackBufferHeight = 600;
+            presentationParameters.BackBufferWidth = DefaultBackBufferWidth;   //TODO: set real default sizes
+            presentationParameters.BackBufferHeight = DefaultBackBufferHeight;
             this.graphicsDevice = new GraphicsDevice(presentationParameters);
 
             //TODO: hookup events
@@ -107,7 +115,78 @@ namespace ANX.Framework
             this.graphicsDevice.Present();
         }
 
+        public void ApplyChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ToggleFullScreen()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected GraphicsDeviceInformation FindBestDevice(bool anySuitableDevice)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual bool CanResetDevice(GraphicsDeviceInformation newDeviceInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void RankDevices(List<GraphicsDeviceInformation> foundDevices)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnDeviceCreated(Object sender, EventArgs args)
+        {
+            if (DeviceCreated != null)
+            {
+                DeviceCreated(sender, args);
+            }
+        }
+
+        protected virtual void OnDeviceDisposing(Object sender, EventArgs args)
+        {
+            if (DeviceDisposing != null)
+            {
+                DeviceDisposing(sender, args);
+            }
+        }
+
+        protected virtual void OnDeviceReset(Object sender, EventArgs args)
+        {
+            if (DeviceReset != null)
+            {
+                DeviceReset(sender, args);
+            }
+        }
+
+        protected virtual void OnDeviceResetting(Object sender, EventArgs args)
+        {
+            if (DeviceResetting != null)
+            {
+                DeviceResetting(sender, args);
+            }
+        }
+
+        protected virtual void OnPreparingDeviceSettings(Object sender, PreparingDeviceSettingsEventArgs args)
+        {
+            if (PreparingDeviceSettings != null)
+            {
+                PreparingDeviceSettings(sender, args);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing
+        )
         {
             throw new NotImplementedException();
         }
@@ -115,6 +194,60 @@ namespace ANX.Framework
         public GraphicsDevice GraphicsDevice
         {
             get { return this.graphicsDevice; }
+        }
+
+        public GraphicsProfile GraphicsProfile
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public DepthFormat PreferredDepthStencilFormat
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public SurfaceFormat PreferredBackBufferFormat
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int PreferredBackBufferWidth
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int PreferredBackBufferHeight
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool IsFullScreen
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool SynchronizeWithVerticalRetrace
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool PreferMultiSampling
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public DisplayOrientation SupportedOrientations
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
     }
 }
