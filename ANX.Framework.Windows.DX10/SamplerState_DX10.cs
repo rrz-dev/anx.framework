@@ -100,7 +100,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = Translate(value);
+                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressU != mode)
                 {
@@ -114,7 +114,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = Translate(value);
+                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressV != mode)
                 {
@@ -128,7 +128,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = Translate(value);
+                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressW != mode)
                 {
@@ -142,7 +142,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.Filter filter = Translate(value);
+                SharpDX.Direct3D10.Filter filter = FormatConverter.Translate(value);
 
                 if (description.Filter != filter)
                 {
@@ -212,48 +212,5 @@ namespace ANX.Framework.Windows.DX10
                 this.nativeSamplerStateDirty = false;
             }
         }
-
-        private SharpDX.Direct3D10.TextureAddressMode Translate(ANX.Framework.Graphics.TextureAddressMode addressMode)
-        {
-            switch (addressMode)
-            {
-                case Graphics.TextureAddressMode.Clamp:
-                    return SharpDX.Direct3D10.TextureAddressMode.Clamp;
-                case Graphics.TextureAddressMode.Mirror:
-                    return SharpDX.Direct3D10.TextureAddressMode.Mirror;
-                case Graphics.TextureAddressMode.Wrap:
-                    return SharpDX.Direct3D10.TextureAddressMode.Wrap;
-            }
-
-            return SharpDX.Direct3D10.TextureAddressMode.Clamp;
-        }
-
-        private Filter Translate(TextureFilter filter)
-        {
-            switch (filter)
-            {
-                case TextureFilter.Anisotropic:
-                    return SharpDX.Direct3D10.Filter.Anisotropic;
-                case TextureFilter.Linear:
-                    return SharpDX.Direct3D10.Filter.MinMagMipLinear;
-                case TextureFilter.LinearMipPoint:
-                    return SharpDX.Direct3D10.Filter.MinMagMipPoint;
-                case TextureFilter.MinLinearMagPointMipLinear:
-                    return SharpDX.Direct3D10.Filter.MinLinearMagPointMipLinear;
-                case TextureFilter.MinLinearMagPointMipPoint:
-                    return SharpDX.Direct3D10.Filter.MinLinearMagMipPoint;
-                case TextureFilter.MinPointMagLinearMipLinear:
-                    return SharpDX.Direct3D10.Filter.MinPointMagMipLinear;
-                case TextureFilter.MinPointMagLinearMipPoint:
-                    return SharpDX.Direct3D10.Filter.MinPointMagLinearMipPoint;
-                case TextureFilter.Point:
-                    return SharpDX.Direct3D10.Filter.MinMagMipPoint;
-                case TextureFilter.PointMipLinear:
-                    return SharpDX.Direct3D10.Filter.MinMagPointMipLinear;
-            }
-
-            throw new NotImplementedException();
-        }
-
     }
 }

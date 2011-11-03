@@ -116,7 +116,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.CullMode cullMode = Translate(value);
+                SharpDX.Direct3D10.CullMode cullMode = FormatConverter.Translate(value);
 
                 if (description.CullMode != cullMode)
                 {
@@ -147,7 +147,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.FillMode fillMode = Translate(value);
+                SharpDX.Direct3D10.FillMode fillMode = FormatConverter.Translate(value);
 
                 if (description.FillMode != fillMode)
                 {
@@ -206,34 +206,6 @@ namespace ANX.Framework.Windows.DX10
                 this.nativeRasterizerState = new SharpDX.Direct3D10.RasterizerState(device, ref this.description);
 
                 this.nativeRasterizerStateDirty = false;
-            }
-        }
-
-        private SharpDX.Direct3D10.CullMode Translate(ANX.Framework.Graphics.CullMode cullMode)
-        {
-            if (cullMode == Graphics.CullMode.CullClockwiseFace)
-            {
-                return SharpDX.Direct3D10.CullMode.Front;
-            }
-            else if (cullMode == Graphics.CullMode.CullCounterClockwiseFace)
-            {
-                return SharpDX.Direct3D10.CullMode.Back;
-            }
-            else
-            {
-                return SharpDX.Direct3D10.CullMode.None;
-            }
-        }
-
-        private SharpDX.Direct3D10.FillMode Translate(ANX.Framework.Graphics.FillMode fillMode)
-        {
-            if (fillMode == Graphics.FillMode.WireFrame)
-            {
-                return SharpDX.Direct3D10.FillMode.Wireframe;
-            }
-            else
-            {
-                return SharpDX.Direct3D10.FillMode.Solid;
             }
         }
     }

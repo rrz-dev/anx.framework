@@ -61,6 +61,7 @@ namespace ANX.Framework
         #region Private Members
         private Game game;
         private GraphicsDevice graphicsDevice;
+        private DepthFormat depthStencilFormat = DepthFormat.Depth24;
 
         public static readonly int DefaultBackBufferWidth = 800;
         public static readonly int DefaultBackBufferHeight = 600;   //TODO: this is 480 in the original XNA
@@ -76,14 +77,45 @@ namespace ANX.Framework
 
         public GraphicsDeviceManager(Game game)
         {
-            //TODO: check arguments for null
+            if (game == null)
+            {
+                throw new ArgumentNullException("game");
+            }
 
             this.game = game;
 
-            //TODO: check for duplicates
+            if (game.Services.GetService(typeof(IGraphicsDeviceManager)) != null)
+            {
+                throw new ArgumentException("The GraphicsDeviceManager was already registered to the game class");
+            }
             game.Services.AddService(typeof(IGraphicsDeviceManager), this);
+
+            if (game.Services.GetService(typeof(IGraphicsDeviceService)) != null)
+            {
+                throw new ArgumentException("The GraphicsDeviceService was already registered to the game class");
+            }
             game.Services.AddService(typeof(IGraphicsDeviceService), this);
 
+            game.Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
+            game.Window.ScreenDeviceNameChanged += new EventHandler<EventArgs>(Window_ScreenDeviceNameChanged);
+            game.Window.OrientationChanged += new EventHandler<EventArgs>(Window_OrientationChanged);
+
+            //TODO: read graphics profile type from manifest resource stream
+        }
+
+        void Window_OrientationChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void Window_ScreenDeviceNameChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public bool BeginDraw()
@@ -93,6 +125,11 @@ namespace ANX.Framework
 
         public void CreateDevice()
         {
+            ApplyChanges();
+        }
+
+        private void CreateDevice(GraphicsDeviceInformation deviceInformation)
+        {
             if (this.graphicsDevice != null)
             {
                 this.graphicsDevice.Dispose();
@@ -101,11 +138,13 @@ namespace ANX.Framework
 
             //TODO: validate graphics device
 
-            PresentationParameters presentationParameters = new PresentationParameters();
-            presentationParameters.DeviceWindowHandle = game.Window.Handle;
-            presentationParameters.BackBufferWidth = DefaultBackBufferWidth;   //TODO: set real default sizes
-            presentationParameters.BackBufferHeight = DefaultBackBufferHeight;
-            this.graphicsDevice = new GraphicsDevice(presentationParameters);
+            //TODO: this should be set somewhere else
+            deviceInformation.PresentationParameters.DeviceWindowHandle = game.Window.Handle;
+            deviceInformation.PresentationParameters.BackBufferWidth = DefaultBackBufferWidth;   //TODO: set real default sizes
+            deviceInformation.PresentationParameters.BackBufferHeight = DefaultBackBufferHeight;
+            this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile, deviceInformation.PresentationParameters);
+
+            OnDeviceCreated(this, EventArgs.Empty);
 
             //TODO: hookup events
         }
@@ -117,7 +156,31 @@ namespace ANX.Framework
 
         public void ApplyChanges()
         {
-            throw new NotImplementedException();
+            GraphicsDeviceInformation graphicsDeviceInformation = FindBestDevice(true);
+            OnPreparingDeviceSettings(this, new PreparingDeviceSettingsEventArgs(graphicsDeviceInformation));
+
+            if (graphicsDevice != null)
+            {
+                if (this.CanResetDevice(graphicsDeviceInformation))
+                {
+                    OnDeviceResetting(this, EventArgs.Empty);
+
+                    this.graphicsDevice.Reset(graphicsDeviceInformation.PresentationParameters, graphicsDeviceInformation.Adapter);
+
+                    OnDeviceReset(this, EventArgs.Empty);
+                }
+                else
+                {
+                    graphicsDevice.Dispose();
+                    graphicsDevice = null;
+                }
+            }
+
+            if (graphicsDevice == null)
+            {
+                CreateDevice(graphicsDeviceInformation);
+            }
+
         }
 
         public void ToggleFullScreen()
@@ -132,7 +195,8 @@ namespace ANX.Framework
 
         protected GraphicsDeviceInformation FindBestDevice(bool anySuitableDevice)
         {
-            throw new NotImplementedException();
+            //TODO: implement
+            return new GraphicsDeviceInformation();
         }
 
         protected virtual bool CanResetDevice(GraphicsDeviceInformation newDeviceInfo)
@@ -204,7 +268,10 @@ namespace ANX.Framework
 
         public DepthFormat PreferredDepthStencilFormat
         {
-            get { throw new NotImplementedException(); }
+            get 
+            {
+                return this.depthStencilFormat; 
+            }
             set { throw new NotImplementedException(); }
         }
 

@@ -56,6 +56,7 @@ namespace ANX.Framework.Graphics
 {
     public class DisplayModeCollection : IEnumerable<DisplayMode>, IEnumerable
     {
+        private List<DisplayMode> displayModes = new List<DisplayMode>();
 
         public IEnumerator<DisplayMode> GetEnumerator()
         {
@@ -71,7 +72,20 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                foreach (DisplayMode mode in displayModes)
+                {
+                    if (mode.Format == format)
+                    {
+                        yield return mode;
+                    }
+                }
+            }
+            set
+            {
+                foreach (DisplayMode mode in value)
+                {
+                    displayModes.Add(mode);
+                }
             }
         }
 

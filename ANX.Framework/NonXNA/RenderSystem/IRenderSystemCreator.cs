@@ -3,6 +3,7 @@ using System;
 using ANX.Framework.Graphics;
 using System.IO;
 using ANX.Framework.NonXNA;
+using System.Collections.ObjectModel;
 
 #endregion // Using Statements
 
@@ -76,5 +77,7 @@ namespace ANX.Framework
         INativeSamplerState CreateSamplerState();
     
         byte[] GetShaderByteCode(PreDefinedShader type);
+
+        ReadOnlyCollection<GraphicsAdapter> GetAdapterList();
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="EffectParameter_DX10.cs" />
     <Compile Include="EffectTechnique_DX10.cs" />
     <Compile Include="Effect_DX10.cs" />
+    <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX10.cs" />
     <Compile Include="IndexBuffer_DX10.cs" />
     <Compile Include="NativeMethods.cs" />

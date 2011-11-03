@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -58,12 +59,22 @@ namespace ANX.Framework.Graphics
 {
     public sealed class GraphicsAdapter
     {
+        private static List<GraphicsAdapter> adapters;
+        private DisplayModeCollection supportedDisplayModes;
+
+        static GraphicsAdapter()
+        {
+            adapters = new List<GraphicsAdapter>();
+
+            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>();
+            adapters.AddRange(renderSystemCreator.GetAdapterList());
+        }
 
         public static ReadOnlyCollection<GraphicsAdapter> Adapters
         {
             get
             {
-                throw new NotImplementedException();
+                return new ReadOnlyCollection<GraphicsAdapter>(adapters);
             }
         }
 
@@ -71,7 +82,8 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                GraphicsAdapter defaultAdapter = adapters.Where(a => a.IsDefaultAdapter).First<GraphicsAdapter>();
+                return defaultAdapter;
             }
         }
 
@@ -105,26 +117,20 @@ namespace ANX.Framework.Graphics
 
         public int DeviceId
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public string DeviceName
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public bool IsDefaultAdapter
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public bool IsWideScreen
@@ -145,34 +151,32 @@ namespace ANX.Framework.Graphics
 
         public int Revision
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public int SubSystemId
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public DisplayModeCollection SupportedDisplayModes
         {
             get
             {
-                throw new NotImplementedException();
+                return this.supportedDisplayModes;
+            }
+            set
+            {
+                this.supportedDisplayModes = value;
             }
         }
 
         public int VendorId
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public bool IsProfileSupported(GraphicsProfile graphicsProfile)

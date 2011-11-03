@@ -140,7 +140,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOperation alphaBlendOperation = Translate(value);
+                BlendOperation alphaBlendOperation = FormatConverter.Translate(value);
 
                 if (description.AlphaBlendOperation != alphaBlendOperation)
                 {
@@ -154,7 +154,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOperation blendOperation = Translate(value);
+                BlendOperation blendOperation = FormatConverter.Translate(value);
 
                 if (description.BlendOperation != blendOperation)
                 {
@@ -168,7 +168,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOption destinationAlphaBlend = Translate(value);
+                BlendOption destinationAlphaBlend = FormatConverter.Translate(value);
 
                 if (description.DestinationAlphaBlend != destinationAlphaBlend)
                 {
@@ -182,7 +182,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOption destinationBlend = Translate(value);
+                BlendOption destinationBlend = FormatConverter.Translate(value);
 
                 if (description.DestinationBlend != destinationBlend)
                 {
@@ -196,7 +196,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                ColorWriteMaskFlags renderTargetWriteMask = Translate(value);
+                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
                 if (description.RenderTargetWriteMask[0] != renderTargetWriteMask)
                 {
@@ -210,7 +210,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                ColorWriteMaskFlags renderTargetWriteMask = Translate(value);
+                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
                 if (description.RenderTargetWriteMask[1] != renderTargetWriteMask)
                 {
@@ -224,7 +224,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                ColorWriteMaskFlags renderTargetWriteMask = Translate(value);
+                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
                 if (description.RenderTargetWriteMask[2] != renderTargetWriteMask)
                 {
@@ -238,7 +238,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                ColorWriteMaskFlags renderTargetWriteMask = Translate(value);
+                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
                 if (description.RenderTargetWriteMask[3] != renderTargetWriteMask)
                 {
@@ -252,7 +252,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOption sourceAlphaBlend = Translate(value);
+                BlendOption sourceAlphaBlend = FormatConverter.Translate(value);
 
                 if (description.SourceAlphaBlend != sourceAlphaBlend)
                 {
@@ -266,7 +266,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                BlendOption sourceBlend = Translate(value);
+                BlendOption sourceBlend = FormatConverter.Translate(value);
 
                 if (description.SourceBlend != sourceBlend)
                 {
@@ -290,79 +290,6 @@ namespace ANX.Framework.Windows.DX10
 
                 this.nativeBlendStateDirty = false;
             }
-        }
-
-        private BlendOperation Translate(BlendFunction blendFunction)
-        {
-            switch (blendFunction)
-            {
-                case BlendFunction.Add:
-                    return BlendOperation.Add;
-                case BlendFunction.Max:
-                    return BlendOperation.Maximum;
-                case BlendFunction.Min:
-                    return BlendOperation.Minimum;
-                case BlendFunction.ReverseSubtract:
-                    return BlendOperation.ReverseSubtract;
-                case BlendFunction.Subtract:
-                    return BlendOperation.Subtract;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        private BlendOption Translate(Blend blend)
-        {
-            switch (blend)
-            {
-                case Blend.BlendFactor:
-                    return BlendOption.BlendFactor;
-                case Blend.DestinationAlpha:
-                    return BlendOption.DestinationAlpha;
-                case Blend.DestinationColor:
-                    return BlendOption.DestinationColor;
-                case Blend.InverseBlendFactor:
-                    return BlendOption.InverseBlendFactor;
-                case Blend.InverseDestinationAlpha:
-                    return BlendOption.InverseDestinationAlpha;
-                case Blend.InverseDestinationColor:
-                    return BlendOption.InverseDestinationColor;
-                case Blend.InverseSourceAlpha:
-                    return BlendOption.InverseSourceAlpha;
-                case Blend.InverseSourceColor:
-                    return BlendOption.InverseSourceColor;
-                case Blend.One:
-                    return BlendOption.One;
-                case Blend.SourceAlpha:
-                    return BlendOption.SourceAlpha;
-                case Blend.SourceAlphaSaturation:
-                    return BlendOption.SourceAlphaSaturate;
-                case Blend.SourceColor:
-                    return BlendOption.SourceColor;
-                case Blend.Zero:
-                    return BlendOption.Zero;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        private ColorWriteMaskFlags Translate(ColorWriteChannels colorWriteChannels)
-        {
-            switch (colorWriteChannels)
-            {
-                case ColorWriteChannels.All:
-                    return ColorWriteMaskFlags.All;
-                case ColorWriteChannels.Alpha:
-                    return ColorWriteMaskFlags.Alpha;
-                case ColorWriteChannels.Blue:
-                    return ColorWriteMaskFlags.Blue;
-                case ColorWriteChannels.Green:
-                    return ColorWriteMaskFlags.Green;
-                case ColorWriteChannels.Red:
-                    return ColorWriteMaskFlags.Red;
-            }
-
-            throw new NotImplementedException();
         }
     }
 }

@@ -223,5 +223,11 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 		#endregion
-	}
+
+
+        public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

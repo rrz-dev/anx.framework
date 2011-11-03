@@ -128,7 +128,7 @@ namespace ANX.Framework.Windows.DX10
                 Height = height,
                 MipLevels = mipCount,
                 ArraySize = mipCount,
-                Format = Translate(surfaceFormat),
+                Format = FormatConverter.Translate(surfaceFormat),
                 SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
                 Usage = SharpDX.Direct3D10.ResourceUsage.Dynamic,
                 BindFlags = SharpDX.Direct3D10.BindFlags.ShaderResource,
@@ -231,21 +231,6 @@ namespace ANX.Framework.Windows.DX10
             return new SamplerState_DX10();
         }
 
-        private SharpDX.DXGI.Format Translate(SurfaceFormat surfaceFormat)
-        {
-            switch (surfaceFormat)
-            {
-                case SurfaceFormat.Color:
-                    return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
-                case SurfaceFormat.Dxt3:
-                    return SharpDX.DXGI.Format.BC2_UNorm;
-                case SurfaceFormat.Dxt5:
-                    return SharpDX.DXGI.Format.BC3_UNorm;
-            }
-
-            throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
-        }
-
         private static int FormatSize(SurfaceFormat format)
         {
             switch (format)
@@ -287,6 +272,59 @@ namespace ANX.Framework.Windows.DX10
         public void RegisterCreator(AddInSystemFactory factory)
         {
             factory.AddCreator(this);
+        }
+
+
+        public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+        {
+            SharpDX.DXGI.Factory factory = new Factory();
+
+            List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
+            DisplayModeCollection displayModeCollection = new DisplayModeCollection();
+
+            for (int i = 0; i < factory.GetAdapterCount(); i++)
+            {
+                using (Adapter adapter = factory.GetAdapter(i))
+                {
+                    GraphicsAdapter ga = new GraphicsAdapter();
+                    //ga.CurrentDisplayMode = ;
+                    //ga.Description = ;
+                    ga.DeviceId = adapter.Description.DeviceId;
+                    ga.DeviceName = adapter.Description.Description;
+                    ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
+                    //ga.IsWideScreen = ;
+                    //ga.MonitorHandle = ;
+                    ga.Revision = adapter.Description.Revision;
+                    ga.SubSystemId = adapter.Description.SubsystemId;
+                    //ga.SupportedDisplayModes = ;
+                    ga.VendorId = adapter.Description.VendorId;
+
+                    using (Output adapterOutput = adapter.GetOutput(0))
+                    {
+                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
+                        {
+                            DisplayMode displayMode = new DisplayMode()
+                            {
+                                Format = FormatConverter.Translate(modeDescription.Format),
+                                Width = modeDescription.Width,
+                                Height = modeDescription.Height,
+                                AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
+                                TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
+                            };
+
+                            displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
+                        }
+                    }
+
+                    ga.SupportedDisplayModes = displayModeCollection;
+
+                    adapterList.Add(ga);
+                }
+            }
+
+            factory.Dispose();
+
+            return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);
         }
     }
 }

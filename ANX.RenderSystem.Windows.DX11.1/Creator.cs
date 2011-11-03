@@ -217,5 +217,11 @@ namespace ANX.RenderSystem.Windows.DX11_1
         {
             throw new NotImplementedException();
         }
+
+
+        public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

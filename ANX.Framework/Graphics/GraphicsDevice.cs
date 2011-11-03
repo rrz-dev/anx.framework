@@ -66,9 +66,14 @@ namespace ANX.Framework.Graphics
         private BlendState blendState;
         private RasterizerState rasterizerState;
         private DepthStencilState depthStencilState;
+        private GraphicsAdapter currentAdapter;
+        private PresentationParameters currentPresentationParameters;
 
-        public GraphicsDevice(PresentationParameters presentationParameters)
+        public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
+            this.currentAdapter = adapter;
+            this.currentPresentationParameters = presentationParameters;
+
             this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             nativeDevice = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
@@ -146,6 +151,21 @@ namespace ANX.Framework.Graphics
         public void SetVertexBuffers(Graphics.VertexBufferBinding[] vertexBuffers)
         {
             nativeDevice.SetVertexBuffers(vertexBuffers);
+        }
+
+        public void Reset()
+        {
+            this.Reset(this.currentPresentationParameters, this.currentAdapter);
+        }
+
+        public void Reset(PresentationParameters presentationParameters)
+        {
+            this.Reset(presentationParameters, this.currentAdapter);
+        }
+
+        public void Reset(PresentationParameters presentationParameters, GraphicsAdapter adapter)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()

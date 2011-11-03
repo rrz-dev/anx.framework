@@ -63,7 +63,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.DepthFailOperation != operation)
                 {
@@ -77,7 +77,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.FailOperation != operation)
                 {
@@ -91,7 +91,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = Translate(value);
+                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.BackFace.Comparison != comparison)
                 {
@@ -105,7 +105,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.PassOperation != operation)
                 {
@@ -131,7 +131,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = Translate(value);
+                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.DepthComparison != comparison)
                 {
@@ -171,7 +171,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.DepthFailOperation != operation)
                 {
@@ -197,7 +197,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.FailOperation != operation)
                 {
@@ -211,7 +211,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = Translate(value);
+                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.FrontFace.Comparison != comparison)
                 {
@@ -238,8 +238,8 @@ namespace ANX.Framework.Windows.DX10
         public Graphics.StencilOperation StencilPass
         {
             set 
-            { 
-                SharpDX.Direct3D10.StencilOperation operation = Translate(value);
+            {
+                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.PassOperation != operation)
                 {
@@ -286,56 +286,5 @@ namespace ANX.Framework.Windows.DX10
                 this.nativeDepthStencilStateDirty = false;
             }
         }
-
-        private SharpDX.Direct3D10.StencilOperation Translate(ANX.Framework.Graphics.StencilOperation stencilOperation)
-        {
-            switch (stencilOperation)
-            {
-                case Graphics.StencilOperation.Decrement:
-                    return StencilOperation.Decrement;
-                case Graphics.StencilOperation.DecrementSaturation:
-                    return StencilOperation.DecrementAndClamp;
-                case Graphics.StencilOperation.Increment:
-                    return StencilOperation.Increment;
-                case Graphics.StencilOperation.IncrementSaturation:
-                    return StencilOperation.IncrementAndClamp;
-                case Graphics.StencilOperation.Invert:
-                    return StencilOperation.Invert;
-                case Graphics.StencilOperation.Keep:
-                    return StencilOperation.Keep;
-                case Graphics.StencilOperation.Replace:
-                    return StencilOperation.Replace;
-                case Graphics.StencilOperation.Zero:
-                    return StencilOperation.Zero;
-            }
-
-            throw new NotImplementedException("unknown StencilOperation");
-        }
-
-        private Comparison Translate(ANX.Framework.Graphics.CompareFunction compareFunction)
-        {
-            switch (compareFunction)
-            {
-                case ANX.Framework.Graphics.CompareFunction.Always:
-                    return Comparison.Always;
-                case ANX.Framework.Graphics.CompareFunction.Equal:
-                    return Comparison.Equal;
-                case ANX.Framework.Graphics.CompareFunction.Greater:
-                    return Comparison.Greater;
-                case ANX.Framework.Graphics.CompareFunction.GreaterEqual:
-                    return Comparison.GreaterEqual;
-                case ANX.Framework.Graphics.CompareFunction.Less:
-                    return Comparison.Less;
-                case ANX.Framework.Graphics.CompareFunction.LessEqual:
-                    return Comparison.LessEqual;
-                case ANX.Framework.Graphics.CompareFunction.Never:
-                    return Comparison.Never;
-                case ANX.Framework.Graphics.CompareFunction.NotEqual:
-                    return Comparison.NotEqual;
-            }
-
-            throw new NotImplementedException("unknown CompareFunction");
-        }
-    
     }
 }

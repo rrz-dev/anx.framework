@@ -199,7 +199,7 @@ namespace ANX.Framework.Windows.DX10
             SetupInputLayout(passSignature);
 
             // Prepare All the stages
-            device.InputAssembler.PrimitiveTopology = Translate(primitiveType);
+            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
 
             device.OutputMerger.SetTargets(this.renderView);
@@ -219,7 +219,7 @@ namespace ANX.Framework.Windows.DX10
             SetupInputLayout(passSignature);
 
             // Prepare All the stages
-            device.InputAssembler.PrimitiveTopology = Translate(primitiveType);
+            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
             device.OutputMerger.SetTargets(this.renderView);
 
@@ -243,7 +243,7 @@ namespace ANX.Framework.Windows.DX10
 
             if (nativeIndexBuffer != null)
             {
-                device.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, Translate(indexBuffer.IndexElementSize), 0);
+                device.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, FormatConverter.Translate(indexBuffer.IndexElementSize), 0);
             }
             else
             {
@@ -287,48 +287,6 @@ namespace ANX.Framework.Windows.DX10
             this.currentViewport = new SharpDX.Direct3D10.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
         }
 
-        private Filter Translate(TextureFilter filter)
-        {
-            switch (filter)
-            {
-                case TextureFilter.Anisotropic:
-                    return Filter.Anisotropic;
-                case TextureFilter.Linear:
-                    return Filter.MinMagMipLinear;
-                case TextureFilter.LinearMipPoint:
-                    return Filter.MinMagMipPoint;
-                case TextureFilter.MinLinearMagPointMipLinear:
-                    return Filter.MinLinearMagPointMipLinear;
-                case TextureFilter.MinLinearMagPointMipPoint:
-                    return Filter.MinLinearMagMipPoint;
-                case TextureFilter.MinPointMagLinearMipLinear:
-                    return Filter.MinPointMagMipLinear;
-                case TextureFilter.MinPointMagLinearMipPoint:
-                    return Filter.MinPointMagLinearMipPoint;
-                case TextureFilter.Point:
-                    return Filter.MinMagMipPoint;
-                case TextureFilter.PointMipLinear:
-                    return Filter.MinMagPointMipLinear;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        private SharpDX.Direct3D10.TextureAddressMode Translate(ANX.Framework.Graphics.TextureAddressMode addressMode)
-        {
-            switch (addressMode)
-            {
-                case Graphics.TextureAddressMode.Clamp:
-                    return SharpDX.Direct3D10.TextureAddressMode.Clamp;
-                case Graphics.TextureAddressMode.Mirror:
-                    return SharpDX.Direct3D10.TextureAddressMode.Mirror;
-                case Graphics.TextureAddressMode.Wrap:
-                    return SharpDX.Direct3D10.TextureAddressMode.Wrap;
-            }
-
-            return SharpDX.Direct3D10.TextureAddressMode.Clamp;
-        }
-
         /// <summary>
         /// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives. The VertexDeclaration of ANX/XNA needs to be mapped
         /// to the DirectX 10 types. This is what this method is for.
@@ -350,7 +308,7 @@ namespace ANX.Framework.Windows.DX10
 
         private InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
         {
-            string elementName = Translate(vertexElement.VertexElementUsage);
+            string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
 
             Format elementFormat;
             switch (vertexElement.VertexElementFormat)
@@ -372,49 +330,6 @@ namespace ANX.Framework.Windows.DX10
             }
 
             return new InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
-        }
-
-        private PrimitiveTopology Translate(PrimitiveType primitiveType)
-        {
-            switch (primitiveType)
-            {
-                case PrimitiveType.LineList:
-                    return PrimitiveTopology.LineList;
-                case PrimitiveType.LineStrip:
-                    return PrimitiveTopology.LineStrip;
-                case PrimitiveType.TriangleList:
-                    return PrimitiveTopology.TriangleList;
-                case PrimitiveType.TriangleStrip:
-                    return PrimitiveTopology.TriangleStrip;
-                default:
-                    throw new InvalidOperationException("unknown PrimitiveType: " + primitiveType.ToString());
-            }
-        }
-
-        private SharpDX.DXGI.Format Translate(IndexElementSize indexElementSize)
-        {
-            switch (indexElementSize)
-            {
-                case IndexElementSize.SixteenBits:
-                    return Format.R16_UInt;
-                case IndexElementSize.ThirtyTwoBits:
-                    return Format.R32_UInt;
-                default:
-                    throw new InvalidOperationException("unknown IndexElementSize: " + indexElementSize.ToString());
-            }
-        }
-
-        private string Translate(VertexElementUsage usage)
-        {
-            //TODO: map the other Usages
-            if (usage == VertexElementUsage.TextureCoordinate)
-            {
-                return "TEXCOORD";
-            }
-            else
-            {
-                return usage.ToString().ToUpperInvariant();
-            }
         }
     }
 }
