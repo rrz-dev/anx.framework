@@ -516,7 +516,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("seventeenFloats")]
-        public void SmoothStep(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float amount, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7)
+        public void SmoothStep(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float amount, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
             XNAVector4 xna1 = new XNAVector4(x1, y1, z1, w1);
             XNAVector4 xna2 = new XNAVector4(x2, y2, z2, w2);

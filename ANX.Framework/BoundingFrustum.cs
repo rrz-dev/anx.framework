@@ -58,7 +58,6 @@ namespace ANX.Framework
         public const int CornerCount = 8;
         #endregion
 
-
         #region properties
         public Plane Bottom
         {
@@ -118,7 +117,6 @@ namespace ANX.Framework
         }
         #endregion
 
-
         #region constructors
         public BoundingFrustum(Matrix value)
         {
@@ -126,32 +124,37 @@ namespace ANX.Framework
         }
         #endregion
 
-
         #region public methods
         public ContainmentType Contains(BoundingBox box)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Contains(ref BoundingBox box, out ContainmentType result)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public ContainmentType Contains(BoundingFrustum frustum)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public ContainmentType Contains(BoundingSphere sphere)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Contains(ref BoundingSphere sphere, out ContainmentType result)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public ContainmentType Contains(Vector3 point)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Contains(ref Vector3 point, out ContainmentType result)
         {
             throw new Exception("method has not yet been implemented");
@@ -161,6 +164,7 @@ namespace ANX.Framework
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void GetCorners(Vector3[] corners)
         {
             throw new Exception("method has not yet been implemented");
@@ -175,14 +179,17 @@ namespace ANX.Framework
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Intersects(ref BoundingBox box, out bool result)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public bool Intersects(BoundingFrustum frustum)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public bool Intersects(BoundingSphere sphere)
         {
             throw new Exception("method has not yet been implemented");
@@ -191,18 +198,22 @@ namespace ANX.Framework
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public PlaneIntersectionType Intersects(Plane plane)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Intersects(ref Plane plane, out PlaneIntersectionType result)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public Nullable<float> Intersects(Ray ray)
         {
             throw new Exception("method has not yet been implemented");
         }
+
         public void Intersects(ref Ray ray, out Nullable<float> result)
         {
             throw new Exception("method has not yet been implemented");
@@ -213,7 +224,6 @@ namespace ANX.Framework
             throw new Exception("method has not yet been implemented");
         }
         #endregion
-
 
         #region IEquatable implementation
         public override bool Equals(Object obj)
@@ -234,7 +244,6 @@ namespace ANX.Framework
             return false;
         }
         #endregion
-
 
         #region operator overloading
         public static bool operator ==(BoundingFrustum a, BoundingFrustum b)
