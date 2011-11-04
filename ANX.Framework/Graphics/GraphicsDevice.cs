@@ -59,6 +59,7 @@ namespace ANX.Framework.Graphics
 {
     public class GraphicsDevice : IDisposable
     {
+        #region Private Members
         private INativeGraphicsDevice nativeDevice;
         private IndexBuffer indexBuffer;
         private SamplerStateCollection samplerStateCollection;
@@ -68,6 +69,18 @@ namespace ANX.Framework.Graphics
         private DepthStencilState depthStencilState;
         private GraphicsAdapter currentAdapter;
         private PresentationParameters currentPresentationParameters;
+
+        #endregion // Private Members
+
+        #region Events
+        public event EventHandler<EventArgs> Disposing;
+        public event EventHandler<ResourceDestroyedEventArgs> ResourceDestroyed;
+        public event EventHandler<ResourceCreatedEventArgs> ResourceCreated;
+        public event EventHandler<EventArgs> DeviceLost;
+        public event EventHandler<EventArgs> DeviceReset;
+        public event EventHandler<EventArgs> DeviceResetting;
+        
+        #endregion // Events
 
         public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
@@ -280,6 +293,126 @@ namespace ANX.Framework.Graphics
             get
             {
                 return this.samplerStateCollection;
+            }
+        }
+    
+        public bool IsDisposed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Rectangle ScissorRectangle
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DisplayMode DisplayMode
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GraphicsDeviceStatus GraphicsDeviceStatus
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GraphicsProfile GraphicsProfile
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GraphicsAdapter Adapter
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public PresentationParameters PresentationParameters
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int ReferenceStencil
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int MultiSampleMask
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        
+        public Color BlendFactor
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TextureCollection VertexTextures
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TextureCollection Textures
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public SamplerStateCollection VertexSamplerStates
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
     }
