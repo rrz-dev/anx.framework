@@ -865,12 +865,32 @@ namespace ANX.Framework
 
         public static Color FromNonPremultiplied(int r, int g, int b, int a)
         {
-            throw new NotImplementedException();
+            Color color;
+
+            r = r * a;
+            g = g * a;
+            b = b * a;
+
+            if (((((r | g) | b) | a) & -256) != 0)
+            {
+                r = r < 0 ? 0 : (r > 255 ? 255 : r);
+                g = g < 0 ? 0 : (g > 255 ? 255 : g);
+                b = b < 0 ? 0 : (b > 255 ? 255 : b);
+                a = a < 0 ? 0 : (a > 255 ? 255 : a);
+            }
+
+            color.packedValue = (uint)(((r | g << 8) | b << 16) | a << 24);
+
+            return color;
         }
 
         public static Color FromNonPremultiplied(Vector4 vector)
         {
-            throw new NotImplementedException();
+            Color color;
+
+            color.packedValue = ColorPack(vector.X * vector.W, vector.Y * vector.W, vector.Z * vector.W, vector.W);
+
+            return color;
         }
 
         public override int GetHashCode()
@@ -880,12 +900,54 @@ namespace ANX.Framework
 
         public static Color Lerp(Color value1, Color value2, float amount)
         {
-            throw new NotImplementedException();
+            Color color;
+
+            byte r1 = (byte)value1.packedValue;
+            byte g1 = (byte)(value1.packedValue >> 8);
+            byte b1 = (byte)(value1.packedValue >> 16);
+            byte a1 = (byte)(value1.packedValue >> 24);
+
+            byte r2 = (byte)value2.packedValue;
+            byte g2 = (byte)(value2.packedValue >> 8);
+            byte b2 = (byte)(value2.packedValue >> 16);
+            byte a2 = (byte)(value2.packedValue >> 24);
+            
+            int factor = (int)PackUNormal(65536f, amount);
+
+            int r3 = r1 + (((r2 - r1) * factor) >> 16);
+            int g3 = g1 + (((g2 - g1) * factor) >> 16);
+            int b3 = b1 + (((b2 - b1) * factor) >> 16);
+            int a3 = a1 + (((a2 - a1) * factor) >> 16);
+
+            color.packedValue = (uint)(((r3 | (g3 << 8)) | (b3 << 16)) | (a3 << 24));
+
+            return color;
         }
 
         public static Color Multiply(Color value, float scale)
         {
-            throw new NotImplementedException();
+            Color color;
+
+            uint r = (byte)value.packedValue;
+            uint g = (byte)(value.packedValue >> 8);
+            uint b = (byte)(value.packedValue >> 16);
+            uint a = (byte)(value.packedValue >> 24);
+            
+            uint uintScale = (uint)MathHelper.Clamp(scale * 65536f, 0, 0xffffff);
+
+            r = (r * uintScale) >> 16;
+            g = (g * uintScale) >> 16;
+            b = (b * uintScale) >> 16;
+            a = (a * uintScale) >> 16;
+
+            r = r > 255 ? 255 : r;
+            g = g > 255 ? 255 : g;
+            b = b > 255 ? 255 : b;
+            a = a > 255 ? 255 : a;
+            
+            color.packedValue = ((r | (g << 8)) | (b << 0x10)) | (a << 0x18);
+
+            return color;
         }
 
         public static Color operator *(Color a, float scale)
@@ -900,12 +962,29 @@ namespace ANX.Framework
 
         public Vector3 ToVector3()
         {
-            return new Vector3(R, G, B);
+            Vector3 result;
+
+            result.X = (packedValue & 255);
+            result.Y = (packedValue >> 8 & 255);
+            result.Z = (packedValue >> 16 & 255);
+
+            result /= 0xff;
+
+            return result;
         }
 
         public Vector4 ToVector4()
         {
-            return new Vector4(R, G, B, A);
+            Vector4 result;
+
+            result.X = (packedValue & 255);
+            result.Y = (packedValue >> 8 & 255);
+            result.Z = (packedValue >> 16 & 255);
+            result.W = (packedValue >> 24 & 255);
+
+            result /= 0xff;
+
+            return result;
         }
 
         public void PackFromVector4(Vector4 vector)

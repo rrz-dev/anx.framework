@@ -56,6 +56,9 @@ using System.Text;
 using XNAColor = Microsoft.Xna.Framework.Color;
 using ANXColor = ANX.Framework.Color;
 
+using XNAVector3 = Microsoft.Xna.Framework.Vector3;
+using ANXVector3 = ANX.Framework.Vector3;
+
 using NUnit.Framework;
 
 namespace ANX.Framework.TestCenter.Strukturen
@@ -63,54 +66,32 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class ColorTest
     {
-        private static Random r = new Random();
-
-        public static float RandomFloat
-        {
-            get { return (float)(r.NextDouble()); }
-        }
-
         static object[] fourfloats =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat }
+            new object[] { DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat },
+            new object[] { DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat },
+            new object[] { DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat },
+            new object[] { DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat },
+            new object[] { DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat,  DataFactory.RandomNormalizedFloat }
         };
 
         static object[] eightfloats =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat }
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat }
         };
 
         static object[] ninefloats =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat }
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat }
         };
-
-        private void ConvertEquals(XNAColor xna, ANXColor anx, String test)
-        {
-            if (xna.R == anx.R &&
-                xna.G == anx.G &&
-                xna.B == anx.B &&
-                xna.A == anx.A)
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
-            }
-        }
 
         #region Constructors
         [Test]
@@ -119,7 +100,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor();
             ANXColor anx = new ANXColor();
 
-            ConvertEquals(xna, anx, "constructor0");
+            AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -128,7 +109,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor(new Microsoft.Xna.Framework.Vector3(r, g, b));
             ANXColor anx = new ANXColor(new ANX.Framework.Vector3(r, g, b));
 
-            ConvertEquals(xna, anx, "constructor1");
+            AssertHelper.ConvertEquals(xna, anx, "constructor1");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -137,7 +118,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor(new Microsoft.Xna.Framework.Vector4(r, g, b, a));
             ANXColor anx = new ANXColor(new ANX.Framework.Vector4(r, g, b, a));
 
-            ConvertEquals(xna, anx, "constructor2");
+            AssertHelper.ConvertEquals(xna, anx, "constructor2");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -146,7 +127,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor(r, g, b);
             ANXColor anx = new ANXColor(r, g, b);
 
-            ConvertEquals(xna, anx, "constructor3");
+            AssertHelper.ConvertEquals(xna, anx, "constructor3");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -155,7 +136,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor((int)(r * 255), (int)(g * 255), (int)(b * 255));
             ANXColor anx = new ANXColor((int)(r * 255), (int)(g * 255), (int)(b * 255));
 
-            ConvertEquals(xna, anx, "constructor4");
+            AssertHelper.ConvertEquals(xna, anx, "constructor4");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -164,7 +145,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor(r, g, b) * a;
             ANXColor anx = new ANXColor(r, g, b) * a;
 
-            ConvertEquals(xna, anx, "constructor5");
+            AssertHelper.ConvertEquals(xna, anx, "constructor5");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -173,7 +154,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = new XNAColor((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
             ANXColor anx = new ANXColor((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
 
-            ConvertEquals(xna, anx, "constructor6");
+            AssertHelper.ConvertEquals(xna, anx, "constructor6");
         }
         #endregion
 
@@ -233,7 +214,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anx = ANXColor.FromNonPremultiplied((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
 
-            ConvertEquals(xna, anx, "FromNonPremultipliedIntStatic");
+            AssertHelper.ConvertEquals(xna, anx, "FromNonPremultipliedIntStatic");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -243,7 +224,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anx = ANXColor.FromNonPremultiplied(new ANX.Framework.Vector4(r, g, b, a));
 
-            ConvertEquals(xna, anx, "FromNonPremultipliedVector4Static");
+            AssertHelper.ConvertEquals(xna, anx, "FromNonPremultipliedVector4Static");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -251,6 +232,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             float r1, float g1, float b1, float a1,
             float r2, float g2, float b2, float a2, float amount)
         {
+            amount = MathHelper.Clamp(amount, 0, 1);
+
             XNAColor xna1 = new XNAColor(r1, g1, b1) * a1;
             XNAColor xna2 = new XNAColor(r2, g2, b2) * a2;
 
@@ -260,7 +243,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor xna = XNAColor.Lerp(xna1, xna2, amount);
             ANXColor anx = ANXColor.Lerp(anx1, anx2, amount);
 
-            ConvertEquals(xna, anx, "LerpStatic");
+            AssertHelper.ConvertEquals(xna, anx, "LerpStatic");
         }
 
         [Test, TestCaseSource("eightfloats")]
@@ -273,7 +256,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAColor.Multiply(xna, scale);
             ANXColor.Multiply(anx, scale);
 
-            ConvertEquals(xna, anx, "MultiplyStatic");
+            AssertHelper.ConvertEquals(xna, anx, "MultiplyStatic");
         }
 
         [Test, TestCaseSource("eightfloats")]
@@ -286,7 +269,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xna *= scale;
             anx *= scale;
 
-            ConvertEquals(xna, anx, "MultiplyOperator");
+            AssertHelper.ConvertEquals(xna, anx, "MultiplyOperator");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -299,14 +282,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.Vector3 xna = xnaColor.ToVector3();
             ANX.Framework.Vector3 anx = anxColor.ToVector3();
 
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("ToVector3 passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("ToVector3 failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xna, anx, "ToVector3");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -319,14 +295,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.Vector4 xna = xnaColor.ToVector4();
             ANX.Framework.Vector4 anx = anxColor.ToVector4();
 
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("ToVector4 passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("ToVector4 failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xna, anx, "ToVector4");
         }
 
         #endregion // Methods
@@ -360,17 +329,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anxColor = new ANXColor(r, g, b) * a;
 
-            byte xna = xnaColor.R;
-            byte anx = anxColor.R;
-
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("R passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("R failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xnaColor.R, anxColor.R, "R");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -380,17 +339,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anxColor = new ANXColor(r, g, b) * a;
 
-            byte xna = xnaColor.G;
-            byte anx = anxColor.G;
-
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("G passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("G failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xnaColor.G, anxColor.G, "G");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -400,17 +349,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anxColor = new ANXColor(r, g, b) * a;
 
-            byte xna = xnaColor.B;
-            byte anx = anxColor.B;
-
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("B passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("B failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xnaColor.B, anxColor.B, "B");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -420,18 +359,9 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXColor anxColor = new ANXColor(r, g, b) * a;
 
-            byte xna = xnaColor.A;
-            byte anx = anxColor.A;
-
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("A passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("A failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
-        #endregion
+            AssertHelper.ConvertEquals(xnaColor.A, anxColor.A, "A");
         }
+
+        #endregion
     }
 }

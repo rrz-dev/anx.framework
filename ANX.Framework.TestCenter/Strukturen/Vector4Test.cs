@@ -87,14 +87,17 @@ namespace ANX.Framework.TestCenter.Strukturen
 
         #region Testdata
 
+        static object[] fourFloats =
+        {
+            new object[] { DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat },
+            new object[] { DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat },
+            new object[] { DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat },
+            new object[] { DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat },
+            new object[] { DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat, DataFactory.RandomFloat }
+        };
+
         static object[] seventeenFloats =
         {
-           // new object[] {Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat ,Vector2Test.RandomFloat},
-           // new object[] {Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat ,Vector2Test.RandomFloat},
-           // new object[] {Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat },
-           // new object[] {Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat ,Vector2Test.RandomFloat},
-           // new object[] {Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat,Vector2Test.RandomFloat },
-   
            new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
            new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
            new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
@@ -158,8 +161,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             ConvertEquals(xnaR, anxR, "Constructor1");
         }
 
-        [Test, TestCaseSource("seventeenFloats")]
-        public void constructor2(float x, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12)
+        [Test, TestCaseSource("fourFloats")]
+        public void constructor2(float x, float nop1, float nop2, float nop3)
         {
             XNAVector4 xnaR = new XNAVector4(x);
 
@@ -168,8 +171,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             ConvertEquals(xnaR, anxR, "Constructor2");
         }
 
-        [Test, TestCaseSource("seventeenFloats")]
-        public void constructor3(float x, float y, float z, float w, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9)
+        [Test, TestCaseSource("fourFloats")]
+        public void constructor3(float x, float y, float z, float w)
         {
             XNAVector3 xnaV3 = new XNAVector3(x, y, z);
             XNAVector4 xnaR = new XNAVector4(xnaV3, w);
@@ -180,8 +183,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             ConvertEquals(xnaR, anxR, "Constructor3");
         }
 
-        [Test, TestCaseSource("seventeenFloats")]
-        public void constructor4(float x, float y, float z, float w, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9)
+        [Test, TestCaseSource("fourFloats")]
+        public void constructor4(float x, float y, float z, float w)
         {
             XNAVector2 xnaV2 = new XNAVector2(x, y);
             XNAVector4 xnaR = new XNAVector4(xnaV2, z, w);
@@ -192,8 +195,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             ConvertEquals(xnaR, anxR, "Constructor4");
         }
 
-        [Test, TestCaseSource("seventeenFloats")]
-        public void constructor5(float x, float y, float z, float w, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9)
+        [Test, TestCaseSource("fourFloats")]
+        public void constructor5(float x, float y, float z, float w)
         {
             XNAVector4 xnaR = new XNAVector4(x, y, z, w);
 

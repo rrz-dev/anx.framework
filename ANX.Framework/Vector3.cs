@@ -264,7 +264,7 @@ namespace ANX.Framework
 
         public static void Divide(ref Vector3 value1, float value2, out Vector3 result)
         {
-            float divFactor = 1 / value2;
+            float divFactor = 1f / value2;
             Multiply(ref value1, divFactor, out result);
         }
 

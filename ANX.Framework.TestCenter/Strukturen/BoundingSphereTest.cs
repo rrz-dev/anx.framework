@@ -65,68 +65,47 @@ namespace ANX.Framework.TestCenter.Strukturen
     class BoundingSphereTest
     {
         #region Helper
-        private static Random r = new Random();
-
-        public static float RandomFloat
-        {
-            get { return (float)(r.NextDouble()); }
-        }
-
         static object[] fourfloat =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
 
         static object[] eightfloat =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
 
         static object[] tenfloat =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
          
         static object[] twentyfloat =
         {
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat,
-                RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat,
-                RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat,
-                RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat,
-                RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
-            new object[] { RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat,
-                RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat, RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
+                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
+                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
+                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
+                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
+                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
 
-        private void ConvertEquals(XNABoundingSphere xna, ANXBoundingSphere anx, String test)
-        {
-            if (xna.Center.X == anx.Center.X &&
-                xna.Center.Y == anx.Center.Y &&
-                xna.Center.Z == anx.Center.Z &&
-                xna.Radius == anx.Radius)
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
-            }
-        }
         #endregion
 
         #region Constructors
@@ -137,7 +116,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXBoundingSphere anx = new ANXBoundingSphere();
 
-            ConvertEquals(xna, anx, "constructor0");
+            AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
 
         [Test, TestCaseSource("fourfloat")]
@@ -147,7 +126,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXBoundingSphere anx = new ANXBoundingSphere(new ANXVector3(x, y, z), r);
 
-            ConvertEquals(xna, anx, "constructor0");
+            AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
         #endregion
 
@@ -245,7 +224,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNABoundingSphere xna = XNABoundingSphere.CreateFromBoundingBox(xnaBox);
             ANXBoundingSphere anx = ANXBoundingSphere.CreateFromBoundingBox(anxBox);
 
-            ConvertEquals(xna, anx, "CreateFromBoundingBox");
+            AssertHelper.ConvertEquals(xna, anx, "CreateFromBoundingBox");
         }
 
         [Test, TestCaseSource("twentyfloat")]
@@ -261,7 +240,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNABoundingSphere xna = XNABoundingSphere.CreateFromFrustum(xnaFrustum);
             ANXBoundingSphere anx = ANXBoundingSphere.CreateFromFrustum(anxFrustum);
 
-            ConvertEquals(xna, anx, "CreateFromFrustumStatic");
+            AssertHelper.ConvertEquals(xna, anx, "CreateFromFrustumStatic");
         }
 
         [Test, TestCaseSource("tenfloat")]
@@ -284,7 +263,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNABoundingSphere xna = XNABoundingSphere.CreateFromPoints(pointsXNA);
             ANXBoundingSphere anx = ANXBoundingSphere.CreateFromPoints(pointsANX);
 
-            ConvertEquals(xna, anx, "CreateFromPointsStatic");
+            AssertHelper.ConvertEquals(xna, anx, "CreateFromPointsStatic");
         }
 
         [Test, TestCaseSource("tenfloat")]
@@ -302,7 +281,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNABoundingSphere xna = XNABoundingSphere.CreateMerged(xnaSphere1, xnaSphere2);
             ANXBoundingSphere anx = ANXBoundingSphere.CreateMerged(anxSphere1, anxSphere2);
 
-            ConvertEquals(xna, anx, "CreateMergedStatic");
+            AssertHelper.ConvertEquals(xna, anx, "CreateMergedStatic");
         }
 
         [Test, TestCaseSource("tenfloat")]
@@ -417,7 +396,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xnaSphere.Transform(xnaMatrix);
             anxSphere.Transform(anxMatrix);
 
-            ConvertEquals(xnaSphere, anxSphere, "Transform");
+            AssertHelper.ConvertEquals(xnaSphere, anxSphere, "Transform");
         }
         #endregion
 

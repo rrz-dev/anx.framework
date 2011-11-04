@@ -66,35 +66,6 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class Vector2Test
     {
-        #region Helper
-        public void ConvertEquals(XNAVector2 xna, ANXVector2 anx, String test)
-        {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (xna.X.ToString().Equals(anx.X.ToString()) && xna.Y.ToString().Equals(anx.Y.ToString()))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(test + " failed: xna({" + xna.X + "}{" + xna.Y + "}) anx({" + anx.X + "}{" + anx.Y + "})");
-            }
-        }
-
-        public void ConvertEquals(ANXVector2 xna, ANXVector2 anx, String test)
-        {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (anx.X.ToString().Equals(anx.X.ToString()) && anx.Y.ToString().Equals(anx.Y.ToString()))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(test + " failed: anx({" + xna.X + "}{" + xna.Y + "}) compared to anx({" + anx.X + "}{" + anx.Y + "})");
-            }
-        }
-
-        #endregion
-
         #region Testdata
 
         static object[] ninefloats =
@@ -121,27 +92,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test]
         public void One()
         {
-
-            ConvertEquals(XNAVector2.One, ANXVector2.One, "One");
+            AssertHelper.ConvertEquals(XNAVector2.One, ANXVector2.One, "One");
         }
 
         [Test]
         public void UnitX()
         {
-            ConvertEquals(XNAVector2.UnitX, ANXVector2.UnitX, "UnitX");
+            AssertHelper.ConvertEquals(XNAVector2.UnitX, ANXVector2.UnitX, "UnitX");
         }
 
         [Test]
         public void UnitY()
         {
-            ConvertEquals(XNAVector2.UnitY, ANXVector2.UnitY, "UnitY");
+            AssertHelper.ConvertEquals(XNAVector2.UnitY, ANXVector2.UnitY, "UnitY");
         }
 
         [Test]
         public void Zero()
         {
-            ConvertEquals(XNAVector2.Zero, ANXVector2.Zero, "Zero");
-
+            AssertHelper.ConvertEquals(XNAVector2.Zero, ANXVector2.Zero, "Zero");
         }
 
         #endregion
@@ -155,8 +124,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXVector2 anxR = new ANXVector2(x);
 
-            ConvertEquals(xnaR, anxR, "Constructor1");
-
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor1");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -166,7 +134,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXVector2 anxR = new ANXVector2(x, y);
 
-            ConvertEquals(xnaR, anxR, "Constructor2");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor2");
         }
 
         #endregion
@@ -185,7 +153,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Add(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Add(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Add");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Add");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -204,7 +172,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Barycentric(xna1, xna2, xna3, amount1, amount2);
             ANXVector2 anxR = ANXVector2.Barycentric(anx1, anx2, anx3, amount1, amount2);
 
-            ConvertEquals(xnaR, anxR, "Barycentric");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Barycentric");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -223,7 +191,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.CatmullRom(xna1, xna2, xna3, xna4, amount);
             ANXVector2 anxR = ANXVector2.CatmullRom(anx1, anx2, anx3, anx4, amount);
 
-            ConvertEquals(xnaR, anxR, "CatmullRom");
+            AssertHelper.ConvertEquals(xnaR, anxR, "CatmullRom");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -242,7 +210,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Clamp(xna1, xna2, xna3);
             ANXVector2 anxR = ANXVector2.Clamp(anx1, anx2, anx3);
 
-            ConvertEquals(xnaR, anxR, "Clamp");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Clamp");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -287,7 +255,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Divide(xna1, divider);
             ANXVector2 anxR = ANXVector2.Divide(anx1, divider);
 
-            ConvertEquals(xnaR, anxR, "DivideVectorDivider");
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorDivider");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -302,7 +270,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Divide(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Divide(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "DivideVectorVector");
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorVector");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -351,7 +319,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Hermite(xna1, xna2, xna3, xna4, amount);
             ANXVector2 anxR = ANXVector2.Hermite(anx1, anx2, anx3, anx4, amount);
 
-            ConvertEquals(xnaR, anxR, "Hermite");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Hermite");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -382,7 +350,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Lerp(xna1, xna2, amount);
             ANXVector2 anxR = ANXVector2.Lerp(anx1, anx2, amount);
 
-            ConvertEquals(xnaR, anxR, "Lerp");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Lerp");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -397,7 +365,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Max(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Max(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Max");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Max");
         }
 
 
@@ -413,7 +381,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Min(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Min(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Min");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Min");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -426,7 +394,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Multiply(xna1, scale);
             ANXVector2 anxR = ANXVector2.Multiply(anx1, scale);
 
-            ConvertEquals(xnaR, anxR, "MultiplyVectorFloat");
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyVectorFloat");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -441,7 +409,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Multiply(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Multiply(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "MultiplyVectorVector");
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyVectorVector");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -454,7 +422,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Negate(xna1);
             ANXVector2 anxR = ANXVector2.Negate(anx1);
 
-            ConvertEquals(xnaR, anxR, "Negate");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Negate");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -467,7 +435,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xnaR.Normalize();
             anxR.Normalize();
 
-            ConvertEquals(xnaR, anxR, "NormalizeInstanz");
+            AssertHelper.ConvertEquals(xnaR, anxR, "NormalizeInstanz");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -480,7 +448,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Normalize(xna1);
             ANXVector2 anxR = ANXVector2.Normalize(anx1);
 
-            ConvertEquals(xnaR, anxR, "NormalizeStatic");
+            AssertHelper.ConvertEquals(xnaR, anxR, "NormalizeStatic");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -495,7 +463,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Reflect(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Reflect(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Reflect");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Reflect");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -510,7 +478,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.SmoothStep(xna1, xna2, amount);
             ANXVector2 anxR = ANXVector2.SmoothStep(anx1, anx2, amount);
 
-            ConvertEquals(xnaR, anxR, "SmoothStep");
+            AssertHelper.ConvertEquals(xnaR, anxR, "SmoothStep");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -525,7 +493,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xnaR = XNAVector2.Subtract(xna1, xna2);
             ANXVector2 anxR = ANXVector2.Subtract(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Subtract");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Subtract");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -555,7 +523,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2.Transform(ref xna1, ref xnaMatrix, out xnaResult);
             ANXVector2.Transform(ref anx1, ref anxMatrix, out anxResult);
 
-            ConvertEquals(xnaResult, anxResult, "StaticTransform");
+            AssertHelper.ConvertEquals(xnaResult, anxResult, "StaticTransform");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -569,7 +537,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
             ANXVector2 anxResult = ANXVector2.Transform(anx1, anxMatrix);
 
-            ConvertEquals(xnaResult, anxResult, "StaticTransform2");
+            AssertHelper.ConvertEquals(xnaResult, anxResult, "StaticTransform2");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -583,7 +551,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             Vector2.Transform(ref anx1, ref anxMatrix, out anxResult2);
 
-            ConvertEquals(anxResult1, anxResult2, "StaticTransform3_ANXonly");
+            AssertHelper.ConvertEquals(anxResult1, anxResult2, "StaticTransform3_ANXonly");
         }
 
 /*

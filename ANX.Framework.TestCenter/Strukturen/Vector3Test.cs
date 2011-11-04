@@ -66,23 +66,6 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class Vector3Test
     {
-        #region Helper
-
-        public void ConvertEquals(XNAVector3 xna, ANXVector3 anx, String test)
-        {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if ((xna.X == anx.X) && (xna.Y == anx.Y) && (xna.Z == anx.Z))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(string.Format("{0} failed: xna({1}{2}{3}) anx({4}{5}{6})", test, xna.X, xna.Y, xna.Z, anx.X, anx.Y, anx.Z));
-            }
-        }
-
-        #endregion
-
         #region Testdata
 
         static object[] thirteenFloats =
@@ -109,67 +92,67 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test]
         public void One()
         {
-            ConvertEquals(XNAVector3.One, ANXVector3.One, "One");
+            AssertHelper.ConvertEquals(XNAVector3.One, ANXVector3.One, "One");
         }
 
         [Test]
         public void Zero()
         {
-            ConvertEquals(XNAVector3.Zero, ANXVector3.Zero, "Zero");
+            AssertHelper.ConvertEquals(XNAVector3.Zero, ANXVector3.Zero, "Zero");
         }
 
         [Test]
         public void Up()
         {
-            ConvertEquals(XNAVector3.Up, ANXVector3.Up, "Up");
+            AssertHelper.ConvertEquals(XNAVector3.Up, ANXVector3.Up, "Up");
         }
 
         [Test]
         public void Down()
         {
-            ConvertEquals(XNAVector3.Down, ANXVector3.Down, "Down");
+            AssertHelper.ConvertEquals(XNAVector3.Down, ANXVector3.Down, "Down");
         }
 
         [Test]
         public void Backward()
         {
-            ConvertEquals(XNAVector3.Backward, ANXVector3.Backward, "Backward");
+            AssertHelper.ConvertEquals(XNAVector3.Backward, ANXVector3.Backward, "Backward");
         }
 
         [Test]
         public void Forward()
         {
-            ConvertEquals(XNAVector3.Forward, ANXVector3.Forward, "Forward");
+            AssertHelper.ConvertEquals(XNAVector3.Forward, ANXVector3.Forward, "Forward");
         }
 
         [Test]
         public void Left()
         {
-            ConvertEquals(XNAVector3.Left, ANXVector3.Left, "Left");
+            AssertHelper.ConvertEquals(XNAVector3.Left, ANXVector3.Left, "Left");
         }
 
         [Test]
         public void Right()
         {
-            ConvertEquals(XNAVector3.Right, ANXVector3.Right, "Right");
+            AssertHelper.ConvertEquals(XNAVector3.Right, ANXVector3.Right, "Right");
         }
 
         [Test]
         public void UnitX()
         {
-            ConvertEquals(XNAVector3.UnitX, ANXVector3.UnitX, "UnitX");
+            AssertHelper.ConvertEquals(XNAVector3.UnitX, ANXVector3.UnitX, "UnitX");
         }
 
         [Test]
         public void UnitY()
         {
-            ConvertEquals(XNAVector3.UnitY, ANXVector3.UnitY, "UnitY");
+            AssertHelper.ConvertEquals(XNAVector3.UnitY, ANXVector3.UnitY, "UnitY");
         }
 
         [Test]
         public void UnitZ()
         {
-            ConvertEquals(XNAVector3.UnitZ, ANXVector3.UnitZ, "UnitZ");
+            AssertHelper.ConvertEquals(XNAVector3.UnitZ, ANXVector3.UnitZ, "UnitZ");
         }
 
         #endregion
@@ -183,7 +166,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXVector3 anxR = new ANXVector3();
 
-            ConvertEquals(xnaR, anxR, "Constructor1");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor1");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -193,7 +176,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXVector3 anxR = new ANXVector3(x);
 
-            ConvertEquals(xnaR, anxR, "Constructor2");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor2");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -205,7 +188,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector2 anxV2 = new ANXVector2(x, y);
             ANXVector3 anxR = new ANXVector3(anxV2, z);
 
-            ConvertEquals(xnaR, anxR, "Constructor3");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor3");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -215,7 +198,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXVector3 anxR = new ANXVector3(x, y, z);
 
-            ConvertEquals(xnaR, anxR, "Constructor4");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Constructor4");
         }
 
         #endregion
@@ -234,7 +217,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Add(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Add(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Add");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Add");
         }
 
 
@@ -254,7 +237,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Barycentric(xna1, xna2, xna3, amount1, amount2);
             ANXVector3 anxR = ANXVector3.Barycentric(anx1, anx2, anx3, amount1, amount2);
 
-            ConvertEquals(xnaR, anxR, "Barycentric");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Barycentric");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -273,7 +256,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.CatmullRom(xna1, xna2, xna3, xna4, amount);
             ANXVector3 anxR = ANXVector3.CatmullRom(anx1, anx2, anx3, anx4, amount);
 
-            ConvertEquals(xnaR, anxR, "CatmullRom");
+            AssertHelper.ConvertEquals(xnaR, anxR, "CatmullRom");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -290,7 +273,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Clamp(xna1, xna2, xna3);
             ANXVector3 anxR = ANXVector3.Clamp(anx1, anx2, anx3);
 
-            ConvertEquals(xnaR, anxR, "Clamp");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Clamp");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -305,7 +288,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Cross(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Cross(anx2, anx2);
 
-            ConvertEquals(xnaR, anxR, "Cross");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Cross");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -348,7 +331,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Divide(xna1, divider);
             ANXVector3 anxR = ANXVector3.Divide(anx1, divider);
 
-            ConvertEquals(xnaR, anxR, "DivideVectorDivider");
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorDivider");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -363,7 +346,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Divide(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Divide(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "DivideVectorVector");
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorVector");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -411,7 +394,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Hermite(xna1, xna2, xna3, xna4, amount);
             ANXVector3 anxR = ANXVector3.Hermite(anx1, anx2, anx3, anx4, amount);
 
-            ConvertEquals(xnaR, anxR, "Hermite");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Hermite");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -442,7 +425,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Lerp(xna1, xna2, amount);
             ANXVector3 anxR = ANXVector3.Lerp(anx1, anx2, amount);
 
-            ConvertEquals(xnaR, anxR, "Lerp");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Lerp");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -457,7 +440,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Max(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Max(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Max");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Max");
         }
 
 
@@ -473,7 +456,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Min(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Min(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Min");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Min");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -488,7 +471,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Multiply(xna1, scale);
             ANXVector3 anxR = ANXVector3.Multiply(anx1, scale);
 
-            ConvertEquals(xnaR, anxR, "MultiplyVectorFloat");
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyVectorFloat");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -503,7 +486,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Multiply(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Multiply(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "MultiplyVectorVector");
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyVectorVector");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -516,7 +499,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Negate(xna1);
             ANXVector3 anxR = ANXVector3.Negate(anx1);
 
-            ConvertEquals(xnaR, anxR, "Negate");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Negate");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -529,7 +512,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xnaR.Normalize();
             anxR.Normalize();
 
-            ConvertEquals(xnaR, anxR, "NormalizeInstanz");
+            AssertHelper.ConvertEquals(xnaR, anxR, "NormalizeInstanz");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -542,7 +525,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Normalize(xna1);
             ANXVector3 anxR = ANXVector3.Normalize(anx1);
 
-            ConvertEquals(xnaR, anxR, "NormalizeStatic");
+            AssertHelper.ConvertEquals(xnaR, anxR, "NormalizeStatic");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -557,7 +540,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Reflect(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Reflect(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Reflect");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Reflect");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -572,7 +555,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.SmoothStep(xna1, xna2, amount);
             ANXVector3 anxR = ANXVector3.SmoothStep(anx1, anx2, amount);
 
-            ConvertEquals(xnaR, anxR, "SmoothStep");
+            AssertHelper.ConvertEquals(xnaR, anxR, "SmoothStep");
         }
 
         [Test, TestCaseSource("thirteenFloats")]
@@ -587,7 +570,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3 xnaR = XNAVector3.Subtract(xna1, xna2);
             ANXVector3 anxR = ANXVector3.Subtract(anx1, anx2);
 
-            ConvertEquals(xnaR, anxR, "Subtract");
+            AssertHelper.ConvertEquals(xnaR, anxR, "Subtract");
         }
 
         [Test, TestCaseSource("thirteenFloats")]

@@ -76,6 +76,14 @@ namespace ANX.Framework.TestCenter
             return result;
         }
 
+        public static float RandomNormalizedFloat
+        {
+            get
+            {
+                return 1.0f / MathHelper.Clamp(RandomFloat, 0f, float.MaxValue);
+            }
+        }
+
         public static float RandomFloat
         {
             get { return (float)(r.NextDouble() * (float.MaxValue - 1) - r.NextDouble() * (float.MinValue + 1)); }

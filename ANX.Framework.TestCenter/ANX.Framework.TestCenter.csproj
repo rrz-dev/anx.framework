@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertHelper.cs" />
     <Compile Include="ContentPipeline\Helper\SharedResource.cs" />
     <Compile Include="ContentPipeline\MathTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Compiler.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strukturen\BoundingBoxTest.cs" />
-    <Compile Include="Strukturen\BoundingFrustumTest.cs" />
     <Compile Include="Strukturen\BoundingSphereTest.cs" />
     <Compile Include="Strukturen\ColorTest.cs" />
     <Compile Include="Strukturen\MatrixTest.cs" />

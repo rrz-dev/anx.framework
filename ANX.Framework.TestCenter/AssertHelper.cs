@@ -1,0 +1,207 @@
+﻿#region Using Statements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+#endregion // Using Statements
+
+#region License
+
+//
+// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
+//
+// This file is released under the Ms-PL license.
+//
+//
+//
+// Microsoft Public License (Ms-PL)
+//
+// This license governs use of the accompanying software. If you use the software, you accept this license. 
+// If you do not accept the license, do not use the software.
+//
+// 1.Definitions
+//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
+//   here as under U.S. copyright law.
+//   A "contribution" is the original software, or any additions or changes to the software.
+//   A "contributor" is any person that distributes its contribution under this license.
+//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
+//
+// 2.Grant of Rights
+//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
+//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
+//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
+//       or any derivative works that you create.
+//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
+//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
+//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
+//       in the software or derivative works of the contribution in the software.
+//
+// 3.Conditions and Limitations
+//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
+//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
+//       patent license from such contributor to the software ends automatically.
+//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
+//       notices that are present in the software.
+//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
+//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
+//       object code form, you may only do so under a license that complies with this license.
+//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
+//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
+//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
+//       particular purpose and non-infringement.
+
+#endregion // License
+
+using XNAColor = Microsoft.Xna.Framework.Color;
+using ANXColor = ANX.Framework.Color;
+
+using XNAVector2 = Microsoft.Xna.Framework.Vector2;
+using ANXVector2 = ANX.Framework.Vector2;
+
+using XNAVector3 = Microsoft.Xna.Framework.Vector3;
+using ANXVector3 = ANX.Framework.Vector3;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
+
+using XNABoundingBox = Microsoft.Xna.Framework.BoundingBox;
+using ANXBoundingBox = ANX.Framework.BoundingBox;
+
+using XNABoundingSphere = Microsoft.Xna.Framework.BoundingSphere;
+using ANXBoundingSphere = ANX.Framework.BoundingSphere;
+
+using XNARect = Microsoft.Xna.Framework.Rectangle;
+using ANXRect = ANX.Framework.Rectangle;
+
+namespace ANX.Framework.TestCenter
+{
+    class AssertHelper
+    {
+        public static void ConvertEquals(byte a, byte b, String test)
+        {
+            if (a == b)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: byte a: ({1}) byte b: ({2})", test, a, b));
+            }
+        }
+
+        public static void ConvertEquals(XNAColor xna, ANXColor anx, String test)
+        {
+            if (xna.R == anx.R &&
+                xna.G == anx.G &&
+                xna.B == anx.B &&
+                xna.A == anx.A)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNAVector2 xna, ANXVector2 anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if (xna.X.ToString().Equals(anx.X.ToString()) && xna.Y.ToString().Equals(anx.Y.ToString()))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(test + " failed: xna({" + xna.X + "}{" + xna.Y + "}) anx({" + anx.X + "}{" + anx.Y + "})");
+            }
+        }
+
+        public static void ConvertEquals(ANXVector2 xna, ANXVector2 anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if (anx.X.ToString().Equals(anx.X.ToString()) && anx.Y.ToString().Equals(anx.Y.ToString()))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(test + " failed: anx({" + xna.X + "}{" + xna.Y + "}) compared to anx({" + anx.X + "}{" + anx.Y + "})");
+            }
+        }
+
+        public static void ConvertEquals(XNAVector3 xna, ANXVector3 anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if ((xna.X == anx.X) && (xna.Y == anx.Y) && (xna.Z == anx.Z))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(string.Format("{0} failed: xna({1},{2},{3}) anx({4},{5},{6})", test, xna.X, xna.Y, xna.Z, anx.X, anx.Y, anx.Z));
+            }
+        }
+
+        public static void ConvertEquals(XNAVector4 xna, ANXVector4 anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if ((xna.X == anx.X) && (xna.Y == anx.Y) && (xna.Z == anx.Z) && (xna.W == anx.W))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(string.Format("{0} failed: xna({1},{2},{3},{4}) anx({5},{6},{7},{8})", test, xna.X, xna.Y, xna.Z, xna.W, anx.X, anx.Y, anx.Z, anx.W));
+            }
+        }
+
+        public static void ConvertEquals(XNABoundingBox xna, ANXBoundingBox anx, String test)
+        {
+            if (xna.Min.X == anx.Min.X &&
+                xna.Min.Y == anx.Min.Y &&
+                xna.Min.Z == anx.Min.Z &&
+                xna.Max.X == anx.Max.X &&
+                xna.Max.Y == anx.Max.Y &&
+                xna.Max.Z == anx.Max.Z)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNABoundingSphere xna, ANXBoundingSphere anx, String test)
+        {
+            if (xna.Center.X == anx.Center.X &&
+                xna.Center.Y == anx.Center.Y &&
+                xna.Center.Z == anx.Center.Z &&
+                xna.Radius == anx.Radius)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNARect xna, ANXRect anx, String test)
+        {
+            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
+            if (xna.ToString().Equals(anx.ToString()))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(test + " failed: xna({" + xna.X + "}{" + xna.Y + "}{" + xna.Width + "}{" + xna.Height + "}) anx({" + anx.X + "}{" + anx.Y + "}{" + anx.Width + "}{" + anx.Height + "})");
+            }
+        }
+
+    }
+}

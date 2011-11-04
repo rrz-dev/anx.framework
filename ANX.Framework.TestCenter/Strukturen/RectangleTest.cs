@@ -63,23 +63,6 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class RectangleTest
     {
-        #region Helper
-        public void ConvertEquals(XNARect xna, ANXRect anx, String test)
-        {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (xna.ToString().Equals(anx.ToString()))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(test + " failed: xna({" + xna.X + "}{" + xna.Y + "}{" + xna.Width + "}{" + xna.Height + "}) anx({" + anx.X + "}{" + anx.Y + "}{" + anx.Width + "}{" + anx.Height + "})");
-            }
-        }
-
-        #endregion
-
-
         static object[] ninefloats =
 {
 
@@ -131,7 +114,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test]
         public void Empty()
         {
-            ConvertEquals(XNARect.Empty, ANXRect.Empty, "Empty");
+            AssertHelper.ConvertEquals(XNARect.Empty, ANXRect.Empty, "Empty");
 
 
         }
@@ -209,7 +192,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             XNARect xna = new XNARect(x1, y1, w1, h1);
             ANXRect anx = new ANXRect(x1, y1, w1, h1);
-            ConvertEquals(xna, anx, "Constructor");
+            AssertHelper.ConvertEquals(xna, anx, "Constructor");
         }
         #endregion
 
@@ -262,7 +245,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xna.Inflate(x2, y2);
             anx.Inflate(x2, y2);
 
-            ConvertEquals(xna, anx, "Inflate");
+            AssertHelper.ConvertEquals(xna, anx, "Inflate");
 
         }
         [Test, TestCaseSource("ninefloats6")]
@@ -285,7 +268,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             xna.Offset(x2, y2);
             anx.Offset(x2, y2);
 
-            ConvertEquals(xna, anx, "Offset");
+            AssertHelper.ConvertEquals(xna, anx, "Offset");
 
         }
 
@@ -298,7 +281,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNARect xna2 = new XNARect(x2, y2, w2, h2);
             ANXRect anx2 = new ANXRect(x2, y2, w2, h2);
 
-            ConvertEquals(XNARect.Intersect(xna, xna2), ANXRect.Intersect(anx, anx2), "Intersection");
+            AssertHelper.ConvertEquals(XNARect.Intersect(xna, xna2), ANXRect.Intersect(anx, anx2), "Intersection");
         }
 
 
@@ -310,7 +293,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNARect xna2 = new XNARect(x2, y2, w2, h2);
             ANXRect anx2 = new ANXRect(x2, y2, w2, h2);
 
-            ConvertEquals(XNARect.Union(xna, xna2), ANXRect.Union(anx, anx2), "Union");
+            AssertHelper.ConvertEquals(XNARect.Union(xna, xna2), ANXRect.Union(anx, anx2), "Union");
         }
 
 

@@ -94,30 +94,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         #endregion
 
         #region Testdata
-        private static Random r = new Random();
-        
-        public static float RandomFloat
-        {
-            get { return (float)(r.NextDouble() * (float.MaxValue - 1) - r.NextDouble() * (float.MinValue + 1)); }
-        }
-
-        public static int RandomBitPlus
-        {
-            get { return r.Next(3) - 1; }
-        }
-
-        public static float randomValue
-        {
-            get { return r.Next(1000) * RandomBitPlus; }
-        }
-
         static object[] sixteenfloats =
         {
-            new object[] { MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue },
-            new object[] { MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue },
-            new object[] { MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue },
-            new object[] { MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue },
-            new object[] { MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue, MatrixTest.randomValue },
+            new object[] {  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat  },
+            new object[] {  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat  },
+            new object[] {  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat  },
+            new object[] {  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat  },
+            new object[] {  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat ,  DataFactory.RandomFloat  },
         };
 
         #endregion
