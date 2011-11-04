@@ -59,6 +59,7 @@
     <Compile Include="Content\ContentSerializerItemNameAttribute.cs" />
     <Compile Include="Content\ContentSerializerRuntimeTypeAttribute.cs" />
     <Compile Include="Content\ContentSerializerTypeVersionAttribute.cs" />
+    <Compile Include="Content\Decompressor.cs" />
     <Compile Include="Content\GraphicTypeReaders\EffectReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\IndexBufferReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\SpriteFontReader.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Content\GraphicTypeReaders\TextureReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\VertexBufferReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\VertexDeclarationReader.cs" />
+    <Compile Include="Content\LzxDecoder.cs" />
     <Compile Include="Content\MathTypeReaders\BoundingBoxReader.cs" />
     <Compile Include="Content\MathTypeReaders\BoundingSphereReader.cs" />
     <Compile Include="Content\MathTypeReaders\BoundingFrustumReader.cs" />

@@ -179,8 +179,8 @@ namespace ANX.Framework.Content
 
             if (isCompressed)
             {
-                uint decompressedSize = reader.ReadUInt32();
-                throw new NotSupportedException("Compressed content is not supported yet.");
+                int decompressedSize = reader.ReadInt32();
+                return Decompressor.DecompressStream(reader, input, decompressedSize);
             }
             else
             {
