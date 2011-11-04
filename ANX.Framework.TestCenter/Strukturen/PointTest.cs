@@ -1,10 +1,9 @@
-﻿#region Using Statements
+﻿#region UsingStatements
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion // Using Statements
+#endregion
 
 #region License
 
@@ -53,50 +52,98 @@ using System.Text;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter
+using XNAPoint = Microsoft.Xna.Framework.Point;
+using ANXPoint = ANX.Framework.Point;
+
+using NUnit.Framework;
+
+namespace ANX.Framework.TestCenter.Strukturen
 {
-    class DataFactory
+    [TestFixture]
+    class PointTest
     {
-        static Random r=new Random();
+        #region Helper
+        private static Random r = new Random();
 
-        static object[] generateTestData(int numOfTests, int numOfElements,int min,int max)
+        public static int RandomInt
         {
-            object[] result = new object[numOfTests];
-
-            object[] testRun = new object[numOfElements];
-            for (int run = 0; run < numOfTests; ++run)
-            {
-                for (int data = 0; data < numOfElements; ++data)
-                {
-                    testRun[data] = r.Next(min, max);
-                }
-                result[run] = testRun;
-            }
-
-            return result;
+            get { return r.Next(); }
         }
 
-        public static float RandomNormalizedFloat
+        static object[] twoint =
         {
-            get
-            {
-                return 1.0f / MathHelper.Clamp(RandomFloat, float.Epsilon, float.MaxValue);
-            }
+            new object[] { RandomInt, RandomInt },
+            new object[] { RandomInt, RandomInt },
+            new object[] { RandomInt, RandomInt },
+            new object[] { RandomInt, RandomInt },
+            new object[] { RandomInt, RandomInt },
+        };
+
+
+        public void ConvertEquals(XNAPoint xna, ANXPoint anx, String test)
+        {
+            if (xna.X == anx.X &&
+                xna.Y == anx.Y)
+                Assert.Pass(String.Format("{0} passed", test));
+            else
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+        }
+        #endregion
+
+        #region Constructors
+        [Test]
+        public void constructor0()
+        {
+            XNAPoint xna = new XNAPoint();
+
+            ANXPoint anx = new ANXPoint();
+
+            ConvertEquals(xna, anx, "constructor0");
         }
 
-        public static float RandomFloat
+        [Test, TestCaseSource("twoint")]
+        public void constructor1(int x, int y)
         {
-            get { return (float)(r.NextDouble() * (float.MaxValue - 1) - r.NextDouble() * (float.MinValue + 1)); }
+            XNAPoint xna = new XNAPoint(x, y);
+
+            ANXPoint anx = new ANXPoint(x, y);
+
+            ConvertEquals(xna, anx, "constructor1");
+        }
+        #endregion
+
+        #region Properties
+        [Test, TestCaseSource("twoint")]
+        public void X(int x, int y)
+        {
+            XNAPoint xnaPoint = new XNAPoint(x, y);
+
+            ANXPoint anxPoint = new ANXPoint(x, y);
+
+            int xna = xnaPoint.X;
+            int anx = anxPoint.X;
+
+            if (xna.Equals(anx))
+                Assert.Pass("X passed");
+            else
+                Assert.Fail(String.Format("X failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
 
-        public static int RandomBitPlus
+        [Test, TestCaseSource("twoint")]
+        public void Y(int x, int y)
         {
-            get { return r.Next(3) - 1; }
-        }
+            XNAPoint xnaPoint = new XNAPoint(x, y);
 
-        public static float RandomValue
-        {
-            get { return r.Next(1000) * RandomBitPlus; }
+            ANXPoint anxPoint = new ANXPoint(x, y);
+
+            int xna = xnaPoint.Y;
+            int anx = anxPoint.Y;
+
+            if (xna.Equals(anx))
+                Assert.Pass("Y passed");
+            else
+                Assert.Fail(String.Format("Y failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
+        #endregion
     }
 }

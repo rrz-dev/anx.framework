@@ -248,11 +248,17 @@ namespace ANX.Framework
         #region operator overloading
         public static bool operator ==(BoundingSphere a, BoundingSphere b)
         {
-            throw new Exception("operator overloading has not yet been implemented");
+            return (a.Center.X == b.Center.X &&
+                a.Center.Y == b.Center.Y &&
+                a.Center.Z == b.Center.Z &&
+                a.Radius == b.Radius);
         }
         public static bool operator !=(BoundingSphere a, BoundingSphere b)
         {
-            throw new Exception("operator overloading has not yet been implemented");
+            return (a.Center.X != b.Center.X ||
+                a.Center.Y != b.Center.Y ||
+                a.Center.Z != b.Center.Z ||
+                a.Radius != b.Radius);
         }
         #endregion
     }

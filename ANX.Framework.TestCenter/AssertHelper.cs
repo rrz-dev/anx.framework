@@ -72,6 +72,12 @@ using ANXBoundingBox = ANX.Framework.BoundingBox;
 using XNABoundingSphere = Microsoft.Xna.Framework.BoundingSphere;
 using ANXBoundingSphere = ANX.Framework.BoundingSphere;
 
+using XNABoundingFrustum = Microsoft.Xna.Framework.BoundingFrustum;
+using ANXBoundingFrustum = ANX.Framework.BoundingFrustum;
+
+using XNAPlane = Microsoft.Xna.Framework.Plane;
+using ANXPlane = ANX.Framework.Plane;
+
 using XNARect = Microsoft.Xna.Framework.Rectangle;
 using ANXRect = ANX.Framework.Rectangle;
 
@@ -203,5 +209,46 @@ namespace ANX.Framework.TestCenter
             }
         }
 
+        public static void ConvertEquals(XNABoundingFrustum xna, ANXBoundingFrustum anx, String test)
+        {
+            if (xna.Matrix.M11 == anx.Matrix.M11 &&
+                xna.Matrix.M12 == anx.Matrix.M12 &&
+                xna.Matrix.M13 == anx.Matrix.M13 &&
+                xna.Matrix.M14 == anx.Matrix.M14 &&
+                xna.Matrix.M21 == anx.Matrix.M21 &&
+                xna.Matrix.M22 == anx.Matrix.M22 &&
+                xna.Matrix.M23 == anx.Matrix.M23 &&
+                xna.Matrix.M24 == anx.Matrix.M24 &&
+                xna.Matrix.M31 == anx.Matrix.M31 &&
+                xna.Matrix.M32 == anx.Matrix.M32 &&
+                xna.Matrix.M33 == anx.Matrix.M33 &&
+                xna.Matrix.M34 == anx.Matrix.M34 &&
+                xna.Matrix.M41 == anx.Matrix.M41 &&
+                xna.Matrix.M42 == anx.Matrix.M42 &&
+                xna.Matrix.M43 == anx.Matrix.M43 &&
+                xna.Matrix.M44 == anx.Matrix.M44)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNAPlane xna, ANXPlane anx, String test)
+        {
+            if (xna.D == anx.D &&
+                xna.Normal.X == anx.Normal.X &&
+                xna.Normal.Y == anx.Normal.Y &&
+                xna.Normal.Z == anx.Normal.Z)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
     }
 }

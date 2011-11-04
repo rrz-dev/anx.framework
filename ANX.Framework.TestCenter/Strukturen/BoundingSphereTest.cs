@@ -65,7 +65,7 @@ namespace ANX.Framework.TestCenter.Strukturen
     class BoundingSphereTest
     {
         #region Helper
-        static object[] fourfloat =
+        static object[] fourfloats =
         {
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
@@ -74,7 +74,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
 
-        static object[] eightfloat =
+        static object[] eightfloats =
         {
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
@@ -83,7 +83,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
 
-        static object[] tenfloat =
+        static object[] tenfloats =
         {
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
@@ -92,7 +92,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
         };
          
-        static object[] twentyfloat =
+        static object[] twentyfloats =
         {
             new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
                  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
@@ -119,7 +119,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
 
-        [Test, TestCaseSource("fourfloat")]
+        [Test, TestCaseSource("fourfloats")]
         public void constructor1(float x, float y, float z, float r)
         {
             XNABoundingSphere xna = new XNABoundingSphere(new XNAVector3(x, y, z), r);
@@ -131,7 +131,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         #endregion
 
         #region Methods
-        [Test, TestCaseSource("tenfloat")]
+        [Test, TestCaseSource("tenfloats")]
         public void ContainsBoundingBox(float xS, float yS, float zS, float rS, float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -153,8 +153,9 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("ContainsBoundingBox failed: xna({0}) anx({1})", containsANX.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("twentyfloat")]
-        public void ContainsBoundingFrustum(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+        [Test, TestCaseSource("twentyfloats")]
+        public void ContainsBoundingFrustum(
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xS, float yS, float zS, float r)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), r);
@@ -174,7 +175,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("ContainsBoundingFrustum failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("eightfloat")]
+        [Test, TestCaseSource("eightfloats")]
         public void ContainsBoundingSphere(float x1, float y1, float z1, float r1, float x2, float y2, float z2, float r2)
         {
             XNABoundingSphere xnaSphere1 = new XNABoundingSphere(new XNAVector3(x1, y1, z1), r1);
@@ -192,7 +193,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("ContainsBoundingSphere failed: xna({0}) anx({1})", containsANX.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("eightfloat")]
+        [Test, TestCaseSource("eightfloats")]
         public void ContainsPoint(float xS, float yS, float zS, float rS, float xP, float yP, float zP, float a)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -210,7 +211,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("ContainsPoint failed: xna({0}) anx({1})", containsANX.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("eightfloat")]
+        [Test, TestCaseSource("eightfloats")]
         public void CreateFromBoundingBox(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float a, float b)
         {
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(
@@ -227,7 +228,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "CreateFromBoundingBox");
         }
 
-        [Test, TestCaseSource("twentyfloat")]
+        [Test, TestCaseSource("twentyfloats")]
         public void CreateFromFrustumStatic(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float a, float b, float c, float d)
         {
@@ -243,7 +244,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "CreateFromFrustumStatic");
         }
 
-        [Test, TestCaseSource("tenfloat")]
+        [Test, TestCaseSource("tenfloats")]
         public void CreateFromPointsStatic(
             float x1, float y1, float z1,
             float x2, float y2, float z2,
@@ -266,7 +267,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "CreateFromPointsStatic");
         }
 
-        [Test, TestCaseSource("tenfloat")]
+        [Test, TestCaseSource("tenfloats")]
         public void CreateMergedStatic(
             float x1, float y1, float z1, float r1,
             float x2, float y2, float z2, float r2,
@@ -284,7 +285,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "CreateMergedStatic");
         }
 
-        [Test, TestCaseSource("tenfloat")]
+        [Test, TestCaseSource("tenfloats")]
         public void IntersectsBoundingBox(float xS, float yS, float zS, float rS, float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -306,7 +307,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("IntersectsBoundingBox failed: xna({0}) anx({1})", containsANX.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("twentyfloat")]
+        [Test, TestCaseSource("twentyfloats")]
         public void IntersectsBoundingFrustum(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xS, float yS, float zS, float r)
         {
@@ -327,7 +328,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("IntersectsBoundingFrustum failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("eightfloat")]
+        [Test, TestCaseSource("eightfloats")]
         public void IntersectsBoundingSphere(float x1, float y1, float z1, float r1, float x2, float y2, float z2, float r2)
         {
             XNABoundingSphere xnaSphere1 = new XNABoundingSphere(new XNAVector3(x1, y1, z1), r1);
@@ -345,7 +346,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("IntersectsBoundingSphere failed: xna({0}) anx({1})", containsANX.ToString(), containsANX.ToString()));
         }
 
-        [Test, TestCaseSource("eightfloat")]
+        [Test, TestCaseSource("eightfloats")]
         public void IntersectsPlane(float xS, float yS, float zS, float r, float xP, float yP, float zP, float dP)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), r);
@@ -363,7 +364,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("IntersectsPlane failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
 
-        [Test, TestCaseSource("tenfloat")]
+        [Test, TestCaseSource("tenfloats")]
         public void IntersectsRay(
             float xS, float yS, float zS, float r,
             float xRay, float yRay, float zRay, float xDir, float yDir, float zDir)
@@ -383,7 +384,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("IntersectsRay failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
 
-        [Test, TestCaseSource("twentyfloat")]
+        [Test, TestCaseSource("twentyfloats")]
         public void Transform(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xS, float yS, float zS, float r)
         {
@@ -401,7 +402,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         #endregion
 
         #region Properties
-        [Test, TestCaseSource("fourfloat")]
+        [Test, TestCaseSource("fourfloats")]
         public void Center(float x, float y, float z, float r)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(x, y, z), r);
@@ -419,7 +420,7 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Fail(String.Format("Center failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
 
-        [Test, TestCaseSource("fourfloat")]
+        [Test, TestCaseSource("fourfloats")]
         public void Radius(float x, float y, float z, float r)
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(x, y, z), r);
@@ -433,6 +434,44 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Pass("Radius passed");
             else
                 Assert.Fail(String.Format("Radius failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+        }
+        #endregion
+
+        #region Operators
+        [Test, TestCaseSource("eightfloats")]
+        public void EqualsOperator(float x1, float y1, float z1, float r1, float x2, float y2, float z2, float r2)
+        {
+            XNABoundingSphere xnaSphere1 = new XNABoundingSphere(new XNAVector3(x1, y1, z1), r1);
+            XNABoundingSphere xnaSphere2 = new XNABoundingSphere(new XNAVector3(x2, y2, z2), r2);
+
+            ANXBoundingSphere anxSphere1 = new ANXBoundingSphere(new ANXVector3(x1, y1, z1), r1);
+            ANXBoundingSphere anxSphere2 = new ANXBoundingSphere(new ANXVector3(x2, y2, z2), r2);
+
+            bool xna = xnaSphere1 == xnaSphere2;
+            bool anx = anxSphere1 == anxSphere2;
+
+            if (xna.Equals(anx))
+                Assert.Pass("EqualsOperator passed");
+            else
+                Assert.Fail(String.Format("EqualsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+        }
+
+        [Test, TestCaseSource("eightfloats")]
+        public void UnequalsOperator(float x1, float y1, float z1, float r1, float x2, float y2, float z2, float r2)
+        {
+            XNABoundingSphere xnaSphere1 = new XNABoundingSphere(new XNAVector3(x1, y1, z1), r1);
+            XNABoundingSphere xnaSphere2 = new XNABoundingSphere(new XNAVector3(x2, y2, z2), r2);
+
+            ANXBoundingSphere anxSphere1 = new ANXBoundingSphere(new ANXVector3(x1, y1, z1), r1);
+            ANXBoundingSphere anxSphere2 = new ANXBoundingSphere(new ANXVector3(x2, y2, z2), r2);
+
+            bool xna = xnaSphere1 != xnaSphere2;
+            bool anx = anxSphere1 != anxSphere2;
+
+            if (xna.Equals(anx))
+                Assert.Pass("UnequalsOperator passed");
+            else
+                Assert.Fail(String.Format("UnequalsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
         }
         #endregion
     }
