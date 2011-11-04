@@ -61,11 +61,11 @@ using SharpDX.XInput;
 
 namespace ANX.InputSystem.Windows.XInput
 {
-    public class XInput : IGamePad
+    public class GamePad : IGamePad
     {
         private Controller[] controller;
 
-        public XInput()
+        public GamePad()
         {
             controller = new Controller[4];
             controller[0] = new Controller(UserIndex.One);

@@ -272,6 +272,7 @@
     <Compile Include="Net\NetworkSessionState.cs" />
     <Compile Include="Net\NetworkSessionType.cs" />
     <Compile Include="Net\SendDataOptions.cs" />
+    <Compile Include="NonXNA\InputSystem\IMouse.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />
     <Compile Include="NonXNA\ICreator.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePad.cs" />

@@ -1,5 +1,8 @@
 ﻿#region Using Statements
 using System;
+using System.IO;
+using ANX.Framework.NonXNA;
+using ANX.Framework.Input;
 
 #endregion // Using Statements
 
@@ -50,40 +53,12 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Input
+namespace ANX.Framework.NonXNA
 {
-    [SerializableAttribute]
-    public struct MouseState
+    public interface IMouse
     {
-        private int x;
-        private int y;
-        private int scrollWheel;
-        private ButtonState leftButton;
-        private ButtonState middleButton;
-        private ButtonState rightButton;
-        private ButtonState xButton1;
-        private ButtonState xButton2;
-        public MouseState (int x, int y, int scrollWheel,ButtonState leftButton,ButtonState middleButton,ButtonState rightButton,ButtonState xButton1,ButtonState xButton2)
-        {
-            this.x = x;
-            this.y = y;
-            this.scrollWheel = scrollWheel;
-            this.leftButton = leftButton;
-            this.middleButton = middleButton;
-            this.rightButton = rightButton;
-            this.xButton1 = xButton1;
-            this.xButton2 = xButton2;
-        }
-
-        public ButtonState LeftButton { get { return this.leftButton; } }
-        public ButtonState MiddleButton { get { return this.middleButton; } }
-        public ButtonState RightButton { get { return this.rightButton; } }
-        public ButtonState XButton1 { get { return this.xButton1; } }
-        public ButtonState XButton2 { get { return this.xButton2; } }
-        public int ScrollWheelValue { get { return this.scrollWheel; } }
-        public int X { get { return this.x; } }
-        public int Y { get { return this.y; } }
-
-
+       IntPtr WindowHandle { get; set; }
+       MouseState GetState();
+       void SetPosition(int x, int y);
     }
 }

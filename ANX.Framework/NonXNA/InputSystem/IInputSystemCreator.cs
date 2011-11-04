@@ -59,5 +59,6 @@ namespace ANX.Framework.NonXNA
     public interface IInputSystemCreator : ICreator
     {
         IGamePad GamePad { get; }
+        IMouse Mouse { get; }
     }
 }

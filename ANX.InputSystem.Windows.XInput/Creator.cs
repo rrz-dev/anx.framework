@@ -67,12 +67,18 @@ namespace ANX.InputSystem.Windows.XInput
 
         public IGamePad GamePad
         {
-            get { return new XInput(); }
+            get { return new GamePad(); }
         }
 
         public void RegisterCreator(AddInSystemFactory factory)
         {
             factory.AddCreator(this);
+        }
+
+
+        public IMouse Mouse
+        {
+            get { return new Mouse(); }
         }
     }
 }
