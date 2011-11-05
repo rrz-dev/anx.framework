@@ -30,6 +30,7 @@ namespace ANX.InputSystem.Windows.XInput
         {
             this.directInput = new DirectInput();
             this.mouse = new MouseX(this.directInput);
+            this.mouse.Properties.AxisMode = DeviceAxisMode.Absolute;
             this.mouse.Acquire();
         }
 
