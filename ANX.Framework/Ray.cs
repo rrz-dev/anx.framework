@@ -55,12 +55,24 @@ namespace ANX.Framework
     public struct Ray : IEquatable<Ray>
     {
         #region fields
+        /// <summary>
+        /// The direction this ray is pointing to.
+        /// </summary>
         public Vector3 Direction;
+
+        /// <summary>
+        /// Starting position of the ray.
+        /// </summary>
         public Vector3 Position;
         #endregion
 
 
         #region constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ray"/> struct.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="direction">The direction.</param>
         public Ray(Vector3 position, Vector3 direction)
         {
             this.Direction = direction;
@@ -70,6 +82,12 @@ namespace ANX.Framework
 
 
         #region public methods
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             return Position.GetHashCode() ^ Direction.GetHashCode();
@@ -79,32 +97,65 @@ namespace ANX.Framework
          *  Source for implementation :
          *  http://www-gs.informatik.tu-cottbus.de/projektstudium2006/doku/Strahlen_in_der_CG.pdf
          */
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingBox"/>.
+        /// </summary>
+        /// <param name="box">The box.</param>
+        /// <returns>Distance from <see cref="Ray"/> start to interesection points</returns>
         public Nullable<float> Intersects(BoundingBox box)
         {
             Nullable<float> result;
             this.Intersects(ref box, out result);
             return result;
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingBox"/>.
+        /// </summary>
+        /// <param name="box">The box.</param>
+        /// <param name="result">The result.</param>
         public void Intersects(ref BoundingBox box, out Nullable<float> result)
         {
             throw new Exception("method has not yet been implemented");
+
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingFrustum"/>.
+        /// </summary>
+        /// <param name="frustum">The box.</param>
+        /// <returns>Distance from <see cref="Ray"/> start to interesection points</returns>
         public Nullable<float> Intersects(BoundingFrustum frustum)
         {
             Nullable<float> result;
             this.Intersects(ref frustum, out result);
             return result;
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingFrustum"/>.
+        /// </summary>
+        /// <param name="frustum">The frustum.</param>
+        /// <param name="result">The result.</param>
         public void Intersects(ref BoundingFrustum frustum, out Nullable<float> result)
         {
             throw new Exception("method has not yet been implemented");
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingSphere"/>.
+        /// </summary>
+        /// <param name="sphere">The sphere.</param>
+        /// <returns>
+        /// Distance from <see cref="Ray"/> start to interesection points
+        /// </returns>
         public Nullable<float> Intersects(BoundingSphere sphere)
         {
             Nullable<float> result;
             this.Intersects(ref sphere, out result);
             return result;
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingSphere"/>.
+        /// </summary>
+        /// <param name="sphere">The sphere.</param>
+        /// <param name="result">The result.</param>
         public void Intersects(ref BoundingSphere sphere, out Nullable<float> result)
         {
             Vector3 toSphere = Vector3.Subtract(sphere.Center, this.Position);
@@ -134,12 +185,25 @@ namespace ANX.Framework
 
 
         }
+
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="Plane"/>.
+        /// </summary>
+        /// <param name="plane">The plane.</param>
+        /// <returns>
+        /// Distance from <see cref="Ray"/> start to interesection points
+        /// </returns>
         public Nullable<float> Intersects(Plane plane)
         {
             Nullable<float> result;
             this.Intersects(ref plane, out result);
             return result;
         }
+        /// <summary>
+        /// Test if this <see cref="Ray"/> intersects with the specified <see cref="Plane"/>.
+        /// </summary>
+        /// <param name="plane">The plane.</param>
+        /// <param name="result">The result.</param>
         public void Intersects(ref Plane plane, out Nullable<float> result)
         {
             //http://www.cs.toronto.edu/~smalik/418/tutorial8_ray_primitive_intersections.pdf
@@ -157,6 +221,12 @@ namespace ANX.Framework
             result=(this.Direction*t).Length();
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return "{{Position:"+Position.ToString()+" Direction:"+Direction.ToString()+"}}";
@@ -166,10 +236,26 @@ namespace ANX.Framework
 
 
         #region operator overloading
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="a">First value</param>
+        /// <param name="b">Second value</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Ray a, Ray b)
         {
             return a.Direction == b.Direction && a.Position == b.Position;
         }
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="a">First value</param>
+        /// <param name="b">Second value</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator !=(Ray a, Ray b)
         {
             return a.Direction != b.Direction || a.Position != b.Position;
@@ -178,6 +264,13 @@ namespace ANX.Framework
 
 
         #region IEquatable implementation
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(Object obj)
         {
             if (obj is Ray)
@@ -187,6 +280,13 @@ namespace ANX.Framework
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Ray"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="Ray"/> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="Ray"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public bool Equals(Ray other)
         {
             return this.Direction == other.Direction && this.Position == other.Position;
