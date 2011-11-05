@@ -73,7 +73,10 @@ namespace ANX.Framework
         }
         public Plane(Vector3 point1, Vector3 point2, Vector3 point3)
         {
-            throw new Exception("constructor not implemented yet");
+            // calculate 2 vectos spanning the plane and cross them to get the normal, then normalize
+            this.Normal = Vector3.Normalize(Vector3.Cross(Vector3.Subtract(point2, point1), Vector3.Subtract(point3, point1)));
+           // now calculate d
+            this.D = Vector3.Dot(point1, this.Normal);
         }
         public Plane(Vector4 value)
         {
@@ -86,39 +89,48 @@ namespace ANX.Framework
         #region public methods
         public float Dot(Vector4 value)
         {
-            throw new Exception("method has not yet been implemented");
+            float result;
+            this.Dot(ref value, out result);
+            return result;
         }
         public void Dot(ref Vector4 value, out float result)
         {
-            throw new Exception("method has not yet been implemented");
+        //taken from vektor
+            result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D * value.W;
         }
 
         public float DotCoordinate(Vector3 value)
         {
-            throw new Exception("method has not yet been implemented");
+            float result;
+            this.DotCoordinate(ref value, out result);
+            return result;
         }
         public void DotCoordinate(ref Vector3 value, out float result)
         {
-            throw new Exception("method has not yet been implemented");
+            result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D;
         }
 
         public float DotNormal(Vector3 value)
         {
-            throw new Exception("method has not yet been implemented");
+            float result;
+            this.DotNormal(ref value, out result);
+            return result;
         }
         public void DotNormal(ref Vector3 value, out float result)
         {
-            throw new Exception("method has not yet been implemented");
+            result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z ;
         }
 
         public override int GetHashCode()
         {
-            throw new Exception("method has not yet been implemented");
+           return this.D.GetHashCode() ^ this.Normal.GetHashCode();
         }
 
         public PlaneIntersectionType Intersects(BoundingBox box)
         {
-            throw new Exception("method has not yet been implemented");
+            PlaneIntersectionType result;
+            this.Intersects(ref box, out result);
+            return result;
         }
         public void Intersects(ref BoundingBox box, out PlaneIntersectionType result)
         {
@@ -126,15 +138,56 @@ namespace ANX.Framework
         }
         public PlaneIntersectionType Intersects(BoundingFrustum frustum)
         {
-            throw new Exception("method has not yet been implemented");
+            PlaneIntersectionType result;
+            this.Intersects(ref frustum, out result);
+            return result; ;
         }
-        public PlaneIntersectionType Intersects(BoundingSphere sphere)
+        public void Intersects(ref BoundingFrustum frustum, out PlaneIntersectionType result)
         {
             throw new Exception("method has not yet been implemented");
+        }
+
+        public PlaneIntersectionType Intersects(BoundingSphere sphere)
+        {
+            PlaneIntersectionType result;
+            this.Intersects(ref sphere, out result);
+            return result;
         }
         public void Intersects(ref BoundingSphere sphere, out PlaneIntersectionType result)
         {
-            throw new Exception("method has not yet been implemented");
+            float distanceSquared_Sphere_Origin = Vector3.DistanceSquared(Vector3.Zero, sphere.Center);
+            float distanceSquared_Plane_Origin = this.D * this.D;
+            //maybe check pointing direktion of normal
+            if (distanceSquared_Sphere_Origin > distanceSquared_Plane_Origin)
+            {               
+                if (distanceSquared_Sphere_Origin - sphere.Radius < distanceSquared_Plane_Origin)
+                {
+                    result = PlaneIntersectionType.Intersecting;
+                    return;
+                }
+                else
+                {
+                    result = PlaneIntersectionType.Front;
+                    return;
+                }
+            }
+            if (distanceSquared_Sphere_Origin < distanceSquared_Plane_Origin)
+            {
+                if (distanceSquared_Sphere_Origin + sphere.Radius > distanceSquared_Plane_Origin)
+                {
+                    result = PlaneIntersectionType.Intersecting;
+                    return;
+                }
+                else
+                {
+                    result = PlaneIntersectionType.Back;
+                    return;
+                }
+            }
+            //else distance sphere == distance plane
+            result = PlaneIntersectionType.Intersecting;
+            
+
         }
 
         public void Normalize()
@@ -143,7 +196,9 @@ namespace ANX.Framework
         }
         public static Plane Normalize(Plane value)
         {
-            throw new Exception("method has not yet been implemented");
+            Plane result;
+            Plane.Normalize(ref value, out result);
+            return result;
         }
         public static void Normalize(ref Plane value, out Plane result)
         {
@@ -152,7 +207,8 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            throw new Exception("method has not yet been implemented");
+            return string.Format("{{Normal:"+this.Normal.ToString()+" D:"+this.D.ToString()+"}}";
+
         }
 
         public static Plane Transform(Plane plane, Matrix matrix)
@@ -189,11 +245,11 @@ namespace ANX.Framework
         #region operator overloading
         public static bool operator ==(Plane lhs, Plane rhs)
         {
-            throw new Exception("operator overloading has not yet been implemented");
+            return lhs.D.Equals(rhs.D) && lhs.Normal.Equals(rhs.Normal);
         }
         public static bool operator !=(Plane lhs, Plane rhs)
         {
-            throw new Exception("operator overloading has not yet been implemented");
+            return !lhs.D.Equals(rhs.D) || !lhs.Normal.Equals(rhs.Normal);
         }
         #endregion
     }

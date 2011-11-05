@@ -72,12 +72,15 @@ namespace ANX.Framework
         #region public methods
         public override int GetHashCode()
         {
-            throw new Exception("method has not yet been implemented");
+            return Position.GetHashCode() ^ Direction.GetHashCode();
+
         }
 
         public Nullable<float> Intersects(BoundingBox box)
         {
-            throw new Exception("method has not yet been implemented");
+            Nullable<float> result;
+            this.Intersects(ref box, out result);
+            return result;
         }
         public void Intersects(ref BoundingBox box, out Nullable<float> result)
         {
@@ -85,11 +88,19 @@ namespace ANX.Framework
         }
         public Nullable<float> Intersects(BoundingFrustum frustum)
         {
+            Nullable<float> result;
+            this.Intersects(ref frustum, out result);
+            return result;
+        }
+        public void Intersects(ref BoundingFrustum frustum, out Nullable<float> result)
+        {
             throw new Exception("method has not yet been implemented");
         }
         public Nullable<float> Intersects(BoundingSphere sphere)
         {
-            throw new Exception("method has not yet been implemented");
+            Nullable<float> result;
+            this.Intersects(ref sphere, out result);
+            return result;
         }
         public void Intersects(ref BoundingSphere sphere, out Nullable<float> result)
         {
@@ -97,16 +108,27 @@ namespace ANX.Framework
         }
         public Nullable<float> Intersects(Plane plane)
         {
-            throw new Exception("method has not yet been implemented");
+            Nullable<float> result;
+            this.Intersects(ref plane, out result);
+            return result;
         }
         public void Intersects(ref Plane plane, out Nullable<float> result)
         {
+          //As plane and Ray are infinitiv it intersects in every case, except the ray is parrales to the plane
+            //no intersection if ray direction and plane normal are orthogional to each other
+            if (Vector3.Dot(plane.Normal, this.Direction) == 0)
+            {
+                result = null;
+                return;
+            }
             throw new Exception("method has not yet been implemented");
+
         }
 
         public override string ToString()
         {
-            throw new Exception("method has not yet been implemented");
+            return "{{Position:"+Position.ToString()+" Direction:"+Direction.ToString()+"}}";
+
         }
         #endregion
 
