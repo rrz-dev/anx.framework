@@ -142,15 +142,19 @@ namespace ANX.Framework
         }
         public void Intersects(ref Plane plane, out Nullable<float> result)
         {
+            //http://www.cs.toronto.edu/~smalik/418/tutorial8_ray_primitive_intersections.pdf
+
+            float vd = Vector3.Dot(plane.Normal, this.Direction);
           //As plane and Ray are infinitiv it intersects in every case, except the ray is parrales to the plane
             //no intersection if ray direction and plane normal are orthogional to each other
-            if (Vector3.Dot(plane.Normal, this.Direction) == 0)
+            if (vd == 0)
             {
                 result = null;
                 return;
             }
-            throw new Exception("method has not yet been implemented");
-
+            float v0 = -Vector3.Dot(plane.Normal, this.Position) + plane.D;
+            float t = v0 / vd;
+            result=(this.Direction*t).Length();
         }
 
         public override string ToString()

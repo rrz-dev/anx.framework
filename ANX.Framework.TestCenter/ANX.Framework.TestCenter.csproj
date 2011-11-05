@@ -66,6 +66,7 @@
     <Compile Include="Strukturen\MatrixTest.cs" />
     <Compile Include="Strukturen\PlaneTest.cs" />
     <Compile Include="Strukturen\PointTest.cs" />
+    <Compile Include="Strukturen\RayTest.cs" />
     <Compile Include="Strukturen\RectangleTest.cs" />
     <Compile Include="Strukturen\Vector2Test.cs" />
     <Compile Include="Strukturen\Vector3Test.cs" />
