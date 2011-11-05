@@ -98,5 +98,10 @@ namespace ANX.Framework.TestCenter
         {
             get { return r.Next(1000) * RandomBitPlus; }
         }
+
+        public static float RandomValueMinMax(float min, float max)
+        {
+            return (float)r.Next((int)min, (int)max) * (float)r.NextDouble();
+        }
     }
 }

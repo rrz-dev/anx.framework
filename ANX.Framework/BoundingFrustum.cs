@@ -59,68 +59,46 @@ namespace ANX.Framework
         #endregion
 
         #region properties
-        public Plane Bottom
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
-        public Plane Far
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
-        public Plane Left
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
+        private Vector3[] corners;
 
         private Matrix matrix;
-        public Matrix Matrix
-        {
-            get
-            {
-                return matrix;
-            }
-            set
-            {
-                throw new Exception("property has not yet been implemented");
-            }
+        public Matrix Matrix 
+        { 
+            get { return this.matrix; } 
+            set 
+            { 
+                this.matrix = value;
+                this.CreatePlanes();
+                this.CreateCorners();
+            } 
         }
 
-        public Plane Near
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
-        public Plane Right
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
-        public Plane Top
-        {
-            get
-            {
-                throw new Exception("property has not yet been implemented");
-            }
-        }
+        private Plane near;
+        public Plane Near { get { return this.near; } }
+
+        private Plane far;
+        public Plane Far { get { return this.far; } }
+
+        private Plane top;
+        public Plane Top { get { return this.top; } }
+
+        private Plane bottom;
+        public Plane Bottom { get { return this.bottom; } }
+
+        private Plane right;
+        public Plane Right { get { return this.right; } }
+
+        private Plane left;
+        public Plane Left { get { return this.left; } }
         #endregion
 
         #region constructors
         public BoundingFrustum(Matrix value)
         {
+            corners = new Vector3[CornerCount];
             this.matrix = value;
+            CreatePlanes();
+            CreateCorners();
         }
         #endregion
 
@@ -162,17 +140,18 @@ namespace ANX.Framework
 
         public Vector3[] GetCorners()
         {
-            throw new Exception("method has not yet been implemented");
+            return this.corners;
         }
 
         public void GetCorners(Vector3[] corners)
         {
-            throw new Exception("method has not yet been implemented");
+            corners = this.corners;
         }
 
         public override int GetHashCode()
         {
-            throw new Exception("method has not yet been implemented");
+            //TODO: implement
+            return base.GetHashCode();
         }
 
         public bool Intersects(BoundingBox box)
@@ -222,6 +201,94 @@ namespace ANX.Framework
         public override string ToString()
         {
             throw new Exception("method has not yet been implemented");
+        }
+        #endregion
+
+        #region private methods
+        //algorithm from: http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf
+        private void CreatePlanes()
+        {
+            this.left.Normal.X = this.matrix.M14 + this.matrix.M11;
+            this.left.Normal.Y = this.matrix.M24 + this.matrix.M21;
+            this.left.Normal.Z = this.matrix.M34 + this.matrix.M31;
+            this.left.D = this.matrix.M44 + this.matrix.M41;
+
+            this.right.Normal.X = this.matrix.M14 - this.matrix.M11;
+            this.right.Normal.Y = this.matrix.M24 - this.matrix.M21;
+            this.right.Normal.Z = this.matrix.M34 - this.matrix.M31;
+            this.right.D = this.matrix.M44 - this.matrix.M41;
+
+            this.bottom.Normal.X = this.matrix.M14 + this.matrix.M12;
+            this.bottom.Normal.Y = this.matrix.M24 + this.matrix.M22;
+            this.bottom.Normal.Z = this.matrix.M34 + this.matrix.M32;
+            this.bottom.D = this.matrix.M44 + this.matrix.M42;
+
+            this.top.Normal.X = this.matrix.M14 - this.matrix.M12;
+            this.top.Normal.Y = this.matrix.M24 - this.matrix.M22;
+            this.top.Normal.Z = this.matrix.M34 - this.matrix.M32;
+            this.top.D = this.matrix.M44 - this.matrix.M42;
+
+            this.near.Normal.X = this.matrix.M13;
+            this.near.Normal.Y = this.matrix.M23;
+            this.near.Normal.Z = this.matrix.M33;
+            this.near.D = this.matrix.M43;
+
+            this.far.Normal.X = this.matrix.M14 - this.matrix.M13;
+            this.far.Normal.Y = this.matrix.M24 - this.matrix.M23;
+            this.far.Normal.Z = this.matrix.M34 - this.matrix.M33;
+            this.far.D = this.matrix.M44 - this.matrix.M43;
+
+            NormalizePlane(ref this.left);
+            NormalizePlane(ref this.right);
+            NormalizePlane(ref this.bottom);
+            NormalizePlane(ref this.top);
+            NormalizePlane(ref this.near);
+            NormalizePlane(ref this.far);
+        }
+
+        //source: monoxna
+        private void NormalizePlane(ref Plane p)
+        {
+            float factor = 1f / p.Normal.Length();
+            p.Normal.X *= factor;
+            p.Normal.Y *= factor;
+            p.Normal.Z *= factor;
+            p.D *= factor;
+        }
+
+        //source: monoxna
+        private static Vector3 IntersectionPoint(ref Plane a, ref Plane b, ref Plane c)
+        {
+            // Formula used
+            //                d1 ( N2 * N3 ) + d2 ( N3 * N1 ) + d3 ( N1 * N2 )
+            //P =       -------------------------------------------------------------------------
+            //                             N1 . ( N2 * N3 )
+            //
+            // Note: N refers to the normal, d refers to the displacement. '.' means dot product. '*' means cross product
+
+            Vector3 v1, v2, v3;
+            float f = -Vector3.Dot(a.Normal, Vector3.Cross(b.Normal, c.Normal));
+
+            v1 = (a.D * (Vector3.Cross(b.Normal, c.Normal)));
+            v2 = (b.D * (Vector3.Cross(c.Normal, a.Normal)));
+            v3 = (c.D * (Vector3.Cross(a.Normal, b.Normal)));
+
+            Vector3 vec = new Vector3(v1.X + v2.X + v3.X, v1.Y + v2.Y + v3.Y, v1.Z + v2.Z + v3.Z);
+            return vec / f;
+        }
+
+        //source: monoxna
+        private void CreateCorners()
+        {
+            this.corners = new Vector3[8];
+            this.corners[0] = IntersectionPoint(ref this.near, ref this.left, ref this.top);
+            this.corners[1] = IntersectionPoint(ref this.near, ref this.right, ref this.top);
+            this.corners[2] = IntersectionPoint(ref this.near, ref this.right, ref this.bottom);
+            this.corners[3] = IntersectionPoint(ref this.near, ref this.left, ref this.bottom);
+            this.corners[4] = IntersectionPoint(ref this.far, ref this.left, ref this.top);
+            this.corners[5] = IntersectionPoint(ref this.far, ref this.right, ref this.top);
+            this.corners[6] = IntersectionPoint(ref this.far, ref this.right, ref this.bottom);
+            this.corners[7] = IntersectionPoint(ref this.far, ref this.left, ref this.bottom);
         }
         #endregion
 

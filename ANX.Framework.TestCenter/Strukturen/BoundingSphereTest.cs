@@ -67,43 +67,43 @@ namespace ANX.Framework.TestCenter.Strukturen
         #region Helper
         static object[] fourfloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
         };
 
         static object[] eightfloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
         };
 
         static object[] tenfloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
         };
          
         static object[] twentyfloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),
+                 DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),
+                 DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),
+                 DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),
+                 DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),
+                 DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f),  DataFactory.RandomValueMinMax(0f, 1000f) },
         };
 
         #endregion
@@ -169,7 +169,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaSphere.Contains(xnaFrustum);
             ANX.Framework.ContainmentType containsANX = anxSphere.Contains(anxFrustum);
 
-            if (containsXNA.Equals(containsANX))
+            if ((int)containsXNA == (int)containsANX)
                 Assert.Pass("ContainsBoundingFrustum passed");
             else
                 Assert.Fail(String.Format("ContainsBoundingFrustum failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
@@ -358,7 +358,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.PlaneIntersectionType xna = xnaSphere.Intersects(xnaPlane);
             ANX.Framework.PlaneIntersectionType anx = anxSphere.Intersects(anxPlane);
 
-            if (xna.Equals(anx))
+            if ((int)xna == (int)anx)
                 Assert.Pass("IntersectsPlane passed");
             else
                 Assert.Fail(String.Format("IntersectsPlane failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
@@ -371,9 +371,11 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), r);
             Microsoft.Xna.Framework.Ray xnaRay = new Microsoft.Xna.Framework.Ray(new XNAVector3(xRay, yRay, zRay), new XNAVector3(xDir, yDir, zDir));
+            xnaRay.Direction.Normalize();
 
             ANXBoundingSphere anxSphere = new ANXBoundingSphere(new ANXVector3(xS, yS, zS), r);
             ANX.Framework.Ray anxRay = new ANX.Framework.Ray(new ANXVector3(xRay, yRay, zRay), new ANXVector3(xDir, yDir, zDir));
+            anxRay.Direction.Normalize();
 
             float? xna = xnaSphere.Intersects(xnaRay);
             float? anx = anxSphere.Intersects(anxRay);

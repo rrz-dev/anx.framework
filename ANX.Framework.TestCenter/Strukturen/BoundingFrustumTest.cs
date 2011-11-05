@@ -67,21 +67,21 @@ namespace ANX.Framework.TestCenter.Strukturen
         #region Helper
         static object[] thirtytwofloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-           new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,
-                 DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue },
+            new object[] {  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue },
+            new object[] {  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue },
+           new object[] {  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue },
+            new object[] {  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,
+                 DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue,  DataFactory.RandomValue },
         };
         #endregion
 
@@ -209,7 +209,30 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3[] xna = xnaFrustum.GetCorners();
             ANXVector3[] anx = anxFrustum.GetCorners();
 
-            if (xna.Equals(anx))
+            if (xna[0].X == anx[0].X &&
+                xna[0].Y == anx[0].Y &&
+                xna[0].Z == anx[0].Z &&
+                xna[1].X == anx[1].X &&
+                xna[1].Y == anx[1].Y &&
+                xna[1].Z == anx[1].Z &&
+                xna[2].X == anx[2].X &&
+                xna[2].Y == anx[2].Y &&
+                xna[2].Z == anx[2].Z &&
+                xna[3].X == anx[3].X &&
+                xna[3].Y == anx[3].Y &&
+                xna[3].Z == anx[3].Z &&
+                xna[4].X == anx[4].X &&
+                xna[4].Y == anx[4].Y &&
+                xna[4].Z == anx[4].Z &&
+                xna[5].X == anx[5].X &&
+                xna[5].Y == anx[5].Y &&
+                xna[5].Z == anx[5].Z &&
+                xna[6].X == anx[6].X &&
+                xna[6].Y == anx[6].Y &&
+                xna[6].Z == anx[6].Z &&
+                xna[7].X == anx[7].X &&
+                xna[7].Y == anx[7].Y &&
+                xna[7].Z == anx[7].Z)
                 Assert.Pass("GetCorners passed");
             else
                 Assert.Fail(String.Format("GetCorners failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
@@ -302,7 +325,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.PlaneIntersectionType xna = xnaFrustum.Intersects(xnaPlane);
             ANX.Framework.PlaneIntersectionType anx = anxFrustum.Intersects(anxPlane);
 
-            if (xna.Equals(anx))
+            if ((int)xna == (int)anx)
                 Assert.Pass("IntersectsPlane passed");
             else
                 Assert.Fail(String.Format("IntersectsPlane failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
