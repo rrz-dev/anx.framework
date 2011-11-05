@@ -75,7 +75,10 @@ namespace ANX.Framework
             return Position.GetHashCode() ^ Direction.GetHashCode();
 
         }
-
+        /*
+         *  Source for implementation :
+         *  http://www-gs.informatik.tu-cottbus.de/projektstudium2006/doku/Strahlen_in_der_CG.pdf
+         */
         public Nullable<float> Intersects(BoundingBox box)
         {
             Nullable<float> result;
@@ -104,7 +107,32 @@ namespace ANX.Framework
         }
         public void Intersects(ref BoundingSphere sphere, out Nullable<float> result)
         {
-            throw new Exception("method has not yet been implemented");
+            Vector3 toSphere = Vector3.Subtract(sphere.Center, this.Position);
+            float lengthSquaredToSphere = toSphere.LengthSquared();
+            float sphereRadiusSquared = sphere.Radius * sphere.Radius;
+
+            //project the distance to the Sphere onto the Ray
+            float toSphereOnRay = Vector3.Dot(this.Direction, toSphere);
+
+            //ray starts in sphere
+            if (lengthSquaredToSphere <= sphereRadiusSquared)
+            {
+                result = 0;
+                return;
+            }
+            //if toSphere and this.Direction pointing in different directions
+            if (toSphereOnRay < 0)
+            {
+                result = null;
+                return;
+            }
+
+            float dist = sphereRadiusSquared + toSphereOnRay * toSphereOnRay - lengthSquaredToSphere;
+
+            result = (dist < 0) ? null : toSphereOnRay - (float?)Math.Sqrt(dist);
+
+
+
         }
         public Nullable<float> Intersects(Plane plane)
         {
