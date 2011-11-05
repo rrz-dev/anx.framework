@@ -158,30 +158,63 @@ namespace ANX.Framework
             float distanceSquared_Sphere_Origin = Vector3.DistanceSquared(Vector3.Zero, sphere.Center);
             float distanceSquared_Plane_Origin = this.D * this.D;
             //maybe check pointing direktion of normal
-            if (distanceSquared_Sphere_Origin > distanceSquared_Plane_Origin)
-            {               
-                if (distanceSquared_Sphere_Origin - sphere.Radius < distanceSquared_Plane_Origin)
+            if ((this.Normal * 2).LengthSquared() < this.Normal.LengthSquared())
+            {
+                if (distanceSquared_Sphere_Origin > distanceSquared_Plane_Origin)
                 {
-                    result = PlaneIntersectionType.Intersecting;
-                    return;
+                    if (distanceSquared_Sphere_Origin - sphere.Radius < distanceSquared_Plane_Origin)
+                    {
+                        result = PlaneIntersectionType.Intersecting;
+                        return;
+                    }
+                    else
+                    {
+                        result = PlaneIntersectionType.Front;
+                        return;
+                    }
                 }
-                else
+                if (distanceSquared_Sphere_Origin < distanceSquared_Plane_Origin)
                 {
-                    result = PlaneIntersectionType.Front;
-                    return;
+                    if (distanceSquared_Sphere_Origin + sphere.Radius > distanceSquared_Plane_Origin)
+                    {
+                        result = PlaneIntersectionType.Intersecting;
+                        return;
+                    }
+                    else
+                    {
+                        result = PlaneIntersectionType.Back;
+                        return;
+                    }
                 }
             }
-            if (distanceSquared_Sphere_Origin < distanceSquared_Plane_Origin)
+            else
             {
-                if (distanceSquared_Sphere_Origin + sphere.Radius > distanceSquared_Plane_Origin)
+
+                if (distanceSquared_Sphere_Origin > distanceSquared_Plane_Origin)
                 {
-                    result = PlaneIntersectionType.Intersecting;
-                    return;
+                    if (distanceSquared_Sphere_Origin - sphere.Radius < distanceSquared_Plane_Origin)
+                    {
+                        result = PlaneIntersectionType.Intersecting;
+                        return;
+                    }
+                    else
+                    {
+                        result = PlaneIntersectionType.Back;
+                        return;
+                    }
                 }
-                else
+                if (distanceSquared_Sphere_Origin < distanceSquared_Plane_Origin)
                 {
-                    result = PlaneIntersectionType.Back;
-                    return;
+                    if (distanceSquared_Sphere_Origin + sphere.Radius > distanceSquared_Plane_Origin)
+                    {
+                        result = PlaneIntersectionType.Intersecting;
+                        return;
+                    }
+                    else
+                    {
+                        result = PlaneIntersectionType.Front;
+                        return;
+                    }
                 }
             }
             //else distance sphere == distance plane
