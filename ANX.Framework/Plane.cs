@@ -207,7 +207,7 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            return string.Format("{{Normal:"+this.Normal.ToString()+" D:"+this.D.ToString()+"}}";
+            return "{{Normal:"+this.Normal.ToString()+" D:"+this.D.ToString()+"}}";
 
         }
 
