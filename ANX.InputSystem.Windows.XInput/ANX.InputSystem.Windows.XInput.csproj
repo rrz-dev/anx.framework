@@ -34,6 +34,9 @@
     <Reference Include="SharpDX">
       <HintPath>..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.DirectInput">
+      <HintPath>..\lib\SharpDX\Bin\SharpDX.DirectInput.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.XInput">
       <HintPath>..\lib\SharpDX\Bin\SharpDX.XInput.dll</HintPath>
     </Reference>

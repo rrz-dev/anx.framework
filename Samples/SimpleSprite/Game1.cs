@@ -146,7 +146,16 @@ namespace WindowsGame1
             { GraphicsDevice.Clear(Color.Green); }
             else
             {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
+                if (Mouse.GetState().XButton1 == ButtonState.Pressed)
+                {
+                    GraphicsDevice.Clear(Color.Chocolate);
+
+                }
+                else
+                {
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
+
+                }
             }
 
             spriteBatch.Begin();
