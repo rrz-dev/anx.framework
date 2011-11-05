@@ -57,7 +57,18 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class TextureCollection
+    public sealed class TextureCollection
     {
+			public Texture this[int index]
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+				set
+				{
+					throw new NotImplementedException();
+				}
+			}
     }
 }

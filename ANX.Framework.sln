@@ -43,11 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xinput", "Samples\Xinput\Xi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame", "Samples\WindowsGame\WindowsGame.csproj", "{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNAToANXConverter", "Tools\XNAToANXConverter\XNAToANXConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -211,6 +209,16 @@ Global
 		{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}.Release|x86.ActiveCfg = Release|x86
 		{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}.Release|x86.Build.0 = Release|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|x86.ActiveCfg = Debug|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|x86.Build.0 = Debug|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|Any CPU.ActiveCfg = Release|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|x86.ActiveCfg = Release|x86
+		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -220,6 +228,7 @@ Global
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{5BE49183-2F6F-4527-AC90-D816911FCF90} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{9D8DC781-2E0D-4348-BAD9-745F91428A3F} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
+		{B5209A04-B2F8-4033-A5E7-545BE771214C} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
 		{F945515B-394D-4ED4-80E0-98EB59B69D24} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{BC79B021-10E4-4D01-945A-7048FFF53A22} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
@@ -228,5 +237,9 @@ Global
 		{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{60D08399-244F-46A3-91F1-4CFD26D961A3} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{6A582788-C4D2-410C-96CD-177F75712D65} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

@@ -84,6 +84,38 @@ namespace ANX.Framework.Input
         public int X { get { return this.x; } }
         public int Y { get { return this.y; } }
 
+				public static bool operator ==(MouseState left, MouseState right)
+				{
+					return left.X == right.X &&
+						left.Y == right.Y &&
+						left.LeftButton == right.LeftButton &&
+						left.MiddleButton == right.MiddleButton &&
+						left.RightButton == right.RightButton &&
+						left.XButton1 == right.XButton1 &&
+						left.XButton2 == right.XButton2 &&
+						left.ScrollWheelValue == right.ScrollWheelValue;
+				}
 
+				public static bool operator !=(MouseState left, MouseState right)
+				{
+					return left.X != right.X ||
+						left.Y != right.Y ||
+						left.LeftButton != right.LeftButton ||
+						left.MiddleButton != right.MiddleButton ||
+						left.RightButton != right.RightButton ||
+						left.XButton1 != right.XButton1 ||
+						left.XButton2 != right.XButton2 ||
+						left.ScrollWheelValue != right.ScrollWheelValue;
+				}
+
+				public override bool Equals(object obj)
+				{
+					if (obj is MouseState)
+					{
+						return this == (MouseState)obj;
+					}
+
+					return false;
+				}
     }
 }

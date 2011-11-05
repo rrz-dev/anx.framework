@@ -2,6 +2,10 @@
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using System.Collections.ObjectModel;
+using OpenTK;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 #region License
 
@@ -224,10 +228,64 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region GetAdapterList
+		/// <summary>
+		/// Get a list of available graphics adapter information.
+		/// </summary>
+		/// <returns>List of graphics adapters.</returns>
+		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+		{
+			var result = new List<GraphicsAdapter>();
+			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
+			{
+				var displayModeCollection = new DisplayModeCollection();
+				foreach (string format in Enum.GetNames(typeof(SurfaceFormat)))
+				{
+					SurfaceFormat surfaceFormat =
+						(SurfaceFormat)Enum.Parse(typeof(SurfaceFormat), format);
 
-        public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
-        {
-            throw new NotImplementedException();
-        }
-    }
+					// TODO: device.BitsPerPixel
+					if (surfaceFormat != SurfaceFormat.Color)//adapter.Supports(surfaceFormat) == false)
+					{
+						continue;
+					}
+
+					var modes = new List<DisplayMode>();
+
+					foreach (DisplayResolution res in device.AvailableResolutions)
+					{
+						float aspect = (float)res.Width / (float)res.Height;
+						modes.Add(new DisplayMode
+						{
+							AspectRatio = aspect,
+							Width = res.Width,
+							Height = res.Height,
+							TitleSafeArea = new Rectangle(0, 0, res.Width, res.Height),
+							Format = surfaceFormat,
+						});
+					}
+
+					displayModeCollection[surfaceFormat] = modes.ToArray();
+				}
+
+				GraphicsAdapter newAdapter = new GraphicsAdapter
+				{
+					SupportedDisplayModes = displayModeCollection,
+					IsDefaultAdapter = device.IsPrimary,
+
+					// TODO:
+					DeviceId = 0,
+					DeviceName = "",
+					Revision = 0,
+					SubSystemId = 0,
+					VendorId = 0,
+				};
+
+				result.Add(newAdapter);
+			}
+
+			return new ReadOnlyCollection<GraphicsAdapter>(result);
+		}
+		#endregion
+	}
 }

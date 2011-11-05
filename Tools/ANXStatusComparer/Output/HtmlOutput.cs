@@ -142,7 +142,7 @@ namespace ANXStatusComparer.Output
 		{0}
 		<td>{1}</td>
 	</tr>",
-				EmptyCell, classData.Handle.Name);
+				EmptyCell, classData.Handle.FullName);
 			}
 
 			text += @"
@@ -181,7 +181,7 @@ namespace ANXStatusComparer.Output
 		{0}
 		<td>{1}</td>
 	</tr>",
-				EmptyCell, structData.Handle.Name);
+				EmptyCell, structData.Handle.FullName);
 			}
 
 			text += @"
