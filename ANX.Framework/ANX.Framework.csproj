@@ -141,8 +141,11 @@
     <Compile Include="GameTimer.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="GraphicsDeviceInformation.cs" />
+    <Compile Include="Graphics\DeviceLostException.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
     <Compile Include="Graphics\DisplayModeCollection.cs" />
+    <Compile Include="Graphics\DynamicVertexBuffer.cs" />
+    <Compile Include="Graphics\EffectMaterial.cs" />
     <Compile Include="Graphics\GraphicsAdapter.cs" />
     <Compile Include="Graphics\GraphicsDevice.cs" />
     <Compile Include="GraphicsDeviceManager.cs" />
@@ -182,6 +185,10 @@
     <Compile Include="Graphics\IndexBuffer.cs" />
     <Compile Include="Graphics\IndexElementSize.cs" />
     <Compile Include="Graphics\IVertexType.cs" />
+    <Compile Include="Graphics\DynamicIndexBuffer.cs" />
+    <Compile Include="Graphics\DeviceNotResetException.cs" />
+    <Compile Include="Graphics\NoSuitableGraphicsDeviceException.cs" />
+    <Compile Include="Graphics\OcclusionQuery.cs" />
     <Compile Include="Graphics\RenderTargetCube.cs" />
     <Compile Include="Graphics\PackedVector\Alpha8.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
