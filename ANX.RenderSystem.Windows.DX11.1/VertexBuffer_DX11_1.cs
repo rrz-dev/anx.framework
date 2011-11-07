@@ -142,5 +142,21 @@ namespace ANX.RenderSystem.Windows.DX11_1
                 buffer = null;
             }
         }
+
+
+        public void GetBackBufferData<T>(Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
     }
 }

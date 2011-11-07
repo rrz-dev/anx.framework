@@ -73,6 +73,8 @@ namespace ANX.Framework.Graphics
         private GraphicsProfile graphicsProfile;
         private VertexBufferBinding[] currentVertexBufferBindings;
         private RenderTargetBinding[] currentRenderTargetBindings;
+        private TextureCollection vertexTextureCollection;
+        private TextureCollection textureCollection;
 
         #endregion // Private Members
 
@@ -97,6 +99,8 @@ namespace ANX.Framework.Graphics
             nativeDevice = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
 
             this.samplerStateCollection = new SamplerStateCollection(this, 8);    //TODO: get maximum number of sampler states from capabilities
+            this.textureCollection = new TextureCollection();
+            this.vertexTextureCollection = new TextureCollection();
         }
 
         ~GraphicsDevice()
@@ -216,17 +220,17 @@ namespace ANX.Framework.Graphics
 
         public void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
         {
-            throw new NotImplementedException();
+            nativeDevice.GetBackBufferData<T>(rect, data, startIndex, elementCount);
         }
 
         public void GetBackBufferData<T>(T[] data) where T : struct
         {
-            throw new NotImplementedException();
+            nativeDevice.GetBackBufferData<T>(data);
         }
 
         public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            throw new NotImplementedException();
+            nativeDevice.GetBackBufferData<T>(data, startIndex, elementCount);
         }
 
         public VertexBufferBinding[] GetVertexBuffers()
@@ -483,7 +487,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.vertexTextureCollection;
             }
         }
 
@@ -491,7 +495,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.textureCollection;
             }
         }
 

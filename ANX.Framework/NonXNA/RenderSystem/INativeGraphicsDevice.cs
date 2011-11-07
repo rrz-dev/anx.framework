@@ -70,5 +70,9 @@ namespace ANX.Framework.NonXNA
         void SetViewport(Viewport viewport);
 
         void SetRenderTargets(params RenderTargetBinding[] renderTargets);
+
+        void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct;
+        void GetBackBufferData<T>(T[] data) where T : struct;
+        void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct;
     }
 }
