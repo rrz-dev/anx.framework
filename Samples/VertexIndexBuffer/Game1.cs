@@ -75,14 +75,11 @@ namespace VertexIndexBuffer
 
         protected override void Initialize()
         {
-            // TODO: Fügen Sie Ihre Initialisierungslogik hier hinzu
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Erstellen Sie einen neuen SpriteBatch, der zum Zeichnen von Texturen verwendet werden kann.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             miniTriEffect = Content.Load<Effect>(@"Effects/MiniTri");
@@ -112,26 +109,14 @@ namespace VertexIndexBuffer
             ib.SetData<int>(indices);
         }
 
-        protected override void UnloadContent()
-        {
-            // TODO: Entladen Sie jeglichen Nicht-ContentManager-Inhalt hier
-        }
-
         protected override void Update(GameTime gameTime)
         {
-            // Ermöglicht ein Beenden des Spiels
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            // TODO: Fügen Sie Ihre Aktualisierungslogik hier hinzu
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// Dies wird aufgerufen, wenn das Spiel selbst zeichnen soll.
-        /// </summary>
-        /// <param name="gameTime">Bietet einen Schnappschuss der Timing-Werte.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

@@ -69,6 +69,8 @@ namespace ANX.Framework.Graphics
         private DepthStencilState depthStencilState;
         private GraphicsAdapter currentAdapter;
         private PresentationParameters currentPresentationParameters;
+        private bool isDisposed;
+        private GraphicsProfile graphicsProfile;
 
         #endregion // Private Members
 
@@ -85,6 +87,7 @@ namespace ANX.Framework.Graphics
         public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
             this.currentAdapter = adapter;
+            this.graphicsProfile = graphicsProfile;
             this.currentPresentationParameters = presentationParameters;
 
             this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
@@ -162,13 +165,11 @@ namespace ANX.Framework.Graphics
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount) where T : struct, IVertexType
         {
             throw new NotImplementedException();
-            //TODO: nativeDevice.DrawUserPrimitive(primitiveCount, vertexOffset);
         }
 
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
             throw new NotImplementedException();
-            //TODO: nativeDevice.DrawUserPrimitive(primitiveCount, vertexOffset);
         }
 
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
@@ -248,7 +249,7 @@ namespace ANX.Framework.Graphics
 
         protected virtual void Dispose(Boolean disposeManaged)
         {
-            throw new NotImplementedException();
+            //TODO: implement
         }
 
         public INativeGraphicsDevice NativeDevice
@@ -365,7 +366,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.isDisposed;
             }
         }
 
@@ -401,7 +402,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.graphicsProfile;
             }
         }
 
@@ -409,7 +410,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.currentAdapter;
             }
         }
 
@@ -417,7 +418,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.currentPresentationParameters;
             }
         }
 
@@ -425,11 +426,14 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return DepthStencilState.ReferenceStencil;
             }
             set
             {
-                throw new NotImplementedException();
+                if (DepthStencilState.ReferenceStencil != value)
+                {
+                    DepthStencilState.ReferenceStencil = value;
+                }
             }
         }
 
@@ -437,11 +441,14 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return BlendState.MultiSampleMask;
             }
             set
             {
-                throw new NotImplementedException();
+                if (BlendState.MultiSampleMask != value)
+                {
+                    BlendState.MultiSampleMask = value;
+                }
             }
         }
         
@@ -449,11 +456,14 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return BlendState.BlendFactor;
             }
             set
             {
-                throw new NotImplementedException();
+                if (BlendState.BlendFactor != value)
+                {
+                    BlendState.BlendFactor = value;
+                }
             }
         }
 

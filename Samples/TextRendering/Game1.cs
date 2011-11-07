@@ -72,14 +72,11 @@ namespace TextRendering
 
         protected override void Initialize()
         {
-            // TODO: Fügen Sie Ihre Initialisierungslogik hier hinzu
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Erstellen Sie einen neuen SpriteBatch, der zum Zeichnen von Texturen verwendet werden kann.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             this.debugFont = Content.Load<SpriteFont>(@"Fonts/Debug");
@@ -87,11 +84,8 @@ namespace TextRendering
 
         protected override void Update(GameTime gameTime)
         {
-            // Ermöglicht ein Beenden des Spiels
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            // TODO: Fügen Sie Ihre Aktualisierungslogik hier hinzu
 
             base.Update(gameTime);
         }

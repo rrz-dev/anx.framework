@@ -113,7 +113,6 @@ namespace ANX.RenderSystem.Windows.DX11_1
 
         public void Clear(ref Color color)
         {
-            //TODO: DIRTY -> Convert Color without divisions
             throw new NotImplementedException();
             //device.ClearRenderTargetView(renderView, new SharpDX.Color4(color.A / 255f, color.R / 255f, color.G / 255f, color.B / 255f));
         }

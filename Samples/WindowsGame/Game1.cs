@@ -79,8 +79,6 @@ namespace WindowsGame1
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
-
 			base.Initialize();
 		}
 
@@ -91,7 +89,7 @@ namespace WindowsGame1
 		protected override void LoadContent()
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
-			//spriteBatch = new SpriteBatch(GraphicsDevice);
+			spriteBatch = new SpriteBatch(GraphicsDevice);
 		}
 
 		/// <summary>
@@ -100,8 +98,8 @@ namespace WindowsGame1
 		/// </summary>
 		protected override void UnloadContent()
 		{
-			// TODO: Unload any non ContentManager content here
-		}
+
+        }
 
 		/// <summary>
 		/// Allows the game to run logic such as updating the world,
@@ -116,8 +114,6 @@ namespace WindowsGame1
 				this.Exit();
 			}
 
-			// TODO: Add your update logic here
-
 			base.Update(gameTime);
 		}
 
@@ -128,8 +124,6 @@ namespace WindowsGame1
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-			// TODO: Add your draw logic here
 
 			base.Draw(gameTime);
 		}
