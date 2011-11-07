@@ -79,5 +79,35 @@ namespace ANX.Framework.Graphics
             d.Name = "VertexPositionColor.VertexDeclaration";
             VertexDeclaration = d;
         }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{{Position:{0} Color:{1}}}", this.Position, this.Color);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == this.GetType())
+            {
+                return this == (VertexPositionColor)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(VertexPositionColor lhs, VertexPositionColor rhs)
+        {
+            return lhs.Color.Equals(rhs.Color) && lhs.Position.Equals(rhs.Position);
+        }
+
+        public static bool operator !=(VertexPositionColor lhs, VertexPositionColor rhs)
+        {
+            return !lhs.Color.Equals(rhs.Color) || !lhs.Position.Equals(rhs.Position);
+        }
     }
 }
