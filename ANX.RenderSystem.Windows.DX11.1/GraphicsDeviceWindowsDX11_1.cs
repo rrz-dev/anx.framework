@@ -245,34 +245,6 @@ namespace ANX.RenderSystem.Windows.DX11_1
             //}
         }
 
-        public void SetVertexBuffer(VertexBuffer vertexBuffer)
-        {
-            if (vertexBuffer == null)
-            {
-                throw new ArgumentNullException("vertexBuffer");
-            }
-
-            throw new NotImplementedException();
-
-            //this.currentVertexBuffer = vertexBuffer;
-
-            //VertexBuffer_DX10 nativeVertexBuffer = vertexBuffer.NativeVertexBuffer as VertexBuffer_DX10;
-
-            //if (nativeVertexBuffer != null)
-            //{
-            //    device.InputAssembler.SetVertexBuffers(0, new SharpDX.Direct3D10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexBuffer.VertexDeclaration.VertexStride, 0));
-            //}
-            //else
-            //{
-            //    throw new Exception("couldn't fetch native DirectX10 VertexBuffer");
-            //}
-        }
-
-        public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetVertexBuffers(ANX.Framework.Graphics.VertexBufferBinding[] vertexBuffers)
         {
             throw new NotImplementedException();
@@ -617,5 +589,21 @@ namespace ANX.RenderSystem.Windows.DX11_1
             return Comparison.Always;
         }
 
+
+
+        public void SetRenderTarget(Framework.Graphics.RenderTarget2D renderTarget)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTarget(Framework.Graphics.RenderTargetCube renderTarget, Framework.Graphics.CubeMapFace cubeMapFace)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTargets(params Framework.Graphics.RenderTargetBinding[] renderTargets)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

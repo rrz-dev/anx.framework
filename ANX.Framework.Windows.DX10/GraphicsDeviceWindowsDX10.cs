@@ -251,35 +251,32 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
-        {
-            if (vertexBuffer == null)
-            {
-                throw new ArgumentNullException("vertexBuffer");
-            }
-
-            this.currentVertexBuffer = vertexBuffer;
-
-            VertexBuffer_DX10 nativeVertexBuffer = vertexBuffer.NativeVertexBuffer as VertexBuffer_DX10;
-
-            if (nativeVertexBuffer != null)
-            {
-                device.InputAssembler.SetVertexBuffers(0, new SharpDX.Direct3D10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexBuffer.VertexDeclaration.VertexStride, vertexOffset));
-            }
-            else
-            {
-                throw new Exception("couldn't fetch native DirectX10 VertexBuffer");
-            }
-        }
-
-        public void SetVertexBuffer(VertexBuffer vertexBuffer)
-        {
-            SetVertexBuffer(vertexBuffer, 0);
-        }
-
         public void SetVertexBuffers(Graphics.VertexBufferBinding[] vertexBuffers)
         {
-            throw new NotImplementedException();            
+            if (vertexBuffers == null)
+            {
+                throw new ArgumentNullException("vertexBuffers");
+            }
+
+            this.currentVertexBuffer = vertexBuffers[0].VertexBuffer;   //TODO: hmmmmm, not nice :-)
+
+            SharpDX.Direct3D10.VertexBufferBinding[] nativeVertexBufferBindings = new SharpDX.Direct3D10.VertexBufferBinding[vertexBuffers.Length];
+            for (int i = 0; i < vertexBuffers.Length; i++)
+            {
+                ANX.Framework.Graphics.VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
+                VertexBuffer_DX10 nativeVertexBuffer = anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_DX10;
+
+                if (nativeVertexBuffer != null)
+                {
+                    nativeVertexBufferBindings[i] = new SharpDX.Direct3D10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
+                }
+                else
+                {
+                    throw new Exception("couldn't fetch native DirectX10 VertexBuffer");
+                }
+            }
+
+            device.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
         }
 
         public void SetViewport(Graphics.Viewport viewport)
@@ -330,6 +327,22 @@ namespace ANX.Framework.Windows.DX10
             }
 
             return new InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
+        }
+
+
+        public void SetRenderTarget(RenderTarget2D renderTarget)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -168,16 +168,6 @@ namespace ANX.Framework.Windows.GL3
 			throw new NotImplementedException();
 		}
 
-		public void SetVertexBuffer(VertexBuffer vertexBuffer)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
-		{
-			throw new NotImplementedException();
-		}
-
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			throw new NotImplementedException();
@@ -227,5 +217,21 @@ namespace ANX.Framework.Windows.GL3
 			nativeContext.SwapBuffers();
 		}
 		#endregion
-	}
+
+
+        public void SetRenderTarget(RenderTarget2D renderTarget)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

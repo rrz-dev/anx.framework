@@ -71,6 +71,7 @@ namespace ANX.Framework.Graphics
         private PresentationParameters currentPresentationParameters;
         private bool isDisposed;
         private GraphicsProfile graphicsProfile;
+        private VertexBufferBinding[] currentVertexBufferBindings;
 
         #endregion // Private Members
 
@@ -174,32 +175,37 @@ namespace ANX.Framework.Graphics
 
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
         {
-            nativeDevice.SetVertexBuffer(vertexBuffer);
+            VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer) };
+            this.currentVertexBufferBindings = bindings;
+            this.nativeDevice.SetVertexBuffers(bindings);
         }
 
         public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
         {
-            nativeDevice.SetVertexBuffer(vertexBuffer, vertexOffset);
+            VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer, vertexOffset) };
+            this.currentVertexBufferBindings = bindings;
+            this.nativeDevice.SetVertexBuffers(bindings);
         }
 
         public void SetVertexBuffers(Graphics.VertexBufferBinding[] vertexBuffers)
         {
+            this.currentVertexBufferBindings = vertexBuffers;
             nativeDevice.SetVertexBuffers(vertexBuffers);
         }
 
         public void SetRenderTarget(RenderTarget2D renderTarget)
         {
-            throw new NotImplementedException();
+            nativeDevice.SetRenderTarget(renderTarget);
         }
 
         public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
         {
-            throw new NotImplementedException();
+            nativeDevice.SetRenderTarget(renderTarget, cubeMapFace);
         }
 
         public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
-            throw new NotImplementedException();
+            nativeDevice.SetRenderTargets(renderTargets);
         }
 
         public void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
@@ -219,7 +225,7 @@ namespace ANX.Framework.Graphics
 
         public VertexBufferBinding[] GetVertexBuffers()
         {
-            throw new NotImplementedException();
+            return this.currentVertexBufferBindings;
         }
 
         public RenderTargetBinding[] GetRenderTargets()
