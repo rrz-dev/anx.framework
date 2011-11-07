@@ -174,13 +174,12 @@ namespace ANX.Framework.Content
 
             bool isCompressed = (flags & 0x80) != 0;
 
-            uint sizeOnDisk = reader.ReadUInt32();
+            int sizeOnDisk = reader.ReadInt32();
             // TODO: check stream length
 
             if (isCompressed)
             {
-                int decompressedSize = reader.ReadInt32();
-                return Decompressor.DecompressStream(reader, input, decompressedSize);
+                return Decompressor.DecompressStream(reader, input, sizeOnDisk);
             }
             else
             {

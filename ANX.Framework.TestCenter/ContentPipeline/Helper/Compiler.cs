@@ -105,6 +105,15 @@ namespace ANX.Framework.TestCenter.ContentPipeline.Helper
                 false, contentRootDirectory, referenceLocationPath);
         }
 
+        public void WriteAsset(Stream output, object value, bool compress)
+        {
+            WriteAsset(output,
+                value,
+                Microsoft.Xna.Framework.Content.Pipeline.TargetPlatform.Windows,
+                Microsoft.Xna.Framework.Graphics.GraphicsProfile.HiDef,
+                compress, contentRootDirectory, referenceLocationPath);
+        }
+
         public void AddTypeWriter(ContentTypeWriter writer)
         {
             MethodInfo addTypeWriter = GetPrivateMethod("AddTypeWriter");

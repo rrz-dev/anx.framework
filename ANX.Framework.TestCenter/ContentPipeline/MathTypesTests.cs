@@ -74,17 +74,45 @@ namespace ANX.Framework.TestCenter.ContentPipeline
         }
 
         [Test]
-        public void TestCompiler()
+        public void TestCompileWithoutCompression()
         {
             using (var stream = new MemoryStream())
             {
-                Compiler.WriteAsset(stream,
-                ANX.Framework.Color.CornflowerBlue);
+                Compiler.WriteAsset(stream, ANX.Framework.Color.CornflowerBlue);
 
                 stream.Position = 0;
-                Assert.AreEqual(stream.ReadByte(), 'X');
-                Assert.AreEqual(stream.ReadByte(), 'N');
-                Assert.AreEqual(stream.ReadByte(), 'B');
+                byte[] buffer = new byte[6];
+                stream.Read(buffer, 0, 6);
+
+                Assert.AreEqual(buffer[0], 'X');
+                Assert.AreEqual(buffer[1], 'N');
+                Assert.AreEqual(buffer[2], 'B');
+                Assert.AreEqual(buffer[3], 'w');
+
+                bool compressed = (buffer[5] >> 4) > 0;
+                Assert.AreEqual(compressed, false);
+            }
+        }
+
+        [Test]
+        public void TestCompileWithCompression() 
+        {
+            using (var stream = new MemoryStream())
+            {
+                //System.Diagnostics.Debugger.Launch();
+                Compiler.WriteAsset(stream, ANX.Framework.Color.CornflowerBlue, true);
+
+                stream.Position = 0;
+                byte[] buffer = new byte[6];
+                stream.Read(buffer, 0, 6);
+
+                Assert.AreEqual(buffer[0], 'X');
+                Assert.AreEqual(buffer[1], 'N');
+                Assert.AreEqual(buffer[2], 'B');
+                Assert.AreEqual(buffer[3], 'w');
+
+                bool compressed = (buffer[5] >> 4) > 0;
+                Assert.AreEqual(compressed, true);
             }
         }
 
@@ -94,8 +122,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             Assert.Fail("not implemented");
         }
 
-        [Test]
-        public void TestBoundingBoxSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestBoundingBoxSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -110,7 +139,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Max = new AnxFrame.Vector3(4, 5, 6)
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.BoundingBox>(null, stream, "Box");
 
@@ -118,8 +147,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestBoundingFrustumSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestBoundingFrustumSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -167,7 +197,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     M44 = 44,
                 });
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.BoundingFrustum>(null, stream, "Frustum");
 
@@ -175,8 +205,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestBoundingSphereSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestBoundingSphereSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -191,7 +222,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Radius = 4
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.BoundingSphere>(null, stream, "Sphere");
 
@@ -199,13 +230,14 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestColorSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestColorSerialization(bool compress)
         {
             using(var stream = new MemoryStream())
             {
                 var input = Microsoft.Xna.Framework.Color.CornflowerBlue;
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
 
                 //System.Diagnostics.Debugger.Launch();
                 stream.Position = 0;
@@ -219,8 +251,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
         }
 
 
-        [Test]
-        public void TestMatrixSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestMatrixSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -269,7 +302,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     M44 = 44,
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Matrix>(null, stream, "Matrix");
 
@@ -277,8 +310,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestPlaneSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestPlaneSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -293,7 +327,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     D = 4
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Plane>(null, stream, "Plane");
 
@@ -301,8 +335,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestPointSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestPointSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -317,7 +352,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Y = 2
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Point>(null, stream, "Point");
 
@@ -325,8 +360,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestQuaternionSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestQuaternionSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -345,7 +381,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     W = 4
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Quaternion>(null, stream, "Quaternion");
 
@@ -353,8 +389,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestRaySerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestRaySerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -369,7 +406,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Direction = new AnxFrame.Vector3(4, 5, 6),
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Ray>(null, stream, "Ray");
 
@@ -377,8 +414,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestRectangleSerialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestRectangleSerialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -397,7 +435,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Height = 4
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Rectangle>(null, stream, "Rectangle");
 
@@ -405,8 +443,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestVector2Serialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestVector2Serialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -421,7 +460,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Y = 2
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Vector2>(null, stream, "Vector2");
 
@@ -429,8 +468,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestVector3Serialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestVector3Serialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -447,7 +487,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     Z = 3
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Vector3>(null, stream, "Vector3");
 
@@ -455,8 +495,9 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestVector4Serialization()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TestVector4Serialization(bool compress)
         {
             using (var stream = new MemoryStream())
             {
@@ -475,7 +516,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
                     W = 4
                 };
 
-                Compiler.WriteAsset(stream, input);
+                Compiler.WriteAsset(stream, input, compress);
                 stream.Position = 0;
                 var actual = AnxFrame.Content.ContentReader.ReadAsset<AnxFrame.Vector4>(null, stream, "Vector4");
 
