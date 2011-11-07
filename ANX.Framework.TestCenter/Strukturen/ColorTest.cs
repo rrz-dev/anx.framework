@@ -439,7 +439,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test]
-        public void FromNonPremultipliedIntStatic2(float r, float g, float b, float a)
+        public void FromNonPremultipliedIntStatic2()
         {
             XNAColor xna = XNAColor.FromNonPremultiplied(512, 512, 512, 512);
             ANXColor anx = ANXColor.FromNonPremultiplied(512, 512, 512, 512);

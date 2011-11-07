@@ -858,6 +858,10 @@ namespace ANX.Framework
         {
             Color color;
 
+            r = r * a;
+            g = g * a;
+            b = b * a;
+
             if (((((r | g) | b) | a) & -256) != 0)
             {
                 r = r < 0 ? 0 : (r > 255 ? 255 : r);
@@ -865,10 +869,6 @@ namespace ANX.Framework
                 b = b < 0 ? 0 : (b > 255 ? 255 : b);
                 a = a < 0 ? 0 : (a > 255 ? 255 : a);
             }
-
-            r = r * a;
-            g = g * a;
-            b = b * a;
 
             color.packedValue = (uint)(((r | g << 8) | b << 16) | a << 24);
 

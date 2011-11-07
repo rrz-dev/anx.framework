@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ANX.Framework.Windows.DX10;
+using ANX.Framework.Input;
 
 #endregion // Using Statements
 
@@ -69,7 +70,7 @@ namespace ANX.Framework
             this.game = game;
             //this.LockThreadToProcessor();
             this.gameWindow = new WindowsGameWindow();
-            //Mouse.WindowHandle = this.gameWindow.Handle;
+            Mouse.WindowHandle = this.gameWindow.Handle;
             //TouchPanel.WindowHandle = this.gameWindow.Handle;
             //this.gameWindow.IsMouseVisible = game.IsMouseVisible;
             this.gameWindow.Activated += new EventHandler<EventArgs>(this.GameWindowActivated);
