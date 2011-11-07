@@ -1,10 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -57,12 +52,64 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class EffectMaterial : Effect
+    public sealed class ModelMesh
     {
-        public EffectMaterial(Effect cloneSource)
-            : base(cloneSource)
+        public void Draw()
         {
-            // nothing to do in here
+            throw new NotImplementedException();
         }
+
+        public BoundingSphere BoundingSphere
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ModelEffectCollection Effects
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ModelMeshPartCollection MeshParts
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ModelBone ParentBone
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Object Tag
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 }

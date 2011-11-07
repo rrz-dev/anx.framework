@@ -1,10 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -57,12 +52,57 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class EffectMaterial : Effect
+    public sealed class Model
     {
-        public EffectMaterial(Effect cloneSource)
-            : base(cloneSource)
+        public void CopyAbsoluteBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
-            // nothing to do in here
+            throw new NotImplementedException();
         }
+
+        public void CopyBoneTransformsFrom(Matrix[] sourceBoneTransforms)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyBoneTransformsTo(Matrix[] destinationBoneTransforms)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw (Matrix world, Matrix view, Matrix projection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ModelBoneCollection Bones 
+        { 
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ModelMeshCollection Meshes 
+        { 
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ModelBone Root 
+        { 
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Object Tag 
+        { 
+            get; 
+            set; 
+        }
+
     }
 }

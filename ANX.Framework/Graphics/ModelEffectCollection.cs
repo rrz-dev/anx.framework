@@ -1,10 +1,8 @@
 ﻿#region Using Statements
 using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
+using System.Collections;
 
 #endregion // Using Statements
 
@@ -57,12 +55,67 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class EffectMaterial : Effect
+    public sealed class ModelEffectCollection : ReadOnlyCollection<Effect>
     {
-        public EffectMaterial(Effect cloneSource)
-            : base(cloneSource)
+        private Effect[] effects;
+
+        internal ModelEffectCollection(Effect[] effects)
+            : base(effects)
         {
-            // nothing to do in here
+            this.effects = effects;
+        }
+
+        public new Enumerator GetEnumerator()
+        {
+            return new Enumerator(this.effects);
+        }
+
+        public struct Enumerator : IEnumerator<Effect>, IDisposable, IEnumerator
+        {
+            private Effect[] wrappedArray;
+            private int position;
+
+            internal Enumerator(Effect[] wrappedArray)
+            {
+                this.wrappedArray = wrappedArray;
+                this.position = -1;
+            }
+
+            public Effect Current
+            {
+                get
+                {
+                    return this.wrappedArray[this.position];
+                }
+            }
+
+            public bool MoveNext()
+            {
+                this.position++;
+                if (this.position >= this.wrappedArray.Length)
+                {
+                    this.position = this.wrappedArray.Length;
+                    return false;
+                }
+                return true;
+            }
+
+            void IEnumerator.Reset()
+            {
+                this.position = -1;
+            }
+
+            public void Dispose()
+            {
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return this.Current;
+                }
+            }
         }
     }
 }
