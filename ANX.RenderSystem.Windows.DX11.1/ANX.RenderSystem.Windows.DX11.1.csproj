@@ -67,6 +67,7 @@
     <Compile Include="Creator.cs" />
     <Compile Include="Effect_DX11_1.cs" />
     <Compile Include="GraphicsDeviceWindowsDX11_1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VertexBuffer_DX11_1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

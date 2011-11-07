@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("ANX.Framework.Windows.GL3")]
+[assembly: AssemblyTitle("ANX.RenderSystem.Windows.DX11.1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
-[assembly: AssemblyProduct("ANX.Framework.Windows.GL3")]
-[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011")]
+[assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX11.1")]
+[assembly: AssemblyCopyright("Copyright (c) ANX.Framework Team 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("14d07c57-8b86-4f6e-bacb-69f65aba5633")]
+[assembly: Guid("6feac6f6-2540-45ab-bbc1-391405fba77c")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
@@ -29,8 +29,5 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-// Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
-// übernehmen, indem Sie "*" eingeben:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.5.0.0")]
-[assembly: AssemblyFileVersion("0.5.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]

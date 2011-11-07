@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WindowsGame1")]
 [assembly: AssemblyProduct("WindowsGame1")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("ANX Team")]
-[assembly: AssemblyCopyright("Copyright © ANX Team 2011")]
+[assembly: AssemblyCompany("ANX.Framework Team")]
+[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
