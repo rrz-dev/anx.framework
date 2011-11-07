@@ -219,16 +219,6 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 
-        public void SetRenderTarget(RenderTarget2D renderTarget)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
             throw new NotImplementedException();

@@ -63,19 +63,11 @@ namespace ANX.Framework.NonXNA
 
         void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount);
 
-        //void SetVertexBuffer(VertexBuffer vertexBuffer);
-
-        //void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset);
-
         void SetVertexBuffers(VertexBufferBinding[] vertexBuffers);
 
         void SetIndexBuffer(IndexBuffer indexBuffer);
 
         void SetViewport(Viewport viewport);
-
-        void SetRenderTarget(RenderTarget2D renderTarget);
-
-        void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace);
 
         void SetRenderTargets(params RenderTargetBinding[] renderTargets);
     }

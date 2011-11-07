@@ -72,6 +72,7 @@ namespace ANX.Framework.Graphics
         private bool isDisposed;
         private GraphicsProfile graphicsProfile;
         private VertexBufferBinding[] currentVertexBufferBindings;
+        private RenderTargetBinding[] currentRenderTargetBindings;
 
         #endregion // Private Members
 
@@ -195,16 +196,21 @@ namespace ANX.Framework.Graphics
 
         public void SetRenderTarget(RenderTarget2D renderTarget)
         {
-            nativeDevice.SetRenderTarget(renderTarget);
+            RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget) };
+            this.currentRenderTargetBindings = renderTargetBindings;
+            nativeDevice.SetRenderTargets(renderTargetBindings);
         }
 
         public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
         {
-            nativeDevice.SetRenderTarget(renderTarget, cubeMapFace);
+            RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget, cubeMapFace) };
+            this.currentRenderTargetBindings = renderTargetBindings;
+            nativeDevice.SetRenderTargets(renderTargetBindings);
         }
 
         public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
+            this.currentRenderTargetBindings = renderTargets;
             nativeDevice.SetRenderTargets(renderTargets);
         }
 
@@ -230,7 +236,7 @@ namespace ANX.Framework.Graphics
 
         public RenderTargetBinding[] GetRenderTargets()
         {
-            throw new NotImplementedException();
+            return this.currentRenderTargetBindings;
         }
 
         public void Reset()

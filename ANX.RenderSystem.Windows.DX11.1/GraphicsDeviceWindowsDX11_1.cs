@@ -589,18 +589,6 @@ namespace ANX.RenderSystem.Windows.DX11_1
             return Comparison.Always;
         }
 
-
-
-        public void SetRenderTarget(Framework.Graphics.RenderTarget2D renderTarget)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetRenderTarget(Framework.Graphics.RenderTargetCube renderTarget, Framework.Graphics.CubeMapFace cubeMapFace)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetRenderTargets(params Framework.Graphics.RenderTargetBinding[] renderTargets)
         {
             throw new NotImplementedException();
