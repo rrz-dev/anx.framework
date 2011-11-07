@@ -1,10 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -57,76 +52,12 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class RenderTarget2D : Texture2D, IDynamicGraphicsResource
+    internal interface IDynamicGraphicsResource
     {
-        public event EventHandler<EventArgs> ContentLost;
+        event EventHandler<EventArgs> ContentLost;
 
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
-            : base(graphicsDevice, width, height)
-        {
-            throw new NotImplementedException();
-        }
+        void SetContentLost(bool isContentLost);
 
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
-            : base(graphicsDevice, width, height)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-            : base(graphicsDevice, width, height)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual void Dispose(Boolean disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DepthFormat DepthStencilFormat
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsContentLost
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int MultiSampleCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public RenderTargetUsage RenderTargetUsage
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected void raise_ContentLost(object sender, EventArgs args)
-        {
-            if (ContentLost != null)
-            {
-                ContentLost(sender, args);
-            }
-        }
+        bool IsContentLost { get; }
     }
 }

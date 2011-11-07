@@ -94,6 +94,21 @@ namespace ANX.Framework.Graphics
             this.samplerStateCollection = new SamplerStateCollection(this, 8);    //TODO: get maximum number of sampler states from capabilities
         }
 
+        ~GraphicsDevice()
+        {
+            this.Dispose(false);
+        }
+
+        public void Clear(ClearOptions options, Color color, float depth, int stencil)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
+        {
+            throw new NotImplementedException();
+        }
+        
         public void Clear(Color color)
         {
             nativeDevice.Clear(ref color);
@@ -102,6 +117,11 @@ namespace ANX.Framework.Graphics
         public void Present()
         {
             nativeDevice.Present();
+        }
+
+        public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle, IntPtr overrideWindowHandle)
+        {
+            throw new NotImplementedException();
         }
 
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
@@ -222,6 +242,11 @@ namespace ANX.Framework.Graphics
         }
 
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void Dispose(Boolean disposeManaged)
         {
             throw new NotImplementedException();
         }
@@ -453,6 +478,54 @@ namespace ANX.Framework.Graphics
             get
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        protected void raise_Disposing(object sender, EventArgs args)
+        {
+            if (Disposing != null)
+            {
+                Disposing(sender, args);
+            }
+        }
+
+        protected void raise_DeviceResetting(object sender, EventArgs args)
+        {
+            if (DeviceResetting  != null)
+            {
+                DeviceResetting(sender, args);
+            }
+        }
+        
+        protected void raise_DeviceReset(object sender, EventArgs args)
+        {
+            if (DeviceReset  != null)
+            {
+                DeviceReset(sender, args);
+            }
+        }
+
+        protected void raise_DeviceLost(object sender, EventArgs args)
+        {
+            if (DeviceLost  != null)
+            {
+                DeviceLost(sender, args);
+            }
+        }
+
+        protected void raise_ResourceCreated(object sender, ResourceCreatedEventArgs args)
+        {
+            if (ResourceCreated  != null)
+            {
+                ResourceCreated(sender, args);
+            }
+        }
+
+        protected void raise_ResourceDestroyed(object sender, ResourceDestroyedEventArgs args)
+        {
+            if (ResourceDestroyed  != null)
+            {
+                ResourceDestroyed(sender, args);
             }
         }
     }

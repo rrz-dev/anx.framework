@@ -57,7 +57,7 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public class RenderTargetCube : TextureCube
+    public class RenderTargetCube : TextureCube, IDynamicGraphicsResource
     {
         public event EventHandler<EventArgs> ContentLost;
 
@@ -69,6 +69,11 @@ namespace ANX.Framework.Graphics
 
         public RenderTargetCube(GraphicsDevice graphicsDevice, int size, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
             : base(graphicsDevice, size, mipMap, preferredFormat)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void Dispose(Boolean disposeManaged)
         {
             throw new NotImplementedException();
         }
@@ -105,6 +110,17 @@ namespace ANX.Framework.Graphics
             }
         }
 
+        void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
+        {
+            throw new NotImplementedException();
+        }
 
+        protected void raise_ContentLost(object sender, EventArgs args)
+        {
+            if (ContentLost != null)
+            {
+                ContentLost(sender, args);
+            }
+        }
     }
 }
