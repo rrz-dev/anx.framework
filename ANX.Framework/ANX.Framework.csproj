@@ -181,6 +181,7 @@
     <Compile Include="Graphics\IndexBuffer.cs" />
     <Compile Include="Graphics\IndexElementSize.cs" />
     <Compile Include="Graphics\IVertexType.cs" />
+    <Compile Include="Graphics\RenderTargetCube.cs" />
     <Compile Include="Graphics\PackedVector\Alpha8.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
     <Compile Include="Graphics\PackedVector\Bgra4444.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Graphics\PackedVector\Rgba64.cs" />
     <Compile Include="Graphics\PackedVector\Short2.cs" />
     <Compile Include="Graphics\PackedVector\Short4.cs" />
+    <Compile Include="Graphics\RenderTarget2D.cs" />
     <Compile Include="Graphics\RenderTargetBinding.cs" />
     <Compile Include="Graphics\ResourceCreatedEventArgs.cs" />
     <Compile Include="Graphics\ResourceDestroyedEventArgs.cs" />

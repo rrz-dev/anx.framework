@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
-using ANX.Framework.Input;
-using SharpDX.DirectInput;
-using System.Runtime.InteropServices;
-using ANX.Framework;
+using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -58,73 +55,56 @@ using ANX.Framework;
 
 #endregion // License
 
-using MouseX = SharpDX.DirectInput.Mouse;
-
-namespace ANX.InputSystem.Windows.XInput
+namespace ANX.Framework.Graphics
 {
-    class Mouse:IMouse
+    public class RenderTargetCube : TextureCube
     {
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(ref Point lpPoint);
+        public event EventHandler<EventArgs> ContentLost;
 
-        [DllImport("user32.dll")]
-        static extern void SetCursorPos(int x, int y);
-
-        [DllImport("user32.dll")]
-        static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
-
-        private DirectInput directInput;
-        private MouseX mouse;
- 
-        public IntPtr WindowHandle
+        public RenderTargetCube(GraphicsDevice graphicsDevice, int size, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
+            : base(graphicsDevice, size, mipMap, preferredFormat)
         {
-            get;
-            set;
+            throw new NotImplementedException();
         }
 
-        public Mouse()
+        public RenderTargetCube(GraphicsDevice graphicsDevice, int size, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+            : base(graphicsDevice, size, mipMap, preferredFormat)
         {
-            this.directInput = new DirectInput();
-            this.mouse = new MouseX(this.directInput);
-            this.mouse.Properties.AxisMode = DeviceAxisMode.Absolute;
-            this.mouse.Acquire();
+            throw new NotImplementedException();
         }
 
-        public ANX.Framework.Input.MouseState GetState()
+        public DepthFormat DepthStencilFormat
         {
-            var state = this.mouse.GetCurrentState();
-
-            Point cursorPos = new Point();
-            GetCursorPos(ref cursorPos);
-            if (WindowHandle != IntPtr.Zero)
+            get
             {
-                ScreenToClient(WindowHandle, ref cursorPos);
+                throw new NotImplementedException();
             }
-            state.X = cursorPos.X;
-            state.Y = cursorPos.Y;
-
-            ButtonState left = new ButtonState();
-            ButtonState middle = new ButtonState();
-            ButtonState right = new ButtonState();
-            ButtonState x1 = new ButtonState();
-            ButtonState x2 = new ButtonState();
-            if(state.Buttons[0]){left=ButtonState.Pressed;}
-            if(state.Buttons[1]){middle=ButtonState.Pressed;}
-            if(state.Buttons[2]){right=ButtonState.Pressed;}
-            if(state.Buttons[3]){x1=ButtonState.Pressed;}
-            if(state.Buttons[4]){x2=ButtonState.Pressed;}
-            return new ANX.Framework.Input.MouseState(state.X,state.Y,state.Z,left,middle,right,x1,x2);
         }
 
-        public void SetPosition(int x, int y)
+        public bool IsContentLost
         {
-            Point currentPosition = new Point(x, y);
-            GetCursorPos(ref currentPosition);
-            if (WindowHandle != IntPtr.Zero)
+            get
             {
-                ScreenToClient(WindowHandle, ref currentPosition);
+                throw new NotImplementedException();
             }
-            SetCursorPos(currentPosition.X, currentPosition.Y);
         }
+
+        public int MultiSampleCount
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public RenderTargetUsage RenderTargetUsage
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
     }
 }

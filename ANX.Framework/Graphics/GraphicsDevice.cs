@@ -139,13 +139,13 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        public void DrawUserPrimitive<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount) where T : struct, IVertexType
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount) where T : struct, IVertexType
         {
             throw new NotImplementedException();
             //TODO: nativeDevice.DrawUserPrimitive(primitiveCount, vertexOffset);
         }
 
-        public void DrawUserPrimitive<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
             throw new NotImplementedException();
             //TODO: nativeDevice.DrawUserPrimitive(primitiveCount, vertexOffset);
@@ -164,6 +164,46 @@ namespace ANX.Framework.Graphics
         public void SetVertexBuffers(Graphics.VertexBufferBinding[] vertexBuffers)
         {
             nativeDevice.SetVertexBuffers(vertexBuffers);
+        }
+
+        public void SetRenderTarget(RenderTarget2D renderTarget)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public VertexBufferBinding[] GetVertexBuffers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public RenderTargetBinding[] GetRenderTargets()
+        {
+            throw new NotImplementedException();
         }
 
         public void Reset()

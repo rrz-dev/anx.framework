@@ -84,38 +84,56 @@ namespace ANX.Framework.Input
         public int X { get { return this.x; } }
         public int Y { get { return this.y; } }
 
-				public static bool operator ==(MouseState left, MouseState right)
-				{
-					return left.X == right.X &&
-						left.Y == right.Y &&
-						left.LeftButton == right.LeftButton &&
-						left.MiddleButton == right.MiddleButton &&
-						left.RightButton == right.RightButton &&
-						left.XButton1 == right.XButton1 &&
-						left.XButton2 == right.XButton2 &&
-						left.ScrollWheelValue == right.ScrollWheelValue;
-				}
+		public static bool operator ==(MouseState left, MouseState right)
+		{
+			return left.X == right.X &&
+				left.Y == right.Y &&
+				left.LeftButton == right.LeftButton &&
+				left.MiddleButton == right.MiddleButton &&
+				left.RightButton == right.RightButton &&
+				left.XButton1 == right.XButton1 &&
+				left.XButton2 == right.XButton2 &&
+				left.ScrollWheelValue == right.ScrollWheelValue;
+		}
 
-				public static bool operator !=(MouseState left, MouseState right)
-				{
-					return left.X != right.X ||
-						left.Y != right.Y ||
-						left.LeftButton != right.LeftButton ||
-						left.MiddleButton != right.MiddleButton ||
-						left.RightButton != right.RightButton ||
-						left.XButton1 != right.XButton1 ||
-						left.XButton2 != right.XButton2 ||
-						left.ScrollWheelValue != right.ScrollWheelValue;
-				}
+		public static bool operator !=(MouseState left, MouseState right)
+		{
+			return left.X != right.X ||
+				left.Y != right.Y ||
+				left.LeftButton != right.LeftButton ||
+				left.MiddleButton != right.MiddleButton ||
+				left.RightButton != right.RightButton ||
+				left.XButton1 != right.XButton1 ||
+				left.XButton2 != right.XButton2 ||
+				left.ScrollWheelValue != right.ScrollWheelValue;
+		}
 
-				public override bool Equals(object obj)
-				{
-					if (obj is MouseState)
-					{
-						return this == (MouseState)obj;
-					}
+		public override bool Equals(object obj)
+		{
+			if (obj is MouseState)
+			{
+				return this == (MouseState)obj;
+			}
 
-					return false;
-				}
+			return false;
+		}
+
+        public override int GetHashCode()
+        {
+            return ((((((this.x.GetHashCode() ^ this.y.GetHashCode()) ^ this.leftButton.GetHashCode()) ^ this.rightButton.GetHashCode()) ^ this.middleButton.GetHashCode()) ^ this.xButton1.GetHashCode()) ^ this.xButton2.GetHashCode()) ^ this.scrollWheel.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            string buttons = String.Empty;
+
+            buttons += leftButton == ButtonState.Pressed ? "Left" : "";
+            buttons += rightButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
+            buttons += middleButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Middle" : "";
+            buttons += xButton1 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton1" : "";
+            buttons += xButton2 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton2" : "";
+
+            return string.Format("{{X:{0} Y:{1} Buttons:{2} Wheel:{3}}}", this.x, this.y, buttons, this.scrollWheel);
+        }
     }
 }
