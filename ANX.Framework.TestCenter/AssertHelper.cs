@@ -106,6 +106,9 @@ using ANXHalfVector4 = ANX.Framework.Graphics.PackedVector.HalfVector4;
 using XNARg32 = Microsoft.Xna.Framework.Graphics.PackedVector.Rg32;
 using ANXRg32 = ANX.Framework.Graphics.PackedVector.Rg32;
 
+using XNARgba1010102 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba1010102;
+using ANXRgba1010102 = ANX.Framework.Graphics.PackedVector.Rgba1010102;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -205,6 +208,18 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: Rg32 XNA: ({1}) Rg32 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNARgba1010102 lhs, ANXRgba1010102 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: Rgba1010102 XNA: ({1}) Rgba1010102 ANX: ({2})", test, lhs, rhs));
             }
         }
 
