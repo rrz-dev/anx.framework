@@ -105,37 +105,343 @@ namespace ANX.Framework
         #region public methods
         public ContainmentType Contains(BoundingBox box)
         {
-            throw new Exception("method has not yet been implemented");
+            ContainmentType result;
+            Contains(ref box, out result);
+            return result;
         }
 
         public void Contains(ref BoundingBox box, out ContainmentType result)
         {
-            throw new Exception("method has not yet been implemented");
+            Vector3[] boxCorners = box.GetCorners();
+
+            result = ContainmentType.Contains;
+
+            Plane plane = Bottom;
+            Vector3 normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            float planeDistance = plane.D;
+
+            Vector3 pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            float tempDistP;
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            float distanceP = tempDistP - planeDistance;
+
+            Vector3 nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            float tempDistN;
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            float distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            } 
+            
+            plane = Top;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            planeDistance = plane.D;
+
+            pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            distanceP = tempDistP - planeDistance;
+
+            nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            }
+
+            plane = Left;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            planeDistance = plane.D;
+
+            pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            distanceP = tempDistP - planeDistance;
+
+            nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            }
+
+            plane = Right;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            planeDistance = plane.D;
+
+            pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            distanceP = tempDistP - planeDistance;
+
+            nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            }
+
+            plane = Near;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            planeDistance = plane.D;
+
+            pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            distanceP = tempDistP - planeDistance;
+
+            nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            }
+
+            plane = Far;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+            planeDistance = plane.D;
+
+            pVertex = box.Min;
+            if (normal.X >= 0)
+                pVertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                pVertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                pVertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
+            distanceP = tempDistP - planeDistance;
+
+            nVertex = box.Max;
+            if (normal.X >= 0)
+                nVertex.X = box.Min.X;
+            if (normal.Y >= 0)
+                nVertex.Y = box.Min.Y;
+            if (normal.Z < 0)
+                nVertex.Z = box.Min.Z;
+
+            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
+            distanceN = tempDistN - planeDistance;
+
+            if (distanceN < 0 && distanceP < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distanceN < 0 || distanceP < 0)
+            {
+                result = ContainmentType.Intersects;
+                return;
+            }
         }
 
         public ContainmentType Contains(BoundingFrustum frustum)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
 
         public ContainmentType Contains(BoundingSphere sphere)
         {
-            throw new Exception("method has not yet been implemented");
+            ContainmentType result;
+            Contains(ref sphere, out result);
+            return result;
         }
 
         public void Contains(ref BoundingSphere sphere, out ContainmentType result)
         {
-            throw new Exception("method has not yet been implemented");
+            Vector3 center = sphere.Center;
+
+            result = ContainmentType.Contains;
+
+            float distance = Bottom.Normal.X * center.X + Bottom.Normal.Y * center.Y + Bottom.Normal.Z * center.Z + Bottom.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            distance = Top.Normal.X * center.X + Top.Normal.Y * center.Y + Top.Normal.Z * center.Z + Top.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            distance = Left.Normal.X * center.X + Left.Normal.Y * center.Y + Left.Normal.Z * center.Z + Left.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            distance = Right.Normal.X * center.X + Right.Normal.Y * center.Y + Right.Normal.Z * center.Z + Right.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            distance = Near.Normal.X * center.X + Near.Normal.Y * center.Y + Near.Normal.Z * center.Z + Near.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            distance = Far.Normal.X * center.X + Far.Normal.Y * center.Y + Far.Normal.Z * center.Z + Far.D;
+            if (distance > sphere.Radius)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance > -sphere.Radius)
+            {
+                result = ContainmentType.Intersects;
+            }
         }
 
         public ContainmentType Contains(Vector3 point)
         {
-            throw new Exception("method has not yet been implemented");
+            ContainmentType result;
+            Contains(ref point, out result);
+            return result;
         }
 
         public void Contains(ref Vector3 point, out ContainmentType result)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
 
         public Vector3[] GetCorners()
@@ -150,57 +456,250 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            //TODO: implement
-            return base.GetHashCode();
+            throw new NotImplementedException();
         }
 
         public bool Intersects(BoundingBox box)
         {
-            throw new Exception("method has not yet been implemented");
+            bool result;
+            Intersects(ref box, out result);
+            return result;
         }
 
         public void Intersects(ref BoundingBox box, out bool result)
         {
-            throw new Exception("method has not yet been implemented");
+            Vector3[] boxCorners = box.GetCorners();
+
+            result = true;
+
+            Plane plane = Bottom;
+            Vector3 normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            float planeDistance = plane.D;
+            Vector3 vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            float tempDist; 
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            float distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            }
+
+            plane = Top;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            planeDistance = plane.D;
+            vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            } 
+            
+            plane = Left;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            planeDistance = plane.D;
+            vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            }
+            
+            plane = Right;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            planeDistance = plane.D;
+            vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            } 
+            
+            plane = Near;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            planeDistance = plane.D;
+            vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            } 
+            
+            plane = Far;
+            normal = plane.Normal;
+            //Vector3.Negate(ref normal, out normal);
+
+            planeDistance = plane.D;
+            vertex = box.Min;
+
+            if (normal.X >= 0)
+                vertex.X = box.Max.X;
+            if (normal.Y >= 0)
+                vertex.Y = box.Max.Y;
+            if (normal.Z < 0)
+                vertex.Z = box.Max.Z;
+
+            Vector3.Dot(ref normal, ref vertex, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = false;
+                return;
+            }
         }
 
         public bool Intersects(BoundingFrustum frustum)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
 
         public bool Intersects(BoundingSphere sphere)
         {
-            throw new Exception("method has not yet been implemented");
+            bool result;
+            Intersects(ref sphere, out result);
+            return result;
         }
+
         public void Intersects(ref BoundingSphere sphere, out bool result)
         {
-            throw new Exception("method has not yet been implemented");
+            Vector3 center = sphere.Center;
+
+            result = true;
+
+            float distance = Bottom.Normal.X * center.X + Bottom.Normal.Y * center.Y + Bottom.Normal.Z * center.Z + Bottom.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            } 
+            
+            distance = Top.Normal.X * center.X + Top.Normal.Y * center.Y + Top.Normal.Z * center.Z + Top.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            }
+
+            distance = Left.Normal.X * center.X + Left.Normal.Y * center.Y + Left.Normal.Z * center.Z + Left.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            }
+
+            distance = Right.Normal.X * center.X + Right.Normal.Y * center.Y + Right.Normal.Z * center.Z + Right.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            }
+
+            distance = Near.Normal.X * center.X + Near.Normal.Y * center.Y + Near.Normal.Z * center.Z + Near.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            }
+
+            distance = Far.Normal.X * center.X + Far.Normal.Y * center.Y + Far.Normal.Z * center.Z + Far.D;
+            if (distance > sphere.Radius)
+            {
+                result = false;
+                return;
+            }
         }
 
         public PlaneIntersectionType Intersects(Plane plane)
         {
-            throw new Exception("method has not yet been implemented");
+            PlaneIntersectionType result;
+            Intersects(ref plane, out result);
+            return result;
         }
 
         public void Intersects(ref Plane plane, out PlaneIntersectionType result)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
 
         public Nullable<float> Intersects(Ray ray)
         {
-            throw new Exception("method has not yet been implemented");
+            Nullable<float> result;
+            Intersects(ref ray, out result);
+            return result;
         }
 
         public void Intersects(ref Ray ray, out Nullable<float> result)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
 
         public override string ToString()
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         #endregion
 

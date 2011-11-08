@@ -134,6 +134,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void ContainsBoundingBox(float xS, float yS, float zS, float rS, float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), rS);
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(
                 new XNAVector3(xMin, yMin, zMin),
@@ -214,6 +233,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("eightfloats")]
         public void CreateFromBoundingBox(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float a, float b)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(
                 new XNAVector3(xMin, yMin, zMin),
                 new XNAVector3(xMax, yMax, zMax));
@@ -288,6 +326,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void IntersectsBoundingBox(float xS, float yS, float zS, float rS, float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingSphere xnaSphere = new XNABoundingSphere(new XNAVector3(xS, yS, zS), rS);
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(
                 new XNAVector3(xMin, yMin, zMin),

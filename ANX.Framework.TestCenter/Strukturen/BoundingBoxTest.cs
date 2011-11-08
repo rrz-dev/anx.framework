@@ -131,6 +131,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void constructor1(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xna = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anx = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
@@ -145,6 +164,44 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
+            if (xMin1 > xMax1)
+            {
+                float x = xMin1;
+                xMin1 = xMax1;
+                xMax1 = x;
+            }
+            if (yMin1 > yMax1)
+            {
+                float y = yMin1;
+                yMin1 = yMax1;
+                yMax1 = y;
+            }
+            if (zMin1 > zMax1)
+            {
+                float z = zMin1;
+                zMin1 = zMax1;
+                zMax1 = z;
+            }
+
+            if (xMin2 > xMax2)
+            {
+                float x = xMin2;
+                xMin2 = xMax2;
+                xMax2 = x;
+            }
+            if (yMin2 > yMax2)
+            {
+                float y = yMin2;
+                yMin2 = yMax2;
+                yMax2 = y;
+            }
+            if (zMin2 > zMax2)
+            {
+                float z = zMin2;
+                zMin2 = zMax2;
+                zMax2 = z;
+            }
+
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
 
@@ -165,6 +222,25 @@ namespace ANX.Framework.TestCenter.Strukturen
             float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
@@ -185,6 +261,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void ContainsBoundingSphere(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xS, float yS, float zS, float rS)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);
 
@@ -203,6 +298,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("ninefloats")]
         public void ContainsPoint(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xP, float yP, float zP)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             XNAVector3 xnaPoint = new XNAVector3(xP, yP, zP);
 
@@ -262,6 +376,44 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
+            if (xMin1 > xMax1)
+            {
+                float x = xMin1;
+                xMin1 = xMax1;
+                xMax1 = x;
+            }
+            if (yMin1 > yMax1)
+            {
+                float y = yMin1;
+                yMin1 = yMax1;
+                yMax1 = y;
+            }
+            if (zMin1 > zMax1)
+            {
+                float z = zMin1;
+                zMin1 = zMax1;
+                zMax1 = z;
+            }
+
+            if (xMin2 > xMax2)
+            {
+                float x = xMin2;
+                xMin2 = xMax2;
+                xMax2 = x;
+            }
+            if (yMin2 > yMax2)
+            {
+                float y = yMin2;
+                yMin2 = yMax2;
+                yMax2 = y;
+            }
+            if (zMin2 > zMax2)
+            {
+                float z = zMin2;
+                zMin2 = zMax2;
+                zMax2 = z;
+            }
+
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
 
@@ -277,6 +429,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void GetCorners(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
@@ -318,6 +489,44 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
+            if (xMin1 > xMax1)
+            {
+                float x = xMin1;
+                xMin1 = xMax1;
+                xMax1 = x;
+            }
+            if (yMin1 > yMax1)
+            {
+                float y = yMin1;
+                yMin1 = yMax1;
+                yMax1 = y;
+            }
+            if (zMin1 > zMax1)
+            {
+                float z = zMin1;
+                zMin1 = zMax1;
+                zMax1 = z;
+            }
+
+            if (xMin2 > xMax2)
+            {
+                float x = xMin2;
+                xMin2 = xMax2;
+                xMax2 = x;
+            }
+            if (yMin2 > yMax2)
+            {
+                float y = yMin2;
+                yMin2 = yMax2;
+                yMax2 = y;
+            }
+            if (zMin2 > zMax2)
+            {
+                float z = zMin2;
+                zMin2 = zMax2;
+                zMax2 = z;
+            }
+
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
 
@@ -334,9 +543,29 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("twentytwofloats")]
-        public void IntersectsFrustum(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+        public void IntersectsFrustum(
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Matrix xnaMtrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMtrix);
@@ -357,6 +586,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void IntersectsBoundingSphere(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xS, float yS, float zS, float rS)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);
 
@@ -375,6 +623,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void IntersectsPlane(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xP, float yP, float zP, float dP)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Plane xnaPlane = new Microsoft.Xna.Framework.Plane(xP, yP, zP, dP);
 
@@ -392,13 +659,32 @@ namespace ANX.Framework.TestCenter.Strukturen
 
         [Test, TestCaseSource("twelvefloats")]
         public void IntersectsRay(
-            float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
+            float xMin, float yMin, float zMin, float xMax, float yMax, float zMax,
             float xRay, float yRay, float zRay, float xDir, float yDir, float zDir)
         {
-            XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
+            XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Ray xnaRay = new Microsoft.Xna.Framework.Ray(new XNAVector3(xRay, yRay, zRay), new XNAVector3(xDir, yDir, zDir));
 
-            ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin1, yMin1, zMin1), new ANXVector3(xMax1, yMax1, zMax1));
+            ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
             ANX.Framework.Ray anxRay = new ANX.Framework.Ray(new ANXVector3(xRay, yRay, zRay), new ANXVector3(xDir, yDir, zDir));
 
             float? xna = xnaBox.Intersects(xnaRay);
@@ -415,6 +701,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void Min(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
@@ -433,6 +738,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void Max(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
@@ -455,6 +779,44 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
+            if (xMin1 > xMax1)
+            {
+                float x = xMin1;
+                xMin1 = xMax1;
+                xMax1 = x;
+            }
+            if (yMin1 > yMax1)
+            {
+                float y = yMin1;
+                yMin1 = yMax1;
+                yMax1 = y;
+            }
+            if (zMin1 > zMax1)
+            {
+                float z = zMin1;
+                zMin1 = zMax1;
+                zMax1 = z;
+            }
+
+            if (xMin2 > xMax2)
+            {
+                float x = xMin2;
+                xMin2 = xMax2;
+                xMax2 = x;
+            }
+            if (yMin2 > yMax2)
+            {
+                float y = yMin2;
+                yMin2 = yMax2;
+                yMax2 = y;
+            }
+            if (zMin2 > zMax2)
+            {
+                float z = zMin2;
+                zMin2 = zMax2;
+                zMax2 = z;
+            }
+
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
 
@@ -475,6 +837,44 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
+            if (xMin1 > xMax1)
+            {
+                float x = xMin1;
+                xMin1 = xMax1;
+                xMax1 = x;
+            }
+            if (yMin1 > yMax1)
+            {
+                float y = yMin1;
+                yMin1 = yMax1;
+                yMax1 = y;
+            }
+            if (zMin1 > zMax1)
+            {
+                float z = zMin1;
+                zMin1 = zMax1;
+                zMax1 = z;
+            }
+
+            if (xMin2 > xMax2)
+            {
+                float x = xMin2;
+                xMin2 = xMax2;
+                xMax2 = x;
+            }
+            if (yMin2 > yMax2)
+            {
+                float y = yMin2;
+                yMin2 = yMax2;
+                yMax2 = y;
+            }
+            if (zMin2 > zMax2)
+            {
+                float z = zMin2;
+                zMin2 = zMax2;
+                zMax2 = z;
+            }
+
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
 

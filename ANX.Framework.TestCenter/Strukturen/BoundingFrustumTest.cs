@@ -108,6 +108,25 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
@@ -119,7 +138,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaBox);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxBox);
 
-            if (containsXNA.Equals(containsANX))
+            if ((int)containsXNA == (int)containsANX)
                 Assert.Pass("ContainsBoundingBox passed");
             else
                 Assert.Fail(String.Format("ContainsBoundingBox failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
@@ -143,7 +162,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum1.Contains(xnaFrustum2);
             ANX.Framework.ContainmentType containsANX = anxFrustum1.Contains(anxFrustum2);
 
-            if (containsXNA.Equals(containsANX))
+            if ((int)containsXNA == (int)containsANX)
                 Assert.Pass("ContainsBoundingFrustum passed");
             else
                 Assert.Fail(String.Format("ContainsBoundingFrustum failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
@@ -155,6 +174,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xS, float yS, float zS, float rS,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
         {
+            rS = Math.Max(rS, -rS);
+
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -166,7 +187,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaSphere);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxSphere);
 
-            if (containsXNA.Equals(containsANX))
+            if ((int)containsXNA == (int)containsANX)
                 Assert.Pass("ContainsBoundingSphere passed");
             else
                 Assert.Fail(String.Format("ContainsBoundingSphere failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
@@ -189,7 +210,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaPoint);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxPoint);
 
-            if (containsXNA.Equals(containsANX))
+            if ((int)containsXNA == (int)containsANX)
                 Assert.Pass("ContainsPoint passed");
             else
                 Assert.Fail(String.Format("ContainsPoint failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
@@ -244,6 +265,25 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9)
         {
+            if (xMin > xMax)
+            {
+                float x = xMin;
+                xMin = xMax;
+                xMax = x;
+            }
+            if (yMin > yMax)
+            {
+                float y = yMin;
+                yMin = yMax;
+                yMax = y;
+            }
+            if (zMin > zMax)
+            {
+                float z = zMin;
+                zMin = zMax;
+                zMax = z;
+            }
+
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
             Microsoft.Xna.Framework.BoundingBox xnaBox = new Microsoft.Xna.Framework.BoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
@@ -291,6 +331,8 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xS, float yS, float zS, float rS,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
         {
+            rS = Math.Max(rS, -rS);
+
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);

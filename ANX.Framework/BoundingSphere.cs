@@ -229,7 +229,36 @@ namespace ANX.Framework
 
         public static void CreateMerged(ref BoundingSphere original, ref BoundingSphere additional, out BoundingSphere result)
         {
-            throw new NotImplementedException();
+            float distance = Vector3.Distance(original.Center, additional.Center);
+            if (distance + additional.Radius < original.Radius)
+            {
+                result = original;
+                return;
+            }
+
+            distance = Vector3.Distance(additional.Center, original.Center);
+            if (distance + original.Radius < additional.Radius)
+            {
+                result = additional;
+                return;
+            }
+
+            Vector3 difference = Vector3.Subtract(additional.Center, original.Center);
+            difference.Normalize();
+
+            Vector3 additionalNew = additional.Center;
+            additionalNew.X += additional.Radius * difference.X;
+            additionalNew.Y += additional.Radius * difference.Y;
+            additionalNew.Z += additional.Radius * difference.Z;
+
+            Vector3 originalNew = original.Center;
+            originalNew.X -= original.Radius * difference.X;
+            originalNew.Y -= original.Radius * difference.Y;
+            originalNew.Z -= original.Radius * difference.Z;
+
+            difference = Vector3.Subtract(additionalNew, originalNew) / 2;
+
+            result = new BoundingSphere(difference, difference.Length());
         }
 
         public override int GetHashCode()
