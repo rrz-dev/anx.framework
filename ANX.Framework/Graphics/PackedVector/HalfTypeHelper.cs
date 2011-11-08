@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -52,75 +53,82 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
-    public struct HalfSingle : IPackedVector<UInt16>, IEquatable<HalfSingle>, IPackedVector
+    internal class HalfTypeHelper
     {
-        UInt16 packedValue;
-
-        public HalfSingle(float single)
+        [StructLayout(LayoutKind.Explicit)]
+        private struct uif
         {
-            packedValue = HalfTypeHelper.convert(single);
+            [FieldOffset(0)]
+            public float f;
+            [FieldOffset(0)]
+            public int i;
         }
 
-        public ushort PackedValue
+        internal static UInt16 convert(float f)
         {
-            get
+            uif uif = new uif();
+            uif.f = f;
+            return convert(uif.i);
+        }
+
+        internal static UInt16 convert(int i)
+        {
+            int s = (i >> 16) & 0x00008000;
+            int e = ((i >> 23) & 0x000000ff) - (127 - 15);
+            int m = i & 0x007fffff;
+
+            if (e <= 0)
             {
-                return this.packedValue;
+                if (e < -10)
+                {
+                    return (UInt16)s;
+                }
+
+                m = m | 0x00800000;
+
+                int t = 14 - e;
+                int a = (1 << (t - 1)) - 1;
+                int b = (m >> t) & 1;
+
+                m = (m + a + b) >> t;
+
+                return (UInt16)(s | m);
             }
-            set
+            else if (e == 0xff - (127 - 15))
             {
-                this.packedValue = value;
+                if (m == 0)
+                {
+                    return (UInt16)(s | 0x7c00);
+                }
+                else
+                {
+                    m >>= 13;
+                    return (UInt16)(s | 0x7c00 | m | ((m == 0) ? 1 : 0));
+                }
             }
-        }
-
-        public float ToSingle()
-        {
-            return HalfTypeHelper.convert(this.packedValue);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            this.packedValue = HalfTypeHelper.convert(vector.X);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            return new Vector4(this.ToSingle(), 0f, 0f, 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
+            else
             {
-                return this == (HalfSingle)obj;
+                m = m + 0x00000fff + ((m >> 13) & 1);
+
+                if ((m & 0x00800000) != 0)
+                {
+                    m = 0;
+                    e += 1;
+                }
+
+                if (e > 30)
+                {
+                    return (UInt16)(s | 0x7c00);
+                }
+
+                return (UInt16)(s | (e << 10) | (m >> 13));
             }
-
-            return false;
         }
 
-        public bool Equals(HalfSingle other)
+        internal static float convert(UInt16 value)
         {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToSingle().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(HalfSingle lhs, HalfSingle rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(HalfSingle lhs, HalfSingle rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
+            //TODO: implement
+            throw new NotImplementedException();
         }
     }
 }

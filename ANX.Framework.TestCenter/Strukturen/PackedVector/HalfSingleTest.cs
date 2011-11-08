@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNAHalfSingle = Microsoft.Xna.Framework.Graphics.PackedVector.HalfSingle;
+using ANXHalfSingle = ANX.Framework.Graphics.PackedVector.HalfSingle;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,77 +61,32 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct HalfSingle : IPackedVector<UInt16>, IEquatable<HalfSingle>, IPackedVector
+    [TestFixture]
+    class HalfSingleTest
     {
-        UInt16 packedValue;
+        #region Testdata
 
-        public HalfSingle(float single)
+        static object[] floats =
         {
-            packedValue = HalfTypeHelper.convert(single);
+           new object[] { DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue }
+        };
+
+        #endregion
+
+        [Test, TestCaseSource("floats")]
+        public void contructor1(float single)
+        {
+            XNAHalfSingle xnaVal = new XNAHalfSingle(single);
+            ANXHalfSingle anxVal = new ANXHalfSingle(single);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public ushort PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
-        }
-
-        public float ToSingle()
-        {
-            return HalfTypeHelper.convert(this.packedValue);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            this.packedValue = HalfTypeHelper.convert(vector.X);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            return new Vector4(this.ToSingle(), 0f, 0f, 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (HalfSingle)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(HalfSingle other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToSingle().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(HalfSingle lhs, HalfSingle rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(HalfSingle lhs, HalfSingle rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }

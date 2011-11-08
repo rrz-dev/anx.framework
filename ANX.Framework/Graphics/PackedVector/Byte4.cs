@@ -100,7 +100,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public Vector4 ToVector4()
         {
-            return new Vector4((packedValue  >>  0) & 255,
+            return new Vector4((packedValue >>  0) & 255,
                                (packedValue >>  8) & 255,
                                (packedValue >> 16) & 255,
                                (packedValue >> 24) & 255);
