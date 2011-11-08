@@ -1,10 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
@@ -56,39 +51,26 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+#if XNAEXT
+
+namespace ANX.Framework.Input
 {
-    public class Creator : IInputSystemCreator
+    public class MotionSensingDevice
     {
-        public string Name
-        {
-            get { return "XInput"; }
-        }
+        private static IMotionSensingDevice motionSensingDevice;
 
-        public IGamePad GamePad
+        static MotionSensingDevice()
         {
-            get { return new GamePad(); }
-        }
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            factory.AddCreator(this);
+            motionSensingDevice = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>().MotionSensingDevice;
         }
 
 
-        public IMouse Mouse
+        public static MotionSensingDeviceState GetState() 
         {
-            get { return new Mouse(); }
+            return motionSensingDevice.GetState();
         }
-
-        #region IInputSystemCreator Member
-
-
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get {return null; }
-        }
-
-        #endregion
+  
     }
 }
+
+#endif

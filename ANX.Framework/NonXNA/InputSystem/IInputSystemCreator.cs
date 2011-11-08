@@ -60,5 +60,6 @@ namespace ANX.Framework.NonXNA
     {
         IGamePad GamePad { get; }
         IMouse Mouse { get; }
+        IMotionSensingDevice MotionSensingDevice { get; }
     }
 }

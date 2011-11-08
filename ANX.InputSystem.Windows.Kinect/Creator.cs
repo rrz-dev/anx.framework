@@ -1,10 +1,6 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
+using ANX.Framework.Input;
 using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
@@ -56,18 +52,14 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+
+namespace ANX.InputSystem.Windows.Kinect
 {
     public class Creator : IInputSystemCreator
     {
         public string Name
         {
-            get { return "XInput"; }
-        }
-
-        public IGamePad GamePad
-        {
-            get { return new GamePad(); }
+            get { return "Kinect"; }
         }
 
         public void RegisterCreator(AddInSystemFactory factory)
@@ -75,18 +67,26 @@ namespace ANX.InputSystem.Windows.XInput
             factory.AddCreator(this);
         }
 
-
-        public IMouse Mouse
+        public IMotionSensingDevice Kinect
         {
-            get { return new Mouse(); }
+            get { return new Kinect(); }
         }
 
         #region IInputSystemCreator Member
 
+        public IGamePad GamePad
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IMouse Mouse
+        {
+            get { return null; }
+        }
 
         public IMotionSensingDevice MotionSensingDevice
         {
-            get {return null; }
+            get { return null; }
         }
 
         #endregion
