@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNAByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.Byte4;
+using ANXByte4 = ANX.Framework.Graphics.PackedVector.Byte4;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,95 +61,51 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Byte4 : IPackedVector<uint>, IEquatable<Byte4>, IPackedVector
+    [TestFixture]
+    class Byte4Test
     {
-        private uint packedValue;
+        #region Testdata
 
-        public Byte4(float x, float y, float z, float w)
+        static object[] fourfloats =
         {
-            uint b1 = (uint)MathHelper.Clamp(x, 0f, 255f) << 0;
-            uint b2 = (uint)MathHelper.Clamp(y, 0f, 255f) << 8;
-            uint b3 = (uint)MathHelper.Clamp(z, 0f, 255f) << 16;
-            uint b4 = (uint)MathHelper.Clamp(w, 0f, 255f) << 24;
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
+        };
 
-            this.packedValue = (uint)(b1 | b2 | b3 | b4);
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float r, float g, float b, float a)
+        {
+            XNAByte4 xnaVal = new XNAByte4(r, g, b, a);
+            ANXByte4 anxVal = new ANXByte4(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Byte4(Vector4 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float r, float g, float b, float a)
         {
-            uint b1 = (uint)MathHelper.Clamp(vector.X, 0f, 255f) << 0;
-            uint b2 = (uint)MathHelper.Clamp(vector.Y, 0f, 255f) << 8;
-            uint b3 = (uint)MathHelper.Clamp(vector.Z, 0f, 255f) << 16;
-            uint b4 = (uint)MathHelper.Clamp(vector.W, 0f, 255f) << 24;
 
-            this.packedValue = (uint)(b1 | b2 | b3 | b4);
+            XNAByte4 xnaVal = new XNAByte4(new XNAVector4(r, g, b, a));
+            ANXByte4 anxVal = new ANXByte4(new ANXVector4(r, g, b, a));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public uint PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float r, float g, float b, float a)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            XNAByte4 xnaVal = new XNAByte4(r, g, b, a);
+            ANXByte4 anxVal = new ANXByte4(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
         }
 
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            uint b1 = (uint)MathHelper.Clamp(vector.X, 0f, 255f) << 0;
-            uint b2 = (uint)MathHelper.Clamp(vector.Y, 0f, 255f) << 8;
-            uint b3 = (uint)MathHelper.Clamp(vector.Z, 0f, 255f) << 16;
-            uint b4 = (uint)MathHelper.Clamp(vector.W, 0f, 255f) << 24;
-
-            this.packedValue = (uint)(b1 | b2 | b3 | b4);
-        }
-
-        public Vector4 ToVector4()
-        {
-            return new Vector4((packedValue  >>  0) & 255,
-                               (packedValue >>  8) & 255,
-                               (packedValue >> 16) & 255,
-                               (packedValue >> 24) & 255);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Byte4)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Byte4 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.packedValue.ToString("X8");
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Byte4 lhs, Byte4 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Byte4 lhs, Byte4 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }
