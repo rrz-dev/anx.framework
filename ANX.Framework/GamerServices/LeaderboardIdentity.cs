@@ -54,6 +54,26 @@ namespace ANX.Framework.GamerServices
 {
     public struct LeaderboardIdentity
     {
+        public static LeaderboardIdentity Create(LeaderboardKey key)
+        {
+            throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+        }
 
+        public static LeaderboardIdentity Create(LeaderboardKey key, int gameMode)
+        {
+            throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+        }
+
+        public int GameMode 
+        { 
+            get; 
+            set; 
+        }
+
+        public string Key 
+        { 
+            get; 
+            set; 
+        }
     }
 }

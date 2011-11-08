@@ -55,5 +55,50 @@ namespace ANX.Framework.Audio
     public struct RendererDetail
     {
 
+        public string FriendlyName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string RendererId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == this.GetType())
+            {
+                return this == (RendererDetail)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(RendererDetail lhs, RendererDetail rhs)
+        {
+            return lhs.FriendlyName.Equals(rhs.FriendlyName) && lhs.RendererId.Equals(rhs.RendererId);
+        }
+
+        public static bool operator !=(RendererDetail lhs, RendererDetail rhs)
+        {
+            return !lhs.FriendlyName.Equals(rhs.FriendlyName) || !lhs.RendererId.Equals(rhs.RendererId);
+        }
     }
 }

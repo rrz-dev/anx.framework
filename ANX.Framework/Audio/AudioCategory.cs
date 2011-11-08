@@ -52,8 +52,70 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    public struct AudioCategory
+    public struct AudioCategory : IEquatable<AudioCategory>
     {
 
+        public void Pause()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Resume()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetVolume(float volume)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Stop(AudioStopOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == this.GetType())
+            {
+                return this == (AudioCategory)obj;
+            }
+
+            return false;
+        }
+
+        public bool Equals(AudioCategory other)
+        {
+            return this == other;
+        }
+
+        public static bool operator ==(AudioCategory lhs, AudioCategory rhs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator !=(AudioCategory lhs, AudioCategory rhs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

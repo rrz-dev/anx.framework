@@ -54,10 +54,13 @@ namespace ANX.Framework.Graphics
 {
     public struct VertexElement
     {
+        #region Private Members
         private int offset;
         private VertexElementFormat elementFormat;
         private VertexElementUsage elementUsage;
         private int usageIndex;
+        
+        #endregion // Private Members
 
         public VertexElement(int offset, VertexElementFormat elementFormat, VertexElementUsage elementUsage, int usageIndex)
         {
@@ -113,6 +116,36 @@ namespace ANX.Framework.Graphics
             {
                 this.usageIndex = value;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{{Offset:{0} Format:{1} Usage:{2} UsageIndex:{3}}}", this.offset, this.elementFormat, this.elementUsage, this.usageIndex);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == this.GetType())
+            {
+                return this == (VertexElement)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(VertexElement lhs, VertexElement rhs)
+        {
+            return lhs.offset == rhs.offset && lhs.elementFormat == rhs.elementFormat && lhs.elementUsage == rhs.elementUsage && lhs.usageIndex == rhs.usageIndex;
+        }
+
+        public static bool operator !=(VertexElement lhs, VertexElement rhs)
+        {
+            return lhs.offset != rhs.offset || lhs.elementFormat != rhs.elementFormat || lhs.elementUsage != rhs.elementUsage || lhs.usageIndex == rhs.usageIndex;
         }
     }
 }

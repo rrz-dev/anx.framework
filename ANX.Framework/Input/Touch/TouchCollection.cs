@@ -56,6 +56,10 @@ namespace ANX.Framework.Input.Touch
 {
     public struct TouchCollection : IList<TouchLocation>, ICollection<TouchLocation>, IEnumerable<TouchLocation>, IEnumerable
     {
+        public TouchCollection(TouchLocation[] touches)
+        {
+            throw new NotImplementedException();
+        }
 
         public int IndexOf(TouchLocation item)
         {
@@ -104,9 +108,22 @@ namespace ANX.Framework.Input.Touch
             throw new NotImplementedException();
         }
 
+        public bool FindById(int id, out TouchLocation touchLocation)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Count
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public bool IsConnected 
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public bool IsReadOnly
@@ -119,7 +136,12 @@ namespace ANX.Framework.Input.Touch
             throw new NotImplementedException();
         }
 
-        public IEnumerator<TouchLocation> GetEnumerator()
+        public Enumerator GetEnumerator()
+        {
+            return new Enumerator(this);
+        }
+
+        IEnumerator<TouchLocation> IEnumerable<TouchLocation>.GetEnumerator()
         {
             throw new NotImplementedException();
         }
@@ -128,5 +150,52 @@ namespace ANX.Framework.Input.Touch
         {
             throw new NotImplementedException();
         }
+
+        public struct Enumerator : IEnumerator<TouchLocation>, IDisposable, IEnumerator
+        {
+            private TouchCollection collection;
+            private int position;
+            internal Enumerator(TouchCollection collection)
+            {
+                this.collection = collection;
+                this.position = -1;
+            }
+
+            public TouchLocation Current
+            {
+                get
+                {
+                    return this.collection[this.position];
+                }
+            }
+            public bool MoveNext()
+            {
+                this.position++;
+                if (this.position >= this.collection.Count)
+                {
+                    this.position = this.collection.Count;
+                    return false;
+                }
+                return true;
+            }
+
+            void IEnumerator.Reset()
+            {
+                this.position = -1;
+            }
+
+            public void Dispose()
+            {
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return this.Current;
+                }
+            }
+        }
+
     }
 }
