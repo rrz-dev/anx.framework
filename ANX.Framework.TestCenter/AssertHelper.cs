@@ -54,6 +54,7 @@ using NUnit.Framework;
 
 #endregion // License
 
+#region Datatype Usings
 using XNAColor = Microsoft.Xna.Framework.Color;
 using ANXColor = ANX.Framework.Color;
 
@@ -101,6 +102,11 @@ using ANXHalfVector2 = ANX.Framework.Graphics.PackedVector.HalfVector2;
 
 using XNAHalfVector4 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector4;
 using ANXHalfVector4 = ANX.Framework.Graphics.PackedVector.HalfVector4;
+
+using XNARg32 = Microsoft.Xna.Framework.Graphics.PackedVector.Rg32;
+using ANXRg32 = ANX.Framework.Graphics.PackedVector.Rg32;
+
+#endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
 {
@@ -187,6 +193,18 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: HalfVector4 XNA: ({1}) HalfVector4 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNARg32 lhs, ANXRg32 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: Rg32 XNA: ({1}) Rg32 ANX: ({2})", test, lhs, rhs));
             }
         }
 

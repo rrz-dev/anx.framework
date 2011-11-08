@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNARg32 = Microsoft.Xna.Framework.Graphics.PackedVector.Rg32;
+using ANXRg32 = ANX.Framework.Graphics.PackedVector.Rg32;
+
+using XNAVector2 = Microsoft.Xna.Framework.Vector2;
+using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // Using Statements
 
@@ -50,90 +61,51 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Rg32 : IPackedVector<uint>, IEquatable<Rg32>, IPackedVector
+    [TestFixture]
+    class Rg32Test
     {
-        private uint packedValue;
+        #region Testdata
 
-        public Rg32(float x, float y)
+        static object[] twofloats =
         {
-            uint r = (uint)(MathHelper.Clamp(x, 0f, 1f) * 65535.0f) <<  0;
-            uint g = (uint)(MathHelper.Clamp(y, 0f, 1f) * 65535.0f) << 16;
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+        };
 
-            this.packedValue = (uint)r | g;
+        #endregion
+
+        [Test, TestCaseSource("twofloats")]
+        public void contructor1(float x, float y)
+        {
+            XNARg32 xnaVal = new XNARg32(x, y);
+            ANXRg32 anxVal = new ANXRg32(x, y);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Rg32(Vector2 vector)
+        [Test, TestCaseSource("twofloats")]
+        public void contructor2(float x, float y)
         {
-            uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 65535.0f) << 0;
-            uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 65535.0f) << 16;
 
-            this.packedValue = (uint)r | g;
+            XNARg32 xnaVal = new XNARg32(new XNAVector2(x, y));
+            ANXRg32 anxVal = new ANXRg32(new ANXVector2(x, y));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public uint PackedValue
+        [Test, TestCaseSource("twofloats")]
+        public void ToVector2(float x, float y)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            XNARg32 xnaVal = new XNARg32(x, y);
+            ANXRg32 anxVal = new ANXRg32(x, y);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "ToVector2");
         }
 
-        public Vector2 ToVector2()
-        {
-            return new Vector2(((packedValue >>  0) & 65535) / 65535.0f,
-                               ((packedValue >> 16) & 65535) / 65535.0f);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            Vector2 val = this.ToVector2();
-            return new Vector4(val.X, val.Y, 0f, 1f);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            packedValue = HalfTypeHelper.convert(vector.X) | (uint)HalfTypeHelper.convert(vector.Y) << 16;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Rg32)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Rg32 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToVector2().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Rg32 lhs, Rg32 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Rg32 lhs, Rg32 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }

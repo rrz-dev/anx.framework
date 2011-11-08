@@ -71,6 +71,7 @@
     <Compile Include="Strukturen\PackedVector\HalfSingleTest.cs" />
     <Compile Include="Strukturen\PackedVector\HalfVector2Test.cs" />
     <Compile Include="Strukturen\PackedVector\HalfVector4Test.cs" />
+    <Compile Include="Strukturen\PackedVector\Rg32Test.cs" />
     <Compile Include="Strukturen\PlaneTest.cs" />
     <Compile Include="Strukturen\PointTest.cs" />
     <Compile Include="Strukturen\RayTest.cs" />
