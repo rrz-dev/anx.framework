@@ -93,6 +93,7 @@
     <Compile Include="Content\PrimitiveTypeReaders\SingleReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\StringReader.cs" />
     <Compile Include="Content\ReflectiveReader.cs" />
+    <Compile Include="Content\ResourceContentManager.cs" />
     <Compile Include="Content\SystemTypeReaders\ArrayReader.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="Content\ContentManager.cs" />
@@ -112,7 +113,9 @@
     <Compile Include="CurveLoopType.cs" />
     <Compile Include="CurveTangent.cs" />
     <Compile Include="DisplayOrientation.cs" />
+    <Compile Include="DrawableGameComponent.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameComponent.cs" />
     <Compile Include="GameComponentCollection.cs" />
     <Compile Include="GameComponentCollectionEventArgs.cs" />
     <Compile Include="GameHost.cs" />
