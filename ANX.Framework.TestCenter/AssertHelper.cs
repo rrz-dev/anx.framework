@@ -112,6 +112,12 @@ using ANXRgba1010102 = ANX.Framework.Graphics.PackedVector.Rgba1010102;
 using XNARgba64 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba64;
 using ANXRgba64 = ANX.Framework.Graphics.PackedVector.Rgba64;
 
+using XNANormalizedByte2 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte2;
+using ANXNormalizedByte2 = ANX.Framework.Graphics.PackedVector.NormalizedByte2;
+
+using XNANormalizedByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte4;
+using ANXNormalizedByte4 = ANX.Framework.Graphics.PackedVector.NormalizedByte4;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -235,6 +241,30 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: Rgba64 XNA: ({1}) Rgba64 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNANormalizedByte2 lhs, ANXNormalizedByte2 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: NormalizedByte2 XNA: ({1}) NormalizedByte2 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNANormalizedByte4 lhs, ANXNormalizedByte4 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: NormalizedByte4 XNA: ({1}) NormalizedByte4 ANX: ({2})", test, lhs, rhs));
             }
         }
 

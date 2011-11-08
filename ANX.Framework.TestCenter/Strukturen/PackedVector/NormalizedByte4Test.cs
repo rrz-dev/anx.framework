@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNANormalizedByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte4;
+using ANXNormalizedByte4 = ANX.Framework.Graphics.PackedVector.NormalizedByte4;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,117 +61,49 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct NormalizedByte2 : IPackedVector<ushort>, IEquatable<NormalizedByte2>, IPackedVector
+    [TestFixture]
+    class NormalizedByte4Test
     {
-        private ushort packedValue;
+        #region Testdata
 
-        private const float max = (float)(255 >> 1);
-        private const float oneOverMax = 1f / max;
-        private const uint mask = (uint)(256 >> 1);
-
-        public NormalizedByte2(float x, float y)
+        static object[] fourfloats =
         {
-            ushort b1 = (ushort)(((int)MathHelper.Clamp(x * max, -max, max) & 255) << 0);
-            ushort b2 = (ushort)(((int)MathHelper.Clamp(y * max, -max, max) & 255) << 8);
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+        };
 
-            this.packedValue = (UInt16)(b1 | b2);
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
+        {
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public NormalizedByte2(Vector2 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-            ushort b1 = (ushort)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 255) << 0);
-            ushort b2 = (ushort)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 255) << 8);
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(new XNAVector4(x, y, z, w));
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(new ANXVector4(x, y, z, w));
 
-            this.packedValue = (UInt16)(b1 | b2);
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public ushort PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void unpack1(float x, float y, float z, float w)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
-        }
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
 
-        public Vector2 ToVector2()
-        {
-            Vector2 vector;
-            vector.X = convert(0xff, (uint)this.packedValue);
-            vector.Y = convert(0xff, (uint)(this.packedValue >> 8));
-            return vector;
-        }
-
-        private static float convert(uint bitmask, uint value)
-        {
-            if ((value & mask) != 0)
-            {
-                if ((value & 255) >= mask)
-                {
-                    return -1f;
-                }
-                value |= ~bitmask;
-            }
-            else
-            {
-                value &= 255;
-            }
-
-            return (((float)value) * oneOverMax);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            ushort b1 = (ushort)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 255) << 0);
-            ushort b2 = (ushort)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 255) << 8);
-
-            this.packedValue = (UInt16)(b1 | b2);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            Vector2 val = this.ToVector2();
-            return new Vector4(val.X, val.Y, 0f, 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (NormalizedByte2)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(NormalizedByte2 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToVector2().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(NormalizedByte2 lhs, NormalizedByte2 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(NormalizedByte2 lhs, NormalizedByte2 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
         }
     }
 }
