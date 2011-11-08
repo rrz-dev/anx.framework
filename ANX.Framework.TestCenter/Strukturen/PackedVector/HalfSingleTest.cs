@@ -88,5 +88,13 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
+        [Test, TestCaseSource("floats")]
+        public void unpack1(float single)
+        {
+            XNAHalfSingle xnaVal = new XNAHalfSingle(single);
+            ANXHalfSingle anxVal = new ANXHalfSingle(single);
+
+            AssertHelper.ConvertEquals(xnaVal.ToSingle(), anxVal.ToSingle(), "unpack1");
+        }
     }
 }

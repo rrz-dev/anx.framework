@@ -125,10 +125,35 @@ namespace ANX.Framework.Graphics.PackedVector
             }
         }
 
-        internal static float convert(UInt16 value)
+        internal static unsafe float convert(ushort value)
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            uint rst;
+            uint mantissa = (uint)(value & 1023);
+            uint exp = 0xfffffff2;
+            
+            if ((value & -33792) == 0)
+            {
+                if (mantissa != 0)
+                {
+                    while ((mantissa & 1024) == 0)
+                    {
+                        exp--;
+                        mantissa = mantissa << 1;
+                    }
+                    mantissa &= 0xfffffbff;
+                    rst = ((uint)(((value & 0x8000) << 16) | ((exp + 127) << 23))) | (mantissa << 13);
+                }
+                else
+                {
+                    rst = (uint)((value & 0x8000) << 16);
+                }
+            }
+            else
+            {
+                rst = (uint)((((value & 0x8000) << 16) | (((((value >> 10) & 0x1f) - 15) + 127) << 23)) | (mantissa << 13));
+            }
+
+            return *(((float*)&rst));
         }
     }
 }

@@ -160,6 +160,18 @@ namespace ANX.Framework.TestCenter
             }
         }
 
+        public static void ConvertEquals(float a, float b, String test)
+        {
+            if (a.Equals(b))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: float a: ({1}) float b: ({2})", test, a, b));
+            }
+        }
+
         public static void ConvertEquals(byte a, byte b, String test)
         {
             if (a == b)
