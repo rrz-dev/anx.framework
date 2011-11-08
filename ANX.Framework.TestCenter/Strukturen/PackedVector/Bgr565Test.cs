@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNABgr565 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgr565;
+using ANXBgr565 = ANX.Framework.Graphics.PackedVector.Bgr565;
+
+using XNAVector3 = Microsoft.Xna.Framework.Vector3;
+using ANXVector3 = ANX.Framework.Vector3;
 
 #endregion // Using Statements
 
@@ -50,96 +61,51 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Bgr565 : IPackedVector<UInt16>, IEquatable<Bgr565>, IPackedVector
+    [TestFixture]
+    class Bgr565Test
     {
-        private UInt16 packedValue;
+        #region Testdata
 
-        public Bgr565(float x, float y, float z)
+        static object[] threefloats =
         {
-            uint r = (uint)(MathHelper.Clamp(x, 0f, 1f) * 31.0f) << 11;
-            uint g = (uint)(MathHelper.Clamp(y, 0f, 1f) * 63.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(z, 0f, 1f) * 31.0f);
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
+        };
 
-            this.packedValue = (ushort)((r | g) | b);
+        #endregion
+
+        [Test, TestCaseSource("threefloats")]
+        public void contructor1(float r, float g, float b)
+        {
+            XNABgr565 xnaVal = new XNABgr565(r, g, b);
+            ANXBgr565 anxVal = new ANXBgr565(r, g, b);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Bgr565(Vector3 vector)
+        [Test, TestCaseSource("threefloats")]
+        public void contructor2(float r, float g, float b)
         {
-            uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 31.0f) << 11;
-            uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 63.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 31.0f);
 
-            this.packedValue = (ushort)((r | g) | b);
+            XNABgr565 xnaVal = new XNABgr565(new XNAVector3(r, g, b));
+            ANXBgr565 anxVal = new ANXBgr565(new ANXVector3(r, g, b));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public ushort PackedValue
+        [Test, TestCaseSource("threefloats")]
+        public void ToVector3(float r, float g, float b)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            XNABgr565 xnaVal = new XNABgr565(r, g, b);
+            ANXBgr565 anxVal = new ANXBgr565(r, g, b);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector3(), anxVal.ToVector3(), "ToVector3");
         }
 
-        public Vector3 ToVector3()
-        {
-            return new Vector3( ((packedValue >> 11) & 31) / 31.0f,
-                                ((packedValue >> 5) & 63) / 63.0f,
-                                ((packedValue) & 31) / 31.0f);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 31.0f) << 11;
-            uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 63.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 31.0f);
-
-            this.packedValue = (ushort)((r | g) | b);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            return new Vector4(this.ToVector3(), 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Bgr565)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Bgr565 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.packedValue.ToString("X4");
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Bgr565 lhs, Bgr565 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Bgr565 lhs, Bgr565 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }
