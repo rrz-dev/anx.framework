@@ -66,6 +66,7 @@
     <Compile Include="Strukturen\MatrixTest.cs" />
     <Compile Include="Strukturen\PackedVector\Bgr565Test.cs" />
     <Compile Include="Strukturen\PackedVector\Bgra5551Test.cs" />
+    <Compile Include="Strukturen\PackedVector\Bgra4444Test.cs" />
     <Compile Include="Strukturen\PlaneTest.cs" />
     <Compile Include="Strukturen\PointTest.cs" />
     <Compile Include="Strukturen\RayTest.cs" />

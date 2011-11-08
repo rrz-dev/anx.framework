@@ -87,6 +87,9 @@ using ANXBgr565 = ANX.Framework.Graphics.PackedVector.Bgr565;
 using XNABgra5551 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgra5551;
 using ANXBgra5551 = ANX.Framework.Graphics.PackedVector.Bgra5551;
 
+using XNABgra4444 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgra4444;
+using ANXBgra4444 = ANX.Framework.Graphics.PackedVector.Bgra4444;
+
 namespace ANX.Framework.TestCenter
 {
     class AssertHelper
@@ -112,6 +115,18 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: Bgra5551 XNA: ({1}) Bgra5551 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNABgra4444 lhs, ANXBgra4444 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: Bgra4444 XNA: ({1}) Bgra4444 ANX: ({2})", test, lhs, rhs));
             }
         }
 
