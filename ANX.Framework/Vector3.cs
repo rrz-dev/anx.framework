@@ -507,20 +507,65 @@ namespace ANX.Framework
 
 
         #region Transformations
+        public static Vector3 Transform(Vector3 position, Matrix matrix)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public static Vector3 Transform(Vector3 position, Matrix matrix);
-        //public static Vector3 Transform(Vector3 value, Quaternion rotation);
-        //public static void Transform(ref Vector3 position, ref Matrix matrix, out Vector3 result);
-        //public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector3 result);
-        //public static void Transform(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray);
-        //public static void Transform(Vector3[] sourceArray, ref Quaternion rotation, Vector3[] destinationArray);
-        //public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length);
-        //public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector3[] destinationArray, int destinationIndex, int length);
-        //public static Vector3 TransformNormal(Vector3 normal, Matrix matrix);
-        //public static void TransformNormal(ref Vector3 normal, ref Matrix matrix, out Vector3 result);
-        //public static void TransformNormal(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray);
-        //public static void TransformNormal(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length);
+        public static Vector3 Transform(Vector3 value, Quaternion rotation)
+        {
+            throw new NotImplementedException();
+        }
 
+        public static void Transform(ref Vector3 position, ref Matrix matrix, out Vector3 result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector3 result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Transform(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Transform(Vector3[] sourceArray, ref Quaternion rotation, Vector3[] destinationArray)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector3[] destinationArray, int destinationIndex, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Vector3 TransformNormal(Vector3 normal, Matrix matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(ref Vector3 normal, ref Matrix matrix, out Vector3 result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #endregion

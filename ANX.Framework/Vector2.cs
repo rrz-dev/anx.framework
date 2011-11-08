@@ -430,27 +430,56 @@ namespace ANX.Framework
 
         public static Vector2 Transform(Vector2 value, Quaternion rotation)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector2 result)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix, Vector2[] destinationArray, int destinationIndex, int length)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector2[] destinationArray, int destinationIndex, int length)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         public static void Transform(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
         }
         public static void Transform(Vector2[] sourceArray, ref Quaternion rotation, Vector2[] destinationArray)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException();
+        }
+
+        public static Vector2 TransformNormal(Vector2 normal, Matrix matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(ref Vector2 normal, ref Matrix matrix, out Vector2 result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(
+            Vector2[] sourceArray, 
+            int sourceIndex, 
+            ref Matrix matrix,
+            Vector2[] destinationArray,
+            int destinationIndex,
+            int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TransformNormal(
+            Vector2[] sourceArray,
+            ref Matrix matrix,
+            Vector2[] destinationArray)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
