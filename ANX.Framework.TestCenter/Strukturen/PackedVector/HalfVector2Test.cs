@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNAHalfVector2 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector2;
+using ANXHalfVector2 = ANX.Framework.Graphics.PackedVector.HalfVector2;
+
+using XNAVector2 = Microsoft.Xna.Framework.Vector2;
+using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // Using Statements
 
@@ -50,83 +61,49 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct HalfVector2 : IPackedVector<uint>, IEquatable<HalfVector2>, IPackedVector
+    [TestFixture]
+    class HalfVector2Test
     {
-        private uint packedValue;
+        #region Testdata
 
-        public HalfVector2(float x, float y)
+        static object[] twofloats =
         {
-            packedValue = HalfTypeHelper.convert(x) | (uint)HalfTypeHelper.convert(y) << 16;
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue }
+        };
+
+        #endregion
+
+        [Test, TestCaseSource("twofloats")]
+        public void contructor1(float x, float y)
+        {
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
+            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public HalfVector2(Vector2 vector)
+        [Test, TestCaseSource("twofloats")]
+        public void contructor2(float x, float y)
         {
-            packedValue = HalfTypeHelper.convert(vector.X) | (uint)HalfTypeHelper.convert(vector.Y) << 16;
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(new XNAVector2(x, y));
+            ANXHalfVector2 anxVal = new ANXHalfVector2(new ANXVector2(x, y));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public uint PackedValue
+        [Test, TestCaseSource("twofloats")]
+        public void unpack1(float x, float y)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
-        }
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
+            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
 
-        public Vector2 ToVector2()
-        {
-            return new Vector2(HalfTypeHelper.convert((ushort)this.packedValue), HalfTypeHelper.convert((ushort)(this.packedValue >> 16)));
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            packedValue = HalfTypeHelper.convert(vector.X) | (uint)HalfTypeHelper.convert(vector.Y) << 16;
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            Vector2 val = this.ToVector2();
-            return new Vector4(val.X, val.Y, 0f, 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (HalfVector2)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(HalfVector2 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToVector2().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(HalfVector2 lhs, HalfVector2 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(HalfVector2 lhs, HalfVector2 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
+            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
         }
     }
 }
