@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNAHalfVector4 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector4;
+using ANXHalfVector4 = ANX.Framework.Graphics.PackedVector.HalfVector4;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,87 +61,49 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct HalfVector4 : IPackedVector<ulong>, IEquatable<HalfVector4>, IPackedVector
+    [TestFixture]
+    class HalfVector4Test
     {
-        private ulong packedValue;
+        #region Testdata
 
-        public HalfVector4(float x, float y, float z, float w)
+        static object[] fourfloats =
         {
-            this.packedValue = (ulong)HalfTypeHelper.convert(x) 
-                             | (ulong)HalfTypeHelper.convert(y) << 16
-                             | (ulong)HalfTypeHelper.convert(z) << 32 
-                             | (ulong)HalfTypeHelper.convert(w) << 48;
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+        };
+
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
+        {
+            XNAHalfVector4 xnaVal = new XNAHalfVector4(x, y, z, w);
+            ANXHalfVector4 anxVal = new ANXHalfVector4(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public HalfVector4(Vector4 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-            this.packedValue = (ulong)HalfTypeHelper.convert(vector.X)
-                             | (ulong)HalfTypeHelper.convert(vector.Y) << 16
-                             | (ulong)HalfTypeHelper.convert(vector.Z) << 32
-                             | (ulong)HalfTypeHelper.convert(vector.W) << 48;
+            XNAHalfVector4 xnaVal = new XNAHalfVector4(new XNAVector4(x, y, z, w));
+            ANXHalfVector4 anxVal = new ANXHalfVector4(new ANXVector4(x, y, z, w));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public ulong PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void unpack1(float x, float y, float z, float w)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
-        }
+            XNAHalfVector4 xnaVal = new XNAHalfVector4(x, y, z, w);
+            ANXHalfVector4 anxVal = new ANXHalfVector4(x, y, z, w);
 
-        public Vector4 ToVector4()
-        {
-            return new Vector4(HalfTypeHelper.convert((ushort)this.packedValue), 
-                               HalfTypeHelper.convert((ushort)(this.packedValue >> 16)),
-                               HalfTypeHelper.convert((ushort)(this.packedValue >> 32)),
-                               HalfTypeHelper.convert((ushort)(this.packedValue >> 48))
-                              );
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            packedValue = HalfTypeHelper.convert(vector.X) | (uint)HalfTypeHelper.convert(vector.Y) << 16;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (HalfVector4)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(HalfVector4 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToVector4().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(HalfVector4 lhs, HalfVector4 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(HalfVector4 lhs, HalfVector4 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
         }
     }
 }

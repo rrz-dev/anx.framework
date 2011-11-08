@@ -99,6 +99,9 @@ using ANXHalfSingle = ANX.Framework.Graphics.PackedVector.HalfSingle;
 using XNAHalfVector2 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector2;
 using ANXHalfVector2 = ANX.Framework.Graphics.PackedVector.HalfVector2;
 
+using XNAHalfVector4 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector4;
+using ANXHalfVector4 = ANX.Framework.Graphics.PackedVector.HalfVector4;
+
 namespace ANX.Framework.TestCenter
 {
     class AssertHelper
@@ -172,6 +175,18 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: HalfVector2 XNA: ({1}) HalfVector2 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNAHalfVector4 lhs, ANXHalfVector4 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: HalfVector4 XNA: ({1}) HalfVector4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
