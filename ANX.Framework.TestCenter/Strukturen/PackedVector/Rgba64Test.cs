@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNARgba64 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba64;
+using ANXRgba64 = ANX.Framework.Graphics.PackedVector.Rgba64;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,95 +61,51 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Rgba64 : IPackedVector<ulong>, IEquatable<Rgba64>, IPackedVector
+    [TestFixture]
+    class Rgba64Test
     {
-        private ulong packedValue;
+        #region Testdata
 
-        public Rgba64(float x, float y, float z, float w)
+        static object[] fourfloats =
         {
-            ulong r = (ulong)(MathHelper.Clamp(x, 0f, 1f) * 65535f) << 0;
-            ulong g = (ulong)(MathHelper.Clamp(y, 0f, 1f) * 65535f) << 16;
-            ulong b = (ulong)(MathHelper.Clamp(z, 0f, 1f) * 65535f) << 32;
-            ulong a = (ulong)(MathHelper.Clamp(w, 0f, 1f) * 65535f) << 48;
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+        };
 
-            this.packedValue = (ulong)(r | g | b | a);
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
+        {
+            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
+            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Rgba64(Vector4 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-            ulong r = (ulong)(MathHelper.Clamp(vector.X, 0f, 1f) * 65535f) << 0;
-            ulong g = (ulong)(MathHelper.Clamp(vector.Y, 0f, 1f) * 65535f) << 16;
-            ulong b = (ulong)(MathHelper.Clamp(vector.Z, 0f, 1f) * 65535f) << 32;
-            ulong a = (ulong)(MathHelper.Clamp(vector.W, 0f, 1f) * 65535f) << 48;
 
-            this.packedValue = (ulong)(r | g | b | a);
+            XNARgba64 xnaVal = new XNARgba64(new XNAVector4(x, y, z, w));
+            ANXRgba64 anxVal = new ANXRgba64(new ANXVector4(x, y, z, w));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public ulong PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float x, float y, float z, float w)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
+            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
         }
 
-        public Vector4 ToVector4()
-        {
-            return new Vector4(((packedValue >>  0) & 65535) / 65535f,
-                               ((packedValue >> 16) & 65535) / 65535f,
-                               ((packedValue >> 32) & 65535) / 65535f,
-                               ((packedValue >> 48) & 65535) / 65535f);
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            ulong r = (ulong)(MathHelper.Clamp(vector.X, 0f, 1f) * 65535f) << 0;
-            ulong g = (ulong)(MathHelper.Clamp(vector.Y, 0f, 1f) * 65535f) << 16;
-            ulong b = (ulong)(MathHelper.Clamp(vector.Z, 0f, 1f) * 65535f) << 32;
-            ulong a = (ulong)(MathHelper.Clamp(vector.W, 0f, 1f) * 65535f) << 48;
-
-            this.packedValue = (ulong)(r | g | b | a);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Rgba64)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Rgba64 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.ToVector4().ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Rgba64 lhs, Rgba64 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Rgba64 lhs, Rgba64 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }
