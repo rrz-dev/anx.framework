@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNABgra5551 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgra5551;
+using ANXBgra5551 = ANX.Framework.Graphics.PackedVector.Bgra5551;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,95 +61,51 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Bgra5551 : IPackedVector<UInt16>, IEquatable<Bgra5551>, IPackedVector
+    [TestFixture]
+    class Bgra5551Test
     {
-        private UInt16 packedValue;
+        #region Testdata
 
-        public Bgra5551(float x, float y, float z, float w)
+        static object[] fourfloats =
         {
-            uint r = (uint)(MathHelper.Clamp(x, 0f, 1f) * 31.0f) << 10;
-            uint g = (uint)(MathHelper.Clamp(y, 0f, 1f) * 31.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(z, 0f, 1f) * 31.0f);
-            uint a = (uint)(MathHelper.Clamp(w, 0f, 1f)) << 15;
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
+        };
 
-            this.packedValue = (ushort)(r | g | b | a);
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float r, float g, float b, float a)
+        {
+            XNABgra5551 xnaVal = new XNABgra5551(r, g, b, a);
+            ANXBgra5551 anxVal = new ANXBgra5551(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Bgra5551(Vector4 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float r, float g, float b, float a)
         {
-            uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 31.0f) << 10;
-            uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 31.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 31.0f);
-            uint a = (uint)(MathHelper.Clamp(vector.W, 0f, 1f)) << 15;
 
-            this.packedValue = (ushort)(r | g | b | a);
+            XNABgra5551 xnaVal = new XNABgra5551(new XNAVector4(r, g, b, a));
+            ANXBgra5551 anxVal = new ANXBgra5551(new ANXVector4(r, g, b, a));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public ushort PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float r, float g, float b, float a)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            XNABgra5551 xnaVal = new XNABgra5551(r, g, b, a);
+            ANXBgra5551 anxVal = new ANXBgra5551(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
         }
 
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 31.0f) << 10;
-            uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 31.0f) << 5;
-            uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 31.0f);
-            uint a = (uint)(MathHelper.Clamp(vector.W, 0f, 1f)) << 15;
-
-            this.packedValue = (ushort)(r | g | b | a);
-        }
-
-        public Vector4 ToVector4()
-        {
-            return new Vector4(((packedValue >> 10) & 31) / 31.0f,
-                                ((packedValue >> 5) & 31) / 31.0f,
-                                ((packedValue) & 31) / 31.0f,
-                                ((packedValue >> 15) & 1) / 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Bgra5551)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Bgra5551 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.packedValue.ToString("X4");
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Bgra5551 lhs, Bgra5551 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Bgra5551 lhs, Bgra5551 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
-        }
     }
 }
