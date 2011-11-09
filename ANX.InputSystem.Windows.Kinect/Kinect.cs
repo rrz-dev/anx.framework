@@ -1,11 +1,15 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.NonXNA;
-using Microsoft.Research.Kinect.Nui;
 using ANX.Framework;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
+using Microsoft.Research.Kinect.Nui;
+using ANX.Framework.Input.MotionSensing;
+
+#endregion // Using Statements
 
 #region License
 
@@ -57,17 +61,21 @@ using ANX.Framework.Graphics;
 namespace ANX.InputSystem.Windows.Kinect
 {
     
-    public class Kinect:IMotionSensingDevice
+    public class Kinect : IMotionSensingDevice
     {
+        #region Private Members
         private Runtime pNui;
         private Vector3[] cache;
-        private Texture rgb;
-        private Texture deepth;
+        private GraphicsDevice graphicsDevice;
+        private Texture2D rgb;
+        private Texture2D depth;
+
+        #endregion // Private Members
+
         public Kinect()
         {
             pNui = new Runtime();
-            pNui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex |
-                        RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
+            pNui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
             pNui.SkeletonEngine.TransformSmooth = true;
 
             this.cache = new Vector3[21];
@@ -89,19 +97,36 @@ namespace ANX.InputSystem.Windows.Kinect
             pNui.SkeletonEngine.SmoothParameters = parameters;
 
             pNui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(pNui_SkeletonFrameReady);
-        //    pNui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_DepthFrameReady);
-        //    pNui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_VideoFrameReady);
-
+            pNui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_DepthFrameReady);
+            pNui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_VideoFrameReady);
         }
 
         void pNui_VideoFrameReady(object sender, ImageFrameReadyEventArgs e)
         {
-            throw new NotImplementedException();
+            if (this.graphicsDevice != null)
+            {
+                if (this.rgb == null)
+                {
+                    this.rgb = new Texture2D(this.graphicsDevice, e.ImageFrame.Image.Width, e.ImageFrame.Image.Height);
+                }
+
+                //TODO: this works only if the image is in RGBA32 Format. Other formats does need a conversion first.
+                this.rgb.SetData<byte>(e.ImageFrame.Image.Bits);
+            }
         }
 
         void pNui_DepthFrameReady(object sender, ImageFrameReadyEventArgs e)
         {
-            throw new NotImplementedException();
+            if (this.graphicsDevice != null)
+            {
+                if (this.depth == null)
+                {
+                    this.depth = new Texture2D(this.graphicsDevice, e.ImageFrame.Image.Width, e.ImageFrame.Image.Height);
+                }
+
+                //TODO: this works only if the image is in RGBA32 Format. Other formats does need a conversion first.
+                this.rgb.SetData<byte>(e.ImageFrame.Image.Bits);
+            }
         }
 
         private void pNui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -130,11 +155,28 @@ namespace ANX.InputSystem.Windows.Kinect
             return new Vector3(vector.X, vector.Y, vector.Z);
         }
      
-        public ANX.Framework.Input.MotionSensingDeviceState GetState()
+        public MotionSensingDeviceState GetState()
         {
-            return new Framework.Input.MotionSensingDeviceState(rgb, deepth, cache[0], cache[1], cache[2], cache[3], cache[4], cache[5], cache[6], cache[7], cache[8], cache[9], cache[10],cache[11], cache[12], cache[13], cache[14], cache[15], cache[16], cache[17], cache[18], cache[19], cache[20]);
+            return new MotionSensingDeviceState(rgb, depth, cache[0], cache[1], cache[2], cache[3], cache[4], cache[5], cache[6], cache[7], cache[8], cache[9], cache[10],cache[11], cache[12], cache[13], cache[14], cache[15], cache[16], cache[17], cache[18], cache[19], cache[20]);
         }
 
 
+
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                return graphicsDevice;
+            }
+            set
+            {
+                graphicsDevice = value;
+            }
+        }
+
+        public MotionSensingDeviceType DeviceType
+        {
+            get { return MotionSensingDeviceType.Kinect; }
+        }
     }
 }

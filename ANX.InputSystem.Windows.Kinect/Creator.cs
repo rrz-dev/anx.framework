@@ -67,11 +67,6 @@ namespace ANX.InputSystem.Windows.Kinect
             factory.AddCreator(this);
         }
 
-        public IMotionSensingDevice Kinect
-        {
-            get { return new Kinect(); }
-        }
-
         #region IInputSystemCreator Member
 
         public IGamePad GamePad
@@ -86,7 +81,7 @@ namespace ANX.InputSystem.Windows.Kinect
 
         public IMotionSensingDevice MotionSensingDevice
         {
-            get { return null; }
+            get { return new Kinect(); }
         }
 
         #endregion

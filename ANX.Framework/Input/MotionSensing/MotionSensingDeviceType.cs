@@ -1,6 +1,5 @@
 ﻿#region Using Statements
 using System;
-using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -52,25 +51,11 @@ using ANX.Framework.NonXNA;
 #endregion // License
 
 #if XNAEXT
-
-namespace ANX.Framework.Input
+namespace ANX.Framework.Input.MotionSensing
 {
-    public class MotionSensingDevice
+    public enum MotionSensingDeviceType
     {
-        private static IMotionSensingDevice motionSensingDevice;
-
-        static MotionSensingDevice()
-        {
-            motionSensingDevice = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>().MotionSensingDevice;
-        }
-
-
-        public static MotionSensingDeviceState GetState() 
-        {
-            return motionSensingDevice.GetState();
-        }
-  
+        Kinect,
     }
 }
-
 #endif

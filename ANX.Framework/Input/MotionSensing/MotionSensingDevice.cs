@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using System;
-using ANX.Framework.Input;
-using ANX.Framework.Input.MotionSensing;
+using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
 
 #endregion // Using Statements
@@ -54,15 +53,42 @@ using ANX.Framework.Graphics;
 #endregion // License
 
 #if XNAEXT
-namespace ANX.Framework.NonXNA
+
+namespace ANX.Framework.Input.MotionSensing
 {
-    public interface IMotionSensingDevice
+    public class MotionSensingDevice
     {
-        GraphicsDevice GraphicsDevice { get; set; }
+        private static IMotionSensingDevice motionSensingDevice;
 
-        MotionSensingDeviceType DeviceType { get; }
+        static MotionSensingDevice()
+        {
+            motionSensingDevice = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>().MotionSensingDevice;
+        }
 
-        MotionSensingDeviceState GetState();
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                return motionSensingDevice.GraphicsDevice;
+            }
+            set
+            {
+                motionSensingDevice.GraphicsDevice = value;
+            }
+        }
+
+        public static MotionSensingDeviceType DeviceType
+        {
+            get
+            {
+                return motionSensingDevice.DeviceType; 
+            }
+        }
+
+        public static MotionSensingDeviceState GetState() 
+        {
+            return motionSensingDevice.GetState();
+        }
     }
 }
 

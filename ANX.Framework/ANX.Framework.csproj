@@ -276,8 +276,9 @@
     <Compile Include="Input\KeyboardState.cs" />
     <Compile Include="Input\Keys.cs" />
     <Compile Include="Input\KeyState.cs" />
-    <Compile Include="Input\MotionSensingDevice.cs" />
-    <Compile Include="Input\MotionSensingDeviceState.cs" />
+    <Compile Include="Input\MotionSensing\MotionSensingDevice.cs" />
+    <Compile Include="Input\MotionSensing\MotionSensingDeviceState.cs" />
+    <Compile Include="Input\MotionSensing\MotionSensingDeviceType.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\MouseState.cs" />
     <Compile Include="Input\Touch\GestureSample.cs" />

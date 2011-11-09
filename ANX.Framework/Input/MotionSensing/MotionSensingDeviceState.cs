@@ -52,13 +52,12 @@ using ANX.Framework.Graphics;
 #endregion // License
 
 #if XNAEXT
-namespace ANX.Framework.Input
+namespace ANX.Framework.Input.MotionSensing
 {
     public struct MotionSensingDeviceState
     {
-
-        private Texture pRGB;
-        private Texture pDeepth;
+        private Texture2D pRGB;
+        private Texture2D pDepth;
 
         private Vector3 pHipCenter;
         private Vector3 pSpine;
@@ -83,8 +82,8 @@ namespace ANX.Framework.Input
         private Vector3 pCount;
 
 
-        public Texture RGB { get { return this.pRGB; } }
-        public Texture Derpth { get { return this.pDeepth; } }
+        public Texture2D RGB { get { return this.pRGB; } }
+        public Texture2D Derpth { get { return this.pDepth; } }
 
         public Vector3 HipCenter { get { return this.pHipCenter; } }
         public Vector3 Spine { get { return this.pSpine; } }
@@ -109,11 +108,11 @@ namespace ANX.Framework.Input
         public Vector3 Count { get { return this.pCount; } }
 
 
-        public MotionSensingDeviceState(Texture _RGB, Texture _Deepth, Vector3 _HipCenter, Vector3 _Spine, Vector3 _ShoulderCenter, Vector3 _Head, Vector3 _ShoulderLeft,
+        public MotionSensingDeviceState(Texture2D _RGB, Texture2D _Depth, Vector3 _HipCenter, Vector3 _Spine, Vector3 _ShoulderCenter, Vector3 _Head, Vector3 _ShoulderLeft,
  Vector3 _ElbowLeft, Vector3 _WristLeft, Vector3 _HandLeft, Vector3 _ShoulderRight, Vector3 _ElbowRight, Vector3 _WristRight, Vector3 _HandRight, Vector3 _HipLeft, Vector3 _KneeLeft, Vector3 _AnkleLeft, Vector3 _FootLeft, Vector3 _HipRight, Vector3 _KneeRight, Vector3 _AnkleRight, Vector3 _FootRight, Vector3 _Count)
         {
             pRGB = _RGB;
-            pDeepth = _Deepth;
+            pDepth = _Depth;
 
             pHipCenter = _HipCenter;
             pSpine = _Spine;
