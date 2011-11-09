@@ -60,6 +60,8 @@ namespace ANX.InputSystem.Windows.XInput
 {
     public class Creator : IInputSystemCreator
     {
+        #region IInputSystemCreator Member
+
         public string Name
         {
             get { return "XInput"; }
@@ -76,12 +78,11 @@ namespace ANX.InputSystem.Windows.XInput
         }
 
 
+
         public IMouse Mouse
         {
             get { return new Mouse(); }
         }
-
-        #region IInputSystemCreator Member
 
 
         public IMotionSensingDevice MotionSensingDevice
@@ -89,6 +90,13 @@ namespace ANX.InputSystem.Windows.XInput
             get {return null; }
         }
 
+        public IKeyboard Keyboard
+        {
+            get { throw new NotImplementedException(); }
+        }
         #endregion
+
+
+
     }
 }

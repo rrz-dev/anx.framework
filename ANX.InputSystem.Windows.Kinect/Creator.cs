@@ -84,6 +84,12 @@ namespace ANX.InputSystem.Windows.Kinect
             get { return new Kinect(); }
         }
 
+        public IKeyboard Keyboard
+        {
+            get { throw new NotImplementedException(); }
+        }
+        
         #endregion
+        
     }
 }
