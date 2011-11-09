@@ -85,9 +85,10 @@ namespace ANX.Framework.Graphics
         public event EventHandler<EventArgs> DeviceLost;
         public event EventHandler<EventArgs> DeviceReset;
         public event EventHandler<EventArgs> DeviceResetting;
-        
+
         #endregion // Events
 
+        #region Constructor & Destructor
         public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
             this.currentAdapter = adapter;
@@ -108,21 +109,27 @@ namespace ANX.Framework.Graphics
             this.Dispose(false);
         }
 
-        public void Clear(ClearOptions options, Color color, float depth, int stencil)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion // Constructor & Destructor
 
-        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
-        {
-            throw new NotImplementedException();
-        }
-        
+        #region Clear
         public void Clear(Color color)
         {
             nativeDevice.Clear(ref color);
         }
 
+        public void Clear(ClearOptions options, Color color, float depth, int stencil)
+        {
+            Clear(options, color.ToVector4(), depth, stencil);
+        }
+
+        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
+        {
+            nativeDevice.Clear(options, color, depth, stencil);
+        }
+
+        #endregion // Clear
+
+        #region Present
         public void Present()
         {
             nativeDevice.Present();
@@ -133,14 +140,12 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
+        #endregion // Present
+
+        #region DrawPrimitives & DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
         {
             nativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount);
-        }
-
-        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
-        {
-            throw new NotImplementedException();
         }
 
         public void DrawPrimitives(PrimitiveType primitiveType, int startVertex, int primitiveCount)
@@ -148,36 +153,65 @@ namespace ANX.Framework.Graphics
             nativeDevice.DrawPrimitives(primitiveType, startVertex, primitiveCount);
         }
 
+        #endregion // DrawPrimitives & DrawIndexedPrimitives
+
+        #region DrawInstancedPrimitives
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        {
+            nativeDevice.DrawInstancedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount, instanceCount);
+        }
+
+        #endregion // DrawInstancedPrimitives
+
+        #region DrawUserIndexedPrimitives<T>
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, short[] indexData, int indexOffset, int primitiveCount) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            //TODO: cache the instances to avoid reflection overhead
+            IVertexType vertexType = Activator.CreateInstance<T>();
+            VertexDeclaration vertexDeclaration = vertexType.VertexDeclaration;
+
+            nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.SixteenBits);
         }
 
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, short[] indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.SixteenBits);
         }
 
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, int[] indexData, int indexOffset, int primitiveCount) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            //TODO: cache the instances to avoid reflection overhead
+            IVertexType vertexType = Activator.CreateInstance<T>();
+            VertexDeclaration vertexDeclaration = vertexType.VertexDeclaration;
+
+            nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.ThirtyTwoBits);
         }
 
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, int[] indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.ThirtyTwoBits);
         }
 
+        #endregion // DrawUserIndexedPrimitives<T>
+
+        #region DrawUserPrimitives<T>
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            //TODO: cache the instances to avoid reflection overhead
+            IVertexType vertexType = Activator.CreateInstance<T>();
+            VertexDeclaration vertexDeclaration = vertexType.VertexDeclaration;
+
+            nativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
         }
 
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            nativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
         }
 
+        #endregion // DrawUserPrimitives<T>
+
+        #region SetVertexBuffer
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
         {
             VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer) };
@@ -198,6 +232,9 @@ namespace ANX.Framework.Graphics
             nativeDevice.SetVertexBuffers(vertexBuffers);
         }
 
+        #endregion // SetVertexBuffer
+
+        #region SetRenderTarget
         public void SetRenderTarget(RenderTarget2D renderTarget)
         {
             RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget) };
@@ -218,6 +255,9 @@ namespace ANX.Framework.Graphics
             nativeDevice.SetRenderTargets(renderTargets);
         }
 
+        #endregion // SetRenderTarget
+
+        #region GetBackBufferData<T>
         public void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             nativeDevice.GetBackBufferData<T>(rect, data, startIndex, elementCount);
@@ -233,6 +273,8 @@ namespace ANX.Framework.Graphics
             nativeDevice.GetBackBufferData<T>(data, startIndex, elementCount);
         }
 
+        #endregion // GetBackBufferData<T>
+
         public VertexBufferBinding[] GetVertexBuffers()
         {
             return this.currentVertexBufferBindings;
@@ -243,6 +285,7 @@ namespace ANX.Framework.Graphics
             return this.currentRenderTargetBindings;
         }
 
+        #region Reset
         public void Reset()
         {
             this.Reset(this.currentPresentationParameters, this.currentAdapter);
@@ -257,6 +300,8 @@ namespace ANX.Framework.Graphics
         {
             throw new NotImplementedException();
         }
+
+        #endregion // Reset
 
         public void Dispose()
         {
@@ -377,7 +422,7 @@ namespace ANX.Framework.Graphics
                 return this.samplerStateCollection;
             }
         }
-    
+
         public bool IsDisposed
         {
             get
@@ -467,7 +512,7 @@ namespace ANX.Framework.Graphics
                 }
             }
         }
-        
+
         public Color BlendFactor
         {
             get
@@ -517,15 +562,15 @@ namespace ANX.Framework.Graphics
 
         protected void raise_DeviceResetting(object sender, EventArgs args)
         {
-            if (DeviceResetting  != null)
+            if (DeviceResetting != null)
             {
                 DeviceResetting(sender, args);
             }
         }
-        
+
         protected void raise_DeviceReset(object sender, EventArgs args)
         {
-            if (DeviceReset  != null)
+            if (DeviceReset != null)
             {
                 DeviceReset(sender, args);
             }
@@ -533,7 +578,7 @@ namespace ANX.Framework.Graphics
 
         protected void raise_DeviceLost(object sender, EventArgs args)
         {
-            if (DeviceLost  != null)
+            if (DeviceLost != null)
             {
                 DeviceLost(sender, args);
             }
@@ -541,7 +586,7 @@ namespace ANX.Framework.Graphics
 
         protected void raise_ResourceCreated(object sender, ResourceCreatedEventArgs args)
         {
-            if (ResourceCreated  != null)
+            if (ResourceCreated != null)
             {
                 ResourceCreated(sender, args);
             }
@@ -549,7 +594,7 @@ namespace ANX.Framework.Graphics
 
         protected void raise_ResourceDestroyed(object sender, ResourceDestroyedEventArgs args)
         {
-            if (ResourceDestroyed  != null)
+            if (ResourceDestroyed != null)
             {
                 ResourceDestroyed(sender, args);
             }

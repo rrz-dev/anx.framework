@@ -64,16 +64,37 @@ namespace ANX.Framework.Input
 
         public static IntPtr WindowHandle 
         {
-            get { return mouse.WindowHandle; }
-            set { mouse.WindowHandle = value; }
+            get 
+            {
+                return mouse != null ? mouse.WindowHandle : IntPtr.Zero;
+            }
+            set 
+            {
+                if (mouse != null)
+                {
+                    mouse.WindowHandle = value;
+                }
+            }
         }
+
         public static MouseState GetState() 
         {
-            return mouse.GetState();
+            if (mouse != null)
+            {
+                return mouse.GetState();
+            }
+            else
+            {
+                return new MouseState();
+            }
         }
+
         public static void SetPosition(int x, int y)
         {
-            mouse.SetPosition(x, y);
+            if (mouse != null)
+            {
+                mouse.SetPosition(x, y);
+            }
         }
     }
 }

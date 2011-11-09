@@ -349,5 +349,26 @@ namespace ANX.Framework.Windows.DX10
         {
             throw new NotImplementedException();
         }
+
+
+        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
         }
 }

@@ -56,10 +56,17 @@ namespace ANX.Framework.NonXNA
     public interface INativeGraphicsDevice
     {
         void Clear(ref Color color);
+        void Clear(ClearOptions options, Vector4 color, float depth, int stencil);
 
         void Present();
 
         void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount);
+
+        void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount);
+
+        void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType;
+
+        void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType;
 
         void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount);
 

@@ -609,5 +609,26 @@ namespace ANX.RenderSystem.Windows.DX11_1
         {
             throw new NotImplementedException();
         }
+
+
+        public void Clear(Framework.Graphics.ClearOptions options, Framework.Vector4 color, float depth, int stencil)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawInstancedPrimitives(Framework.Graphics.PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserIndexedPrimitives<T>(Framework.Graphics.PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, Framework.Graphics.VertexDeclaration vertexDeclaration, Framework.Graphics.IndexElementSize indexFormat) where T : struct, Framework.Graphics.IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserPrimitives<T>(Framework.Graphics.PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, Framework.Graphics.VertexDeclaration vertexDeclaration) where T : struct, Framework.Graphics.IVertexType
+        {
+            throw new NotImplementedException();
+        }
         }
 }
