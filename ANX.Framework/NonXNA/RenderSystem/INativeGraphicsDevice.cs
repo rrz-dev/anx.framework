@@ -81,5 +81,7 @@ namespace ANX.Framework.NonXNA
         void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct;
         void GetBackBufferData<T>(T[] data) where T : struct;
         void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct;
+
+        void ResizeBuffers(PresentationParameters presentationParameters);
     }
 }

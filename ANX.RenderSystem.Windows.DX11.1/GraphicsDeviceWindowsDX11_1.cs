@@ -630,5 +630,11 @@ namespace ANX.RenderSystem.Windows.DX11_1
         {
             throw new NotImplementedException();
         }
+
+
+        public void ResizeBuffers(Framework.Graphics.PresentationParameters presentationParameters)
+        {
+            throw new NotImplementedException();
+        }
         }
 }

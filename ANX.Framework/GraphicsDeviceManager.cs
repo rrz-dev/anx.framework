@@ -144,9 +144,21 @@ namespace ANX.Framework
             deviceInformation.PresentationParameters.BackBufferHeight = DefaultBackBufferHeight;
             this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile, deviceInformation.PresentationParameters);
 
-            OnDeviceCreated(this, EventArgs.Empty);
-
             //TODO: hookup events
+            this.graphicsDevice.DeviceResetting += new EventHandler<EventArgs>(graphicsDevice_DeviceResetting);
+            this.graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+
+            OnDeviceCreated(this, EventArgs.Empty);
+        }
+
+        void graphicsDevice_DeviceReset(object sender, EventArgs e)
+        {
+            OnDeviceReset(this, EventArgs.Empty);
+        }
+
+        void graphicsDevice_DeviceResetting(object sender, EventArgs e)
+        {
+            OnDeviceResetting(this, EventArgs.Empty);
         }
 
         public void EndDraw()

@@ -62,14 +62,38 @@ using ANX.Framework.Graphics;
 
 using Device = SharpDX.Direct3D10.Device;
 using Buffer = SharpDX.Direct3D10.Buffer;
+using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Windows.DX10
 {
     public class GraphicsDeviceWindowsDX10 : INativeGraphicsDevice
-		{
-			#region Constants
-			private const float ColorMultiplier = 1f / 255f;
-			#endregion
+	{
+		#region Constants
+		private const float ColorMultiplier = 1f / 255f;
+		#endregion
+
+        #region Interop
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int width, int height, uint uFlags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner 
+            public int Top;         // y position of upper-left corner 
+            public int Right;       // x position of lower-right corner 
+            public int Bottom;      // y position of lower-right corner 
+        } 
+
+        #endregion
 
         private Device device;
         private SwapChain swapChain; 
@@ -370,5 +394,35 @@ namespace ANX.Framework.Windows.DX10
         {
             throw new NotImplementedException();
         }
+
+
+        public void ResizeBuffers(PresentationParameters presentationParameters)
+        {
+            if (swapChain != null)
+            {
+                renderView.Dispose();
+                backBuffer.Dispose();
+
+                //TODO: handle format
+
+                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, (int)swapChain.Description.Flags);
+
+                backBuffer = SharpDX.Direct3D10.Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(swapChain, 0);
+                renderView = new RenderTargetView(device, backBuffer);
+            }
+
+            // resize the render window
+            RECT windowRect;
+            RECT clientRect;
+            if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
+                GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+            {
+                int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
+                int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
+
+                SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
+            }
         }
+
+    }
 }

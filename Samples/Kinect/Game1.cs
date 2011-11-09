@@ -17,7 +17,7 @@ namespace Kinect
             : base("DirectX10", "Kinect")
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "SampleContent";
         }
 
         protected override void Initialize()

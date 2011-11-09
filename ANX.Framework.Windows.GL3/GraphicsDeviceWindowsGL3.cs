@@ -293,10 +293,24 @@ namespace ANX.Framework.Windows.GL3
 			throw new NotImplementedException();
 		}
 
+<<<<<<< .mine
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void ResizeBuffers(PresentationParameters presentationParameters)
+        {
+            throw new NotImplementedException();
+        }
+    }
+=======
 		public void GetBackBufferData<T>(T[] data, int startIndex,
 			int elementCount) where T : struct
 		{
 			throw new NotImplementedException();
 		}
 	}
+>>>>>>> .r12199
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -298,7 +299,27 @@ namespace ANX.Framework.Graphics
 
         public void Reset(PresentationParameters presentationParameters, GraphicsAdapter adapter)
         {
-            throw new NotImplementedException();
+            if (presentationParameters == null)
+            {
+                throw new ArgumentNullException("presentationParameters");
+            }
+
+            if (adapter == null)
+            {
+                throw new ArgumentNullException("adapter");
+            }
+
+            if (this.currentAdapter != adapter)
+            {
+                throw new InvalidOperationException("adapter switch not yet implemented");
+            }
+
+            raise_DeviceResetting(this, EventArgs.Empty);
+
+            // reset presentation parameters
+            nativeDevice.ResizeBuffers(presentationParameters); //TODO: check if necessary
+
+            raise_DeviceReset(this, EventArgs.Empty);
         }
 
         #endregion // Reset

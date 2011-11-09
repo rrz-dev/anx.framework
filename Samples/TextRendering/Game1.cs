@@ -72,6 +72,10 @@ namespace TextRendering
 
         protected override void Initialize()
         {
+            GraphicsDevice.PresentationParameters.BackBufferWidth = 1280;
+            GraphicsDevice.PresentationParameters.BackBufferHeight = 720;
+            GraphicsDevice.Reset();
+
             base.Initialize();
         }
 
