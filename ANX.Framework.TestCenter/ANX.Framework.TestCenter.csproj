@@ -71,6 +71,10 @@
     <Compile Include="Strukturen\PackedVector\HalfSingleTest.cs" />
     <Compile Include="Strukturen\PackedVector\HalfVector2Test.cs" />
     <Compile Include="Strukturen\PackedVector\HalfVector4Test.cs" />
+    <Compile Include="Strukturen\PackedVector\Short2Test.cs" />
+    <Compile Include="Strukturen\PackedVector\Short4Test.cs" />
+    <Compile Include="Strukturen\PackedVector\NormalizedShort4Test.cs" />
+    <Compile Include="Strukturen\PackedVector\NormalizedShort2Test.cs" />
     <Compile Include="Strukturen\PackedVector\NormalizedByte4Test.cs" />
     <Compile Include="Strukturen\PackedVector\NormalizedByte2Test.cs" />
     <Compile Include="Strukturen\PackedVector\Rgba64Test.cs" />

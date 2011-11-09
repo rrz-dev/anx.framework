@@ -122,10 +122,12 @@ namespace ANX.Framework.Graphics.PackedVector
 
         void IPackedVector.PackFromVector4(Vector4 vector)
         {
-            ushort b1 = (ushort)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 255) << 0);
-            ushort b2 = (ushort)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 255) << 8);
+            uint b1 = (uint)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 255) << 0);
+            uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 255) << 8);
+            uint b3 = (uint)(((int)MathHelper.Clamp(vector.Z * max, -max, max) & 255) << 16);
+            uint b4 = (uint)(((int)MathHelper.Clamp(vector.W * max, -max, max) & 255) << 24);
 
-            this.packedValue = (UInt16)(b1 | b2);
+            this.packedValue = (uint)(b1 | b2 | b3 | b4);
         }
 
         Vector4 IPackedVector.ToVector4()

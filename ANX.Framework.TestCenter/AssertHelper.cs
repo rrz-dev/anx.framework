@@ -118,6 +118,18 @@ using ANXNormalizedByte2 = ANX.Framework.Graphics.PackedVector.NormalizedByte2;
 using XNANormalizedByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte4;
 using ANXNormalizedByte4 = ANX.Framework.Graphics.PackedVector.NormalizedByte4;
 
+using XNANormalizedShort2 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedShort2;
+using ANXNormalizedShort2 = ANX.Framework.Graphics.PackedVector.NormalizedShort2;
+
+using XNANormalizedShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedShort4;
+using ANXNormalizedShort4 = ANX.Framework.Graphics.PackedVector.NormalizedShort4;
+
+using XNAShort2 = Microsoft.Xna.Framework.Graphics.PackedVector.Short2;
+using ANXShort2 = ANX.Framework.Graphics.PackedVector.Short2;
+
+using XNAShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.Short4;
+using ANXShort4 = ANX.Framework.Graphics.PackedVector.Short4;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -265,6 +277,54 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0] failed: NormalizedByte4 XNA: ({1}) NormalizedByte4 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNANormalizedShort2 lhs, ANXNormalizedShort2 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: NormalizedShort2 XNA: ({1}) NormalizedShort2 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNANormalizedShort4 lhs, ANXNormalizedShort4 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: NormalizedShort4 XNA: ({1}) NormalizedShort4 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNAShort2 lhs, ANXShort2 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: Short2 XNA: ({1}) Short2 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNAShort4 lhs, ANXShort4 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: Short4 XNA: ({1}) Short4 ANX: ({2})", test, lhs, rhs));
             }
         }
 

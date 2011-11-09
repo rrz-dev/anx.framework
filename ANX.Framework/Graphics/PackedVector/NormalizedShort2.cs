@@ -54,31 +54,113 @@ namespace ANX.Framework.Graphics.PackedVector
 {
     public struct NormalizedShort2 : IPackedVector<uint>, IEquatable<NormalizedShort2>, IPackedVector
     {
+        private uint packedValue;
+
+        private const float max = (float)(65535 >> 1);
+        private const float oneOverMax = 1f / max;
+        private const uint mask = (uint)(65536 >> 1);
+
+        public NormalizedShort2(float x, float y)
+        {
+            uint b1 = (uint)(((int)MathHelper.Clamp(x * max, -max, max) & 65535) <<  0);
+            uint b2 = (uint)(((int)MathHelper.Clamp(y * max, -max, max) & 65535) << 16);
+
+            this.packedValue = (uint)(b1 | b2);
+        }
+
+        public NormalizedShort2(Vector2 vector)
+        {
+            uint b1 = (uint)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 65535) <<  0);
+            uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 65535) << 16);
+
+            this.packedValue = (uint)(b1 | b2);
+        }
+
         public uint PackedValue
         {
             get
             {
-                throw new NotImplementedException();
+                return this.packedValue;
             }
             set
             {
-                throw new NotImplementedException();
+                this.packedValue = value;
             }
         }
 
-        public void PackFromVector4(Vector4 vector)
+        public Vector2 ToVector2()
         {
-            throw new NotImplementedException();
+            Vector2 vector;
+            vector.X = convert(0xffff, (uint)this.packedValue);
+            vector.Y = convert(0xffff, (uint)(this.packedValue >> 16));
+            return vector;
         }
 
-        public Vector4 ToVector4()
+        private static float convert(uint bitmask, uint value)
         {
-            throw new NotImplementedException();
+            if ((value & mask) != 0)
+            {
+                if ((value & 65535) >= mask)
+                {
+                    return -1f;
+                }
+                value |= ~bitmask;
+            }
+            else
+            {
+                value &= 65535;
+            }
+
+            return (((float)value) * oneOverMax);
+        }
+
+        void IPackedVector.PackFromVector4(Vector4 vector)
+        {
+            uint b1 = (uint)(((int)MathHelper.Clamp(vector.X * max, -max, max) & 65535) <<  0);
+            uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 65535) << 16);
+
+            this.packedValue = (uint)(b1 | b2);
+        }
+
+        Vector4 IPackedVector.ToVector4()
+        {
+            Vector2 val = this.ToVector2();
+            return new Vector4(val.X, val.Y, 0f, 1f);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == this.GetType())
+            {
+                return this == (NormalizedShort2)obj;
+            }
+
+            return false;
         }
 
         public bool Equals(NormalizedShort2 other)
         {
-            throw new NotImplementedException();
+            return this.packedValue == other.packedValue;
+        }
+
+        public override string ToString()
+        {
+            return this.ToVector2().ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return this.packedValue.GetHashCode();
+        }
+
+        public static bool operator ==(NormalizedShort2 lhs, NormalizedShort2 rhs)
+        {
+            return lhs.packedValue == rhs.packedValue;
+        }
+
+        public static bool operator !=(NormalizedShort2 lhs, NormalizedShort2 rhs)
+        {
+            return lhs.packedValue != rhs.packedValue;
         }
     }
 }

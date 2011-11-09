@@ -1,5 +1,16 @@
 ﻿#region Using Statements
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+
+using XNAShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.Short4;
+using ANXShort4 = ANX.Framework.Graphics.PackedVector.Short4;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -50,100 +61,49 @@ using System;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.PackedVector
 {
-    public struct Short2 : IPackedVector<uint>, IEquatable<Short2>, IPackedVector
+    [TestFixture]
+    class Short4Test
     {
-        private uint packedValue;
+        #region Testdata
 
-        private const float max = (float)(65535 >> 1);
-        private const float min = -max - 1f;
-        private const float oneOverMax = 1f / max;
-        private const uint mask = (uint)(65536 >> 1);
-
-        public Short2(float x, float y)
+        static object[] fourfloats =
         {
-            uint b1 = (uint)(((int)MathHelper.Clamp(x, min, max) & 65535) <<  0);
-            uint b2 = (uint)(((int)MathHelper.Clamp(y, min, max) & 65535) << 16);
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+        };
 
-            this.packedValue = (uint)(b1 | b2);
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
+        {
+            XNAShort4 xnaVal = new XNAShort4(x, y, z, w);
+            ANXShort4 anxVal = new ANXShort4(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        public Short2(Vector2 vector)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-            uint b1 = (uint)(((int)MathHelper.Clamp(vector.X, min, max) & 65535) <<  0);
-            uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y, min, max) & 65535) << 16);
+            XNAShort4 xnaVal = new XNAShort4(new XNAVector4(x, y, z, w));
+            ANXShort4 anxVal = new ANXShort4(new ANXVector4(x, y, z, w));
 
-            this.packedValue = (uint)(b1 | b2);
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        public uint PackedValue
+        [Test, TestCaseSource("fourfloats")]
+        public void unpack1(float x, float y, float z, float w)
         {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
-        }
+            XNAShort4 xnaVal = new XNAShort4(x, y, z, w);
+            ANXShort4 anxVal = new ANXShort4(x, y, z, w);
 
-        public Vector2 ToVector2()
-        {
-            Vector2 vector;
-            vector.X = (short)this.packedValue;
-            vector.Y = (short)(this.packedValue >> 16);
-            return vector;
-        }
-
-        void IPackedVector.PackFromVector4(Vector4 vector)
-        {
-            uint b1 = (uint)(((int)MathHelper.Clamp(vector.X, min, max) & 65535) <<  0);
-            uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y, min, max) & 65535) << 16);
-
-            this.packedValue = (uint)(b1 | b2);
-        }
-
-        Vector4 IPackedVector.ToVector4()
-        {
-            Vector2 val = this.ToVector2();
-            return new Vector4(val.X, val.Y, 0f, 1f);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Short2)obj;
-            }
-
-            return false;
-        }
-
-        public bool Equals(Short2 other)
-        {
-            return this.packedValue == other.packedValue;
-        }
-
-        public override string ToString()
-        {
-            return this.packedValue.ToString("X8");
-        }
-
-        public override int GetHashCode()
-        {
-            return this.packedValue.GetHashCode();
-        }
-
-        public static bool operator ==(Short2 lhs, Short2 rhs)
-        {
-            return lhs.packedValue == rhs.packedValue;
-        }
-
-        public static bool operator !=(Short2 lhs, Short2 rhs)
-        {
-            return lhs.packedValue != rhs.packedValue;
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
         }
     }
 }
