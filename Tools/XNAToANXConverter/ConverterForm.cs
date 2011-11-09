@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
-namespace XnaToAnxConverter
+namespace XNAToANXConverter
 {
 	public partial class ConverterForm : Form
 	{
@@ -30,12 +30,15 @@ namespace XnaToAnxConverter
 		}
 		#endregion
 
+		#region checkBox1_CheckedChanged
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
 			destPath.Enabled = checkBox1.Checked;
 			browsePath2.Enabled = checkBox1.Checked;
 		}
+		#endregion
 
+		#region browsePath1_Click
 		private void browsePath1_Click(object sender, EventArgs e)
 		{
 			using (OpenFileDialog dialog = new OpenFileDialog())
@@ -50,7 +53,9 @@ namespace XnaToAnxConverter
 				}
 			}
 		}
+		#endregion
 
+		#region browsePath2_Click
 		private void browsePath2_Click(object sender, EventArgs e)
 		{
 			using (SaveFileDialog dialog = new SaveFileDialog())
@@ -59,13 +64,16 @@ namespace XnaToAnxConverter
 				dialog.InitialDirectory = "C:\\";
 				dialog.Filter = "csproj file|*.csproj";
 				dialog.CheckFileExists = false;
+				dialog.CheckPathExists = false;
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
 					destPath.Text = dialog.FileName;
 				}
 			}
 		}
+		#endregion
 
+		#region convertButton_Click
 		private void convertButton_Click(object sender, EventArgs e)
 		{
 			string source = sourcePath.Text;
@@ -92,7 +100,9 @@ namespace XnaToAnxConverter
 				return;
 			}
 
-			// TODO: convert
+			ProjectData.Convert(source, dest);
+			MessageBox.Show("Finished conversion!", "Conversion");
 		}
+		#endregion
 	}
 }

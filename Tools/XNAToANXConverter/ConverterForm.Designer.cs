@@ -1,4 +1,4 @@
-﻿namespace XnaToAnxConverter
+﻿namespace XNAToANXConverter
 {
 	partial class ConverterForm
 	{

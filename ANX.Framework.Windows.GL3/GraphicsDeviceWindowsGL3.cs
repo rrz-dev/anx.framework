@@ -149,35 +149,7 @@ namespace ANX.Framework.Windows.GL3
 			nativeContext.LoadAll();
 		}
 		#endregion
-
-		public void DrawUserPrimitive()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
-			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
-			int primitiveCount)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetIndexBuffer(IndexBuffer indexBuffer)
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		#region SetViewport
 		/// <summary>
 		/// Set the OpenGL viewport.
@@ -208,6 +180,48 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region Clear
+		/// <summary>
+		/// Clear the current screen by the specified clear color and options.
+		/// </summary>
+		/// <param name="options">Clear options defining which components
+		/// should be cleared.</param>
+		/// <param name="color">Clear color.</param>
+		/// <param name="depth">Depth value.</param>
+		/// <param name="stencil">Stencil value.</param>
+		public void Clear(ClearOptions options, Vector4 color, float depth,
+			int stencil)
+		{
+			Color anxColor;
+			DatatypesMapping.Convert(ref color, out anxColor);
+			uint newClearColor = anxColor.PackedValue;
+			if (lastClearColor != newClearColor)
+			{
+				lastClearColor = newClearColor;
+				GL.ClearColor(anxColor.R * ColorMultiplier, anxColor.G * ColorMultiplier,
+					anxColor.B * ColorMultiplier, anxColor.A * ColorMultiplier);
+			}
+
+			ClearBufferMask mask = (ClearBufferMask)0;
+			if ((options | ClearOptions.Target) == options)
+			{
+				mask |= ClearBufferMask.ColorBufferBit;
+			}
+			if ((options | ClearOptions.Stencil) == options)
+			{
+				mask |= ClearBufferMask.StencilBufferBit;
+			}
+			if ((options | ClearOptions.DepthBuffer) == options)
+			{
+				mask |= ClearBufferMask.DepthBufferBit;
+			}
+
+			GL.ClearDepth(depth);
+			GL.ClearStencil(stencil);
+			GL.Clear(mask);
+		}
+		#endregion
+
 		#region Present
 		/// <summary>
 		/// Swap the graphics buffers.
@@ -218,47 +232,71 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
+			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
+			int primitiveCount)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
-        {
-            throw new NotImplementedException();
-        }
+		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
+			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
+			int primitiveCount, int instanceCount)
+		{
+			throw new NotImplementedException();
+		}
 
+		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType,
+			T[] vertexData, int vertexOffset, int numVertices, Array indexData,
+			int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
+			IndexElementSize indexFormat) where T : struct, IVertexType
+		{
+			throw new NotImplementedException();
+		}
 
-        public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            throw new NotImplementedException();
-        }
+		public void DrawUserPrimitives<T>(PrimitiveType primitiveType,
+			T[] vertexData, int vertexOffset, int primitiveCount,
+			VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+		{
+			throw new NotImplementedException();
+		}
 
-        public void GetBackBufferData<T>(T[] data) where T : struct
-        {
-            throw new NotImplementedException();
-        }
+		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
+			int primitiveCount)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-            throw new NotImplementedException();
-        }
+		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
+		{
+			throw new NotImplementedException();
+		}
 
+		public void SetIndexBuffer(IndexBuffer indexBuffer)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
-        {
-            throw new NotImplementedException();
-        }
+		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
-        {
-            throw new NotImplementedException();
-        }
+		public void GetBackBufferData<T>(Rectangle? rect, T[] data,
+			int startIndex, int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
 
-        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
-        {
-            throw new NotImplementedException();
-        }
+		public void GetBackBufferData<T>(T[] data) where T : struct
+		{
+			throw new NotImplementedException();
+		}
 
-        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void GetBackBufferData<T>(T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

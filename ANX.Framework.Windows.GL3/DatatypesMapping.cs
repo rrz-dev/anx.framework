@@ -53,7 +53,9 @@ namespace ANX.Framework.Windows.GL3
 {
 	internal static class DatatypesMapping
 	{
+		#region Constants
 		public const float ColorMultiplier = 1f / 255f;
+		#endregion
 
 		#region Convert ANX.Color -> OpenTK.Color4
 		public static void Convert(ref Color anxColor, out Color4 otkColor)
@@ -68,14 +70,22 @@ namespace ANX.Framework.Windows.GL3
 		#region Convert OpenTK.Color4 -> ANX.Color
 		public static void Convert(ref Color4 otkColor, out Color anxColor)
 		{
-			anxColor = new Color(otkColor.R, otkColor.G, otkColor.B, otkColor.A);
+			byte r = (byte)(otkColor.R * 255);
+			byte g = (byte)(otkColor.G * 255);
+			byte b = (byte)(otkColor.B * 255);
+			byte a = (byte)(otkColor.A * 255);
+			anxColor.packedValue = (uint)(r + (g << 8) + (b << 16) + (a << 24));
+		}
+		#endregion
 
-// TODO: would be faster but can't access the private uint. Fix this later.
-			//byte r = (byte)(otkColor.R * 255);
-			//byte g = (byte)(otkColor.G * 255);
-			//byte b = (byte)(otkColor.B * 255);
-			//byte a = (byte)(otkColor.A * 255);
-			//anxColor.PackedValue = (uint)(r + (g << 8) + (b << 16) + (a << 24));
+		#region Convert ANX.Vector4 -> ANX.Color
+		public static void Convert(ref Vector4 anxVector, out Color anxColor)
+		{
+			byte r = (byte)(anxVector.X * 255);
+			byte g = (byte)(anxVector.Y * 255);
+			byte b = (byte)(anxVector.Z * 255);
+			byte a = (byte)(anxVector.W * 255);
+			anxColor.packedValue = (uint)(r + (g << 8) + (b << 16) + (a << 24));
 		}
 		#endregion
 
@@ -146,6 +156,21 @@ namespace ANX.Framework.Windows.GL3
 				case SurfaceFormat.Vector4:
 					return new ColorFormat(32, 32, 32, 32);
 			}
+		}
+		#endregion
+
+		#region Tests
+		private class Tests
+		{
+			#region TestConvertVector4ToColor
+			public static void TestConvertVector4ToColor()
+			{
+				Vector4 vector = new Vector4(1f, 0.5f, 0.75f, 0f);
+				Color color;
+				DatatypesMapping.Convert(ref vector, out color);
+				Console.WriteLine(color.ToString());
+			}
+			#endregion
 		}
 		#endregion
 	}

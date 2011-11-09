@@ -48,6 +48,7 @@
       <DependentUpon>ConverterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ConverterForm.resx">
       <DependentUpon>ConverterForm.cs</DependentUpon>
