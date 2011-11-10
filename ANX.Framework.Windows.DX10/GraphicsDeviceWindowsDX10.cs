@@ -95,6 +95,7 @@ namespace ANX.Framework.Windows.DX10
 
         #endregion
 
+        #region Private Members
         private Device device;
         private SwapChain swapChain; 
         private RenderTargetView renderView;
@@ -103,6 +104,10 @@ namespace ANX.Framework.Windows.DX10
         private VertexBuffer currentVertexBuffer;
         private IndexBuffer currentIndexBuffer;
         private SharpDX.Direct3D10.Viewport currentViewport;
+        private uint lastClearColor;
+        private SharpDX.Color4 clearColor;
+
+        #endregion // Private Members
 
         public GraphicsDeviceWindowsDX10(PresentationParameters presentationParameters)
         {
@@ -137,25 +142,23 @@ namespace ANX.Framework.Windows.DX10
             currentViewport = new SharpDX.Direct3D10.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
         }
 
-				#region Clear
-				private uint lastClearColor;
-				private SharpDX.Color4 clearColor;
-				public void Clear(ref Color color)
-				{
-					uint newClearColor = color.PackedValue;
-					if (lastClearColor != newClearColor)
-					{
-						lastClearColor = newClearColor;
-						clearColor.Red = color.R * ColorMultiplier;
-						clearColor.Green = color.G * ColorMultiplier;
-						clearColor.Blue = color.B * ColorMultiplier;
-						clearColor.Alpha = color.A * ColorMultiplier;
-					}
-					device.ClearRenderTargetView(renderView, clearColor);
-				}
-				#endregion
+		#region Clear
+		public void Clear(ref Color color)
+		{
+			uint newClearColor = color.PackedValue;
+			if (lastClearColor != newClearColor)
+			{
+				lastClearColor = newClearColor;
+				clearColor.Red = color.R * ColorMultiplier;
+				clearColor.Green = color.G * ColorMultiplier;
+				clearColor.Blue = color.B * ColorMultiplier;
+				clearColor.Alpha = color.A * ColorMultiplier;
+			}
+			device.ClearRenderTargetView(renderView, clearColor);
+		}
+		#endregion
 
-				public void Present()
+		public void Present()
         {
             swapChain.Present(0, PresentFlags.None);
         }

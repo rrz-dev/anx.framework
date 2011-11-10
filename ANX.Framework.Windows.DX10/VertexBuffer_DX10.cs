@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.NonXNA;
 using SharpDX.Direct3D10;
 using ANX.Framework.Graphics;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -92,29 +93,39 @@ namespace ANX.Framework.Windows.DX10
         {
             //TODO: check offsetInBytes parameter for bounds etc.
 
-            using (var vData = new SharpDX.DataStream(data, true, false))
-            {
-                if (offsetInBytes > 0)
-                {
-                    vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
-                }
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned); 
+            IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
 
-                using (var d = buffer.Map(MapMode.WriteDiscard))
+            int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
+
+            unsafe
+            {
+                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
                 {
-                    if (startIndex > 0 || elementCount < data.Length)
+                    if (offsetInBytes > 0)
                     {
-                        for (int i = startIndex; i < startIndex + elementCount; i++)
+                        vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
+                    }
+
+                    using (var d = buffer.Map(MapMode.WriteDiscard))
+                    {
+                        if (startIndex > 0 || elementCount < data.Length)
                         {
-                            d.Write<T>(data[i]);
+                            for (int i = startIndex; i < startIndex + elementCount; i++)
+                            {
+                                d.Write<T>(data[i]);
+                            }
                         }
+                        else
+                        {
+                            vData.CopyTo(d);
+                        }
+                        buffer.Unmap();
                     }
-                    else
-                    {
-                        vData.CopyTo(d);
-                    }
-                    buffer.Unmap();
                 }
             }
+
+            pinnedArray.Free(); 
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct

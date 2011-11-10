@@ -1,0 +1,1707 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharpDX.Animation</name>
+    </assembly>
+    <members>
+        <member name="T:SharpDX.Animation.ManagerEventHandlerShadow">
+            <summary>
+            Internal ManagerEventHandler Callback
+            </summary>
+        </member>
+        <member name="T:SharpDX.Animation.ManagerEventHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManagerEventHandler']/*"/>	
+            <unmanaged>IUIAnimationManagerEventHandler</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.ManagerEventHandler.OnManagerStatusChanged(SharpDX.Animation.ManagerStatus,SharpDX.Animation.ManagerStatus)">
+            <unmanaged>HRESULT IUIAnimationManagerEventHandler::OnManagerStatusChanged([In] UI_ANIMATION_MANAGER_STATUS newStatus,[In] UI_ANIMATION_MANAGER_STATUS previousStatus)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.ManagerEventHandlerShadow.ToIntPtr(SharpDX.Animation.ManagerEventHandler)">
+            <summary>
+            Return a pointer to the unamanged version of this callback.
+            </summary>
+            <param name="callback">The callback.</param>
+            <returns>A pointer to a shadow c++ callback</returns>
+        </member>
+        <member name="T:SharpDX.Animation.ManagerEventHandlerShadow.ManagerEventHandlerVtbl.OnManagerStatusChangedDelegate">
+            <unmanaged>HRESULT IUIAnimationManagerEventHandler::OnManagerStatusChanged([In] UI_ANIMATION_MANAGER_STATUS newStatus,[In] UI_ANIMATION_MANAGER_STATUS previousStatus)</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.TransitionLibrary">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary']/*"/>	
+            <unmanaged>IUIAnimationTransitionLibrary</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.TransitionLibrary"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.TransitionLibrary"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Instantaneous(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateInstantaneousTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateInstantaneousTransition([In] double finalValue,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Constant(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateConstantTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateConstantTransition([In] double duration,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Discrete(System.Double,System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="delay">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <param name="hold">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateDiscreteTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateDiscreteTransition([In] double delay,[In] double finalValue,[In] double hold,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Linear(System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateLinearTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateLinearTransition([In] double duration,[In] double finalValue,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.LinearFromSpeed(System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="speed">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateLinearTransitionFromSpeed']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateLinearTransitionFromSpeed([In] double speed,[In] double finalValue,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.SinusoidalFromVelocity(System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <param name="period">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateSinusoidalTransitionFromVelocity']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateSinusoidalTransitionFromVelocity([In] double duration,[In] double period,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.SinusoidalFromRange(System.Double,System.Double,System.Double,System.Double,SharpDX.Animation.Slope)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <param name="minimumValue">No documentation.</param>	
+            <param name="maximumValue">No documentation.</param>	
+            <param name="period">No documentation.</param>	
+            <param name="slope">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateSinusoidalTransitionFromRange']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateSinusoidalTransitionFromRange([In] double duration,[In] double minimumValue,[In] double maximumValue,[In] double period,[In] UI_ANIMATION_SLOPE slope,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.AccelerateDecelerate(System.Double,System.Double,System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <param name="accelerationRatio">No documentation.</param>	
+            <param name="decelerationRatio">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateAccelerateDecelerateTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateAccelerateDecelerateTransition([In] double duration,[In] double finalValue,[In] double accelerationRatio,[In] double decelerationRatio,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Reversal(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateReversalTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateReversalTransition([In] double duration,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.Cubic(System.Double,System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <param name="finalVelocity">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateCubicTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateCubicTransition([In] double duration,[In] double finalValue,[In] double finalVelocity,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.SmoothStop(System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="maximumDuration">No documentation.</param>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateSmoothStopTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateSmoothStopTransition([In] double maximumDuration,[In] double finalValue,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionLibrary.ParabolicFromAcceleration(System.Double,System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="finalValue">No documentation.</param>	
+            <param name="finalVelocity">No documentation.</param>	
+            <param name="acceleration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionLibrary::CreateParabolicTransitionFromAcceleration']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionLibrary::CreateParabolicTransitionFromAcceleration([In] double finalValue,[In] double finalVelocity,[In] double acceleration,[Out] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Transition">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition']/*"/>	
+            <unmanaged>IUIAnimationTransition</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Transition.#ctor(SharpDX.Animation.TransitionFactory,SharpDX.Animation.Interpolator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Transition"/> class.
+            </summary>
+            <param name="factory">The factory.</param>
+            <param name="interpolator">The interpolator.</param>
+        </member>
+        <member name="M:SharpDX.Animation.Transition.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Transition"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Transition.SetInitialValue(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="value">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::SetInitialValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransition::SetInitialValue([In] double value)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Transition.SetInitialVelocity(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="velocity">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::SetInitialVelocity']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransition::SetInitialVelocity([In] double velocity)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Transition.IsDurationKnown_">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::IsDurationKnown']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransition::IsDurationKnown()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Transition.GetDuration(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::GetDuration']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransition::GetDuration([Out] double* duration)</unmanaged>	
+        </member>
+        <member name="P:SharpDX.Animation.Transition.InitialValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::SetInitialValue']/*"/>	
+            <unmanaged>SetInitialValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTransition::SetInitialValue([In] double value)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Transition.InitialVelocity">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::SetInitialVelocity']/*"/>	
+            <unmanaged>SetInitialVelocity</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTransition::SetInitialVelocity([In] double velocity)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Transition.IsDurationKnown">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::IsDurationKnown']/*"/>	
+            <unmanaged>IsDurationKnown</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTransition::IsDurationKnown()</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Transition.Duration">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransition::GetDuration']/*"/>	
+            <unmanaged>GetDuration</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTransition::GetDuration([Out] double* duration)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.Variable">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable']/*"/>	
+            <unmanaged>IUIAnimationVariable</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.#ctor(SharpDX.Animation.Manager,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Variable"/> class.
+            </summary>
+            <param name="manager">The manager.</param>
+            <param name="initialValue">The initial value.</param>
+            <unmanaged>HRESULT IUIAnimationManager::CreateAnimationVariable([In] double initialValue,[Out] IUIAnimationVariable** variable)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetTag(System.Object,System.Int32)">
+            <summary>
+            Sets the tag.
+            </summary>
+            <param name="object">The @object.</param>
+            <param name="id">The id.</param>
+            <returns>A <see cref="T:SharpDX.Result"/> object describing the result of the operation.</returns>
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetTag([In, Optional] void* object,[In] unsigned int id)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetTag(System.Object@,System.Int32@)">
+            <summary>
+            Gets the tag.
+            </summary>
+            <param name="object">The @object.</param>
+            <param name="id">The id.</param>
+            <returns>
+            A <see cref="T:SharpDX.Result"/> object describing the result of the operation.
+            </returns>
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetTag([Out, Optional] void** object,[Out, Optional] unsigned int* id)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Variable.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Variable"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetValue(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="value">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetValue([Out] double* value)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetFinalValue(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetFinalValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetFinalValue([Out] double* finalValue)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetPreviousValue(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="reviousValueRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetPreviousValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetPreviousValue([Out] double* previousValue)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetIntegerValue(System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="value">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetIntegerValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetIntegerValue([Out] int* value)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetFinalIntegerValue(System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="finalValue">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetFinalIntegerValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetFinalIntegerValue([Out] int* finalValue)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetPreviousIntegerValue(System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="reviousValueRef">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetPreviousIntegerValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetPreviousIntegerValue([Out] int* previousValue)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetCurrentStoryboard(SharpDX.Animation.Storyboard@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="storyboard">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetCurrentStoryboard']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetCurrentStoryboard([Out] IUIAnimationStoryboard** storyboard)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetLowerBound(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="bound">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetLowerBound']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetLowerBound([In] double bound)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetUpperBound(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="bound">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetUpperBound']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetUpperBound([In] double bound)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetRoundingMode(SharpDX.Animation.RoundingMode)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="mode">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetRoundingMode']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetRoundingMode([In] UI_ANIMATION_ROUNDING_MODE mode)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetTag(System.IntPtr,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetTag([In, Optional] void* object,[In] unsigned int id)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.GetTag(System.IntPtr@,System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetTag([Out, Optional] void** object,[Out, Optional] unsigned int* id)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetVariableChangeHandler_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="handler">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetVariableChangeHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetVariableChangeHandler([In, Optional] IUIAnimationVariableChangeHandler* handler)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Variable.SetVariableIntegerChangeHandler_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="handler">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetVariableIntegerChangeHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetVariableIntegerChangeHandler([In, Optional] IUIAnimationVariableIntegerChangeHandler* handler)</unmanaged>	
+        </member>
+        <member name="P:SharpDX.Animation.Variable.Value">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetValue']/*"/>	
+            <unmanaged>GetValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetValue([Out] double* value)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.FinalValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetFinalValue']/*"/>	
+            <unmanaged>GetFinalValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetFinalValue([Out] double* finalValue)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.PreviousValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetPreviousValue']/*"/>	
+            <unmanaged>GetPreviousValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetPreviousValue([Out] double* previousValue)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.IntegerValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetIntegerValue']/*"/>	
+            <unmanaged>GetIntegerValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetIntegerValue([Out] int* value)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.FinalIntegerValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetFinalIntegerValue']/*"/>	
+            <unmanaged>GetFinalIntegerValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetFinalIntegerValue([Out] int* finalValue)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.PreviousIntegerValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetPreviousIntegerValue']/*"/>	
+            <unmanaged>GetPreviousIntegerValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetPreviousIntegerValue([Out] int* previousValue)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.CurrentStoryboard">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::GetCurrentStoryboard']/*"/>	
+            <unmanaged>GetCurrentStoryboard</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::GetCurrentStoryboard([Out] IUIAnimationStoryboard** storyboard)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.LowerBound">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetLowerBound']/*"/>	
+            <unmanaged>SetLowerBound</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetLowerBound([In] double bound)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.UpperBound">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetUpperBound']/*"/>	
+            <unmanaged>SetUpperBound</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetUpperBound([In] double bound)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Variable.RoundingMode">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariable::SetRoundingMode']/*"/>	
+            <unmanaged>SetRoundingMode</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationVariable::SetRoundingMode([In] UI_ANIMATION_ROUNDING_MODE mode)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.Manager">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager']/*"/>	
+            <unmanaged>IUIAnimationManager</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Manager"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.Animation.Manager.GetVariableFromTag(System.Int32,System.Object)">
+            <summary>
+            Gets the variable from tag.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="tagObject">The tag object. This parameter can be null.</param>
+            <returns>A variable associated with this tag.</returns>
+            <unmanaged>HRESULT IUIAnimationManager::GetVariableFromTag([In, Optional] void* object,[In] unsigned int id,[Out] IUIAnimationVariable** variable)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Manager.GetStoryboardFromTag(System.Int32,System.Object)">
+            <summary>
+            Gets the storyboard from tag.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="tagObject">The tag object. This parameter can be null.</param>
+            <returns>A storyboard associated with this tag.</returns>
+            <unmanaged>HRESULT IUIAnimationManager::GetStoryboardFromTag([In, Optional] void* object,[In] unsigned int id,[Out] IUIAnimationStoryboard** storyboard)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Manager.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SharpDX.Animation.Manager.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Manager"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.CreateAnimationVariable(System.Double,SharpDX.Animation.Variable)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="initialValue">No documentation.</param>	
+            <param name="variable">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::CreateAnimationVariable']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::CreateAnimationVariable([In] double initialValue,[Out, Fast] IUIAnimationVariable** variable)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.ScheduleTransition(SharpDX.Animation.Variable,SharpDX.Animation.Transition,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="variable">No documentation.</param>	
+            <param name="transition">No documentation.</param>	
+            <param name="timeNow">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::ScheduleTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::ScheduleTransition([In] IUIAnimationVariable* variable,[In] IUIAnimationTransition* transition,[In] double timeNow)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.CreateStoryboard(SharpDX.Animation.Storyboard)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="storyboard">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::CreateStoryboard']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::CreateStoryboard([Out, Fast] IUIAnimationStoryboard** storyboard)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.FinishAllStoryboards(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="completionDeadline">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::FinishAllStoryboards']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::FinishAllStoryboards([In] double completionDeadline)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.AbandonAllStoryboards">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::AbandonAllStoryboards']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::AbandonAllStoryboards()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.Update(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="timeNow">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::Update']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::Update([In] double timeNow,[Out, Optional] UI_ANIMATION_UPDATE_RESULT* updateResult)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.GetVariableFromTag(System.IntPtr,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::GetVariableFromTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::GetVariableFromTag([In, Optional] void* object,[In] unsigned int id,[Out] IUIAnimationVariable** variable)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.GetStoryboardFromTag(System.IntPtr,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::GetStoryboardFromTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::GetStoryboardFromTag([In, Optional] void* object,[In] unsigned int id,[Out] IUIAnimationStoryboard** storyboard)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.GetStatus(SharpDX.Animation.ManagerStatus@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="status">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::GetStatus']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::GetStatus([Out] UI_ANIMATION_MANAGER_STATUS* status)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetAnimationMode(SharpDX.Animation.Mode)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="mode">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetAnimationMode']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetAnimationMode([In] UI_ANIMATION_MODE mode)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.Pause">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::Pause']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::Pause()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.Resume">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::Resume']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::Resume()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetManagerEventHandler_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="handler">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetManagerEventHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetManagerEventHandler([In, Optional] IUIAnimationManagerEventHandler* handler)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetCancelPriorityComparison_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="comparison">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetCancelPriorityComparison']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetCancelPriorityComparison([In, Optional] IUIAnimationPriorityComparison* comparison)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetTrimPriorityComparison_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="comparison">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetTrimPriorityComparison']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetTrimPriorityComparison([In, Optional] IUIAnimationPriorityComparison* comparison)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetCompressPriorityComparison_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="comparison">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetCompressPriorityComparison']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetCompressPriorityComparison([In, Optional] IUIAnimationPriorityComparison* comparison)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetConcludePriorityComparison_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="comparison">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetConcludePriorityComparison']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetConcludePriorityComparison([In, Optional] IUIAnimationPriorityComparison* comparison)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.SetDefaultLongestAcceptableDelay(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="delay">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetDefaultLongestAcceptableDelay']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::SetDefaultLongestAcceptableDelay([In] double delay)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Manager.Shutdown">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::Shutdown']/*"/>	
+            <unmanaged>HRESULT IUIAnimationManager::Shutdown()</unmanaged>	
+        </member>
+        <member name="E:SharpDX.Animation.Manager.StatusChanged">
+            <summary>
+            Occurs when [status changed].
+            </summary>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.CancelPriorityComparison">
+            <summary>
+            Sets the cancel priority comparison.
+            </summary>
+            <value>
+            The cancel priority comparison.
+            </value>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.TrimPriorityComparison">
+            <summary>
+            Sets the trim priority comparison.
+            </summary>
+            <value>
+            The trim priority comparison.
+            </value>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.CompressPriorityComparison">
+            <summary>
+            Sets the compress priority comparison.
+            </summary>
+            <value>
+            The compress priority comparison.
+            </value>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.ConcludePriorityComparison">
+            <summary>
+            Sets the conclude priority comparison.
+            </summary>
+            <value>
+            The conclude priority comparison.
+            </value>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.Status">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::GetStatus']/*"/>	
+            <unmanaged>GetStatus</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationManager::GetStatus([Out] UI_ANIMATION_MANAGER_STATUS* status)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.AnimationMode">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetAnimationMode']/*"/>	
+            <unmanaged>SetAnimationMode</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationManager::SetAnimationMode([In] UI_ANIMATION_MODE mode)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Manager.DefaultLongestAcceptableDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationManager::SetDefaultLongestAcceptableDelay']/*"/>	
+            <unmanaged>SetDefaultLongestAcceptableDelay</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationManager::SetDefaultLongestAcceptableDelay([In] double delay)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.Manager.StatusChangedDelegate">
+            <summary>
+            A delegate to receive status changed events from the manager.
+            </summary>
+            <param name="newStatus">The new status.</param>
+            <param name="previousStatus">The previous status.</param>
+        </member>
+        <member name="T:SharpDX.Animation.Manager.PriorityComparisonDelegate">
+            <summary>
+            A delegate used to resolve scheduling conflicts.
+            </summary>
+            <param name="scheduledStoryboard">The scheduled storyboard.</param>
+            <param name="newStoryboard">The new storyboard.</param>
+            <param name="priorityEffect">The priority effect.</param>
+            <returns><c>true</c> if newStoryboard has priority. <c>false</c> if scheduledStoryboard has priority</returns>
+        </member>
+        <member name="T:SharpDX.Animation.Dependencies">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCIES']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCIES</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Dependencies.None">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCY_NONE']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCY_NONE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Dependencies.IntermediateValues">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCY_INTERMEDIATE_VALUES']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCY_INTERMEDIATE_VALUES</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Dependencies.FinalValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCY_FINAL_VALUE']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCY_FINAL_VALUE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Dependencies.FinalVelocity">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCY_FINAL_VELOCITY']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCY_FINAL_VELOCITY</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Dependencies.Duration">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_DEPENDENCY_DURATION']/*"/>	
+            <unmanaged>UI_ANIMATION_DEPENDENCY_DURATION</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.IdleBehavior">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_IDLE_BEHAVIOR']/*"/>	
+            <unmanaged>UI_ANIMATION_IDLE_BEHAVIOR</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.IdleBehavior.Continue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_IDLE_BEHAVIOR_CONTINUE']/*"/>	
+            <unmanaged>UI_ANIMATION_IDLE_BEHAVIOR_CONTINUE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.IdleBehavior.Disable">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_IDLE_BEHAVIOR_DISABLE']/*"/>	
+            <unmanaged>UI_ANIMATION_IDLE_BEHAVIOR_DISABLE</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.ManagerStatus">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MANAGER_STATUS']/*"/>	
+            <unmanaged>UI_ANIMATION_MANAGER_STATUS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.ManagerStatus.Idle">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MANAGER_IDLE']/*"/>	
+            <unmanaged>UI_ANIMATION_MANAGER_IDLE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.ManagerStatus.Busy">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MANAGER_BUSY']/*"/>	
+            <unmanaged>UI_ANIMATION_MANAGER_BUSY</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Mode">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MODE']/*"/>	
+            <unmanaged>UI_ANIMATION_MODE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Mode.Disabled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MODE_DISABLED']/*"/>	
+            <unmanaged>UI_ANIMATION_MODE_DISABLED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Mode.SystemDefault">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MODE_SYSTEM_DEFAULT']/*"/>	
+            <unmanaged>UI_ANIMATION_MODE_SYSTEM_DEFAULT</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Mode.Enabled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_MODE_ENABLED']/*"/>	
+            <unmanaged>UI_ANIMATION_MODE_ENABLED</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.PriorityEffect">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_PRIORITY_EFFECT']/*"/>	
+            <unmanaged>UI_ANIMATION_PRIORITY_EFFECT</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.PriorityEffect.Failure">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_PRIORITY_EFFECT_FAILURE']/*"/>	
+            <unmanaged>UI_ANIMATION_PRIORITY_EFFECT_FAILURE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.PriorityEffect.Delay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_PRIORITY_EFFECT_DELAY']/*"/>	
+            <unmanaged>UI_ANIMATION_PRIORITY_EFFECT_DELAY</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.RoundingMode">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_ROUNDING_MODE']/*"/>	
+            <unmanaged>UI_ANIMATION_ROUNDING_MODE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.RoundingMode.RoundingNearest">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_ROUNDING_NEAREST']/*"/>	
+            <unmanaged>UI_ANIMATION_ROUNDING_NEAREST</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.RoundingMode.RoundingFloor">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_ROUNDING_FLOOR']/*"/>	
+            <unmanaged>UI_ANIMATION_ROUNDING_FLOOR</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.RoundingMode.RoundingCeiling">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_ROUNDING_CEILING']/*"/>	
+            <unmanaged>UI_ANIMATION_ROUNDING_CEILING</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.SchedulingResult">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_RESULT']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_RESULT</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.SchedulingResult.UnexpectedFailure">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_UNEXPECTED_FAILURE']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_UNEXPECTED_FAILURE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.SchedulingResult.InsufficientPriority">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_INSUFFICIENT_PRIORITY']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_INSUFFICIENT_PRIORITY</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.SchedulingResult.AlreadyScheduled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_ALREADY_SCHEDULED']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_ALREADY_SCHEDULED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.SchedulingResult.Succeeded">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_SUCCEEDED']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_SUCCEEDED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.SchedulingResult.Deferred">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SCHEDULING_DEFERRED']/*"/>	
+            <unmanaged>UI_ANIMATION_SCHEDULING_DEFERRED</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Slope">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SLOPE']/*"/>	
+            <unmanaged>UI_ANIMATION_SLOPE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Slope.Increasing">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SLOPE_INCREASING']/*"/>	
+            <unmanaged>UI_ANIMATION_SLOPE_INCREASING</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.Slope.Decreasing">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_SLOPE_DECREASING']/*"/>	
+            <unmanaged>UI_ANIMATION_SLOPE_DECREASING</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.StoryboardStatus">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_STATUS']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_STATUS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Building">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_BUILDING']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_BUILDING</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Scheduled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_SCHEDULED']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_SCHEDULED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Cancelled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_CANCELLED']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_CANCELLED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Playing">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_PLAYING']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_PLAYING</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Truncated">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_TRUNCATED']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_TRUNCATED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Finished">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_FINISHED']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_FINISHED</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.Ready">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_READY']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_READY</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.StoryboardStatus.InsufficientPriority">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_STORYBOARD_INSUFFICIENT_PRIORITY']/*"/>	
+            <unmanaged>UI_ANIMATION_STORYBOARD_INSUFFICIENT_PRIORITY</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.TimerClientStatus">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_TIMER_CLIENT_STATUS']/*"/>	
+            <unmanaged>UI_ANIMATION_TIMER_CLIENT_STATUS</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.TimerClientStatus.Idle">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_TIMER_CLIENT_IDLE']/*"/>	
+            <unmanaged>UI_ANIMATION_TIMER_CLIENT_IDLE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.TimerClientStatus.Busy">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_TIMER_CLIENT_BUSY']/*"/>	
+            <unmanaged>UI_ANIMATION_TIMER_CLIENT_BUSY</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.UpdateResult">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_UPDATE_RESULT']/*"/>	
+            <unmanaged>UI_ANIMATION_UPDATE_RESULT</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.UpdateResult.NoChange">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_UPDATE_NO_CHANGE']/*"/>	
+            <unmanaged>UI_ANIMATION_UPDATE_NO_CHANGE</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.UpdateResult.VariablesChanged">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='UI_ANIMATION_UPDATE_VARIABLES_CHANGED']/*"/>	
+            <unmanaged>UI_ANIMATION_UPDATE_VARIABLES_CHANGED</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Storyboard">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard']/*"/>	
+            <unmanaged>IUIAnimationStoryboard</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.#ctor(SharpDX.Animation.Manager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Storyboard"/> class.
+            </summary>
+            <param name="manager">The manager.</param>
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.RepeatBetweenKeyframes(SharpDX.Animation.KeyFrame,SharpDX.Animation.KeyFrame,SharpDX.Animation.RepeatCount)">
+            <!-- Der enthaltene XML-Abschnitt konnte nur teilweise oder gar nicht eingefügt werden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::RepeatBetweenKeyframes']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::RepeatBetweenKeyframes([In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* startKeyframe,[In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* endKeyframe,[In] int repetitionCount)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.SetTag(System.Object,System.Int32)">
+            <summary>
+            Sets the tag.
+            </summary>
+            <param name="object">The @object.</param>
+            <param name="id">The id.</param>
+            <returns>A <see cref="T:SharpDX.Result"/> object describing the result of the operation.</returns>
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetTag([In, Optional] void* object,[In] unsigned int id)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.GetTag(System.Object@,System.Int32@)">
+            <summary>
+            Gets the tag.
+            </summary>
+            <param name="object">The @object.</param>
+            <param name="id">The id.</param>
+            <returns>
+            A <see cref="T:SharpDX.Result"/> object describing the result of the operation.
+            </returns>
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetTag([Out, Optional] void** object,[Out, Optional] unsigned int* id)</unmanaged>
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Storyboard"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.AddTransition(SharpDX.Animation.Variable,SharpDX.Animation.Transition)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="variable">No documentation.</param>	
+            <param name="transition">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::AddTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::AddTransition([In] IUIAnimationVariable* variable,[In] IUIAnimationTransition* transition)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.AddKeyframeAtOffset(SharpDX.Animation.KeyFrame,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="existingKeyframe">No documentation.</param>	
+            <param name="offset">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::AddKeyframeAtOffset']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::AddKeyframeAtOffset([In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* existingKeyframe,[In] double offset,[Out] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003** keyframe)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.AddKeyframeAfterTransition(SharpDX.Animation.Transition)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="transition">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::AddKeyframeAfterTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::AddKeyframeAfterTransition([In] IUIAnimationTransition* transition,[Out] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003** keyframe)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.AddTransitionAtKeyframe(SharpDX.Animation.Variable,SharpDX.Animation.Transition,SharpDX.Animation.KeyFrame)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="variable">No documentation.</param>	
+            <param name="transition">No documentation.</param>	
+            <param name="startKeyframe">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::AddTransitionAtKeyframe']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::AddTransitionAtKeyframe([In] IUIAnimationVariable* variable,[In] IUIAnimationTransition* transition,[In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* startKeyframe)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.AddTransitionBetweenKeyframes(SharpDX.Animation.Variable,SharpDX.Animation.Transition,SharpDX.Animation.KeyFrame,SharpDX.Animation.KeyFrame)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="variable">No documentation.</param>	
+            <param name="transition">No documentation.</param>	
+            <param name="startKeyframe">No documentation.</param>	
+            <param name="endKeyframe">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::AddTransitionBetweenKeyframes']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::AddTransitionBetweenKeyframes([In] IUIAnimationVariable* variable,[In] IUIAnimationTransition* transition,[In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* startKeyframe,[In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* endKeyframe)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.RepeatBetweenKeyframes(SharpDX.Animation.KeyFrame,SharpDX.Animation.KeyFrame,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="startKeyframe">No documentation.</param>	
+            <param name="endKeyframe">No documentation.</param>	
+            <param name="repetitionCount">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::RepeatBetweenKeyframes']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::RepeatBetweenKeyframes([In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* startKeyframe,[In] __MIDL___MIDL_itf_UIAnimation_0000_0002_0003* endKeyframe,[In] int repetitionCount)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.HoldVariable(SharpDX.Animation.Variable)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="variable">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::HoldVariable']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::HoldVariable([In] IUIAnimationVariable* variable)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.SetLongestAcceptableDelay(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="delay">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::SetLongestAcceptableDelay']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetLongestAcceptableDelay([In] double delay)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.Schedule(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="timeNow">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::Schedule']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::Schedule([In] double timeNow,[Out, Optional] UI_ANIMATION_SCHEDULING_RESULT* schedulingResult)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.Conclude">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::Conclude']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::Conclude()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.Finish(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="completionDeadline">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::Finish']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::Finish([In] double completionDeadline)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.Abandon">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::Abandon']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::Abandon()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.SetTag(System.IntPtr,System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::SetTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetTag([In, Optional] void* object,[In] unsigned int id)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.GetTag(System.IntPtr@,System.Int32@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="@object">No documentation.</param>	
+            <param name="id">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::GetTag']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetTag([Out, Optional] void** object,[Out, Optional] unsigned int* id)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.GetStatus(SharpDX.Animation.StoryboardStatus@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="status">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::GetStatus']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetStatus([Out] UI_ANIMATION_STORYBOARD_STATUS* status)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.GetElapsedTime(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="elapsedTime">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::GetElapsedTime']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetElapsedTime([Out] double* elapsedTime)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Storyboard.SetStoryboardEventHandler_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="handler">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::SetStoryboardEventHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetStoryboardEventHandler([In, Optional] IUIAnimationStoryboardEventHandler* handler)</unmanaged>	
+        </member>
+        <member name="P:SharpDX.Animation.Storyboard.LongestAcceptableDelay">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::SetLongestAcceptableDelay']/*"/>	
+            <unmanaged>SetLongestAcceptableDelay</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::SetLongestAcceptableDelay([In] double delay)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Storyboard.Status">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::GetStatus']/*"/>	
+            <unmanaged>GetStatus</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetStatus([Out] UI_ANIMATION_STORYBOARD_STATUS* status)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Storyboard.ElapsedTime">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboard::GetElapsedTime']/*"/>	
+            <unmanaged>GetElapsedTime</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationStoryboard::GetElapsedTime([Out] double* elapsedTime)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.KeyFrame">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='__MIDL___MIDL_itf_UIAnimation_0000_0002_0003']/*"/>	
+            <unmanaged>__MIDL___MIDL_itf_UIAnimation_0000_0002_0003</unmanaged>	
+        </member>
+        <member name="F:SharpDX.Animation.KeyFrame.Start">
+            <summary>
+            Represents the implicit keyframe at the start of every storyboard.
+            </summary>
+        </member>
+        <member name="M:SharpDX.Animation.KeyFrame.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.KeyFrame"/> struct.
+            </summary>
+            <param name="id">The id.</param>
+        </member>
+        <member name="F:SharpDX.Animation.KeyFrame.Id">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='__MIDL___MIDL_itf_UIAnimation_0000_0002_0003::_']/*"/>	
+            <unmanaged>void* _</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.TransitionFactory">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionFactory']/*"/>	
+            <unmanaged>IUIAnimationTransitionFactory</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.TransitionFactory"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpDX.Animation.TransitionFactory.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.TransitionFactory"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.TransitionFactory.CreateTransition(SharpDX.Animation.Interpolator,SharpDX.Animation.Transition)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="interpolator">No documentation.</param>	
+            <param name="transition">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTransitionFactory::CreateTransition']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTransitionFactory::CreateTransition([In] IUIAnimationInterpolator* interpolator,[Out, Fast] IUIAnimationTransition** transition)</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.PriorityComparison">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationPriorityComparison']/*"/>	
+            <unmanaged>IUIAnimationPriorityComparison</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.PriorityComparison.HasPriority(SharpDX.Animation.Storyboard,SharpDX.Animation.Storyboard,SharpDX.Animation.PriorityEffect)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="scheduledStoryboard">No documentation.</param>	
+            <param name="newStoryboard">No documentation.</param>	
+            <param name="priorityEffect">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Der enthaltene XML-Abschnitt konnte nur teilweise oder gar nicht eingefügt werden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationPriorityComparison::HasPriority']/*"/>	
+            <unmanaged>HRESULT IUIAnimationPriorityComparison::HasPriority([In] IUIAnimationStoryboard* scheduledStoryboard,[In] IUIAnimationStoryboard* newStoryboard,[In] UI_ANIMATION_PRIORITY_EFFECT priorityEffect)</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Interpolator">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator']/*"/>	
+            <unmanaged>IUIAnimationInterpolator</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Interpolator"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.SetInitialValueAndVelocity(System.Double,System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="initialValue">No documentation.</param>	
+            <param name="initialVelocity">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::SetInitialValueAndVelocity']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::SetInitialValueAndVelocity([In] double initialValue,[In] double initialVelocity)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.SetDuration(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::SetDuration']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::SetDuration([In] double duration)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.GetDuration(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="duration">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::GetDuration']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::GetDuration([Out] double* duration)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.GetFinalValue(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="value">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::GetFinalValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::GetFinalValue([Out] double* value)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.InterpolateValue(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="offset">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::InterpolateValue']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::InterpolateValue([In] double offset,[Out] double* value)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.InterpolateVelocity(System.Double)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="offset">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::InterpolateVelocity']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::InterpolateVelocity([In] double offset,[Out] double* velocity)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Interpolator.GetDependencies(SharpDX.Animation.Dependencies@,SharpDX.Animation.Dependencies@,SharpDX.Animation.Dependencies@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="initialValueDependencies">No documentation.</param>	
+            <param name="initialVelocityDependencies">No documentation.</param>	
+            <param name="durationDependencies">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::GetDependencies']/*"/>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::GetDependencies([Out] UI_ANIMATION_DEPENDENCIES* initialValueDependencies,[Out] UI_ANIMATION_DEPENDENCIES* initialVelocityDependencies,[Out] UI_ANIMATION_DEPENDENCIES* durationDependencies)</unmanaged>	
+        </member>
+        <member name="P:SharpDX.Animation.Interpolator.Duration">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::GetDuration']/*"/>	
+            <unmanaged>GetDuration</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::GetDuration([Out] double* duration)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Interpolator.FinalValue">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationInterpolator::GetFinalValue']/*"/>	
+            <unmanaged>GetFinalValue</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationInterpolator::GetFinalValue([Out] double* value)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.StoryboardEventHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationStoryboardEventHandler']/*"/>	
+            <unmanaged>IUIAnimationStoryboardEventHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.Timer">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer']/*"/>	
+            <unmanaged>IUIAnimationTimer</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Timer"/> class.
+            </summary>
+            <param name="nativePtr">The native pointer.</param>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.SetTimerUpdateHandler_(System.IntPtr,SharpDX.Animation.IdleBehavior)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="updateHandler">No documentation.</param>	
+            <param name="idleBehavior">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::SetTimerUpdateHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::SetTimerUpdateHandler([In, Optional] IUIAnimationTimerUpdateHandler* updateHandler,[In] UI_ANIMATION_IDLE_BEHAVIOR idleBehavior)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.SetTimerEventHandler_(System.IntPtr)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="handler">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::SetTimerEventHandler']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::SetTimerEventHandler([In, Optional] IUIAnimationTimerEventHandler* handler)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.Enable">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::Enable']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::Enable()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.Disable">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::Disable']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::Disable()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.IsEnabled_">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::IsEnabled']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::IsEnabled()</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.GetTime(System.Double@)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="seconds">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::GetTime']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::GetTime([Out] double* seconds)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.SetFrameRateThreshold(System.Int32)">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <param name="framesPerSecond">No documentation.</param>	
+            <returns>No documentation.</returns>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::SetFrameRateThreshold']/*"/>	
+            <unmanaged>HRESULT IUIAnimationTimer::SetFrameRateThreshold([In] unsigned int framesPerSecond)</unmanaged>	
+        </member>
+        <member name="M:SharpDX.Animation.Timer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Animation.Timer"/> class.
+            </summary>
+        </member>
+        <member name="P:SharpDX.Animation.Timer.IsEnabled">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::IsEnabled']/*"/>	
+            <unmanaged>IsEnabled</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTimer::IsEnabled()</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Timer.Time">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::GetTime']/*"/>	
+            <unmanaged>GetTime</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTimer::GetTime([Out] double* seconds)</unmanaged>
+        </member>
+        <member name="P:SharpDX.Animation.Timer.FrameRateThreshold">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimer::SetFrameRateThreshold']/*"/>	
+            <unmanaged>SetFrameRateThreshold</unmanaged>	
+            <unmanaged>HRESULT IUIAnimationTimer::SetFrameRateThreshold([In] unsigned int framesPerSecond)</unmanaged>
+        </member>
+        <member name="T:SharpDX.Animation.TimerClientEventHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimerClientEventHandler']/*"/>	
+            <unmanaged>IUIAnimationTimerClientEventHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.TimerEventHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimerEventHandler']/*"/>	
+            <unmanaged>IUIAnimationTimerEventHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.TimerUpdateHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationTimerUpdateHandler']/*"/>	
+            <unmanaged>IUIAnimationTimerUpdateHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.VariableChangeHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariableChangeHandler']/*"/>	
+            <unmanaged>IUIAnimationVariableChangeHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.VariableIntegerChangeHandler">
+            <summary>	
+            No documentation.	
+            </summary>	
+            <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IUIAnimationVariableIntegerChangeHandler']/*"/>	
+            <unmanaged>IUIAnimationVariableIntegerChangeHandler</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.PriorityComparisonShadow">
+            <summary>
+            Internal PriorityComparison Callback
+            </summary>
+        </member>
+        <member name="M:SharpDX.Animation.PriorityComparisonShadow.ToIntPtr(SharpDX.Animation.PriorityComparison)">
+            <summary>
+            Return a pointer to the unamanged version of this callback.
+            </summary>
+            <param name="callback">The callback.</param>
+            <returns>A pointer to a shadow c++ callback</returns>
+        </member>
+        <member name="T:SharpDX.Animation.PriorityComparisonShadow.PriorityComparisonVtbl.HasPriorityDelegate">
+            <unmanaged>HRESULT IUIAnimationPriorityComparison::OnManagerStatusChanged([In] UI_ANIMATION_MANAGER_STATUS newStatus,[In] UI_ANIMATION_MANAGER_STATUS previousStatus)</unmanaged>	
+        </member>
+        <member name="T:SharpDX.Animation.RepeatCount">
+            <summary>
+            Repeat count used for <see cref="M:SharpDX.Animation.Storyboard.RepeatBetweenKeyframes(SharpDX.Animation.KeyFrame,SharpDX.Animation.KeyFrame,SharpDX.Animation.RepeatCount)"/>
+            </summary>
+        </member>
+        <member name="F:SharpDX.Animation.RepeatCount.Indefinitely">
+            <summary>
+            Indicates that the interval between two keyframes in a storyboard should repeat indefinitely until the <see cref="M:SharpDX.Animation.Storyboard.Conclude"/> method is called.
+            </summary>
+            <unmanaged>UI_ANIMATION_REPEAT_INDEFINITELY</unmanaged>
+        </member>
+        <member name="F:SharpDX.Animation.RepeatCount.IndefinitelyConcludeAtEnd">
+            <summary>
+            Indicates that the interval between two keyframes in a storyboard should repeat indefinitely until the keyframe loop terminates on the ending keyframe when the <see cref="M:SharpDX.Animation.Storyboard.Conclude"/> method is called.
+            </summary>
+            <unmanaged>UI_ANIMATION_REPEAT_INDEFINITELY_CONCLUDE_AT_END</unmanaged>
+        </member>
+        <member name="F:SharpDX.Animation.RepeatCount.IndefinitelyConcludeAtStart">
+            <summary>
+            Indicates that the interval between two keyframes in a storyboard should repeat indefinitely until the keyframe loop terminates on the starting keyframe when the <see cref="M:SharpDX.Animation.Storyboard.Conclude"/> method is called.
+            </summary>
+            <unmanaged>UI_ANIMATION_REPEAT_INDEFINITELY_CONCLUDE_AT_START</unmanaged>
+        </member>
+    </members>
+</doc>

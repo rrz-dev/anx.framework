@@ -261,8 +261,7 @@ namespace ANX.Framework
             }
         }
 
-        protected virtual void Dispose(bool disposing
-        )
+        protected virtual void Dispose(bool disposing)
         {
             throw new NotImplementedException();
         }
