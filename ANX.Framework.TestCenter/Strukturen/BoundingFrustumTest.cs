@@ -139,7 +139,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxBox);
 
             if ((int)containsXNA == (int)containsANX)
-                Assert.Pass("ContainsBoundingBox passed");
+                Assert.Pass("ContainsBoundingBox passed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString());
             else
                 Assert.Fail(String.Format("ContainsBoundingBox failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
         }
@@ -256,7 +256,23 @@ namespace ANX.Framework.TestCenter.Strukturen
                 xna[7].Z == anx[7].Z)
                 Assert.Pass("GetCorners passed");
             else
-                Assert.Fail(String.Format("GetCorners failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+                Assert.Fail("GetCorners failed: xna(" + 
+                    xna[0].ToString() + " " +
+                    xna[1].ToString() + " " +
+                    xna[2].ToString() + " " +
+                    xna[3].ToString() + " " +
+                    xna[4].ToString() + " " +
+                    xna[5].ToString() + " " +
+                    xna[6].ToString() +  " " +
+                    xna[7].ToString() + ") anx(" +
+                    anx[0].ToString() + " " +
+                    anx[1].ToString() + " " +
+                    anx[2].ToString() + " " +
+                    anx[3].ToString() + " " +
+                    anx[4].ToString() + " " +
+                    anx[5].ToString() + " " +
+                    anx[6].ToString() + " " +
+                    anx[7].ToString() + ")");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]

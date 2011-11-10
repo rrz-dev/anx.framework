@@ -55,10 +55,10 @@ namespace ANX.Framework
     public struct Quaternion : IEquatable<Quaternion>
     {
         #region fields
-        public float W;
         public float X;
         public float Y;
         public float Z;
+        public float W;
         #endregion
 
 
@@ -315,12 +315,18 @@ namespace ANX.Framework
 
         public static bool operator ==(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return (quaternion1.X == quaternion2.X &&
+                quaternion1.Y == quaternion2.Y &&
+                quaternion1.Z == quaternion2.Z &&
+                quaternion1.W == quaternion2.W);
         }
 
         public static bool operator !=(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return (quaternion1.X != quaternion2.X ||
+                quaternion1.Y != quaternion2.Y ||
+                quaternion1.Z != quaternion2.Z ||
+                quaternion1.W != quaternion2.W);
         }
 
         public static Quaternion operator *(Quaternion quaternion1, Quaternion quaternion2)

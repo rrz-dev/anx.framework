@@ -441,7 +441,116 @@ namespace ANX.Framework
 
         public void Contains(ref Vector3 point, out ContainmentType result)
         {
-            throw new NotImplementedException();
+            result = ContainmentType.Contains;
+
+            Plane plane = Bottom;
+            Vector3 normal = plane.Normal;
+
+            float planeDistance = plane.D;
+
+            float tempDist;
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            float distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            plane = Top;
+            normal = plane.Normal;
+
+            planeDistance = plane.D;
+
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            plane = Left;
+            normal = plane.Normal;
+
+            planeDistance = plane.D;
+
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            plane = Right;
+            normal = plane.Normal;
+
+            planeDistance = plane.D;
+
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            plane = Near;
+            normal = plane.Normal;
+
+            planeDistance = plane.D;
+
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
+
+            plane = Far;
+            normal = plane.Normal;
+
+            planeDistance = plane.D;
+
+            Vector3.Dot(ref normal, ref point, out tempDist);
+            distance = tempDist - planeDistance;
+
+            if (distance < 0)
+            {
+                result = ContainmentType.Disjoint;
+                return;
+            }
+            else if (distance == 0)
+            {
+                result = ContainmentType.Intersects;
+            }
         }
 
         public Vector3[] GetCorners()

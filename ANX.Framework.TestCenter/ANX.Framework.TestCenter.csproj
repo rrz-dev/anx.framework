@@ -82,6 +82,7 @@
     <Compile Include="Strukturen\PackedVector\Rg32Test.cs" />
     <Compile Include="Strukturen\PlaneTest.cs" />
     <Compile Include="Strukturen\PointTest.cs" />
+    <Compile Include="Strukturen\QuaternionTest.cs" />
     <Compile Include="Strukturen\RayTest.cs" />
     <Compile Include="Strukturen\RectangleTest.cs" />
     <Compile Include="Strukturen\Vector2Test.cs" />

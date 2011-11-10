@@ -130,6 +130,9 @@ using ANXShort2 = ANX.Framework.Graphics.PackedVector.Short2;
 using XNAShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.Short4;
 using ANXShort4 = ANX.Framework.Graphics.PackedVector.Short4;
 
+using XNAQuaternion = Microsoft.Xna.Framework.Quaternion;
+using ANXQuaternion = ANX.Framework.Quaternion;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -497,6 +500,21 @@ namespace ANX.Framework.TestCenter
                 xna.Normal.X == anx.Normal.X &&
                 xna.Normal.Y == anx.Normal.Y &&
                 xna.Normal.Z == anx.Normal.Z)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNAQuaternion xna, ANXQuaternion anx, String test)
+        {
+            if (xna.X == anx.X &&
+                xna.Y == anx.Y &&
+                xna.Z == anx.Z &&
+                xna.W == anx.W)
             {
                 Assert.Pass(test + " passed");
             }
