@@ -59,12 +59,17 @@ namespace ANX.Framework
 {
     internal class WindowsGameWindow : GameWindow
     {
+        #region Private Members
         private RenderForm gameWindow;
+
+        #endregion // Private Members
 
         internal WindowsGameWindow()
         {
             this.gameWindow = new RenderForm("ANX Framework");
 
+            this.gameWindow.MaximizeBox = false;
+            this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
         public void Close()
@@ -85,7 +90,10 @@ namespace ANX.Framework
 
         public override IntPtr Handle
         {
-            get { return gameWindow.Handle; }
+            get 
+            { 
+                return gameWindow.Handle; 
+            }
         }
 
         public override bool IsMinimized
@@ -108,24 +116,34 @@ namespace ANX.Framework
 
         protected override void SetTitle(string title)
         {
-            throw new NotImplementedException();
+            this.gameWindow.Text = title;
         }
 
         public override bool AllowUserResizing
         {
             get
             {
-                throw new NotImplementedException();
+                return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
             }
             set
             {
-                throw new NotImplementedException();
+                if (value)
+                {
+                    gameWindow.FormBorderStyle = FormBorderStyle.Sizable;
+                }
+                else
+                {
+                    gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
+                }
             }
         }
 
         public override Rectangle ClientBounds
         {
-            get { throw new NotImplementedException(); }
+            get 
+            {
+                return new Rectangle(this.gameWindow.ClientRectangle.Left, this.gameWindow.ClientRectangle.Top, this.gameWindow.ClientRectangle.Width, this.gameWindow.ClientRectangle.Height);
+            }
         }
 
         public override string ScreenDeviceName
