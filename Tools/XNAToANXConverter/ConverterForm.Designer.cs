@@ -35,6 +35,7 @@
 			this.browsePath2 = new System.Windows.Forms.Button();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.SuspendLayout();
 			// 
 			// convertButton
@@ -43,7 +44,7 @@
 			this.convertButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.convertButton.Location = new System.Drawing.Point(161, 64);
 			this.convertButton.Name = "convertButton";
-			this.convertButton.Size = new System.Drawing.Size(275, 25);
+			this.convertButton.Size = new System.Drawing.Size(275, 40);
 			this.convertButton.TabIndex = 0;
 			this.convertButton.Text = "Convert";
 			this.convertButton.UseVisualStyleBackColor = true;
@@ -110,11 +111,26 @@
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Source";
 			// 
+			// listBox1
+			// 
+			this.listBox1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.listBox1.FormattingEnabled = true;
+			this.listBox1.IntegralHeight = false;
+			this.listBox1.ItemHeight = 18;
+			this.listBox1.Items.AddRange(new object[] {
+            "XNA -> ANX",
+            "ANX -> XNA"});
+			this.listBox1.Location = new System.Drawing.Point(15, 64);
+			this.listBox1.Name = "listBox1";
+			this.listBox1.Size = new System.Drawing.Size(140, 40);
+			this.listBox1.TabIndex = 7;
+			// 
 			// ConverterForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(451, 101);
+			this.ClientSize = new System.Drawing.Size(451, 114);
+			this.Controls.Add(this.listBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.browsePath2);
@@ -142,6 +158,7 @@
 		private System.Windows.Forms.Button browsePath2;
 		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ListBox listBox1;
 	}
 }
 

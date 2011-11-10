@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Linq;
 
 namespace XNAToANXConverter
 {
@@ -12,7 +10,8 @@ namespace XNAToANXConverter
 		private const string AnxBaseName = "ANX.Framework";
 
 		#region Convert
-		public static void Convert(string sourceFilepath, string destinationFilepath)
+		public static void Convert(string target, string sourceFilepath,
+			string destinationFilepath)
 		{
 			string sourceFolderPath =
 				sourceFilepath.Replace(Path.GetFileName(sourceFilepath), "");
@@ -40,17 +39,37 @@ namespace XNAToANXConverter
 					{
 						#region Process Reference
 						string assemblyPath = item.Attribute("Include").Value;
-						if (assemblyPath.Contains(XnaBaseName))
+						if (target == "anx")
 						{
-							item.Remove();
-
-							string anxPath = assemblyPath.Replace(XnaBaseName, AnxBaseName);
-							if (anxPath.Contains(", Version"))
+							#region ANX
+							if (assemblyPath.Contains(XnaBaseName))
 							{
-								anxPath = anxPath.Substring(0, anxPath.IndexOf(',')) + ".dll";
+								item.Remove();
+
+								string anxPath = assemblyPath.Replace(XnaBaseName, AnxBaseName);
+								if (anxPath.Contains(", Version"))
+								{
+									anxPath = anxPath.Substring(0, anxPath.IndexOf(',')) + ".dll";
+								}
+								propertyGroup.Add(new XElement("Reference",
+									new XAttribute("Include", anxPath)));
 							}
-							propertyGroup.Add(new XElement("Reference",
-								new XAttribute("Include", anxPath)));
+							#endregion
+						}
+						else
+						{
+							#region XNA
+							if (assemblyPath.Contains(AnxBaseName))
+							{
+								item.Remove();
+
+								// TODO: FQN of the xna assemby
+
+								string xnaPath = assemblyPath.Replace(AnxBaseName, XnaBaseName);
+								propertyGroup.Add(new XElement("Reference",
+									new XAttribute("Include", xnaPath)));
+							}
+							#endregion
 						}
 						#endregion
 					}
@@ -61,7 +80,14 @@ namespace XNAToANXConverter
 						string absolutePath = Path.Combine(sourceFolderPath, codeFilepath);
 						string text = File.ReadAllText(absolutePath);
 
-						text = text.Replace(XnaBaseName, AnxBaseName);
+						if (target == "anx")
+						{
+							text = text.Replace(XnaBaseName, AnxBaseName);
+						}
+						else
+						{
+							text = text.Replace(AnxBaseName, XnaBaseName);
+						}
 
 						string destCodeFolderPath = codeFilepath.Replace(
 							Path.GetFileName(codeFilepath), "");
@@ -79,6 +105,11 @@ namespace XNAToANXConverter
 					}
 					else if (item.Name.LocalName == "BootstrapperPackage")
 					{
+						if (target == "xna")
+						{
+							continue;
+						}
+
 						#region Process BootstrapperPackage
 						// Remove all bootstrapper tasks for XNA.
 						string includeName = item.Attribute("Include").Value;

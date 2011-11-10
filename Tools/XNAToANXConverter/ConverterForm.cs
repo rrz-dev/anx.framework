@@ -15,6 +15,8 @@ namespace XNAToANXConverter
 
 			destPath.Enabled = false;
 			browsePath2.Enabled = false;
+
+			listBox1.SelectedIndex = 0;
 		}
 		#endregion
 
@@ -100,7 +102,10 @@ namespace XNAToANXConverter
 				return;
 			}
 
-			ProjectData.Convert(source, dest);
+			string target = listBox1.SelectedIndex == 0 ?
+				"anx" : "xna";
+
+			ProjectData.Convert(target, source, dest);
 			MessageBox.Show("Finished conversion!", "Conversion");
 		}
 		#endregion
