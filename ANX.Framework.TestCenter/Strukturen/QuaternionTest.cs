@@ -68,41 +68,20 @@ namespace ANX.Framework.TestCenter.Strukturen
         #region Helper
         static object[] eightfloats =
         {
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
+            new object[] {  1f,  2f,  3f,  4f,  5f,  6f,  7f,  8f },
+            new object[] { 11f, 12f, 13f, 14f, 15f, 16f, 17f, 18f },
+            new object[] { 21f, 22f, 23f, 24f, 25f, 26f, 27f, 28f },
+            new object[] { 31f, 32f, 33f, 34f, 35f, 36f, 37f, 38f },
+            new object[] { 41f, 42f, 43f, 44f, 45f, 46f, 47f, 48f }
         };
 
         static object[] sixteenfloats =
         {
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            new object[] { DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100),
-                                  DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100), DataFactory.RandomValueMinMax(-100, 100) },
-            
+            new object[] {  1f,  2f,  3f,  4f,  5f,  6f,  7f,  8f, 9, 10, 11, 12, 13, 14, 15, 16 },
+            new object[] { 11f, 12f, 13f, 14f, 15f, 16f, 17f, 18f, 19, 110, 111, 112, 113, 114, 115, 116 },
+            new object[] { 21f, 22f, 23f, 24f, 25f, 26f, 27f, 28f, 29, 210, 211, 212, 213, 214, 215, 216 },
+            new object[] { 31f, 32f, 33f, 34f, 35f, 36f, 37f, 38f, 39, 310, 311, 312, 313, 314, 315, 316 },
+            new object[] { 41f, 42f, 43f, 44f, 45f, 46f, 47f, 48f, 49, 410, 411, 412, 413, 414, 415, 416 }
         };
         #endregion
 
@@ -336,9 +315,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             XNAQuaternion xnaQuaternion1 = new XNAQuaternion(x1, y1, z1, w1);
             XNAQuaternion xnaQuaternion2 = new XNAQuaternion(x2, y2, z2, w2);
+            xnaQuaternion1.Normalize();
+            xnaQuaternion2.Normalize();
 
             ANXQuaternion anxQuaternion1 = new ANXQuaternion(x1, y1, z1, w1);
             ANXQuaternion anxQuaternion2 = new ANXQuaternion(x2, y2, z2, w2);
+            anxQuaternion1.Normalize();
+            anxQuaternion2.Normalize();
 
             XNAQuaternion xna = XNAQuaternion.Lerp(xnaQuaternion1, xnaQuaternion2, amount);
             ANXQuaternion anx = ANXQuaternion.Lerp(anxQuaternion1, anxQuaternion2, amount);
@@ -432,9 +415,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             XNAQuaternion xnaQuaternion1 = new XNAQuaternion(x1, y1, z1, w1);
             XNAQuaternion xnaQuaternion2 = new XNAQuaternion(x2, y2, z2, w2);
+            xnaQuaternion1.Normalize();
+            xnaQuaternion2.Normalize();
 
             ANXQuaternion anxQuaternion1 = new ANXQuaternion(x1, y1, z1, w1);
             ANXQuaternion anxQuaternion2 = new ANXQuaternion(x2, y2, z2, w2);
+            anxQuaternion1.Normalize();
+            anxQuaternion2.Normalize();
 
             XNAQuaternion xna = XNAQuaternion.Slerp(xnaQuaternion1, xnaQuaternion2, amount);
             ANXQuaternion anx = ANXQuaternion.Slerp(anxQuaternion1, anxQuaternion2, amount);

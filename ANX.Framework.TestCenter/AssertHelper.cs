@@ -139,6 +139,11 @@ namespace ANX.Framework.TestCenter
 {
     class AssertHelper
     {
+        public static bool CompareFloats(float a, float b, float epsilon)
+        {
+            return (float)Math.Abs((double)(a - b)) < epsilon;
+        }
+
         public static void ConvertEquals(XNABgr565 lhs, ANXBgr565 rhs, String test)
         {
             if (lhs.PackedValue == rhs.PackedValue)
@@ -511,10 +516,11 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAQuaternion xna, ANXQuaternion anx, String test)
         {
-            if (xna.X == anx.X &&
-                xna.Y == anx.Y &&
-                xna.Z == anx.Z &&
-                xna.W == anx.W)
+            float epsilon = 0.0000001f;
+            if (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon) &&
+                CompareFloats(xna.Z, anx.Z, epsilon) &&
+                CompareFloats(xna.W, anx.W, epsilon))
             {
                 Assert.Pass(test + " passed");
             }
