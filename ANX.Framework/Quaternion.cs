@@ -118,12 +118,16 @@ namespace ANX.Framework
 
         public void Conjugate()
         {
-            throw new NotImplementedException();
+            this.Y = -this.Y;
+            this.Z = -this.Z;
+            this.W = -this.W;
         }
 
         public static Quaternion Conjugate(Quaternion value)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Conjugate(ref value, out result);
+            return result;
         }
 
         public static void Conjugate(ref Quaternion value, out Quaternion result)
@@ -166,14 +170,27 @@ namespace ANX.Framework
 
         public static Quaternion Divide(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Divide(ref quaternion1, ref quaternion2, out result);
+            return result;
         }
 
         public static void Divide(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result = Quaternion.Multiply(quaternion1, Quaternion.Inverse(quaternion2));
         }
 
+        public static Quaternion Divide(Quaternion quaternion1, float divider)
+        {
+            Quaternion result;
+            Quaternion.Divide(ref quaternion1, ref divider, out result);
+            return result;
+        }
+
+        public static void Divide(ref Quaternion quaternion1, ref float divider, out Quaternion result)
+        {
+            result = Quaternion.Multiply(quaternion1, 1.0f / divider);
+        }
         public static float Dot(Quaternion quaternion1, Quaternion quaternion2)
         {
             throw new NotImplementedException();
@@ -186,18 +203,24 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode() ^ this.W.GetHashCode();
         }
 
         public static Quaternion Inverse(Quaternion quaternion)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Inverse(ref quaternion, out result);
+            return result;
         }
 
         public static void Inverse(ref Quaternion quaternion, out Quaternion result)
         {
-            throw new NotImplementedException();
+            //(a + i b + j c + k d)-1= (a - i b - j c - k d) / (a2 + b2 + c2 + d2)
+            float magnitude = quaternion.Length();
+            result = Quaternion.Conjugate(quaternion) / (magnitude * magnitude);
+
         }
+
 
         public float Length()
         {
@@ -221,47 +244,74 @@ namespace ANX.Framework
 
         public static Quaternion Multiply(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Multiply(ref quaternion1, ref quaternion2, out result);
+            return result;
         }
 
         public static void Multiply(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            throw new NotImplementedException();
+            //z1 * z2= a*e - b*f - c*g- d*h + i (b*e + a*f + c*h - d*g) + j (a*g - b*h + c*e + d*f) + k (a*h + b*g - c*f + d*e)
+            result.X = quaternion1.X * quaternion2.X - quaternion1.Y * quaternion2.Y - quaternion1.Z * quaternion2.Z - quaternion1.W * quaternion2.W;
+            result.Y = quaternion1.Y * quaternion2.X + quaternion1.X * quaternion2.Y + quaternion1.Z * quaternion2.W - quaternion1.W * quaternion2.Z;
+            result.Z = quaternion1.X * quaternion2.Z - quaternion1.Y * quaternion2.W + quaternion1.Z * quaternion2.X + quaternion1.W * quaternion2.Y;
+            result.W = quaternion1.X * quaternion2.W + quaternion1.Y * quaternion2.Z - quaternion1.Z * quaternion2.Y + quaternion1.W * quaternion2.X;
         }
 
         public static Quaternion Multiply(Quaternion quaternion1, float scaleFactor)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Multiply(ref quaternion1, scaleFactor, out result);
+            return result;
         }
 
         public static void Multiply(ref Quaternion quaternion1, float scaleFactor, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result.X = quaternion1.X * scaleFactor;
+            result.Y = quaternion1.Y * scaleFactor;
+            result.Z = quaternion1.Z * scaleFactor;
+            result.W = quaternion1.W * scaleFactor;
+
         }
 
         public static Quaternion Negate(Quaternion quaternion)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Negate(ref quaternion, out result);
+            return result;
         }
 
         public static void Negate(ref Quaternion quaternion, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result = Quaternion.Conjugate(quaternion);
+            result.X = -result.X;
         }
 
         public void Normalize()
         {
-            throw new NotImplementedException();
+            float norm = this.Length();
+            float scaler = 1.0f / norm;
+            this.X *= scaler;
+            this.Y *= scaler;
+            this.Z *= scaler;
+            this.W *= scaler;
         }
 
         public static Quaternion Normalize(Quaternion quaternion)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Normalize(ref quaternion, out result);
+            return result;
         }
 
         public static void Normalize(ref Quaternion quaternion, out Quaternion result)
         {
-            throw new NotImplementedException();
+            float norm = quaternion.Length();
+            float scaler = 1.0f / norm;
+            result.X = quaternion.X * scaler;
+            result.Y = quaternion.Y * scaler;
+            result.Z = quaternion.Z * scaler;
+            result.W = quaternion.W * scaler;
         }
 
         public static Quaternion Slerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
@@ -276,17 +326,22 @@ namespace ANX.Framework
 
         public static Quaternion Subtract(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Subtract(ref quaternion1, ref quaternion2, out result);
+            return result;
         }
 
         public static void Subtract(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result.X = quaternion1.X - quaternion2.X;
+            result.Y = quaternion1.Y - quaternion2.Y;
+            result.Z = quaternion1.Z - quaternion2.Z;
+            result.W = quaternion1.W - quaternion2.W;
         }
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return "{X:" + this.X + " Y:" + this.Y + " Z:" + this.Z + " W:" + this.W + "}";
         }
         #endregion
 
@@ -305,12 +360,17 @@ namespace ANX.Framework
         #region operator overloading
         public static Quaternion operator +(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return Quaternion.Add(quaternion1, quaternion2);
         }
 
         public static Quaternion operator /(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return Quaternion.Divide(quaternion1, quaternion2);
+        }
+
+        public static Quaternion operator /(Quaternion quaternion1, float divider)
+        {
+            return Quaternion.Divide(quaternion1, divider);
         }
 
         public static bool operator ==(Quaternion quaternion1, Quaternion quaternion2)
@@ -331,22 +391,22 @@ namespace ANX.Framework
 
         public static Quaternion operator *(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return Quaternion.Multiply(quaternion1, quaternion2);
         }
 
         public static Quaternion operator *(Quaternion quaternion1, float scaleFactor)
         {
-            throw new NotImplementedException();
+            return Quaternion.Multiply(quaternion1, scaleFactor);
         }
 
         public static Quaternion operator -(Quaternion quaternion1, Quaternion quaternion2)
         {
-            throw new NotImplementedException();
+            return Quaternion.Subtract(quaternion1, quaternion2);
         }
 
         public static Quaternion operator -(Quaternion quaternion)
         {
-            throw new NotImplementedException();
+            return Quaternion.Negate(quaternion);
         }
         #endregion
     }
