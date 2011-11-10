@@ -57,260 +57,248 @@ namespace ANX.Framework.Windows.GL3
 	/// <summary>
 	/// Native OpenGL implementation for a graphics device.
 	/// </summary>
-	public class GraphicsDeviceWindowsGL3 : INativeGraphicsDevice
-	{
-		#region Constants
-		private const float ColorMultiplier = 1f / 255f;
-		#endregion
+    public class GraphicsDeviceWindowsGL3 : INativeGraphicsDevice
+    {
+        #region Constants
+        private const float ColorMultiplier = 1f / 255f;
+        #endregion
 
-		#region Private
-		/// <summary>
-		/// Native graphics context.
-		/// </summary>
-		private GraphicsContext nativeContext;
+        #region Private
+        /// <summary>
+        /// Native graphics context.
+        /// </summary>
+        private GraphicsContext nativeContext;
 
-		/// <summary>
-		/// The OpenTK window info helper class to provide window informations
-		/// to the graphics device.
-		/// </summary>
-		private IWindowInfo nativeWindowInfo;
-		#endregion
+        /// <summary>
+        /// The OpenTK window info helper class to provide window informations
+        /// to the graphics device.
+        /// </summary>
+        private IWindowInfo nativeWindowInfo;
+        #endregion
 
-		#region Constructor
-		/// <summary>
-		/// Create a new OpenGL graphics context.
-		/// </summary>
-		/// <param name="presentationParameters">Parameters for the window
-		/// and graphics context.</param>
-		internal GraphicsDeviceWindowsGL3(
-			PresentationParameters presentationParameters)
-		{
-			ResetDevice(presentationParameters);
-		}
-		#endregion
+        #region Constructor
+        /// <summary>
+        /// Create a new OpenGL graphics context.
+        /// </summary>
+        /// <param name="presentationParameters">Parameters for the window
+        /// and graphics context.</param>
+        internal GraphicsDeviceWindowsGL3(
+            PresentationParameters presentationParameters)
+        {
+            ResetDevice(presentationParameters);
+        }
+        #endregion
 
-		#region ResetDevice
-		/// <summary>
-		/// Reset the graphics device with the given presentation paramters.
-		/// If a device is currently set, then we dispose the old one.
-		/// </summary>
-		/// <param name="presentationParameters">Parameters for the
-		/// graphics device.</param>
-		private void ResetDevice(PresentationParameters presentationParameters)
-		{
-			#region Validation
-			if (nativeContext != null)
-			{
-				nativeContext.Dispose();
-				nativeContext = null;
-			}
+        #region ResetDevice
+        /// <summary>
+        /// Reset the graphics device with the given presentation paramters.
+        /// If a device is currently set, then we dispose the old one.
+        /// </summary>
+        /// <param name="presentationParameters">Parameters for the
+        /// graphics device.</param>
+        private void ResetDevice(PresentationParameters presentationParameters)
+        {
+            #region Validation
+            if (nativeContext != null)
+            {
+                nativeContext.Dispose();
+                nativeContext = null;
+            }
 
-			if (nativeWindowInfo != null)
-			{
-				nativeWindowInfo.Dispose();
-				nativeWindowInfo = null;
-			}
-			#endregion
+            if (nativeWindowInfo != null)
+            {
+                nativeWindowInfo.Dispose();
+                nativeWindowInfo = null;
+            }
+            #endregion
 
-			// OpenGL Depth Buffer Size: 0/16/24/32
-			int depth = 0;
-			int stencil = 0;
-			switch (presentationParameters.DepthStencilFormat)
-			{
-				case DepthFormat.None:
-					break;
+            // OpenGL Depth Buffer Size: 0/16/24/32
+            int depth = 0;
+            int stencil = 0;
+            switch (presentationParameters.DepthStencilFormat)
+            {
+                case DepthFormat.None:
+                    break;
 
-				case DepthFormat.Depth16:
-					depth = 16;
-					break;
+                case DepthFormat.Depth16:
+                    depth = 16;
+                    break;
 
-				case DepthFormat.Depth24:
-					depth = 24;
-					break;
+                case DepthFormat.Depth24:
+                    depth = 24;
+                    break;
 
-				case DepthFormat.Depth24Stencil8:
-					depth = 24;
-					stencil = 8;
-					break;
-			}
+                case DepthFormat.Depth24Stencil8:
+                    depth = 24;
+                    stencil = 8;
+                    break;
+            }
 
-			nativeWindowInfo = Utilities.CreateWindowsWindowInfo(
-				presentationParameters.DeviceWindowHandle);
+            nativeWindowInfo = Utilities.CreateWindowsWindowInfo(
+                presentationParameters.DeviceWindowHandle);
 
-			GraphicsMode graphicsMode = new GraphicsMode(
-				DatatypesMapping.SurfaceToColorFormat(
-					presentationParameters.BackBufferFormat),
-				depth, stencil,
-				// AntiAlias Samples: 2/4/8/16/32
-				presentationParameters.MultiSampleCount);
+            GraphicsMode graphicsMode = new GraphicsMode(
+                DatatypesMapping.SurfaceToColorFormat(
+                    presentationParameters.BackBufferFormat),
+                depth, stencil,
+                // AntiAlias Samples: 2/4/8/16/32
+                presentationParameters.MultiSampleCount);
 
-			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
-			nativeContext.MakeCurrent(nativeWindowInfo);
-			nativeContext.LoadAll();
-		}
-		#endregion
-		
-		#region SetViewport
-		/// <summary>
-		/// Set the OpenGL viewport.
-		/// </summary>
-		/// <param name="viewport">Viewport data to set natively.</param>
-		public void SetViewport(Viewport viewport)
-		{
-			GL.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
-		}
-		#endregion
+            nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
+            nativeContext.MakeCurrent(nativeWindowInfo);
+            nativeContext.LoadAll();
+        }
+        #endregion
 
-		#region Clear
-		private uint lastClearColor;
-		/// <summary>
-		/// Clear the current screen by the specified clear color.
-		/// </summary>
-		/// <param name="color">Clear color.</param>
-		public void Clear(ref Color color)
-		{
-			uint newClearColor = color.PackedValue;
-			if (lastClearColor != newClearColor)
-			{
-				lastClearColor = newClearColor;
-				GL.ClearColor(color.R * ColorMultiplier, color.G * ColorMultiplier,
-					color.B * ColorMultiplier, color.A * ColorMultiplier);
-			}
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-		}
-		#endregion
+        #region SetViewport
+        /// <summary>
+        /// Set the OpenGL viewport.
+        /// </summary>
+        /// <param name="viewport">Viewport data to set natively.</param>
+        public void SetViewport(Viewport viewport)
+        {
+            GL.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+        }
+        #endregion
 
-		#region Clear
-		/// <summary>
-		/// Clear the current screen by the specified clear color and options.
-		/// </summary>
-		/// <param name="options">Clear options defining which components
-		/// should be cleared.</param>
-		/// <param name="color">Clear color.</param>
-		/// <param name="depth">Depth value.</param>
-		/// <param name="stencil">Stencil value.</param>
-		public void Clear(ClearOptions options, Vector4 color, float depth,
-			int stencil)
-		{
-			Color anxColor;
-			DatatypesMapping.Convert(ref color, out anxColor);
-			uint newClearColor = anxColor.PackedValue;
-			if (lastClearColor != newClearColor)
-			{
-				lastClearColor = newClearColor;
-				GL.ClearColor(anxColor.R * ColorMultiplier, anxColor.G * ColorMultiplier,
-					anxColor.B * ColorMultiplier, anxColor.A * ColorMultiplier);
-			}
+        #region Clear
+        private uint lastClearColor;
+        /// <summary>
+        /// Clear the current screen by the specified clear color.
+        /// </summary>
+        /// <param name="color">Clear color.</param>
+        public void Clear(ref Color color)
+        {
+            uint newClearColor = color.PackedValue;
+            if (lastClearColor != newClearColor)
+            {
+                lastClearColor = newClearColor;
+                GL.ClearColor(color.R * ColorMultiplier, color.G * ColorMultiplier,
+                    color.B * ColorMultiplier, color.A * ColorMultiplier);
+            }
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        }
 
-			ClearBufferMask mask = (ClearBufferMask)0;
-			if ((options | ClearOptions.Target) == options)
-			{
-				mask |= ClearBufferMask.ColorBufferBit;
-			}
-			if ((options | ClearOptions.Stencil) == options)
-			{
-				mask |= ClearBufferMask.StencilBufferBit;
-			}
-			if ((options | ClearOptions.DepthBuffer) == options)
-			{
-				mask |= ClearBufferMask.DepthBufferBit;
-			}
+        /// <summary>
+        /// Clear the current screen by the specified clear color and options.
+        /// </summary>
+        /// <param name="options">Clear options defining which components
+        /// should be cleared.</param>
+        /// <param name="color">Clear color.</param>
+        /// <param name="depth">Depth value.</param>
+        /// <param name="stencil">Stencil value.</param>
+        public void Clear(ClearOptions options, Vector4 color, float depth,
+            int stencil)
+        {
+            Color anxColor;
+            DatatypesMapping.Convert(ref color, out anxColor);
+            uint newClearColor = anxColor.PackedValue;
+            if (lastClearColor != newClearColor)
+            {
+                lastClearColor = newClearColor;
+                GL.ClearColor(anxColor.R * ColorMultiplier, anxColor.G * ColorMultiplier,
+                    anxColor.B * ColorMultiplier, anxColor.A * ColorMultiplier);
+            }
 
-			GL.ClearDepth(depth);
-			GL.ClearStencil(stencil);
-			GL.Clear(mask);
-		}
-		#endregion
+            ClearBufferMask mask = (ClearBufferMask)0;
+            if ((options | ClearOptions.Target) == options)
+            {
+                mask |= ClearBufferMask.ColorBufferBit;
+            }
+            if ((options | ClearOptions.Stencil) == options)
+            {
+                mask |= ClearBufferMask.StencilBufferBit;
+            }
+            if ((options | ClearOptions.DepthBuffer) == options)
+            {
+                mask |= ClearBufferMask.DepthBufferBit;
+            }
 
-		#region Present
-		/// <summary>
-		/// Swap the graphics buffers.
-		/// </summary>
-		public void Present()
-		{
-			nativeContext.SwapBuffers();
-		}
-		#endregion
+            GL.ClearDepth(depth);
+            GL.ClearStencil(stencil);
+            GL.Clear(mask);
+        }
+        #endregion
 
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
-			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount)
-		{
-			throw new NotImplementedException();
-		}
+        #region Present
+        /// <summary>
+        /// Swap the graphics buffers.
+        /// </summary>
+        public void Present()
+        {
+            nativeContext.SwapBuffers();
+        }
+        #endregion
 
-		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
-			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount, int instanceCount)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType,
-			T[] vertexData, int vertexOffset, int numVertices, Array indexData,
-			int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
-			IndexElementSize indexFormat) where T : struct, IVertexType
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawUserPrimitives<T>(PrimitiveType primitiveType,
-			T[] vertexData, int vertexOffset, int primitiveCount,
-			VertexDeclaration vertexDeclaration) where T : struct, IVertexType
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
-			int primitiveCount)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetIndexBuffer(IndexBuffer indexBuffer)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GetBackBufferData<T>(Rectangle? rect, T[] data,
-			int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GetBackBufferData<T>(T[] data) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-<<<<<<< .mine
-        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType,
+            int baseVertex, int minVertexIndex, int numVertices, int startIndex,
+            int primitiveCount)
         {
             throw new NotImplementedException();
         }
 
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType,
+            int baseVertex, int minVertexIndex, int numVertices, int startIndex,
+            int primitiveCount, int instanceCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType,
+            T[] vertexData, int vertexOffset, int numVertices, Array indexData,
+            int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
+            IndexElementSize indexFormat) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType,
+            T[] vertexData, int vertexOffset, int primitiveCount,
+            VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
+            int primitiveCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetIndexBuffer(IndexBuffer indexBuffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(Rectangle? rect, T[] data,
+            int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            throw new NotImplementedException();
+        }
 
         public void ResizeBuffers(PresentationParameters presentationParameters)
         {
             throw new NotImplementedException();
         }
     }
-=======
-		public void GetBackBufferData<T>(T[] data, int startIndex,
-			int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-	}
->>>>>>> .r12199
 }

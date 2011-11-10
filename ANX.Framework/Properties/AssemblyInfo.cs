@@ -35,4 +35,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.4.1.*")]
 [assembly: AssemblyFileVersion("0.4.1.0")]
 
+[assembly:InternalsVisibleTo("ANX.Framework.Windows.DX10")]
+[assembly:InternalsVisibleTo("ANX.Framework.Windows.DX11.1")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.GL3")]
+[assembly:InternalsVisibleTo("ANX.Framework.Windows.Kinect")]
+[assembly:InternalsVisibleTo("ANX.Framework.Windows.XInput")]
+[assembly:InternalsVisibleTo("ANX.Framework.Windows.XAudio")]
