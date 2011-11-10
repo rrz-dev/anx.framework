@@ -58,9 +58,5 @@ namespace ANX.Framework.NonXNA
         void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct;
         void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct;
         void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct;
-
-        void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct;
-        void GetBackBufferData<T>(T[] data) where T : struct;
-        void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct;
     }
 }
