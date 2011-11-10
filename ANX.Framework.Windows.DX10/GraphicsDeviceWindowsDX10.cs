@@ -99,6 +99,7 @@ namespace ANX.Framework.Windows.DX10
         private Device device;
         private SwapChain swapChain; 
         private RenderTargetView renderView;
+        private DepthStencilView depthStencilView;
         private SharpDX.Direct3D10.Texture2D backBuffer;
         internal Effect_DX10 currentEffect;
         private VertexBuffer currentVertexBuffer;
@@ -154,8 +155,49 @@ namespace ANX.Framework.Windows.DX10
 				clearColor.Blue = color.B * ColorMultiplier;
 				clearColor.Alpha = color.A * ColorMultiplier;
 			}
-			device.ClearRenderTargetView(renderView, clearColor);
+
+			this.device.ClearRenderTargetView(this.renderView, this.clearColor);
 		}
+
+        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
+        {
+            if ((options & ClearOptions.Target) == ClearOptions.Target)
+            {
+                // Clear a RenderTarget (or BackBuffer)
+
+                this.clearColor.Red = color.X;
+                this.clearColor.Green = color.Y;
+                this.clearColor.Blue = color.Z;
+                this.clearColor.Alpha = color.W;
+
+                this.device.ClearRenderTargetView(this.renderView, this.clearColor);
+            }
+
+            if (this.depthStencilView != null)
+            {
+                if ((options | ClearOptions.Stencil | ClearOptions.DepthBuffer) == options)
+                {
+                    // Clear the stencil buffer
+                    device.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, depth, (byte)stencil);
+                }
+                else if ((options | ClearOptions.Stencil) == options)
+                {
+                    device.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Stencil, depth, (byte)stencil);
+                }
+                else
+                {
+                    device.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, depth, (byte)stencil);
+                }
+            }
+
+            if ((options & ClearOptions.Target) == ClearOptions.Target)
+            {
+                // Clear a RenderTarget
+
+                throw new NotImplementedException();
+            }
+        }
+
 		#endregion
 
 		public void Present()
@@ -373,12 +415,6 @@ namespace ANX.Framework.Windows.DX10
         }
 
         public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
         {
             throw new NotImplementedException();
         }
