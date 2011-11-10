@@ -99,7 +99,11 @@ namespace ANX.Framework
 
         public static void Add(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result.X = quaternion1.X + quaternion2.X;
+            result.Y = quaternion1.Y + quaternion2.Y;
+            result.Z = quaternion1.Z + quaternion2.Z;
+            result.W = quaternion1.W + quaternion2.W;
+
         }
 
         public static Quaternion Concatenate(Quaternion value1, Quaternion value2)
@@ -124,7 +128,10 @@ namespace ANX.Framework
 
         public static void Conjugate(ref Quaternion value, out Quaternion result)
         {
-            throw new NotImplementedException();
+            result.X = -value.X;
+            result.Y = -value.Y;
+            result.Z = -value.Z;
+            result.W = -value.W;
         }
 
         public static Quaternion CreateFromAxisAngle(Vector3 axis, float angle)
@@ -194,12 +201,12 @@ namespace ANX.Framework
 
         public float Length()
         {
-            throw new NotImplementedException();
+            return (float)Math.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z + this.W * this.W);
         }
 
         public float LengthSquared()
         {
-            throw new NotImplementedException();
+            return this.X * this.X + this.Y * this.Y + this.Z * this.Z + this.W * this.W;
         }
 
         public static Quaternion Lerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
