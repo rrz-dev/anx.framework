@@ -52,94 +52,118 @@ using OpenTK.Platform.Windows;
 
 namespace ANX.Framework.Windows.GL3
 {
-    internal class WindowsGameWindow : ANX.Framework.GameWindow
+	internal class WindowsGameWindow : ANX.Framework.GameWindow
+	{
+		#region Public
+		internal static Form Form
 		{
-			#region Public
-			public Form Form
+			get;
+			private set;
+		}
+
+		public override IntPtr Handle
+		{
+			get
 			{
-				get;
-				private set;
+				return Form.Handle;
 			}
+		}
 
-			public override IntPtr Handle
+		public override bool IsMinimized
+		{
+			get
 			{
-				get
-				{
-					return Form.Handle;
-				}
+				return Form.WindowState == FormWindowState.Minimized;
 			}
+		}
 
-			public override bool IsMinimized
+		#region AllowUserResizing
+		public override bool AllowUserResizing
+		{
+			get
 			{
-				get
-				{
-					return Form.WindowState == FormWindowState.Minimized;
-				}
+				return Form.FormBorderStyle == FormBorderStyle.Sizable;
 			}
-			#endregion
-
-			#region Constructor
-			internal WindowsGameWindow()
+			set
 			{
-				Form = new Form()
-				{
-					Text = "ANX Framework",
-				};
+				Form.FormBorderStyle = value ?
+					FormBorderStyle.Sizable :
+					FormBorderStyle.Fixed3D;
 			}
-			#endregion
+		}
+		#endregion
 
-			#region Close
-			public void Close()
+		#region ClientBounds
+		public override Rectangle ClientBounds
+		{
+			get
 			{
-				if (Form != null)
-				{
-					Form.Close();
-					Form.Dispose();
-					Form = null;
-				}
+				System.Drawing.Rectangle rect = Form.ClientRectangle;
+				return new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
 			}
-			#endregion
+		}
+		#endregion
 
-            public override void BeginScreenDeviceChange(bool willBeFullScreen)
-            {
-                throw new NotImplementedException();
-            }
+		#region CurrentOrientation
+		public override DisplayOrientation CurrentOrientation
+		{
+			get
+			{
+				return DisplayOrientation.Default;
+			}
+		}
+		#endregion
+		#endregion
 
-            public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
-            {
-                throw new NotImplementedException();
-            }
+		#region Constructor
+		internal WindowsGameWindow()
+		{
+			Form = new Form()
+			{
+				Text = "ANX Framework",
+				MaximizeBox = false,
+				FormBorderStyle = FormBorderStyle.Fixed3D,
+				ClientSize = new System.Drawing.Size(800, 600),
+			};
+		}
+		#endregion
 
-            protected override void SetTitle(string title)
-            {
-                throw new NotImplementedException();
-            }
+		#region Close
+		public void Close()
+		{
+			if (Form != null)
+			{
+				Form.Close();
+				Form.Dispose();
+				Form = null;
+			}
+		}
+		#endregion
 
-            public override bool AllowUserResizing
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-                set
-                {
-                    throw new NotImplementedException();
-                }
-            }
+		#region SetTitle
+		protected override void SetTitle(string title)
+		{
+			Form.Text = title;
+		}
+		#endregion
 
-            public override Rectangle ClientBounds
-            {
-                get { throw new NotImplementedException(); }
-            }
+		public override void BeginScreenDeviceChange(bool willBeFullScreen)
+		{
+			throw new NotImplementedException();
+		}
 
-            public override string ScreenDeviceName
-            {
-                get { throw new NotImplementedException(); }
-            }
+		public override void EndScreenDeviceChange(string screenDeviceName,
+			int clientWidth, int clientHeight)
+		{
+			throw new NotImplementedException();
+		}
 
-            public override DisplayOrientation CurrentOrientation
-            {
-                get { throw new NotImplementedException(); }
-            }
-        }
+		public override string ScreenDeviceName
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+	}
 }

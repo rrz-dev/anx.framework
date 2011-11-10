@@ -53,10 +53,13 @@ namespace ANX.Framework.Windows.GL3
 {
 	public class WindowsGameHost : GameHost
 	{
+		#region Private
 		private Game game;
 		private WindowsGameWindow gameWindow;
 		private bool isQuitting;
+		#endregion
 
+		#region Public
 		public override GameWindow Window
 		{
 			get
@@ -64,16 +67,15 @@ namespace ANX.Framework.Windows.GL3
 				return this.gameWindow;
 			}
 		}
+		#endregion
 
+		#region Constructor
 		public WindowsGameHost(Game setGame)
 			: base(setGame)
 		{
 			isQuitting = false;
 			game = setGame;
 			gameWindow = new WindowsGameWindow();
-			//Mouse.WindowHandle = gameWindow.Handle;
-			//TouchPanel.WindowHandle = gameWindow.Handle;
-			//gameWindow.IsMouseVisible = game.IsMouseVisible;
 			gameWindow.Activated += delegate
 			{
 				OnActivated();
@@ -82,13 +84,17 @@ namespace ANX.Framework.Windows.GL3
 			{
 				OnDeactivated();
 			};
-			//gameWindow.Suspend += GameWindowSuspend;
-			//gameWindow.Resume += GameWindowResume;
+			WindowsGameWindow.Form.FormClosing += delegate
+			{
+				isQuitting = true;
+			};
 		}
+		#endregion
 
+		#region Run
 		public override void Run()
 		{
-			gameWindow.Form.Show();
+			WindowsGameWindow.Form.Show();
 			while (isQuitting == false)
 			{
 				Application.DoEvents();
@@ -96,10 +102,13 @@ namespace ANX.Framework.Windows.GL3
 			}
 			gameWindow.Close();
 		}
+		#endregion
 
+		#region Exit
 		public override void Exit()
 		{
 			isQuitting = true;
 		}
+		#endregion
 	}
 }
