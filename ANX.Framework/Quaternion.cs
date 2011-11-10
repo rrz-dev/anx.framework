@@ -94,9 +94,11 @@ namespace ANX.Framework
         #region public methods
         public static Quaternion Add(Quaternion quaternion1, Quaternion quaternion2)
         {
+
             Quaternion result;
-            Add(ref quaternion1, ref quaternion2, out result);
+            Quaternion.Add(ref quaternion1, ref quaternion2, out result);
             return result;
+
         }
 
         public static void Add(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
@@ -109,9 +111,11 @@ namespace ANX.Framework
 
         public static Quaternion Concatenate(Quaternion value1, Quaternion value2)
         {
+
             Quaternion result;
-            Multiply(ref value2, ref value1, out result);
+            Quaternion.Concatenate(ref value1, ref value2, out result);
             return result;
+
         }
 
         public static void Concatenate(ref Quaternion value1, ref Quaternion value2, out Quaternion result)
@@ -121,9 +125,12 @@ namespace ANX.Framework
 
         public void Conjugate()
         {
-            this.X = -this.X;
+
+            this.X = -this.X; //should be =this.X;
+
             this.Y = -this.Y;
             this.Z = -this.Z;
+
         }
 
         public static Quaternion Conjugate(Quaternion value)
@@ -135,7 +142,7 @@ namespace ANX.Framework
 
         public static void Conjugate(ref Quaternion value, out Quaternion result)
         {
-            result.X = -value.X;
+            result.X = value.X;
             result.Y = -value.Y;
             result.Z = -value.Z;
             result.W = value.W;
@@ -143,7 +150,9 @@ namespace ANX.Framework
 
         public static Quaternion CreateFromAxisAngle(Vector3 axis, float angle)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.CreateFromAxisAngle(ref axis, angle, out result);
+            return result;
         }
 
         public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Quaternion result)
@@ -153,7 +162,9 @@ namespace ANX.Framework
 
         public static Quaternion CreateFromRotationMatrix(Matrix matrix)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.CreateFromRotationMatrix(ref matrix, out result);
+            return result;
         }
 
         public static void CreateFromRotationMatrix(ref Matrix matrix, out Quaternion result)
@@ -163,7 +174,9 @@ namespace ANX.Framework
 
         public static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.CreateFromYawPitchRoll(yaw,pitch,roll, out result);
+            return result;
         }
 
         public static void CreateFromYawPitchRoll(float yaw, float pitch, float roll, out Quaternion result)
@@ -247,7 +260,9 @@ namespace ANX.Framework
 
         public static Quaternion Lerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
         {
-            throw new NotImplementedException();
+            Quaternion result;
+            Quaternion.Lerp(ref quaternion1, ref quaternion2, amount, out result);
+            return result;
         }
 
         public static void Lerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
@@ -328,9 +343,11 @@ namespace ANX.Framework
 
         public static Quaternion Slerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
         {
+
             Quaternion result;
-            Slerp(ref quaternion1, ref quaternion2, amount, out result);
-            return result;
+            Quaternion.Slerp(ref quaternion1, ref quaternion2, amount, out result);
+            return result; throw new NotImplementedException();
+
         }
 
         public static void Slerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
