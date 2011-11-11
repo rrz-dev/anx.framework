@@ -61,6 +61,10 @@ namespace ANX.Framework.Input
         {
             this.buttons = value;
         }
+        public GamePadButtons(Buttons buttons)
+        {
+            this.buttons = (int)buttons;
+        }
         public ButtonState A
         {
             get
@@ -160,7 +164,66 @@ namespace ANX.Framework.Input
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is GamePadButtons)
+            {
+                return this == (GamePadButtons)obj;
+            }
 
+            return false;
+        }
+        public static bool operator ==(GamePadButtons left, GamePadButtons right)
+        {
+            return left.X == right.X &&
+                left.Y == right.Y &&
+                left.A == right.A &&
+                left.B == right.B &&
+                left.Back == right.Back &&
+                left.BigButton == right.BigButton &&
+                left.LeftShoulder == right.LeftShoulder &&
+                left.LeftStick == right.LeftStick &&
+                left.RightShoulder == right.RightShoulder &&
+                left.RightStick == right.RightStick &&
+                left.Start == right.Start;
+        }
+
+        public static bool operator !=(GamePadButtons left, GamePadButtons right)
+        {
+            return left.X != right.X ||
+                left.Y != right.Y ||
+                left.A != right.A ||
+                left.B != right.B ||
+                left.Back != right.Back ||
+                left.BigButton != right.BigButton ||
+                left.LeftShoulder != right.LeftShoulder ||
+                left.LeftStick != right.LeftStick ||
+                left.RightShoulder != right.RightShoulder ||
+                left.RightStick != right.RightStick ||
+                left.Start != right.Start;
+        }
+        public override int GetHashCode()
+        {
+            return (((((((((A.GetHashCode() ^ B.GetHashCode()) ^ Back.GetHashCode()) ^ BigButton.GetHashCode()) ^ LeftShoulder.GetHashCode()) ^ LeftStick.GetHashCode()) ^ RightShoulder.GetHashCode()) ^ RightStick.GetHashCode()) ^ Start.GetHashCode()) ^ X.GetHashCode()) ^ Y.GetHashCode();
+        }
+        public override string ToString()
+        {
+            string buttons = String.Empty;
+
+            buttons += A == ButtonState.Pressed ? "A" : "";
+            buttons += B == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "B" : "";
+            buttons += Back == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Back" : "";
+            buttons += BigButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "BigButton" : "";
+            buttons += LeftShoulder == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftShoulder" : "";
+            buttons += LeftStick == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftStick" : "";
+            buttons += RightShoulder == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightShoulder" : "";
+            buttons += RightStick == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightStick" : "";
+            buttons += Start == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Start" : "";
+            buttons += X == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "X" : "";
+            buttons += Y == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Y" : "";
+
+            return buttons;
+        }
 
     }
 }
