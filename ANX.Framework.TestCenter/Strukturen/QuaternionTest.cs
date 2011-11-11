@@ -174,11 +174,10 @@ namespace ANX.Framework.TestCenter.Strukturen
             float nop0, float nop1, float nop2, float nop3)
         {
             XNAQuaternion xna = new XNAQuaternion(x, y, z, w);
-
             ANXQuaternion anx = new ANXQuaternion(x, y, z, w);
 
-            XNAQuaternion.Conjugate(xna);
-            ANXQuaternion.Conjugate(anx);
+            xna = XNAQuaternion.Conjugate(xna);
+            anx = ANXQuaternion.Conjugate(anx);
 
             AssertHelper.ConvertEquals(xna, anx, "ConjugateStatic");
         }
@@ -198,8 +197,10 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void CreateFromRotationMatrixStatic(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             XNAQuaternion xna = XNAQuaternion.CreateFromRotationMatrix(new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44));
-
             ANXQuaternion anx = ANXQuaternion.CreateFromRotationMatrix(new ANX.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44));
+
+            xna.Normalize();
+            anx.Normalize();
 
             AssertHelper.ConvertEquals(xna, anx, "CreateFromRotationMatrixStatic");
         }

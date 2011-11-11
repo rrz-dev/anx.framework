@@ -111,7 +111,6 @@ namespace ANX.Framework
 
         public static Quaternion Concatenate(Quaternion value1, Quaternion value2)
         {
-
             Quaternion result;
             Quaternion.Concatenate(ref value1, ref value2, out result);
             return result;
@@ -125,9 +124,7 @@ namespace ANX.Framework
 
         public void Conjugate()
         {
-
             this.X = -this.X; //should be =this.X;
-
             this.Y = -this.Y;
             this.Z = -this.Z;
 
@@ -142,7 +139,7 @@ namespace ANX.Framework
 
         public static void Conjugate(ref Quaternion value, out Quaternion result)
         {
-            result.X = value.X;
+            result.X = -value.X;
             result.Y = -value.Y;
             result.Z = -value.Z;
             result.W = value.W;
@@ -157,7 +154,14 @@ namespace ANX.Framework
 
         public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Quaternion result)
         {
-            throw new NotImplementedException();
+            angle *= 0.5f;
+            float sinAngle = (float)Math.Sin(angle);
+            float cosAngle = (float)Math.Cos(angle);
+
+            result.X = axis.X * sinAngle;
+            result.Y = axis.Y * sinAngle;
+            result.Z = axis.Z * sinAngle;
+            result.W = cosAngle;
         }
 
         public static Quaternion CreateFromRotationMatrix(Matrix matrix)
@@ -169,7 +173,45 @@ namespace ANX.Framework
 
         public static void CreateFromRotationMatrix(ref Matrix matrix, out Quaternion result)
         {
-            throw new NotImplementedException();
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+
+            float tr = matrix.M11 + matrix.M22 + matrix.M33;
+            if (tr > 0f)
+            {
+                float s = (float)Math.Sqrt(tr + 1f);
+                result.W = s * 0.5f;
+                s = 0.5f / s;
+                result.X = (matrix.M23 - matrix.M32) * s;
+                result.Y = (matrix.M31 - matrix.M13) * s;
+                result.Z = (matrix.M12 - matrix.M21) * s;
+            }
+            else if ((matrix.M11 >= matrix.M22) && (matrix.M11 >= matrix.M33))
+            {
+                float s = (float)Math.Sqrt(1f + matrix.M11 - matrix.M22 - matrix.M33);
+                float s2 = 0.5f / s;
+                result.W = (matrix.M23 - matrix.M32) * s2;
+                result.X = 0.5f * s;
+                result.Y = (matrix.M12 + matrix.M21) * s2;
+                result.Z = (matrix.M13 + matrix.M31) * s2;
+            }
+            else if (matrix.M22 > matrix.M33)
+            {
+                float s = (float)Math.Sqrt(1f + matrix.M22 - matrix.M11 - matrix.M33);
+                float s2 = 0.5f / s;
+                result.W = (matrix.M31 - matrix.M13) * s2;
+                result.X = (matrix.M21 + matrix.M12) * s2;
+                result.Y = 0.5f * s;
+                result.Z = (matrix.M32 + matrix.M23) * s2;
+            }
+            else
+            {
+                float s = (float)Math.Sqrt(1f + matrix.M33 - matrix.M11 - matrix.M22);
+                float ss = 0.5f / s;
+                result.W = (matrix.M12 - matrix.M21) * ss;
+                result.X = (matrix.M31 + matrix.M13) * ss;
+                result.Y = (matrix.M32 + matrix.M23) * ss;
+                result.Z = 0.5f * s;
+            }
         }
 
         public static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll)
@@ -181,7 +223,20 @@ namespace ANX.Framework
 
         public static void CreateFromYawPitchRoll(float yaw, float pitch, float roll, out Quaternion result)
         {
-            throw new NotImplementedException();
+            Vector3 yawAxis = Vector3.Up;
+            Vector3 pitchAxis = Vector3.Right;
+            Vector3 rollAxis = Vector3.Backward;
+
+            Quaternion yawQuat;
+            Quaternion pitchQuat;
+            Quaternion rollQuat;
+
+            Quaternion.CreateFromAxisAngle(ref yawAxis, yaw, out yawQuat);
+            Quaternion.CreateFromAxisAngle(ref pitchAxis, pitch, out pitchQuat);
+            Quaternion.CreateFromAxisAngle(ref rollAxis, roll, out rollQuat);
+
+            Quaternion.Multiply(ref yawQuat, ref pitchQuat, out result);
+            Quaternion.Multiply(ref result, ref rollQuat, out result);
         }
 
         public static Quaternion Divide(Quaternion quaternion1, Quaternion quaternion2)
@@ -267,7 +322,19 @@ namespace ANX.Framework
 
         public static void Lerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
         {
-            throw new NotImplementedException();
+            float dotProduct;
+            Quaternion.Dot(ref quaternion1, ref quaternion2, out dotProduct);
+            float amount1 = 1.0f - amount;
+            if (dotProduct < 0)
+            {
+                amount = -amount;
+            }
+
+            result.X = amount1 * quaternion1.X + amount * quaternion2.X;
+            result.Y = amount1 * quaternion1.Y + amount * quaternion2.Y;
+            result.Z = amount1 * quaternion1.Z + amount * quaternion2.Z;
+            result.W = amount1 * quaternion1.W + amount * quaternion2.W;
+            result.Normalize();
         }
 
         public static Quaternion Multiply(Quaternion quaternion1, Quaternion quaternion2)
@@ -279,10 +346,12 @@ namespace ANX.Framework
 
         public static void Multiply(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            result.X = quaternion1.W * quaternion2.X + quaternion1.X * quaternion2.W + quaternion1.Y * quaternion2.Z - quaternion1.Z * quaternion2.Y;
-            result.Y = quaternion1.W * quaternion2.Y - quaternion1.X * quaternion2.Z + quaternion1.Y * quaternion2.W + quaternion1.Z * quaternion2.X;
-            result.Z = quaternion1.W * quaternion2.Z + quaternion1.X * quaternion2.Y - quaternion1.Y * quaternion2.X + quaternion1.Z * quaternion2.W;
-            result.W = quaternion1.W * quaternion2.W - quaternion1.X * quaternion2.X - quaternion1.Y * quaternion2.Y - quaternion1.Z * quaternion2.Z;
+            Quaternion temp;
+            temp.X = quaternion1.W * quaternion2.X + quaternion1.X * quaternion2.W + quaternion1.Y * quaternion2.Z - quaternion1.Z * quaternion2.Y;
+            temp.Y = quaternion1.W * quaternion2.Y - quaternion1.X * quaternion2.Z + quaternion1.Y * quaternion2.W + quaternion1.Z * quaternion2.X;
+            temp.Z = quaternion1.W * quaternion2.Z + quaternion1.X * quaternion2.Y - quaternion1.Y * quaternion2.X + quaternion1.Z * quaternion2.W;
+            temp.W = quaternion1.W * quaternion2.W - quaternion1.X * quaternion2.X - quaternion1.Y * quaternion2.Y - quaternion1.Z * quaternion2.Z;
+            result = temp;
         }
 
         public static Quaternion Multiply(Quaternion quaternion1, float scaleFactor)
