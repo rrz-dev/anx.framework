@@ -56,33 +56,6 @@ namespace ANX.Framework.Input
 {
     public struct GamePadCapabilities
     {
-        private GamePadType gamePadType;
-        private bool hasAButton;
-        private bool hasBackButton;
-        private bool hasBButton;
-        private bool hasBigButton;
-        private bool hasDPadDownButton;
-        private bool hasDPadLeftButton;
-        private bool hasDPadRightButton;
-        private bool hasDPadUpButton;
-        private bool hasLeftShoulderButton;
-        private bool hasLeftStickButton;
-        private bool hasLeftTrigger;
-        private bool hasLeftVibrationMotor;
-        private bool hasLeftXThumbStick;
-        private bool hasLeftYThumbStick;
-        private bool hasRightShoulderButton;
-        private bool hasRightStickButton;
-        private bool hasRightVibrationMotor;
-        private bool hasRightTrigger;
-        private bool hasRightXThumbStick;
-        private bool hasRightYThumbStick;
-        private bool hasStartButton;
-        private bool hasVoiceSupport;
-        private bool hasXButton;
-        private bool hasYButton;
-        private bool isConnected;
-
         //public GamePadCapabilities(GamePadType gamePadType, bool hasAButton, bool hasBackButton, bool hasBButton, bool hasBigButton, bool hasDPadDownButton, bool hasDPadLeftButton, bool hasDPadRightButton, bool hasDPadUpButton, bool hasLeftShoulderButton, bool hasLeftStickButton, bool hasLeftTrigger, bool hasLeftVibrationMotor, bool hasLeftXThumbStick, bool hasLeftYThumbStick, bool hasRightShoulderButton, bool hasRightStickButton, bool hasRightVibrationMotor, bool hasRightTrigger, bool hasRightXThumbStick, bool hasRightYThumbStick, bool hasStartButton, bool hasVoiceSupport, bool hasXButton, bool hasYButton, bool isConnected)
         //{
         //    this.gamePadType = gamePadType;                                                                                                                                                                                                                                                                                                                                                                                                 
@@ -113,31 +86,162 @@ namespace ANX.Framework.Input
         //    this.isConnected=isConnected;
 
         //}
-        //public GamePadType GamePadType { get { return this.gamePadType; } }
-        //public bool HasAButton { get { return this.hasAButton; } }
-        //public bool HasBackButton { get { return this.hasBackButton; } }
-        //public bool HasBButton { get { return this.hasBButton; } }
-        //public bool HasBigButton {  get; private set; }
-        //public bool HasDPadDownButton {  get; private set; }
-        //public bool HasDPadLeftButton {  get; private set; }
-        //public bool HasDPadRightButton {  get; private set; }
-        //public bool HasDPadUpButton {  get; private set; }
-        //public bool HasLeftShoulderButton {  get; private set; }
-        //public bool HasLeftStickButton {  get; private set; }
-        //public bool HasLeftTrigger {  get; private set; }
-        //public bool HasLeftVibrationMotor {  get; private set; }
-        //public bool HasLeftXThumbStick {  get; private set; }
-        //public bool HasLeftYThumbStick {  get; private set; }
-        //public bool HasRightShoulderButton {  get; private set; }
-        //public bool HasRightStickButton {  get; private set; }
-        //public bool HasRightVibrationMotor {  get; private set; }
-        //public bool HasRightTrigger {  get; private set; }
-        //public bool HasRightXThumbStick {  get; private set; }
-        //public bool HasRightYThumbStick {  get; private set; }
-        //public bool HasStartButton {  get; private set; }
-        //public bool HasVoiceSupport {  get; private set; }
-        //public bool HasXButton {  get; private set; }
-        //public bool HasYButton {  get; private set; }
-        //public bool IsConnected {  get; private set; }
+
+        public GamePadType GamePadType
+        {
+            get;
+            internal set;
+        }
+
+        public bool HasAButton
+        {
+            get;
+            internal set;
+
+        }
+
+        public bool HasBackButton
+        {
+            get;
+            internal set;
+        }
+
+        public bool HasBButton
+        {
+            get;
+            internal set;
+        }
+        
+        public bool HasBigButton 
+        { 
+            get; 
+            internal set;
+        }
+
+        public bool HasDPadDownButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasDPadLeftButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasDPadRightButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasDPadUpButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftShoulderButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftStickButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftTrigger 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftVibrationMotor 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftXThumbStick 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasLeftYThumbStick 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightShoulderButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightStickButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightVibrationMotor 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightTrigger 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightXThumbStick 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasRightYThumbStick 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasStartButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasVoiceSupport 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasXButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool HasYButton 
+        { 
+            get; 
+            internal set; 
+        }
+
+        public bool IsConnected 
+        { 
+            get; 
+            internal set; 
+        }
     }
 }

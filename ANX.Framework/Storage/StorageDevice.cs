@@ -1,6 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
 
 #endregion // Using Statements
 
@@ -51,117 +50,74 @@ using System.Collections.Generic;
 
 #endregion // License
 
-namespace ANX.Framework.Input
+namespace ANX.Framework.Storage
 {
-    public struct KeyboardState
+    public sealed class StorageDevice
     {
-        #region Private Members
-        private KeyState[] keyState;
-        private List<Keys> pressedKeys; 
+        public static event EventHandler<EventArgs> DeviceChanged;
 
-        #endregion // Private Members
-
-        public KeyboardState(Keys[] keys)
-        {
-            pressedKeys = new List<Keys>();
-            pressedKeys.AddRange(keys);
-
-            keyState = new KeyState[255];
-            keyState.Initialize();
-
-            for (int i = 0; i < keys.Length; i++)
-            {
-                keyState[(int)keys[i]] = KeyState.Down;
-            }
-        }
-
-        public bool IsKeyDown(Keys key)
-        {
-            return keyState[(int)key] == KeyState.Down;
-        }
-
-        public bool IsKeyUp(Keys key)
-        {
-            return keyState[(int)key] == KeyState.Up;
-        }
-
-        public override int GetHashCode()
+        public IAsyncResult BeginOpenContainer(string displayName, AsyncCallback callback, Object state)
         {
             throw new NotImplementedException();
         }
 
-        public override bool Equals(object obj)
+        public static IAsyncResult BeginShowSelector(AsyncCallback callback, Object state)
         {
-            if (obj != null && obj.GetType() == typeof(KeyboardState))
-            {
-                KeyboardState other = (KeyboardState)obj;
-
-                if (keyState.Length != other.keyState.Length)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < keyState.Length; i++)
-                {
-                    if (this.keyState[i] != other.keyState[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            throw new NotImplementedException();
         }
 
-        public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
+        public static IAsyncResult BeginShowSelector(int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
         {
-            if (lhs.keyState.Length != rhs.keyState.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < lhs.keyState.Length; i++)
-            {
-                if (lhs.keyState[i] != rhs.keyState[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            throw new NotImplementedException();
         }
 
-        public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
+        public static IAsyncResult BeginShowSelector(PlayerIndex player, AsyncCallback callback, Object state)
         {
-            return !(lhs == rhs);
+            throw new NotImplementedException();
         }
 
-        public KeyState this[Keys key]
+        public static IAsyncResult BeginShowSelector(PlayerIndex player, int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteContainer(string titleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public StorageContainer EndOpenContainer(IAsyncResult result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static StorageDevice EndShowSelector(IAsyncResult result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long FreeSpace
         {
             get
             {
-                return keyState[(int)key];
+                throw new NotImplementedException();
             }
         }
 
-        public Keys[] GetPressedKeys()
+        public bool IsConnected
         {
-            return this.pressedKeys.ToArray();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        internal void AddPressedKey(Keys key)
+        public long TotalSpace
         {
-            this.pressedKeys.Add(key);
-            this.keyState[(int)key] = KeyState.Down;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
-
-        internal void RemovePressedKey(Keys key)
-        {
-            this.pressedKeys.Remove(key);
-            this.keyState[(int)key] = KeyState.Up;
-        }
-
     }
 }

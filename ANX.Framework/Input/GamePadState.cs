@@ -56,30 +56,107 @@ namespace ANX.Framework.Input
 {
     public struct GamePadState
     {
-        private int buttonsValue;
+        #region Private Members
+        private GamePadThumbSticks thumbSticks;
+        private GamePadTriggers triggers;
         private GamePadButtons buttons;
         private GamePadDPad dPad;
-        private bool isConnected ;
-        private int packetNumber ;
-        private GamePadThumbSticks thumbSticks;
-        private GamePadTriggers triggers ;
-        public GamePadState(int value, bool isConnected, int packetNumber,Vector2 thumbStickLeft, Vector2 thumbStickRight, float triggerLeft, float triggerRight)
+
+        private Buttons buttonsValue;
+
+        //private bool isConnected ;
+        //private int packetNumber ;
+
+        #endregion // Private Members
+
+        public GamePadState(GamePadThumbSticks thumbSticks, GamePadTriggers triggers, GamePadButtons buttons, GamePadDPad dPad)
         {
-            this.buttonsValue = value;
-            this.buttons = new GamePadButtons(value);
-            this.dPad = new GamePadDPad(value);
-            this.isConnected = isConnected;
-            this.packetNumber = packetNumber;
-            this.thumbSticks = new GamePadThumbSticks(thumbStickLeft, thumbStickRight);
-            this.triggers = new GamePadTriggers(triggerLeft, triggerRight);
+            this.thumbSticks = thumbSticks;
+            this.triggers = triggers;
+            this.buttons = buttons;
+            this.dPad = dPad;
+
+            this.buttonsValue = this.buttons.Buttons | this.dPad.Buttons;
         }
 
-        public bool IsButtonDown(Buttons button) { return ((this.buttonsValue & (int)button) == (int)button); }
-        public bool IsButtonUp(Buttons button) { return ((this.buttonsValue & (int)button) != (int)button); }
+        public GamePadState(Vector2 leftThumbStick, Vector2 rightThumbStick, float leftTrigger, float rightTrigger, params Buttons[] buttons)
+        {
+            this.thumbSticks = new GamePadThumbSticks(leftThumbStick, rightThumbStick);
+            this.triggers = new GamePadTriggers(leftTrigger, rightTrigger);
+
+            Buttons buttonField = 0;
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttonField |= buttons[i];
+            }
+            this.buttonsValue = buttonField;
+
+            this.buttons = new GamePadButtons(this.buttonsValue);
+            this.dPad = new GamePadDPad(this.buttonsValue);
+        }
+
+        //public GamePadState(int value, bool isConnected, int packetNumber, Vector2 thumbStickLeft, Vector2 thumbStickRight, float triggerLeft, float triggerRight)
+        //{
+        //    this.buttonsValue = value;
+        //    //TODO: this.buttons = new GamePadButtons(value);
+        //    this.dPad = new GamePadDPad(value);
+        //    this.isConnected = isConnected;
+        //    this.packetNumber = packetNumber;
+        //    this.thumbSticks = new GamePadThumbSticks(thumbStickLeft, thumbStickRight);
+        //    this.triggers = new GamePadTriggers(triggerLeft, triggerRight);
+        //}
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == typeof(GamePadState))
+            {
+                return this == (GamePadState)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(GamePadState lhs, GamePadState rhs)
+        {
+            return lhs.buttonsValue == rhs.buttonsValue;
+        }
+
+        public static bool operator !=(GamePadState lhs, GamePadState rhs)
+        {
+            return lhs.buttonsValue != rhs.buttonsValue;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)buttonsValue;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{{IsConnected:{0}}}", IsConnected);
+        }
+
+        public bool IsButtonDown(Buttons button) { return ((this.buttonsValue & button) == button); }
+        public bool IsButtonUp(Buttons button) { return ((this.buttonsValue & button) != button); }
         public GamePadButtons Buttons { get { return this.buttons; } }
         public GamePadDPad DPad { get { return this.dPad; } }
-        public bool IsConnected { get { return this.isConnected; } }
-        public int PacketNumber { get { return this.packetNumber; } }
+
+        public bool IsConnected
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int PacketNumber
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public GamePadThumbSticks ThumbSticks { get { return this.thumbSticks; } }
         public GamePadTriggers Triggers { get { return this.triggers; } }
 

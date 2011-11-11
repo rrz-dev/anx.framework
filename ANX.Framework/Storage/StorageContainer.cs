@@ -1,6 +1,6 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -51,117 +51,109 @@ using System.Collections.Generic;
 
 #endregion // License
 
-namespace ANX.Framework.Input
+namespace ANX.Framework.Storage
 {
-    public struct KeyboardState
+    public class StorageContainer : IDisposable
     {
-        #region Private Members
-        private KeyState[] keyState;
-        private List<Keys> pressedKeys; 
+        public event EventHandler<EventArgs> Disposing;
 
-        #endregion // Private Members
-
-        public KeyboardState(Keys[] keys)
-        {
-            pressedKeys = new List<Keys>();
-            pressedKeys.AddRange(keys);
-
-            keyState = new KeyState[255];
-            keyState.Initialize();
-
-            for (int i = 0; i < keys.Length; i++)
-            {
-                keyState[(int)keys[i]] = KeyState.Down;
-            }
-        }
-
-        public bool IsKeyDown(Keys key)
-        {
-            return keyState[(int)key] == KeyState.Down;
-        }
-
-        public bool IsKeyUp(Keys key)
-        {
-            return keyState[(int)key] == KeyState.Up;
-        }
-
-        public override int GetHashCode()
+        ~StorageContainer()
         {
             throw new NotImplementedException();
         }
 
-        public override bool Equals(object obj)
+        public void CreateDirectory(string directory)
         {
-            if (obj != null && obj.GetType() == typeof(KeyboardState))
-            {
-                KeyboardState other = (KeyboardState)obj;
-
-                if (keyState.Length != other.keyState.Length)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < keyState.Length; i++)
-                {
-                    if (this.keyState[i] != other.keyState[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            throw new NotImplementedException();
         }
 
-        public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
+        public Stream CreateFile(string file)
         {
-            if (lhs.keyState.Length != rhs.keyState.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < lhs.keyState.Length; i++)
-            {
-                if (lhs.keyState[i] != rhs.keyState[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            throw new NotImplementedException();
         }
 
-        public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
+        public void DeleteDirectory(string directory)
         {
-            return !(lhs == rhs);
+            throw new NotImplementedException();
         }
 
-        public KeyState this[Keys key]
+        public void DeleteFile(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DirectoryExists(string directory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FileExists(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string[] GetDirectoryNames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string[] GetDirectoryNames(string searchPattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string[] GetFileNames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string[] GetFileNames(string searchPattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream OpenFile(string file, FileMode fileMode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string DisplayName
         {
             get
             {
-                return keyState[(int)key];
+                throw new NotImplementedException();
             }
         }
 
-        public Keys[] GetPressedKeys()
+        public StorageDevice StorageDevice
         {
-            return this.pressedKeys.ToArray();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        internal void AddPressedKey(Keys key)
+        public bool IsDisposed
         {
-            this.pressedKeys.Add(key);
-            this.keyState[(int)key] = KeyState.Down;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        internal void RemovePressedKey(Keys key)
+        public void Dispose()
         {
-            this.pressedKeys.Remove(key);
-            this.keyState[(int)key] = KeyState.Up;
+            throw new NotImplementedException();
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 #endregion // Using Statements
 
@@ -51,116 +52,32 @@ using System.Collections.Generic;
 
 #endregion // License
 
-namespace ANX.Framework.Input
+namespace ANX.Framework.Storage
 {
-    public struct KeyboardState
+    public class StorageDeviceNotConnectedException : ExternalException
     {
-        #region Private Members
-        private KeyState[] keyState;
-        private List<Keys> pressedKeys; 
-
-        #endregion // Private Members
-
-        public KeyboardState(Keys[] keys)
+        public StorageDeviceNotConnectedException()
+            : base()
         {
-            pressedKeys = new List<Keys>();
-            pressedKeys.AddRange(keys);
 
-            keyState = new KeyState[255];
-            keyState.Initialize();
-
-            for (int i = 0; i < keys.Length; i++)
-            {
-                keyState[(int)keys[i]] = KeyState.Down;
-            }
         }
 
-        public bool IsKeyDown(Keys key)
+        protected StorageDeviceNotConnectedException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            return keyState[(int)key] == KeyState.Down;
+
         }
 
-        public bool IsKeyUp(Keys key)
+        public StorageDeviceNotConnectedException(string message)
+            : base(message)
         {
-            return keyState[(int)key] == KeyState.Up;
+
         }
 
-        public override int GetHashCode()
+        public StorageDeviceNotConnectedException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            throw new NotImplementedException();
-        }
 
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == typeof(KeyboardState))
-            {
-                KeyboardState other = (KeyboardState)obj;
-
-                if (keyState.Length != other.keyState.Length)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < keyState.Length; i++)
-                {
-                    if (this.keyState[i] != other.keyState[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
-        {
-            if (lhs.keyState.Length != rhs.keyState.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < lhs.keyState.Length; i++)
-            {
-                if (lhs.keyState[i] != rhs.keyState[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
-        {
-            return !(lhs == rhs);
-        }
-
-        public KeyState this[Keys key]
-        {
-            get
-            {
-                return keyState[(int)key];
-            }
-        }
-
-        public Keys[] GetPressedKeys()
-        {
-            return this.pressedKeys.ToArray();
-        }
-
-        internal void AddPressedKey(Keys key)
-        {
-            this.pressedKeys.Add(key);
-            this.keyState[(int)key] = KeyState.Down;
-        }
-
-        internal void RemovePressedKey(Keys key)
-        {
-            this.pressedKeys.Remove(key);
-            this.keyState[(int)key] = KeyState.Up;
         }
 
     }

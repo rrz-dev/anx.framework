@@ -332,6 +332,9 @@
     <Compile Include="Quaternion.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Rectangle.cs" />
+    <Compile Include="Storage\StorageContainer.cs" />
+    <Compile Include="Storage\StorageDevice.cs" />
+    <Compile Include="Storage\StorageDeviceNotConnectedException.cs" />
     <Compile Include="TitleContainer.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
@@ -340,7 +343,6 @@
   <ItemGroup>
     <Folder Include="Content\MediaTypeReaders\" />
     <Folder Include="Design\" />
-    <Folder Include="Storage\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

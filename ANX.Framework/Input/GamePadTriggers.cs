@@ -56,13 +56,48 @@ namespace ANX.Framework.Input
 {
     public struct GamePadTriggers
     {
+        #region Private Members
         private float left;
         private float right;
+
+        #endregion // Private Members
+
         public GamePadTriggers (float leftTrigger,float rightTrigger)
         {
             left = leftTrigger;
             right = rightTrigger;
         }
+
+        public override int GetHashCode()
+        {
+            return left.GetHashCode() ^ right.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{{Left:{0} Right:{1}}}", left, right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == typeof(GamePadTriggers))
+            {
+                return this == (GamePadTriggers)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
+        {
+            return lhs.left == rhs.left && lhs.right == rhs.right;
+        }
+
+        public static bool operator !=(GamePadTriggers lhs, GamePadTriggers rhs)
+        {
+            return lhs.left != rhs.left || lhs.right != rhs.right;
+        }
+
         public float Left { get { return this.left; } }
         public float Right { get { return this.right; } }
 

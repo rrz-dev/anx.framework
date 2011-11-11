@@ -56,21 +56,70 @@ namespace ANX.Framework.Input
 {
     public struct GamePadButtons
     {
-        private int buttons;
-        public GamePadButtons (int value)
-        {
-            this.buttons = value;
-        }
+        #region Private Members
+        internal Buttons buttonValue;
+
+        internal ButtonState button_a;
+        internal ButtonState button_b;
+        internal ButtonState button_x;
+        internal ButtonState button_y;
+        internal ButtonState stick_left;
+        internal ButtonState stick_right;
+        internal ButtonState shoulder_left;
+        internal ButtonState shoulder_right;
+        internal ButtonState button_back;
+        internal ButtonState button_start;
+        internal ButtonState button_big;
+
+        #endregion // Private Members
+
         public GamePadButtons(Buttons buttons)
         {
-            this.buttons = (int)buttons;
+            this.button_a = GetButtonState(buttons, Buttons.A);
+            this.button_b = GetButtonState(buttons, Buttons.B);
+            this.button_x = GetButtonState(buttons, Buttons.X);
+            this.button_y = GetButtonState(buttons, Buttons.Y);
+            this.stick_left = GetButtonState(buttons, Buttons.LeftStick);
+            this.stick_right = GetButtonState(buttons, Buttons.RightStick);
+            this.shoulder_left = GetButtonState(buttons, Buttons.LeftShoulder);
+            this.shoulder_right = GetButtonState(buttons, Buttons.RightShoulder);
+            this.button_back = GetButtonState(buttons, Buttons.Back);
+            this.button_start = GetButtonState(buttons, Buttons.Start);
+            this.button_big = GetButtonState(buttons, Buttons.BigButton);
+
+            this.buttonValue = buttons;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == typeof(GamePadButtons))
+            {
+                return this == (GamePadButtons)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(GamePadButtons lhs, GamePadButtons rhs)
+        {
+            return lhs.buttonValue == rhs.buttonValue;
+        }
+
+        public static bool operator !=(GamePadButtons lhs, GamePadButtons rhs)
+        {
+            return lhs.buttonValue != rhs.buttonValue;
+        }
+
+        private static ButtonState GetButtonState(Buttons buttons, Buttons button)
+        {
+            return (buttons & button) == button ? ButtonState.Pressed : ButtonState.Released;
+        }
+
         public ButtonState A
         {
             get
             {
-                if ((this.buttons & (int)Buttons.A) == (int)Buttons.A) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_a;
             }
         }
 
@@ -78,8 +127,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.B) == (int)Buttons.B) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_b;
             }
         }
 
@@ -87,8 +135,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.Back) == (int)Buttons.Back) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_back;
             }
         }
 
@@ -96,8 +143,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.BigButton) == (int)Buttons.BigButton) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_big;
             }
         }
 
@@ -105,8 +151,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.LeftShoulder) == (int)Buttons.LeftShoulder) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.shoulder_left;
             }
         }
 
@@ -114,8 +159,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.LeftStick) == (int)Buttons.LeftStick) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return stick_left;
             }
         }
 
@@ -123,8 +167,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.RightShoulder) == (int)Buttons.RightShoulder) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.shoulder_right;
             }
         }
 
@@ -132,8 +175,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.RightStick) == (int)Buttons.RightStick) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.stick_right;
             }
         }
 
@@ -141,8 +183,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.Start) == (int)Buttons.Start) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_start;
             }
         }
 
@@ -150,8 +191,7 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.X) == (int)Buttons.X) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_x;
             }
         }
 
@@ -159,71 +199,45 @@ namespace ANX.Framework.Input
         {
             get
             {
-                if ((this.buttons & (int)Buttons.Y) == (int)Buttons.Y) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return this.button_y;
             }
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is GamePadButtons)
-            {
-                return this == (GamePadButtons)obj;
-            }
-
-            return false;
-        }
-        public static bool operator ==(GamePadButtons left, GamePadButtons right)
-        {
-            return left.X == right.X &&
-                left.Y == right.Y &&
-                left.A == right.A &&
-                left.B == right.B &&
-                left.Back == right.Back &&
-                left.BigButton == right.BigButton &&
-                left.LeftShoulder == right.LeftShoulder &&
-                left.LeftStick == right.LeftStick &&
-                left.RightShoulder == right.RightShoulder &&
-                left.RightStick == right.RightStick &&
-                left.Start == right.Start;
-        }
-
-        public static bool operator !=(GamePadButtons left, GamePadButtons right)
-        {
-            return left.X != right.X ||
-                left.Y != right.Y ||
-                left.A != right.A ||
-                left.B != right.B ||
-                left.Back != right.Back ||
-                left.BigButton != right.BigButton ||
-                left.LeftShoulder != right.LeftShoulder ||
-                left.LeftStick != right.LeftStick ||
-                left.RightShoulder != right.RightShoulder ||
-                left.RightStick != right.RightStick ||
-                left.Start != right.Start;
-        }
         public override int GetHashCode()
         {
-            return (((((((((A.GetHashCode() ^ B.GetHashCode()) ^ Back.GetHashCode()) ^ BigButton.GetHashCode()) ^ LeftShoulder.GetHashCode()) ^ LeftStick.GetHashCode()) ^ RightShoulder.GetHashCode()) ^ RightStick.GetHashCode()) ^ Start.GetHashCode()) ^ X.GetHashCode()) ^ Y.GetHashCode();
+            return (int)this.buttonValue;
         }
+
         public override string ToString()
         {
-            string buttons = String.Empty;
+            String buttons = String.Empty;
 
-            buttons += A == ButtonState.Pressed ? "A" : "";
-            buttons += B == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "B" : "";
-            buttons += Back == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Back" : "";
-            buttons += BigButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "BigButton" : "";
-            buttons += LeftShoulder == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftShoulder" : "";
-            buttons += LeftStick == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftStick" : "";
-            buttons += RightShoulder == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightShoulder" : "";
-            buttons += RightStick == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightStick" : "";
-            buttons += Start == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Start" : "";
-            buttons += X == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "X" : "";
-            buttons += Y == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Y" : "";
+            buttons += this.button_a == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "A" : "";
+            buttons += this.button_b == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "B" : "";
+            buttons += this.button_x == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "X" : "";
+            buttons += this.button_y == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Y" : "";
+            buttons += this.stick_left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftStick" : "";
+            buttons += this.stick_right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightStick" : "";
+            buttons += this.shoulder_left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftShoulder" : "";
+            buttons += this.shoulder_right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightShoulder" : "";
+            buttons += this.button_start == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Start" : "";
+            buttons += this.button_back == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Back" : "";
+            buttons += this.button_big == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "BigButton" : "";
 
-            return buttons;
+            if (string.IsNullOrEmpty(buttons))
+            {
+                buttons = "None";
+            }
+
+            return String.Format("{{Buttons:{0}}}", buttons);
         }
 
+        internal Buttons Buttons
+        {
+            get
+            {
+                return this.buttonValue;
+            }
+        }
     }
 }

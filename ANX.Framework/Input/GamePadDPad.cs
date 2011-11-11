@@ -54,48 +54,122 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
-    
     public struct GamePadDPad
     {
-        int buttons;        
-        public GamePadDPad(int value)
+        #region Private Members
+        private Buttons buttons;
+
+        private ButtonState up;
+        private ButtonState down;
+        private ButtonState left;
+        private ButtonState right;
+
+        #endregion // Private Members
+
+        public GamePadDPad(ButtonState upValue, ButtonState downValue, ButtonState leftValue, ButtonState rightValue)
         {
-            buttons = value;
+            this.up = upValue;
+            this.down = downValue;
+            this.left = leftValue;
+            this.right = rightValue;
+
+            buttons = 0;
+            buttons |= (upValue == ButtonState.Pressed ? Buttons.DPadUp : 0);
+            buttons |= (downValue == ButtonState.Pressed ? Buttons.DPadDown : 0);
+            buttons |= (leftValue == ButtonState.Pressed ? Buttons.DPadLeft : 0);
+            buttons |= (rightValue == ButtonState.Pressed ? Buttons.DPadRight : 0);
         }
 
-        //The Stats look for the Flags from the Buttons.cs file
+        internal GamePadDPad(Buttons buttons)
+        {
+            this.buttons = buttons;
+
+            this.up = (buttons & Buttons.DPadUp) == Buttons.DPadUp ? ButtonState.Pressed : ButtonState.Released;
+            this.left = (buttons & Buttons.DPadLeft) == Buttons.DPadLeft ? ButtonState.Pressed : ButtonState.Released;
+            this.down = (buttons & Buttons.DPadDown) == Buttons.DPadDown ? ButtonState.Pressed : ButtonState.Released;
+            this.right = (buttons & Buttons.DPadRight) == Buttons.DPadRight ? ButtonState.Pressed : ButtonState.Released;
+        }
+
         public ButtonState Down 
         { 
             get 
             {
-                if ((this.buttons & (int)Buttons.DPadDown) == (int)Buttons.DPadDown) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return down;
             } 
         }
+
         public ButtonState Left
         {
             get
             {
-                if ((this.buttons & (int)Buttons.DPadLeft) == (int)Buttons.DPadLeft) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return left;
             }
         }
+
         public ButtonState Right
         {
             get
             {
-                if ((this.buttons & (int)Buttons.DPadRight) == (int)Buttons.DPadRight) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return right;
             }
         }
+        
         public ButtonState Up
         {
             get
             {
-                if ((this.buttons & (int)Buttons.DPadUp) == (int)Buttons.DPadUp) return ButtonState.Pressed;
-                else return ButtonState.Released;
+                return up;
             }
         }
 
+        public override int GetHashCode()
+        {
+            return (int)buttons;
+        }
+
+        public override string ToString()
+        {
+            String buttons = String.Empty;
+
+            buttons += this.up == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Up" : "";
+            buttons += this.left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
+            buttons += this.down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
+            buttons += this.right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
+
+            if (String.IsNullOrEmpty(buttons))
+            {
+                buttons = "None";
+            }
+
+            return String.Format("{{DPad:{0}}}", buttons);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == typeof(GamePadDPad))
+            {
+                return this == (GamePadDPad)obj;
+            }
+
+            return false;
+        }
+
+        public static bool operator ==(GamePadDPad lhs, GamePadDPad rhs)
+        {
+            return lhs.buttons == rhs.buttons;
+        }
+
+        public static bool operator !=(GamePadDPad lhs, GamePadDPad rhs)
+        {
+            return lhs.buttons != rhs.buttons;
+        }
+
+        internal Buttons Buttons
+        {
+            get
+            {
+                return this.buttons;
+            }
+        }
     }
 }
