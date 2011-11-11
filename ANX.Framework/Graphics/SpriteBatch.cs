@@ -99,7 +99,7 @@ namespace ANX.Framework.Graphics
 
             base.GraphicsDevice = graphicsDevice;
 
-            this.spriteBatchEffect = new Effect(graphicsDevice, AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch));
+            this.spriteBatchEffect = new Effect(graphicsDevice, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch));
 
             this.spriteInfos = new SpriteInfo[InitialBatchSize];
 

@@ -73,7 +73,7 @@ namespace ANX.Framework.Graphics
 
         public RasterizerState()
         {
-            this.nativeRasterizerState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateRasterizerState();
+            this.nativeRasterizerState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRasterizerState();
 
             this.CullMode = CullMode.CullCounterClockwiseFace;
             this.DepthBias = 0f;
@@ -85,7 +85,7 @@ namespace ANX.Framework.Graphics
 
         private RasterizerState(CullMode cullMode, string name)
         {
-            this.nativeRasterizerState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateRasterizerState();
+            this.nativeRasterizerState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRasterizerState();
 
             this.CullMode = cullMode;
             this.DepthBias = 0f;

@@ -62,7 +62,7 @@ namespace ANX.Framework.NonXNA
         private Dictionary<String, ICreator> creators;
         private static AddInSystemFactory instance;
         private bool initialized;
-        private Dictionary<Type, ICreator> currentCreators = new Dictionary<Type, ICreator>();
+        private Dictionary<Type, ICreator> defaultCreators = new Dictionary<Type, ICreator>();
 
         public static AddInSystemFactory Instance
         {
@@ -158,28 +158,28 @@ namespace ANX.Framework.NonXNA
             }
         }
 
-        public T GetCurrentCreator<T>() where T : class, ICreator
+        public T GetDefaultCreator<T>() where T : class, ICreator
         {
             Type type = typeof(T);
 
-            if (currentCreators.ContainsKey(type))
+            if (defaultCreators.ContainsKey(type))
             {
-                return currentCreators[type] as T;
+                return defaultCreators[type] as T;
             }
 
             return default(T);
         }
 
-        public void SetCurrentCreator<T>(T creator) where T : class, ICreator
+        public void SetDefaultCreator<T>(T creator) where T : class, ICreator
         {
-            currentCreators[typeof(T)] = creator;
+            defaultCreators[typeof(T)] = creator;
         }
 
-        public void SetCurrentCreator(string creatorName)
+        public void SetDefaultCreator(string creatorName)
         {
             ICreator creator = null;
             creators.TryGetValue(creatorName.ToLowerInvariant(), out creator);
-            currentCreators[creator.GetType().GetInterfaces()[0]] = creator;
+            defaultCreators[creator.GetType().GetInterfaces()[0]] = creator;
         }
 
     }

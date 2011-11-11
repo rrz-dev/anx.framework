@@ -173,7 +173,7 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeTextureSurface()
         {
-            base.nativeTexture = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateTexture(GraphicsDevice, format, Width, Height, levelCount);
+            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(GraphicsDevice, format, Width, Height, levelCount);
         }
     }
 }

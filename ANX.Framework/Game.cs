@@ -103,29 +103,29 @@ namespace ANX.Framework
 
             AddInSystemFactory.Instance.Initialize();
 
-            AddInSystemFactory.Instance.SetCurrentCreator(inputSystemName);
-            IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>();
+            AddInSystemFactory.Instance.SetDefaultCreator(inputSystemName);
+            IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
             if (inputSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(IInputSystemCreator), inputSystemCreator);
             }
 
-            AddInSystemFactory.Instance.SetCurrentCreator(soundSystemName);
-            ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetCurrentCreator<ISoundSystemCreator>();
+            AddInSystemFactory.Instance.SetDefaultCreator(soundSystemName);
+            ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
             if (soundSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(ISoundSystemCreator), soundSystemCreator);
             }
 
-            AddInSystemFactory.Instance.SetCurrentCreator(renderSystemName);
-            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>();
+            AddInSystemFactory.Instance.SetDefaultCreator(renderSystemName);
+            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
             if (renderSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(IRenderSystemCreator), renderSystemCreator);
             }
 
             //TODO: error handling if creator is null
-            this.host = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateGameHost(this);
+            this.host = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGameHost(this);
 
             this.host.Activated += new EventHandler<EventArgs>(this.HostActivated);
             this.host.Deactivated += new EventHandler<EventArgs>(this.HostDeactivated);

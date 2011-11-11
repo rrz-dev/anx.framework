@@ -78,7 +78,7 @@ namespace ANX.Framework.Graphics
 
         public BlendState()
         {
-            this.nativeBlendState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateBlendState();
+            this.nativeBlendState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateBlendState();
 
             this.AlphaBlendFunction = BlendFunction.Add;
             this.AlphaDestinationBlend = Blend.One;
@@ -101,7 +101,7 @@ namespace ANX.Framework.Graphics
 
         private BlendState(Blend sourceBlend, Blend destinationBlend, string name)
         {
-            this.nativeBlendState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateBlendState();
+            this.nativeBlendState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateBlendState();
 
             this.AlphaBlendFunction = BlendFunction.Add;
             this.AlphaDestinationBlend = destinationBlend;

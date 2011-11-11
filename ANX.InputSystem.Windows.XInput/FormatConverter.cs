@@ -1,10 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using System.IO;
+using ANX.Framework.Input;
+using SharpDX.XInput;
 
 #endregion // Using Statements
 
@@ -55,89 +52,30 @@ using System.IO;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics
+namespace ANX.InputSystem.Windows.XInput
 {
-    public class Effect : GraphicsResource, IGraphicsResource
+    internal class FormatConverter
     {
-        #region Private Members
-        private INativeEffect nativeEffect;
-        private EffectTechniqueCollection techniqueCollection;
-        private EffectTechnique currentTechnique;
-        private EffectParameterCollection parameterCollection;
-
-        #endregion // Private Members
-
-        protected Effect(Effect cloneSource)
-            : base(cloneSource.GraphicsDevice)
+        public static Buttons Translate(SharpDX.XInput.GamepadButtonFlags buttons)
         {
+            Buttons tb = 0;
 
+            tb |= (buttons & GamepadButtonFlags.A) == GamepadButtonFlags.A ? Buttons.A : 0;
+            tb |= (buttons & GamepadButtonFlags.B) == GamepadButtonFlags.B ? Buttons.B : 0;
+            tb |= (buttons & GamepadButtonFlags.Back) == GamepadButtonFlags.Back ? Buttons.Back : 0;
+            tb |= (buttons & GamepadButtonFlags.DPadDown) == GamepadButtonFlags.DPadDown ? Buttons.DPadDown : 0;
+            tb |= (buttons & GamepadButtonFlags.DPadLeft) == GamepadButtonFlags.DPadLeft ? Buttons.DPadLeft : 0;
+            tb |= (buttons & GamepadButtonFlags.DPadRight) == GamepadButtonFlags.DPadRight ? Buttons.DPadRight : 0;
+            tb |= (buttons & GamepadButtonFlags.DPadUp) == GamepadButtonFlags.DPadUp ? Buttons.DPadUp : 0;
+            tb |= (buttons & GamepadButtonFlags.LeftShoulder) == GamepadButtonFlags.LeftShoulder ? Buttons.LeftShoulder : 0;
+            tb |= (buttons & GamepadButtonFlags.LeftThumb) == GamepadButtonFlags.LeftThumb ? Buttons.LeftTrigger : 0;
+            tb |= (buttons & GamepadButtonFlags.RightShoulder) == GamepadButtonFlags.RightShoulder ? Buttons.RightShoulder : 0;
+            tb |= (buttons & GamepadButtonFlags.RightThumb) == GamepadButtonFlags.RightThumb ? Buttons.RightTrigger : 0;
+            tb |= (buttons & GamepadButtonFlags.Start) == GamepadButtonFlags.Start ? Buttons.Start : 0;
+            tb |= (buttons & GamepadButtonFlags.X) == GamepadButtonFlags.X ? Buttons.X : 0;
+            tb |= (buttons & GamepadButtonFlags.Y) == GamepadButtonFlags.Y ? Buttons.Y : 0;
+
+            return tb;
         }
-
-        public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
-            : base(graphicsDevice)
-        {
-            this.nativeEffect = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(graphicsDevice, new MemoryStream(byteCode, false));
-
-            this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
-            this.currentTechnique = this.techniqueCollection[0];
-
-            this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
-        }
-
-        public virtual Effect Clone()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Obsolete("This is not a original XNA property")]
-        public INativeEffect NativeEffect
-        {
-            get
-            {
-                return this.nativeEffect;
-            }
-        }
-
-        public EffectTechnique CurrentTechnique
-        {
-            get
-            {
-                return this.currentTechnique;
-            }
-            set
-            {
-                this.currentTechnique = value;
-            }
-        }
-
-        public EffectParameterCollection Parameters
-        {
-            get
-            {
-                return this.parameterCollection;
-            }
-        }
-
-        public EffectTechniqueCollection Techniques
-        {
-            get
-            {
-                return this.techniqueCollection;
-            }
-        }
-
-        public override void Dispose()
-        {
-            if (nativeEffect != null)
-            {
-                nativeEffect.Dispose();
-            }
-        }
-
-        protected override void Dispose(Boolean disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

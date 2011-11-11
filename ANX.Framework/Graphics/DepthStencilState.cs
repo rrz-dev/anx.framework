@@ -83,7 +83,7 @@ namespace ANX.Framework.Graphics
 
         public DepthStencilState()
         {
-            nativeDepthStencilState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateDepthStencilState();
+            nativeDepthStencilState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateDepthStencilState();
 
             CounterClockwiseStencilDepthBufferFail = StencilOperation.Keep;
             CounterClockwiseStencilFail = StencilOperation.Keep;
@@ -104,7 +104,7 @@ namespace ANX.Framework.Graphics
 
         private DepthStencilState(bool depthBufferEnabled, bool depthBufferWriteEnabled, string name)
         {
-            nativeDepthStencilState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateDepthStencilState();
+            nativeDepthStencilState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateDepthStencilState();
 
             CounterClockwiseStencilDepthBufferFail = StencilOperation.Keep;
             CounterClockwiseStencilFail = StencilOperation.Keep;

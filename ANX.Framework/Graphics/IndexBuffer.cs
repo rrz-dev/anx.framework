@@ -70,7 +70,7 @@ namespace ANX.Framework.Graphics
             this.indexCount = indexCount;
             this.bufferUsage = usage;
 
-            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
+            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
         }
 
         public IndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
@@ -92,7 +92,7 @@ namespace ANX.Framework.Graphics
             this.indexCount = indexCount;
             this.bufferUsage = usage;
 
-            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
+            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
         }
 
         public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct

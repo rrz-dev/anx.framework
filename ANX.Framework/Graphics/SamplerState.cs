@@ -77,7 +77,7 @@ namespace ANX.Framework.Graphics
 
         public SamplerState()
         {
-            this.nativeSamplerState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateSamplerState();
+            this.nativeSamplerState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateSamplerState();
 
             this.AddressU = TextureAddressMode.Wrap;
             this.AddressV = TextureAddressMode.Wrap;
@@ -90,7 +90,7 @@ namespace ANX.Framework.Graphics
 
         private SamplerState(TextureFilter filter, TextureAddressMode addressMode, string name)
         {
-            this.nativeSamplerState = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateSamplerState();
+            this.nativeSamplerState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateSamplerState();
 
             this.AddressU = addressMode;
             this.AddressV = addressMode;

@@ -19,7 +19,7 @@ namespace WindowsGame1
             AddInSelector selector = new AddInSelector();
             if (selector.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                using (Game1 game = new Game1(selector.cbRenderSystem.Text, selector.cbInputSystem.Text, selector.cbAudioSystem.Text))
+                using (Game1 game = new Game1(selector.cbRenderSystem.Text, selector.cbInputSystems.CheckedItems[0].ToString(), selector.cbAudioSystem.Text))
                 {
                     game.Run();
                 }

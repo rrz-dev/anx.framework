@@ -66,7 +66,7 @@ namespace ANX.Framework.Graphics
         {
             adapters = new List<GraphicsAdapter>();
 
-            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>();
+            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
             adapters.AddRange(renderSystemCreator.GetAdapterList());
         }
 

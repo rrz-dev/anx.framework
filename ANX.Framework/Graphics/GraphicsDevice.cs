@@ -98,7 +98,7 @@ namespace ANX.Framework.Graphics
 
             this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
-            nativeDevice = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
+            nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
 
             this.samplerStateCollection = new SamplerStateCollection(this, 8);    //TODO: get maximum number of sampler states from capabilities
             this.textureCollection = new TextureCollection();

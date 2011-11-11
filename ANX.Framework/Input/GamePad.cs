@@ -60,7 +60,7 @@ namespace ANX.Framework.Input
 
         static GamePad()
         {
-            gamePad = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>().GamePad;
+            gamePad = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().GamePad;
         }
 
         public static GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)

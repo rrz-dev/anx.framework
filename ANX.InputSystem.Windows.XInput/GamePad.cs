@@ -99,7 +99,7 @@ namespace ANX.InputSystem.Windows.XInput
             {
                 result = controller[(int)playerIndex].GetState();
                 //returnres = new GamePadCapabilities(result.Type,result.Gamepad.Buttons.)
-                returnres = new GamePadState((int)result.Gamepad.Buttons, true, result.PacketNumber, new Vector2(result.Gamepad.LeftThumbX, result.Gamepad.LeftThumbY), new Vector2(result.Gamepad.RightThumbX, result.Gamepad.RightThumbY), (float)result.Gamepad.LeftTrigger, (float)result.Gamepad.RightTrigger);
+                returnres = new GamePadState(new Vector2(result.Gamepad.LeftThumbX, result.Gamepad.LeftThumbY), new Vector2(result.Gamepad.RightThumbX, result.Gamepad.RightThumbY), (float)result.Gamepad.LeftTrigger, (float)result.Gamepad.RightTrigger, FormatConverter.Translate(result.Gamepad.Buttons));
             }
             else
             {

@@ -107,6 +107,10 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ANX.InputSystem.Windows.Kinect\ANX.InputSystem.Windows.Kinect.csproj">
+      <Project>{E5D69E75-D77C-493F-BBDA-6F9E73B82549}</Project>
+      <Name>ANX.InputSystem.Windows.Kinect</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ANX.InputSystem.Windows.XInput\ANX.InputSystem.Windows.XInput.csproj">
       <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
       <Name>ANX.InputSystem.Windows.XInput</Name>

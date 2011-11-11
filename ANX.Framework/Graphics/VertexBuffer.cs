@@ -75,7 +75,7 @@ namespace ANX.Framework.Graphics
             this.vertexDeclaration = vertexDeclaration;
             this.bufferUsage = usage;
 
-            this.nativeVertexBuffer = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateVertexBuffer(graphicsDevice, vertexDeclaration, vertexCount, usage);
+            this.nativeVertexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(graphicsDevice, vertexDeclaration, vertexCount, usage);
         }
 
         public BufferUsage BufferUsage
