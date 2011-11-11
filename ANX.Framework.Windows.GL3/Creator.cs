@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using OpenTK;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #region License
 
@@ -120,12 +121,14 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="mipCount">The number of mipmaps in the texture.</param>
 		/// <param name="mipMaps">The mipmaps as a single byte array.</param>
 		/// <returns></returns>
-		public Texture2D CreateTexture(GraphicsDevice graphics,
-			SurfaceFormat surfaceFormat, int width, int height, int mipCount,
-			byte[] mipMaps)
+		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
+			SurfaceFormat surfaceFormat, int width, int height, int mipCount) //,
+			//byte[] mipMaps)
 		{
-			return new Texture2DGL3(graphics, surfaceFormat, width,
-				height, mipCount, mipMaps);
+            throw new NotImplementedException();
+
+			//return new Texture2DGL3(graphics, surfaceFormat, width,
+			//	height, mipCount, mipMaps);
 		}
 		#endregion
 

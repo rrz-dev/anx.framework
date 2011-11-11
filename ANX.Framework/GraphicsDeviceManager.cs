@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -62,6 +63,9 @@ namespace ANX.Framework
         private Game game;
         private GraphicsDevice graphicsDevice;
         private DepthFormat depthStencilFormat = DepthFormat.Depth24;
+        private GraphicsProfile graphicsProfile;
+
+        #endregion // Private Members
 
         public static readonly int DefaultBackBufferWidth = 800;
         public static readonly int DefaultBackBufferHeight = 600;   //TODO: this is 480 in the original XNA
@@ -72,8 +76,6 @@ namespace ANX.Framework
         public event EventHandler<EventArgs> DeviceReset;
         public event EventHandler<EventArgs> DeviceResetting;
         public event EventHandler<PreparingDeviceSettingsEventArgs> PreparingDeviceSettings;
-
-        #endregion // Private Members
 
         public GraphicsDeviceManager(Game game)
         {
@@ -100,7 +102,7 @@ namespace ANX.Framework
             game.Window.ScreenDeviceNameChanged += new EventHandler<EventArgs>(Window_ScreenDeviceNameChanged);
             game.Window.OrientationChanged += new EventHandler<EventArgs>(Window_OrientationChanged);
 
-            //TODO: read graphics profile type from manifest resource stream
+            this.graphicsProfile = FetchGraphicsProfile();
         }
 
         void Window_OrientationChanged(object sender, EventArgs e)
@@ -273,8 +275,14 @@ namespace ANX.Framework
 
         public GraphicsProfile GraphicsProfile
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.graphicsProfile; 
+            }
+            set 
+            { 
+                throw new NotImplementedException(); 
+            }
         }
 
         public DepthFormat PreferredDepthStencilFormat
@@ -312,8 +320,14 @@ namespace ANX.Framework
 
         public bool SynchronizeWithVerticalRetrace
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get 
+            {
+                return graphicsDevice.NativeDevice.VSync;
+            }
+            set 
+            {
+                graphicsDevice.NativeDevice.VSync = value;
+            }
         }
 
         public bool PreferMultiSampling
@@ -326,6 +340,24 @@ namespace ANX.Framework
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
+        }
+
+        private GraphicsProfile FetchGraphicsProfile()
+        {
+            Stream manifestResourceStream = this.game.GetType().Assembly.GetManifestResourceStream("Microsoft.Xna.Framework.RuntimeProfile");
+            
+            if (manifestResourceStream != null)
+            {
+                using (StreamReader reader = new StreamReader(manifestResourceStream))
+                {
+                    if (reader.ReadToEnd().Contains("HiDef"))
+                    {
+                        return GraphicsProfile.HiDef;
+                    }
+                }
+            }
+
+            return GraphicsProfile.Reach;
         }
     }
 }

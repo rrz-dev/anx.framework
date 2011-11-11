@@ -83,7 +83,7 @@ namespace ANX.Framework.Input.MotionSensing
 
 
         public Texture2D RGB { get { return this.pRGB; } }
-        public Texture2D Derpth { get { return this.pDepth; } }
+        public Texture2D Depth { get { return this.pDepth; } }
 
         public Vector3 HipCenter { get { return this.pHipCenter; } }
         public Vector3 Spine { get { return this.pSpine; } }

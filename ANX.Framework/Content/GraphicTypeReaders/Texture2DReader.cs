@@ -82,7 +82,10 @@ namespace ANX.Framework.Content
                 colorData.AddRange(input.ReadBytes(size));
             }
 
-            return rfc.CreateTexture(graphics, sFormat, width, height, mipCount, colorData.ToArray());
+            Texture2D texture = new Texture2D(graphics, width, height, mipCount > 0, sFormat);
+            texture.SetData<byte>(colorData.ToArray());
+
+            return texture;
         }
     }
 }

@@ -65,7 +65,7 @@ namespace ANX.Framework.Input.MotionSensing
             motionSensingDevice = AddInSystemFactory.Instance.GetCurrentCreator<IInputSystemCreator>().MotionSensingDevice;
         }
 
-        public GraphicsDevice GraphicsDevice
+        public static GraphicsDevice GraphicsDevice
         {
             get
             {

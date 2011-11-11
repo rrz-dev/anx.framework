@@ -8,6 +8,7 @@ using System.IO;
 using ANX.Framework.NonXNA;
 using System.Runtime.InteropServices;
 using SharpDX.DXGI;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -103,14 +104,18 @@ namespace ANX.Framework.Windows.DX10
 
         public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
         {
-            GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Texture2D nativeTexture = SharpDX.Direct3D10.Texture2D.FromFile<SharpDX.Direct3D10.Texture2D>(graphicsDX10.NativeDevice, fileName);
-            Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height);
-            texture.NativeTexture = nativeTexture;
+            //TODO: implement
+            throw new NotImplementedException();
 
-            return texture;
+            //GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
+            //SharpDX.Direct3D10.Texture2D nativeTexture = SharpDX.Direct3D10.Texture2D.FromFile<SharpDX.Direct3D10.Texture2D>(graphicsDX10.NativeDevice, fileName);
+            //Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height);
+            //texture.NativeTexture = nativeTexture;
+
+            //return texture;
         }
 
+/*
         public Texture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount, byte[] colorData)
         {
             if (mipCount > 1)
@@ -141,7 +146,7 @@ namespace ANX.Framework.Windows.DX10
             // description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
             // more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
 
-            int formatSize = FormatSize(surfaceFormat);
+            int formatSize = FormatConverter.FormatSize(surfaceFormat);
 
             if (surfaceFormat == SurfaceFormat.Color)
             {
@@ -210,6 +215,7 @@ namespace ANX.Framework.Windows.DX10
 
             return texture;
         }
+*/
 
         public INativeBlendState CreateBlendState()
         {
@@ -229,34 +235,6 @@ namespace ANX.Framework.Windows.DX10
         public INativeSamplerState CreateSamplerState()
         {
             return new SamplerState_DX10();
-        }
-
-        private static int FormatSize(SurfaceFormat format)
-        {
-            switch (format)
-            {
-                case SurfaceFormat.Vector4:
-                    return 16;
-                //case SurfaceFormat.Vector3:
-                //    return 12;
-                case SurfaceFormat.Vector2:
-                    return 8;
-                case SurfaceFormat.Single:
-                case SurfaceFormat.Color:
-                //case SurfaceFormat.RGBA1010102:
-                //case SurfaceFormat.RG32:
-                    return 4;
-                //case SurfaceFormat.BGR565:
-                //case SurfaceFormat.BGRA5551:
-                //    return 2;
-                case SurfaceFormat.Dxt1:
-                case SurfaceFormat.Dxt3:
-                case SurfaceFormat.Dxt5:
-                case SurfaceFormat.Alpha8:
-                    return 1;
-                default:
-                    throw new ArgumentException("Invalid format");
-            }
         }
 
         public byte[] GetShaderByteCode(PreDefinedShader type)
@@ -325,6 +303,11 @@ namespace ANX.Framework.Windows.DX10
             factory.Dispose();
 
             return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);
+        }
+
+        public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+        {
+            return new Texture2D_DX10(graphics, width, height, surfaceFormat, mipCount);
         }
     }
 }

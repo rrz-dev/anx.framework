@@ -58,6 +58,35 @@ namespace ANX.Framework.Windows.DX10
 {
     internal class FormatConverter
     {
+
+        public static int FormatSize(SurfaceFormat format)
+        {
+            switch (format)
+            {
+                case SurfaceFormat.Vector4:
+                    return 16;
+                //case SurfaceFormat.Vector3:
+                //    return 12;
+                case SurfaceFormat.Vector2:
+                    return 8;
+                case SurfaceFormat.Single:
+                case SurfaceFormat.Color:
+                    //case SurfaceFormat.RGBA1010102:
+                    //case SurfaceFormat.RG32:
+                    return 4;
+                //case SurfaceFormat.BGR565:
+                //case SurfaceFormat.BGRA5551:
+                //    return 2;
+                case SurfaceFormat.Dxt1:
+                case SurfaceFormat.Dxt3:
+                case SurfaceFormat.Dxt5:
+                case SurfaceFormat.Alpha8:
+                    return 1;
+                default:
+                    throw new ArgumentException("Invalid format");
+            }
+        }
+        
         public static SharpDX.DXGI.Format Translate(SurfaceFormat surfaceFormat)
         {
             switch (surfaceFormat)

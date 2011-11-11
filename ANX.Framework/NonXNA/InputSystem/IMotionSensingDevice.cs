@@ -56,7 +56,7 @@ using ANX.Framework.Graphics;
 #if XNAEXT
 namespace ANX.Framework.NonXNA
 {
-    public interface IMotionSensingDevice
+    public interface IMotionSensingDevice : IDisposable
     {
         GraphicsDevice GraphicsDevice { get; set; }
 

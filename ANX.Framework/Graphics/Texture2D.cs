@@ -1,6 +1,8 @@
 ﻿#region Using Statements
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -55,14 +57,22 @@ namespace ANX.Framework.Graphics
 {
     public class Texture2D : Texture, IGraphicsResource
     {
+        #region Private Members
         private int width;
         private int height;
+
+        #endregion // Private Members
 
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
             : base(graphicsDevice)
         {
             this.width = width;
             this.height = height;
+
+            base.levelCount = 1;
+            base.format = SurfaceFormat.Color;
+
+            CreateNativeTextureSurface();
         }
 
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat format)
@@ -71,7 +81,10 @@ namespace ANX.Framework.Graphics
             this.width = width;
             this.height = height;
 
-            throw new NotImplementedException();
+            base.levelCount = 1;    //TODO: mipmap paramter?!?!?
+            base.format = format;
+
+            CreateNativeTextureSurface();
         }
 
         public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
@@ -116,22 +129,22 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(T[] data) where T : struct
         {
-            throw new NotImplementedException();
+            this.nativeTexture.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            throw new NotImplementedException();
+            this.nativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            base.Dispose(true);
         }
 
         protected override void Dispose(Boolean disposeManaged)
         {
-            throw new NotImplementedException();
+            base.Dispose(disposeManaged);
         }
 
         public Rectangle Bounds
@@ -156,6 +169,11 @@ namespace ANX.Framework.Graphics
             {
                 return this.height;
             }
+        }
+
+        private void CreateNativeTextureSurface()
+        {
+            base.nativeTexture = AddInSystemFactory.Instance.GetCurrentCreator<IRenderSystemCreator>().CreateTexture(GraphicsDevice, format, Width, Height, levelCount);
         }
     }
 }

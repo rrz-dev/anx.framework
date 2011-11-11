@@ -223,5 +223,11 @@ namespace ANX.RenderSystem.Windows.DX11_1
         {
             throw new NotImplementedException();
         }
+
+
+        public Framework.NonXNA.RenderSystem.INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

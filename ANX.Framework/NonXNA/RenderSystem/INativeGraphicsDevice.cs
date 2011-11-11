@@ -83,5 +83,7 @@ namespace ANX.Framework.NonXNA
         void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct;
 
         void ResizeBuffers(PresentationParameters presentationParameters);
+
+        bool VSync { get; set; }
     }
 }

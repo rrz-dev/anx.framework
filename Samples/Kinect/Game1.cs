@@ -5,6 +5,7 @@ using ANX.Framework;
 using ANX.Framework.Content;
 using ANX.Framework.Graphics;
 using ANX.Framework.Input;
+using ANX.Framework.Input.MotionSensing;
 
 namespace Kinect
 {
@@ -12,6 +13,8 @@ namespace Kinect
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        MotionSensingDeviceState kinectState;
 
         public Game1()
             : base("DirectX10", "Kinect")
@@ -22,7 +25,7 @@ namespace Kinect
 
         protected override void Initialize()
         {
-            // TODO: Fügen Sie Ihre Initialisierungslogik hier hinzu
+            MotionSensingDevice.GraphicsDevice = GraphicsDevice;
 
             base.Initialize();
         }
@@ -40,7 +43,7 @@ namespace Kinect
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             //    this.Exit();
 
-            // TODO: Fügen Sie Ihre Aktualisierungslogik hier hinzu
+            kinectState = MotionSensingDevice.GetState();
 
             base.Update(gameTime);
         }
@@ -49,7 +52,14 @@ namespace Kinect
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Fügen Sie Ihren Zeichnungscode hier hinzu
+            if (kinectState.Depth != null)
+            {
+                spriteBatch.Begin();
+
+                spriteBatch.Draw(kinectState.RGB, Vector2.Zero, Color.White);
+
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }

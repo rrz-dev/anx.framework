@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -54,6 +55,10 @@ namespace ANX.Framework.Graphics
 {
     public abstract class Texture : GraphicsResource
     {
+        protected internal int levelCount;
+        protected internal SurfaceFormat format;
+        protected internal INativeTexture nativeTexture;
+
         public Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
         {
@@ -64,7 +69,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.levelCount;
             }
         }
 
@@ -72,7 +77,29 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.format;
+            }
+        }
+
+        internal INativeTexture NativeTexture
+        {
+            get
+            {
+                return this.nativeTexture;
+            }
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected override void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged && nativeTexture != null)
+            {
+                nativeTexture.Dispose();
+                nativeTexture = null;
             }
         }
     }

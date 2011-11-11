@@ -636,5 +636,18 @@ namespace ANX.RenderSystem.Windows.DX11_1
         {
             throw new NotImplementedException();
         }
+
+
+        public bool VSync
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
         }
 }

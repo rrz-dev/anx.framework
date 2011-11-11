@@ -326,7 +326,7 @@ namespace ANX.Framework.Graphics
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
 
         protected virtual void Dispose(Boolean disposeManaged)

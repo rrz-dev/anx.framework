@@ -78,6 +78,8 @@ namespace ANX.InputSystem.Windows.Kinect
             pNui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
             pNui.SkeletonEngine.TransformSmooth = true;
 
+            
+
             this.cache = new Vector3[21];
             //init for the first time
             for (int i = 0; i < 21; ++i)
@@ -96,9 +98,28 @@ namespace ANX.InputSystem.Windows.Kinect
 
             pNui.SkeletonEngine.SmoothParameters = parameters;
 
+            try 
+            { 
+                pNui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color); 
+                pNui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex); 
+            } 
+            catch (InvalidOperationException) 
+            { 
+                // Display error message; omitted for space return; 
+            } 
+            //lastTime = DateTime.Now;
+
             pNui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(pNui_SkeletonFrameReady);
             pNui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_DepthFrameReady);
             pNui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_VideoFrameReady);
+
+            // move down all the way
+            pNui.NuiCamera.ElevationAngle = -15;
+
+            System.Threading.Thread.Sleep(1500);
+
+            // move up all the way
+            pNui.NuiCamera.ElevationAngle = 20;
         }
 
         void pNui_VideoFrameReady(object sender, ImageFrameReadyEventArgs e)
@@ -125,7 +146,7 @@ namespace ANX.InputSystem.Windows.Kinect
                 }
 
                 //TODO: this works only if the image is in RGBA32 Format. Other formats does need a conversion first.
-                this.rgb.SetData<byte>(e.ImageFrame.Image.Bits);
+                //TODO: special surface format: this.depth.SetData<byte>(e.ImageFrame.Image.Bits);
             }
         }
 
@@ -177,6 +198,15 @@ namespace ANX.InputSystem.Windows.Kinect
         public MotionSensingDeviceType DeviceType
         {
             get { return MotionSensingDeviceType.Kinect; }
+        }
+
+        public void Dispose()
+        {
+            if (pNui != null)
+            {
+                pNui.Uninitialize();
+                pNui = null;
+            }
         }
     }
 }

@@ -107,11 +107,14 @@ namespace ANX.Framework.Windows.DX10
         private SharpDX.Direct3D10.Viewport currentViewport;
         private uint lastClearColor;
         private SharpDX.Color4 clearColor;
+        private bool vSyncEnabled;
 
         #endregion // Private Members
 
         public GraphicsDeviceWindowsDX10(PresentationParameters presentationParameters)
         {
+            this.vSyncEnabled = true;
+
             // SwapChain description
             var desc = new SwapChainDescription()
             {
@@ -202,7 +205,7 @@ namespace ANX.Framework.Windows.DX10
 
 		public void Present()
         {
-            swapChain.Present(0, PresentFlags.None);
+            swapChain.Present(this.vSyncEnabled ? 1 : 0, PresentFlags.None);
         }
 
         internal Device NativeDevice
@@ -463,5 +466,16 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
+        public bool VSync
+        {
+            get
+            {
+                return this.vSyncEnabled;
+            }
+            set
+            {
+                this.vSyncEnabled = value;
+            }
+        }
     }
 }

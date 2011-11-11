@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.NonXNA;
 using SharpDX.Direct3D10;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -83,7 +84,7 @@ namespace ANX.Framework.Windows.DX10
 
         public void SetValue(Texture value)
         {
-            Texture2D_DX10 tex = value as Texture2D_DX10;
+            Texture2D_DX10 tex = value.NativeTexture as Texture2D_DX10;
             GraphicsDeviceWindowsDX10 graphicsDX10 = tex.GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
             SharpDX.Direct3D10.Device device = graphicsDX10.NativeDevice;
 
