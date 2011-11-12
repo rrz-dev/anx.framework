@@ -62,12 +62,12 @@ namespace ANX.Framework.Graphics
             set { this.effect = value; }
         }
 
-        private IndexBuffer indexBufer;
+        private IndexBuffer indexBuffer;
 
-        public IndexBuffer IndexBufer
+        public IndexBuffer IndexBuffer
         {
-            get { return indexBufer; }
-            internal set { this.indexBufer = value; }
+            get { return indexBuffer; }
+            internal set { this.indexBuffer = value; }
         }
 
         private int numVertices;
