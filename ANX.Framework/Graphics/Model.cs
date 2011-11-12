@@ -54,6 +54,43 @@ namespace ANX.Framework.Graphics
 {
     public sealed class Model
     {
+        private ModelBoneCollection bones;
+
+        public ModelBoneCollection Bones
+        {
+            get { return bones; }
+        }
+
+        private ModelMeshCollection meshes;
+
+        public ModelMeshCollection Meshes
+        {
+            get { return meshes; }
+        }
+
+        private ModelBone root;
+
+        public ModelBone Root
+        {
+            get { return root; }
+        }
+
+        private Object tag;
+
+        public Object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
+        }
+
+        public Model(ModelBoneCollection bones, ModelMeshCollection meshes, ModelBone rootBone, Object tag)
+        {
+            this.bones = bones;
+            this.meshes = meshes;
+            this.root = rootBone;
+            this.tag = tag;
+        }
+
         public void CopyAbsoluteBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
             throw new NotImplementedException();
@@ -73,36 +110,5 @@ namespace ANX.Framework.Graphics
         {
             throw new NotImplementedException();
         }
-
-        public ModelBoneCollection Bones 
-        { 
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ModelMeshCollection Meshes 
-        { 
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ModelBone Root 
-        { 
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Object Tag 
-        { 
-            get; 
-            set; 
-        }
-
     }
 }

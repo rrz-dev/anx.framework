@@ -64,6 +64,7 @@
     <Compile Include="Content\Decompressor.cs" />
     <Compile Include="Content\GraphicTypeReaders\EffectReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\IndexBufferReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\ModelReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\SpriteFontReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\Texture2DReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\Texture3DReader.cs" />

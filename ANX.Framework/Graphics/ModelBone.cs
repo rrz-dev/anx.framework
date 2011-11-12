@@ -54,49 +54,44 @@ namespace ANX.Framework.Graphics
 {
     public sealed class ModelBone
     {
+        private ModelBoneCollection children;
         public ModelBoneCollection Children
         { 
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return children; }
+            internal set { children = value; }
         }
 
+        private int index;
         public int Index 
-        { 
-            get
-            {
-                throw new NotImplementedException();
-            }
+        {
+            get { return index; }
         }
 
+        private string name;
         public string Name 
-        { 
-            get
-            {
-                throw new NotImplementedException();
-            }
+        {
+            get { return name; }
         }
 
+        private ModelBone parent;
         public ModelBone Parent 
         { 
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return parent; }
+            internal set { parent = value; }
         }
 
+        private Matrix transform;
         public Matrix Transform 
         { 
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return transform; }
+            set { transform = value; }
         }
 
+        public ModelBone(string name, Matrix transform, int index)
+        {
+            this.name = name;
+            this.transform = transform;
+            this.index = index;
+        }
     }
 }

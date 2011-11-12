@@ -54,76 +54,73 @@ namespace ANX.Framework.Graphics
 {
     public sealed class ModelMeshPart
     {
+        private Effect effect;
+
         public Effect Effect
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return effect; }
+            set { this.effect = value; }
         }
 
-        public IndexBuffer IndexBuffer
+        private IndexBuffer indexBufer;
+
+        public IndexBuffer IndexBufer
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return indexBufer; }
+            internal set { this.indexBufer = value; }
         }
+
+        private int numVertices;
 
         public int NumVertices
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return numVertices; }
         }
+
+        private int primitiveCount;
 
         public int PrimitiveCount
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return primitiveCount; }
         }
+
+        private int startIndex;
 
         public int StartIndex
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return startIndex; }
         }
 
-        public Object Tag 
+        private Object tag;
+
+        public Object Tag
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return tag; }
+            set { tag = value; }
         }
+
+        private VertexBuffer vertexBuffer;
 
         public VertexBuffer VertexBuffer
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return vertexBuffer; }
+            internal set { this.vertexBuffer = value; }
         }
+
+        private int vertexOffset;
 
         public int VertexOffset
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return vertexOffset; }
+        }
+
+        internal ModelMeshPart(int vertexOffset, int numVertices, int startIndex, int primitiveCount, object tag)
+        {
+            this.vertexOffset = vertexOffset;
+            this.numVertices = numVertices;
+            this.startIndex = startIndex;
+            this.primitiveCount = primitiveCount;
+            this.tag = tag;
         }
     }
 }

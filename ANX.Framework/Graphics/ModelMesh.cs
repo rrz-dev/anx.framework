@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 #endregion // Using Statements
 
 #region License
@@ -54,62 +55,61 @@ namespace ANX.Framework.Graphics
 {
     public sealed class ModelMesh
     {
+        private BoundingSphere boundingSphere;
+         
+        public BoundingSphere BoundingSphere
+        {
+            get { return boundingSphere; }
+        }
+
+        private ModelEffectCollection effects;
+
+        public ModelEffectCollection Effects
+        {
+            get { return effects; }
+        }
+
+        private ModelMeshPartCollection meshParts;
+
+        public ModelMeshPartCollection MeshParts
+        {
+            get { return meshParts; }
+        }
+
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        private ModelBone parentBone;
+
+        public ModelBone ParentBone
+        {
+            get { return parentBone; }
+        }
+
+        private Object tag;
+
+        public Object Tag
+        {
+            get { return tag; }
+            set { this.tag = value; }
+        }
+
+        public ModelMesh(string name, ModelBone bone, BoundingSphere sphere, ModelMeshPart[] meshParts, Object tag)
+        {
+            this.name = name;
+            this.parentBone = bone;
+            this.boundingSphere = sphere;
+            this.tag = tag;
+            this.meshParts = new ModelMeshPartCollection(meshParts);
+        }
+
         public void Draw()
         {
             throw new NotImplementedException();
         }
-
-        public BoundingSphere BoundingSphere
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ModelEffectCollection Effects
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ModelMeshPartCollection MeshParts
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ModelBone ParentBone
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Object Tag
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
     }
 }
