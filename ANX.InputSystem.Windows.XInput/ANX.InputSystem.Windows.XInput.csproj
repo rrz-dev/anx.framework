@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Creator.cs" />
     <Compile Include="FormatConverter.cs" />
+    <Compile Include="Keyboard.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GamePad.cs" />

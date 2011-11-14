@@ -92,7 +92,7 @@ namespace ANX.InputSystem.Windows.XInput
 
         public IKeyboard Keyboard
         {
-            get { throw new NotImplementedException(); }
+            get { return new Keyboard(); }
         }
         #endregion
 

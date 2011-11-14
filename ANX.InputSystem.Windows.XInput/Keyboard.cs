@@ -1,7 +1,12 @@
 ﻿#region Using Statements
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ANX.InputSystem;
 using ANX.Framework.NonXNA;
-
+using SharpDX.DirectInput;
+using DXKeyboard=SharpDX.DirectInput.Keyboard;
 #endregion // Using Statements
 
 #region License
@@ -50,26 +55,19 @@ using ANX.Framework.NonXNA;
 //       particular purpose and non-infringement.
 
 #endregion // License
-
-namespace ANX.Framework.Input
+namespace ANX.InputSystem.Windows.XInput
 {
-    public static class Keyboard
+    public class Keyboard:IKeyboard
     {
-        private static IKeyboard keyboard;
-
-        static Keyboard()
+        private DXKeyboard keyboroard;
+        public Framework.Input.KeyboardState GetState()
         {
-            keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
+            throw new NotImplementedException();
         }
 
-        public static KeyboardState GetState() 
+        public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
         {
-            return keyboard.GetState(); 
+            throw new NotImplementedException();
         }
-        public static KeyboardState GetState (PlayerIndex playerIndex)
-        {
-            return keyboard.GetState(playerIndex);
-        }
-
     }
 }
