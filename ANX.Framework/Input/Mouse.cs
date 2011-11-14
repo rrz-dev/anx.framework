@@ -62,7 +62,7 @@ namespace ANX.Framework.Input
             mouse = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse;
         }
 
-        public static IntPtr WindowHandle 
+        internal static IntPtr WindowHandle 
         {
             get 
             {

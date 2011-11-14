@@ -62,10 +62,26 @@ namespace ANX.Framework.Input
             keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
         }
 
+        internal static IntPtr WindowHandle
+        {
+            get
+            {
+                return keyboard != null ? keyboard.WindowHandle : IntPtr.Zero;
+            }
+            set
+            {
+                if (keyboard != null)
+                {
+                    keyboard.WindowHandle = value;
+                }
+            }
+        }
+
         public static KeyboardState GetState() 
         {
             return keyboard.GetState(); 
         }
+
         public static KeyboardState GetState (PlayerIndex playerIndex)
         {
             return keyboard.GetState(playerIndex);

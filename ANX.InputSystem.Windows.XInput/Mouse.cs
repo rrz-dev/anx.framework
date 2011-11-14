@@ -62,7 +62,7 @@ using MouseX = SharpDX.DirectInput.Mouse;
 
 namespace ANX.InputSystem.Windows.XInput
 {
-    class Mouse:IMouse
+    class Mouse : IMouse
     {
         [DllImport("user32.dll")]
         static extern bool GetCursorPos(ref Point lpPoint);

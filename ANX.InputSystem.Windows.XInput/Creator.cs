@@ -60,7 +60,7 @@ namespace ANX.InputSystem.Windows.XInput
 {
     public class Creator : IInputSystemCreator
     {
-        #region IInputSystemCreator Member
+
 
         public string Name
         {
@@ -94,9 +94,6 @@ namespace ANX.InputSystem.Windows.XInput
         {
             get { return new Keyboard(); }
         }
-        #endregion
-
-
 
     }
 }

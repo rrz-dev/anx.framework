@@ -77,7 +77,7 @@ namespace ANX.Framework.Input
 
         public bool IsKeyDown(Keys key)
         {
-            return keyState[(int)key] == KeyState.Down;
+            return keyState != null ? keyState[(int)key] == KeyState.Down : false;
         }
 
         public bool IsKeyUp(Keys key)

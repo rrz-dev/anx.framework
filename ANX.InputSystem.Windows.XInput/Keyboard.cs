@@ -55,19 +55,70 @@ using DXKeyboard=SharpDX.DirectInput.Keyboard;
 //       particular purpose and non-infringement.
 
 #endregion // License
+
 namespace ANX.InputSystem.Windows.XInput
 {
-    public class Keyboard:IKeyboard
+    public class Keyboard : IKeyboard
     {
-        private DXKeyboard keyboroard;
+        #region Private Members
+        private DirectInput directInput;
+        private DXKeyboard nativeKeyboard;
+        private KeyboardState nativeState;
+
+        #endregion // Private Members
+
+        public IntPtr WindowHandle
+        {
+            get;
+            set;
+        }
+
+        public Keyboard()
+        {
+            this.nativeState = new KeyboardState();
+        }
+
         public Framework.Input.KeyboardState GetState()
         {
-            throw new NotImplementedException();
+            return GetState(Framework.PlayerIndex.One);
         }
 
         public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            if (this.nativeKeyboard == null && this.WindowHandle != null && this.WindowHandle != IntPtr.Zero)
+            {
+                this.directInput = new DirectInput();
+                this.nativeKeyboard = new DXKeyboard(this.directInput);
+                this.nativeKeyboard.SetCooperativeLevel(this.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background);
+                this.nativeKeyboard.Acquire();
+            }
+
+            if (this.nativeKeyboard != null)
+            {
+                nativeKeyboard.GetCurrentState(ref this.nativeState);
+                if (this.nativeState.PressedKeys.Count > 0)
+                {
+                    return FormatConverter.Translate(this.nativeState);
+                }
+            }
+
+            return new Framework.Input.KeyboardState();
+        }
+
+        public void Dispose()
+        {
+            if (this.nativeKeyboard != null)
+            {
+                this.nativeKeyboard.Unacquire();
+                this.nativeKeyboard.Dispose();
+                this.nativeKeyboard = null;
+            }
+
+            if (this.directInput != null)
+            {
+                this.directInput.Dispose();
+                this.directInput = null;
+            }
         }
     }
 }

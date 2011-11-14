@@ -56,6 +56,21 @@ namespace ANX.InputSystem.Windows.XInput
 {
     internal class FormatConverter
     {
+        public static KeyboardState Translate(SharpDX.DirectInput.KeyboardState keyboardState)
+        {
+            int keyCount = keyboardState.PressedKeys.Count;
+            Keys[] keys = new Keys[keyCount];
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                keys[i] = (ANX.Framework.Input.Keys)((int)keyboardState.PressedKeys[i]);
+            }
+
+            KeyboardState ks = new KeyboardState(keys);
+
+            return ks;
+        }
+
         public static Buttons Translate(SharpDX.XInput.GamepadButtonFlags buttons)
         {
             Buttons tb = 0;
