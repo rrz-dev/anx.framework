@@ -1,7 +1,8 @@
 ﻿using System;
-using ANX.Framework.Graphics;
-using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
+using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.RenderSystem;
+using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -53,10 +54,37 @@ using System.Runtime.InteropServices;
 namespace ANX.Framework.Windows.GL3
 {
 	/// <summary>
-	/// BIG TODO
+	/// Native OpenGL Texture implementation.
 	/// </summary>
-	public class Texture2DGL3 : Texture2D
+	public class Texture2DGL3 : INativeTexture2D
 	{
+		#region Private
+		/// <summary>
+		/// The native OpenGL pixel format of the texture.
+		/// </summary>
+		private PixelInternalFormat nativeFormat;
+
+		/// <summary>
+		/// The number of mipmaps used by this texture [1-n].
+		/// </summary>
+		private int numberOfMipMaps;
+
+		/// <summary>
+		/// Width of the texture.
+		/// </summary>
+		private int width;
+
+		/// <summary>
+		/// Height of the texture.
+		/// </summary>
+		private int height;
+
+		/// <summary>
+		/// Flag if the texture is a compressed format or not.
+		/// </summary>
+		private bool isCompressed;
+		#endregion
+
 		#region Public
 		/// <summary>
 		/// The OpenGL texture handle.
@@ -69,18 +97,26 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 		#region Constructor
-		internal Texture2DGL3(GraphicsDevice graphics,
-			SurfaceFormat surfaceFormat, int width, int height, int mipCount,
-			byte[] mipMaps)
-			: base(graphics, width, height, mipCount > 0, surfaceFormat)
+		/// <summary>
+		/// Create a new native OpenGL texture.
+		/// </summary>
+		/// <param name="surfaceFormat">Surface format of the texture.</param>
+		/// <param name="setWidth">Width of the first mip level.</param>
+		/// <param name="setHeight">Height of the first mip level.</param>
+		/// <param name="mipCount">Number of mip levels [1-n].</param>
+		internal Texture2DGL3(SurfaceFormat surfaceFormat, int setWidth,
+			int setHeight, int mipCount)
 		{
-			int dataLengthPerTexture = 0;
+			width = setWidth;
+			height = setHeight;
+			numberOfMipMaps = mipCount;
+			isCompressed = nativeFormat.ToString().StartsWith("Compressed");
 
 			NativeHandle = GL.GenTexture();
 			GL.BindTexture(TextureTarget.Texture2D, NativeHandle);
 
 			int wrapMode = (int)All.ClampToEdge;
-			int filter = (int)(mipCount > 0 ? All.LinearMipmapLinear : All.Linear);
+			int filter = (int)(mipCount > 1 ? All.LinearMipmapLinear : All.Linear);
 
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureWrapS, wrapMode);
@@ -91,103 +127,97 @@ namespace ANX.Framework.Windows.GL3
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureMinFilter, filter);
 
-			PixelInternalFormat formatUsed = PixelInternalFormat.Rgba;
+			nativeFormat =
+				DatatypesMapping.SurfaceToPixelInternalFormat(surfaceFormat);
+		}
+		#endregion
 
-			GCHandle handle = GCHandle.Alloc(mipMaps, GCHandleType.Pinned);
+		// TODO: offsetInBytes
+		// TODO: startIndex
+		// TODO: elementCount
+		// TODO: get size of first mipmap!
+		#region SetData
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
+			where T : struct
+		{
+			SetData<T>(graphicsDevice, data, 0, data.Length);
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
+			int startIndex, int elementCount) where T : struct
+		{
+			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
+			T[] data, int startIndex, int elementCount) where T : struct
+		{
+			if (numberOfMipMaps > 1)
+			{
+				throw new NotImplementedException(
+					"Loading mipmaps is not correctly implemented yet!");
+			}
+
+			GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+
+			// TODO: get size of first mipmap!
+			int mipmapByteSize = data.Length;
+
 			try
 			{
 				IntPtr dataPointer = handle.AddrOfPinnedObject();
 
-				if (surfaceFormat == SurfaceFormat.Dxt1 ||
-						surfaceFormat == SurfaceFormat.Dxt3 ||
-						surfaceFormat == SurfaceFormat.Dxt5)
+				if (isCompressed)
 				{
-					// TODO: read dataLengthPerTexture from dds file.
-					#region Dds
-					formatUsed =
-						surfaceFormat == SurfaceFormat.Dxt1 ?
-						PixelInternalFormat.CompressedRgbS3tcDxt1Ext :
-						surfaceFormat == SurfaceFormat.Dxt3 ?
-						PixelInternalFormat.CompressedRgbaS3tcDxt3Ext :
-						PixelInternalFormat.CompressedRgbaS3tcDxt5Ext;
-
-					GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, formatUsed,
-						width, height, 0, dataLengthPerTexture, dataPointer);
-
-					int mipmapByteSize = dataLengthPerTexture;
-					int mipmapWidth = width;
-					int mipmapHeight = height;
-					for (int i = 1; i < mipCount; i++)
-					{
-						// Move our data pointer along.
-						dataPointer += mipmapByteSize;
-						mipmapByteSize /= 4;
-						mipmapWidth /= 2;
-						mipmapHeight /= 2;
-						if (mipmapByteSize < 32)
-						{
-							mipmapByteSize = 32;
-						}
-						if (mipmapWidth < 1)
-						{
-							mipmapWidth = 1;
-						}
-						if (mipmapHeight < 1)
-						{
-							mipmapHeight = 1;
-						}
-						GL.CompressedTexImage2D(TextureTarget.Texture2D, i, formatUsed,
-							mipmapWidth, mipmapHeight, 0, mipmapByteSize, dataPointer);
-					}
-					#endregion
+					GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
+						width, height, 0, mipmapByteSize, dataPointer);
 				}
 				else
 				{
-					#region Other
-					PixelType pixelType = PixelType.UnsignedByte;
+					GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
+						width, height, 0, (PixelFormat)nativeFormat,
+						PixelType.UnsignedByte, dataPointer);
+				}
 
-					GL.TexImage2D(TextureTarget.Texture2D, 0,
-						// Use the same for internal format (Rgba or Rgb)
-						formatUsed, width, height, 0,
-						// And the same for the pixel format of the incoming data
-						(PixelFormat)formatUsed, pixelType, dataPointer);
+				int mipmapWidth = width;
+				int mipmapHeight = height;
+				for (int index = 1; index < numberOfMipMaps; index++)
+				{
+					dataPointer += mipmapByteSize;
+					mipmapByteSize /= 4;
+					mipmapWidth /= 2;
+					mipmapHeight /= 2;
+					mipmapWidth = Math.Max(mipmapWidth, 1);
+					mipmapHeight = Math.Max(mipmapHeight, 1);
 
-					int mipmapByteSize = dataLengthPerTexture;
-					int mipmapWidth = width;
-					int mipmapHeight = height;
-					if (mipmapByteSize > 0 &&
-							mipCount > 0)
+					if (isCompressed)
 					{
-						for (int i = 1; i < mipCount; i++)
-						{
-							// Move our data pointer along.
-							dataPointer += mipmapByteSize;
-							mipmapByteSize /= 4;
-							mipmapWidth /= 2;
-							mipmapHeight /= 2;
-							if (mipmapWidth < 1)
-							{
-								mipmapWidth = 1;
-							}
-							if (mipmapHeight < 1)
-							{
-								mipmapHeight = 1;
-							}
-
-							GL.TexImage2D(TextureTarget.Texture2D, i,
-								// Use the same for internal format (Rgba or Rgb)
-								formatUsed, mipmapWidth, mipmapHeight, 0,
-								// And the same for the pixel format of the incoming data
-								(PixelFormat)formatUsed, pixelType, dataPointer);
-						}
+						GL.CompressedTexImage2D(TextureTarget.Texture2D, index,
+							nativeFormat, width, height, 0, mipmapByteSize,
+							dataPointer);
 					}
-					#endregion
+					else
+					{
+						GL.TexImage2D(TextureTarget.Texture2D, index, nativeFormat,
+							mipmapWidth, mipmapHeight, 0, (PixelFormat)nativeFormat,
+							PixelType.UnsignedByte, dataPointer);
+					}
 				}
 			}
 			finally
 			{
 				handle.Free();
 			}
+		}
+		#endregion
+
+		#region Dispose
+		/// <summary>
+		/// Dispose the native OpenGL texture handle.
+		/// </summary>
+		public void Dispose()
+		{
+			GL.DeleteTexture(NativeHandle);
 		}
 		#endregion
 	}

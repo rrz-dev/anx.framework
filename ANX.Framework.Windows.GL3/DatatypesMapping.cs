@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework.Graphics;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -155,6 +156,80 @@ namespace ANX.Framework.Windows.GL3
 
 				case SurfaceFormat.Vector4:
 					return new ColorFormat(32, 32, 32, 32);
+			}
+		}
+		#endregion
+
+		#region SurfaceToPixelInternalFormat (TODO)
+		/// <summary>
+		/// Translate the XNA surface format to an OpenGL PixelInternalFormat.
+		/// </summary>
+		/// <param name="format">XNA surface format.</param>
+		/// <returns>Translated format for OpenGL.</returns>
+		public static PixelInternalFormat SurfaceToPixelInternalFormat(
+			SurfaceFormat format)
+		{
+			switch (format)
+			{
+				// TODO
+				case SurfaceFormat.HdrBlendable:
+				case SurfaceFormat.Bgr565:
+					throw new NotImplementedException("Surface Format '" + format +
+						"' isn't implemented yet!");
+
+				// TODO: CHECK!
+				case SurfaceFormat.NormalizedByte2:
+					return PixelInternalFormat.Rg8;
+
+				default:
+				case SurfaceFormat.Color:
+				case SurfaceFormat.NormalizedByte4:
+					return PixelInternalFormat.Rgba;
+
+				case SurfaceFormat.Dxt1:
+					return PixelInternalFormat.CompressedRgbaS3tcDxt1Ext;
+
+				case SurfaceFormat.Dxt3:
+					return PixelInternalFormat.CompressedRgbaS3tcDxt3Ext;
+
+				case SurfaceFormat.Dxt5:
+					return PixelInternalFormat.CompressedRgbaS3tcDxt5Ext;
+
+				case SurfaceFormat.HalfVector2:
+					return PixelInternalFormat.Rg16;
+
+				case SurfaceFormat.HalfVector4:
+					return PixelInternalFormat.Rgba16f;
+
+				case SurfaceFormat.Bgra4444:
+					return PixelInternalFormat.Rgba4;
+
+				case SurfaceFormat.Bgra5551:
+					return PixelInternalFormat.Rgb5A1;
+
+				case SurfaceFormat.Alpha8:
+					return PixelInternalFormat.Alpha8;
+
+				case SurfaceFormat.Rg32:
+					return PixelInternalFormat.Rg32f;
+
+				case SurfaceFormat.Rgba1010102:
+					return PixelInternalFormat.Rgb10A2;
+
+				case SurfaceFormat.Rgba64:
+					return PixelInternalFormat.Rgba16f;
+
+				case SurfaceFormat.HalfSingle:
+					return PixelInternalFormat.R16f;
+
+				case SurfaceFormat.Single:
+					return PixelInternalFormat.R32f;
+
+				case SurfaceFormat.Vector2:
+					return PixelInternalFormat.Rg32f;
+
+				case SurfaceFormat.Vector4:
+					return PixelInternalFormat.Rgba32f;
 			}
 		}
 		#endregion

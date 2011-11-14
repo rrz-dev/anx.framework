@@ -119,16 +119,11 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="width">The width of the texture.</param>
 		/// <param name="height">The height of the texture.</param>
 		/// <param name="mipCount">The number of mipmaps in the texture.</param>
-		/// <param name="mipMaps">The mipmaps as a single byte array.</param>
 		/// <returns></returns>
 		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
-			SurfaceFormat surfaceFormat, int width, int height, int mipCount) //,
-			//byte[] mipMaps)
+			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
 		{
-            throw new NotImplementedException();
-
-			//return new Texture2DGL3(graphics, surfaceFormat, width,
-			//	height, mipCount, mipMaps);
+			return new Texture2DGL3(surfaceFormat, width, height, mipCount);
 		}
 		#endregion
 
