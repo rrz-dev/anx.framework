@@ -48,6 +48,7 @@
     <Compile Include="Audio\AudioCategory.cs" />
     <Compile Include="Audio\AudioChannels.cs" />
     <Compile Include="Audio\AudioStopOptions.cs" />
+    <Compile Include="Audio\Microphone.cs" />
     <Compile Include="Audio\MicrophoneState.cs" />
     <Compile Include="Audio\RendererDetail.cs" />
     <Compile Include="Audio\SoundState.cs" />
