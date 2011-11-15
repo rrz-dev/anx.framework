@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Text;
 
 #endregion // Using Statements
 
@@ -806,9 +807,24 @@ namespace ANX.Framework
             throw new NotImplementedException();
         }
 
+        //source: monoxna
         public override string ToString()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder(256);
+            sb.Append("{Near:");
+            sb.Append(this.near.ToString());
+            sb.Append(" Far:");
+            sb.Append(this.far.ToString());
+            sb.Append(" Left:");
+            sb.Append(this.left.ToString());
+            sb.Append(" Right:");
+            sb.Append(this.right.ToString());
+            sb.Append(" Top:");
+            sb.Append(this.top.ToString());
+            sb.Append(" Bottom:");
+            sb.Append(this.bottom.ToString());
+            sb.Append("}");
+            return sb.ToString();
         }
         #endregion
 
