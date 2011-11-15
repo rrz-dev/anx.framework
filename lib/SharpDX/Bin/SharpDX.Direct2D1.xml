@@ -2457,23 +2457,6 @@
             <param name="option">The option.</param>
             <unmanaged>HRESULT IWICImagingFactory::CreateBitmap([In] unsigned int uiWidth,[In] unsigned int uiHeight,[In] const GUID&amp; pixelFormat,[In] WICBitmapCreateCacheOption option,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
         </member>
-        <member name="M:SharpDX.WIC.Bitmap.#ctor(SharpDX.WIC.ImagingFactory,System.Drawing.Icon)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.WIC.Bitmap"/> class from a <see cref="T:System.Drawing.Icon"/>.
-            </summary>
-            <param name="factory">The factory.</param>
-            <param name="icon">The icon.</param>
-            <unmanaged>HRESULT IWICImagingFactory::CreateBitmapFromHICON([In] HICON hIcon,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
-        </member>
-        <member name="M:SharpDX.WIC.Bitmap.#ctor(SharpDX.WIC.ImagingFactory,System.Drawing.Bitmap,SharpDX.WIC.BitmapAlphaChannelOption)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.WIC.Bitmap"/> class from a <see cref="T:System.Drawing.Bitmap"/>.
-            </summary>
-            <param name="factory">The factory.</param>
-            <param name="bitmap">The bitmap.</param>
-            <param name="options">The options.</param>
-            <unmanaged>HRESULT IWICImagingFactory::CreateBitmapFromHBITMAP([In] HBITMAP hBitmap,[In, Optional] HPALETTE hPalette,[In] WICBitmapAlphaChannelOption options,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
-        </member>
         <member name="M:SharpDX.WIC.Bitmap.#ctor(SharpDX.WIC.ImagingFactory,System.Int32,System.Int32,System.Guid,SharpDX.DataRectangle)">
             <summary>
             Initializes a new instance of the <see cref="T:SharpDX.WIC.Bitmap"/> class from a memory location using <see cref="T:SharpDX.DataRectangle"/>.
@@ -2502,6 +2485,23 @@
             <param name="bitmapSource">The bitmap source.</param>
             <param name="rectangle">The rectangle.</param>
             <unmanaged>HRESULT IWICImagingFactory::CreateBitmapFromSourceRect([In, Optional] IWICBitmapSource* pIBitmapSource,[In] unsigned int x,[In] unsigned int y,[In] unsigned int width,[In] unsigned int height,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
+        </member>
+        <member name="M:SharpDX.WIC.Bitmap.#ctor(SharpDX.WIC.ImagingFactory,System.Drawing.Icon)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.WIC.Bitmap"/> class from a <see cref="T:System.Drawing.Icon"/>.
+            </summary>
+            <param name="factory">The factory.</param>
+            <param name="icon">The icon.</param>
+            <unmanaged>HRESULT IWICImagingFactory::CreateBitmapFromHICON([In] HICON hIcon,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
+        </member>
+        <member name="M:SharpDX.WIC.Bitmap.#ctor(SharpDX.WIC.ImagingFactory,System.Drawing.Bitmap,SharpDX.WIC.BitmapAlphaChannelOption)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.WIC.Bitmap"/> class from a <see cref="T:System.Drawing.Bitmap"/>.
+            </summary>
+            <param name="factory">The factory.</param>
+            <param name="bitmap">The bitmap.</param>
+            <param name="options">The options.</param>
+            <unmanaged>HRESULT IWICImagingFactory::CreateBitmapFromHBITMAP([In] HBITMAP hBitmap,[In, Optional] HPALETTE hPalette,[In] WICBitmapAlphaChannelOption options,[Out, Fast] IWICBitmap** ppIBitmap)</unmanaged>
         </member>
         <member name="M:SharpDX.WIC.Bitmap.#ctor(System.IntPtr)">
             <summary>

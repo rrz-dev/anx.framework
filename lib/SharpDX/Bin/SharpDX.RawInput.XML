@@ -1326,7 +1326,7 @@
             <param name="usageId">The usage id.</param>
             <param name="flags">The flags.</param>
         </member>
-        <member name="M:SharpDX.RawInput.Device.RegisterDevice(SharpDX.Multimedia.UsagePage,SharpDX.Multimedia.UsageId,SharpDX.RawInput.DeviceFlags,System.IntPtr)">
+        <member name="M:SharpDX.RawInput.Device.RegisterDevice(SharpDX.Multimedia.UsagePage,SharpDX.Multimedia.UsageId,SharpDX.RawInput.DeviceFlags,System.IntPtr,System.Boolean)">
             <summary>
             Registers the devices that supply the raw input data.
             </summary>
@@ -1334,6 +1334,16 @@
             <param name="usageId">The usage id.</param>
             <param name="flags">The flags.</param>
             <param name="target">The target.</param>
+            <param name="addMessageFilter">if set to <c>true</c> register message filter to Application.AddMessageFilter.</param>
+        </member>
+        <member name="M:SharpDX.RawInput.Device.HandleMessage(System.IntPtr)">
+            <summary>
+            Handles a RawInput message manually.
+            </summary>
+            <param name="rawInputMessagePointer">A pointer to a RawInput message.</param>
+            <remarks>
+            This method can be used directly when handling RawInput messages from non-WinForms application.
+            </remarks>
         </member>
         <member name="E:SharpDX.RawInput.Device.KeyboardInput">
             <summary>

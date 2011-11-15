@@ -456,7 +456,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::CreateDepthStencilView']/*"/>	
             <unmanaged>HRESULT ID3D10Device::CreateDepthStencilView([In] ID3D10Resource* pResource,[In, Optional] const D3D10_DEPTH_STENCIL_VIEW_DESC* pDesc,[Out, Fast] ID3D10DepthStencilView** ppDepthStencilView)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.CreateInputLayout(SharpDX.Direct3D10.InputElement[],System.Int32,System.IntPtr,SharpDX.Size,SharpDX.Direct3D10.InputLayout)">
+        <member name="M:SharpDX.Direct3D10.Device.CreateInputLayout(SharpDX.Direct3D10.InputElement[],System.Int32,System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D10.InputLayout)">
             <summary>	
             No documentation.	
             </summary>	
@@ -469,7 +469,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::CreateInputLayout']/*"/>	
             <unmanaged>HRESULT ID3D10Device::CreateInputLayout([In, Buffer] const D3D10_INPUT_ELEMENT_DESC* pInputElementDescs,[In] unsigned int NumElements,[In] const void* pShaderBytecodeWithInputSignature,[In] SIZE_T BytecodeLength,[Out, Fast] ID3D10InputLayout** ppInputLayout)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.CreateVertexShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D10.VertexShader)">
+        <member name="M:SharpDX.Direct3D10.Device.CreateVertexShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D10.VertexShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -480,7 +480,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::CreateVertexShader']/*"/>	
             <unmanaged>HRESULT ID3D10Device::CreateVertexShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[Out, Fast] ID3D10VertexShader** ppVertexShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.CreateGeometryShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D10.GeometryShader)">
+        <member name="M:SharpDX.Direct3D10.Device.CreateGeometryShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D10.GeometryShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -491,7 +491,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::CreateGeometryShader']/*"/>	
             <unmanaged>HRESULT ID3D10Device::CreateGeometryShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[Out, Fast] ID3D10GeometryShader** ppGeometryShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.CreateGeometryShaderWithStreamOutput(System.IntPtr,SharpDX.Size,SharpDX.Direct3D10.StreamOutputElement[],System.Int32,System.Int32,SharpDX.Direct3D10.GeometryShader)">
+        <member name="M:SharpDX.Direct3D10.Device.CreateGeometryShaderWithStreamOutput(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D10.StreamOutputElement[],System.Int32,System.Int32,SharpDX.Direct3D10.GeometryShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -505,7 +505,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::CreateGeometryShaderWithStreamOutput']/*"/>	
             <unmanaged>HRESULT ID3D10Device::CreateGeometryShaderWithStreamOutput([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Buffer, Optional] const D3D10_SO_DECLARATION_ENTRY* pSODeclaration,[In] unsigned int NumEntries,[In] unsigned int OutputStreamStride,[Out, Fast] ID3D10GeometryShader** ppGeometryShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.CreatePixelShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D10.PixelShader)">
+        <member name="M:SharpDX.Direct3D10.Device.CreatePixelShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D10.PixelShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -7351,7 +7351,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10InfoQueue::ClearStoredMessages']/*"/>	
             <unmanaged>void ID3D10InfoQueue::ClearStoredMessages()</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.GetMessage(System.Int64,System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.GetMessage(System.Int64,System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -7419,7 +7419,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10InfoQueue::AddStorageFilterEntries']/*"/>	
             <unmanaged>HRESULT ID3D10InfoQueue::AddStorageFilterEntries([In] D3D10_INFO_QUEUE_FILTER* pFilter)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.GetStorageFilter(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.GetStorageFilter(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -7485,7 +7485,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10InfoQueue::AddRetrievalFilterEntries']/*"/>	
             <unmanaged>HRESULT ID3D10InfoQueue::AddRetrievalFilterEntries([In] D3D10_INFO_QUEUE_FILTER* pFilter)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.GetRetrievalFilter(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.GetRetrievalFilter(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -7747,7 +7747,7 @@
             </summary>
             <param name="nativePtr">The native pointer.</param>	
         </member>
-        <member name="M:SharpDX.Direct3D10.MeshBuffer.Map(System.IntPtr@,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D10.MeshBuffer.Map(System.IntPtr@,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8244,7 +8244,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10CreateDevice1']/*"/>	
             <unmanaged>HRESULT D3D10CreateDevice1([In] IDXGIAdapter* pAdapter,[In] D3D10_DRIVER_TYPE DriverType,[In] HINSTANCE Software,[In] D3D10_CREATE_DEVICE_FLAG Flags,[In] D3D10_FEATURE_LEVEL1 HardwareLevel,[In] unsigned int SDKVersion,[Out, Fast] ID3D10Device1** ppDevice)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3D10.CompileEffect10FromMemory(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.Direct3D10.D3D10.CompileEffect10FromMemory(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8261,7 +8261,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10CompileEffectFromMemory']/*"/>	
             <unmanaged>HRESULT D3D10CompileEffectFromMemory([In] void* pData,[In] SIZE_T DataLength,[In] const char* pSrcFileName,[In, Buffer, Optional] const D3D_SHADER_MACRO* pDefines,[In] ID3DInclude* pInclude,[In] D3DCOMPILE_SHADER_FLAGS HLSLFlags,[In] D3DCOMPILE_EFFECT_FLAGS FXFlags,[In] ID3D10Blob** ppCompiledEffect,[In] ID3D10Blob** ppErrors)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3D10.CreateEffectPoolFromMemory(System.IntPtr,SharpDX.Size,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool)">
+        <member name="M:SharpDX.Direct3D10.D3D10.CreateEffectPoolFromMemory(System.IntPtr,SharpDX.PointerSize,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8285,7 +8285,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10CreateStateBlock']/*"/>	
             <unmanaged>HRESULT D3D10CreateStateBlock([In] ID3D10Device* pDevice,[In] D3D10_STATE_BLOCK_MASK* pStateBlockMask,[Out, Fast] ID3D10StateBlock** ppStateBlock)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3D10.CreateEffectFromMemory(System.IntPtr,SharpDX.Size,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool,SharpDX.Direct3D10.Effect)">
+        <member name="M:SharpDX.Direct3D10.D3D10.CreateEffectFromMemory(System.IntPtr,SharpDX.PointerSize,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool,SharpDX.Direct3D10.Effect)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8544,7 +8544,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10FilterTexture']/*"/>	
             <unmanaged>HRESULT D3DX10FilterTexture([In] ID3D10Resource* pTexture,[In] unsigned int SrcLevel,[In] unsigned int MipFilter)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.CreateShaderResourceViewFromMemory(SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.Size,System.Nullable{SharpDX.Direct3D10.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D10.ShaderResourceView@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.CreateShaderResourceViewFromMemory(SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.PointerSize,System.Nullable{SharpDX.Direct3D10.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D10.ShaderResourceView@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8572,7 +8572,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10ComputeNormalMap']/*"/>	
             <unmanaged>HRESULT D3DX10ComputeNormalMap([In] ID3D10Texture2D* pSrcTexture,[In] D3DX10_NORMALMAP_FLAG Flags,[In] D3DX10_CHANNEL_FLAG Channel,[In] float Amplitude,[In] ID3D10Texture2D* pDestTexture)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.CreateTextureFromMemory(SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.Size,System.Nullable{SharpDX.Direct3D10.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D10.Resource@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.CreateTextureFromMemory(SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.PointerSize,System.Nullable{SharpDX.Direct3D10.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D10.Resource@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8587,7 +8587,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10CreateTextureFromMemory']/*"/>	
             <unmanaged>HRESULT D3DX10CreateTextureFromMemory([In] ID3D10Device* pDevice,[In] const void* pSrcData,[In] SIZE_T SrcDataSize,[In, Optional] D3DX10_IMAGE_LOAD_INFO* pLoadInfo,[In] ID3DX10ThreadPump* pPump,[Out] ID3D10Resource** ppTexture,[Out] HRESULT* pHResult)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.GetImageInfoFromMemory(System.IntPtr,SharpDX.Size,System.IntPtr,SharpDX.Direct3D10.ImageInformation@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.GetImageInfoFromMemory(System.IntPtr,SharpDX.PointerSize,System.IntPtr,SharpDX.Direct3D10.ImageInformation@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8699,7 +8699,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10CreateEffectFromFileW']/*"/>	
             <unmanaged>HRESULT D3DX10CreateEffectFromFileW([In] const wchar_t* pFileName,[In, Buffer, Optional] const D3D_SHADER_MACRO* pDefines,[In] ID3DInclude* pInclude,[In] const char* pProfile,[In] unsigned int HLSLFlags,[In] unsigned int FXFlags,[In] ID3D10Device* pDevice,[In] ID3D10EffectPool* pEffectPool,[In] ID3DX10ThreadPump* pPump,[In] ID3D10Effect** ppEffect,[In] ID3D10Blob** ppErrors,[Out] HRESULT* pHResult)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.CreateEffectFromMemory(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.Int32,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool,System.IntPtr,SharpDX.Direct3D10.Effect@,SharpDX.Direct3D.Blob@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.CreateEffectFromMemory(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.Int32,System.Int32,SharpDX.Direct3D10.Device,SharpDX.Direct3D10.EffectPool,System.IntPtr,SharpDX.Direct3D10.Effect@,SharpDX.Direct3D.Blob@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -8721,7 +8721,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10CreateEffectFromMemory']/*"/>	
             <unmanaged>HRESULT D3DX10CreateEffectFromMemory([In] const void* pData,[In] SIZE_T DataLength,[In] const char* pSrcFileName,[In, Buffer, Optional] const D3D_SHADER_MACRO* pDefines,[In] ID3DInclude* pInclude,[In] const char* pProfile,[In] unsigned int HLSLFlags,[In] unsigned int FXFlags,[In] ID3D10Device* pDevice,[In] ID3D10EffectPool* pEffectPool,[In] ID3DX10ThreadPump* pPump,[In] ID3D10Effect** ppEffect,[In] ID3D10Blob** ppErrors,[Out] HRESULT* pHResult)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.CreateEffectPoolFromMemory(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.Int32,System.Int32,SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.Direct3D10.EffectPool@,SharpDX.Direct3D.Blob@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.CreateEffectPoolFromMemory(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.Int32,System.Int32,SharpDX.Direct3D10.Device,System.IntPtr,SharpDX.Direct3D10.EffectPool@,SharpDX.Direct3D.Blob@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	

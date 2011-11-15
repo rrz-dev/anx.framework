@@ -2472,7 +2472,7 @@
             </summary>	
             <!-- Der enthaltene XML-Abschnitt konnte nur teilweise oder gar nicht eingefügt werden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.D3DCompiler.D3D']/*"/>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.CompileEffect10FromMemory(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.CompileEffect10FromMemory(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
             <summary>
             Compiles the effect10 from memory.
             </summary>
@@ -2505,7 +2505,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DCompressShaders']/*"/>	
             <unmanaged>HRESULT D3DCompressShaders([In] unsigned int uNumShaders,[In, Buffer] D3D_SHADER_DATA* pShaderData,[In] unsigned int uFlags,[Out] ID3D10Blob** ppCompressedData)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.StripShader(System.IntPtr,SharpDX.Size,SharpDX.D3DCompiler.StripFlags,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.StripShader(System.IntPtr,SharpDX.PointerSize,SharpDX.D3DCompiler.StripFlags,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2517,7 +2517,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DStripShader']/*"/>	
             <unmanaged>HRESULT D3DStripShader([In, Buffer] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In] D3DCOMPILER_STRIP_FLAGS uStripFlags,[Out] ID3D10Blob** ppStrippedBlob)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.Compile(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.String,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.Compile(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,System.String,System.String,SharpDX.D3DCompiler.ShaderFlags,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2536,7 +2536,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DCompile']/*"/>	
             <unmanaged>HRESULT D3DCompile([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In, Optional] const char* pSourceName,[In, Buffer, Optional] const D3D_SHADER_MACRO* pDefines,[In, Optional] ID3DInclude* pInclude,[In] const char* pEntrypoint,[In] const char* pTarget,[In] D3DCOMPILE_SHADER_FLAGS Flags1,[In] D3DCOMPILE_EFFECT_FLAGS Flags2,[Out] ID3D10Blob** ppCode,[Out, Optional] ID3D10Blob** ppErrorMsgs)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.GetInputSignatureBlob(System.IntPtr,SharpDX.Size,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.GetInputSignatureBlob(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2547,7 +2547,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DGetInputSignatureBlob']/*"/>	
             <unmanaged>HRESULT D3DGetInputSignatureBlob([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[Out] ID3D10Blob** ppSignatureBlob)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.GetDebugInfo(System.IntPtr,SharpDX.Size,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.GetDebugInfo(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2558,7 +2558,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DGetDebugInfo']/*"/>	
             <unmanaged>HRESULT D3DGetDebugInfo([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[Out] ID3D10Blob** ppDebugInfo)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.GetBlobPart(System.IntPtr,SharpDX.Size,SharpDX.D3DCompiler.ShaderBytecodePart,System.Int32,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.GetBlobPart(System.IntPtr,SharpDX.PointerSize,SharpDX.D3DCompiler.ShaderBytecodePart,System.Int32,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2571,7 +2571,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DGetBlobPart']/*"/>	
             <unmanaged>HRESULT D3DGetBlobPart([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In] D3D_BLOB_PART Part,[In] unsigned int Flags,[Out] ID3D10Blob** ppPart)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.Reflect(System.IntPtr,SharpDX.Size,System.Guid,System.IntPtr@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.Reflect(System.IntPtr,SharpDX.PointerSize,System.Guid,System.IntPtr@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2583,7 +2583,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DReflect']/*"/>	
             <unmanaged>HRESULT D3DReflect([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In] const GUID&amp; pInterface,[Out] void** ppReflector)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.GetInputAndOutputSignatureBlob(System.IntPtr,SharpDX.Size,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.GetInputAndOutputSignatureBlob(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2594,7 +2594,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DGetInputAndOutputSignatureBlob']/*"/>	
             <unmanaged>HRESULT D3DGetInputAndOutputSignatureBlob([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[Out] ID3D10Blob** ppSignatureBlob)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.DecompressShaders(System.IntPtr,SharpDX.Size,System.Int32,System.Int32,System.Int32[],System.Int32,SharpDX.Direct3D.Blob[],System.Int32@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.DecompressShaders(System.IntPtr,SharpDX.PointerSize,System.Int32,System.Int32,System.Int32[],System.Int32,SharpDX.Direct3D.Blob[],System.Int32@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2610,7 +2610,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DDecompressShaders']/*"/>	
             <unmanaged>HRESULT D3DDecompressShaders([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In] unsigned int uNumShaders,[In] unsigned int uStartIndex,[In, Buffer, Optional] unsigned int* pIndices,[In] unsigned int uFlags,[Out, Buffer] ID3D10Blob** ppShaders,[Out, Optional] unsigned int* pTotalShaders)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.Disassemble(System.IntPtr,SharpDX.Size,SharpDX.D3DCompiler.DisassemblyFlags,System.String,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.Disassemble(System.IntPtr,SharpDX.PointerSize,SharpDX.D3DCompiler.DisassemblyFlags,System.String,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2623,7 +2623,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DDisassemble']/*"/>	
             <unmanaged>HRESULT D3DDisassemble([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In] D3DCOMPILE_DISASM_FLAGS Flags,[In, Optional] const char* szComments,[Out] ID3D10Blob** ppDisassembly)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.Preprocess(System.IntPtr,SharpDX.Size,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.Preprocess(System.IntPtr,SharpDX.PointerSize,System.String,SharpDX.Direct3D.ShaderMacro[],System.IntPtr,SharpDX.Direct3D.Blob@,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -2638,7 +2638,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DPreprocess']/*"/>	
             <unmanaged>HRESULT D3DPreprocess([In, Buffer] const void* pSrcData,[In] SIZE_T SrcDataSize,[In, Optional] const char* pSourceName,[In, Buffer, Optional] const D3D_SHADER_MACRO* pDefines,[In, Optional] ID3DInclude* pInclude,[Out] ID3D10Blob** ppCodeText,[Out, Optional] ID3D10Blob** ppErrorMsgs)</unmanaged>	
         </member>
-        <member name="M:SharpDX.D3DCompiler.D3D.GetOutputSignatureBlob(System.IntPtr,SharpDX.Size,SharpDX.Direct3D.Blob@)">
+        <member name="M:SharpDX.D3DCompiler.D3D.GetOutputSignatureBlob(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D.Blob@)">
             <summary>	
             No documentation.	
             </summary>	

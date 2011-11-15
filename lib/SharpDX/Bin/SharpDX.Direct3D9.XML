@@ -16206,6 +16206,13 @@
             </summary>
             <param name="blob">The BLOB.</param>
         </member>
+        <member name="M:SharpDX.Direct3D9.ShaderBytecode.GetShaderSize(System.IntPtr)">
+            <summary>
+            Gets the size of the shader from a function pointer.
+            </summary>
+            <param name="shaderFunctionPtr">The shader function pointer.</param>
+            <returns>Size of the shader</returns>
+        </member>
         <member name="M:SharpDX.Direct3D9.ShaderBytecode.Assemble(System.Byte[],SharpDX.Direct3D9.ShaderFlags)">
             <summary>
             Assembles a shader from the given source data.
@@ -16789,6 +16796,7 @@
             </summary>
             <param name="device">The device.</param>
             <param name="function">The function.</param>
+            <unmanaged>HRESULT IDirect3DDevice9::CreateVertexShader([In] const void* pFunction,[Out, Fast] IDirect3DVertexShader9** ppShader)</unmanaged>	
         </member>
         <member name="M:SharpDX.Direct3D9.VertexShader.#ctor(System.IntPtr)">
             <summary>
@@ -23170,6 +23178,7 @@
             </summary>
             <param name="device">The device.</param>
             <param name="function">The function.</param>
+            <unmanaged>HRESULT IDirect3DDevice9::CreatePixelShader([In] const void* pFunction,[Out, Fast] IDirect3DPixelShader9** ppShader)</unmanaged>	
         </member>
         <member name="M:SharpDX.Direct3D9.PixelShader.#ctor(System.IntPtr)">
             <summary>
@@ -27911,7 +27920,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFile::CreateSaveObject']/*"/>	
             <unmanaged>HRESULT ID3DXFile::CreateSaveObject([In] const void* arg0,[In] unsigned int arg1,[In] unsigned int arg2,[In] ID3DXFileSaveObject** arg3)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFile.RegisterTemplates(System.IntPtr,SharpDX.Size)">
+        <member name="M:SharpDX.Direct3D9.XFile.RegisterTemplates(System.IntPtr,SharpDX.PointerSize)">
             <summary>	
             No documentation.	
             </summary>	
@@ -27952,7 +27961,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileData::GetEnum']/*"/>	
             <unmanaged>HRESULT ID3DXFileData::GetEnum([Out] ID3DXFileEnumObject** arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileData.GetName(System.String,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D9.XFileData.GetName(System.String,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -27971,7 +27980,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileData::GetId']/*"/>	
             <unmanaged>HRESULT ID3DXFileData::GetId([In] GUID* arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileData.Lock(SharpDX.Size,System.IntPtr)">
+        <member name="M:SharpDX.Direct3D9.XFileData.Lock(SharpDX.PointerSize,System.IntPtr)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28006,7 +28015,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileData::IsReference']/*"/>	
             <unmanaged>BOOL ID3DXFileData::IsReference()</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileData.GetChildren(SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D9.XFileData.GetChildren(SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28015,7 +28024,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileData::GetChildren']/*"/>	
             <unmanaged>HRESULT ID3DXFileData::GetChildren([Out] SIZE_T* arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileData.GetChild(SharpDX.Size,SharpDX.Direct3D9.XFileData@)">
+        <member name="M:SharpDX.Direct3D9.XFileData.GetChild(SharpDX.PointerSize,SharpDX.Direct3D9.XFileData@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28079,7 +28088,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileEnumObject::GetFile']/*"/>	
             <unmanaged>HRESULT ID3DXFileEnumObject::GetFile([Out] ID3DXFile** arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileEnumObject.GetChildren(SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D9.XFileEnumObject.GetChildren(SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28088,7 +28097,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileEnumObject::GetChildren']/*"/>	
             <unmanaged>HRESULT ID3DXFileEnumObject::GetChildren([Out] SIZE_T* arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileEnumObject.GetChild(SharpDX.Size,SharpDX.Direct3D9.XFileData@)">
+        <member name="M:SharpDX.Direct3D9.XFileEnumObject.GetChild(SharpDX.PointerSize,SharpDX.Direct3D9.XFileData@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28156,7 +28165,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileSaveData::GetSave']/*"/>	
             <unmanaged>HRESULT ID3DXFileSaveData::GetSave([Out] ID3DXFileSaveObject** arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileSaveData.GetName(System.String,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D9.XFileSaveData.GetName(System.String,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28184,7 +28193,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileSaveData::GetType']/*"/>	
             <unmanaged>HRESULT ID3DXFileSaveData::GetType([Out] GUID* arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileSaveData.AddDataObject(System.Guid,System.String,System.Guid,SharpDX.Size,System.IntPtr,SharpDX.Direct3D9.XFileSaveData@)">
+        <member name="M:SharpDX.Direct3D9.XFileSaveData.AddDataObject(System.Guid,System.String,System.Guid,SharpDX.PointerSize,System.IntPtr,SharpDX.Direct3D9.XFileSaveData@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -28246,7 +28255,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DXFileSaveObject::GetFile']/*"/>	
             <unmanaged>HRESULT ID3DXFileSaveObject::GetFile([Out] ID3DXFile** arg0)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D9.XFileSaveObject.AddDataObject(System.Guid,System.String,System.Guid,SharpDX.Size,System.IntPtr,SharpDX.Direct3D9.XFileSaveData@)">
+        <member name="M:SharpDX.Direct3D9.XFileSaveObject.AddDataObject(System.Guid,System.String,System.Guid,SharpDX.PointerSize,System.IntPtr,SharpDX.Direct3D9.XFileSaveData@)">
             <summary>	
             No documentation.	
             </summary>	

@@ -4345,7 +4345,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateDepthStencilView']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateDepthStencilView([In] ID3D11Resource* pResource,[In, Optional] const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc,[Out, Fast] ID3D11DepthStencilView** ppDepthStencilView)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateInputLayout(SharpDX.Direct3D11.InputElement[],System.Int32,System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.InputLayout)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateInputLayout(SharpDX.Direct3D11.InputElement[],System.Int32,System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.InputLayout)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4358,7 +4358,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateInputLayout']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateInputLayout([In, Buffer] const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs,[In] unsigned int NumElements,[In] const void* pShaderBytecodeWithInputSignature,[In] SIZE_T BytecodeLength,[Out, Fast] ID3D11InputLayout** ppInputLayout)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateVertexShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.VertexShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateVertexShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.VertexShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4370,7 +4370,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateVertexShader']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateVertexShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11VertexShader** ppVertexShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateGeometryShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.GeometryShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateGeometryShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.GeometryShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4382,7 +4382,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateGeometryShader']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateGeometryShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11GeometryShader** ppGeometryShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateGeometryShaderWithStreamOutput(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.StreamOutputElement[],System.Int32,System.Int32[],System.Int32,System.Int32,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.GeometryShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateGeometryShaderWithStreamOutput(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.StreamOutputElement[],System.Int32,System.Int32[],System.Int32,System.Int32,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.GeometryShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4399,7 +4399,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateGeometryShaderWithStreamOutput']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateGeometryShaderWithStreamOutput([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Buffer, Optional] const D3D11_SO_DECLARATION_ENTRY* pSODeclaration,[In] unsigned int NumEntries,[In, Buffer, Optional] const unsigned int* pBufferStrides,[In] unsigned int NumStrides,[In] unsigned int RasterizedStream,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11GeometryShader** ppGeometryShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreatePixelShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.PixelShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreatePixelShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.PixelShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4411,7 +4411,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreatePixelShader']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreatePixelShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11PixelShader** ppPixelShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateHullShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.HullShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateHullShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.HullShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4423,7 +4423,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateHullShader']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateHullShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11HullShader** ppHullShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateDomainShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.DomainShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateDomainShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.DomainShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -4435,7 +4435,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CreateDomainShader']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CreateDomainShader([In] const void* pShaderBytecode,[In] SIZE_T BytecodeLength,[In, Optional] ID3D11ClassLinkage* pClassLinkage,[Out, Fast] ID3D11DomainShader** ppDomainShader)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.Device.CreateComputeShader(System.IntPtr,SharpDX.Size,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.ComputeShader)">
+        <member name="M:SharpDX.Direct3D11.Device.CreateComputeShader(System.IntPtr,SharpDX.PointerSize,SharpDX.Direct3D11.ClassLinkage,SharpDX.Direct3D11.ComputeShader)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17220,7 +17220,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11ClassInstance::GetDesc']/*"/>	
             <unmanaged>void ID3D11ClassInstance::GetDesc([Out] D3D11_CLASS_INSTANCE_DESC* pDesc)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.ClassInstance.GetInstanceName(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D11.ClassInstance.GetInstanceName(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17229,7 +17229,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11ClassInstance::GetInstanceName']/*"/>	
             <unmanaged>void ID3D11ClassInstance::GetInstanceName([Out, Buffer, Optional] char* pInstanceName,[InOut] SIZE_T* pBufferLength)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.ClassInstance.GetTypeName(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D11.ClassInstance.GetTypeName(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17564,7 +17564,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX11CreateShaderResourceViewFromResourceW']/*"/>	
             <unmanaged>HRESULT D3DX11CreateShaderResourceViewFromResourceW([In] ID3D11Device* pDevice,[In] HINSTANCE hSrcModule,[In] const wchar_t* pSrcResource,[In, Optional] D3DX11_IMAGE_LOAD_INFO* pLoadInfo,[In] ID3DX11ThreadPump* pPump,[In] ID3D11ShaderResourceView** ppShaderResourceView,[Out] HRESULT* pHResult)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.D3DX11.CreateTextureFromMemory(SharpDX.Direct3D11.Device,System.IntPtr,SharpDX.Size,System.Nullable{SharpDX.Direct3D11.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D11.Resource@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D11.D3DX11.CreateTextureFromMemory(SharpDX.Direct3D11.Device,System.IntPtr,SharpDX.PointerSize,System.Nullable{SharpDX.Direct3D11.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D11.Resource@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17579,7 +17579,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX11CreateTextureFromMemory']/*"/>	
             <unmanaged>HRESULT D3DX11CreateTextureFromMemory([In] ID3D11Device* pDevice,[In] const void* pSrcData,[In] SIZE_T SrcDataSize,[In, Optional] D3DX11_IMAGE_LOAD_INFO* pLoadInfo,[In] ID3DX11ThreadPump* pPump,[Out] ID3D11Resource** ppTexture,[Out] HRESULT* pHResult)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.D3DX11.GetImageInfoFromMemory(System.IntPtr,SharpDX.Size,System.IntPtr,SharpDX.Direct3D11.ImageInformation@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D11.D3DX11.GetImageInfoFromMemory(System.IntPtr,SharpDX.PointerSize,System.IntPtr,SharpDX.Direct3D11.ImageInformation@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17620,7 +17620,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX11ComputeNormalMap']/*"/>	
             <unmanaged>HRESULT D3DX11ComputeNormalMap([In] ID3D11DeviceContext* pContext,[In] ID3D11Texture2D* pSrcTexture,[In] D3DX11_NORMALMAP_FLAG Flags,[In] D3DX11_CHANNEL_FLAG Channel,[In] float Amplitude,[In] ID3D11Texture2D* pDestTexture)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.D3DX11.CreateShaderResourceViewFromMemory(SharpDX.Direct3D11.Device,System.IntPtr,SharpDX.Size,System.Nullable{SharpDX.Direct3D11.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D11.ShaderResourceView@,SharpDX.Result@)">
+        <member name="M:SharpDX.Direct3D11.D3DX11.CreateShaderResourceViewFromMemory(SharpDX.Direct3D11.Device,System.IntPtr,SharpDX.PointerSize,System.Nullable{SharpDX.Direct3D11.ImageLoadInformation},System.IntPtr,SharpDX.Direct3D11.ShaderResourceView@,SharpDX.Result@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -17748,7 +17748,7 @@
             DLLs loaders
             </summary>
         </member>
-        <member name="M:SharpDX.Direct3D11.D3DX11Effects.CreateEffectFromMemory(System.IntPtr,SharpDX.Size,System.Int32,SharpDX.Direct3D11.Device,SharpDX.Direct3D11.Effect)">
+        <member name="M:SharpDX.Direct3D11.D3DX11Effects.CreateEffectFromMemory(System.IntPtr,SharpDX.PointerSize,System.Int32,SharpDX.Direct3D11.Device,SharpDX.Direct3D11.Effect)">
             <summary>	
             No documentation.	
             </summary>	
@@ -18053,7 +18053,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11InfoQueue::ClearStoredMessages']/*"/>	
             <unmanaged>void ID3D11InfoQueue::ClearStoredMessages()</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.InfoQueue.GetMessage(System.Int64,System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D11.InfoQueue.GetMessage(System.Int64,System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -18121,7 +18121,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11InfoQueue::AddStorageFilterEntries']/*"/>	
             <unmanaged>HRESULT ID3D11InfoQueue::AddStorageFilterEntries([In] D3D11_INFO_QUEUE_FILTER* pFilter)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.InfoQueue.GetStorageFilter(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D11.InfoQueue.GetStorageFilter(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	
@@ -18187,7 +18187,7 @@
             <!-- Für folgendes Include-Tag wurden keine übereinstimmenden Elemente gefunden. --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11InfoQueue::AddRetrievalFilterEntries']/*"/>	
             <unmanaged>HRESULT ID3D11InfoQueue::AddRetrievalFilterEntries([In] D3D11_INFO_QUEUE_FILTER* pFilter)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.InfoQueue.GetRetrievalFilter(System.IntPtr,SharpDX.Size@)">
+        <member name="M:SharpDX.Direct3D11.InfoQueue.GetRetrievalFilter(System.IntPtr,SharpDX.PointerSize@)">
             <summary>	
             No documentation.	
             </summary>	

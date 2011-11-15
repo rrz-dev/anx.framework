@@ -2158,205 +2158,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SharpDX.Size">
-            <summary>
-              The maximum number of bytes to which a pointer can point. Use for a count that must span the full range of a pointer.
-              Equivalent to Windows type SIZE_T.
-            </summary>
-        </member>
-        <member name="M:SharpDX.Size.#ctor(System.IntPtr)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Size"/> struct.
-            </summary>
-            <param name="size">The size.</param>
-        </member>
-        <member name="M:SharpDX.Size.#ctor(System.Void*)">
-            <summary>
-              Default constructor.
-            </summary>
-            <param name = "size">value to set</param>
-        </member>
-        <member name="M:SharpDX.Size.#ctor(System.Int32)">
-            <summary>
-              Default constructor.
-            </summary>
-            <param name = "size">value to set</param>
-        </member>
-        <member name="M:SharpDX.Size.#ctor(System.Int64)">
-            <summary>
-              Default constructor.
-            </summary>
-            <param name = "size">value to set</param>
-        </member>
-        <member name="M:SharpDX.Size.ToString">
-            <summary>
-              Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <returns>
-              A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
-        <member name="M:SharpDX.Size.ToString(System.String)">
-            <summary>
-              Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <param name="format">The format.</param>
-            <returns>
-              A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
-        <member name="M:SharpDX.Size.GetHashCode">
-            <summary>
-              Returns a hash code for this instance.
-            </summary>
-            <returns>
-              A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            </returns>
-        </member>
-        <member name="M:SharpDX.Size.Equals(SharpDX.Size)">
-            <summary>
-              Determines whether the specified <see cref="T:SharpDX.Size"/> is equal to this instance.
-            </summary>
-            <param name="other">The <see cref="T:SharpDX.Size"/> to compare with this instance.</param>
-            <returns>
-              <c>true</c> if the specified <see cref="T:SharpDX.Size"/> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:SharpDX.Size.Equals(System.Object)">
-            <summary>
-              Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-            </summary>
-            <param name="value">The <see cref="T:System.Object"/> to compare with this instance.</param>
-            <returns>
-              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Addition(SharpDX.Size,SharpDX.Size)">
-            <summary>
-              Adds two sizes.
-            </summary>
-            <param name = "left">The first size to add.</param>
-            <param name = "right">The second size to add.</param>
-            <returns>The sum of the two sizes.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_UnaryPlus(SharpDX.Size)">
-            <summary>
-              Assert a size (return it unchanged).
-            </summary>
-            <param name = "value">The size to assert (unchange).</param>
-            <returns>The asserted (unchanged) size.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Subtraction(SharpDX.Size,SharpDX.Size)">
-            <summary>
-              Subtracts two sizes.
-            </summary>
-            <param name = "left">The first size to subtract.</param>
-            <param name = "right">The second size to subtract.</param>
-            <returns>The difference of the two sizes.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_UnaryNegation(SharpDX.Size)">
-            <summary>
-              Reverses the direction of a given size.
-            </summary>
-            <param name = "value">The size to negate.</param>
-            <returns>A size facing in the opposite direction.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Multiply(System.Int32,SharpDX.Size)">
-            <summary>
-              Scales a size by the given value.
-            </summary>
-            <param name = "value">The size to scale.</param>
-            <param name = "scale">The amount by which to scale the size.</param>
-            <returns>The scaled size.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Multiply(SharpDX.Size,System.Int32)">
-            <summary>
-              Scales a size by the given value.
-            </summary>
-            <param name = "value">The size to scale.</param>
-            <param name = "scale">The amount by which to scale the size.</param>
-            <returns>The scaled size.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Division(SharpDX.Size,System.Int32)">
-            <summary>
-              Scales a size by the given value.
-            </summary>
-            <param name = "value">The size to scale.</param>
-            <param name = "scale">The amount by which to scale the size.</param>
-            <returns>The scaled size.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Equality(SharpDX.Size,SharpDX.Size)">
-            <summary>
-              Tests for equality between two objects.
-            </summary>
-            <param name = "left">The first value to compare.</param>
-            <param name = "right">The second value to compare.</param>
-            <returns><c>true</c> if <paramref name = "left" /> has the same value as <paramref name = "right" />; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Inequality(SharpDX.Size,SharpDX.Size)">
-            <summary>
-              Tests for inequality between two objects.
-            </summary>
-            <param name = "left">The first value to compare.</param>
-            <param name = "right">The second value to compare.</param>
-            <returns><c>true</c> if <paramref name = "left" /> has a different value than <paramref name = "right" />; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(SharpDX.Size)~System.Int32">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to <see cref="T:System.Int32"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(SharpDX.Size)~System.Int64">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to <see cref="T:System.Int64"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(System.Int32)~SharpDX.Size">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to <see cref="T:System.Int32"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(System.Int64)~SharpDX.Size">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to <see cref="T:System.Int64"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(System.IntPtr)~SharpDX.Size">
-            <summary>
-            Performs an implicit conversion from <see cref="T:System.IntPtr"/> to <see cref="T:SharpDX.Size"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(SharpDX.Size)~System.IntPtr">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to <see cref="T:System.IntPtr"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(System.Void*)~SharpDX.Size">
-            <summary>
-              Performs an implicit conversion from void* to <see cref="T:SharpDX.Size"/>.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:SharpDX.Size.op_Implicit(SharpDX.Size)~System.Void*">
-            <summary>
-              Performs an implicit conversion from <see cref="T:SharpDX.Size"/> to void*.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
         <member name="T:SharpDX.Rectangle">
             <summary>
             Define a Rectangle. This structure is slightly different from System.Drawing.Rectangle as It is 
@@ -2777,7 +2578,7 @@
             DLLs loaders
             </summary>
         </member>
-        <member name="M:SharpDX.Direct3D.D3DCommon.CreateBlob(SharpDX.Size,SharpDX.Direct3D.Blob)">
+        <member name="M:SharpDX.Direct3D.D3DCommon.CreateBlob(SharpDX.PointerSize,SharpDX.Direct3D.Blob)">
             <summary>	
             No documentation.	
             </summary>	
@@ -6463,6 +6264,205 @@
             <returns>The value of the component at the specified index.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 2].</exception>
         </member>
+        <member name="T:SharpDX.PointerSize">
+            <summary>
+              The maximum number of bytes to which a pointer can point. Use for a count that must span the full range of a pointer.
+              Equivalent to Windows type SIZE_T.
+            </summary>
+        </member>
+        <member name="M:SharpDX.PointerSize.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.PointerSize"/> struct.
+            </summary>
+            <param name="size">The size.</param>
+        </member>
+        <member name="M:SharpDX.PointerSize.#ctor(System.Void*)">
+            <summary>
+              Default constructor.
+            </summary>
+            <param name = "size">value to set</param>
+        </member>
+        <member name="M:SharpDX.PointerSize.#ctor(System.Int32)">
+            <summary>
+              Default constructor.
+            </summary>
+            <param name = "size">value to set</param>
+        </member>
+        <member name="M:SharpDX.PointerSize.#ctor(System.Int64)">
+            <summary>
+              Default constructor.
+            </summary>
+            <param name = "size">value to set</param>
+        </member>
+        <member name="M:SharpDX.PointerSize.ToString">
+            <summary>
+              Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+              A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.ToString(System.String)">
+            <summary>
+              Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <param name="format">The format.</param>
+            <returns>
+              A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.GetHashCode">
+            <summary>
+              Returns a hash code for this instance.
+            </summary>
+            <returns>
+              A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.Equals(SharpDX.PointerSize)">
+            <summary>
+              Determines whether the specified <see cref="T:SharpDX.PointerSize"/> is equal to this instance.
+            </summary>
+            <param name="other">The <see cref="T:SharpDX.PointerSize"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:SharpDX.PointerSize"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.Equals(System.Object)">
+            <summary>
+              Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="value">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Addition(SharpDX.PointerSize,SharpDX.PointerSize)">
+            <summary>
+              Adds two sizes.
+            </summary>
+            <param name = "left">The first size to add.</param>
+            <param name = "right">The second size to add.</param>
+            <returns>The sum of the two sizes.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_UnaryPlus(SharpDX.PointerSize)">
+            <summary>
+              Assert a size (return it unchanged).
+            </summary>
+            <param name = "value">The size to assert (unchange).</param>
+            <returns>The asserted (unchanged) size.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Subtraction(SharpDX.PointerSize,SharpDX.PointerSize)">
+            <summary>
+              Subtracts two sizes.
+            </summary>
+            <param name = "left">The first size to subtract.</param>
+            <param name = "right">The second size to subtract.</param>
+            <returns>The difference of the two sizes.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_UnaryNegation(SharpDX.PointerSize)">
+            <summary>
+              Reverses the direction of a given size.
+            </summary>
+            <param name = "value">The size to negate.</param>
+            <returns>A size facing in the opposite direction.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Multiply(System.Int32,SharpDX.PointerSize)">
+            <summary>
+              Scales a size by the given value.
+            </summary>
+            <param name = "value">The size to scale.</param>
+            <param name = "scale">The amount by which to scale the size.</param>
+            <returns>The scaled size.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Multiply(SharpDX.PointerSize,System.Int32)">
+            <summary>
+              Scales a size by the given value.
+            </summary>
+            <param name = "value">The size to scale.</param>
+            <param name = "scale">The amount by which to scale the size.</param>
+            <returns>The scaled size.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Division(SharpDX.PointerSize,System.Int32)">
+            <summary>
+              Scales a size by the given value.
+            </summary>
+            <param name = "value">The size to scale.</param>
+            <param name = "scale">The amount by which to scale the size.</param>
+            <returns>The scaled size.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Equality(SharpDX.PointerSize,SharpDX.PointerSize)">
+            <summary>
+              Tests for equality between two objects.
+            </summary>
+            <param name = "left">The first value to compare.</param>
+            <param name = "right">The second value to compare.</param>
+            <returns><c>true</c> if <paramref name = "left" /> has the same value as <paramref name = "right" />; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Inequality(SharpDX.PointerSize,SharpDX.PointerSize)">
+            <summary>
+              Tests for inequality between two objects.
+            </summary>
+            <param name = "left">The first value to compare.</param>
+            <param name = "right">The second value to compare.</param>
+            <returns><c>true</c> if <paramref name = "left" /> has a different value than <paramref name = "right" />; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(SharpDX.PointerSize)~System.Int32">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(SharpDX.PointerSize)~System.Int64">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to <see cref="T:System.Int64"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(System.Int32)~SharpDX.PointerSize">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(System.Int64)~SharpDX.PointerSize">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to <see cref="T:System.Int64"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(System.IntPtr)~SharpDX.PointerSize">
+            <summary>
+            Performs an implicit conversion from <see cref="T:System.IntPtr"/> to <see cref="T:SharpDX.PointerSize"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(SharpDX.PointerSize)~System.IntPtr">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to <see cref="T:System.IntPtr"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(System.Void*)~SharpDX.PointerSize">
+            <summary>
+              Performs an implicit conversion from void* to <see cref="T:SharpDX.PointerSize"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:SharpDX.PointerSize.op_Implicit(SharpDX.PointerSize)~System.Void*">
+            <summary>
+              Performs an implicit conversion from <see cref="T:SharpDX.PointerSize"/> to void*.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
         <member name="T:SharpDX.IO.NativeFileAccess">
             <summary>
             Native File access flags.
@@ -7373,10 +7373,10 @@
             <summary>
             Initializes a new instance of the <see cref="T:SharpDX.Color4"/> struct.
             </summary>
-            <param name="alpha">The alpha component of the color.</param>
             <param name="red">The red component of the color.</param>
             <param name="green">The green component of the color.</param>
             <param name="blue">The blue component of the color.</param>
+            <param name="alpha">The alpha component of the color.</param>
         </member>
         <member name="M:SharpDX.Color4.#ctor(SharpDX.Vector4)">
             <summary>
@@ -7390,6 +7390,12 @@
             </summary>
             <param name="value">The red, green, and blue compoennts of the color.</param>
             <param name="alpha">The alpha component of the color.</param>
+        </member>
+        <member name="M:SharpDX.Color4.#ctor(System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.Color4"/> struct.
+            </summary>
+            <param name="argb">A packed integer containing all four color components.</param>
         </member>
         <member name="M:SharpDX.Color4.#ctor(System.Int32)">
             <summary>
@@ -10723,6 +10729,716 @@
             <param name="fileSize">Size of the file.</param>
             <returns></returns>
             <unmanaged>GetFileSizeEx</unmanaged>
+        </member>
+        <member name="T:SharpDX.Colors">
+            <summary>
+            List of predefined <see cref="T:SharpDX.Color4"/>.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Transparent">
+            <summary>
+            Transparent color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.AliceBlue">
+            <summary>
+            AliceBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.AntiqueWhite">
+            <summary>
+            AntiqueWhite color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Aqua">
+            <summary>
+            Aqua color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Aquamarine">
+            <summary>
+            Aquamarine color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Azure">
+            <summary>
+            Azure color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Beige">
+            <summary>
+            Beige color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Bisque">
+            <summary>
+            Bisque color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Black">
+            <summary>
+            Black color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.BlanchedAlmond">
+            <summary>
+            BlanchedAlmond color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Blue">
+            <summary>
+            Blue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.BlueViolet">
+            <summary>
+            BlueViolet color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Brown">
+            <summary>
+            Brown color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.BurlyWood">
+            <summary>
+            BurlyWood color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.CadetBlue">
+            <summary>
+            CadetBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Chartreuse">
+            <summary>
+            Chartreuse color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Chocolate">
+            <summary>
+            Chocolate color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Coral">
+            <summary>
+            Coral color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.CornflowerBlue">
+            <summary>
+            CornflowerBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Cornsilk">
+            <summary>
+            Cornsilk color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Crimson">
+            <summary>
+            Crimson color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Cyan">
+            <summary>
+            Cyan color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkBlue">
+            <summary>
+            DarkBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkCyan">
+            <summary>
+            DarkCyan color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkGoldenrod">
+            <summary>
+            DarkGoldenrod color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkGray">
+            <summary>
+            DarkGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkGreen">
+            <summary>
+            DarkGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkKhaki">
+            <summary>
+            DarkKhaki color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkMagenta">
+            <summary>
+            DarkMagenta color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkOliveGreen">
+            <summary>
+            DarkOliveGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkOrange">
+            <summary>
+            DarkOrange color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkOrchid">
+            <summary>
+            DarkOrchid color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkRed">
+            <summary>
+            DarkRed color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkSalmon">
+            <summary>
+            DarkSalmon color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkSeaGreen">
+            <summary>
+            DarkSeaGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkSlateBlue">
+            <summary>
+            DarkSlateBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkSlateGray">
+            <summary>
+            DarkSlateGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkTurquoise">
+            <summary>
+            DarkTurquoise color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DarkViolet">
+            <summary>
+            DarkViolet color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DeepPink">
+            <summary>
+            DeepPink color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DeepSkyBlue">
+            <summary>
+            DeepSkyBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DimGray">
+            <summary>
+            DimGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.DodgerBlue">
+            <summary>
+            DodgerBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Firebrick">
+            <summary>
+            Firebrick color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.FloralWhite">
+            <summary>
+            FloralWhite color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.ForestGreen">
+            <summary>
+            ForestGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Fuchsia">
+            <summary>
+            Fuchsia color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Gainsboro">
+            <summary>
+            Gainsboro color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.GhostWhite">
+            <summary>
+            GhostWhite color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Gold">
+            <summary>
+            Gold color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Goldenrod">
+            <summary>
+            Goldenrod color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Gray">
+            <summary>
+            Gray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Green">
+            <summary>
+            Green color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.GreenYellow">
+            <summary>
+            GreenYellow color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Honeydew">
+            <summary>
+            Honeydew color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.HotPink">
+            <summary>
+            HotPink color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.IndianRed">
+            <summary>
+            IndianRed color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Indigo">
+            <summary>
+            Indigo color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Ivory">
+            <summary>
+            Ivory color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Khaki">
+            <summary>
+            Khaki color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Lavender">
+            <summary>
+            Lavender color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LavenderBlush">
+            <summary>
+            LavenderBlush color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LawnGreen">
+            <summary>
+            LawnGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LemonChiffon">
+            <summary>
+            LemonChiffon color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightBlue">
+            <summary>
+            LightBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightCoral">
+            <summary>
+            LightCoral color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightCyan">
+            <summary>
+            LightCyan color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightGoldenrodYellow">
+            <summary>
+            LightGoldenrodYellow color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightGray">
+            <summary>
+            LightGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightGreen">
+            <summary>
+            LightGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightPink">
+            <summary>
+            LightPink color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightSalmon">
+            <summary>
+            LightSalmon color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightSeaGreen">
+            <summary>
+            LightSeaGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightSkyBlue">
+            <summary>
+            LightSkyBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightSlateGray">
+            <summary>
+            LightSlateGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightSteelBlue">
+            <summary>
+            LightSteelBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LightYellow">
+            <summary>
+            LightYellow color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Lime">
+            <summary>
+            Lime color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.LimeGreen">
+            <summary>
+            LimeGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Linen">
+            <summary>
+            Linen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Magenta">
+            <summary>
+            Magenta color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Maroon">
+            <summary>
+            Maroon color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumAquamarine">
+            <summary>
+            MediumAquamarine color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumBlue">
+            <summary>
+            MediumBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumOrchid">
+            <summary>
+            MediumOrchid color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumPurple">
+            <summary>
+            MediumPurple color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumSeaGreen">
+            <summary>
+            MediumSeaGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumSlateBlue">
+            <summary>
+            MediumSlateBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumSpringGreen">
+            <summary>
+            MediumSpringGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumTurquoise">
+            <summary>
+            MediumTurquoise color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MediumVioletRed">
+            <summary>
+            MediumVioletRed color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MidnightBlue">
+            <summary>
+            MidnightBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MintCream">
+            <summary>
+            MintCream color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.MistyRose">
+            <summary>
+            MistyRose color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Moccasin">
+            <summary>
+            Moccasin color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.NavajoWhite">
+            <summary>
+            NavajoWhite color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Navy">
+            <summary>
+            Navy color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.OldLace">
+            <summary>
+            OldLace color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Olive">
+            <summary>
+            Olive color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.OliveDrab">
+            <summary>
+            OliveDrab color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Orange">
+            <summary>
+            Orange color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.OrangeRed">
+            <summary>
+            OrangeRed color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Orchid">
+            <summary>
+            Orchid color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PaleGoldenrod">
+            <summary>
+            PaleGoldenrod color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PaleGreen">
+            <summary>
+            PaleGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PaleTurquoise">
+            <summary>
+            PaleTurquoise color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PaleVioletRed">
+            <summary>
+            PaleVioletRed color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PapayaWhip">
+            <summary>
+            PapayaWhip color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PeachPuff">
+            <summary>
+            PeachPuff color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Peru">
+            <summary>
+            Peru color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Pink">
+            <summary>
+            Pink color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Plum">
+            <summary>
+            Plum color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.PowderBlue">
+            <summary>
+            PowderBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Purple">
+            <summary>
+            Purple color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Red">
+            <summary>
+            Red color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.RosyBrown">
+            <summary>
+            RosyBrown color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.RoyalBlue">
+            <summary>
+            RoyalBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SaddleBrown">
+            <summary>
+            SaddleBrown color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Salmon">
+            <summary>
+            Salmon color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SandyBrown">
+            <summary>
+            SandyBrown color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SeaGreen">
+            <summary>
+            SeaGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SeaShell">
+            <summary>
+            SeaShell color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Sienna">
+            <summary>
+            Sienna color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Silver">
+            <summary>
+            Silver color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SkyBlue">
+            <summary>
+            SkyBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SlateBlue">
+            <summary>
+            SlateBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SlateGray">
+            <summary>
+            SlateGray color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Snow">
+            <summary>
+            Snow color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SpringGreen">
+            <summary>
+            SpringGreen color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.SteelBlue">
+            <summary>
+            SteelBlue color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Tan">
+            <summary>
+            Tan color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Teal">
+            <summary>
+            Teal color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Thistle">
+            <summary>
+            Thistle color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Tomato">
+            <summary>
+            Tomato color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Turquoise">
+            <summary>
+            Turquoise color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Violet">
+            <summary>
+            Violet color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Wheat">
+            <summary>
+            Wheat color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.White">
+            <summary>
+            White color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.WhiteSmoke">
+            <summary>
+            WhiteSmoke color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.Yellow">
+            <summary>
+            Yellow color.
+            </summary>
+        </member>
+        <member name="F:SharpDX.Colors.YellowGreen">
+            <summary>
+            YellowGreen color.
+            </summary>
         </member>
         <member name="T:SharpDX.Windows.RenderForm">
             <summary>
