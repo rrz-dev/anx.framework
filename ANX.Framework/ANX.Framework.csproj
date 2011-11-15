@@ -130,6 +130,21 @@
     <Compile Include="CurveKeyCollection.cs" />
     <Compile Include="CurveLoopType.cs" />
     <Compile Include="CurveTangent.cs" />
+    <Compile Include="Design\ANXFieldDescriptor.cs" />
+    <Compile Include="Design\ANXPropertyDescriptor.cs" />
+    <Compile Include="Design\BoundingBox.cs" />
+    <Compile Include="Design\BoundingSphereConverter.cs" />
+    <Compile Include="Design\ColorConverter.cs" />
+    <Compile Include="Design\MathTypeConverter.cs" />
+    <Compile Include="Design\MatrixConverter.cs" />
+    <Compile Include="Design\PlaneConverter.cs" />
+    <Compile Include="Design\PointConverter.cs" />
+    <Compile Include="Design\QuaternionConverter.cs" />
+    <Compile Include="Design\RayConverter.cs" />
+    <Compile Include="Design\RectangleConverter.cs" />
+    <Compile Include="Design\Vector2Converter.cs" />
+    <Compile Include="Design\Vector3Converter.cs" />
+    <Compile Include="Design\Vector4Converter.cs" />
     <Compile Include="DisplayOrientation.cs" />
     <Compile Include="DrawableGameComponent.cs" />
     <Compile Include="Game.cs" />
@@ -358,7 +373,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\MediaTypeReaders\" />
-    <Folder Include="Design\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
