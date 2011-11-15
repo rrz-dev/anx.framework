@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockEffects", "StockEffects\StockEffects.contentproj", "{B250043B-C41D-4E56-A477-0664D2E47054}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX11.1", "ANX.RenderSystem.Windows.DX11.1\ANX.RenderSystem.Windows.DX11.1.csproj", "{B30DE9C2-0926-46B6-8351-9AF276C472D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B24A8593-562A-4A25-BB08-46C163F10F3F}"
@@ -48,6 +46,35 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Windows.Kinect", "ANX.InputSystem.Windows.Kinect\ANX.InputSystem.Windows.Kinect.csproj", "{E5D69E75-D77C-493F-BBDA-6F9E73B82549}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect", "Samples\Kinect\Kinect.csproj", "{A42413A9-5189-40CB-AACA-D50F24865431}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock Shaders", "Stock Shaders", "{60824BDB-AC8A-42ED-9B79-111FB44669FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX10", "DX10", "{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA}"
+	ProjectSection(SolutionItems) = preProject
+		shader\DX10\build.xml = shader\DX10\build.xml
+		shader\DX10\SpriteBatch.fx = shader\DX10\SpriteBatch.fx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95FC-48F2-8B6D-8483D0B71666}"
+	ProjectSection(SolutionItems) = preProject
+		shader\GL3\build.xml = shader\GL3\build.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", "Tools\StockShaderCodeGenerator\StockShaderCodeGenerator.csproj", "{D73E5FF4-AE88-4637-8159-120FBDA564BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA", "XNA", "{BD648BB8-EF28-453C-B4F5-EE3C93EB4DAF}"
+	ProjectSection(SolutionItems) = preProject
+		shader\XNA\AlphaTestEffect.fx = shader\XNA\AlphaTestEffect.fx
+		shader\XNA\BasicEffect.fx = shader\XNA\BasicEffect.fx
+		shader\XNA\Common.fxh = shader\XNA\Common.fxh
+		shader\XNA\DualTextureEffect.fx = shader\XNA\DualTextureEffect.fx
+		shader\XNA\EnvironmentMapEffect.fx = shader\XNA\EnvironmentMapEffect.fx
+		shader\XNA\Lighting.fxh = shader\XNA\Lighting.fxh
+		shader\XNA\Macros.fxh = shader\XNA\Macros.fxh
+		shader\XNA\SkinnedEffect.fx = shader\XNA\SkinnedEffect.fx
+		shader\XNA\SpriteEffect.fx = shader\XNA\SpriteEffect.fx
+		shader\XNA\Structures.fxh = shader\XNA\Structures.fxh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -115,12 +142,6 @@ Global
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Mixed Platforms.Build.0 = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.ActiveCfg = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.Build.0 = Release|x86
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B250043B-C41D-4E56-A477-0664D2E47054}.Release|x86.ActiveCfg = Debug|Any CPU
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -247,6 +268,16 @@ Global
 		{A42413A9-5189-40CB-AACA-D50F24865431}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A42413A9-5189-40CB-AACA-D50F24865431}.Release|x86.ActiveCfg = Release|x86
 		{A42413A9-5189-40CB-AACA-D50F24865431}.Release|x86.Build.0 = Release|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Debug|x86.ActiveCfg = Debug|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Debug|x86.Build.0 = Debug|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.ActiveCfg = Release|x86
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -257,6 +288,7 @@ Global
 		{5BE49183-2F6F-4527-AC90-D816911FCF90} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{9D8DC781-2E0D-4348-BAD9-745F91428A3F} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
 		{B5209A04-B2F8-4033-A5E7-545BE771214C} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
+		{D73E5FF4-AE88-4637-8159-120FBDA564BF} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
 		{F945515B-394D-4ED4-80E0-98EB59B69D24} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{BC79B021-10E4-4D01-945A-7048FFF53A22} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
@@ -267,5 +299,8 @@ Global
 		{60D08399-244F-46A3-91F1-4CFD26D961A3} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{E5D69E75-D77C-493F-BBDA-6F9E73B82549} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{6A582788-C4D2-410C-96CD-177F75712D65} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
+		{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
+		{E4FFD875-95FC-48F2-8B6D-8483D0B71666} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
+		{BD648BB8-EF28-453C-B4F5-EE3C93EB4DAF} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 	EndGlobalSection
 EndGlobal

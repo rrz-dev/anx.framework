@@ -41,7 +41,7 @@
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-uniform extern float4x4 MatrixTransform;
+uniform mat4 MatrixTransform;
 
 Texture2D<float4> Texture : register(t0);
    sampler TextureSampler : register(s0);
