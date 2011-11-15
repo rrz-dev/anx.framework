@@ -1,11 +1,12 @@
-﻿#region Private Members
+﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Reflection;
+using ANX.Framework.Windows.DX10;
+using ANX.Framework.Windows.GL3;
 
-#endregion // Private Members
+#endregion // Using Statements
 
 #region License
 
@@ -56,40 +57,59 @@ using System.Reflection;
 
 namespace StockShaderCodeGenerator
 {
-    class Program
+    public static class Compiler
     {
-        static void Main(string[] args)
+        public static void GenerateShaders()
         {
-            Console.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " + Assembly.GetExecutingAssembly().GetName().Version);
+            Console.WriteLine("generating shaders...");
 
-            string buildFile;
-
-            if (args.Length < 1)
+            for (int i = 0; i < Configuration.Shaders.Count; i++)
             {
-                Console.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
+                Shader s = Configuration.Shaders[i];
 
-                buildFile = "build.xml";
+                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
+                String source = String.Empty;
+                if (System.IO.File.Exists(s.Source))
+                {
+                    source = System.IO.File.ReadAllText(s.Source);
+                }
+
+                Console.Write("--> compiling shader... ");
+                try
+                {
+                    s.ByteCode = CompileShader(s.RenderSystem, source);
+                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
+                    s.ShaderCompiled = true;
+                }
+                catch (Exception ex)
+                {
+                    s.ShaderCompiled = false;
+                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
+                }
+
+                Configuration.Shaders[i] = s;
             }
-            else
+
+            Console.WriteLine("finished generating shaders...");
+        }
+
+        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
+        {
+            byte[] byteCode;
+
+            switch (RenderSystem)
             {
-                buildFile = args[0];
+                case "ANX.Framework.Windows.DX10":
+                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
+                    break;
+                case "ANX.Framework.Windows.GL3":
+                    byteCode = EffectGL3.CompileShader(sourceCode);
+                    break;
+                default:
+                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
             }
 
-            Console.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
-
-            Configuration.LoadConfiguration(buildFile);
-
-            if (Configuration.ConfigurationValid)
-            {
-                Compiler.GenerateShaders();
-            }
-
-            CodeGenerator.Generate();
-
-//#if DEBUG
-//            Console.WriteLine("Press enter to exit.");
-//            Console.ReadLine();
-//#endif
+            return byteCode;
         }
     }
 }

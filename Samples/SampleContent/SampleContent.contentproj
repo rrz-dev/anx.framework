@@ -47,14 +47,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\SpriteEffect.fx">
-      <Name>SpriteEffect</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
-      <ProcessorParameters_OutputFormat>DX10_HLSL</ProcessorParameters_OutputFormat>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\DotWhiteTopLeft5x5.png">
       <Name>DotWhiteTopLeft5x5</Name>
       <Importer>TextureImporter</Importer>
@@ -82,14 +74,6 @@
       <Name>Test_100x100</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Effects\SpriteEffect_GLSL.fx">
-      <Name>SpriteEffect_GLSL</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
-      <ProcessorParameters_OutputFormat>OPEN_GL3_GLSL</ProcessorParameters_OutputFormat>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

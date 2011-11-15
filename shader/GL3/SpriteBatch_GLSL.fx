@@ -43,6 +43,7 @@
 
 uniform mat4 MatrixTransform;
 
+//TODO: rewrite to GLSL from here on
 Texture2D<float4> Texture : register(t0);
    sampler TextureSampler : register(s0);
 

@@ -58,6 +58,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95FC-48F2-8B6D-8483D0B71666}"
 	ProjectSection(SolutionItems) = preProject
 		shader\GL3\build.xml = shader\GL3\build.xml
+		shader\GL3\SpriteBatch_GLSL.fx = shader\GL3\SpriteBatch_GLSL.fx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", "Tools\StockShaderCodeGenerator\StockShaderCodeGenerator.csproj", "{D73E5FF4-AE88-4637-8159-120FBDA564BF}"

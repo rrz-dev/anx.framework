@@ -1,3 +1,10 @@
+﻿#region Using Statements
+using System;
+
+#endregion // Using Statements
+
+#region License
+
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
 //
@@ -41,47 +48,16 @@
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-uniform extern float4x4 MatrixTransform;
+#endregion // License
 
-Texture2D<float4> Texture : register(t0);
-   sampler TextureSampler : register(s0);
-
-struct VertexShaderInput
+namespace StockShaderCodeGenerator
 {
-	float4 pos : POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
-};
-
-struct PixelShaderInput
-{
-	float4 pos : SV_POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
-};
-
-PixelShaderInput SpriteVertexShader( VertexShaderInput input )
-{
-	PixelShaderInput output = (PixelShaderInput)0;
-	
-	output.pos = mul(input.pos, MatrixTransform);
-	output.col = input.col;
-	output.tex = input.tex;
-
-	return output;
-}
-
-float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
-{
-	return Texture.Sample(TextureSampler, input.tex) * input.col;
-}
-
-technique10 SpriteTechnique
-{
-	pass SpriteColorPass
-	{
-		SetGeometryShader( 0 );
-		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
-		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
-	}
+    public struct Shader
+    {
+        public string Type;
+        public string Source;
+        public string RenderSystem;
+        public bool ShaderCompiled;
+        public byte[] ByteCode;
+    }
 }

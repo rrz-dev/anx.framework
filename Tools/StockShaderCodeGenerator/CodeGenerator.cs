@@ -1,11 +1,12 @@
-﻿#region Private Members
+﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Reflection;
+using ANX.Framework.Windows.DX10;
+using System.IO;
 
-#endregion // Private Members
+#endregion // Using Statements
 
 #region License
 
@@ -56,40 +57,70 @@ using System.Reflection;
 
 namespace StockShaderCodeGenerator
 {
-    class Program
+    public static class CodeGenerator
     {
-        static void Main(string[] args)
+        public static void Generate()
         {
-            Console.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " + Assembly.GetExecutingAssembly().GetName().Version);
+            Console.WriteLine("generating output...");
 
-            string buildFile;
-
-            if (args.Length < 1)
+            using (StreamWriter target = new StreamWriter(Configuration.Target, false))
             {
-                Console.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
+                //
+                // write header
+                //
+                target.WriteLine("#region Using Statements");
+                target.WriteLine("using System;");
+                target.WriteLine("#endregion // Using Statements");
+                target.WriteLine();
+                target.WriteLine("#region License");
 
-                buildFile = "build.xml";
+                foreach (string line in System.IO.File.ReadAllLines(Configuration.LicenseFile))
+                {
+                    target.WriteLine(line);
+                }
+
+                target.WriteLine("#endregion // License");
+                target.WriteLine();
+                target.WriteLine("namespace {0}", Configuration.Namespace);
+                target.WriteLine("{");
+                target.WriteLine("\tinternal static class ShaderByteCode");
+                target.WriteLine("\t{");
+
+                for (int i = 0; i < Configuration.Shaders.Count; i++)
+                {
+                    Shader s = Configuration.Shaders[i];
+
+                    target.WriteLine("\t\t#region {0}Shader", s.Type);
+                    target.WriteLine("\t\tinternal static byte[] {0}ByteCode = new byte[]", s.Type);
+                    target.WriteLine("\t\t{");
+
+                    target.Write("\t\t\t");
+                    for (int j = 0; j < s.ByteCode.Length; j++)
+                    {
+                        target.Write(s.ByteCode[j].ToString("D3"));
+                        if (j < s.ByteCode.Length - 1)
+                        {
+                            target.Write(", ");
+                        }
+
+                        if (j % 20 == 0)
+                        {
+                            target.WriteLine();
+                            target.Write("\t\t\t");
+                        }
+                    }
+
+                    target.WriteLine();
+                    target.WriteLine("\t\t};");
+                    target.WriteLine("\t\t#endregion //{0}Shader", s.Type);
+                    target.WriteLine();
+                }
+
+                target.WriteLine("\t}");
+                target.WriteLine("}");
             }
-            else
-            {
-                buildFile = args[0];
-            }
 
-            Console.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
-
-            Configuration.LoadConfiguration(buildFile);
-
-            if (Configuration.ConfigurationValid)
-            {
-                Compiler.GenerateShaders();
-            }
-
-            CodeGenerator.Generate();
-
-//#if DEBUG
-//            Console.WriteLine("Press enter to exit.");
-//            Console.ReadLine();
-//#endif
+            Console.WriteLine("finished generating output...");
         }
     }
 }
