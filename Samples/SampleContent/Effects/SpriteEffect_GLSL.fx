@@ -1,16 +1,3 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.InputSystem;
-using ANX.Framework.NonXNA;
-using SharpDX.DirectInput;
-using DXKeyboard=SharpDX.DirectInput.Keyboard;
-#endregion // Using Statements
-
-#region License
-
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
 //
@@ -54,74 +41,47 @@ using DXKeyboard=SharpDX.DirectInput.Keyboard;
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-#endregion // License
+uniform extern float4x4 MatrixTransform;
 
-namespace ANX.InputSystem.Windows.XInput
+Texture2D<float4> Texture : register(t0);
+   sampler TextureSampler : register(s0);
+
+struct VertexShaderInput
 {
-    public class Keyboard : IKeyboard
-    {
-        #region Private Members
-        private DirectInput directInput;
-        private DXKeyboard nativeKeyboard;
-        private KeyboardState nativeState;
+	float4 pos : POSITION;
+	float4 col : COLOR;
+	float2 tex : TEXCOORD0;
+};
 
-        #endregion // Private Members
+struct PixelShaderInput
+{
+	float4 pos : SV_POSITION;
+	float4 col : COLOR;
+	float2 tex : TEXCOORD0;
+};
 
-        public IntPtr WindowHandle
-        {
-            get;
-            set;
-        }
+PixelShaderInput SpriteVertexShader( VertexShaderInput input )
+{
+	PixelShaderInput output = (PixelShaderInput)0;
+	
+	output.pos = mul(input.pos, MatrixTransform);
+	output.col = input.col;
+	output.tex = input.tex;
 
-        public Keyboard()
-        {
-            this.nativeState = new KeyboardState();
-        }
+	return output;
+}
 
-        public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
-        {
-            //TODO: prevent new
+float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
+{
+	return Texture.Sample(TextureSampler, input.tex) * input.col;
+}
 
-            // only available on XBox, behaviour regarding MSDN: empty keystate
-            return new Framework.Input.KeyboardState();
-        }
-
-        public Framework.Input.KeyboardState GetState()
-        {
-            if (this.nativeKeyboard == null && this.WindowHandle != null && this.WindowHandle != IntPtr.Zero)
-            {
-                this.directInput = new DirectInput();
-                this.nativeKeyboard = new DXKeyboard(this.directInput);
-                this.nativeKeyboard.SetCooperativeLevel(this.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background);
-                this.nativeKeyboard.Acquire();
-            }
-
-            if (this.nativeKeyboard != null)
-            {
-                nativeKeyboard.GetCurrentState(ref this.nativeState);
-                if (this.nativeState.PressedKeys.Count > 0)
-                {
-                    return FormatConverter.Translate(this.nativeState);
-                }
-            }
-
-            return new Framework.Input.KeyboardState();
-        }
-
-        public void Dispose()
-        {
-            if (this.nativeKeyboard != null)
-            {
-                this.nativeKeyboard.Unacquire();
-                this.nativeKeyboard.Dispose();
-                this.nativeKeyboard = null;
-            }
-
-            if (this.directInput != null)
-            {
-                this.directInput.Dispose();
-                this.directInput = null;
-            }
-        }
-    }
+technique10 SpriteTechnique
+{
+	pass SpriteColorPass
+	{
+		SetGeometryShader( 0 );
+		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
+		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
+	}
 }

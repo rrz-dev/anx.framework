@@ -56,6 +56,22 @@ namespace ANX.InputSystem.Windows.XInput
 {
     internal class FormatConverter
     {
+        public static ANX.Framework.Input.Keys Translate(SharpDX.DirectInput.Key key)
+        {
+            //TODO: implement all keys
+            //TODO: test if a array with the mapping which is constructed once is faster
+
+            switch (key)
+            {
+                case SharpDX.DirectInput.Key.A:
+                    return Keys.A;
+                case SharpDX.DirectInput.Key.Escape:
+                    return Keys.Escape;
+            }
+
+            throw new NotImplementedException();
+        }
+
         public static KeyboardState Translate(SharpDX.DirectInput.KeyboardState keyboardState)
         {
             int keyCount = keyboardState.PressedKeys.Count;
@@ -63,7 +79,7 @@ namespace ANX.InputSystem.Windows.XInput
 
             for (int i = 0; i < keyCount; i++)
             {
-                keys[i] = (ANX.Framework.Input.Keys)((int)keyboardState.PressedKeys[i]);
+                keys[i] = Translate(keyboardState.PressedKeys[i]);
             }
 
             KeyboardState ks = new KeyboardState(keys);

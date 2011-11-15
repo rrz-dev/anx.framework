@@ -144,6 +144,15 @@ namespace ANX.Framework.Windows.GL3
 
 			return null;
 		}
+
+        public static byte[] CompileShader(string effectCode)
+        {
+            //TODO: pre-compiled shaders are supported in GL 4.1 and newer only ?!?
+            //TODO: encode string somehow to protect shader source
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            return enc.GetBytes(effectCode);
+        }
+
 		#endregion
 
 		#region INativeEffect Member
@@ -200,11 +209,5 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 		#endregion
-
-        public static byte[] CompileShader(string effectCode)
-        {
-            //TODO: implement to be used by ContentPipeline
-            throw new NotImplementedException();
-        }
     }
 }

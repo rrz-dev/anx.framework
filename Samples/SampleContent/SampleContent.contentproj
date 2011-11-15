@@ -84,6 +84,14 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Effects\SpriteEffect_GLSL.fx">
+      <Name>SpriteEffect_GLSL</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>AnxEffectProcessor</Processor>
+      <ProcessorParameters_OutputFormat>OPEN_GL3_GLSL</ProcessorParameters_OutputFormat>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
