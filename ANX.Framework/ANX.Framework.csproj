@@ -50,6 +50,7 @@
     <Compile Include="Audio\AudioEmitter.cs" />
     <Compile Include="Audio\AudioListener.cs" />
     <Compile Include="Audio\AudioStopOptions.cs" />
+    <Compile Include="Audio\DynamicSoundEffectInstance.cs" />
     <Compile Include="Audio\Microphone.cs" />
     <Compile Include="Audio\MicrophoneState.cs" />
     <Compile Include="Audio\RendererDetail.cs" />
