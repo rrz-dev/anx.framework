@@ -126,6 +126,8 @@
     <Compile Include="Content\SystemTypeReaders\TimeSpanReader.cs" />
     <Compile Include="Content\MathTypeReaders\ColorReader.cs" />
     <Compile Include="CurveContinuity.cs" />
+    <Compile Include="CurveKey.cs" />
+    <Compile Include="CurveKeyCollection.cs" />
     <Compile Include="CurveLoopType.cs" />
     <Compile Include="CurveTangent.cs" />
     <Compile Include="DisplayOrientation.cs" />

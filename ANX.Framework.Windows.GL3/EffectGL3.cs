@@ -4,6 +4,7 @@ using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using OpenTK.Graphics.OpenGL;
+using System.Text;
 
 #region License
 
@@ -59,6 +60,10 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
+		#region Constants
+		private const string FragmentSeparator = "##!fragment!##";
+		#endregion
+
 		#region Private
 		/// <summary>
 		/// The native shader handle.
@@ -66,7 +71,39 @@ namespace ANX.Framework.Windows.GL3
 		private int programHandle;
 		#endregion
 
-		#region Constructor (TODO)
+		#region Public
+		#region Techniques (TODO)
+		public IEnumerable<EffectTechnique> Techniques
+		{
+			get
+			{
+				List<EffectTechnique> techniques = new List<EffectTechnique>();
+
+				// TODO: dummy, fill with actual data.
+				techniques.Add(new EffectTechnique());
+
+				return techniques;
+			}
+		}
+		#endregion
+
+		#region Parameters (TODO)
+		public IEnumerable<EffectParameter> Parameters
+		{
+			get
+			{
+				List<EffectParameter> parameters = new List<EffectParameter>();
+
+				// TODO: dummy, fill with actual data.
+				parameters.Add(new EffectParameter());
+
+				return parameters;
+			}
+		}
+		#endregion
+		#endregion
+
+		#region Constructor
 		/// <summary>
 		/// Create a new effect instance of separate streams.
 		/// </summary>
@@ -75,7 +112,16 @@ namespace ANX.Framework.Windows.GL3
 		public EffectGL3(Stream vertexShaderByteCode,
 			Stream pixelShaderByteCode)
 		{
-			CreateShader("", "");
+			byte[] vertexBytes = new byte[vertexShaderByteCode.Length];
+			vertexShaderByteCode.Read(vertexBytes, 0,
+				(int)vertexShaderByteCode.Length);
+
+			byte[] fragmentBytes = new byte[pixelShaderByteCode.Length];
+			pixelShaderByteCode.Read(fragmentBytes, 0,
+				(int)pixelShaderByteCode.Length);
+
+			CreateShader(Encoding.ASCII.GetString(vertexBytes),
+				Encoding.ASCII.GetString(fragmentBytes));
 		}
 
 		/// <summary>
@@ -84,7 +130,14 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="byteCode">The byte code of the shader.</param>
 		public EffectGL3(Stream byteCode)
 		{
-			CreateShader("", "");
+			byte[] byteData = new byte[byteCode.Length];
+			byteCode.Read(byteData, 0, (int)byteCode.Length);
+
+			string source = Encoding.ASCII.GetString(byteData);
+			string[] parts = source.Split(new string[] { FragmentSeparator },
+				StringSplitOptions.RemoveEmptyEntries);
+
+			CreateShader(parts[0], parts[1]);
 		}
 		#endregion
 
@@ -129,7 +182,7 @@ namespace ANX.Framework.Windows.GL3
 		{
 			GL.ShaderSource(shader, source);
 			GL.CompileShader(shader);
-			
+
 			int result;
 			GL.GetShader(shader, ShaderParameter.CompileStatus, out result);
 			if (result == 0)
@@ -144,50 +197,20 @@ namespace ANX.Framework.Windows.GL3
 
 			return null;
 		}
-
-        public static byte[] CompileShader(string effectCode)
-        {
-            //TODO: pre-compiled shaders are supported in GL 4.1 and newer only ?!?
-            //TODO: encode string somehow to protect shader source
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            return enc.GetBytes(effectCode);
-        }
-
 		#endregion
 
-		#region INativeEffect Member
+		#region CompileShader (for external)
+		public static byte[] CompileShader(string effectCode)
+		{
+			return Encoding.ASCII.GetBytes(effectCode);
+		}
+		#endregion
 
+		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			throw new NotImplementedException();
 		}
-
-		public IEnumerable<EffectTechnique> Techniques
-		{
-			get
-			{
-				List<EffectTechnique> techniques = new List<EffectTechnique>();
-
-				// TODO: dummy, fill with actual data.
-				techniques.Add(new EffectTechnique());
-
-				return techniques;
-			}
-		}
-
-		public IEnumerable<EffectParameter> Parameters
-		{
-			get
-			{
-				List<EffectParameter> parameters = new List<EffectParameter>();
-
-				// TODO: dummy, fill with actual data.
-				parameters.Add(new EffectParameter());
-
-				return parameters;
-			}
-		}
-
 		#endregion
 
 		#region Dispose
@@ -209,5 +232,5 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 		#endregion
-    }
+	}
 }
