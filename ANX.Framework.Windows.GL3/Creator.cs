@@ -216,8 +216,8 @@ namespace ANX.Framework.Windows.GL3
 		{
 			switch (type)
 			{
-				//case PreDefinedShader.SpriteBatch:
-				//  return new byte[0];
+				case PreDefinedShader.SpriteBatch:
+				    return ShaderByteCode.SpriteBatchByteCode;
 
 				default:
 					throw new NotSupportedException("The predefined shader '" + type +
