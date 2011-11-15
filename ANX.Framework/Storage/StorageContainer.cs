@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 #endregion // Using Statements
 
@@ -55,105 +56,129 @@ namespace ANX.Framework.Storage
 {
     public class StorageContainer : IDisposable
     {
+        private DirectoryInfo baseDirectory;
+        private PlayerIndex player;
+
         public event EventHandler<EventArgs> Disposing;
 
-        ~StorageContainer()
+        internal StorageContainer(StorageDevice device, PlayerIndex player, string displayName)
         {
-            throw new NotImplementedException();
+            StorageDevice = device;
+            DisplayName = displayName;
+            this.player = player;
+
+            string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string playerPath;
+            switch (player)
+            {
+                case PlayerIndex.One:
+                    playerPath = "Player1";
+                    break;
+                case PlayerIndex.Two:
+                    playerPath = "Player2";
+                    break;
+                case PlayerIndex.Three:
+                    playerPath = "Player3";
+                    break;
+                case PlayerIndex.Four:
+                    playerPath = "Player4";
+                    break;
+                default:
+                    playerPath = "AllPlayers";
+                    break;
+            }
+
+            baseDirectory = new DirectoryInfo(Path.Combine(myDocsPath, displayName, playerPath));
+            baseDirectory.Create(); //fails silently if directory exists
+        }
+
+        /// <summary>
+        /// Returns the full path for the given relative path, and makes
+        /// some sanity checks.
+        /// </summary>
+        private string GetTestFullPath(string relPath)
+        {
+            if (string.IsNullOrEmpty(relPath))
+                throw new ArgumentNullException("path");
+
+            string fullPath = Path.Combine(baseDirectory.FullName, relPath);
+
+            if (!fullPath.StartsWith(baseDirectory.FullName))
+                throw new InvalidOperationException("The given path is not in the selected storage location!");
+
+            return fullPath;
         }
 
         public void CreateDirectory(string directory)
         {
-            throw new NotImplementedException();
+            baseDirectory.CreateSubdirectory(directory);
         }
 
         public Stream CreateFile(string file)
         {
-            throw new NotImplementedException();
+            return File.Create(GetTestFullPath(file));
         }
 
         public void DeleteDirectory(string directory)
         {
-            throw new NotImplementedException();
+            Directory.Delete(GetTestFullPath(directory));
         }
 
         public void DeleteFile(string file)
         {
-            throw new NotImplementedException();
+            File.Delete(GetTestFullPath(file));
         }
 
         public bool DirectoryExists(string directory)
         {
-            throw new NotImplementedException();
+            return Directory.Exists(GetTestFullPath(directory));
         }
 
         public bool FileExists(string file)
         {
-            throw new NotImplementedException();
+            return File.Exists(GetTestFullPath(file));
         }
 
-        public string[] GetDirectoryNames()
+        public string[] GetDirectoryNames(string searchPattern = "*")
         {
-            throw new NotImplementedException();
+            List<string> dirs = new List<string>();
+            foreach (DirectoryInfo dir in baseDirectory.EnumerateDirectories(searchPattern))
+            {
+                dirs.Add(dir.FullName.Substring(baseDirectory.FullName.Length));
+            }
+
+            return dirs.ToArray();
         }
 
-        public string[] GetDirectoryNames(string searchPattern)
+        public string[] GetFileNames(string searchPattern = "*")
         {
-            throw new NotImplementedException();
+            List<string> files = new List<string>();
+            foreach (FileInfo file in baseDirectory.EnumerateFiles(searchPattern))
+            {
+                files.Add(file.FullName.Substring(baseDirectory.FullName.Length));
+            }
+
+            return files.ToArray();
         }
 
-        public string[] GetFileNames()
+        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
         {
-            throw new NotImplementedException();
-        }
-
-        public string[] GetFileNames(string searchPattern)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Stream OpenFile(string file, FileMode fileMode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
-        {
-            throw new NotImplementedException();
+            return File.Open(GetTestFullPath(file), fileMode, fileAccess, fileShare);
         }
 
         public string DisplayName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        { get; protected set; }
 
         public StorageDevice StorageDevice
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        { get; protected set; }
 
         public bool IsDisposed
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        { get; protected set; }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Disposing(this, EventArgs.Empty);
+            IsDisposed = true;
         }
     }
 }
