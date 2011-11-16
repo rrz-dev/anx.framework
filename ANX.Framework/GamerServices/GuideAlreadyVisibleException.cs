@@ -60,7 +60,7 @@ namespace ANX.Framework.GamerServices
         {
         }
 
-        public GuideAlreadyVisibleException(SerializationInfo info, StreamingContext context)
+        protected GuideAlreadyVisibleException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

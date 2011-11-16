@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Runtime.Serialization;
 
 #endregion // Using Statements
 
@@ -54,6 +55,24 @@ namespace ANX.Framework.GamerServices
 {
     public class NetworkException : Exception
     {
+        public NetworkException()
+            : base()
+        {
+        }
 
+        protected NetworkException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+        
+        public NetworkException(string message)
+            : base(message)
+        {
+        }
+
+        public NetworkException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }

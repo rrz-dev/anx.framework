@@ -60,7 +60,7 @@ namespace ANX.Framework.GamerServices
         {
         }
 
-        public GamerServicesNotAvailableException(SerializationInfo info, StreamingContext context)
+        protected GamerServicesNotAvailableException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Runtime.Serialization;
 
 #endregion // Using Statements
 
@@ -52,7 +53,26 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public class NetworkNotAvailableException : Exception
+    public class NetworkNotAvailableException : NetworkException
     {
+        public NetworkNotAvailableException()
+            : base()
+        {
+        }
+
+        protected NetworkNotAvailableException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+        
+        public NetworkNotAvailableException(string message)
+            : base(message)
+        {
+        }
+
+        public NetworkNotAvailableException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }
