@@ -82,9 +82,9 @@ namespace StockShaderCodeGenerator
             if (Configuration.ConfigurationValid)
             {
                 Compiler.GenerateShaders();
-            }
 
-            CodeGenerator.Generate();
+                CodeGenerator.Generate();
+            }
 
 //#if DEBUG
 //            Console.WriteLine("Press enter to exit.");
