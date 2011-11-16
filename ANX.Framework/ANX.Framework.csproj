@@ -335,6 +335,10 @@
     <Compile Include="Media\MediaSourceType.cs" />
     <Compile Include="Media\MediaState.cs" />
     <Compile Include="Media\VideoSoundtrackType.cs" />
+    <Compile Include="Net\GameEndedEventArgs.cs" />
+    <Compile Include="Net\GameStartedEventArgs.cs" />
+    <Compile Include="Net\NetworkException.cs" />
+    <Compile Include="Net\NetworkSessionEndedEventArgs.cs" />
     <Compile Include="Net\NetworkSessionEndReason.cs" />
     <Compile Include="Net\NetworkSessionJoinError.cs" />
     <Compile Include="Net\NetworkSessionState.cs" />
