@@ -352,7 +352,7 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            throw new Exception("method has not yet been implemented");
+            return this.Min.GetHashCode() + this.Max.GetHashCode();
         }
 
         public bool Intersects(BoundingBox box)
@@ -567,7 +567,12 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            return "Min:" + Min.ToString() + " Max:" + Max.ToString();
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{Min:{0} Max:{1}}}", new object[]
+	        {
+		        this.Min.ToString(), 
+                this.Max.ToString()
+	        });
         }
         #endregion
 

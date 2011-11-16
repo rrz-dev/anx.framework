@@ -73,10 +73,13 @@ namespace ANX.Framework.Design
             string separator = "; ";
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
             StringBuilder builder = new StringBuilder();
-            foreach (var item in values)
+            for (int i = 0; i < values.Length; i++)
             {
-                builder.Append(converter.ConvertToString(context, culture, item));
-                builder.Append(separator);
+                builder.Append(converter.ConvertToString(context, culture, values[i]));
+                if (i < values.Length - 1)
+                {
+                    builder.Append(separator);
+                }
             }
             return builder.ToString();
         }

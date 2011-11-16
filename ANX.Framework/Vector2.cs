@@ -259,7 +259,7 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+            return this.X.GetHashCode() + this.Y.GetHashCode();
         }
 
         public static Vector2 Hermite(Vector2 value1, Vector2 tangent1, Vector2 value2, Vector2 tangent2, float amount)
@@ -418,7 +418,12 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            return "{X:" + this.X + " Y:" + this.Y + "}";
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
+	        {
+		        this.X.ToString(currentCulture), 
+                this.Y.ToString(currentCulture)
+	        });
         }
 
         public static Vector2 Transform(Vector2 position, Matrix matrix)

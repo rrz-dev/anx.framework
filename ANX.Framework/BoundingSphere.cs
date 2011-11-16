@@ -263,7 +263,7 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return this.Radius.GetHashCode() + this.Center.GetHashCode();
         }
 
         public bool Intersects(BoundingBox box)
@@ -455,7 +455,12 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            return "Center:" + Center.ToString() + " Radius:" + Radius.ToString();  
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{Center:{0} Radius:{1}}}", new object[]
+	        {
+		        this.Center.ToString(), 
+                this.Radius.ToString(currentCulture)
+	        });
         }
         #endregion
 

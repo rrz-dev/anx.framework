@@ -13,16 +13,7 @@ namespace ANX.Framework.Design
         public RectangleConverter()
         {
             base.propertyDescriptions = MathTypeConverter.CreateFieldDescriptor<Rectangle>("X", "Y", "Width", "Height");
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-        {
-            int[] values = MathTypeConverter.ConvertFromString<int>(context, culture, value as String);
-            if (values != null && values.Length == 4)
-            {
-                return new Rectangle(values[0], values[1], values[2], values[3]);
-            }
-            return base.ConvertFrom(context, culture, value);
+            supportStringConvert = false;
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
@@ -35,10 +26,6 @@ namespace ANX.Framework.Design
             {
                 Rectangle instance = (Rectangle)value;
 
-                if (destinationType == typeof(string))
-                {
-                    return MathTypeConverter.ConvertToString<int>(context, culture, new int[] { instance.X, instance.Y, instance.Width, instance.Height });
-                }
                 if (destinationType == typeof(InstanceDescriptor))
                 {
                     var constructor = typeof(Rectangle).GetConstructor(new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) });

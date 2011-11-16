@@ -123,7 +123,7 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-           return this.D.GetHashCode() ^ this.Normal.GetHashCode();
+           return this.D.GetHashCode() + this.Normal.GetHashCode();
         }
 
         public PlaneIntersectionType Intersects(BoundingBox box)
@@ -240,8 +240,12 @@ namespace ANX.Framework
 
         public override string ToString()
         {
-            return "{{Normal:"+this.Normal.ToString()+" D:"+this.D.ToString()+"}}";
-
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{Normal:{0} D:{1}}}", new object[]
+	        {
+		        this.Normal.ToString(), 
+		        this.D.ToString(currentCulture)
+	        });
         }
 
         public static Plane Transform(Plane plane, Matrix matrix)

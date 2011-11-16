@@ -83,12 +83,17 @@ namespace ANX.Framework
         #region public methods
         public override int GetHashCode()
         {
-            throw new Exception("method has not yet been implemented");
+            return this.X + this.Y;
         }
 
         public override string ToString()
         {
-            throw new Exception("method has not yet been implemented");
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
+	        {
+		        this.X.ToString(currentCulture), 
+		        this.Y.ToString(currentCulture)
+	        });
         }
         #endregion
 

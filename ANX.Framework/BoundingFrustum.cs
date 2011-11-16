@@ -566,7 +566,7 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return this.matrix.GetHashCode();
         }
 
         public bool Intersects(BoundingBox box)
@@ -810,21 +810,16 @@ namespace ANX.Framework
         //source: monoxna
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("{Near:");
-            sb.Append(this.near.ToString());
-            sb.Append(" Far:");
-            sb.Append(this.far.ToString());
-            sb.Append(" Left:");
-            sb.Append(this.left.ToString());
-            sb.Append(" Right:");
-            sb.Append(this.right.ToString());
-            sb.Append(" Top:");
-            sb.Append(this.top.ToString());
-            sb.Append(" Bottom:");
-            sb.Append(this.bottom.ToString());
-            sb.Append("}");
-            return sb.ToString();
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{Near:{0} Far:{1} Left:{2} Right:{3} Top:{4} Bottom:{5}}}", new object[]
+	        {
+		        this.Near.ToString(), 
+		        this.Far.ToString(), 
+		        this.Left.ToString(), 
+		        this.Right.ToString(), 
+		        this.Top.ToString(), 
+		        this.Bottom.ToString()
+	        });
         }
         #endregion
 

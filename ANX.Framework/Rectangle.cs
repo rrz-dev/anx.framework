@@ -240,9 +240,17 @@ namespace ANX.Framework
             this.Y += amount.Y;
 
         }
+
         public override string ToString()
         {
-            return "{X:" + this.X + " Y:" + this.Y + " Width:" + this.Width + " Height:" + this.Height + "}";
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1} Width:{2} Height:{3}}}", new object[]
+	        {
+		        this.X.ToString(currentCulture), 
+                this.Y.ToString(currentCulture),
+                this.Width.ToString(currentCulture),
+                this.Height.ToString(currentCulture)
+	        });
         }
 
         #endregion

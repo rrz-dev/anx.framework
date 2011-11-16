@@ -1205,16 +1205,63 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return
+                M11.GetHashCode() +
+                M12.GetHashCode() +
+                M13.GetHashCode() +
+                M14.GetHashCode() +
+
+                M21.GetHashCode() +
+                M22.GetHashCode() +
+                M23.GetHashCode() +
+                M24.GetHashCode() +
+
+                M31.GetHashCode() +
+                M32.GetHashCode() +
+                M33.GetHashCode() +
+                M34.GetHashCode() +
+
+                M41.GetHashCode() +
+                M42.GetHashCode() +
+                M43.GetHashCode() +
+                M44.GetHashCode();
         }
 
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}\n{4} {5} {6} {7}\n{8} {9} {10} {11}\n{12} {13} {14} {15}",
-                M11, M12, M13, M14,
-                M21, M22, M23, M24,
-                M31, M32, M33, M34,
-                M41, M42, M43, M44);
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            var parts = new string[6];
+            parts[0] = "{ ";
+            parts[1] = string.Format(currentCulture, "{{M11:{0} M12:{1} M13:{2} M14:{3}}} ", new object[]
+            {
+                M11.ToString(currentCulture), 
+                M12.ToString(currentCulture), 
+                M13.ToString(currentCulture), 
+                M14.ToString(currentCulture)
+            });
+            parts[2] = string.Format(currentCulture, "{{M21:{0} M22:{1} M23:{2} M24:{3}}} ", new object[]
+            {
+                M21.ToString(currentCulture), 
+                M22.ToString(currentCulture), 
+                M23.ToString(currentCulture), 
+                M24.ToString(currentCulture)
+            });
+            parts[3] = string.Format(currentCulture, "{{M31:{0} M32:{1} M33:{2} M34:{3}}} ", new object[]
+            {
+                M31.ToString(currentCulture), 
+                M32.ToString(currentCulture), 
+                M33.ToString(currentCulture), 
+                M34.ToString(currentCulture)
+            });
+            parts[4] = string.Format(currentCulture, "{{M41:{0} M42:{1} M43:{2} M44:{3}}} ", new object[]
+            {
+                M41.ToString(currentCulture), 
+                M42.ToString(currentCulture), 
+                M43.ToString(currentCulture), 
+                M44.ToString(currentCulture)
+            });
+            parts[5] = "}";
+            return string.Concat(parts);
         }
 
         #endregion

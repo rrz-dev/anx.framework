@@ -546,12 +546,19 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode() ^ this.W.GetHashCode();
+            return this.X.GetHashCode() + this.Y.GetHashCode() + this.Z.GetHashCode() + this.W.GetHashCode();
         }
 
         public override string ToString()
         {
-            return "{X:" + this.X + " Y:" + this.Y + " Z:" + this.Z + " W:" + this.W + "}";
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1} Z:{2} W:{3}}}", new object[]
+	        {
+		        this.X.ToString(currentCulture), 
+                this.Y.ToString(currentCulture),
+                this.Z.ToString(currentCulture),
+                this.W.ToString(currentCulture)
+	        });
         }
 
         public float Length()

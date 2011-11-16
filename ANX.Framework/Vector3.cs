@@ -683,12 +683,18 @@ namespace ANX.Framework
 
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
+            return this.X.GetHashCode() + this.Y.GetHashCode() + this.Z.GetHashCode();
         }
 
         public override string ToString()
         {
-            return "{X:" + this.X + " Y:" + this.Y + " Z:" + this.Z + "}";
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1} Z:{2}}}", new object[]
+	        {
+		        this.X.ToString(currentCulture), 
+                this.Y.ToString(currentCulture),
+                this.Z.ToString(currentCulture)
+	        });
         }
 
         #endregion

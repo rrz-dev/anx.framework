@@ -90,7 +90,7 @@ namespace ANX.Framework
         /// </returns>
         public override int GetHashCode()
         {
-            return Position.GetHashCode() ^ Direction.GetHashCode();
+            return Position.GetHashCode() + Direction.GetHashCode();
 
         }
         /*
@@ -229,8 +229,12 @@ namespace ANX.Framework
         /// </returns>
         public override string ToString()
         {
-            return "{{Position:"+Position.ToString()+" Direction:"+Direction.ToString()+"}}";
-
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{Position:{0} Direction:{1}}}", new object[]
+	        {
+		        this.Position.ToString(), 
+		        this.Direction.ToString()
+	        });
         }
         #endregion
 
