@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using ANX.Framework.NonXNA;
-
+using NUnit.Framework;
 #endregion // Using Statements
 
 using ANXGamePadDPad = ANX.Framework.Input.GamePadDPad;
@@ -11,7 +11,7 @@ using ANXButtonState = ANX.Framework.Input.ButtonState;
 using XNAGamePadDPad = Microsoft.Xna.Framework.Input.GamePadDPad;
 using XNAButtons = Microsoft.Xna.Framework.Input.Buttons;
 using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
-using NUnit.Framework;
+
 
 #region License
 
@@ -142,14 +142,9 @@ namespace ANX.Framework.TestCenter.Input
             ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
             XNAGamePadDPad xna = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
 
-            if (xna.ToString() == anx.ToString())
-            {
-                Assert.Pass("Pass ToString");
-            }
-            else
-            {
-                Assert.Fail("Fail ToString\n" + xna.ToString() + "\n" + anx.ToString());
-            }
+            AssertHelper.CompareString(xna.ToString(), anx.ToString(), "ToString");
+
+
         }
         [TestCaseSource("Stats16")]
         public void Equal(ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)

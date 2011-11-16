@@ -64,7 +64,23 @@ namespace ANX.Framework.Input
 
         public GamePadTriggers (float leftTrigger,float rightTrigger)
         {
-            left = leftTrigger;
+            if (leftTrigger>1)
+            {
+                leftTrigger = 1;
+            }
+            if (leftTrigger<0)
+            {
+                leftTrigger = 0;
+            }
+            if (rightTrigger>1)
+            {
+                rightTrigger = 1;
+            }
+            if (rightTrigger<0)
+            {
+                rightTrigger = 0;
+            }
+            left =  leftTrigger;
             right = rightTrigger;
         }
 

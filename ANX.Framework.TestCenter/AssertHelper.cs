@@ -146,7 +146,33 @@ namespace ANX.Framework.TestCenter
         {
             return (float)Math.Abs((double)(a - b)) < epsilon;
         }
+        public static void CompareFloats(float xna, float anx, String test)
+        {
+            if (AssertHelper.CompareFloats(xna, anx, 0.000001f))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                if (xna.ToString() == anx.ToString())
+                {
+                    Assert.Pass(test + " passed");
+                }
 
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+        public static void CompareString(String xna, String anx, String test)
+        {
+            if (xna == anx)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna, anx));
+            }
+        }
         public static void ConvertEquals(bool xna, bool anx, String test)
         {
             if (xna == anx)
@@ -155,7 +181,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -167,7 +193,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Bgr565 XNA: ({1}) Bgr565 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Bgr565 XNA: ({1}) Bgr565 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -179,7 +205,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Bgra5551 XNA: ({1}) Bgra5551 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Bgra5551 XNA: ({1}) Bgra5551 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -191,7 +217,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Bgra4444 XNA: ({1}) Bgra4444 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Bgra4444 XNA: ({1}) Bgra4444 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -203,7 +229,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Byte4 XNA: ({1}) Byte4 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Byte4 XNA: ({1}) Byte4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -215,7 +241,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: HalfSingle XNA: ({1}) HalfSingle ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: HalfSingle XNA: ({1}) HalfSingle ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -227,7 +253,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: HalfVector2 XNA: ({1}) HalfVector2 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: HalfVector2 XNA: ({1}) HalfVector2 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -239,7 +265,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: HalfVector4 XNA: ({1}) HalfVector4 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: HalfVector4 XNA: ({1}) HalfVector4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -251,7 +277,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Rg32 XNA: ({1}) Rg32 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Rg32 XNA: ({1}) Rg32 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -263,7 +289,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Rgba1010102 XNA: ({1}) Rgba1010102 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Rgba1010102 XNA: ({1}) Rgba1010102 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -275,7 +301,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Rgba64 XNA: ({1}) Rgba64 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Rgba64 XNA: ({1}) Rgba64 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -287,7 +313,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: NormalizedByte2 XNA: ({1}) NormalizedByte2 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: NormalizedByte2 XNA: ({1}) NormalizedByte2 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -299,7 +325,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: NormalizedByte4 XNA: ({1}) NormalizedByte4 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: NormalizedByte4 XNA: ({1}) NormalizedByte4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -311,7 +337,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: NormalizedShort2 XNA: ({1}) NormalizedShort2 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: NormalizedShort2 XNA: ({1}) NormalizedShort2 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -323,7 +349,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: NormalizedShort4 XNA: ({1}) NormalizedShort4 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: NormalizedShort4 XNA: ({1}) NormalizedShort4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -335,7 +361,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Short2 XNA: ({1}) Short2 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Short2 XNA: ({1}) Short2 ANX: ({2})", test, lhs, rhs));
             }
         }
 
@@ -347,7 +373,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0] failed: Short4 XNA: ({1}) Short4 ANX: ({2})", test, lhs, rhs));
+                Assert.Fail(String.Format("{0} failed: Short4 XNA: ({1}) Short4 ANX: ({2})", test, lhs, rhs));
             }
         }
 
