@@ -37,19 +37,19 @@
   <ItemGroup>
     <Reference Include="SharpDX, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.D3DCompiler, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\SharpDX\Bin\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D10, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\SharpDX\Bin\SharpDX.Direct3D10.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.Direct3D10.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\SharpDX\Bin\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -89,7 +89,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)../../Tools/bin/sscg.exe" ../../../shader/DX10/build.xml</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
