@@ -72,6 +72,7 @@ namespace WindowsGame1
         Random r = new Random();
 
         public Game1()
+            : base("OpenGL3")
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "SampleContent";

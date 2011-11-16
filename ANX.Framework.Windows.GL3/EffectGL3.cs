@@ -94,6 +94,15 @@ namespace ANX.Framework.Windows.GL3
 			{
 				List<EffectParameter> parameters = new List<EffectParameter>();
 
+                int uniformCount;
+                GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms, out uniformCount);
+
+                string[] uniformNames = new string[uniformCount];
+                int[] uniformIndices = new int[uniformCount];
+
+                //TODO: this command doesn't work ?!?! -> GL.GetUniformIndices(programHandle, uniformCount, uniformNames, uniformIndices);
+
+
 				// TODO: dummy, fill with actual data.
 				parameters.Add(new EffectParameter());
 

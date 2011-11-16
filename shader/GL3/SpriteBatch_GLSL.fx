@@ -43,7 +43,27 @@
 
 uniform mat4 MatrixTransform;
 
-//TODO: rewrite to GLSL from here on
+//
+// Vertex Shader
+//
+
+void main(void)
+{
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+}
+
+##!fragment!##
+
+//
+// Fragment Shader
+//
+
+void main(void)
+{
+	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+}
+
+/*
 Texture2D<float4> Texture : register(t0);
    sampler TextureSampler : register(s0);
 
@@ -86,3 +106,4 @@ technique10 SpriteTechnique
 		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
 	}
 }
+*/
