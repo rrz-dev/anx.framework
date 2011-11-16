@@ -75,9 +75,15 @@
     <Compile Include="Content\ContentSerializerRuntimeTypeAttribute.cs" />
     <Compile Include="Content\ContentSerializerTypeVersionAttribute.cs" />
     <Compile Include="Content\Decompressor.cs" />
+    <Compile Include="Content\GraphicTypeReaders\AlphaTestEffectReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\BasicEffectReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\DualTextureEffectReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\EffectMaterialReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\EffectReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\EnvironmentMapEffectReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\IndexBufferReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\ModelReader.cs" />
+    <Compile Include="Content\GraphicTypeReaders\SkinnedEffectReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\SpriteFontReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\Texture2DReader.cs" />
     <Compile Include="Content\GraphicTypeReaders\Texture3DReader.cs" />
@@ -132,7 +138,7 @@
     <Compile Include="CurveTangent.cs" />
     <Compile Include="Design\ANXFieldDescriptor.cs" />
     <Compile Include="Design\ANXPropertyDescriptor.cs" />
-    <Compile Include="Design\BoundingBox.cs" />
+    <Compile Include="Design\BoundingBoxConverter.cs" />
     <Compile Include="Design\BoundingSphereConverter.cs" />
     <Compile Include="Design\ColorConverter.cs" />
     <Compile Include="Design\MathTypeConverter.cs" />
@@ -177,11 +183,14 @@
     <Compile Include="GameTimer.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="GraphicsDeviceInformation.cs" />
+    <Compile Include="Graphics\BasicEffect.cs" />
     <Compile Include="Graphics\DeviceLostException.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
     <Compile Include="Graphics\DisplayModeCollection.cs" />
+    <Compile Include="Graphics\DualTextureEffect.cs" />
     <Compile Include="Graphics\DynamicVertexBuffer.cs" />
     <Compile Include="Graphics\EffectMaterial.cs" />
+    <Compile Include="Graphics\EnvironmentMapEffect.cs" />
     <Compile Include="Graphics\GraphicsAdapter.cs" />
     <Compile Include="Graphics\GraphicsDevice.cs" />
     <Compile Include="GraphicsDeviceManager.cs" />
@@ -256,6 +265,7 @@
     <Compile Include="Graphics\RenderTargetBinding.cs" />
     <Compile Include="Graphics\ResourceCreatedEventArgs.cs" />
     <Compile Include="Graphics\ResourceDestroyedEventArgs.cs" />
+    <Compile Include="Graphics\SkinnedEffect.cs" />
     <Compile Include="Graphics\TextureCollection.cs" />
     <Compile Include="Graphics\VertexPositionNormalTexture.cs" />
     <Compile Include="Graphics\VertexPositionTexture.cs" />
