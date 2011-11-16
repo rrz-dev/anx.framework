@@ -61,7 +61,7 @@ namespace ANX.Framework
         private static Vector3 left = new Vector3(-1f, 0f, 0f);
         private static Vector3 right = new Vector3(1f, 0f, 0f);
         private static Vector3 up = new Vector3(0f, 1f, 0f);
-        private static Vector3 down = new Vector3(0f, -1f, 0f);        
+        private static Vector3 down = new Vector3(0f, -1f, 0f);
         private static Vector3 forward = new Vector3(0f, 0f, -1f);
         private static Vector3 backward = new Vector3(0f, 0f, 1f);
         private static Vector3 unitX = new Vector3(1f, 0f, 0f);
@@ -75,9 +75,9 @@ namespace ANX.Framework
         public float X;
         public float Y;
         public float Z;
-        
+
         #endregion
-        
+
         #region Public Static Properties
 
         public static Vector3 Zero
@@ -265,7 +265,9 @@ namespace ANX.Framework
         public static void Divide(ref Vector3 value1, float value2, out Vector3 result)
         {
             float divFactor = 1f / value2;
-            Multiply(ref value1, divFactor, out result);
+            result.X = value1.X * divFactor;
+            result.Y = value1.Y * divFactor;
+            result.Z = value1.Z * divFactor;
         }
 
 
@@ -282,7 +284,6 @@ namespace ANX.Framework
             result.Y = value1.Y / value2.Y;
             result.Z = value1.Z / value2.Z;
         }
-
 
         public static float Dot(Vector3 vector1, Vector3 vector2)
         {
@@ -321,7 +322,10 @@ namespace ANX.Framework
 
         public static void Normalize(ref Vector3 value, out Vector3 result)
         {
-            Divide(ref value, value.Length(), out result);
+            float divFactor = 1f / value.Length();
+            result.X = value.X * divFactor;
+            result.Y = value.Y * divFactor;
+            result.Z = value.Z * divFactor;
         }
 
 
@@ -407,7 +411,7 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Hermite(ref Vector3 value1, ref Vector3 tangent1, ref Vector3 value2, ref Vector3 tangent2, float amount, out Vector3 result)       
+        public static void Hermite(ref Vector3 value1, ref Vector3 tangent1, ref Vector3 value2, ref Vector3 tangent2, float amount, out Vector3 result)
         {
             result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
             result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
@@ -574,22 +578,29 @@ namespace ANX.Framework
 
         public static Vector3 operator +(Vector3 value1, Vector3 value2)
         {
-            Vector3 result;
-            Add(ref value1, ref value2, out result);
+            Vector3 result = new Vector3();
+            result.X = value1.X + value2.X;
+            result.Y = value1.Y + value2.Y;
+            result.Z = value1.Z + value2.Z;
             return result;
         }
 
         public static Vector3 operator /(Vector3 value1, float divider)
         {
-            Vector3 result;
-            Divide(ref value1, divider, out result);
+            Vector3 result = new Vector3();
+            float divFactor = 1f / divider;
+            result.X = value1.X * divFactor;
+            result.Y = value1.Y * divFactor;
+            result.Z = value1.Z * divFactor;
             return result;
         }
 
         public static Vector3 operator /(Vector3 value1, Vector3 value2)
         {
-            Vector3 result;
-            Divide(ref value1, ref value2, out result);
+            Vector3 result = new Vector3();
+            result.X = value1.X / value2.X;
+            result.Y = value1.Y / value2.Y;
+            result.Z = value1.Z / value2.Z;
             return result;
         }
 
@@ -603,60 +614,71 @@ namespace ANX.Framework
             return !value1.Equals(value2);
         }
 
-        public static Vector3 operator *(float scaleFactor, Vector3 value)
+        public static Vector3 operator *(Vector3 value, float scaleFactor)
         {
-            Vector3 result;
-            Multiply(ref value, scaleFactor, out result);
+            Vector3 result = new Vector3();
+            result.X = value.X * scaleFactor;
+            result.Y = value.Y * scaleFactor;
+            result.Z = value.Z * scaleFactor;
             return result;
         }
 
-        public static Vector3 operator *(Vector3 value, float scaleFactor)
+        public static Vector3 operator *(float scaleFactor, Vector3 value)
         {
-            Vector3 result;
-            Multiply(ref value, scaleFactor, out result);
+            Vector3 result = new Vector3();
+            result.X = value.X * scaleFactor;
+            result.Y = value.Y * scaleFactor;
+            result.Z = value.Z * scaleFactor;
             return result;
         }
 
         public static Vector3 operator *(Vector3 value1, Vector3 value2)
         {
-            Vector3 result;
-            Multiply(ref value1, ref value2, out result);
+            Vector3 result = new Vector3();
+            result.X = value1.X * value2.X;
+            result.Y = value1.Y * value2.Y;
+            result.Z = value1.Z * value2.Z;
             return result;
         }
 
         public static Vector3 operator -(Vector3 value1, Vector3 value2)
         {
-            Vector3 result;
-            Subtract(ref value1, ref value2, out result);
+            Vector3 result = new Vector3();
+            result.X = value1.X - value2.X;
+            result.Y = value1.Y - value2.Y;
+            result.Z = value1.Z - value2.Z;
             return result;
         }
 
         public static Vector3 operator -(Vector3 value)
         {
-            Vector3 result;
-            Negate(ref value, out result);
+            Vector3 result = new Vector3();
+            result.X = value.X;
+            result.Y = value.Y;
+            result.Z = value.Z;
             return result;
         }
 
         #endregion
 
         #region Public Methods
-        
+
         public float Length()
         {
-            return (float)Math.Sqrt(LengthSquared());
+            return (float)Math.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
         }
 
         public float LengthSquared()
         {
-            return (float)(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
+            return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
         }
 
         public void Normalize()
         {
-            Vector3 result;
-            Normalize(ref this, out result);
-            this = result;
+            float divFactor = 1f / this.Length();
+            this.X = this.X * divFactor;
+            this.Y = this.Y * divFactor;
+            this.Z = this.Z * divFactor;
         }
 
         public override int GetHashCode()
@@ -672,7 +694,7 @@ namespace ANX.Framework
         #endregion
 
         #region IEquatable implementation
-        
+
         public override bool Equals(Object obj)
         {
             return (obj is Vector3) ? this.Equals((Vector3)obj) : false;

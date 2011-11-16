@@ -593,6 +593,124 @@ namespace ANX.Framework.TestCenter.Strukturen
 
         #endregion
 
+        #region Operators
+        [Test, TestCaseSource("ninefloats")]
+        public void AddOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            XNAVector2 xnaR = xna1 + xna2;
+            ANXVector2 anxR = anx1 + anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "AddOperator");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void SubtractOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            XNAVector2 xnaR = xna1 - xna2;
+            ANXVector2 anxR = anx1 - anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "SubtractOperator");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void EqualsOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            bool xnaR = xna1 == xna2;
+            bool anxR = anx1 == anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "EqualsOperator");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void UnequalsOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            bool xnaR = xna1 != xna2;
+            bool anxR = anx1 != anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "UnequalsOperator");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void MultiplyOperatorFloat(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float value)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+
+            XNAVector2 xnaR = xna1 * value;
+            ANXVector2 anxR = anx1 * value;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyOperatorFloat");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void MultiplyOperatorVector2(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            XNAVector2 xnaR = xna1 * xna2;
+            ANXVector2 anxR = anx1 * anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyOperatorVector2");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void DivideOperatorFloat(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float value)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+
+            XNAVector2 xnaR = xna1 / value;
+            ANXVector2 anxR = anx1 / value;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideOperatorFloat");
+        }
+
+        [Test, TestCaseSource("ninefloats")]
+        public void DivideOperatorVector2(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
+        {
+            XNAVector2 xna1 = new XNAVector2(x1, y1);
+            XNAVector2 xna2 = new XNAVector2(x2, y2);
+
+            ANXVector2 anx1 = new ANXVector2(x1, y1);
+            ANXVector2 anx2 = new ANXVector2(x2, y2);
+
+            XNAVector2 xnaR = xna1 / xna2;
+            ANXVector2 anxR = anx1 / anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideOperatorVector2");
+        }
+        #endregion
+
         #endregion
 
         //TODO: transform, transform normal operations

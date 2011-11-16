@@ -240,20 +240,23 @@ namespace ANX.Framework
 
         public static void Distance(ref Vector4 value1, ref Vector4 value2, out float result)
         {
-            result = (value1 - value2).Length();
+            Vector4 tmp;
+            Vector4.Subtract(ref value1, ref value2, out tmp);
+            result = tmp.Length();
         }
 
         public static float DistanceSquared(Vector4 value1, Vector4 value2)
         {
             float result;
-            Vector4.Distance(ref value1, ref value2, out result);
+            Vector4.DistanceSquared(ref value1, ref value2, out result);
             return result;
         }
 
         public static void DistanceSquared(ref Vector4 value1, ref Vector4 value2, out float result)
         {
-            result = (value1 - value2).LengthSquared();
-
+            Vector4 tmp;
+            Vector4.Subtract(ref value1, ref value2, out tmp);
+            result = tmp.LengthSquared();
         }
 
         public static Vector4 Divide(Vector4 value1, float divider)
@@ -264,7 +267,10 @@ namespace ANX.Framework
         }
         public static void Divide(ref Vector4 value1, float divider, out Vector4 result)
         {
-            result = value1 / divider;
+            result.X = value1.X / divider;
+            result.Y = value1.Y / divider;
+            result.Z = value1.Z / divider;
+            result.W = value1.W / divider;
         }
 
         public static Vector4 Divide(Vector4 value1, Vector4 value2)
@@ -276,7 +282,10 @@ namespace ANX.Framework
 
         public static void Divide(ref Vector4 value1, ref Vector4 value2, out Vector4 result)
         {
-            result = value1 / value2;
+            result.X = value1.X / value2.X;
+            result.Y = value1.Y / value2.Y;
+            result.Z = value1.Z / value2.Z;
+            result.W = value1.W / value2.W;
         }
 
         public static float Dot(Vector4 vector1, Vector4 vector2)
@@ -331,8 +340,8 @@ namespace ANX.Framework
         public static void Max(ref Vector4 value1, ref Vector4 value2, out Vector4 result)
         {
             result.X = (value1.X > value2.X) ? value1.X : value2.X;
-            result.Y = (value1.Y > value2.Z) ? value1.Y : value2.Y;
-            result.Z = (value1.Z > value2.Y) ? value1.Z : value2.Z;
+            result.Y = (value1.Y > value2.Y) ? value1.Y : value2.Y;
+            result.Z = (value1.Z > value2.Z) ? value1.Z : value2.Z;
             result.W = (value1.W > value2.W) ? value1.W : value2.W;
         }
 
@@ -346,8 +355,8 @@ namespace ANX.Framework
         public static void Min(ref Vector4 value1, ref Vector4 value2, out Vector4 result)
         {
             result.X = (value1.X < value2.X) ? value1.X : value2.X;
-            result.Y = (value1.Y < value2.Z) ? value1.Y : value2.Y;
-            result.Z = (value1.Z < value2.Y) ? value1.Z : value2.Z;
+            result.Y = (value1.Y < value2.Y) ? value1.Y : value2.Y;
+            result.Z = (value1.Z < value2.Z) ? value1.Z : value2.Z;
             result.W = (value1.W < value2.W) ? value1.W : value2.W;
         }
 
@@ -360,19 +369,25 @@ namespace ANX.Framework
 
         public static void Multiply(ref Vector4 value1, float scaleFactor, out Vector4 result)
         {
-            result = value1 * scaleFactor;
+            result.X = value1.X * scaleFactor;
+            result.Y = value1.Y * scaleFactor;
+            result.Z = value1.Z * scaleFactor;
+            result.W = value1.W * scaleFactor;
         }
 
         public static Vector4 Multiply(Vector4 value1, Vector4 value2)
         {
             Vector4 result;
-            Vector4.Max(ref value1, ref value2, out result);
+            Vector4.Multiply(ref value1, ref value2, out result);
             return result;
         }
 
         public static void Multiply(ref Vector4 value1, ref Vector4 value2, out Vector4 result)
         {
-            result = value1 * value2;
+            result.X = value1.X * value2.X;
+            result.Y = value1.Y * value2.Y;
+            result.Z = value1.Z * value2.Z;
+            result.W = value1.W * value2.W;
         }
 
         public static Vector4 Negate(Vector4 value)
@@ -384,7 +399,10 @@ namespace ANX.Framework
 
         public static void Negate(ref Vector4 value, out Vector4 result)
         {
-            result = -value;
+            result.X = -value.X;
+            result.Y = -value.Y;
+            result.Z = -value.Z;
+            result.W = -value.W;
         }
 
         public static Vector4 Normalize(Vector4 vector)
@@ -397,7 +415,10 @@ namespace ANX.Framework
         public static void Normalize(ref Vector4 vector, out Vector4 result)
         {
             float divider = 1f / vector.Length();
-            result = vector * divider;
+            result.X = vector.X * divider;
+            result.Y = vector.Y * divider;
+            result.Z = vector.Z * divider;
+            result.W = vector.W * divider;
         }
 
         public static Vector4 SmoothStep(Vector4 value1, Vector4 value2, float amount)
@@ -424,7 +445,10 @@ namespace ANX.Framework
 
         public static void Subtract(ref Vector4 value1, ref Vector4 value2, out Vector4 result)
         {
-            result = value1 - value2;
+            result.X = value1.X - value2.X;
+            result.Y = value1.Y - value2.Y;
+            result.Z = value1.Z - value2.Z;
+            result.W = value1.W - value2.W;
         }
 
         public static Vector4 Transform(Vector2 position, Matrix matrix)
@@ -513,7 +537,11 @@ namespace ANX.Framework
 
         public void Normalize()
         {
-            throw new NotImplementedException();
+            float divider = 1f / this.Length();
+            this.X *= divider;
+            this.Y *= divider;
+            this.Z *= divider;
+            this.W *= divider;
         }
 
         public override int GetHashCode()
@@ -533,13 +561,13 @@ namespace ANX.Framework
 
         public float LengthSquared()
         {
-            return (this.X * this.X + this.Y * this.Y + this.Z * this.Z + this.W * this.W);
+            return this.X * this.X + this.Y * this.Y + this.Z * this.Z + this.W * this.W;
         }
 
         #endregion
 
         #region IEquatable implementation
-        
+
         public override bool Equals(Object obj)
         {
             return (obj is Vector4) ? this.Equals((Vector4)obj) : false;

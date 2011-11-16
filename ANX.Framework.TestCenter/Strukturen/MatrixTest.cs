@@ -63,44 +63,14 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class MatrixTest
     {
-        #region Helper
-        public void ConvertEquals(XNAMatrix xna, ANXMatrix anx, String test)
-        {
-            if (xna.M11.Equals(anx.M11) &&
-                xna.M12.Equals(anx.M12) &&
-                xna.M13.Equals(anx.M13) &&
-                xna.M14.Equals(anx.M14) &&
-                xna.M21.Equals(anx.M21) &&
-                xna.M22.Equals(anx.M22) &&
-                xna.M23.Equals(anx.M23) &&
-                xna.M24.Equals(anx.M24) &&
-                xna.M31.Equals(anx.M31) &&
-                xna.M32.Equals(anx.M32) &&
-                xna.M33.Equals(anx.M33) &&
-                xna.M34.Equals(anx.M34) &&
-                xna.M41.Equals(anx.M41) &&
-                xna.M42.Equals(anx.M42) &&
-                xna.M43.Equals(anx.M43) &&
-                xna.M44.Equals(anx.M44))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
-            }
-        }
-
-        #endregion
-
         #region Testdata
         static object[] sixteenfloats =
         {
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] {  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
         };
 
         #endregion
@@ -108,7 +78,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test]
         public void Identity()
         {
-            ConvertEquals(XNAMatrix.Identity, ANXMatrix.Identity, "Identity");
+            AssertHelper.ConvertEquals(XNAMatrix.Identity, ANXMatrix.Identity, "Identity");
         }
 
         #endregion // Properties
@@ -121,7 +91,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaM = new XNAMatrix();
             ANXMatrix anxM = new ANXMatrix();
 
-            ConvertEquals(xnaM, anxM, "Constructor0");
+            AssertHelper.ConvertEquals(xnaM, anxM, "Constructor0");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -130,7 +100,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaM = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(xnaM, anxM, "Constructor1");
+            AssertHelper.ConvertEquals(xnaM, anxM, "Constructor1");
         }
 
         #endregion // Constructors
@@ -145,7 +115,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(xnaM1 * xnaM2, anxM1 * anxM2, "MultiplyOperator");
+            AssertHelper.ConvertEquals(xnaM1 * xnaM2, anxM1 * anxM2, "MultiplyOperator");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -157,7 +127,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(XNAMatrix.Multiply(xnaM1, xnaM2), ANXMatrix.Multiply(anxM1, anxM2), "Multiply");
+            AssertHelper.ConvertEquals(XNAMatrix.Multiply(xnaM1, xnaM2), ANXMatrix.Multiply(anxM1, anxM2), "Multiply");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -174,7 +144,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix.Multiply(ref xnaM1, ref xnaM2, out xnaResult);
             ANXMatrix.Multiply(ref anxM1, ref anxM2, out anxResult);
 
-            ConvertEquals(xnaResult, anxResult, "Multiply2");
+            AssertHelper.ConvertEquals(xnaResult, anxResult, "Multiply2");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -184,7 +154,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(XNAMatrix.Multiply(xnaM1, m11), ANXMatrix.Multiply(anxM1, m11), "Multiply3");
+            AssertHelper.ConvertEquals(XNAMatrix.Multiply(xnaM1, m11), ANXMatrix.Multiply(anxM1, m11), "Multiply3");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -199,7 +169,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix.Multiply(ref xnaM1, m11, out xnaResult);
             ANXMatrix.Multiply(ref anxM1, m11, out anxResult);
 
-            ConvertEquals(xnaResult, anxResult, "Multiply4");
+            AssertHelper.ConvertEquals(xnaResult, anxResult, "Multiply4");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -211,7 +181,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(xnaM1 + xnaM2, anxM1 + anxM2, "AddOperator");
+            AssertHelper.ConvertEquals(xnaM1 + xnaM2, anxM1 + anxM2, "AddOperator");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -223,7 +193,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(xnaM1 - xnaM2, anxM1 - anxM2, "SubtractOperator");
+            AssertHelper.ConvertEquals(xnaM1 - xnaM2, anxM1 - anxM2, "SubtractOperator");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -235,7 +205,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
             ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ConvertEquals(xnaM1 / xnaM2, anxM1 / anxM2, "DivideOperator");
+            AssertHelper.ConvertEquals(xnaM1 / xnaM2, anxM1 / anxM2, "DivideOperator");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -244,7 +214,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(m11);
             ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(m11);
 
-            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationX");
+            AssertHelper.ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationX");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -253,7 +223,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaMatrix = XNAMatrix.CreateRotationY(m11);
             ANXMatrix anxMatrix = ANXMatrix.CreateRotationY(m11);
 
-            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationY");
+            AssertHelper.ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationY");
         }
 
 
@@ -263,7 +233,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaMatrix = XNAMatrix.CreateRotationZ(m11);
             ANXMatrix anxMatrix = ANXMatrix.CreateRotationZ(m11);
 
-            ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationZ");
+            AssertHelper.ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationZ");
         }
 
         [Test, TestCaseSource("sixteenfloats")]
@@ -272,7 +242,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAMatrix xnaMatrix = XNAMatrix.CreateTranslation(m11, m12, m13);
             ANXMatrix anxMatrix = ANXMatrix.CreateTranslation(m11, m12, m13);
 
-            ConvertEquals(xnaMatrix, anxMatrix, "CreateTranslation");
+            AssertHelper.ConvertEquals(xnaMatrix, anxMatrix, "CreateTranslation");
         }
 
     }

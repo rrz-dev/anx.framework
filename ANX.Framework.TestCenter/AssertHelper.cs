@@ -130,6 +130,9 @@ using ANXShort2 = ANX.Framework.Graphics.PackedVector.Short2;
 using XNAShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.Short4;
 using ANXShort4 = ANX.Framework.Graphics.PackedVector.Short4;
 
+using XNAMatrix = Microsoft.Xna.Framework.Matrix;
+using ANXMatrix = ANX.Framework.Matrix;
+
 using XNAQuaternion = Microsoft.Xna.Framework.Quaternion;
 using ANXQuaternion = ANX.Framework.Quaternion;
 
@@ -142,6 +145,18 @@ namespace ANX.Framework.TestCenter
         public static bool CompareFloats(float a, float b, float epsilon)
         {
             return (float)Math.Abs((double)(a - b)) < epsilon;
+        }
+
+        public static void ConvertEquals(bool xna, bool anx, String test)
+        {
+            if (xna == anx)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0] failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
         }
 
         public static void ConvertEquals(XNABgr565 lhs, ANXBgr565 rhs, String test)
@@ -378,7 +393,10 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector2 xna, ANXVector2 anx, String test)
         {
             //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (xna.X.ToString().Equals(anx.X.ToString()) && xna.Y.ToString().Equals(anx.Y.ToString()))
+            float epsilon = 0.000001f;
+            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) ||
+                (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon)))
             {
                 Assert.Pass(test + " passed");
             }
@@ -404,7 +422,11 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector3 xna, ANXVector3 anx, String test)
         {
             //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if ((xna.X == anx.X) && (xna.Y == anx.Y) && (xna.Z == anx.Z))
+            float epsilon = 0.000001f;
+            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) && anx.Z.ToString().Equals(xna.Z.ToString()) ||
+                (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon) &&
+                CompareFloats(xna.Z, anx.Z, epsilon)))
             {
                 Assert.Pass(test + " passed");
             }
@@ -417,7 +439,12 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector4 xna, ANXVector4 anx, String test)
         {
             //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if ((xna.X == anx.X) && (xna.Y == anx.Y) && (xna.Z == anx.Z) && (xna.W == anx.W))
+            float epsilon = 0.000001f;
+            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) && anx.Z.ToString().Equals(xna.Z.ToString()) && anx.W.ToString().Equals(xna.W.ToString()) ||
+                (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon) &&
+                CompareFloats(xna.Z, anx.Z, epsilon) &&
+                CompareFloats(xna.W, anx.W, epsilon)))
             {
                 Assert.Pass(test + " passed");
             }
@@ -505,6 +532,33 @@ namespace ANX.Framework.TestCenter
                 xna.Normal.X == anx.Normal.X &&
                 xna.Normal.Y == anx.Normal.Y &&
                 xna.Normal.Z == anx.Normal.Z)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNAMatrix xna, ANXMatrix anx, String test)
+        {
+            if (xna.M11.Equals(anx.M11) &&
+                xna.M12.Equals(anx.M12) &&
+                xna.M13.Equals(anx.M13) &&
+                xna.M14.Equals(anx.M14) &&
+                xna.M21.Equals(anx.M21) &&
+                xna.M22.Equals(anx.M22) &&
+                xna.M23.Equals(anx.M23) &&
+                xna.M24.Equals(anx.M24) &&
+                xna.M31.Equals(anx.M31) &&
+                xna.M32.Equals(anx.M32) &&
+                xna.M33.Equals(anx.M33) &&
+                xna.M34.Equals(anx.M34) &&
+                xna.M41.Equals(anx.M41) &&
+                xna.M42.Equals(anx.M42) &&
+                xna.M43.Equals(anx.M43) &&
+                xna.M44.Equals(anx.M44))
             {
                 Assert.Pass(test + " passed");
             }

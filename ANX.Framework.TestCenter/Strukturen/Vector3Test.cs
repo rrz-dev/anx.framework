@@ -286,7 +286,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
 
             XNAVector3 xnaR = XNAVector3.Cross(xna1, xna2);
-            ANXVector3 anxR = ANXVector3.Cross(anx2, anx2);
+            ANXVector3 anxR = ANXVector3.Cross(anx1, anx2);
 
             AssertHelper.ConvertEquals(xnaR, anxR, "Cross");
         }
@@ -544,7 +544,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("thirteenFloats")]
-        public void SmoothStep(float x1, float y1, float z1, float x2, float y2, float z2, float amount, float nop1, float nop2, float nop3, float nop4, float nop5)
+        public void SmoothStep(float x1, float y1, float z1, float x2, float y2, float z2, float amount, float nop0, float nop1, float nop2, float nop3, float nop4, float nop5)
         {
             XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
             XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
@@ -586,6 +586,124 @@ namespace ANX.Framework.TestCenter.Strukturen
             Assert.AreEqual(xnaR, anxR);
         }
 
+        #endregion
+
+        #region Operators
+        [Test, TestCaseSource("thirteenFloats")]
+        public void AddOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            XNAVector3 xnaR = xna1 + xna2;
+            ANXVector3 anxR = anx1 + anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "AddOperator");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void SubtractOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            XNAVector3 xnaR = xna1 - xna2;
+            ANXVector3 anxR = anx1 - anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "SubtractOperator");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void EqualsOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            bool xnaR = xna1 == xna2;
+            bool anxR = anx1 == anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "EqualsOperator");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void UnequalsOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            bool xnaR = xna1 != xna2;
+            bool anxR = anx1 != anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "UnequalsOperator");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void MultiplyOperatorFloat(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float value, float nop1, float nop2, float nop3, float nop4)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+
+            XNAVector3 xnaR = xna1 * value;
+            ANXVector3 anxR = anx1 * value;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyOperatorFloat");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void MultiplyOperatorVector3(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            XNAVector3 xnaR = xna1 * xna2;
+            ANXVector3 anxR = anx1 * anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "MultiplyOperatorVector3");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void DivideOperatorFloat(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float value, float nop1, float nop2, float nop3, float nop4)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+
+            XNAVector3 xnaR = xna1 / value;
+            ANXVector3 anxR = anx1 / value;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideOperatorFloat");
+        }
+
+        [Test, TestCaseSource("thirteenFloats")]
+        public void DivideOperatorVector3(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector3 xna1 = new XNAVector3(x1, y1, z1);
+            XNAVector3 xna2 = new XNAVector3(x2, y2, z2);
+
+            ANXVector3 anx1 = new ANXVector3(x1, y1, z1);
+            ANXVector3 anx2 = new ANXVector3(x2, y2, z2);
+
+            XNAVector3 xnaR = xna1 / xna2;
+            ANXVector3 anxR = anx1 / anx2;
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "DivideOperatorVector3");
+        }
         #endregion
 
         #endregion
