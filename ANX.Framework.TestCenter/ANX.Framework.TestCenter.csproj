@@ -57,6 +57,7 @@
     <Compile Include="ContentPipeline\SystemTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Nullable.cs" />
     <Compile Include="DataFactory.cs" />
+    <Compile Include="Input\GamePadDPadTest.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strukturen\BoundingBoxTest.cs" />

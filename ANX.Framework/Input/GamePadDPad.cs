@@ -132,8 +132,8 @@ namespace ANX.Framework.Input
             String buttons = String.Empty;
 
             buttons += this.up == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Up" : "";
-            buttons += this.left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
             buttons += this.down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
+            buttons += this.left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
             buttons += this.right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
 
             if (String.IsNullOrEmpty(buttons))
