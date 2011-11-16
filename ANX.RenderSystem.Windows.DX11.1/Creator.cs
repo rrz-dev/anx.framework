@@ -58,7 +58,7 @@ using ANX.Framework;
 
 #endregion // License
 
-namespace ANX.RenderSystem.Windows.DX11_1
+namespace ANX.RenderSystem.Windows.DX11
 {
     public class Creator : IRenderSystemCreator
     {
@@ -70,7 +70,7 @@ namespace ANX.RenderSystem.Windows.DX11_1
 
         public string Name
         {
-            get { return "DirectX11.1"; }
+            get { return "DirectX11"; }
         }
 
         public GameHost CreateGameHost(Game game)
@@ -88,24 +88,24 @@ namespace ANX.RenderSystem.Windows.DX11_1
         public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
         {
             throw new NotImplementedException();
-            //return new IndexBuffer_DX11_1(graphics, size, indexCount, usage);
+            //return new IndexBuffer_DX 11(graphics, size, indexCount, usage);
         }
 
         public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
-            return new VertexBuffer_DX11_1(graphics, vertexDeclaration, vertexCount, usage);
+            return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
             throw new NotImplementedException();
-            //return new Effect_DX11_1(graphics, vertexShaderByteCode, pixelShaderByteCode);
+            //return new Effect_DX11(graphics, vertexShaderByteCode, pixelShaderByteCode);
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, System.IO.Stream byteCode)
         {
             throw new NotImplementedException();
-            //return new Effect_DX10(graphics, byteCode);
+            //return new Effect_DX11(graphics, byteCode);
         }
 
         public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
