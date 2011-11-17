@@ -41,15 +41,16 @@
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-uniform mat4 MatrixTransform;
-
 //
 // Vertex Shader
 //
 
+uniform mat4 MatrixTransform;
 void main(void)
 {
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	gl_TexCoord[0] = gl_MultiTexCoord0;
+	gl_FrontColor = gl_Color;
 }
 
 ##!fragment!##
@@ -58,52 +59,8 @@ void main(void)
 // Fragment Shader
 //
 
+uniform sampler2D Texture;
 void main(void)
 {
-	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+	gl_FragColor = texture2D(Texture, vec2(gl_TexCoord[0])) * gl_Color;
 }
-
-/*
-Texture2D<float4> Texture : register(t0);
-   sampler TextureSampler : register(s0);
-
-struct VertexShaderInput
-{
-	float4 pos : POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
-};
-
-struct PixelShaderInput
-{
-	float4 pos : SV_POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
-};
-
-PixelShaderInput SpriteVertexShader( VertexShaderInput input )
-{
-	PixelShaderInput output = (PixelShaderInput)0;
-	
-	output.pos = mul(input.pos, MatrixTransform);
-	output.col = input.col;
-	output.tex = input.tex;
-
-	return output;
-}
-
-float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
-{
-	return Texture.Sample(TextureSampler, input.tex) * input.col;
-}
-
-technique10 SpriteTechnique
-{
-	pass SpriteColorPass
-	{
-		SetGeometryShader( 0 );
-		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
-		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
-	}
-}
-*/

@@ -58,6 +58,8 @@ namespace ANX.Framework.Windows.GL3
 {
 	/// <summary>
 	/// Native OpenGL Effect implementation.
+	/// 
+	/// http://wiki.delphigl.com/index.php/Tutorial_glsl
 	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
@@ -81,7 +83,10 @@ namespace ANX.Framework.Windows.GL3
 				List<EffectTechnique> techniques = new List<EffectTechnique>();
 
 				// TODO: dummy, fill with actual data.
-				techniques.Add(new EffectTechnique());
+				techniques.Add(new EffectTechnique()
+					{
+						NativeTechnique = new EffectTechniqueGL3(),
+					});
 
 				return techniques;
 			}
@@ -95,17 +100,25 @@ namespace ANX.Framework.Windows.GL3
 			{
 				List<EffectParameter> parameters = new List<EffectParameter>();
 
-                int uniformCount;
-                GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms, out uniformCount);
+				int uniformCount;
+				GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms,
+					out uniformCount);
 
-                string[] uniformNames = new string[uniformCount];
-                int[] uniformIndices = new int[uniformCount];
+				List<string> names = new List<string>();
+				for (int index = 0; index < uniformCount; index++)
+				{
+					string name = GL.GetActiveUniformName(programHandle, 0);
 
-                //TODO: this command doesn't work ?!?! -> GL.GetUniformIndices(programHandle, uniformCount, uniformNames, uniformIndices);
-
-
-				// TODO: dummy, fill with actual data.
-				parameters.Add(new EffectParameter());
+					if (names.Contains(name) == false)
+					{
+						names.Add(name);
+						int uniformIndex = GL.GetUniformLocation(programHandle, name);
+						parameters.Add(new EffectParameter()
+						{
+							NativeParameter = new EffectParameterGL3(name, uniformIndex),
+						});
+					}
+				}
 
 				return parameters;
 			}
@@ -291,7 +304,7 @@ namespace ANX.Framework.Windows.GL3
 		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			throw new NotImplementedException();
+			GL.UseProgram(programHandle);
 		}
 		#endregion
 

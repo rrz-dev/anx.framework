@@ -65,14 +65,25 @@ namespace ANX.Framework.Windows.GL3
 			get;
 			private set;
 		}
+
+		/// <summary>
+		/// The index of the uniform.
+		/// </summary>
+		public int UniformIndex
+		{
+			get;
+			private set;
+		}
 		#endregion
 		
 		#region Constructor
 		/// <summary>
 		/// Create a ne effect parameter object.
 		/// </summary>
-		internal EffectParameterGL3()
+		internal EffectParameterGL3(string setName, int setUniformIndex)
 		{
+			Name = setName;
+			UniformIndex = setUniformIndex;
 		}
 		#endregion
 
