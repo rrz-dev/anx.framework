@@ -74,7 +74,7 @@ namespace ANX.InputSystem.Windows.Kinect
 
         public Kinect()
         {
-            pNui = new Runtime();
+            pNui = Runtime.Kinects[0];
             pNui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
             pNui.SkeletonEngine.TransformSmooth = true;
 

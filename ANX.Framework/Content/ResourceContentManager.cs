@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Resources;
-using System.IO;
 
 #endregion // Using Statements
 

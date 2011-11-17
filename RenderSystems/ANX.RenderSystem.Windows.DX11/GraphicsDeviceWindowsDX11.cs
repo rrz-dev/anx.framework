@@ -10,7 +10,6 @@ using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
 using SharpDX.Direct3D11;
 using ANX.Framework;
-using ANX.Framework.Graphics;
 using SharpDX.D3DCompiler;
 
 #endregion // Using Statements

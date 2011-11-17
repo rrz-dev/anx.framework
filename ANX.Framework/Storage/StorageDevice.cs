@@ -59,8 +59,9 @@ namespace ANX.Framework.Storage
 
         private DriveInfo storageDrive;
         private Func<string, StorageContainer> openContainerDelegate = null;
-
+#pragma warning disable 0067 //This event is never used
         public static event EventHandler<EventArgs> DeviceChanged;
+#pragma warning restore 0067
 
         internal StorageDevice(string storagePath)
         {
