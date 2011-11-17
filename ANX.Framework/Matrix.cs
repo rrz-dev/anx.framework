@@ -746,21 +746,14 @@ namespace ANX.Framework
             result.M44 = 1f;
         }
 
-        public static Matrix CreatePerspective(float width,
-            float height,
-            float nearPlaneDistance,
-            float farPlaneDistance)
+        public static Matrix CreatePerspective(float width,float height,float nearPlaneDistance,float farPlaneDistance)
         {
             Matrix result;
             CreatePerspective(width, height, nearPlaneDistance, farPlaneDistance, out result);
             return result;
         }
 
-        public static void CreatePerspective(float width,
-            float height,
-            float nearPlaneDistance,
-            float farPlaneDistance,
-            out Matrix result)
+        public static void CreatePerspective(float width,float height,float nearPlaneDistance,  float farPlaneDistance,out Matrix result)
         {
             if (nearPlaneDistance <= 0f)
             {
@@ -770,7 +763,7 @@ namespace ANX.Framework
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be greater than zero");
             }
-            if (farPlaneDistance >= nearPlaneDistance)
+            if (farPlaneDistance <= nearPlaneDistance)
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be behind nearPlaneDistance");
             }
@@ -798,21 +791,14 @@ namespace ANX.Framework
             result.M44 = 0f;
         }
 
-        public static Matrix CreatePerspectiveFieldOfView(float fieldOfView,
-            float aspectRatio,
-            float nearPlaneDistance,
-            float farPlaneDistance)
+        public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio,   float nearPlaneDistance, float farPlaneDistance)
         {
             Matrix result;
             CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance, out result);
             return result;
         }
 
-        public static void CreatePerspectiveFieldOfView(float fieldOfView,
-            float aspectRatio,
-            float nearPlaneDistance,
-            float farPlaneDistance,
-            out Matrix result)
+        public static void CreatePerspectiveFieldOfView(float fieldOfView,float aspectRatio, float nearPlaneDistance, float farPlaneDistance,out Matrix result)
         {
             result = new Matrix();
 
@@ -828,7 +814,7 @@ namespace ANX.Framework
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be greater than zero");
             }
-            if (farPlaneDistance >= nearPlaneDistance)
+            if (farPlaneDistance <= nearPlaneDistance)
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be behind nearPlaneDistance");
             }
@@ -854,25 +840,14 @@ namespace ANX.Framework
             result.M44 = 0f;
         }
 
-        public static Matrix CreatePerspectiveOffCenter(float left,
-            float right,
-            float bottom,
-            float top,
-            float nearPlaneDistance,
-            float farPlaneDistance)
+        public static Matrix CreatePerspectiveOffCenter(float left, float right, float bottom,float top, float nearPlaneDistance, float farPlaneDistance)
         {
             Matrix result;
             CreatePerspectiveOffCenter(left, right, bottom, top, nearPlaneDistance, farPlaneDistance, out result);
             return result;
         }
 
-        public static void CreatePerspectiveOffCenter(float left,
-            float right,
-            float bottom,
-            float top,
-            float nearPlaneDistance,
-            float farPlaneDistance,
-            out Matrix result)
+        public static void CreatePerspectiveOffCenter(float left,float right, float bottom,float top,  float nearPlaneDistance,   float farPlaneDistance,  out Matrix result)
         {
             if (nearPlaneDistance <= 0f)
             {
@@ -882,7 +857,7 @@ namespace ANX.Framework
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be greater than zero");
             }
-            if (farPlaneDistance >= nearPlaneDistance)
+            if (farPlaneDistance <= nearPlaneDistance)
             {
                 throw new ArgumentOutOfRangeException("farPlaneDistance", "farPlaneDistance needs to be behind nearPlaneDistance");
             }
