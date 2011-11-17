@@ -152,14 +152,11 @@ namespace ANX.Framework.TestCenter.Input
             ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
             ANXGamePadDPad anx2 = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
 
-            if (anx.Equals(anx2))
-            {
-                Assert.Pass("Pass Equal");
-            }
-            else
-            {
-                Assert.Fail("Fail Equal");
-            }
+            XNAGamePadDPad xna = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
+            XNAGamePadDPad xna2 = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
+
+            AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2),"Equal");
+ 
         }
         [Test]
         public void Equal2()
@@ -182,14 +179,11 @@ namespace ANX.Framework.TestCenter.Input
             ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
             ANXGamePadDPad anx2 = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
 
-            if (!(anx != anx2))
-            {
-                Assert.Pass("Pass !=");
-            }
-            else
-            {
-                Assert.Fail("Fail !=");
-            }
+            XNAGamePadDPad xna = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
+            XNAGamePadDPad xna2 = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
+
+            AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "OperatorNoEqual");
+
         }
     }
 }

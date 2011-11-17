@@ -282,9 +282,25 @@ namespace ANX.Framework
 
         public static void Divide(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
         {
-            Matrix invMatrix2;
-            Invert(ref matrix2, out invMatrix2);
-            Multiply(ref matrix1, ref invMatrix2, out result);
+            result.M11 = matrix1.M11 / matrix2.M11;
+            result.M21 = matrix1.M21 / matrix2.M21;
+            result.M31 = matrix1.M31 / matrix2.M31;
+            result.M41 = matrix1.M41 / matrix2.M41;
+                                     
+            result.M12 = matrix1.M12 / matrix2.M12;
+            result.M22 = matrix1.M22 / matrix2.M22;
+            result.M32 = matrix1.M32 / matrix2.M32;
+            result.M42 = matrix1.M42 / matrix2.M42;
+                                     
+            result.M13 = matrix1.M13 / matrix2.M13;
+            result.M23 = matrix1.M23 / matrix2.M23;
+            result.M33 = matrix1.M33 / matrix2.M33;
+            result.M43 = matrix1.M43 / matrix2.M43;
+                                     
+            result.M14 = matrix1.M14 / matrix2.M14;
+            result.M24 = matrix1.M24 / matrix2.M24;
+            result.M34 = matrix1.M34 / matrix2.M34;
+            result.M44 = matrix1.M44 / matrix2.M44;
         }
 
         public static Matrix Divide(Matrix matrix1, float divider)
@@ -366,10 +382,7 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Lerp(ref Matrix matrix1,
-            ref Matrix matrix2,
-            float amount,
-            out Matrix result)
+        public static void Lerp(ref Matrix matrix1, ref Matrix matrix2, float amount,out Matrix result)
         {
             throw new NotImplementedException();
         }
