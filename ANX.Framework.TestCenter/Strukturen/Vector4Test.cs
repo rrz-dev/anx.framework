@@ -11,6 +11,10 @@ using XNAVector3 = Microsoft.Xna.Framework.Vector3;
 using ANXVector3 = ANX.Framework.Vector3;
 using XNAVector4 = Microsoft.Xna.Framework.Vector4;
 using ANXVector4 = ANX.Framework.Vector4;
+using XNAMatrix = Microsoft.Xna.Framework.Matrix;
+using ANXMatrix = ANX.Framework.Matrix;
+using XNAQuaternion = Microsoft.Xna.Framework.Quaternion;
+using ANXQuaternion = ANX.Framework.Quaternion;
 
 using NUnit.Framework;
 
@@ -88,6 +92,14 @@ namespace ANX.Framework.TestCenter.Strukturen
            new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue}
         };
 
+        static object[] twentyfourFloats =
+        {
+           new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
+           new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
+           new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
+           new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
+           new object[] {DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue,DataFactory.RandomValue},
+        };
         #endregion
 
         #region Tests
@@ -661,6 +673,126 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector4 anxR = anx1 / anx2;
 
             AssertHelper.ConvertEquals(xnaR, anxR, "DivideOperatorVector4");
+        }
+        #endregion
+
+        #region Transformations
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticMatrix(
+            float x, float y, float z, float w,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3)
+        {
+            XNAVector4 xnaVector = new XNAVector4(x, y, z, w);
+            XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXVector4 anxVector = new ANXVector4(x, y, z, w);
+            ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaMatrix);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxMatrix);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrix");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticQuaternion(
+            float x, float y, float z, float w,
+            float xQ, float yQ, float zQ, float wQ,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            XNAVector4 xnaVector = new XNAVector4(x, y, z, w);
+            XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
+
+            ANXVector4 anxVector = new ANXVector4(x, y, z, w);
+            ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaQuaternion);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxQuaternion);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternion");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public static void TransformStaticMatrixToDestination(
+            float x1, float y1, float z1, float w1,
+            float x2, float y2, float z2, float w2,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAVector4[] xnaVector = new XNAVector4[] { new XNAVector4(x1, y1, z1, w1), new XNAVector4(x2, y2, z2, w2) };
+            XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXVector4[] anxVector = new ANXVector4[] { new ANXVector4(x1, y1, z1, w1), new ANXVector4(x2, y2, z2, w2) };
+            ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            XNAVector4[] xna = new XNAVector4[2];
+            XNAVector4.Transform(xnaVector, ref xnaMatrix, xna);
+            ANXVector4[] anx = new ANXVector4[2];
+            ANXVector4.Transform(anxVector, ref anxMatrix, anx);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixToDestination");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public static void TransformStaticQuaternionToDestination(
+            float x1, float y1, float z1, float w1,
+            float x2, float y2, float z2, float w2,
+            float xQ, float yQ, float zQ, float wQ,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
+        {
+            XNAVector4[] xnaVector = new XNAVector4[] { new XNAVector4(x1, y1, z1, w1), new XNAVector4(x2, y2, z2, w2) };
+            XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
+
+            ANXVector4[] anxVector = new ANXVector4[] { new ANXVector4(x1, y1, z1, w1), new ANXVector4(x2, y2, z2, w2) };
+            ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
+
+            XNAVector4[] xna = new XNAVector4[2];
+            XNAVector4.Transform(xnaVector, ref xnaQuaternion, xna);
+            ANXVector4[] anx = new ANXVector4[2];
+            ANXVector4.Transform(anxVector, ref anxQuaternion, anx);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternionToDestination");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public static void TransformStaticMatrixToDestinationWithIndex(
+            float x1, float y1, float z1, float w1,
+            float x2, float y2, float z2, float w2,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAVector4[] xnaVector = new XNAVector4[] { new XNAVector4(x1, y1, z1, w1), new XNAVector4(x2, y2, z2, w2) };
+            XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXVector4[] anxVector = new ANXVector4[] { new ANXVector4(x1, y1, z1, w1), new ANXVector4(x2, y2, z2, w2) };
+            ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            XNAVector4[] xna = new XNAVector4[2];
+            XNAVector4.Transform(xnaVector, 1, ref xnaMatrix, xna, 1, 1);
+            ANXVector4[] anx = new ANXVector4[2];
+            ANXVector4.Transform(anxVector, 1, ref anxMatrix, anx, 1, 1);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixToDestinationWithIndex");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public static void TransformStaticQuaternionToDestinationWithIndex(
+            float x1, float y1, float z1, float w1,
+            float x2, float y2, float z2, float w2,
+            float xQ, float yQ, float zQ, float wQ,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
+        {
+            XNAVector4[] xnaVector = new XNAVector4[] { new XNAVector4(x1, y1, z1, w1), new XNAVector4(x2, y2, z2, w2) };
+            XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
+
+            ANXVector4[] anxVector = new ANXVector4[] { new ANXVector4(x1, y1, z1, w1), new ANXVector4(x2, y2, z2, w2) };
+            ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
+
+            XNAVector4[] xna = new XNAVector4[2];
+            XNAVector4.Transform(xnaVector, 1, ref xnaQuaternion, xna, 1, 1);
+            ANXVector4[] anx = new ANXVector4[2];
+            ANXVector4.Transform(anxVector, 1, ref anxQuaternion, anx, 1, 1);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternionToDestinationWithIndex");
         }
         #endregion
 

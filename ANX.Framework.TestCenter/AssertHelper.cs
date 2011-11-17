@@ -459,10 +459,8 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAVector2 xna, ANXVector2 anx, String test)
         {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) ||
-                (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon)))
+            if (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon))
             {
                 Assert.Pass(test + " passed");
             }
@@ -474,8 +472,8 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(ANXVector2 xna, ANXVector2 anx, String test)
         {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (anx.X.ToString().Equals(anx.X.ToString()) && anx.Y.ToString().Equals(anx.Y.ToString()))
+            if (CompareFloats(xna.X, anx.X, epsilon) &&
+                CompareFloats(xna.Y, anx.Y, epsilon))
             {
                 Assert.Pass(test + " passed");
             }
@@ -485,13 +483,34 @@ namespace ANX.Framework.TestCenter
             }
         }
 
+        public static void ConvertEquals(XNAVector2[] xna, ANXVector2[] anx, String test)
+        {
+            bool result = true;
+
+            for (int i = 0; i < xna.Length; i++)
+            {
+                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
+                            CompareFloats(xna[i].Y, anx[i].Y, epsilon);
+
+                if (!result)
+                    break;
+            }
+
+            if (result)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
         public static void ConvertEquals(XNAVector3 xna, ANXVector3 anx, String test)
         {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) && anx.Z.ToString().Equals(xna.Z.ToString()) ||
-                (CompareFloats(xna.X, anx.X, epsilon) &&
+            if (CompareFloats(xna.X, anx.X, epsilon) &&
                 CompareFloats(xna.Y, anx.Y, epsilon) &&
-                CompareFloats(xna.Z, anx.Z, epsilon)))
+                CompareFloats(xna.Z, anx.Z, epsilon))
             {
                 Assert.Pass(test + " passed");
             }
@@ -501,20 +520,67 @@ namespace ANX.Framework.TestCenter
             }
         }
 
+        public static void ConvertEquals(XNAVector3[] xna, ANXVector3[] anx, String test)
+        {
+            bool result = true;
+
+            for (int i = 0; i < xna.Length; i++)
+            {
+                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
+                            CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
+                            CompareFloats(xna[i].Z, anx[i].Z, epsilon);
+
+                if (!result)
+                    break;
+            }
+
+            if (result)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
         public static void ConvertEquals(XNAVector4 xna, ANXVector4 anx, String test)
         {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (anx.X.ToString().Equals(xna.X.ToString()) && anx.Y.ToString().Equals(xna.Y.ToString()) && anx.Z.ToString().Equals(xna.Z.ToString()) && anx.W.ToString().Equals(xna.W.ToString()) ||
-                (CompareFloats(xna.X, anx.X, epsilon) &&
+            if (CompareFloats(xna.X, anx.X, epsilon) &&
                 CompareFloats(xna.Y, anx.Y, epsilon) &&
                 CompareFloats(xna.Z, anx.Z, epsilon) &&
-                CompareFloats(xna.W, anx.W, epsilon)))
+                CompareFloats(xna.W, anx.W, epsilon))
             {
                 Assert.Pass(test + " passed");
             }
             else
             {
                 Assert.Fail(string.Format("{0} failed: xna({1},{2},{3},{4}) anx({5},{6},{7},{8})", test, xna.X, xna.Y, xna.Z, xna.W, anx.X, anx.Y, anx.Z, anx.W));
+            }
+        }
+
+        public static void ConvertEquals(XNAVector4[] xna, ANXVector4[] anx, String test)
+        {
+            bool result = true;
+
+            for (int i = 0; i < xna.Length; i++)
+            {
+                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
+                            CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
+                            CompareFloats(xna[i].Z, anx[i].Z, epsilon) &&
+                            CompareFloats(xna[i].Z, anx[i].W, epsilon);
+
+                if (!result)
+                    break;
+            }
+
+            if (result)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -552,8 +618,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNARect xna, ANXRect anx, String test)
         {
-            //comparing string to catch "not defined" and "infinity" (which seems not to be equal)
-            if (xna.ToString().Equals(anx.ToString()))
+            if (xna.X == anx.X &&
+                xna.Y == anx.Y &&
+                xna.Width == anx.Width &&
+                xna.Height == anx.Height)
             {
                 Assert.Pass(test + " passed");
             }

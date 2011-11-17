@@ -1191,7 +1191,16 @@ namespace ANX.Framework
 
         public bool Decompose(out Vector3 scale, out Quaternion rotation, out Vector3 translation)
         {
-            throw new NotImplementedException();
+            scale = new Vector3(this.M11, this.M22, this.M33);
+            Quaternion.CreateFromRotationMatrix(ref this, out rotation);
+            translation = new Vector3(this.M41, this.M42, this.M43);
+
+            if (scale != Vector3.Zero &&
+                rotation != Quaternion.Identity &&
+                translation != Vector3.Zero)
+                return true;
+            else
+                return false;
         }
 
         public float Determinant()

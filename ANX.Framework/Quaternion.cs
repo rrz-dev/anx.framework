@@ -261,14 +261,18 @@ namespace ANX.Framework
 
         public static void Divide(ref Quaternion quaternion1, ref float divider, out Quaternion result)
         {
-            result = Quaternion.Multiply(quaternion1, 1.0f / divider);
+            divider = 1f / divider;
+            result.X = quaternion1.X * divider;
+            result.Y = quaternion1.Y * divider;
+            result.Z = quaternion1.Z * divider;
+            result.W = quaternion1.W * divider;
         }
+
         public static float Dot(Quaternion quaternion1, Quaternion quaternion2)
         {
-            return (quaternion1.X * quaternion2.X +
-                    quaternion1.Y * quaternion2.Y +
-                    quaternion1.Z * quaternion2.Z +
-                    quaternion1.W * quaternion2.W);
+            float result;
+            Quaternion.Dot(ref quaternion1, ref quaternion2, out result);
+            return result;
         }
 
         public static void Dot(ref Quaternion quaternion1, ref Quaternion quaternion2, out float result)
@@ -367,7 +371,6 @@ namespace ANX.Framework
             result.Y = quaternion1.Y * scaleFactor;
             result.Z = quaternion1.Z * scaleFactor;
             result.W = quaternion1.W * scaleFactor;
-
         }
 
         public static Quaternion Negate(Quaternion quaternion)

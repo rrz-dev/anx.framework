@@ -428,8 +428,9 @@ namespace ANX.Framework
 
         public static Vector2 Transform(Vector2 position, Matrix matrix)
         {
-            return new Vector2(((position.X * matrix.M11) + (position.Y * matrix.M21)) + matrix.M41,
-                               ((position.X * matrix.M12) + (position.Y * matrix.M22)) + matrix.M42);
+            Vector2 result;
+            Transform(ref position, ref matrix, out result);
+            return result;
         }
 
         public static void Transform(ref Vector2 position, ref Matrix matrix, out Vector2 result)
@@ -440,24 +441,31 @@ namespace ANX.Framework
 
         public static Vector2 Transform(Vector2 value, Quaternion rotation)
         {
-            throw new NotImplementedException();
+            Vector2 result;
+            Transform(ref value, ref rotation, out result);
+            return result;
         }
+
         public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector2 result)
         {
             throw new NotImplementedException();
         }
+
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix, Vector2[] destinationArray, int destinationIndex, int length)
         {
             throw new NotImplementedException();
         }
+
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector2[] destinationArray, int destinationIndex, int length)
         {
             throw new NotImplementedException();
         }
+
         public static void Transform(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
         {
             throw new NotImplementedException();
         }
+
         public static void Transform(Vector2[] sourceArray, ref Quaternion rotation, Vector2[] destinationArray)
         {
             throw new NotImplementedException();
