@@ -212,7 +212,7 @@ namespace ANX.Framework.TestCenter.Design
             var xnaObject = new Microsoft.Xna.Framework.BoundingFrustum(new Microsoft.Xna.Framework.Matrix(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
             var anxObject = new ANX.Framework.BoundingFrustum(new ANX.Framework.Matrix(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
 
-            Assert.AreEqual(xnaObject.ToString(), anxObject.ToString());
+            AssertHelper.ConvertEquals(xnaObject, anxObject, "ConvertBoundingFrustumTest");
         }
     }
 }

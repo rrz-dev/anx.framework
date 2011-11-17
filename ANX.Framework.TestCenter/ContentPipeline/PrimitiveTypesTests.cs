@@ -284,11 +284,11 @@ namespace ANX.Framework.TestCenter.ContentPipeline
             }
         }
 
-        [Test]
-        public void TestObjectSerialization()
-        {
-            Assert.Ignore("The object reader is never invoked");
-        }
+        //[Test]
+        //public void TestObjectSerialization()
+        //{
+        //    Assert.Ignore("The object reader is never invoked");
+        //}
 
         [Test]
         public void TestSingleSerialization()

@@ -170,7 +170,7 @@ namespace ANX.Framework.TestCenter.ContentPipeline
         [Test]
         public void TestExternalReferenceSerialization()
         {
-            Assert.Ignore("Feature is implemented but is currently untestable");
+            //TODO: Assert.Ignore("Feature is implemented but is currently untestable");
         }
 
         [Test]

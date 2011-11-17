@@ -85,9 +85,12 @@ namespace ANX.Framework
         public const float Log10E = 0.4342945f;
         public const float Log2E = 1.442695f;
         public const float Pi = (float)Math.PI;
-        public const float PiOver2 = (float)(Math.PI / 2.0);
-        public const float PiOver4 = (float)(Math.PI / 4.0);
-        public const float TwoPi = (float)(Math.PI * 2.0);
+        public const float PiOver2 = (float)(Math.PI * 0.5);
+        public const float PiOver4 = (float)(Math.PI * 0.25);
+        public const float TwoPi = (float)(Math.PI * Math.PI);
+
+        private const double OneEightyOverPi = 180.0 / Math.PI;
+        private const double PiOverOneEighty = Math.PI / 180.0;
 
         public static float Barycentric(float value1, float value2, float value3, float amount1, float amount2)
         {
@@ -108,13 +111,8 @@ namespace ANX.Framework
 
         public static float Clamp(float value, float min, float max)
         {
-            // First we check to see if we're greater than the max
             value = (value > max) ? max : value;
-
-            // Then we check to see if we're less than the min.
             value = (value < min) ? min : value;
-
-            // There's no check to see if min > max.
             return value;
         }
 
@@ -125,21 +123,43 @@ namespace ANX.Framework
 
         public static float Hermite(float value1, float tangent1, float value2, float tangent2, float amount)
         {
+            float num3 = amount;
+            float num = num3 * num3;
+            float num2 = num3 * num;
+            float num7 = ((2f * num2) - (3f * num)) + 1f;
+            float num6 = (-2f * num2) + (3f * num);
+            float num5 = (num2 - (2f * num)) + num3;
+            float num4 = num2 - num;
+            return ((((value1 * num7) + (value2 * num6)) + (tangent1 * num5)) + (tangent2 * num4));
+
+
+
             // All transformed to double not to lose precission
             // Otherwise, for high numbers of param:amount the result is NaN instead of Infinity
-            double v1 = value1, v2 = value2, t1 = tangent1, t2 = tangent2, s = amount, result;
-            double sCubed = s * s * s;
-            double sSquared = s * s;
+            double v12 = value1 + value1;
+            double v13 = v12 + value1;
+            double v22 = value2 + value2;
+            double v23 = v22 + value2;
+            double t12 = tangent1 + tangent1;
+            double sSquared = amount * amount;
+            double sCubed = sSquared * amount;
+            double result;
 
-            if (amount == 0f)
-                result = value1;
-            else if (amount == 1f)
-                result = value2;
-            else
-                result = (2 * v1 - 2 * v2 + t2 + t1) * sCubed +
-                    (3 * v2 - 3 * v1 - 2 * t1 - t2) * sSquared +
-                    t1 * s +
-                    v1;
+            if (amount <= 0f)
+            {
+                return value1;
+            }
+
+            if (amount >= 1f)
+            {
+                return value2;
+            }
+
+            result = (v12 - v22 + tangent2 + tangent1) * sCubed +
+                     (v23 - v13 - t12 - tangent2) * sSquared +
+                     tangent1 * amount +
+                     value1;
+
             return (float)result;
         }
 
@@ -173,16 +193,14 @@ namespace ANX.Framework
         {
             // This method uses double precission internally,
             // though it returns single float
-            // Factor = 180 / pi
-            return (float)(radians * 57.295779513082320876798154814105);
+            return (float)(radians * OneEightyOverPi);
         }
 
         public static float ToRadians(float degrees)
         {
             // This method uses double precission internally,
             // though it returns single float
-            // Factor = pi / 180
-            return (float)(degrees * 0.017453292519943295769236907684886);
+            return (float)(degrees * PiOverOneEighty);
         }
 
 

@@ -62,21 +62,23 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     class MathHelperTest
     {
+        #region Data
         static object[] onefloat =
         {
             float.NegativeInfinity,
             float.MinValue
-            -3,2f,
-            -1,6f,
+            -3.2f,
+            -1.6f,
             0,
-            1,6f,
-            3,2f,
+            1.6f,
+            3.2f,
             float.MaxValue ,
             float.PositiveInfinity,
             DataFactory.RandomFloat,
             DataFactory.RandomFloat,
             DataFactory.RandomFloat,
         };
+
         static object[] twofloats =
         {
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
@@ -86,6 +88,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat }
         };
+
         static object[] threefloats =
         {
             new object[] { 0 ,0, 0 },
@@ -104,6 +107,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat },
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat }
         };
+
         static object[] fivefloats =
         {
             new object[] { 0 ,0, 0,0,0 },
@@ -128,6 +132,151 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat},
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat,  DataFactory.RandomFloat}
         };
+
+        static object[] hermiteFloats =
+        {
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 0.0f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 0.0f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 0.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 0.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 0.0f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 0.0f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 0.0f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 0.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 0.0f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 0.0f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 0.0f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 0.0f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 0.0f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 0.0f },
+
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 1.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 1.0f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 1.0f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 1.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 1.0f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 1.0f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 1.0f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 1.0f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 1.0f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 1.0f },
+
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.25f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 0.25f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 0.25f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.25f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.25f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 0.25f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 0.25f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 0.25f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 0.25f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 0.25f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 0.25f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 0.25f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 0.25f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 0.25f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 0.25f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 0.25f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 0.25f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 0.25f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 0.25f },
+
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.5f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 0.5f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 0.5f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.5f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.5f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 0.5f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 0.5f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 0.5f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 0.5f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 0.5f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 0.5f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 0.5f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 0.5f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 0.5f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 0.5f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 0.5f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 0.5f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 0.5f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 0.5f },
+
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.75f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 0.75f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 0.75f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.75f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 0.75f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 0.75f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 0.75f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 0.75f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 0.75f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 0.75f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 0.75f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 0.75f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 0.75f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 0.75f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 0.75f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 0.75f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 0.75f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 0.75f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 0.75f },
+        
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, -1.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, -1.0f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, -1.0f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, -1.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, -1.0f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, -1.0f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, -1.0f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, -1.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, -1.0f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, -1.0f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, -1.0f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, -1.0f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, -1.0f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, -1.0f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, -1.0f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, -1.0f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, -1.0f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, -1.0f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, -1.0f },
+
+            new object[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.1f },
+            new object[] { 1.0f, 0.0f, 0.0f, 0.0f, 1.2f },
+            new object[] { 0.0f, 1.0f, 0.0f, 0.0f, 1.3f },
+            new object[] { 0.0f, 0.0f, 1.0f, 0.0f, 1.4f },
+            new object[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.5f },
+            new object[] { 1.0f, 1.0f, 0.0f, 0.0f, 1.6f },
+            new object[] { 1.0f, 0.0f, 1.0f, 0.0f, 1.7f },
+            new object[] { 1.0f, 0.0f, 0.0f, 1.0f, 1.8f },
+            new object[] { 1.0f, 1.0f, 1.0f, 0.0f, 1.9f },
+            new object[] { 1.0f, 1.0f, 1.0f, 1.0f, 1.1f },
+            new object[] { 0.3f, 0.0f, 0.0f, 0.0f, 1.2f },
+            new object[] { 0.0f, 0.2f, 0.0f, 0.0f, 1.3f },
+            new object[] { 0.0f, 0.0f, 0.1f, 0.0f, 1.4f },
+            new object[] { 0.0f, 0.0f, 0.0f, 0.4f, 1.5f },
+            new object[] { 0.5f, 0.6f, 0.0f, 0.0f, 1.6f },
+            new object[] { 1.6f, 0.0f, 0.7f, 0.0f, 1.7f },
+            new object[] { 0.9f, 0.0f, 0.0f, 0.8f, 1.8f },
+            new object[] { 1.5f, 0.1f, 0.3f, 0.0f, 1.9f },
+            new object[] { 1.4f, 1.3f, 0.2f, 1.2f, 1.1f },
+        };
+
+        #endregion // Data
 
         [TestCaseSource("fivefloats")]
         public void Barycentric(float value1, float tangent1, float value2, float tangent2, float amount)
@@ -207,8 +356,8 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.ToRadians(one);
             float anx = ANXMath.ToRadians(one);
-            AssertHelper.CompareFloats(xna, anx, "ToRadians");
 
+            AssertHelper.CompareFloats(xna, anx, "ToRadians");
         }
 
         [TestCaseSource("onefloat")]
@@ -219,14 +368,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.CompareFloats(xna, anx, "WrapAngle");
         }
 
-        [TestCaseSource("fivefloats")]
+        [TestCaseSource("hermiteFloats")]
         public void Hermite(float value1, float tangent1, float value2, float tangent2, float amount)
         {
             float xna = XNAMath.Hermite(value1, tangent1, value2, tangent2, amount);
             float anx = ANXMath.Hermite(value1, tangent1, value2, tangent2, amount);
+
             AssertHelper.CompareFloats(xna, anx, "Hermite");
         }
-
-
     }
 }
