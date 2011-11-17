@@ -5,6 +5,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using OpenTK.Graphics.OpenGL;
 using System.Text;
+using System.Security.Cryptography;
 
 #region License
 
@@ -121,16 +122,8 @@ namespace ANX.Framework.Windows.GL3
 		public EffectGL3(Stream vertexShaderByteCode,
 			Stream pixelShaderByteCode)
 		{
-			byte[] vertexBytes = new byte[vertexShaderByteCode.Length];
-			vertexShaderByteCode.Read(vertexBytes, 0,
-				(int)vertexShaderByteCode.Length);
-
-			byte[] fragmentBytes = new byte[pixelShaderByteCode.Length];
-			pixelShaderByteCode.Read(fragmentBytes, 0,
-				(int)pixelShaderByteCode.Length);
-
-			CreateShader(Encoding.ASCII.GetString(vertexBytes),
-				Encoding.ASCII.GetString(fragmentBytes));
+			CreateShader(LoadShaderCode(vertexShaderByteCode),
+				LoadShaderCode(pixelShaderByteCode));
 		}
 
 		/// <summary>
@@ -139,10 +132,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="byteCode">The byte code of the shader.</param>
 		public EffectGL3(Stream byteCode)
 		{
-			byte[] byteData = new byte[byteCode.Length];
-			byteCode.Read(byteData, 0, (int)byteCode.Length);
-
-			string source = Encoding.ASCII.GetString(byteData);
+			string source = LoadShaderCode(byteCode);
 			string[] parts = source.Split(new string[] { FragmentSeparator },
 				StringSplitOptions.RemoveEmptyEntries);
 
@@ -211,7 +201,90 @@ namespace ANX.Framework.Windows.GL3
 		#region CompileShader (for external)
 		public static byte[] CompileShader(string effectCode)
 		{
-			return Encoding.ASCII.GetBytes(effectCode);
+			#region Source Cleanup
+			// We wanna clean up the shader a little bit, so we remove
+			// empty lines, spaces and tabs at beginning and end and also
+			// remove comments.
+			List<string> lines = new List<string>(effectCode.Split('\n'));
+			for (int index = lines.Count - 1; index >= 0; index--)
+			{
+				lines[index] = lines[index].Trim();
+				if (String.IsNullOrEmpty(lines[index]) ||
+					lines[index].StartsWith("//"))
+				{
+					lines.RemoveAt(index);
+					continue;
+				}
+
+				// TODO: add /**/ comment checking and removing.
+			}
+
+			effectCode = "";
+			foreach (string line in lines)
+			{
+				effectCode += line + "\n";
+			}
+
+			// Now to some additional cleanup
+			string[] minimizables =
+			{
+				" * ", " = ", " + ", " / ", " - ", ", ",
+			};
+
+			foreach (string mizable in minimizables)
+			{
+				effectCode = effectCode.Replace(mizable, mizable.Trim());
+			}
+
+			effectCode = effectCode.Replace("\n{\n", "{\n");
+			effectCode = effectCode.Replace("\n}\n", "}\n");
+			#endregion
+
+			MemoryStream stream = new MemoryStream();
+			BinaryWriter writer = new BinaryWriter(stream);
+
+			// First of all writer the shader code (which is already preceeded
+			// by a length identifier, making it harder to manipulate the code)
+			writer.Write(effectCode);
+
+			// And now we additionally generate a sha hash so it nearly becomes
+			// impossible to manipulate the shader.
+			SHA512Managed sha = new SHA512Managed();
+			byte[] data = stream.ToArray();
+			byte[] hash = sha.ComputeHash(data);
+			// The hash is added to the end of the stream.
+			writer.Write(hash);
+			writer.Flush();
+			sha.Dispose();
+
+			return stream.ToArray();
+		}
+		#endregion
+
+		#region LoadShaderCode
+		private static string LoadShaderCode(Stream stream)
+		{
+			BinaryReader reader = new BinaryReader(stream);
+			// First load the source.
+			string source = reader.ReadString();
+			// And now check if it was manipulated.
+			SHA512Managed sha = new SHA512Managed();
+			int lengthRead = (int)stream.Position;
+			stream.Position = 0;
+			byte[] data = reader.ReadBytes(lengthRead);
+			byte[] hash = sha.ComputeHash(data);
+			sha.Dispose();
+			byte[] loadedHash = reader.ReadBytes(64);
+			for (int index = 0; index < hash.Length; index++)
+			{
+				if (hash[index] != loadedHash[index])
+				{
+					throw new InvalidDataException("Failed to load the shader " +
+						"because the data got manipulated!");
+				}
+			}
+
+			return source;
 		}
 		#endregion
 

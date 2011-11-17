@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.Windows.DX10;
 using ANX.Framework.Windows.GL3;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -69,9 +70,9 @@ namespace StockShaderCodeGenerator
 
                 Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
                 String source = String.Empty;
-                if (System.IO.File.Exists(s.Source))
+                if (File.Exists(s.Source))
                 {
-                    source = System.IO.File.ReadAllText(s.Source);
+                    source = File.ReadAllText(s.Source);
                 }
 
                 Console.Write("--> compiling shader... ");
