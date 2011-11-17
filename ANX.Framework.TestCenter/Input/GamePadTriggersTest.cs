@@ -75,21 +75,21 @@ namespace ANX.Framework.TestCenter.Input
         {
             ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
             XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            AssertHelper.CompareFloats(xna.Left, anx.Left, "Left");
+            AssertHelper.ConvertEquals(xna.Left, anx.Left, "Left");
         }
         [TestCaseSource("twofloats")]
         public void Right(float leftTrigger, float rightTrigger)
         {
             ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
             XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            AssertHelper.CompareFloats(xna.Right, anx.Right, "Right");
+            AssertHelper.ConvertEquals(xna.Right, anx.Right, "Right");
         }
         [TestCaseSource("twofloats")]
         public void ToString(float leftTrigger, float rightTrigger)
         {
             ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
             XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            AssertHelper.CompareString(xna.ToString(), anx.ToString(), "ToString");
+            AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "ToString");
         }
         [TestCaseSource("twofloats")]
         public void Equals(float leftTrigger, float rightTrigger)

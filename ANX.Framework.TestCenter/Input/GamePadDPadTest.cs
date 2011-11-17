@@ -142,7 +142,7 @@ namespace ANX.Framework.TestCenter.Input
             ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
             XNAGamePadDPad xna = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
 
-            AssertHelper.CompareString(xna.ToString(), anx.ToString(), "ToString");
+            AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "ToString");
 
 
         }

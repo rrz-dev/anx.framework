@@ -74,6 +74,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         };
 
         #endregion
+ 
         #region Properties
         [Test]
         public void Identity()
@@ -104,7 +105,6 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         #endregion // Constructors
-
 
         [Test, TestCaseSource("sixteenfloats")]
         public void MultiplyOperator(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
@@ -183,6 +183,18 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xnaM1 + xnaM2, anxM1 + anxM2, "AddOperator");
         }
+ 
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Add(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Add(xnaM1, xnaM2), ANXMatrix.Add(anxM1, anxM2), "Add");
+        }
 
         [Test, TestCaseSource("sixteenfloats")]
         public void SubtractOperator(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
@@ -197,6 +209,18 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("sixteenfloats")]
+        public void Subtract(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Subtract(xnaM1, xnaM2), ANXMatrix.Subtract(anxM1, anxM2), "Subtract");
+        }
+        
+        [Test, TestCaseSource("sixteenfloats")]
         public void DivideOperator(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
@@ -207,17 +231,88 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xnaM1 / xnaM2, anxM1 / anxM2, "DivideOperator");
         }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Divide(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Divide(xnaM1, xnaM2), ANXMatrix.Divide(anxM1, anxM2), "Divide");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Divide2(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+ 
+            float divide= DataFactory.RandomValueMinMax(float.Epsilon, 1000);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Divide(xnaM1, divide), ANXMatrix.Divide(anxM1, divide), "Divide2");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Lerp(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            float amount = DataFactory.RandomValueMinMax(float.Epsilon, 1000);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Lerp(xnaM1, xnaM2, amount), ANXMatrix.Lerp(anxM1, anxM2, amount), "Lerp");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Equals(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAMatrix xnaM2 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXMatrix anxM2 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+
+            AssertHelper.ConvertEquals(xnaM1.Equals(xnaM2), anxM1.Equals(anxM2), "Equals");
+        }
+        
         [Test, TestCaseSource("sixteenfloats")]
         public void Invert(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
-            XNAMatrix xnaM2 = new XNAMatrix();
+ 
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Invert(xnaM1), ANXMatrix.Invert(anxM1), "Invert");
+        }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void ToString(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
-            ANXMatrix anxM2 = new ANXMatrix();
 
-            AssertHelper.ConvertEquals(xnaM2, anxM2, "DivideOperator");
+            AssertHelper.ConvertEquals(xnaM1.ToString(), anxM1.ToString(), "Invert");
         }
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void Negate(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            AssertHelper.ConvertEquals(XNAMatrix.Negate(xnaM1), ANXMatrix.Negate(anxM1), "Negate");
+        }
+
         [Test, TestCaseSource("sixteenfloats")]
         public void CreateRotationX(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
@@ -235,7 +330,6 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xnaMatrix, anxMatrix, "CreateRotationY");
         }
-
 
         [Test, TestCaseSource("sixteenfloats")]
         public void CreateRotationZ(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)

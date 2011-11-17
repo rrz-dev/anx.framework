@@ -283,7 +283,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Barycentric(value1, tangent1, value2, tangent2, amount);
             float anx = ANXMath.Barycentric(value1, tangent1, value2, tangent2, amount);
-            AssertHelper.CompareFloats(xna, anx, "Barycentric");
+            AssertHelper.ConvertEquals(xna, anx, "Barycentric");
         }
 
         [TestCaseSource("fivefloats")]
@@ -291,7 +291,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.CatmullRom(value1, tangent1, value2, tangent2, amount);
             float anx = ANXMath.CatmullRom(value1, tangent1, value2, tangent2, amount);
-            AssertHelper.CompareFloats(xna, anx, "CatmullRom");
+            AssertHelper.ConvertEquals(xna, anx, "CatmullRom");
         }
 
         [Test, TestCaseSource("threefloats")]
@@ -299,7 +299,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Clamp(value1, value2, amount);
             float anx = ANXMath.Clamp(value1, value2, amount);
-            AssertHelper.CompareFloats(xna, anx, "Clamp");
+            AssertHelper.ConvertEquals(xna, anx, "Clamp");
         }
 
         [Test, TestCaseSource("threefloats")]
@@ -307,7 +307,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.SmoothStep(value1, value2, amount);
             float anx = ANXMath.SmoothStep(value1, value2, amount);
-            AssertHelper.CompareFloats(xna, anx, "SmoothStep");
+            AssertHelper.ConvertEquals(xna, anx, "SmoothStep");
         }
 
         [Test, TestCaseSource("threefloats")]
@@ -315,7 +315,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Lerp(value1, value2, amount);
             float anx = ANXMath.Lerp(value1, value2, amount);
-            AssertHelper.CompareFloats(xna, anx, "Lerp");
+            AssertHelper.ConvertEquals(xna, anx, "Lerp");
         }
 
         [TestCaseSource("twofloats")]
@@ -323,7 +323,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Distance(min, max);
             float anx = ANXMath.Distance(min, max);
-            AssertHelper.CompareFloats(xna, anx, "Distance");
+            AssertHelper.ConvertEquals(xna, anx, "Distance");
         }
 
         [TestCaseSource("twofloats")]
@@ -331,7 +331,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Max(min, max);
             float anx = ANXMath.Max(min, max);
-            AssertHelper.CompareFloats(xna, anx, "Max");
+            AssertHelper.ConvertEquals(xna, anx, "Max");
         }
 
         [TestCaseSource("twofloats")]
@@ -339,7 +339,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.Min(min, max);
             float anx = ANXMath.Min(min, max);
-            AssertHelper.CompareFloats(xna, anx, "Min");
+            AssertHelper.ConvertEquals(xna, anx, "Min");
         }
 
         [TestCaseSource("onefloat")]
@@ -347,7 +347,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.ToDegrees(one);
             float anx = ANXMath.ToDegrees(one);
-            AssertHelper.CompareFloats(xna, anx, "ToRadians");
+            AssertHelper.ConvertEquals(xna, anx, "ToRadians");
 
         }
 
@@ -357,7 +357,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xna = XNAMath.ToRadians(one);
             float anx = ANXMath.ToRadians(one);
 
-            AssertHelper.CompareFloats(xna, anx, "ToRadians");
+            AssertHelper.ConvertEquals(xna, anx, "ToRadians");
         }
 
         [TestCaseSource("onefloat")]
@@ -365,7 +365,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             float xna = XNAMath.WrapAngle(one);
             float anx = ANXMath.WrapAngle(one);
-            AssertHelper.CompareFloats(xna, anx, "WrapAngle");
+            AssertHelper.ConvertEquals(xna, anx, "WrapAngle");
         }
 
         [TestCaseSource("hermiteFloats")]
@@ -374,7 +374,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xna = XNAMath.Hermite(value1, tangent1, value2, tangent2, amount);
             float anx = ANXMath.Hermite(value1, tangent1, value2, tangent2, amount);
 
-            AssertHelper.CompareFloats(xna, anx, "Hermite");
+            AssertHelper.ConvertEquals(xna, anx, "Hermite");
         }
     }
 }

@@ -201,7 +201,7 @@ namespace ANX.Framework.TestCenter
             return intDiff <= (1 << maxDeltaBits); 
         }
 
-        public static void CompareFloats(float xna, float anx, String test)
+        public static void ConvertEquals(float xna, float anx, String test)
         {
             if (AssertHelper.CompareFloats(xna, anx, epsilon) ||
                 (xna + epsilon >= float.MaxValue && anx + epsilon >= float.MaxValue) ||
@@ -215,7 +215,7 @@ namespace ANX.Framework.TestCenter
             }
         }
 
-        public static void CompareString(String xna, String anx, String test)
+        public static void ConvertEquals(String xna, String anx, String test)
         {
             if (xna == anx)
             {
@@ -427,18 +427,6 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0} failed: Short4 XNA: ({1}) Short4 ANX: ({2})", test, lhs, rhs));
-            }
-        }
-
-        public static void ConvertEquals(float a, float b, String test)
-        {
-            if (a.Equals(b))
-            {
-                Assert.Pass(test + " passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("{0} failed: float a: ({1}) float b: ({2})", test, a, b));
             }
         }
 
