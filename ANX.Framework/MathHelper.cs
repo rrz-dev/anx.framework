@@ -123,44 +123,14 @@ namespace ANX.Framework
 
         public static float Hermite(float value1, float tangent1, float value2, float tangent2, float amount)
         {
-            float num3 = amount;
-            float num = num3 * num3;
-            float num2 = num3 * num;
-            float num7 = ((2f * num2) - (3f * num)) + 1f;
-            float num6 = (-2f * num2) + (3f * num);
-            float num5 = (num2 - (2f * num)) + num3;
-            float num4 = num2 - num;
-            return ((((value1 * num7) + (value2 * num6)) + (tangent1 * num5)) + (tangent2 * num4));
+            float a2 = amount * amount;
+            float asqr3 = amount * a2;
+            float a3 = a2 + a2 + a2;
 
-
-
-            // All transformed to double not to lose precission
-            // Otherwise, for high numbers of param:amount the result is NaN instead of Infinity
-            double v12 = value1 + value1;
-            double v13 = v12 + value1;
-            double v22 = value2 + value2;
-            double v23 = v22 + value2;
-            double t12 = tangent1 + tangent1;
-            double sSquared = amount * amount;
-            double sCubed = sSquared * amount;
-            double result;
-
-            if (amount <= 0f)
-            {
-                return value1;
-            }
-
-            if (amount >= 1f)
-            {
-                return value2;
-            }
-
-            result = (v12 - v22 + tangent2 + tangent1) * sCubed +
-                     (v23 - v13 - t12 - tangent2) * sSquared +
-                     tangent1 * amount +
-                     value1;
-
-            return (float)result;
+            return (value1 * (((asqr3 + asqr3) - a3) + 1f)) +
+                   (value2 * ((-2f * asqr3) + a3)) +
+                   (tangent1 * ((asqr3 - (a2 + a2)) + amount)) +
+                   (tangent2 * (asqr3 - a2));
         }
 
 
