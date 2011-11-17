@@ -57,7 +57,6 @@ namespace ANX.Framework.Storage
     public class StorageContainer : IDisposable
     {
         private DirectoryInfo baseDirectory;
-        private PlayerIndex player;
 
         public event EventHandler<EventArgs> Disposing;
 
@@ -65,30 +64,8 @@ namespace ANX.Framework.Storage
         {
             StorageDevice = device;
             DisplayName = displayName;
-            this.player = player;
 
-            string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string playerPath;
-            switch (player)
-            {
-                case PlayerIndex.One:
-                    playerPath = "Player1";
-                    break;
-                case PlayerIndex.Two:
-                    playerPath = "Player2";
-                    break;
-                case PlayerIndex.Three:
-                    playerPath = "Player3";
-                    break;
-                case PlayerIndex.Four:
-                    playerPath = "Player4";
-                    break;
-                default:
-                    playerPath = "AllPlayers";
-                    break;
-            }
-
-            baseDirectory = new DirectoryInfo(Path.Combine(myDocsPath, displayName, playerPath));
+            baseDirectory = new DirectoryInfo(Path.Combine(device.StoragePath, displayName));
             baseDirectory.Create(); //fails silently if directory exists
         }
 
@@ -166,14 +143,11 @@ namespace ANX.Framework.Storage
             return File.Open(GetTestFullPath(file), fileMode, fileAccess, fileShare);
         }
 
-        public string DisplayName
-        { get; protected set; }
+        public string DisplayName { get; protected set; }
 
-        public StorageDevice StorageDevice
-        { get; protected set; }
+        public StorageDevice StorageDevice { get; protected set; }
 
-        public bool IsDisposed
-        { get; protected set; }
+        public bool IsDisposed { get; protected set; }
 
         public void Dispose()
         {

@@ -58,27 +58,19 @@ namespace ANX.Framework.Storage
     {
         public StorageDeviceNotConnectedException()
             : base()
-        {
-
-        }
+        { }
 
         protected StorageDeviceNotConnectedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
-        {
-
-        }
+        { }
 
         public StorageDeviceNotConnectedException(string message)
             : base(message)
-        {
-
-        }
+        { }
 
         public StorageDeviceNotConnectedException(string message, Exception innerException)
             : base(message, innerException)
-        {
-
-        }
+        { }
 
     }
 }

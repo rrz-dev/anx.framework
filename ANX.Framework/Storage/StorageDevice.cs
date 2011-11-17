@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -54,70 +55,165 @@ namespace ANX.Framework.Storage
 {
     public sealed class StorageDevice
     {
+        private static Func<PlayerIndex, int, int, StorageDevice> openDeviceDelegate = null;
+
+        private DriveInfo storageDrive;
+        private Func<string, StorageContainer> openContainerDelegate = null;
+
         public static event EventHandler<EventArgs> DeviceChanged;
+
+        internal StorageDevice(string storagePath)
+        {
+            StoragePath = Path.GetFullPath(storagePath);
+            storageDrive = new DriveInfo(Path.GetPathRoot(storagePath).Substring(0, 1));
+        }
 
         public IAsyncResult BeginOpenContainer(string displayName, AsyncCallback callback, Object state)
         {
-            throw new NotImplementedException();
+            //See comments of OpenStorageDevice
+            if (openContainerDelegate != null)
+                throw new InvalidOperationException("There is currently a StorageContainer request pending. Please let this request finish.");
+
+            openContainerDelegate = new Func<string, StorageContainer>(OpenStorageContainer);
+            return openContainerDelegate.BeginInvoke(displayName, callback, state);
         }
 
-        public static IAsyncResult BeginShowSelector(AsyncCallback callback, Object state)
-        {
-            throw new NotImplementedException();
-        }
+        public static IAsyncResult BeginShowSelector(AsyncCallback callback, Object state) //We can't use optional parameters, because they can only be used as last!
+        { return BeginShowSelector(PlayerIndex.One, 0, 0, callback, state); }
 
         public static IAsyncResult BeginShowSelector(int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
-        {
-            throw new NotImplementedException();
-        }
+        { return BeginShowSelector(PlayerIndex.One, sizeInBytes, directoryCount, callback, state); }
 
         public static IAsyncResult BeginShowSelector(PlayerIndex player, AsyncCallback callback, Object state)
-        {
-            throw new NotImplementedException();
-        }
+        { return BeginShowSelector(player, 0, 0, callback, state); }
 
         public static IAsyncResult BeginShowSelector(PlayerIndex player, int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
         {
-            throw new NotImplementedException();
+            //See comments of OpenStorageDevice
+            if (openDeviceDelegate != null)
+                throw new InvalidOperationException("There is currently a StorageDevice request pending. Please let this request finish.");
+
+            openDeviceDelegate = new Func<PlayerIndex, int, int, StorageDevice>(OpenStorageDevice);
+            return openDeviceDelegate.BeginInvoke(player, sizeInBytes, directoryCount, callback, state);
         }
 
         public void DeleteContainer(string titleName)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrEmpty(titleName))
+                throw new ArgumentNullException("titleName");
+
+            try
+            {
+                Directory.Delete(Path.Combine(StoragePath, titleName), true);
+            }
+            catch (IOException e)
+            {
+                throw new InvalidOperationException("A IOException occured while deleting the container. See inner Exception.", e);
+            }
         }
 
         public StorageContainer EndOpenContainer(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            if (openContainerDelegate == null)
+                throw new InvalidOperationException("There is operation pending that could be ended.");
+
+            StorageContainer container = openContainerDelegate.EndInvoke(result);
+            openContainerDelegate = null;
+            return container;
         }
 
         public static StorageDevice EndShowSelector(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            if (openDeviceDelegate == null)
+                throw new InvalidOperationException("There is operation pending that could be ended.");
+
+            StorageDevice device = openDeviceDelegate.EndInvoke(result);
+            openDeviceDelegate = null;
+            return device;
         }
 
         public long FreeSpace
         {
             get
             {
-                throw new NotImplementedException();
+                try
+                {
+                    return storageDrive.AvailableFreeSpace;
+                }
+                catch (IOException)
+                {
+                    return -1;
+                }
             }
         }
 
         public bool IsConnected
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        { get { return storageDrive.IsReady; } }
 
         public long TotalSpace
         {
             get
             {
-                throw new NotImplementedException();
+                try
+                {
+                    return storageDrive.TotalSize;
+                }
+                catch (IOException)
+                {
+                    return -1;
+                }
             }
+        }
+
+        /// <summary>
+        /// The path this storage device is currently pointing to.
+        /// </summary>
+        internal string StoragePath { get; private set; }
+
+        /// <summary>
+        /// The player this device is currently assosiated with.
+        /// </summary>
+        internal PlayerIndex PlayerIndex { get; private set; }
+
+        /// <summary>
+        /// Private Helper Method that does the real work of *OpenStorageDevice.
+        /// </summary>
+        /// <remarks>We invoke this Method async using a delegate to have a IAsyncResult that we can return.
+        /// This Method will return nearly instant, but XNA requires to have Begin/End-Methods.
+        /// Currently, there is only one "device", the HDD. Saves are placed in /My Documents/SavedGames. We don't care about the size or
+        /// directory count, the HDD will should enough space anyway ;)</remarks>
+        private static StorageDevice OpenStorageDevice(PlayerIndex player, int sizeInBytes, int directoryCount)
+        {
+            string playerPath;
+            switch (player)
+            {
+                case PlayerIndex.One:
+                    playerPath = "Player1";
+                    break;
+                case PlayerIndex.Two:
+                    playerPath = "Player2";
+                    break;
+                case PlayerIndex.Three:
+                    playerPath = "Player3";
+                    break;
+                case PlayerIndex.Four:
+                    playerPath = "Player4";
+                    break;
+                default:
+                    playerPath = "AllPlayers";
+                    break;
+            }
+
+            string myDocsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SavedGames", playerPath);
+            return new StorageDevice(myDocsPath);
+        }
+
+        /// <summary>
+        /// See comment for OpenStorageDevice.
+        /// </summary>
+        private StorageContainer OpenStorageContainer(string displayName)
+        {
+            return new StorageContainer(this, this.PlayerIndex, displayName);
         }
     }
 }
