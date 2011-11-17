@@ -53,7 +53,11 @@ using System;
 namespace ANX.Framework.GamerServices
 {
     public sealed class SignedInGamer : Gamer
-    {
-
+		{
+			public PlayerIndex PlayerIndex
+			{
+				get;
+				private set;
+			}
     }
 }

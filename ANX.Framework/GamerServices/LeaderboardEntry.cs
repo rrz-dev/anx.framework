@@ -52,7 +52,38 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class LeaderboardEntry
-    {
-    }
+	public sealed class LeaderboardEntry
+	{
+		public Gamer Gamer
+		{
+			get
+			{
+				throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+			}
+		}
+
+		public long Rating
+		{
+			get
+			{
+				throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+			}
+			set
+			{
+				throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+			}
+		}
+
+		public PropertyDictionary Columns
+		{
+			get
+			{
+				throw new NotSupportedException("Games for Windows LIVE is not supported in ANX");
+			}
+		}
+
+		internal LeaderboardEntry()
+		{
+		}
+	}
 }

@@ -52,8 +52,23 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class SignedInGamerCollection : GamerCollection<SignedInGamer>
-    {
-
-    }
+	public sealed class SignedInGamerCollection : GamerCollection<SignedInGamer>
+	{
+		public SignedInGamer this[PlayerIndex playerIndex]
+		{
+			get
+			{
+				int count = base.Count;
+				for (int index = 0; index < count; index++)
+				{
+					SignedInGamer signedInGamer = base[index];
+					if (signedInGamer.PlayerIndex == playerIndex)
+					{
+						return signedInGamer;
+					}
+				}
+				return null;
+			}
+		}
+	}
 }
