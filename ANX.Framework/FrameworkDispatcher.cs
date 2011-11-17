@@ -49,7 +49,11 @@
 
 namespace ANX.Framework
 {
-	public class FrameworkDispatcher
+	public static class FrameworkDispatcher
 	{
+		public static void Update()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

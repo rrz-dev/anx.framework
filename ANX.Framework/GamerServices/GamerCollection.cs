@@ -55,17 +55,68 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.GamerServices
 {
-    public class GamerCollection<T> : ReadOnlyCollection<T>, IEnumerable<Gamer>, IEnumerable where T : Gamer
-    {
+	public class GamerCollection<T> : ReadOnlyCollection<T>,
+		IEnumerable<Gamer>, IEnumerable where T : Gamer
+	{
+		#region GamerCollectionEnumerator
+		public struct GamerCollectionEnumerator
+			: IEnumerator<T>, IDisposable, IEnumerator
+		{
+			private List<T>.Enumerator enumerator;
 
-        public GamerCollection()
-            : base(new List<T>())
-        {
-        }
+			public T Current
+			{
+				get
+				{
+					return enumerator.Current;
+				}
+			}
 
-        public new IEnumerator<Gamer> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-    }
+			object IEnumerator.Current
+			{
+				get
+				{
+					return enumerator.Current;
+				}
+			}
+
+			internal GamerCollectionEnumerator(List<T>.Enumerator setEnumerator)
+			{
+				enumerator = setEnumerator;
+			}
+
+			public void Dispose()
+			{
+				enumerator.Dispose();
+			}
+
+			public bool MoveNext()
+			{
+				return enumerator.MoveNext();
+			}
+
+			void IEnumerator.Reset()
+			{
+				((IEnumerator)enumerator).Reset();
+			}
+		}
+		#endregion
+
+		public GamerCollection()
+			: base(new List<T>())
+		{
+		}
+
+		#region GetEnumerator
+		public new GamerCollection<T>.GamerCollectionEnumerator GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
+
+		IEnumerator<Gamer> IEnumerable<Gamer>.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

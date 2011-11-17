@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 #region License
 
@@ -49,7 +51,62 @@
 
 namespace ANX.Framework.Media
 {
-	public class ArtistCollection
+	public sealed class ArtistCollection
+		: IEnumerable<Artist>, IEnumerable, IDisposable
 	{
+		private List<Artist> artists;
+
+		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
+
+		public int Count
+		{
+			get
+			{
+				return artists.Count;
+			}
+		}
+
+		public Artist this[int index]
+		{
+			get
+			{
+				return artists[index];
+			}
+		}
+
+		public ArtistCollection()
+		{
+			artists = new List<Artist>();
+			IsDisposed = false;
+		}
+
+		~ArtistCollection()
+		{
+			Dispose();
+		}
+
+		#region GetEnumerator
+		public IEnumerator<Artist> GetEnumerator()
+		{
+			return artists.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return artists.GetEnumerator();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			IsDisposed = true;
+			artists.Clear();
+		}
+		#endregion
 	}
 }

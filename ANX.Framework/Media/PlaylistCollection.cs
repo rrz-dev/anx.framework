@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 #region License
 
@@ -49,7 +51,62 @@
 
 namespace ANX.Framework.Media
 {
-	public class PlaylistCollection
+	public sealed class PlaylistCollection
+		: IEnumerable<Playlist>, IEnumerable, IDisposable
 	{
+		private List<Playlist> playlists;
+
+		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
+
+		public int Count
+		{
+			get
+			{
+				return playlists.Count;
+			}
+		}
+
+		public Playlist this[int index]
+		{
+			get
+			{
+				return playlists[index];
+			}
+		}
+
+		public PlaylistCollection()
+		{
+			playlists = new List<Playlist>();
+			IsDisposed = false;
+		}
+
+		~PlaylistCollection()
+		{
+			Dispose();
+		}
+
+		#region GetEnumerator
+		public IEnumerator<Playlist> GetEnumerator()
+		{
+			return playlists.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return playlists.GetEnumerator();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			IsDisposed = true;
+			playlists.Clear();
+		}
+		#endregion
 	}
 }
