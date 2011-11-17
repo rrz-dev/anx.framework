@@ -389,7 +389,8 @@ namespace ANXStatusComparer
 		/// <returns>ANX valid namespace name.</returns>
 		public static string TranslateNamespaceName(string name)
 		{
-			return name.Replace("Microsoft.Xna.", "ANX.");
+			name = name.Replace("Microsoft.Xna.", "ANX.");
+			return name;
 		}
 		#endregion
 	}
