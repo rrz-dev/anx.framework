@@ -1,0 +1,267 @@
+<project name="ANX.Framework Build" default="build">
+  <property name="build.configuration" value="Release" />
+  <property name="build.platform" value="Any CPU" />
+  <property name="build.dir" value="../bin" />
+  
+  <property name="project.anx.path" value="../ANX.Framework" />
+  <property name="project.anx.name" value="ANX.Framework" />
+
+  <property name="project.anx.extended" value="false" unless="${property::exists('project.anx.extended')}" />
+  <property name="project.anx.directives" value="" unless="${property::exists('project.anx.directives')}" />
+
+  <property name="project.anx.path.inputsystem.xinput" value="../InputSystems/ANX.InputSystem.Windows.XInput" />
+  <property name="project.anx.name.inputsystem.xinput" value="ANX.InputSystem.Windows.XInput" />
+  <property name="project.anx.path.inputsystem.kinect" value="../InputSystems/ANX.InputSystem.Windows.Kinect" />
+  <property name="project.anx.name.inputsystem.kinect" value="ANX.InputSystem.Windows.Kinect" />
+
+  <property name="project.anx.path.soundsystem.xaudio" value="../SoundSystems/ANX.SoundSystem.Windows.XAudio" />
+  <property name="project.anx.name.soundsystem.xaudio" value="ANX.SoundSystem.Windows.XAudio" />
+
+  <property name="project.anx.path.rendersystem.dx10" value="../RenderSystems/ANX.Framework.Windows.DX10" />
+  <property name="project.anx.name.rendersystem.dx10" value="ANX.Framework.Windows.DX10" />
+  <property name="project.anx.path.rendersystem.dx11" value="../RenderSystems/ANX.RenderSystem.Windows.DX11" />
+  <property name="project.anx.name.rendersystem.dx11" value="ANX.RenderSystem.Windows.DX11" />
+  <property name="project.anx.path.rendersystem.gl3" value="../RenderSystems/ANX.Framework.Windows.GL3" />
+  <property name="project.anx.name.rendersystem.gl3" value="ANX.Framework.Windows.GL3" />
+
+  <property name="project.anxcontent.path" value="../ANX.Framework.ContentPipeline" />
+  <property name="project.anxcontent.name" value="ANX.Framework.ContentPipeline" />
+
+  <property name="project.anx.tools.path.ANXStatusComparer" value="../Tools/ANXStatusComparer" />
+  <property name="project.anx.tools.name.ANXStatusComparer" value="ANXStatusComparer" />
+  <property name="project.anx.tools.path.StockShaderCodeGenerator" value="../Tools/StockShaderCodeGenerator" />
+  <property name="project.anx.tools.name.StockShaderCodeGenerator" value="StockShaderCodeGenerator" />
+  <property name="project.anx.tools.path.XNAToANXConverter" value="../Tools/XNAToANXConverter" />
+  <property name="project.anx.tools.name.XNAToANXConverter" value="XNAToANXConverter" />
+
+
+  <target name="clean" description="Cleans all targets.">
+    
+  </target>
+
+  <target name="build" description="Build all targets.">
+    <if test="${project.anx.extended}">
+      <property name="project.anx.directives" value="${project.anx.directives} XNAEXT" />
+      <echo message="Compiler directives: ${project.anx.directives}" />
+    </if>
+    
+    <call target="clean" />
+
+    <call target="build_tools" />
+
+    <call target="generate_stock_shaders" />
+    
+    <call target="build_anx" />
+    <call target="build_anx_inputsystems" />
+    <call target="build_anx_soundsystems" />
+    <call target="build_anx_rendersystems" />
+    <call target="build_anx_content_pipeline" />
+  </target>
+
+  <target name="build_anx" description="Build ANX.Framework core">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework core assembly" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path}/${project.anx.name}.csproj" />
+    </exec>
+  </target>
+
+  <target name="build_anx_rendersystems" description="Build ANX.Framework RenderSystems">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework RenderSystem DirectX10" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.rendersystem.dx10}/${project.anx.name.rendersystem.dx10}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework RenderSystem DirectX11" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.dx11}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework RenderSystem OpenGL3" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
+    </exec>
+  </target>
+
+  <target name="build_anx_content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework ContentPipeline extensions" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anxcontent.path}/${project.anxcontent.name}.csproj" />
+    </exec>
+  </target>
+
+  <target name="build_anx_inputsystems" description="Build ANX.Framework InputSystems">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework InputSystem XInput" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.inputsystem.xinput}/${project.anx.name.inputsystem.xinput}.csproj" />
+    </exec>
+
+    <if test="${project.anx.extended}">
+      <echo message="===================================================" />
+      <echo message="Now building: ANX.Framework InputSystem Kinect" />
+      <echo message="===================================================" />
+
+      <exec program="msbuild.exe" >
+        <arg value="/t:Build"/>
+        <arg value="/p:Configuration=${build.configuration}"/>
+        <arg value='/p:Platform="${build.platform}"'/>
+        <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+        <arg value='/p:DefineConstants="${project.anx.directives}"' />
+        <arg value="/clp:ErrorsOnly" />
+        <arg value="${project.anx.path.inputsystem.kinect}/${project.anx.name.inputsystem.kinect}.csproj" />
+      </exec>
+    </if>
+  </target>
+
+  <target name="build_anx_soundsystems" description="Build ANX.Framework SoundSystems">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework SoundSystem XAudio" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.soundsystem.xaudio}/${project.anx.name.soundsystem.xaudio}.csproj" />
+    </exec>
+  </target>
+
+  <target name="build_tools" description="Build ANX.Framework tools">
+    <echo message="===================================================" />
+    <echo message="Now building: ANXStatusComparer tool (asc.exe)" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=Release"/>
+      <arg value='/p:Platform="Any CPU"'/>
+      <arg value="/p:OutputPath=../bin" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.tools.path.ANXStatusComparer}/${project.anx.tools.name.ANXStatusComparer}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: XNAToANXConverter tool (x2a.exe)" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=Release"/>
+      <arg value='/p:Platform="Any CPU"'/>
+      <arg value="/p:OutputPath=../bin" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.tools.path.XNAToANXConverter}/${project.anx.tools.name.XNAToANXConverter}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: StockShaderCodeGenerator tool (sscg.exe)" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=Release"/>
+      <arg value='/p:Platform="Any CPU"'/>
+      <arg value="/p:OutputPath=../bin" />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.tools.path.StockShaderCodeGenerator}/${project.anx.tools.name.StockShaderCodeGenerator}.csproj" />
+    </exec>
+
+  </target>
+
+  <target name="build_stock_shaders" description="Build the stock shaders for the render systems.">
+    <call target="build_tools" />
+    <call target="generate_stock_shaders" />
+  </target>
+  
+  <target name="generate_stock_shaders" description="Generate code for stock shaders">
+    <echo message="===================================================" />
+    <echo message="Now generating code for DirectX 10 stock shaders" />
+    <echo message="===================================================" />
+
+    <exec program="sscg.exe" >
+      <arg value="../shader/DX10/build.xml" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now generating code for OpenGL 3 stock shaders" />
+    <echo message="===================================================" />
+
+    <exec program="sscg.exe" >
+      <arg value="../shader/GL3/build.xml" />
+    </exec>
+  </target>
+
+  <target name="create_packages" description="Generate zip package containing binaries" depends="build">
+    <!-- Load version from source code SharedAssemblyInfo.cs -->
+    <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
+    <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
+    <property name="build.output.release_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.zip"/>
+    
+    <zip ziplevel="9" zipfile="${build.output.release_package}">
+      <fileset basedir="${build.dir}/${build.configuration}/">
+        <include name="*.dll" />
+        <include name="../../doc/license.txt" />
+      </fileset>
+    </zip>
+
+  </target>
+</project>
