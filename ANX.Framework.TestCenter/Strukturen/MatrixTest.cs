@@ -84,6 +84,20 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             new object[] {  1                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  2                                                 ,  4                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
         };
+        static object[] sixteenfloatsE =
+        {
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  -2                                                 ,  4                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  2                                                  ,  -4                                                ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  4                                                  ,  2                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+        };
+        static object[] sixteenfloatsE2 =
+        {
+            new object[] {  1                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  -2                                                 ,  4                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  1                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  2                                                  ,  -4                                                ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  1                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  4                                                  ,  2                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  -1                                                ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  2                                                  ,  -4                                                ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+            new object[] {  4                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  4                                                  ,  2                                                 ,  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
+       }; 
         #endregion
  
         #region Properties
@@ -752,6 +766,25 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xnaQ, anxQ, "Decompose3");
         }
 
+        [Test, TestCase(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
+        public void Decompose4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAQuaternion xnaQ = new XNAQuaternion(m11, m12, m13, m14);
+            XNAVector3 xnav2 = new XNAVector3();
+            XNAVector3 xnav3 = new XNAVector3();
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXQuaternion anxQ = new ANXQuaternion(m11, m12, m13, m14);
+            ANXVector3 anxv2 = new ANXVector3();
+            ANXVector3 anxv3 = new ANXVector3();
+
+            xnaM1.Decompose(out xnav2, out xnaQ, out xnav3);
+            anxM1.Decompose(out anxv2, out anxQ, out anxv3);
+
+            AssertHelper.ConvertEquals( xnaM1.Decompose(out xnav2, out xnaQ, out xnav3), anxM1.Decompose(out anxv2, out anxQ, out anxv3), "Decompose4");
+        }
+        
         [Test, TestCaseSource("sixteenfloats")]
         public void CreateShadow(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
@@ -773,23 +806,41 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(XNAMatrix.CreateReflection(xnap), ANXMatrix.CreateReflection(anxp), "CreateReflection");
         }
- 
+
         [Test, TestCaseSource("sixteenfloats2")]
         public void CreatePerspective(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            AssertHelper.ConvertEquals(XNAMatrix.CreatePerspective(m11, m12, m13,m14), ANXMatrix.CreatePerspective(m11, m12, m13,m14), "CreatePerspective");
+            AssertHelper.ConvertEquals(XNAMatrix.CreatePerspective(m11, m12, m13, m14), ANXMatrix.CreatePerspective(m11, m12, m13, m14), "CreatePerspective");
         }
-       
+
+        [Test, TestCaseSource("sixteenfloatsE")]
+        public void CreatePerspectiveE(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+             AssertHelper.ConvertEquals(Assert.Throws<ArgumentOutOfRangeException>(delegate { XNAMatrix.CreatePerspective(m11, m12, m13, m14); }), Assert.Throws<ArgumentOutOfRangeException>(delegate { ANXMatrix.CreatePerspective(m11, m12, m13, m14); }), "CreatePerspectiveE");
+        }
+        
         [Test, TestCaseSource("sixteenfloats3")]
         public void CreatePerspectiveFieldOfView(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             AssertHelper.ConvertEquals(XNAMatrix.CreatePerspectiveFieldOfView(m11, m12, m13, m14), ANXMatrix.CreatePerspectiveFieldOfView(m11, m12, m13, m14), "CreatePerspectiveFieldOfView");
         }
-       
+
+        [Test, TestCaseSource("sixteenfloatsE2")]
+        public void CreatePerspectiveFieldOfViewE(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            AssertHelper.ConvertEquals(Assert.Throws<ArgumentOutOfRangeException>(delegate { XNAMatrix.CreatePerspectiveFieldOfView(m11, m12, m13, m14); }), Assert.Throws<ArgumentOutOfRangeException>(delegate { ANXMatrix.CreatePerspectiveFieldOfView(m11, m12, m13, m14); }), "CreatePerspectiveE");
+        }
+        
         [Test, TestCaseSource("sixteenfloats2")]
         public void CreatePerspectiveOffCenter(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             AssertHelper.ConvertEquals(XNAMatrix.CreatePerspectiveOffCenter(m21, m22, m11, m12, m13, m14), ANXMatrix.CreatePerspectiveOffCenter(m21, m22, m11, m12, m13, m14), "CreatePerspectiveOffCenter");
+        }
+
+        [Test, TestCaseSource("sixteenfloatsE")]
+        public void CreatePerspectiveOffCenterE(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            AssertHelper.ConvertEquals(Assert.Throws<ArgumentOutOfRangeException>(delegate { XNAMatrix.CreatePerspectiveOffCenter(m21, m22, m11, m12, m13, m14); }), Assert.Throws<ArgumentOutOfRangeException>(delegate { ANXMatrix.CreatePerspectiveOffCenter(m21, m22, m11, m12, m13, m14); }), "CreatePerspectiveE");
         }
     }
 }

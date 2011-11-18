@@ -215,6 +215,18 @@ namespace ANX.Framework.TestCenter
             }
         }
 
+        public static void ConvertEquals(Exception xna, Exception anx, String test)
+        {
+            if (xna.GetType()==anx.GetType())
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+        
         public static void ConvertEquals(String xna, String anx, String test)
         {
             if (xna == anx)
