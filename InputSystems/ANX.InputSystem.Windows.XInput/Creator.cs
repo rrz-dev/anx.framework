@@ -84,16 +84,17 @@ namespace ANX.InputSystem.Windows.XInput
             get { return new Mouse(); }
         }
 
-
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get {return null; }
-        }
-
         public IKeyboard Keyboard
         {
             get { return new Keyboard(); }
         }
+
+#if XNAEXT
+        public IMotionSensingDevice MotionSensingDevice
+        {
+            get {return null; }
+        }
+#endif
 
     }
 }

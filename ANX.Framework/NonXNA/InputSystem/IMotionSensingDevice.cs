@@ -1,4 +1,6 @@
-﻿#region Using Statements
+﻿#if XNAEXT
+
+#region Using Statements
 using System;
 using ANX.Framework.Input;
 using ANX.Framework.Input.MotionSensing;
@@ -53,7 +55,6 @@ using ANX.Framework.Graphics;
 
 #endregion // License
 
-#if XNAEXT
 namespace ANX.Framework.NonXNA
 {
     public interface IMotionSensingDevice : IDisposable

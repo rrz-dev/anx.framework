@@ -104,6 +104,11 @@ namespace ANX.Framework
             this.game = game;
         }
 
+        ~GameComponent()
+        {
+            this.Dispose(false);
+        }
+
         protected virtual void OnEnabledChanged(object sender, EventArgs args)
         {
             if (EnabledChanged != null)
@@ -122,11 +127,6 @@ namespace ANX.Framework
 
         public virtual void Initialize()
         {
-        }
-
-        protected void Finalize()
-        {
-            this.Dispose(false);
         }
 
         public virtual void Update(GameTime gameTime)
