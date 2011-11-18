@@ -80,9 +80,21 @@ namespace ANX.Framework
         { get; set; }
         public CurveLoopType PostLoop
         { get; set; }
+
         public CurveKeyCollection Keys
-        { get; }
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public Boolean IsConstant
-        { get; }
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
