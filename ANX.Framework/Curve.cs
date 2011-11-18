@@ -49,7 +49,40 @@
 
 namespace ANX.Framework
 {
-	public class Curve
-	{
-	}
+    public class Curve
+    {
+        public Curve Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ComputeTangent(Int32 value, CurveTangent tangent)
+        {
+            throw new NotImplementedException();
+        }
+        public void ComputeTangent(Int32 value, CurveTangent tangent1, CurveTangent tangent2)
+        {
+            throw new NotImplementedException();
+        }
+        public void ComputeTangents(CurveTangent tangent)
+        {
+            throw new NotImplementedException();
+        }
+        public void ComputeTangents(CurveTangent tangent1, CurveTangent tangent2)
+        {
+            throw new NotImplementedException();
+        }
+        public Single Evaluate(Single value)
+        {
+            throw new NotImplementedException();
+        }
+        public CurveLoopType PreLoop
+        { get; set; }
+        public CurveLoopType PostLoop
+        { get; set; }
+        public CurveKeyCollection Keys
+        { get; }
+        public Boolean IsConstant
+        { get; }
+    }
 }
