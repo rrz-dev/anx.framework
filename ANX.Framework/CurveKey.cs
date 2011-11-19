@@ -116,7 +116,7 @@ namespace ANX.Framework
 		#region Equals
 		public bool Equals(CurveKey other)
 		{
-			return other != null &&
+			return
 				other.Position == Position &&
 				other.Value == Value &&
 				other.TangentIn == TangentIn &&
@@ -146,13 +146,7 @@ namespace ANX.Framework
 		#region Equality
 		public static bool operator ==(CurveKey a, CurveKey b)
 		{
-			if (a == null ||
-				b == null)
-			{
-				return (a == null && b == null);
-			}
-
-			return a.Equals(b);
+				return a.Equals(b);
 		}
 		#endregion
 
