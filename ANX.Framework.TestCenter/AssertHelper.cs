@@ -142,6 +142,24 @@ using ANXStorageDevice = ANX.Framework.Storage.StorageDevice;
 using XNAStorageContainer = Microsoft.Xna.Framework.Storage.StorageContainer;
 using ANXStorageContainer = ANX.Framework.Storage.StorageContainer;
 
+using XNACurve = Microsoft.Xna.Framework.Curve;
+using ANXCurve = ANX.Framework.Curve;
+
+using XNACurveKey = Microsoft.Xna.Framework.CurveKey;
+using ANXCurveKey = ANX.Framework.CurveKey;
+
+using XNACurveContinuity = Microsoft.Xna.Framework.CurveContinuity;
+using ANXCurveContinuity = ANX.Framework.CurveContinuity;
+
+using XNACurveLoopType = Microsoft.Xna.Framework.CurveLoopType;
+using ANXCurveLoopType = ANX.Framework.CurveLoopType;
+
+using XNACurveKeyCollection = Microsoft.Xna.Framework.CurveKeyCollection;
+using ANXCurveKeyCollection = ANX.Framework.CurveKeyCollection;
+
+using XNACurveTangent = Microsoft.Xna.Framework.CurveTangent;
+using ANXCurveTangent = ANX.Framework.CurveTangent;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -728,7 +746,7 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAStorageDevice xna, ANXStorageDevice anx, String test)
         {
-            if (CompareStorageDevice(xna, anx))
+            if (Compare(xna, anx))
             {
                 Assert.Pass(test + " passed");
             }
@@ -738,14 +756,14 @@ namespace ANX.Framework.TestCenter
             }
         }
 
-        private static bool CompareStorageDevice(XNAStorageDevice xna, ANXStorageDevice anx)
+        private static bool Compare(XNAStorageDevice xna, ANXStorageDevice anx)
         {
             return (xna.FreeSpace == anx.FreeSpace) && (xna.IsConnected == anx.IsConnected) && (xna.TotalSpace == anx.TotalSpace);
         }
 
         public static void ConvertEquals(XNAStorageContainer xna, ANXStorageContainer anx, String test)
         {
-            if ((CompareStorageDevice(xna.StorageDevice, anx.StorageDevice))&&(xna.IsDisposed==anx.IsDisposed)&&(xna.DisplayName==anx.DisplayName))
+            if ((Compare(xna.StorageDevice, anx.StorageDevice))&&(xna.IsDisposed==anx.IsDisposed)&&(xna.DisplayName==anx.DisplayName))
             {
                 Assert.Pass(test + " passed");
             }
@@ -754,5 +772,70 @@ namespace ANX.Framework.TestCenter
                 Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
         }
+
+        internal static void ConvertEquals(XNACurve xna, ANXCurve anx, String test)
+        {
+            if (Compare(xna, anx))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNACurve xna, XNACurve xna2, ANXCurve anx, ANXCurve anx2, String test)
+        {
+            if (Compare(xna, anx) && Compare(xna2, anx) && Compare(xna2, anx2))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+       
+        private static bool Compare(XNACurve xna, ANXCurve anx)
+        {
+            return (xna.IsConstant == anx.IsConstant) && (Compare(xna.Keys, anx.Keys)) && (Compare(xna.PreLoop, anx.PreLoop)) && (Compare(xna.PostLoop, anx.PostLoop));
+        }
+        
+        private static bool Compare(XNACurveLoopType xna, ANXCurveLoopType anx)
+        {
+            return ((int)xna == (int)anx);
+        }
+
+        private static bool Compare(XNACurveKeyCollection xna, ANXCurveKeyCollection anx)
+        {
+            if (xna.Count!=anx.Count)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < xna.Count; i++)
+                {
+                    if (!Compare(xna[i],anx[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static bool Compare(XNACurveKey xna, ANXCurveKey anx)
+        {
+            return xna.Position == anx.Position && xna.Value == anx.Value && xna.TangentIn == anx.TangentIn && xna.TangentOut == anx.TangentOut && Compare(xna.Continuity,anx.Continuity);
+        }
+
+        private static bool Compare(XNACurveContinuity xna, ANXCurveContinuity anx)
+        {
+            return ((int)xna == (int)anx);
+        }
+
+ 
     }
 }

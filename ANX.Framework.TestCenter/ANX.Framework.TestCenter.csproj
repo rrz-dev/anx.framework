@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertHelper.cs" />
+    <Compile Include="classTests\CurveTest.cs" />
     <Compile Include="ContentPipeline\Helper\SharedResource.cs" />
     <Compile Include="ContentPipeline\MathTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Compiler.cs" />
