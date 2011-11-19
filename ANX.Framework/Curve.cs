@@ -99,7 +99,7 @@ namespace ANX.Framework
         //formulas from: http://msdn.microsoft.com/de-de/library/microsoft.xna.framework.curvetangent%28v=xnagamestudio.40%29.aspx
         public void ComputeTangent(Int32 index, CurveTangent tangentInOutType)
         {
-            if (index < 0 || index > keys.Count)
+            if (index < 0 || index >= keys.Count)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -127,7 +127,7 @@ namespace ANX.Framework
         }
         public void ComputeTangent(Int32 index, CurveTangent tangentInType, CurveTangent tangentOutType)
         {
-            if (index < 0 || index > keys.Count)
+            if (index < 0 || index >= keys.Count)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -223,7 +223,6 @@ namespace ANX.Framework
             //wanted point behind last point
             else if (position > last.Position)
             {
-                int cycle;
                 switch (this.PostLoop)
                 {
                     case CurveLoopType.Constant:

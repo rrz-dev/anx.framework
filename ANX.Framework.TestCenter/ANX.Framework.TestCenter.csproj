@@ -68,6 +68,7 @@
     <Compile Include="Strukturen\BoundingFrustumTest.cs" />
     <Compile Include="Strukturen\BoundingSphereTest.cs" />
     <Compile Include="Strukturen\ColorTest.cs" />
+    <Compile Include="Strukturen\CurveTest.cs" />
     <Compile Include="Strukturen\MathHelperTest.cs" />
     <Compile Include="Strukturen\MatrixTest.cs" />
     <Compile Include="Strukturen\PackedVector\Bgr565Test.cs" />
