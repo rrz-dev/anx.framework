@@ -768,9 +768,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            XNAVector3[] xna = new XNAVector3[2];
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
             XNAVector3.Transform(xnaVector, ref xnaMatrix, xna);
-            ANXVector3[] anx = new ANXVector3[2];
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
             ANXVector3.Transform(anxVector, ref anxMatrix, anx);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixToDestination");
@@ -789,9 +789,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
 
-            XNAVector3[] xna = new XNAVector3[2];
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
             XNAVector3.Transform(xnaVector, ref xnaQuaternion, xna);
-            ANXVector3[] anx = new ANXVector3[2];
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
             ANXVector3.Transform(anxVector, ref anxQuaternion, anx);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternionToDestination");
@@ -809,9 +809,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            XNAVector3[] xna = new XNAVector3[2];
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
             XNAVector3.Transform(xnaVector, 1, ref xnaMatrix, xna, 1, 1);
-            ANXVector3[] anx = new ANXVector3[2];
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
             ANXVector3.Transform(anxVector, 1, ref anxMatrix, anx, 1, 1);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixToDestinationWithIndex");
@@ -830,9 +830,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
 
-            XNAVector3[] xna = new XNAVector3[2];
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
             XNAVector3.Transform(xnaVector, 1, ref xnaQuaternion, xna, 1, 1);
-            ANXVector3[] anx = new ANXVector3[2];
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
             ANXVector3.Transform(anxVector, 1, ref anxQuaternion, anx, 1, 1);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternionToDestinationWithIndex");
@@ -868,10 +868,10 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            XNAVector3[] xna = new XNAVector3[2];
-            XNAVector3.Transform(xnaVector, ref xnaMatrix, xna);
-            ANXVector3[] anx = new ANXVector3[2];
-            ANXVector3.Transform(anxVector, ref anxMatrix, anx);
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
+            XNAVector3.TransformNormal(xnaVector, ref xnaMatrix, xna);
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
+            ANXVector3.TransformNormal(anxVector, ref anxMatrix, anx);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformNormalStaticToDestination");
         }
@@ -888,10 +888,10 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3[] anxVector = new ANXVector3[] { new ANXVector3(x1, y1, z1), new ANXVector3(x2, y2, z2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            XNAVector3[] xna = new XNAVector3[2];
-            XNAVector3.Transform(xnaVector, 1, ref xnaMatrix, xna, 1, 1);
-            ANXVector3[] anx = new ANXVector3[2];
-            ANXVector3.Transform(anxVector, 1, ref anxMatrix, anx, 1, 1);
+            XNAVector3[] xna = new XNAVector3[2] { XNAVector3.Zero, XNAVector3.Zero };
+            XNAVector3.TransformNormal(xnaVector, 1, ref xnaMatrix, xna, 0, 1);
+            ANXVector3[] anx = new ANXVector3[2] { ANXVector3.Zero, ANXVector3.Zero };
+            ANXVector3.TransformNormal(anxVector, 1, ref anxMatrix, anx, 0, 1);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformNormalStaticToDestinationWithIndex");
         }

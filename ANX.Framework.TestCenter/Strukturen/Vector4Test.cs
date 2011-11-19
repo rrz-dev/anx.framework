@@ -678,7 +678,43 @@ namespace ANX.Framework.TestCenter.Strukturen
 
         #region Transformations
         [Test, TestCaseSource("twentyfourFloats")]
-        public void TransformStaticMatrix(
+        public void TransformStaticMatrixVector2(
+            float x, float y,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5)
+        {
+            XNAVector2 xnaVector = new XNAVector2(x, y);
+            XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXVector2 anxVector = new ANXVector2(x, y);
+            ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaMatrix);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxMatrix);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixVector2");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticMatrixVector3(
+            float x, float y, float z,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3, float nop4)
+        {
+            XNAVector3 xnaVector = new XNAVector3(x, y, z);
+            XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            ANXVector3 anxVector = new ANXVector3(x, y, z);
+            ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaMatrix);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxMatrix);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixVector3");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticMatrixVector4(
             float x, float y, float z, float w,
             float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float nop0, float nop1, float nop2, float nop3)
@@ -692,7 +728,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaMatrix);
             ANXVector4 anx = ANXVector4.Transform(anxVector, anxMatrix);
 
-            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrix");
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticMatrixVector4");
         }
 
         [Test, TestCaseSource("twentyfourFloats")]

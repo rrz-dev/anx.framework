@@ -873,9 +873,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
-            XNAVector2.Transform(xnaVector, ref xnaMatrix, xna);
+            XNAVector2.TransformNormal(xnaVector, ref xnaMatrix, xna);
             ANXVector2[] anx = new ANXVector2[2];
-            ANXVector2.Transform(anxVector, ref anxMatrix, anx);
+            ANXVector2.TransformNormal(anxVector, ref anxMatrix, anx);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformNormalStaticToDestination");
         }
@@ -893,9 +893,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
-            XNAVector2.Transform(xnaVector, 1, ref xnaMatrix, xna, 1, 1);
+            XNAVector2.TransformNormal(xnaVector, 1, ref xnaMatrix, xna, 1, 1);
             ANXVector2[] anx = new ANXVector2[2];
-            ANXVector2.Transform(anxVector, 1, ref anxMatrix, anx, 1, 1);
+            ANXVector2.TransformNormal(anxVector, 1, ref anxMatrix, anx, 1, 1);
 
             AssertHelper.ConvertEquals(xna, anx, "TransformNormalStaticToDestinationWithIndex");
         }

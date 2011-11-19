@@ -453,32 +453,41 @@ namespace ANX.Framework
 
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix, Vector2[] destinationArray, int destinationIndex, int length)
         {
-            throw new NotImplementedException();
+            length += sourceIndex;
+            for (int i = sourceIndex; i < length; i++, destinationIndex++)
+                Transform(ref sourceArray[i], ref matrix, out destinationArray[destinationIndex]);
         }
 
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector2[] destinationArray, int destinationIndex, int length)
         {
-            throw new NotImplementedException();
+            length += sourceIndex;
+            for (int i = sourceIndex; i < length; i++, destinationIndex++)
+                Transform(ref sourceArray[i], ref rotation, out destinationArray[destinationIndex]);
         }
 
         public static void Transform(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < sourceArray.Length; i++)
+                Transform(ref sourceArray[i], ref matrix, out destinationArray[i]);
         }
 
         public static void Transform(Vector2[] sourceArray, ref Quaternion rotation, Vector2[] destinationArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < sourceArray.Length; i++)
+                Transform(ref sourceArray[i], ref rotation, out destinationArray[i]);
         }
 
         public static Vector2 TransformNormal(Vector2 normal, Matrix matrix)
         {
-            throw new NotImplementedException();
+            Vector2 result;
+            TransformNormal(ref normal, ref matrix, out result);
+            return result;
         }
 
         public static void TransformNormal(ref Vector2 normal, ref Matrix matrix, out Vector2 result)
         {
-            throw new NotImplementedException();
+            result.X = ((normal.X * matrix.M11) + (normal.Y * matrix.M21));
+            result.Y = ((normal.X * matrix.M12) + (normal.Y * matrix.M22));
         }
 
         public static void TransformNormal(
@@ -489,7 +498,9 @@ namespace ANX.Framework
             int destinationIndex,
             int length)
         {
-            throw new NotImplementedException();
+            length += sourceIndex;
+            for (int i = sourceIndex; i < length; i++, destinationIndex++)
+                TransformNormal(ref sourceArray[i], ref matrix, out destinationArray[destinationIndex]);
         }
 
         public static void TransformNormal(
@@ -497,7 +508,8 @@ namespace ANX.Framework
             ref Matrix matrix,
             Vector2[] destinationArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < sourceArray.Length; i++)
+                TransformNormal(ref sourceArray[i], ref matrix, out destinationArray[i]);
         }
         #endregion
 

@@ -95,6 +95,5 @@ namespace ANX.InputSystem.Windows.XInput
             get {return null; }
         }
 #endif
-
     }
 }

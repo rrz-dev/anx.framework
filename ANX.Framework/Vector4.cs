@@ -453,17 +453,24 @@ namespace ANX.Framework
 
         public static Vector4 Transform(Vector2 position, Matrix matrix)
         {
-            throw new NotImplementedException(); ;
+            Vector4 result;
+            Transform(ref position, ref matrix, out result);
+            return result;
         }
 
         public static void Transform(ref Vector2 position, ref Matrix matrix, out Vector4 result)
         {
-            throw new NotImplementedException();
+            result.X = (position.X * matrix.M11) + (position.Y * matrix.M21) + matrix.M41;
+            result.Y = (position.X * matrix.M12) + (position.Y * matrix.M22) + matrix.M42;
+            result.Z = (position.X * matrix.M13) + (position.Y * matrix.M23) + matrix.M43;
+            result.W = (position.X * matrix.M14) + (position.Y * matrix.M24) + matrix.M44;
         }
 
         public static Vector4 Transform(Vector2 value, Quaternion rotation)
         {
-            throw new NotImplementedException();
+            Vector4 result;
+            Transform(ref value, ref rotation, out result);
+            return result;
         }
 
         public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector4 result)
@@ -473,17 +480,24 @@ namespace ANX.Framework
 
         public static Vector4 Transform(Vector3 position, Matrix matrix)
         {
-            throw new NotImplementedException();
+            Vector4 result;
+            Transform(ref position, ref matrix, out result);
+            return result;
         }
 
         public static void Transform(ref Vector3 position, ref Matrix matrix, out Vector4 result)
         {
-            throw new NotImplementedException();
+            result.X = (position.X * matrix.M11) + (position.Y * matrix.M21) + (position.Z * matrix.M31) + matrix.M41;
+            result.Y = (position.X * matrix.M12) + (position.Y * matrix.M22) + (position.Z * matrix.M32) + matrix.M42;
+            result.Z = (position.X * matrix.M13) + (position.Y * matrix.M23) + (position.Z * matrix.M33) + matrix.M43;
+            result.W = (position.X * matrix.M14) + (position.Y * matrix.M24) + (position.Z * matrix.M34) + matrix.M44;
         }
 
         public static Vector4 Transform(Vector3 value, Quaternion rotation)
         {
-            throw new NotImplementedException();
+            Vector4 result;
+            Transform(ref value, ref rotation, out result);
+            return result;
         }
 
         public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector4 result)
@@ -493,17 +507,24 @@ namespace ANX.Framework
 
         public static Vector4 Transform(Vector4 vector, Matrix matrix)
         {
-            throw new NotImplementedException();
+            Vector4 result;
+            Transform(ref vector, ref matrix, out result);
+            return result;
         }
 
         public static void Transform(ref Vector4 vector, ref Matrix matrix, out Vector4 result)
         {
-            throw new NotImplementedException();
+            result.X = (vector.X * matrix.M11) + (vector.Y * matrix.M21) + (vector.Z * matrix.M31) + (vector.W * matrix.M41);
+            result.Y = (vector.X * matrix.M12) + (vector.Y * matrix.M22) + (vector.Z * matrix.M32) + (vector.W * matrix.M42);
+            result.Z = (vector.X * matrix.M13) + (vector.Y * matrix.M23) + (vector.Z * matrix.M33) + (vector.W * matrix.M43);
+            result.W = (vector.X * matrix.M14) + (vector.Y * matrix.M24) + (vector.Z * matrix.M34) + (vector.W * matrix.M44);
         }
 
         public static Vector4 Transform(Vector4 value, Quaternion rotation)
         {
-            throw new NotImplementedException();
+            Vector4 result;
+            Transform(ref value, ref rotation, out result);
+            return result;
         }
 
         public static void Transform(ref Vector4 value, ref Quaternion rotation, out Vector4 result)
@@ -511,26 +532,31 @@ namespace ANX.Framework
             throw new NotImplementedException();
         }
 
-        public static void Transform(Vector4[] sourceArray, int sourceIndex, ref Matrix matrix, Vector4[] destinationArray, int destinationIndex, int length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(Vector4[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector4[] destinationArray, int destinationIndex, int length)
-        {
-            throw new NotImplementedException();
-        }
-
         public static void Transform(Vector4[] sourceArray, ref Matrix matrix, Vector4[] destinationArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < sourceArray.Length; i++)
+                Transform(ref sourceArray[i], ref matrix, out destinationArray[i]);
+        }
+
+        public static void Transform(Vector4[] sourceArray, int sourceIndex, ref Matrix matrix, Vector4[] destinationArray, int destinationIndex, int length)
+        {
+            length += sourceIndex;
+            for (int i = sourceIndex; i < length; i++, destinationIndex++)
+                Transform(ref sourceArray[i], ref matrix, out destinationArray[destinationIndex]);
         }
 
         public static void Transform(Vector4[] sourceArray, ref Quaternion rotation, Vector4[] destinationArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < sourceArray.Length; i++)
+                Transform(ref sourceArray[i], ref rotation, out destinationArray[i]);
         }
 
+        public static void Transform(Vector4[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector4[] destinationArray, int destinationIndex, int length)
+        {
+            length += sourceIndex;
+            for (int i = sourceIndex; i < length; i++, destinationIndex++)
+                Transform(ref sourceArray[i], ref rotation, out destinationArray[destinationIndex]);
+        }
         #endregion
 
         #region Public Methods

@@ -504,11 +504,16 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector2[] xna, ANXVector2[] anx, String test)
         {
             bool result = true;
+            string xnaString = string.Empty;
+            string anxString = string.Empty;
 
             for (int i = 0; i < xna.Length; i++)
             {
                 result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
                             CompareFloats(xna[i].Y, anx[i].Y, epsilon);
+
+                xnaString = xna[i].ToString() + "  ";
+                anxString = anx[i].ToString() + "  ";
 
                 if (!result)
                     break;
@@ -520,7 +525,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
             }
         }
 
@@ -541,12 +546,17 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector3[] xna, ANXVector3[] anx, String test)
         {
             bool result = true;
+            string xnaString = string.Empty;
+            string anxString = string.Empty;
 
             for (int i = 0; i < xna.Length; i++)
             {
                 result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
                             CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
                             CompareFloats(xna[i].Z, anx[i].Z, epsilon);
+
+                xnaString += xna[i].ToString() + "  ";
+                anxString += anx[i].ToString() + "  ";
 
                 if (!result)
                     break;
@@ -558,7 +568,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
             }
         }
 
@@ -580,13 +590,18 @@ namespace ANX.Framework.TestCenter
         public static void ConvertEquals(XNAVector4[] xna, ANXVector4[] anx, String test)
         {
             bool result = true;
+            string xnaString = string.Empty;
+            string anxString = string.Empty;
 
             for (int i = 0; i < xna.Length; i++)
             {
                 result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
                             CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
                             CompareFloats(xna[i].Z, anx[i].Z, epsilon) &&
-                            CompareFloats(xna[i].Z, anx[i].W, epsilon);
+                            CompareFloats(xna[i].W, anx[i].W, epsilon);
+
+                xnaString += xna[i].ToString() + "  ";
+                anxString += anx[i].ToString() + "  ";
 
                 if (!result)
                     break;
@@ -598,7 +613,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
             }
         }
 
