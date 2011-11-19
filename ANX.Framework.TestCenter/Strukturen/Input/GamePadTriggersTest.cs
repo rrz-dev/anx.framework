@@ -56,7 +56,7 @@ using XNAGamePadTriggers = Microsoft.Xna.Framework.Input.GamePadTriggers;
 //       particular purpose and non-infringement.
 
 #endregion // License
-namespace ANX.Framework.TestCenter.Input
+namespace ANX.Framework.TestCenter.Strukturen.Input
 {
     [TestFixture]
     class GamePadTriggersTest

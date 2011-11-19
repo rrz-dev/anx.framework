@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNANormalizedShort2 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedShort2;
-using ANXNormalizedShort2 = ANX.Framework.Graphics.PackedVector.NormalizedShort2;
+using XNARgba1010102 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba1010102;
+using ANXRgba1010102 = ANX.Framework.Graphics.PackedVector.Rgba1010102;
 
-using XNAVector2 = Microsoft.Xna.Framework.Vector2;
-using ANXVector2 = ANX.Framework.Vector2;
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -61,49 +61,51 @@ using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class NormalizedShort2Test
+    class Rgba1010102Test
     {
         #region Testdata
 
-        static object[] twofloats =
+        static object[] fourfloats =
         {
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue }
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
         };
 
         #endregion
 
-        [Test, TestCaseSource("twofloats")]
-        public void contructor1(float x, float y)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
         {
-            XNANormalizedShort2 xnaVal = new XNANormalizedShort2(x, y);
-            ANXNormalizedShort2 anxVal = new ANXNormalizedShort2(x, y);
+            XNARgba1010102 xnaVal = new XNARgba1010102(x, y, z, w);
+            ANXRgba1010102 anxVal = new ANXRgba1010102(x, y, z, w);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        [Test, TestCaseSource("twofloats")]
-        public void contructor2(float x, float y)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-            XNANormalizedShort2 xnaVal = new XNANormalizedShort2(new XNAVector2(x, y));
-            ANXNormalizedShort2 anxVal = new ANXNormalizedShort2(new ANXVector2(x, y));
+
+            XNARgba1010102 xnaVal = new XNARgba1010102(new XNAVector4(x, y, z, w));
+            ANXRgba1010102 anxVal = new ANXRgba1010102(new ANXVector4(x, y, z, w));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        [Test, TestCaseSource("twofloats")]
-        public void unpack1(float x, float y)
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float x, float y, float z, float w)
         {
-            XNANormalizedShort2 xnaVal = new XNANormalizedShort2(x, y);
-            ANXNormalizedShort2 anxVal = new ANXNormalizedShort2(x, y);
+            XNARgba1010102 xnaVal = new XNARgba1010102(x, y, z, w);
+            ANXRgba1010102 anxVal = new ANXRgba1010102(x, y, z, w);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
         }
+
     }
 }

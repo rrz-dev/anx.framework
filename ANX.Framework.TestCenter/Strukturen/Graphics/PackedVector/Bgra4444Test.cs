@@ -61,7 +61,7 @@ using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
     class Bgra4444Test

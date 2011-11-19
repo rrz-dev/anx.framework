@@ -58,7 +58,7 @@ using NUnit.Framework;
 using XnaVector3 = Microsoft.Xna.Framework.Vector3;
 using AnxVector3 = ANX.Framework.Vector3;
 
-namespace ANX.Framework.TestCenter.Design
+namespace ANX.Framework.TestCenter.Strukturen.Design
 {
     [TestFixture]
     public class TypeConverterTest

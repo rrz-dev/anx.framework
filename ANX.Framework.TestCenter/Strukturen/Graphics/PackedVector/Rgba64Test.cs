@@ -1,20 +1,18 @@
 ﻿#region Using Statements
+
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using NUnit.Framework;
+
+using XNARgba64 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba64;
+using ANXRgba64 = ANX.Framework.Graphics.PackedVector.Rgba64;
+
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
+
 #endregion // Using Statements
-
-using ANXStorageDevice = ANX.Framework.Storage.StorageDevice;
-using ANXStorageContainer = ANX.Framework.Storage.StorageContainer;
-using ANXStorageDeviceNotConnectedException = ANX.Framework.Storage.StorageDeviceNotConnectedException;
-using ANXPlayerIndex = ANX.Framework.PlayerIndex;
-using XNAStorageDevice = Microsoft.Xna.Framework.Storage.StorageDevice;
-using XNAStorageContainer = Microsoft.Xna.Framework.Storage.StorageContainer;
-using XNAStorageDeviceNotConnectedException = Microsoft.Xna.Framework.Storage.StorageDeviceNotConnectedException;
-using XNAPlayerIndex = Microsoft.Xna.Framework.PlayerIndex;
-
-
 
 #region License
 
@@ -62,10 +60,52 @@ using XNAPlayerIndex = Microsoft.Xna.Framework.PlayerIndex;
 //       particular purpose and non-infringement.
 
 #endregion // License
-namespace ANX.Framework.TestCenter.Storage
+
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class StorageContainerTest
+    class Rgba64Test
     {
+        #region Testdata
+
+        static object[] fourfloats =
+        {
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+        };
+
+        #endregion
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
+        {
+            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
+            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
+        }
+
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
+        {
+
+            XNARgba64 xnaVal = new XNARgba64(new XNAVector4(x, y, z, w));
+            ANXRgba64 anxVal = new ANXRgba64(new ANXVector4(x, y, z, w));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
+        }
+
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float x, float y, float z, float w)
+        {
+            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
+            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
+        }
+
     }
 }

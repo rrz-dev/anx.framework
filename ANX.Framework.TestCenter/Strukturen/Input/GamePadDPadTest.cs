@@ -60,7 +60,7 @@ using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Input
+namespace ANX.Framework.TestCenter.Strukturen.Input
 {
     [TestFixture]
     class GamePadDPadTest

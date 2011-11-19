@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNARgba64 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba64;
-using ANXRgba64 = ANX.Framework.Graphics.PackedVector.Rgba64;
+using XNANormalizedByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte4;
+using ANXNormalizedByte4 = ANX.Framework.Graphics.PackedVector.NormalizedByte4;
 
 using XNAVector4 = Microsoft.Xna.Framework.Vector4;
 using ANXVector4 = ANX.Framework.Vector4;
@@ -61,10 +61,10 @@ using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class Rgba64Test
+    class NormalizedByte4Test
     {
         #region Testdata
 
@@ -82,8 +82,8 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("fourfloats")]
         public void contructor1(float x, float y, float z, float w)
         {
-            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
-            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
@@ -91,21 +91,19 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("fourfloats")]
         public void contructor2(float x, float y, float z, float w)
         {
-
-            XNARgba64 xnaVal = new XNARgba64(new XNAVector4(x, y, z, w));
-            ANXRgba64 anxVal = new ANXRgba64(new ANXVector4(x, y, z, w));
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(new XNAVector4(x, y, z, w));
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(new ANXVector4(x, y, z, w));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void ToVector4(float x, float y, float z, float w)
+        public void unpack1(float x, float y, float z, float w)
         {
-            XNARgba64 xnaVal = new XNARgba64(x, y, z, w);
-            ANXRgba64 anxVal = new ANXRgba64(x, y, z, w);
+            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
+            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
         }
-
     }
 }

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNABgr565 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgr565;
-using ANXBgr565 = ANX.Framework.Graphics.PackedVector.Bgr565;
+using XNANormalizedShort4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedShort4;
+using ANXNormalizedShort4 = ANX.Framework.Graphics.PackedVector.NormalizedShort4;
 
-using XNAVector3 = Microsoft.Xna.Framework.Vector3;
-using ANXVector3 = ANX.Framework.Vector3;
+using XNAVector4 = Microsoft.Xna.Framework.Vector4;
+using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // Using Statements
 
@@ -61,51 +61,49 @@ using ANXVector3 = ANX.Framework.Vector3;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class Bgr565Test
+    class NormalizedShort4Test
     {
         #region Testdata
 
-        static object[] threefloats =
+        static object[] fourfloats =
         {
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
         };
 
         #endregion
 
-        [Test, TestCaseSource("threefloats")]
-        public void contructor1(float r, float g, float b)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float x, float y, float z, float w)
         {
-            XNABgr565 xnaVal = new XNABgr565(r, g, b);
-            ANXBgr565 anxVal = new ANXBgr565(r, g, b);
+            XNANormalizedShort4 xnaVal = new XNANormalizedShort4(x, y, z, w);
+            ANXNormalizedShort4 anxVal = new ANXNormalizedShort4(x, y, z, w);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        [Test, TestCaseSource("threefloats")]
-        public void contructor2(float r, float g, float b)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float x, float y, float z, float w)
         {
-
-            XNABgr565 xnaVal = new XNABgr565(new XNAVector3(r, g, b));
-            ANXBgr565 anxVal = new ANXBgr565(new ANXVector3(r, g, b));
+            XNANormalizedShort4 xnaVal = new XNANormalizedShort4(new XNAVector4(x, y, z, w));
+            ANXNormalizedShort4 anxVal = new ANXNormalizedShort4(new ANXVector4(x, y, z, w));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        [Test, TestCaseSource("threefloats")]
-        public void ToVector3(float r, float g, float b)
+        [Test, TestCaseSource("fourfloats")]
+        public void unpack1(float x, float y, float z, float w)
         {
-            XNABgr565 xnaVal = new XNABgr565(r, g, b);
-            ANXBgr565 anxVal = new ANXBgr565(r, g, b);
+            XNANormalizedShort4 xnaVal = new XNANormalizedShort4(x, y, z, w);
+            ANXNormalizedShort4 anxVal = new ANXNormalizedShort4(x, y, z, w);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector3(), anxVal.ToVector3(), "ToVector3");
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
         }
-
     }
 }

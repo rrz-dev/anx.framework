@@ -64,7 +64,7 @@ using System.Reflection;
 //       particular purpose and non-infringement.
 
 #endregion // License
-namespace ANX.Framework.TestCenter.Storage
+namespace ANX.Framework.TestCenter.Strukturen.Storage
 {
     [TestFixture]
     class StorageDeviceTest

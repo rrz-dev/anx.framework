@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNAHalfSingle = Microsoft.Xna.Framework.Graphics.PackedVector.HalfSingle;
-using ANXHalfSingle = ANX.Framework.Graphics.PackedVector.HalfSingle;
+using XNAByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.Byte4;
+using ANXByte4 = ANX.Framework.Graphics.PackedVector.Byte4;
 
 using XNAVector4 = Microsoft.Xna.Framework.Vector4;
 using ANXVector4 = ANX.Framework.Vector4;
@@ -61,40 +61,51 @@ using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class HalfSingleTest
+    class Byte4Test
     {
         #region Testdata
 
-        static object[] floats =
+        static object[] fourfloats =
         {
-           new object[] { DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue }
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
         };
 
         #endregion
 
-        [Test, TestCaseSource("floats")]
-        public void contructor1(float single)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor1(float r, float g, float b, float a)
         {
-            XNAHalfSingle xnaVal = new XNAHalfSingle(single);
-            ANXHalfSingle anxVal = new ANXHalfSingle(single);
+            XNAByte4 xnaVal = new XNAByte4(r, g, b, a);
+            ANXByte4 anxVal = new ANXByte4(r, g, b, a);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        [Test, TestCaseSource("floats")]
-        public void unpack1(float single)
+        [Test, TestCaseSource("fourfloats")]
+        public void contructor2(float r, float g, float b, float a)
         {
-            XNAHalfSingle xnaVal = new XNAHalfSingle(single);
-            ANXHalfSingle anxVal = new ANXHalfSingle(single);
 
-            AssertHelper.ConvertEquals(xnaVal.ToSingle(), anxVal.ToSingle(), "unpack1");
+            XNAByte4 xnaVal = new XNAByte4(new XNAVector4(r, g, b, a));
+            ANXByte4 anxVal = new ANXByte4(new ANXVector4(r, g, b, a));
+
+            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
+
+        [Test, TestCaseSource("fourfloats")]
+        public void ToVector4(float r, float g, float b, float a)
+        {
+            XNAByte4 xnaVal = new XNAByte4(r, g, b, a);
+            ANXByte4 anxVal = new ANXByte4(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
+        }
+
     }
 }

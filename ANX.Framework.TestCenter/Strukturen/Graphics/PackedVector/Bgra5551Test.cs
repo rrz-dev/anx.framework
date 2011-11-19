@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNANormalizedByte4 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte4;
-using ANXNormalizedByte4 = ANX.Framework.Graphics.PackedVector.NormalizedByte4;
+using XNABgra5551 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgra5551;
+using ANXBgra5551 = ANX.Framework.Graphics.PackedVector.Bgra5551;
 
 using XNAVector4 = Microsoft.Xna.Framework.Vector4;
 using ANXVector4 = ANX.Framework.Vector4;
@@ -61,49 +61,51 @@ using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class NormalizedByte4Test
+    class Bgra5551Test
     {
         #region Testdata
 
         static object[] fourfloats =
         {
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] {DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue }
         };
 
         #endregion
 
         [Test, TestCaseSource("fourfloats")]
-        public void contructor1(float x, float y, float z, float w)
+        public void contructor1(float r, float g, float b, float a)
         {
-            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
-            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
+            XNABgra5551 xnaVal = new XNABgra5551(r, g, b, a);
+            ANXBgra5551 anxVal = new ANXBgra5551(r, g, b, a);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void contructor2(float x, float y, float z, float w)
+        public void contructor2(float r, float g, float b, float a)
         {
-            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(new XNAVector4(x, y, z, w));
-            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(new ANXVector4(x, y, z, w));
+
+            XNABgra5551 xnaVal = new XNABgra5551(new XNAVector4(r, g, b, a));
+            ANXBgra5551 anxVal = new ANXBgra5551(new ANXVector4(r, g, b, a));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void unpack1(float x, float y, float z, float w)
+        public void ToVector4(float r, float g, float b, float a)
         {
-            XNANormalizedByte4 xnaVal = new XNANormalizedByte4(x, y, z, w);
-            ANXNormalizedByte4 anxVal = new ANXNormalizedByte4(x, y, z, w);
+            XNABgra5551 xnaVal = new XNABgra5551(r, g, b, a);
+            ANXBgra5551 anxVal = new ANXBgra5551(r, g, b, a);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "unpack1");
+            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
         }
+
     }
 }

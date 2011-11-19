@@ -1,18 +1,20 @@
 ﻿#region Using Statements
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using ANX.Framework.NonXNA;
 using NUnit.Framework;
-
-using XNANormalizedByte2 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte2;
-using ANXNormalizedByte2 = ANX.Framework.Graphics.PackedVector.NormalizedByte2;
-
-using XNAVector2 = Microsoft.Xna.Framework.Vector2;
-using ANXVector2 = ANX.Framework.Vector2;
-
 #endregion // Using Statements
+
+using ANXStorageDevice = ANX.Framework.Storage.StorageDevice;
+using ANXStorageContainer = ANX.Framework.Storage.StorageContainer;
+using ANXStorageDeviceNotConnectedException = ANX.Framework.Storage.StorageDeviceNotConnectedException;
+using ANXPlayerIndex = ANX.Framework.PlayerIndex;
+using XNAStorageDevice = Microsoft.Xna.Framework.Storage.StorageDevice;
+using XNAStorageContainer = Microsoft.Xna.Framework.Storage.StorageContainer;
+using XNAStorageDeviceNotConnectedException = Microsoft.Xna.Framework.Storage.StorageDeviceNotConnectedException;
+using XNAPlayerIndex = Microsoft.Xna.Framework.PlayerIndex;
+
+
 
 #region License
 
@@ -60,50 +62,10 @@ using ANXVector2 = ANX.Framework.Vector2;
 //       particular purpose and non-infringement.
 
 #endregion // License
-
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Storage
 {
     [TestFixture]
-    class NormalizedByte2Test
+    class StorageContainerTest
     {
-        #region Testdata
-
-        static object[] twofloats =
-        {
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue }
-        };
-
-        #endregion
-
-        [Test, TestCaseSource("twofloats")]
-        public void contructor1(float x, float y)
-        {
-            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(x, y);
-            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(x, y);
-
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
-        }
-
-        [Test, TestCaseSource("twofloats")]
-        public void contructor2(float x, float y)
-        {
-            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(new XNAVector2(x, y));
-            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(new ANXVector2(x, y));
-
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
-        }
-
-        [Test, TestCaseSource("twofloats")]
-        public void unpack1(float x, float y)
-        {
-            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(x, y);
-            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(x, y);
-
-            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
-        }
     }
 }

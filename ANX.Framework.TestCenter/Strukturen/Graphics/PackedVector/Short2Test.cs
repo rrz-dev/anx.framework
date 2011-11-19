@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNARg32 = Microsoft.Xna.Framework.Graphics.PackedVector.Rg32;
-using ANXRg32 = ANX.Framework.Graphics.PackedVector.Rg32;
+using XNAShort2 = Microsoft.Xna.Framework.Graphics.PackedVector.Short2;
+using ANXShort2 = ANX.Framework.Graphics.PackedVector.Short2;
 
 using XNAVector2 = Microsoft.Xna.Framework.Vector2;
 using ANXVector2 = ANX.Framework.Vector2;
@@ -61,20 +61,20 @@ using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class Rg32Test
+    class Short2Test
     {
         #region Testdata
 
         static object[] twofloats =
         {
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] {DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue }
         };
 
         #endregion
@@ -82,8 +82,8 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("twofloats")]
         public void contructor1(float x, float y)
         {
-            XNARg32 xnaVal = new XNARg32(x, y);
-            ANXRg32 anxVal = new ANXRg32(x, y);
+            XNAShort2 xnaVal = new XNAShort2(x, y);
+            ANXShort2 anxVal = new ANXShort2(x, y);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
@@ -91,21 +91,19 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("twofloats")]
         public void contructor2(float x, float y)
         {
-
-            XNARg32 xnaVal = new XNARg32(new XNAVector2(x, y));
-            ANXRg32 anxVal = new ANXRg32(new ANXVector2(x, y));
+            XNAShort2 xnaVal = new XNAShort2(new XNAVector2(x, y));
+            ANXShort2 anxVal = new ANXShort2(new ANXVector2(x, y));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
         [Test, TestCaseSource("twofloats")]
-        public void ToVector2(float x, float y)
+        public void unpack1(float x, float y)
         {
-            XNARg32 xnaVal = new XNARg32(x, y);
-            ANXRg32 anxVal = new ANXRg32(x, y);
+            XNAShort2 xnaVal = new XNAShort2(x, y);
+            ANXShort2 anxVal = new ANXShort2(x, y);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "ToVector2");
+            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
         }
-
     }
 }

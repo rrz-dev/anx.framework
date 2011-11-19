@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNARgba1010102 = Microsoft.Xna.Framework.Graphics.PackedVector.Rgba1010102;
-using ANXRgba1010102 = ANX.Framework.Graphics.PackedVector.Rgba1010102;
+using XNAHalfVector2 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector2;
+using ANXHalfVector2 = ANX.Framework.Graphics.PackedVector.HalfVector2;
 
-using XNAVector4 = Microsoft.Xna.Framework.Vector4;
-using ANXVector4 = ANX.Framework.Vector4;
+using XNAVector2 = Microsoft.Xna.Framework.Vector2;
+using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // Using Statements
 
@@ -61,51 +61,49 @@ using ANXVector4 = ANX.Framework.Vector4;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class Rgba1010102Test
+    class HalfVector2Test
     {
         #region Testdata
 
-        static object[] fourfloats =
+        static object[] twofloats =
         {
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
-           new object[] { DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue },
+           new object[] { DataFactory.RandomValue, DataFactory.RandomValue }
         };
 
         #endregion
 
-        [Test, TestCaseSource("fourfloats")]
-        public void contructor1(float x, float y, float z, float w)
+        [Test, TestCaseSource("twofloats")]
+        public void contructor1(float x, float y)
         {
-            XNARgba1010102 xnaVal = new XNARgba1010102(x, y, z, w);
-            ANXRgba1010102 anxVal = new ANXRgba1010102(x, y, z, w);
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
+            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
 
-        [Test, TestCaseSource("fourfloats")]
-        public void contructor2(float x, float y, float z, float w)
+        [Test, TestCaseSource("twofloats")]
+        public void contructor2(float x, float y)
         {
-
-            XNARgba1010102 xnaVal = new XNARgba1010102(new XNAVector4(x, y, z, w));
-            ANXRgba1010102 anxVal = new ANXRgba1010102(new ANXVector4(x, y, z, w));
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(new XNAVector2(x, y));
+            ANXHalfVector2 anxVal = new ANXHalfVector2(new ANXVector2(x, y));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
 
-        [Test, TestCaseSource("fourfloats")]
-        public void ToVector4(float x, float y, float z, float w)
+        [Test, TestCaseSource("twofloats")]
+        public void unpack1(float x, float y)
         {
-            XNARgba1010102 xnaVal = new XNARgba1010102(x, y, z, w);
-            ANXRgba1010102 anxVal = new ANXRgba1010102(x, y, z, w);
+            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
+            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
 
-            AssertHelper.ConvertEquals(xnaVal.ToVector4(), anxVal.ToVector4(), "ToVector4");
+            AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
         }
-
     }
 }

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-using XNAHalfVector2 = Microsoft.Xna.Framework.Graphics.PackedVector.HalfVector2;
-using ANXHalfVector2 = ANX.Framework.Graphics.PackedVector.HalfVector2;
+using XNANormalizedByte2 = Microsoft.Xna.Framework.Graphics.PackedVector.NormalizedByte2;
+using ANXNormalizedByte2 = ANX.Framework.Graphics.PackedVector.NormalizedByte2;
 
 using XNAVector2 = Microsoft.Xna.Framework.Vector2;
 using ANXVector2 = ANX.Framework.Vector2;
@@ -61,10 +61,10 @@ using ANXVector2 = ANX.Framework.Vector2;
 
 #endregion // License
 
-namespace ANX.Framework.TestCenter.Strukturen.PackedVector
+namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
 {
     [TestFixture]
-    class HalfVector2Test
+    class NormalizedByte2Test
     {
         #region Testdata
 
@@ -82,8 +82,8 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("twofloats")]
         public void contructor1(float x, float y)
         {
-            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
-            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
+            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(x, y);
+            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(x, y);
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
         }
@@ -91,8 +91,8 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("twofloats")]
         public void contructor2(float x, float y)
         {
-            XNAHalfVector2 xnaVal = new XNAHalfVector2(new XNAVector2(x, y));
-            ANXHalfVector2 anxVal = new ANXHalfVector2(new ANXVector2(x, y));
+            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(new XNAVector2(x, y));
+            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(new ANXVector2(x, y));
 
             AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
         }
@@ -100,8 +100,8 @@ namespace ANX.Framework.TestCenter.Strukturen.PackedVector
         [Test, TestCaseSource("twofloats")]
         public void unpack1(float x, float y)
         {
-            XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
-            ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
+            XNANormalizedByte2 xnaVal = new XNANormalizedByte2(x, y);
+            ANXNormalizedByte2 anxVal = new ANXNormalizedByte2(x, y);
 
             AssertHelper.ConvertEquals(xnaVal.ToVector2(), anxVal.ToVector2(), "unpack1");
         }
