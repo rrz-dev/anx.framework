@@ -136,6 +136,12 @@ using ANXMatrix = ANX.Framework.Matrix;
 using XNAQuaternion = Microsoft.Xna.Framework.Quaternion;
 using ANXQuaternion = ANX.Framework.Quaternion;
 
+using XNAStorageDevice = Microsoft.Xna.Framework.Storage.StorageDevice;
+using ANXStorageDevice = ANX.Framework.Storage.StorageDevice;
+
+using XNAStorageContainer = Microsoft.Xna.Framework.Storage.StorageContainer;
+using ANXStorageContainer = ANX.Framework.Storage.StorageContainer;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -696,6 +702,35 @@ namespace ANX.Framework.TestCenter
                 CompareFloats(xna.Y, anx.Y, epsilon) &&
                 CompareFloats(xna.Z, anx.Z, epsilon) &&
                 CompareFloats(xna.W, anx.W, epsilon))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(XNAStorageDevice xna, ANXStorageDevice anx, String test)
+        {
+            if (CompareStorageDevice(xna, anx))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        private static bool CompareStorageDevice(XNAStorageDevice xna, ANXStorageDevice anx)
+        {
+            return (xna.FreeSpace == anx.FreeSpace) && (xna.IsConnected == anx.IsConnected) && (xna.TotalSpace == anx.TotalSpace);
+        }
+
+        public static void ConvertEquals(XNAStorageContainer xna, ANXStorageContainer anx, String test)
+        {
+            if ((CompareStorageDevice(xna.StorageDevice, anx.StorageDevice))&&(xna.IsDisposed==anx.IsDisposed)&&(xna.DisplayName==anx.DisplayName))
             {
                 Assert.Pass(test + " passed");
             }

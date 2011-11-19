@@ -103,5 +103,10 @@ namespace ANX.Framework.TestCenter
         {
             return (float)r.Next((int)min, (int)max) * (float)r.NextDouble();
         }
+
+        public static int RandomIntValueMinMax(int min, int max)
+        {
+            return r.Next(min, max);
+        }
     }
 }
