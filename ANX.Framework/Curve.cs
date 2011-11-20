@@ -185,7 +185,9 @@ namespace ANX.Framework
         {
             //Get first and last Point
             CurveKey first = keys[0];
+            float firstPosition = first.Position;
             CurveKey last = keys[keys.Count - 1];
+            float lastPosition = last.Position;
             float timeSpan=this.keys[this.keys.Count-1].Position-this.keys[0].Position;
             //wanted point before first point
             if (position < first.Position)
@@ -203,7 +205,9 @@ namespace ANX.Framework
 
                     case CurveLoopType.Cycle:
                     //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
-                        return this.interpolate(position%timeSpan);
+                     
+                       return this.interpolate( (position % timeSpan));
+
 
                     case CurveLoopType.CycleOffset:
                     //Positions specified past the ends of the curve will wrap around to the opposite side of the Curve. 
@@ -236,8 +240,10 @@ namespace ANX.Framework
 
                     case CurveLoopType.Cycle:
                     //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
-                           return this.interpolate(position%timeSpan);
+                           return this.interpolate((position%timeSpan));
 
+
+                      
                     case CurveLoopType.CycleOffset:
                     //Positions specified past the ends of the curve will wrap around to the opposite side of the Curve. 
                     //The value will be offset by the difference between the values of the first and last CurveKey 
@@ -256,7 +262,7 @@ namespace ANX.Framework
 
             //in curve
             return interpolate(position);
-
+           
         }
 
 
@@ -269,7 +275,7 @@ namespace ANX.Framework
             //assume position is inside curve
             CurveKey a = this.keys[0];
             CurveKey b;
-            for (int i = 1; i < this.keys.Count; i++)
+            for (int i = 1; i < this.keys.Count; ++i)
             {
                 b = this.Keys[i];
                 if (b.Position >= position)
@@ -283,7 +289,7 @@ namespace ANX.Framework
                     //get the location between a and b in [0,1]
                     float moment = (position - a.Position) / (b.Position - a.Position);
                     return MathHelper.Hermite(a.Value, a.TangentOut, b.Value, b.TangentOut, moment);
-
+                
                 }
                 //get next pair
                 a = b;
