@@ -160,6 +160,9 @@ using ANXCurveKeyCollection = ANX.Framework.CurveKeyCollection;
 using XNACurveTangent = Microsoft.Xna.Framework.CurveTangent;
 using ANXCurveTangent = ANX.Framework.CurveTangent;
 
+using XNAGamePadState = Microsoft.Xna.Framework.Input.GamePadState;
+using ANXGamePadState = ANX.Framework.Input.GamePadState;
+
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -796,7 +799,20 @@ namespace ANX.Framework.TestCenter
                 Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
         }
-       
+
+        public static void ConvertEquals(XNAGamePadState xna, ANXGamePadState anx, String test)
+        {
+            if ((xna.Buttons.ToString()==anx.Buttons.ToString())&&(xna.DPad.ToString()==anx.DPad.ToString())&&(xna.IsConnected==anx.IsConnected)&&(xna.ThumbSticks.ToString()==anx.ThumbSticks.ToString())&&(xna.Triggers.ToString()==anx.Triggers.ToString()))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        
         private static bool Compare(XNACurve xna, ANXCurve anx)
         {
             return (xna.IsConstant == anx.IsConstant) && (Compare(xna.Keys, anx.Keys)) && (Compare(xna.PreLoop, anx.PreLoop)) && (Compare(xna.PostLoop, anx.PostLoop));
@@ -836,6 +852,6 @@ namespace ANX.Framework.TestCenter
             return ((int)xna == (int)anx);
         }
 
- 
+
     }
 }

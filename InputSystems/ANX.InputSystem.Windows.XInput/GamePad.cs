@@ -91,7 +91,7 @@ namespace ANX.InputSystem.Windows.XInput
             } return returnres;
         }
 
-        public GamePadState GetState(PlayerIndex playerIndex)
+        public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
         {
             State result;
             GamePadState returnres;
@@ -100,10 +100,13 @@ namespace ANX.InputSystem.Windows.XInput
                 result = controller[(int)playerIndex].GetState();
                 //returnres = new GamePadCapabilities(result.Type,result.Gamepad.Buttons.)
                 returnres = new GamePadState(new Vector2(result.Gamepad.LeftThumbX, result.Gamepad.LeftThumbY), new Vector2(result.Gamepad.RightThumbX, result.Gamepad.RightThumbY), (float)result.Gamepad.LeftTrigger, (float)result.Gamepad.RightTrigger, FormatConverter.Translate(result.Gamepad.Buttons));
+                packetNumber = result.PacketNumber;
+                isConnected = true;
             }
             else
             {
-
+                isConnected = false;
+                packetNumber = 0;
                 returnres = new GamePadState();
             }
 
@@ -111,7 +114,7 @@ namespace ANX.InputSystem.Windows.XInput
             return returnres;
         }
 
-        public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
+        public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode, out bool isConnected, out int packetNumber)
         {
             throw new NotImplementedException();
         }

@@ -2,8 +2,27 @@
 using System;
 using System.IO;
 using ANX.Framework.NonXNA;
-
+using NUnit.Framework;
 #endregion // Using Statements
+
+using XNAGamePad = Microsoft.Xna.Framework.Input.GamePad;
+using ANXGamePad = ANX.Framework.Input.GamePad;
+
+using XNAGamePadState = Microsoft.Xna.Framework.Input.GamePadState;
+using ANXGamePadState = ANX.Framework.Input.GamePadState;
+
+using XNAGamePadDPad = Microsoft.Xna.Framework.Input.GamePadDPad;
+using ANXGamePadDPad = ANX.Framework.Input.GamePadDPad;
+
+using ANXButtons = ANX.Framework.Input.Buttons;
+using XNAButtons = Microsoft.Xna.Framework.Input.Buttons;
+
+using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using ANXButtonState = ANX.Framework.Input.ButtonState;
+
+using XNAPlayerIndex = Microsoft.Xna.Framework.PlayerIndex;
+using ANXPlayerIndex = ANX.Framework.PlayerIndex;
+
 
 #region License
 
@@ -52,46 +71,36 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.Framework.Input
+namespace ANX.Framework.TestCenter.Strukturen.Input
 {
-    public static class GamePad
+    [TestFixture]
+    class GamePadTest
     {
-        private static IGamePad gamePad;
 
-        static GamePad()
+        static object[] twoplayer =
         {
-            gamePad = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().GamePad;
-        }
-
-        public static GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)
-        {
-            return gamePad.GetCapabilities(playerIndex);
-        }
+            new object[]{XNAPlayerIndex.One, ANXPlayerIndex.One},
+            new object[]{XNAPlayerIndex.Two, ANXPlayerIndex.Two},
+            new object[]{XNAPlayerIndex.Three, ANXPlayerIndex.Three},
+            new object[]{XNAPlayerIndex.Four, ANXPlayerIndex.Four},
+        };
         
-        public static GamePadState GetState(PlayerIndex playerIndex) 
+        [SetUp]
+        public void BeforeEach()
         {
-            bool isConnected;
-            int packetNumber;
-            GamePadState ret = gamePad.GetState(playerIndex,out isConnected, out packetNumber);
-            ret.IsConnected = isConnected;
-            ret.PacketNumber = packetNumber;
-            return ret;
-        }
-        
-        public static GamePadState GetState (PlayerIndex playerIndex,GamePadDeadZone deadZoneMode)
-        {
-            bool isConnected;
-            int packetNumber;
-            GamePadState ret = gamePad.GetState(playerIndex,deadZoneMode, out isConnected, out packetNumber);
-            ret.IsConnected = isConnected;
-            ret.PacketNumber = packetNumber;
-            return ret;
+            AddInSystemFactory.Instance.Initialize();
+
+            AddInSystemFactory.Instance.SetDefaultCreator("XInput");
         }
 
-        public static bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
+        [TestCaseSource("twoplayer")]
+        public void GetState(XNAPlayerIndex xnaplayer, ANXPlayerIndex anxplayer)
         {
-            return gamePad.SetVibration(playerIndex, leftMotor, rightMotor);
-        }
+            XNAGamePadState xnastate = XNAGamePad.GetState(xnaplayer);
+            ANXGamePadState anxstate = ANXGamePad.GetState(anxplayer);
 
+            AssertHelper.ConvertEquals(xnastate, anxstate, "GetState");
+
+        }
     }
 }

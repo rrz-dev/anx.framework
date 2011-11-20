@@ -62,6 +62,7 @@
     <Compile Include="DataFactory.cs" />
     <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />
     <Compile Include="Strukturen\Design\TypeConverterTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadTest.cs" />
     <Compile Include="Strukturen\Input\GamePadTriggersTest.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

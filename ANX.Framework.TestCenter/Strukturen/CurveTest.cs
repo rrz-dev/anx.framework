@@ -68,7 +68,7 @@ using ANXCurveTangent = ANX.Framework.CurveTangent;
 //       particular purpose and non-infringement.
 
 #endregion // License
-namespace ANX.Framework.TestCenter.Struckturen.classTest
+namespace ANX.Framework.TestCenter.Strukturen
 {
 	[TestFixture]
 	class CurveTest

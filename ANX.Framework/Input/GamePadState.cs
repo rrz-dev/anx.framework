@@ -64,8 +64,8 @@ namespace ANX.Framework.Input
 
         private Buttons buttonsValue;
 
-        //private bool isConnected ;
-        //private int packetNumber ;
+        private bool isConnected;
+        private int packetNumber;
 
         #endregion // Private Members
 
@@ -75,7 +75,8 @@ namespace ANX.Framework.Input
             this.triggers = triggers;
             this.buttons = buttons;
             this.dPad = dPad;
-
+            this.isConnected = false;
+            this.packetNumber = 0;
             this.buttonsValue = this.buttons.Buttons | this.dPad.Buttons;
         }
 
@@ -90,6 +91,8 @@ namespace ANX.Framework.Input
                 buttonField |= buttons[i];
             }
             this.buttonsValue = buttonField;
+            this.isConnected = false;
+            this.packetNumber = 0;
 
             this.buttons = new GamePadButtons(this.buttonsValue);
             this.dPad = new GamePadDPad(this.buttonsValue);
@@ -145,7 +148,11 @@ namespace ANX.Framework.Input
         {
             get
             {
-                throw new NotImplementedException();
+                return this.isConnected;
+            }
+            internal set
+            {
+                this.isConnected = value;
             }
         }
 
@@ -153,7 +160,11 @@ namespace ANX.Framework.Input
         {
             get
             {
-                throw new NotImplementedException();
+                return this.packetNumber;
+            }
+            internal set
+            {
+                this.packetNumber = value;
             }
         }
 
