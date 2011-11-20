@@ -130,8 +130,9 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        [Obsolete("This is not a original XNA property")]
-        public INativeBuffer NativeIndexBuffer
+				// This is now internal because via befriending the assemblies
+				// it's usable in the modules but doesn't confuse the enduser.
+        internal INativeBuffer NativeIndexBuffer
         {
             get
             {

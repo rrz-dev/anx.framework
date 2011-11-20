@@ -238,7 +238,9 @@ namespace ANX.Framework.Windows.GL3
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 				int primitiveCount)
 		{
-			throw new NotImplementedException();
+			// TODO: DrawElementsType, baseVertex, minVertexIndex, numVertices, startIndex
+			GL.DrawElements(DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
+				numVertices, DrawElementsType.UnsignedShort, 0);
 		}
 
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
@@ -266,17 +268,25 @@ namespace ANX.Framework.Windows.GL3
 		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
 				int primitiveCount)
 		{
-			throw new NotImplementedException();
+			// TODO: DrawElementsType
+			GL.DrawElements(DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
+				primitiveCount, DrawElementsType.UnsignedInt, vertexOffset);
 		}
 
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
-			throw new NotImplementedException();
+			foreach (VertexBufferBinding binding in vertexBuffers)
+			{
+				INativeBuffer vertexBuffer = binding.VertexBuffer.NativeVertexBuffer;
+				GL.BindBuffer(BufferTarget.ArrayBuffer,
+					((VertexBufferGL3)vertexBuffer).BufferHandle);
+			}
 		}
 
 		public void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
-			throw new NotImplementedException();
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer,
+				((IndexBufferGL3)indexBuffer.NativeIndexBuffer).BufferHandle);
 		}
 
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
@@ -305,17 +315,16 @@ namespace ANX.Framework.Windows.GL3
 			throw new NotImplementedException();
 		}
 
-
-        public bool VSync
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
+		public bool VSync
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+	}
 }

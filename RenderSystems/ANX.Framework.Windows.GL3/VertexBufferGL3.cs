@@ -55,7 +55,8 @@ namespace ANX.Framework.Windows.GL3
 	/// <summary>
 	/// Native OpenGL implementation of a Vertex Buffer.
 	/// <para />
-	/// Information about vbo/ibo: http://playcontrol.net/ewing/jibberjabber/opengl_vertex_buffer_object.html
+	/// Great tutorial about VBO/IBO directly for OpenTK:
+	/// http://www.opentk.com/doc/graphics/geometry/vertex-buffer-objects
 	/// </summary>
 	public class VertexBufferGL3 : INativeBuffer
 	{
@@ -64,6 +65,13 @@ namespace ANX.Framework.Windows.GL3
 		/// Native vertex buffer handle.
 		/// </summary>
 		private int bufferHandle;
+		internal int BufferHandle
+		{
+			get
+			{
+				return bufferHandle;
+			}
+		}
 
 		private VertexDeclaration vertexDeclaration;
 
@@ -92,6 +100,7 @@ namespace ANX.Framework.Windows.GL3
 			usageHint = BufferUsageHint.DynamicDraw;
 
 			GL.GenBuffers(1, out bufferHandle);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * setVertexCount);
 			GL.BufferData(BufferTarget.ArrayBuffer, size, IntPtr.Zero, usageHint);
 		}
@@ -148,8 +157,42 @@ namespace ANX.Framework.Windows.GL3
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 
-			// TODO: check the different handling with MapBuffer etc. (See link above)
-			//GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)offset, size, data);
+			// TODO: check the handling with MapBuffer etc. (See link above)
+
+			MapVertexDeclaration();
+
+			GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)offset, size, data);
+		}
+		#endregion
+
+		#region MapVertexDeclaration
+		private void MapVertexDeclaration()
+		{
+			foreach (VertexElement element in vertexDeclaration.GetVertexElements())
+			{
+				int size;
+				VertexPointerType type =
+					DatatypesMapping.VertexElementFormatToVertexPointerType(
+					element.VertexElementFormat, out size);
+
+				switch (element.VertexElementUsage)
+				{
+					case VertexElementUsage.Position:
+						GL.EnableClientState(ArrayCap.VertexArray);
+						break;
+					//  case VertexElementUsage.Color:
+					//GL.EnableClientState(ArrayCap.ColorArray);
+					//    break;
+					//  case VertexElementUsage.TextureCoordinate:
+					//GL.EnableClientState(ArrayCap.TextureCoordArray);
+					//    break;
+					// TODO more
+				}
+
+				// TODO: usage index?
+				GL.VertexPointer(size, type, vertexDeclaration.VertexStride,
+					element.Offset);
+			}
 		}
 		#endregion
 

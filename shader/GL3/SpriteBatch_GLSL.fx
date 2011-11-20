@@ -46,11 +46,17 @@
 //
 
 uniform mat4 MatrixTransform;
+attribute vec4 pos;
+attribute vec4 col;
+attribute vec2 tex;
+
+varying vec4 diffuseColor;
+varying vec2 diffuseTexCoord;
 void main(void)
 {
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-	gl_TexCoord[0] = gl_MultiTexCoord0;
-	gl_FrontColor = gl_Color;
+	gl_Position = MatrixTransform * pos;
+	diffuseTexCoord = tex;
+	diffuseColor = col;
 }
 
 ##!fragment!##
@@ -60,7 +66,10 @@ void main(void)
 //
 
 uniform sampler2D Texture;
+varying vec4 diffuseColor;
+varying vec2 diffuseTexCoord;
+
 void main(void)
 {
-	gl_FragColor = texture2D(Texture, vec2(gl_TexCoord[0])) * gl_Color;
+	gl_FragColor = texture2D(Texture, diffuseTexCoord) * diffuseColor;
 }

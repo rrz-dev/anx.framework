@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -56,6 +57,10 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class EffectParameterGL3 : INativeEffectParameter
 	{
+		#region Private
+		private EffectGL3 parentEffect;
+		#endregion
+
 		#region Public
 		/// <summary>
 		/// The name of the effect parameter.
@@ -80,20 +85,23 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Create a ne effect parameter object.
 		/// </summary>
-		internal EffectParameterGL3(string setName, int setUniformIndex)
+		internal EffectParameterGL3(EffectGL3 setParentEffect,
+			string setName, int setUniformIndex)
 		{
+			parentEffect = setParentEffect;
 			Name = setName;
 			UniformIndex = setUniformIndex;
 		}
 		#endregion
 
-		#region SetValue (TODO)
+		#region SetValue
 		/// <summary>
 		/// Set a matrix value to the effect parameter.
 		/// </summary>
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Matrix value)
 		{
+			GL.UniformMatrix4(UniformIndex, 16, false, ref value.M11);
 		}
 
 		/// <summary>
@@ -102,6 +110,13 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Texture value)
 		{
+			// TODO: multiple texture units
+			TextureUnit textureUnit = TextureUnit.Texture0;
+			GL.ActiveTexture(textureUnit);
+			int handle = (value.NativeTexture as Texture2DGL3).NativeHandle;
+			GL.BindTexture(TextureTarget.Texture2D, handle);
+			int unitIndex = (int)(textureUnit - TextureUnit.Texture0);
+			GL.Uniform1(UniformIndex, 1, ref unitIndex);
 		}
 		#endregion
 	}

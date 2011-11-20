@@ -234,6 +234,98 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region PrimitiveTypeToBeginMode
+		/// <summary>
+		/// Translate the XNA PrimitiveType to an OpenGL BeginMode.
+		/// </summary>
+		/// <param name="type">XNA PrimitiveType.</param>
+		/// <returns>Translated BeginMode for OpenGL.</returns>
+		public static BeginMode PrimitiveTypeToBeginMode(PrimitiveType type)
+		{
+			switch (type)
+			{
+				case PrimitiveType.LineList:
+					return BeginMode.Lines;
+
+				case PrimitiveType.LineStrip:
+					return BeginMode.LineStrip;
+
+				default:
+				case PrimitiveType.TriangleList:
+					return BeginMode.Triangles;
+
+				case PrimitiveType.TriangleStrip:
+					return BeginMode.TriangleStrip;
+			}
+		}
+		#endregion
+
+		#region VertexElementFormatToVertexPointerType (TODO)
+		/// <summary>
+		/// Translate the XNA VertexElementFormat to an OpenGL VertexPointerType.
+		/// </summary>
+		/// <param name="format">XNA VertexElementFormat.</param>
+		/// <param name="size">Returns the size of the vertex element.</param>
+		/// <returns>Translated VertexPointerType for OpenGL.</returns>
+		public static VertexPointerType VertexElementFormatToVertexPointerType(
+			VertexElementFormat format, out int size)
+		{
+			switch (format)
+			{
+				default:
+				case VertexElementFormat.Vector2:
+					size = 2;
+					return VertexPointerType.Float;
+
+				case VertexElementFormat.Vector3:
+					size = 3;
+					return VertexPointerType.Float;
+
+				case VertexElementFormat.Vector4:
+					size = 4;
+					return VertexPointerType.Float;
+
+				case VertexElementFormat.Single:
+					size = 1;
+					return VertexPointerType.Float;
+
+				case VertexElementFormat.HalfVector2:
+					size = 2;
+					return VertexPointerType.HalfFloat;
+
+				case VertexElementFormat.HalfVector4:
+					size = 4;
+					return VertexPointerType.HalfFloat;
+
+				// TODO: check difference Short2/NormalizedShort2
+				case VertexElementFormat.NormalizedShort2:
+					size = 2;
+					return VertexPointerType.Short;
+
+				// TODO: check difference Short4/NormalizedShort4
+				case VertexElementFormat.NormalizedShort4:
+					size = 4;
+					return VertexPointerType.Short;
+
+				// TODO: check difference Short2/NormalizedShort2
+				case VertexElementFormat.Short2:
+					size = 2;
+					return VertexPointerType.Short;
+
+				// TODO: check difference Short4/NormalizedShort4
+				case VertexElementFormat.Short4:
+					size = 4;
+					return VertexPointerType.Short;
+
+					// TODO: check
+				case VertexElementFormat.Byte4:
+				case VertexElementFormat.Color:
+					size = 1;
+					return VertexPointerType.Int;
+			}
+		}
+		#endregion
+
 		#region Tests
 		private class Tests
 		{

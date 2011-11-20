@@ -58,10 +58,17 @@ namespace ANX.Framework.Windows.GL3
 	public class IndexBufferGL3 : INativeBuffer
 	{
 		#region Private
+		private int bufferHandle;
 		/// <summary>
 		/// Native index buffer handle.
 		/// </summary>
-		private int bufferHandle;
+		internal int BufferHandle
+		{
+			get
+			{
+				return bufferHandle;
+			}
+		}
 
 		private int indexCount;
 
@@ -166,5 +173,5 @@ namespace ANX.Framework.Windows.GL3
 			GL.DeleteBuffers(1, ref bufferHandle);
 		}
 		#endregion
-    }
+	}
 }

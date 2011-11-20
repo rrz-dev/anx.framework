@@ -107,7 +107,7 @@ namespace ANX.Framework.Windows.GL3
 				List<string> names = new List<string>();
 				for (int index = 0; index < uniformCount; index++)
 				{
-					string name = GL.GetActiveUniformName(programHandle, 0);
+					string name = GL.GetActiveUniformName(programHandle, index);
 
 					if (names.Contains(name) == false)
 					{
@@ -115,7 +115,8 @@ namespace ANX.Framework.Windows.GL3
 						int uniformIndex = GL.GetUniformLocation(programHandle, name);
 						parameters.Add(new EffectParameter()
 						{
-							NativeParameter = new EffectParameterGL3(name, uniformIndex),
+							NativeParameter =
+								new EffectParameterGL3(this, name, uniformIndex),
 						});
 					}
 				}
@@ -304,6 +305,7 @@ namespace ANX.Framework.Windows.GL3
 		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
+			GL.Enable(EnableCap.Texture2D);
 			GL.UseProgram(programHandle);
 		}
 		#endregion
