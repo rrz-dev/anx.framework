@@ -159,13 +159,7 @@ namespace ANX.Framework
 		#region Inequality
 		public static bool operator !=(CurveKey a, CurveKey b)
 		{
-			bool isAnull = a == null;
-			bool isBnull = b == null;
-			if (isAnull ||
-				isBnull)
-			{
-				return isAnull != isBnull; 
-			}
+            return !a.Equals(b);
 
 			return a.Position != b.Position ||
 				a.Value != b.Value ||
