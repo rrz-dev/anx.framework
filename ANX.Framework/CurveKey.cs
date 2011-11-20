@@ -114,15 +114,21 @@ namespace ANX.Framework
 		#endregion
 
 		#region Equals
-		public bool Equals(CurveKey other)
-		{
-			return
-				other.Position == Position &&
-				other.Value == Value &&
-				other.TangentIn == TangentIn &&
-				other.TangentOut == TangentOut &&
-				other.Continuity == Continuity;
-		}
+        public bool Equals(CurveKey other)
+        {
+            try
+            {
+                return other.Position == Position &&
+                    other.Value == Value &&
+                    other.TangentIn == TangentIn &&
+                    other.TangentOut == TangentOut &&
+                    other.Continuity == Continuity;
+            }
+            catch (NullReferenceException e)
+                {
+                return ((object)this)==null;
+                }
+        }
 
 		public override bool Equals(object obj)
 		{
