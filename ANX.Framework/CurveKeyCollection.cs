@@ -96,18 +96,51 @@ namespace ANX.Framework
 		#endregion
 
 		#region Add
-		public void Add(CurveKey item)
-		{
-			if (item == null)
-			{
-				throw new ArgumentNullException();
-			}
-			keys.Add(item);
-		}
-		#endregion
-		
-		#region Clear
-		public void Clear()
+        public void Add(CurveKey item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException();
+            }
+            // keys.Add(item);
+
+            if (this.keys.Count == 0)
+            {
+                //No list items
+                this.keys.Add(item);
+                return;
+            }
+            if (item.CompareTo(this[Count - 1]) > 0)
+            {
+                //Bigger than Max
+                this.keys.Add(item);
+                return;
+            }
+            int min = 0;
+            int max = Count - 1;
+            while ((max - min) > 1)
+            {
+                //Find half point
+                int half = min + ((max - min) / 2);
+                //Compare if it's bigger or smaller than the current item.
+                int comp = item.CompareTo(this[half]);
+                if (comp == 0)
+                {
+                    //Item is equal to half point
+                    this.keys.Insert(half, item);
+                    return;
+                }
+                else if (comp < 0) max = half;   //Item is smaller
+                else min = half;   //Item is bigger
+            }
+            if (item.CompareTo(this[min]) <= 0) this.keys.Insert(min, item);
+            else this.keys.Insert(min + 1, item);
+        }
+
+        #endregion
+
+        #region Clear
+        public void Clear()
 		{
 			keys.Clear();
 		}

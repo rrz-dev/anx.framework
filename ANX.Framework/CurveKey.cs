@@ -161,11 +161,11 @@ namespace ANX.Framework
 		{
             return !a.Equals(b);
 
-			return a.Position != b.Position ||
+			/*return a.Position != b.Position ||
 				a.Value != b.Value ||
 				a.TangentIn != b.TangentIn ||
 				a.TangentOut != b.TangentOut ||
-				a.Continuity != b.Continuity;
+				a.Continuity != b.Continuity;*/
 		}
 		#endregion
 
