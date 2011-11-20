@@ -72,7 +72,7 @@ namespace ANX.Framework.Windows.GL3
 
 		private int indexCount;
 
-		private IndexElementSize elementSize;
+		internal IndexElementSize elementSize;
 
 		private BufferUsage usage;
 
@@ -97,6 +97,7 @@ namespace ANX.Framework.Windows.GL3
 			usageHint = BufferUsageHint.DynamicDraw;
 
 			GL.GenBuffers(1, out bufferHandle);
+			ErrorHelper.Check("GenBuffers");
 		}
 		#endregion
 
@@ -151,15 +152,18 @@ namespace ANX.Framework.Windows.GL3
 				2 : 4) * data.Length);
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
 
-			if (offset != 0)
+			if (offset == 0)
 			{
 				GL.BufferData(BufferTarget.ElementArrayBuffer, size, data, usageHint);
+				ErrorHelper.Check("BufferData size=" + size);
 			}
 			else
 			{
 				GL.BufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)offset,
 					size, data);
+				ErrorHelper.Check("BufferSubData offset=" + offset + " size=" + size);
 			}
 		}
 		#endregion
@@ -171,6 +175,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 			GL.DeleteBuffers(1, ref bufferHandle);
+			ErrorHelper.Check("DeleteBuffers");
 		}
 		#endregion
 	}

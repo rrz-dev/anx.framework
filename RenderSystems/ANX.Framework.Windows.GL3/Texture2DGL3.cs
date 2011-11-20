@@ -110,10 +110,14 @@ namespace ANX.Framework.Windows.GL3
 			width = setWidth;
 			height = setHeight;
 			numberOfMipMaps = mipCount;
+			nativeFormat =
+				DatatypesMapping.SurfaceToPixelInternalFormat(surfaceFormat);
 			isCompressed = nativeFormat.ToString().StartsWith("Compressed");
 
 			NativeHandle = GL.GenTexture();
+			ErrorHelper.Check("GenTexture");
 			GL.BindTexture(TextureTarget.Texture2D, NativeHandle);
+			ErrorHelper.Check("BindTexture");
 
 			int wrapMode = (int)All.ClampToEdge;
 			int filter = (int)(mipCount > 1 ? All.LinearMipmapLinear : All.Linear);
@@ -126,9 +130,7 @@ namespace ANX.Framework.Windows.GL3
 				TextureParameterName.TextureMagFilter, filter);
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureMinFilter, filter);
-
-			nativeFormat =
-				DatatypesMapping.SurfaceToPixelInternalFormat(surfaceFormat);
+			ErrorHelper.Check("TexParameter");
 		}
 		#endregion
 
@@ -171,12 +173,14 @@ namespace ANX.Framework.Windows.GL3
 				{
 					GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
 						width, height, 0, mipmapByteSize, dataPointer);
+					ErrorHelper.Check("CompressedTexImage2D Format=" + nativeFormat);
 				}
 				else
 				{
 					GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
 						width, height, 0, (PixelFormat)nativeFormat,
 						PixelType.UnsignedByte, dataPointer);
+					ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
 				}
 
 				int mipmapWidth = width;
@@ -195,12 +199,14 @@ namespace ANX.Framework.Windows.GL3
 						GL.CompressedTexImage2D(TextureTarget.Texture2D, index,
 							nativeFormat, width, height, 0, mipmapByteSize,
 							dataPointer);
+						ErrorHelper.Check("CompressedTexImage2D Format=" + nativeFormat);
 					}
 					else
 					{
 						GL.TexImage2D(TextureTarget.Texture2D, index, nativeFormat,
 							mipmapWidth, mipmapHeight, 0, (PixelFormat)nativeFormat,
 							PixelType.UnsignedByte, dataPointer);
+						ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
 					}
 				}
 			}
@@ -218,6 +224,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 			GL.DeleteTexture(NativeHandle);
+			ErrorHelper.Check("DeleteTexture");
 		}
 		#endregion
 	}

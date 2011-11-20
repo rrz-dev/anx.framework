@@ -174,6 +174,7 @@ namespace ANX.Framework.Windows.GL3
 					CullFaceMode.Front :
 					CullFaceMode.Back);
 			}
+			ErrorHelper.Check("Set CullMode");
 			#endregion
 
 			GL.PolygonMode(MaterialFace.FrontAndBack,
@@ -188,6 +189,7 @@ namespace ANX.Framework.Windows.GL3
 			{
 				GL.Disable(EnableCap.ScissorTest);
 			}
+			ErrorHelper.Check("Set ScissorTest");
 			#endregion
 
 			#region DepthBias / SlopeScaleDepthBias (TODO: test!)
@@ -206,6 +208,7 @@ namespace ANX.Framework.Windows.GL3
 			{
 				GL.Disable(EnableCap.PolygonOffsetFill);
 			}
+			ErrorHelper.Check("Set DepthBias");
 			#endregion
 
 			#region MultiSampleAntiAlias
@@ -217,6 +220,7 @@ namespace ANX.Framework.Windows.GL3
 			{
 				GL.Disable(EnableCap.Multisample);
 			}
+			ErrorHelper.Check("Set Multisample");
 			#endregion
 		}
 		#endregion

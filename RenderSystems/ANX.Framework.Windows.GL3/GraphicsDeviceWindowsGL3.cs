@@ -74,6 +74,11 @@ namespace ANX.Framework.Windows.GL3
 		/// to the graphics device.
 		/// </summary>
 		private IWindowInfo nativeWindowInfo;
+
+		internal static VertexBufferGL3[] boundVertexBuffers =
+			new VertexBufferGL3[0];
+		internal static IndexBufferGL3 boundIndexBuffer;
+		internal static EffectGL3 activeEffect;
 		#endregion
 
 		#region Constructor
@@ -158,6 +163,7 @@ namespace ANX.Framework.Windows.GL3
 		public void SetViewport(Viewport viewport)
 		{
 			GL.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+			ErrorHelper.Check("SetViewport");
 		}
 		#endregion
 
@@ -177,6 +183,7 @@ namespace ANX.Framework.Windows.GL3
 						color.B * ColorMultiplier, color.A * ColorMultiplier);
 			}
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			ErrorHelper.Check("Clear");
 		}
 
 		/// <summary>
@@ -217,6 +224,7 @@ namespace ANX.Framework.Windows.GL3
 			GL.ClearDepth(depth);
 			GL.ClearStencil(stencil);
 			GL.Clear(mask);
+			ErrorHelper.Check("Clear");
 		}
 		#endregion
 
@@ -234,60 +242,117 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region DrawIndexedPrimitives
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 				int primitiveCount)
 		{
-			// TODO: DrawElementsType, baseVertex, minVertexIndex, numVertices, startIndex
-			GL.DrawElements(DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
-				numVertices, DrawElementsType.UnsignedShort, 0);
-		}
+			System.Diagnostics.Debug.WriteLine("GL: DrawIndexedPrimitives");
+			// TODO: baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount
+			DrawElementsType elementsType =
+				boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
+				DrawElementsType.UnsignedShort :
+				DrawElementsType.UnsignedInt;
 
+			GL.DrawElements(
+				DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
+				numVertices, elementsType, 0);
+			ErrorHelper.Check("DrawElements");
+		}
+		#endregion
+
+		#region DrawInstancedPrimitives (TODO)
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 				int primitiveCount, int instanceCount)
 		{
+			//GL.DrawArraysInstanced(
+			//  DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
+			//  baseVertex, numVertices, instanceCount);
 			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region DrawUserIndexedPrimitives (TODO)
 		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType,
-				T[] vertexData, int vertexOffset, int numVertices, Array indexData,
-				int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
-				IndexElementSize indexFormat) where T : struct, IVertexType
+			T[] vertexData, int vertexOffset, int numVertices, Array indexData,
+			int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
+			IndexElementSize indexFormat) where T : struct, IVertexType
 		{
+			//BeginMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType);
+
+			//if (indexFormat == IndexElementSize.SixteenBits)
+			//{
+			//  ushort[] indices = new ushort[indexData.Length];
+			//  indexData.CopyTo(indices, 0);
+			//  GL.DrawElements(mode, numVertices, DrawElementsType.UnsignedShort,
+			//    indices);
+			//}
+			//else
+			//{
+			//  uint[] indices = new uint[indexData.Length];
+			//  indexData.CopyTo(indices, 0);
+			//  GL.DrawElements(mode, numVertices, DrawElementsType.UnsignedInt,
+			//    indices);
+			//}
+
 			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region DrawUserPrimitives (TODO)
 		public void DrawUserPrimitives<T>(PrimitiveType primitiveType,
 				T[] vertexData, int vertexOffset, int primitiveCount,
 				VertexDeclaration vertexDeclaration) where T : struct, IVertexType
 		{
 			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region DrawPrimitives (TODO: check)
 		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
 				int primitiveCount)
 		{
-			// TODO: DrawElementsType
-			GL.DrawElements(DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
-				primitiveCount, DrawElementsType.UnsignedInt, vertexOffset);
+			GL.DrawArrays(
+				DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
+				vertexOffset, primitiveCount);
 		}
+		#endregion
 
+		#region SetVertexBuffers
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
-			foreach (VertexBufferBinding binding in vertexBuffers)
+			boundVertexBuffers = new VertexBufferGL3[vertexBuffers.Length];
+			for (int index = 0; index < vertexBuffers.Length; index++)
 			{
-				INativeBuffer vertexBuffer = binding.VertexBuffer.NativeVertexBuffer;
+				System.Diagnostics.Debug.WriteLine("GL: SetVertexBuffer " + index);
+				boundVertexBuffers[index] =
+					(VertexBufferGL3)vertexBuffers[index].VertexBuffer.NativeVertexBuffer;
 				GL.BindBuffer(BufferTarget.ArrayBuffer,
-					((VertexBufferGL3)vertexBuffer).BufferHandle);
+					boundVertexBuffers[index].BufferHandle);
+				ErrorHelper.Check("BindBuffer");
+				boundVertexBuffers[index].MapVertexDeclaration(
+					activeEffect.programHandle);
 			}
 		}
+		#endregion
 
+		#region SetIndexBuffer
 		public void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer,
-				((IndexBufferGL3)indexBuffer.NativeIndexBuffer).BufferHandle);
+			IndexBufferGL3 nativeBuffer =
+				(IndexBufferGL3)indexBuffer.NativeIndexBuffer;
+
+			if (boundIndexBuffer != nativeBuffer)
+			{
+				System.Diagnostics.Debug.WriteLine("GL: SetIndexBuffer");
+				boundIndexBuffer = nativeBuffer;
+				GL.BindBuffer(BufferTarget.ElementArrayBuffer,
+					nativeBuffer.BufferHandle);
+				ErrorHelper.Check("BindBuffer");
+			}
 		}
+		#endregion
 
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{

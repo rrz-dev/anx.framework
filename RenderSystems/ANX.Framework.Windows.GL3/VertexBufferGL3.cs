@@ -100,9 +100,12 @@ namespace ANX.Framework.Windows.GL3
 			usageHint = BufferUsageHint.DynamicDraw;
 
 			GL.GenBuffers(1, out bufferHandle);
+			ErrorHelper.Check("GenBuffers");
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
 			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * setVertexCount);
 			GL.BufferData(BufferTarget.ArrayBuffer, size, IntPtr.Zero, usageHint);
+			ErrorHelper.Check("BufferData");
 		}
 		#endregion
 
@@ -156,42 +159,62 @@ namespace ANX.Framework.Windows.GL3
 			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * data.Length);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
-
-			// TODO: check the handling with MapBuffer etc. (See link above)
-
-			MapVertexDeclaration();
+			ErrorHelper.Check("BindBuffer");
 
 			GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)offset, size, data);
+			ErrorHelper.Check("BufferSubData");
 		}
 		#endregion
 
 		#region MapVertexDeclaration
-		private void MapVertexDeclaration()
+		internal void MapVertexDeclaration(int programHandle)
 		{
 			foreach (VertexElement element in vertexDeclaration.GetVertexElements())
 			{
-				int size;
-				VertexPointerType type =
-					DatatypesMapping.VertexElementFormatToVertexPointerType(
-					element.VertexElementFormat, out size);
+				// TODO: element.UsageIndex?
 
 				switch (element.VertexElementUsage)
 				{
 					case VertexElementUsage.Position:
 						GL.EnableClientState(ArrayCap.VertexArray);
+						int loc = GL.GetAttribLocation(programHandle, "pos");
+						GL.EnableVertexAttribArray(loc);
+						GL.VertexAttribPointer(loc, 3, VertexAttribPointerType.Float,
+							false, vertexDeclaration.VertexStride, element.Offset);
+						ErrorHelper.Check();
 						break;
-					//  case VertexElementUsage.Color:
-					//GL.EnableClientState(ArrayCap.ColorArray);
-					//    break;
-					//  case VertexElementUsage.TextureCoordinate:
-					//GL.EnableClientState(ArrayCap.TextureCoordArray);
-					//    break;
-					// TODO more
-				}
 
-				// TODO: usage index?
-				GL.VertexPointer(size, type, vertexDeclaration.VertexStride,
-					element.Offset);
+					case VertexElementUsage.Color:
+						GL.EnableClientState(ArrayCap.ColorArray);
+						int col = GL.GetAttribLocation(programHandle, "col");
+						GL.EnableVertexAttribArray(col);
+						GL.VertexAttribPointer(col, 4, VertexAttribPointerType.Float,
+							false, vertexDeclaration.VertexStride, element.Offset);
+						ErrorHelper.Check();
+						break;
+
+					case VertexElementUsage.TextureCoordinate:
+						GL.EnableClientState(ArrayCap.TextureCoordArray);
+						int tex = GL.GetAttribLocation(programHandle, "tex");
+						GL.EnableVertexAttribArray(tex);
+						GL.VertexAttribPointer(tex, 2, VertexAttribPointerType.Float,
+							false, vertexDeclaration.VertexStride, element.Offset);
+						ErrorHelper.Check();
+						break;
+
+					// TODO
+					case VertexElementUsage.Binormal:
+					case VertexElementUsage.BlendIndices:
+					case VertexElementUsage.BlendWeight:
+					case VertexElementUsage.Depth:
+					case VertexElementUsage.Fog:
+					case VertexElementUsage.Normal:
+					case VertexElementUsage.PointSize:
+					case VertexElementUsage.Sample:
+					case VertexElementUsage.Tangent:
+					case VertexElementUsage.TessellateFactor:
+						throw new NotImplementedException();
+				}
 			}
 		}
 		#endregion
@@ -205,5 +228,5 @@ namespace ANX.Framework.Windows.GL3
 			GL.DeleteBuffers(1, ref bufferHandle);
 		}
 		#endregion
-    }
+	}
 }

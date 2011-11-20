@@ -71,7 +71,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// The native shader handle.
 		/// </summary>
-		private int programHandle;
+		internal int programHandle;
 		#endregion
 
 		#region Public
@@ -305,8 +305,13 @@ namespace ANX.Framework.Windows.GL3
 		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			GL.Enable(EnableCap.Texture2D);
-			GL.UseProgram(programHandle);
+			if (GraphicsDeviceWindowsGL3.activeEffect != this)
+			{
+				System.Diagnostics.Debug.WriteLine("GL: Shader.Apply");
+				GL.UseProgram(programHandle);
+				GraphicsDeviceWindowsGL3.activeEffect = this;
+				ErrorHelper.Check("UseProgram");
+			}
 		}
 		#endregion
 

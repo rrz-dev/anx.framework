@@ -46,6 +46,7 @@
 //
 
 uniform mat4 MatrixTransform;
+
 attribute vec4 pos;
 attribute vec4 col;
 attribute vec2 tex;
@@ -66,9 +67,9 @@ void main(void)
 //
 
 uniform sampler2D Texture;
+
 varying vec4 diffuseColor;
 varying vec2 diffuseTexCoord;
-
 void main(void)
 {
 	gl_FragColor = texture2D(Texture, diffuseTexCoord) * diffuseColor;
