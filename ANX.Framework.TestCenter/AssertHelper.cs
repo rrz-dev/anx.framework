@@ -171,6 +171,8 @@ namespace ANX.Framework.TestCenter
     {
         private const float epsilon = 0.0000001f;
         private const int complementBits = 5;
+ 
+        #region Compare
 
         public static bool CompareFloats(float a, float b, float epsilon)
         {
@@ -204,13 +206,13 @@ namespace ANX.Framework.TestCenter
             return AlmostEqual2sComplement(a, b, complementBits);
         }
 
-        private static unsafe int FloatToInt32Bits(float f) 
-        { 
-            return *((int*)&f); 
-        }      
-        
-        private static bool AlmostEqual2sComplement(float a, float b, int maxDeltaBits) 
-        { 
+        private static unsafe int FloatToInt32Bits(float f)
+        {
+            return *((int*)&f);
+        }
+
+        private static bool AlmostEqual2sComplement(float a, float b, int maxDeltaBits)
+        {
             int aInt = FloatToInt32Bits(a);
             if (aInt < 0)
             {
@@ -223,11 +225,58 @@ namespace ANX.Framework.TestCenter
                 bInt = Int32.MinValue - bInt;
             }
 
-            int intDiff = Math.Abs(aInt - bInt); 
-            
-            return intDiff <= (1 << maxDeltaBits); 
+            int intDiff = Math.Abs(aInt - bInt);
+
+            return intDiff <= (1 << maxDeltaBits);
         }
 
+        private static bool Compare(XNACurve xna, ANXCurve anx)
+        {
+            return (xna.IsConstant == anx.IsConstant) && (Compare(xna.Keys, anx.Keys)) && (Compare(xna.PreLoop, anx.PreLoop)) && (Compare(xna.PostLoop, anx.PostLoop));
+        }
+
+        private static bool Compare(XNACurveLoopType xna, ANXCurveLoopType anx)
+        {
+            return ((int)xna == (int)anx);
+        }
+
+        private static bool Compare(XNACurveKeyCollection xna, ANXCurveKeyCollection anx)
+        {
+            if (xna.Count != anx.Count)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < xna.Count; i++)
+                {
+                    if (!Compare(xna[i], anx[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static bool Compare(XNACurveKey xna, ANXCurveKey anx)
+        {
+            return xna.Position == anx.Position && xna.Value == anx.Value && xna.TangentIn == anx.TangentIn && xna.TangentOut == anx.TangentOut && Compare(xna.Continuity, anx.Continuity);
+        }
+
+        private static bool Compare(XNACurveContinuity xna, ANXCurveContinuity anx)
+        {
+            return ((int)xna == (int)anx);
+        }
+
+        private static bool Compare(XNAStorageDevice xna, ANXStorageDevice anx)
+        {
+            return (xna.FreeSpace == anx.FreeSpace) && (xna.IsConnected == anx.IsConnected) && (xna.TotalSpace == anx.TotalSpace);
+        }
+
+        #endregion
+
+        #region ConvertEquals
         public static void ConvertEquals(float xna, float anx, String test)
         {
             if (AssertHelper.CompareFloats(xna, anx, epsilon) ||
@@ -244,7 +293,7 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(Exception xna, Exception anx, String test)
         {
-            if (xna.GetType()==anx.GetType())
+            if (xna.GetType() == anx.GetType())
             {
                 Assert.Pass(test + " passed");
             }
@@ -253,7 +302,7 @@ namespace ANX.Framework.TestCenter
                 Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
             }
         }
-        
+
         public static void ConvertEquals(String xna, String anx, String test)
         {
             if (xna == anx)
@@ -265,6 +314,7 @@ namespace ANX.Framework.TestCenter
                 Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna, anx));
             }
         }
+
         public static void ConvertEquals(bool xna, bool anx, String test)
         {
             if (xna == anx)
@@ -759,14 +809,9 @@ namespace ANX.Framework.TestCenter
             }
         }
 
-        private static bool Compare(XNAStorageDevice xna, ANXStorageDevice anx)
-        {
-            return (xna.FreeSpace == anx.FreeSpace) && (xna.IsConnected == anx.IsConnected) && (xna.TotalSpace == anx.TotalSpace);
-        }
-
         public static void ConvertEquals(XNAStorageContainer xna, ANXStorageContainer anx, String test)
         {
-            if ((Compare(xna.StorageDevice, anx.StorageDevice))&&(xna.IsDisposed==anx.IsDisposed)&&(xna.DisplayName==anx.DisplayName))
+            if ((Compare(xna.StorageDevice, anx.StorageDevice)) && (xna.IsDisposed == anx.IsDisposed) && (xna.DisplayName == anx.DisplayName))
             {
                 Assert.Pass(test + " passed");
             }
@@ -776,7 +821,7 @@ namespace ANX.Framework.TestCenter
             }
         }
 
-        internal static void ConvertEquals(XNACurve xna, ANXCurve anx, String test)
+        public static void ConvertEquals(XNACurve xna, ANXCurve anx, String test)
         {
             if (Compare(xna, anx))
             {
@@ -802,7 +847,7 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAGamePadState xna, ANXGamePadState anx, String test)
         {
-            if ((xna.Buttons.ToString()==anx.Buttons.ToString())&&(xna.DPad.ToString()==anx.DPad.ToString())&&(xna.IsConnected==anx.IsConnected)&&(xna.ThumbSticks.ToString()==anx.ThumbSticks.ToString())&&(xna.Triggers.ToString()==anx.Triggers.ToString()))
+            if ((xna.Buttons.ToString() == anx.Buttons.ToString()) && (xna.DPad.ToString() == anx.DPad.ToString()) && (xna.IsConnected == anx.IsConnected) && (xna.ThumbSticks.ToString() == anx.ThumbSticks.ToString()) && (xna.Triggers.ToString() == anx.Triggers.ToString()))
             {
                 Assert.Pass(test + " passed");
             }
@@ -812,46 +857,41 @@ namespace ANX.Framework.TestCenter
             }
         }
 
-        
-        private static bool Compare(XNACurve xna, ANXCurve anx)
+        public static void ConvertEquals(XNACurveKey xna, ANXCurveKey anx, String test)
         {
-            return (xna.IsConstant == anx.IsConstant) && (Compare(xna.Keys, anx.Keys)) && (Compare(xna.PreLoop, anx.PreLoop)) && (Compare(xna.PostLoop, anx.PostLoop));
-        }
-        
-        private static bool Compare(XNACurveLoopType xna, ANXCurveLoopType anx)
-        {
-            return ((int)xna == (int)anx);
-        }
-
-        private static bool Compare(XNACurveKeyCollection xna, ANXCurveKeyCollection anx)
-        {
-            if (xna.Count!=anx.Count)
+            if (Compare(xna, anx))
             {
-                return false;
+                Assert.Pass(test + " passed");
             }
             else
             {
-                for (int i = 0; i < xna.Count; i++)
-                {
-                    if (!Compare(xna[i],anx[i]))
-                    {
-                        return false;
-                    }
-                }
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
-            return true;
         }
-
-        private static bool Compare(XNACurveKey xna, ANXCurveKey anx)
+        
+        internal static void ConvertEquals(XNACurveKey xna, ANXCurveKey anx, XNACurveKey xna2, ANXCurveKey anx2, String test)
         {
-            return xna.Position == anx.Position && xna.Value == anx.Value && xna.TangentIn == anx.TangentIn && xna.TangentOut == anx.TangentOut && Compare(xna.Continuity,anx.Continuity);
+            if (Compare(xna, anx)&&Compare(xna,anx2)&&Compare(xna2,anx2))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
         }
-
-        private static bool Compare(XNACurveContinuity xna, ANXCurveContinuity anx)
+        
+        public static void ConvertEquals(XNACurveKeyCollection xna, ANXCurveKeyCollection anx, String test)
         {
-            return ((int)xna == (int)anx);
+            if (Compare(xna,anx))
+            {
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
         }
-
+        #endregion
 
     }
 }
