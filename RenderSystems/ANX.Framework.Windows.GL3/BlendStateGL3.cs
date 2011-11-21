@@ -193,12 +193,14 @@ namespace ANX.Framework.Windows.GL3
 			GL.BlendEquationSeparate(
 				TranslateBlendFunction(ColorBlendFunction),
 				TranslateBlendFunction(AlphaBlendFunction));
+			ErrorHelper.Check("BlendEquationSeparate");
 
 			GL.BlendFuncSeparate(
 				TranslateBlendSrc(ColorSourceBlend),
 				TranslateBlendDest(ColorDestinationBlend),
 				TranslateBlendSrc(AlphaSourceBlend),
 				TranslateBlendDest(AlphaDestinationBlend));
+			ErrorHelper.Check("BlendFuncSeparate");
 
 			SetColorWriteChannel(0, ColorWriteChannels);
 			SetColorWriteChannel(1, ColorWriteChannels1);
@@ -209,6 +211,7 @@ namespace ANX.Framework.Windows.GL3
 				BlendFactor.G * DatatypesMapping.ColorMultiplier,
 				BlendFactor.B * DatatypesMapping.ColorMultiplier,
 				BlendFactor.A * DatatypesMapping.ColorMultiplier);
+			ErrorHelper.Check("BlendColor");
 
 // TODO: multi sample mask
 		}
@@ -252,6 +255,7 @@ namespace ANX.Framework.Windows.GL3
 				channels == Graphics.ColorWriteChannels.Alpha);
 
 			GL.ColorMask(index, r, g, b, a);
+			ErrorHelper.Check("ColorMask");
 		}
 		#endregion
 

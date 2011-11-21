@@ -160,6 +160,7 @@ namespace ANX.Framework.Windows.GL3
 
 			#region Cull Mode
 			GL.FrontFace(FrontFaceDirection.Cw);
+			ErrorHelper.Check("FrontFace");
 			if (CullMode == CullMode.None)
 			{
 				GL.Disable(EnableCap.CullFace);
@@ -179,6 +180,7 @@ namespace ANX.Framework.Windows.GL3
 
 			GL.PolygonMode(MaterialFace.FrontAndBack,
 				FillMode == FillMode.WireFrame ? PolygonMode.Line : PolygonMode.Fill);
+			ErrorHelper.Check("PolygonMode");
 
 			#region ScissorTestEnable
 			if (ScissorTestEnable)

@@ -103,16 +103,20 @@ namespace ANX.Framework.Windows.GL3
 				int uniformCount;
 				GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms,
 					out uniformCount);
+				ErrorHelper.Check("GetProgram ActiveUniforms");
 
 				List<string> names = new List<string>();
 				for (int index = 0; index < uniformCount; index++)
 				{
 					string name = GL.GetActiveUniformName(programHandle, index);
+					ErrorHelper.Check("GetActiveUniformName name=" + name);
 
 					if (names.Contains(name) == false)
 					{
 						names.Add(name);
 						int uniformIndex = GL.GetUniformLocation(programHandle, name);
+						ErrorHelper.Check("GetUniformLocation name=" + name +
+							" uniformIndex=" + uniformIndex);
 						parameters.Add(new EffectParameter()
 						{
 							NativeParameter =
@@ -174,8 +178,11 @@ namespace ANX.Framework.Windows.GL3
 			}
 
 			programHandle = GL.CreateProgram();
+			ErrorHelper.Check("CreateProgram");
 			GL.AttachShader(programHandle, vertexShader);
+			ErrorHelper.Check("AttachShader vertexShader");
 			GL.AttachShader(programHandle, fragmentShader);
+			ErrorHelper.Check("AttachShader fragmentShader");
 			GL.LinkProgram(programHandle);
 
 			int result;
@@ -307,7 +314,6 @@ namespace ANX.Framework.Windows.GL3
 		{
 			if (GraphicsDeviceWindowsGL3.activeEffect != this)
 			{
-				System.Diagnostics.Debug.WriteLine("GL: Shader.Apply");
 				GL.UseProgram(programHandle);
 				GraphicsDeviceWindowsGL3.activeEffect = this;
 				ErrorHelper.Check("UseProgram");
@@ -322,6 +328,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 			GL.DeleteProgram(programHandle);
+			ErrorHelper.Check("DeleteProgram");
 
 			int result;
 			GL.GetProgram(programHandle, ProgramParameter.DeleteStatus, out result);

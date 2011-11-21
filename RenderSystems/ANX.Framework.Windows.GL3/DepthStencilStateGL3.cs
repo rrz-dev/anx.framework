@@ -229,10 +229,13 @@ namespace ANX.Framework.Windows.GL3
 			{
 				GL.Disable(EnableCap.DepthTest);
 			}
+			ErrorHelper.Check("DepthTest");
 
 			GL.DepthFunc(TranslateDepthFunction(DepthBufferFunction));
+			ErrorHelper.Check("DepthFunc");
 
 			GL.DepthMask(DepthBufferWriteEnable);
+			ErrorHelper.Check("DepthMask");
 			#endregion
 
 			#region Stencil
@@ -244,8 +247,10 @@ namespace ANX.Framework.Windows.GL3
 			{
 				GL.Disable(EnableCap.StencilTest);
 			}
+			ErrorHelper.Check("StencilTest");
 
 			GL.StencilMask(StencilWriteMask);
+			ErrorHelper.Check("StencilMask");
 
 			if (TwoSidedStencilMode)
 			{
@@ -253,19 +258,23 @@ namespace ANX.Framework.Windows.GL3
 					TranslateStencilOp(StencilFail),
 					TranslateStencilOp(StencilDepthBufferFail),
 					TranslateStencilOp(StencilPass));
+				ErrorHelper.Check("StencilOpSeparate Front");
 
 				GL.StencilOpSeparate(StencilFace.Back,
 					TranslateStencilOp(CounterClockwiseStencilFail),
 					TranslateStencilOp(CounterClockwiseStencilDepthBufferFail),
 					TranslateStencilOp(CounterClockwiseStencilPass));
+				ErrorHelper.Check("StencilOpSeparate Back");
 
 				GL.StencilFuncSeparate(StencilFace.Front,
 					TranslateStencilFunction(StencilFunction),
 					ReferenceStencil, StencilMask);
+				ErrorHelper.Check("StencilFuncSeparate Front");
 
 				GL.StencilFuncSeparate(StencilFace.Back,
 					TranslateStencilFunction(CounterClockwiseStencilFunction),
 					ReferenceStencil, StencilMask);
+				ErrorHelper.Check("StencilFuncSeparate Back");
 			}
 			else
 			{
@@ -273,9 +282,11 @@ namespace ANX.Framework.Windows.GL3
 					TranslateStencilOp(StencilFail),
 					TranslateStencilOp(StencilDepthBufferFail),
 					TranslateStencilOp(StencilPass));
+				ErrorHelper.Check("StencilOp");
 
 				GL.StencilFunc(TranslateStencilFunction(StencilFunction),
 					ReferenceStencil, StencilMask);
+				ErrorHelper.Check("StencilFunc");
 			}
 			#endregion
 		}

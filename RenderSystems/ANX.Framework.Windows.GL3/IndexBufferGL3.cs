@@ -148,22 +148,32 @@ namespace ANX.Framework.Windows.GL3
 		#region BufferData (private helper)
 		private void BufferData<T>(T[] data, int offset) where T : struct
 		{
-			IntPtr size = (IntPtr)((elementSize == IndexElementSize.SixteenBits ?
-				2 : 4) * data.Length);
+			int size = (elementSize == IndexElementSize.SixteenBits ?
+				2 : 4) * data.Length;
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferHandle);
 			ErrorHelper.Check("BindBuffer");
 
 			if (offset == 0)
 			{
-				GL.BufferData(BufferTarget.ElementArrayBuffer, size, data, usageHint);
+				GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)size, data,
+					usageHint);
 				ErrorHelper.Check("BufferData size=" + size);
 			}
 			else
 			{
 				GL.BufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)offset,
-					size, data);
+					(IntPtr)size, data);
 				ErrorHelper.Check("BufferSubData offset=" + offset + " size=" + size);
+			}
+
+			int setSize;
+			GL.GetBufferParameter(BufferTarget.ElementArrayBuffer,
+				BufferParameterName.BufferSize, out setSize);
+			if (setSize != size)
+			{
+				throw new Exception("Failed to set the indexBuffer data. DataSize=" +
+				size + " SetSize=" + setSize);
 			}
 		}
 		#endregion

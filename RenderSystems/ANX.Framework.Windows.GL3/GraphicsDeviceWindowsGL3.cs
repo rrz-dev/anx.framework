@@ -81,6 +81,22 @@ namespace ANX.Framework.Windows.GL3
 		internal static EffectGL3 activeEffect;
 		#endregion
 
+		#region Public
+		#region VSync
+		public bool VSync
+		{
+			get
+			{
+				return nativeContext.VSync;
+			}
+			set
+			{
+				nativeContext.VSync = value;
+			}
+		}
+		#endregion
+		#endregion
+
 		#region Constructor
 		/// <summary>
 		/// Create a new OpenGL graphics context.
@@ -144,7 +160,7 @@ namespace ANX.Framework.Windows.GL3
 
 			GraphicsMode graphicsMode = new GraphicsMode(
 					DatatypesMapping.SurfaceToColorFormat(
-							presentationParameters.BackBufferFormat),
+						presentationParameters.BackBufferFormat),
 					depth, stencil,
 				// AntiAlias Samples: 2/4/8/16/32
 					presentationParameters.MultiSampleCount);
@@ -152,6 +168,15 @@ namespace ANX.Framework.Windows.GL3
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
 			nativeContext.LoadAll();
+
+			//string version = GL.GetString(StringName.Version);
+			//nativeContext.Dispose();
+			//nativeContext = null;
+			//string[] parts = version.Split('.');
+			//nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo,
+			//  int.Parse(parts[0]), int.Parse(parts[1]), GraphicsContextFlags.Default);
+			//nativeContext.MakeCurrent(nativeWindowInfo);
+			//nativeContext.LoadAll();
 		}
 		#endregion
 
@@ -181,6 +206,7 @@ namespace ANX.Framework.Windows.GL3
 				lastClearColor = newClearColor;
 				GL.ClearColor(color.R * ColorMultiplier, color.G * ColorMultiplier,
 						color.B * ColorMultiplier, color.A * ColorMultiplier);
+				ErrorHelper.Check("ClearColor");
 			}
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			ErrorHelper.Check("Clear");
@@ -205,6 +231,7 @@ namespace ANX.Framework.Windows.GL3
 				lastClearColor = newClearColor;
 				GL.ClearColor(anxColor.R * ColorMultiplier, anxColor.G * ColorMultiplier,
 						anxColor.B * ColorMultiplier, anxColor.A * ColorMultiplier);
+				ErrorHelper.Check("ClearColor");
 			}
 
 			ClearBufferMask mask = (ClearBufferMask)0;
@@ -222,7 +249,9 @@ namespace ANX.Framework.Windows.GL3
 			}
 
 			GL.ClearDepth(depth);
+			ErrorHelper.Check("ClearDepth");
 			GL.ClearStencil(stencil);
+			ErrorHelper.Check("ClearStencil");
 			GL.Clear(mask);
 			ErrorHelper.Check("Clear");
 		}
@@ -247,16 +276,17 @@ namespace ANX.Framework.Windows.GL3
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 				int primitiveCount)
 		{
-			System.Diagnostics.Debug.WriteLine("GL: DrawIndexedPrimitives");
 			// TODO: baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount
 			DrawElementsType elementsType =
 				boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
 				DrawElementsType.UnsignedShort :
 				DrawElementsType.UnsignedInt;
 
-			GL.DrawElements(
-				DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
-				numVertices, elementsType, 0);
+			int count;
+			BeginMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType,
+				primitiveCount, out count);
+
+			GL.DrawElements(mode, count, elementsType, 0);
 			ErrorHelper.Check("DrawElements");
 		}
 		#endregion
@@ -313,9 +343,11 @@ namespace ANX.Framework.Windows.GL3
 		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
 				int primitiveCount)
 		{
-			GL.DrawArrays(
-				DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
-				vertexOffset, primitiveCount);
+			int count;
+			BeginMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType,
+				primitiveCount, out count);
+			GL.DrawArrays(mode, vertexOffset, count);
+			ErrorHelper.Check("DrawArrays");
 		}
 		#endregion
 
@@ -325,7 +357,6 @@ namespace ANX.Framework.Windows.GL3
 			boundVertexBuffers = new VertexBufferGL3[vertexBuffers.Length];
 			for (int index = 0; index < vertexBuffers.Length; index++)
 			{
-				System.Diagnostics.Debug.WriteLine("GL: SetVertexBuffer " + index);
 				boundVertexBuffers[index] =
 					(VertexBufferGL3)vertexBuffers[index].VertexBuffer.NativeVertexBuffer;
 				GL.BindBuffer(BufferTarget.ArrayBuffer,
@@ -343,14 +374,10 @@ namespace ANX.Framework.Windows.GL3
 			IndexBufferGL3 nativeBuffer =
 				(IndexBufferGL3)indexBuffer.NativeIndexBuffer;
 
-			if (boundIndexBuffer != nativeBuffer)
-			{
-				System.Diagnostics.Debug.WriteLine("GL: SetIndexBuffer");
-				boundIndexBuffer = nativeBuffer;
-				GL.BindBuffer(BufferTarget.ElementArrayBuffer,
-					nativeBuffer.BufferHandle);
-				ErrorHelper.Check("BindBuffer");
-			}
+			boundIndexBuffer = nativeBuffer;
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer,
+				nativeBuffer.BufferHandle);
+			ErrorHelper.Check("BindBuffer");
 		}
 		#endregion
 
@@ -378,18 +405,6 @@ namespace ANX.Framework.Windows.GL3
 		public void ResizeBuffers(PresentationParameters presentationParameters)
 		{
 			throw new NotImplementedException();
-		}
-
-		public bool VSync
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
 		}
 	}
 }

@@ -103,9 +103,19 @@ namespace ANX.Framework.Windows.GL3
 			ErrorHelper.Check("GenBuffers");
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 			ErrorHelper.Check("BindBuffer");
-			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * setVertexCount);
-			GL.BufferData(BufferTarget.ArrayBuffer, size, IntPtr.Zero, usageHint);
+			int size = vertexDeclaration.VertexStride * setVertexCount;
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)size, IntPtr.Zero,
+				usageHint);
 			ErrorHelper.Check("BufferData");
+
+			int setSize;
+			GL.GetBufferParameter(BufferTarget.ArrayBuffer,
+				BufferParameterName.BufferSize, out setSize);
+			if (setSize != size)
+			{
+				throw new Exception("Failed to set the vertexBuffer data. DataSize=" +
+				size + " SetSize=" + setSize);
+			}
 		}
 		#endregion
 
@@ -153,15 +163,16 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region BufferData (private helper) (TODO)
+		#region BufferData (private helper)
 		private void BufferData<T>(T[] data, int offset) where T : struct
 		{
-			IntPtr size = (IntPtr)(vertexDeclaration.VertexStride * data.Length);
+			int size = vertexDeclaration.VertexStride * data.Length;
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 			ErrorHelper.Check("BindBuffer");
 
-			GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)offset, size, data);
+			GL.BufferSubData<T>(BufferTarget.ArrayBuffer, (IntPtr)offset,
+				(IntPtr)size, data);
 			ErrorHelper.Check("BufferSubData");
 		}
 		#endregion
@@ -169,37 +180,53 @@ namespace ANX.Framework.Windows.GL3
 		#region MapVertexDeclaration
 		internal void MapVertexDeclaration(int programHandle)
 		{
-			foreach (VertexElement element in vertexDeclaration.GetVertexElements())
+			int attributes;
+			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
+				out attributes);
+			
+			VertexElement[] elements = vertexDeclaration.GetVertexElements();
+			if (elements.Length != attributes)
+			{
+				throw new InvalidOperationException("Mapping the VertexDeclaration " +
+					"onto the glsl attributes failed because we have " +
+					attributes + " Shader Attributes and " + elements.Length +
+					" elements in the vertex declaration which doesn't fit!");
+			}
+
+			foreach (VertexElement element in elements)
 			{
 				// TODO: element.UsageIndex?
 
 				switch (element.VertexElementUsage)
 				{
 					case VertexElementUsage.Position:
-						GL.EnableClientState(ArrayCap.VertexArray);
 						int loc = GL.GetAttribLocation(programHandle, "pos");
+						ErrorHelper.Check("GetAttribLocation pos");
 						GL.EnableVertexAttribArray(loc);
+						ErrorHelper.Check("EnableVertexAttribArray pos");
 						GL.VertexAttribPointer(loc, 3, VertexAttribPointerType.Float,
 							false, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check();
+						ErrorHelper.Check("VertexAttribPointer pos");
 						break;
 
 					case VertexElementUsage.Color:
-						GL.EnableClientState(ArrayCap.ColorArray);
 						int col = GL.GetAttribLocation(programHandle, "col");
+						ErrorHelper.Check("GetAttribLocation col");
 						GL.EnableVertexAttribArray(col);
-						GL.VertexAttribPointer(col, 4, VertexAttribPointerType.Float,
-							false, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check();
+						ErrorHelper.Check("EnableVertexAttribArray col");
+						GL.VertexAttribPointer(col, 1, VertexAttribPointerType.UnsignedInt,
+						  false, vertexDeclaration.VertexStride, element.Offset);
+						ErrorHelper.Check("VertexAttribPointer col");
 						break;
 
 					case VertexElementUsage.TextureCoordinate:
-						GL.EnableClientState(ArrayCap.TextureCoordArray);
 						int tex = GL.GetAttribLocation(programHandle, "tex");
+						ErrorHelper.Check("GetAttribLocation tex");
 						GL.EnableVertexAttribArray(tex);
+						ErrorHelper.Check("EnableVertexAttribArray tex");
 						GL.VertexAttribPointer(tex, 2, VertexAttribPointerType.Float,
-							false, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check();
+						  false, vertexDeclaration.VertexStride, element.Offset);
+						ErrorHelper.Check("VertexAttribPointer tex");
 						break;
 
 					// TODO
@@ -226,6 +253,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 			GL.DeleteBuffers(1, ref bufferHandle);
+			ErrorHelper.Check("DeleteBuffers");
 		}
 		#endregion
 	}

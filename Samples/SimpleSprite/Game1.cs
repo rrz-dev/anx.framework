@@ -71,6 +71,11 @@ namespace WindowsGame1
         float[] y = new float[] { 10f, 10f, 10f, 10f, 10f, 10f };
         Random r = new Random();
 
+
+				private float elapsedLastSecond = 0f;
+				private int fpsCount = 0;
+				private int lastFps = 60;
+
         public Game1()
             : base("OpenGL3")
         {
@@ -120,6 +125,17 @@ namespace WindowsGame1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+						elapsedLastSecond += (float)gameTime.ElapsedGameTime.TotalSeconds;
+						fpsCount++;
+						if (elapsedLastSecond >= 1f)
+						{
+							elapsedLastSecond -= 1f;
+							lastFps = fpsCount;
+							fpsCount = 0;
+
+							Window.Title = "FPS=" + lastFps;
+						}
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();

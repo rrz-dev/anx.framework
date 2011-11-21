@@ -94,7 +94,7 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region SetValue
+		#region SetValue (Matrix)
 		/// <summary>
 		/// Set a matrix value to the effect parameter.
 		/// </summary>
@@ -102,7 +102,8 @@ namespace ANX.Framework.Windows.GL3
 		public void SetValue(Matrix value)
 		{
 			GL.UseProgram(parentEffect.programHandle);
-			System.Diagnostics.Debug.WriteLine("GL: Setting Matrix uniform " + value);
+			ErrorHelper.Check("UseProgram");
+
 			OpenTK.Matrix4 matrix = new OpenTK.Matrix4(
 				value.M11, value.M12, value.M13, value.M14,
 				value.M21, value.M22, value.M23, value.M24,
@@ -112,7 +113,9 @@ namespace ANX.Framework.Windows.GL3
 			GL.UniformMatrix4(UniformIndex, false, ref matrix);
 			ErrorHelper.Check("UniformMatrix4");
 		}
+		#endregion
 
+		#region SetValue (Texture)
 		private Texture textureCache = null;
 		/// <summary>
 		/// Set a texture value to the effect parameter.
@@ -121,16 +124,19 @@ namespace ANX.Framework.Windows.GL3
 		public void SetValue(Texture value)
 		{
 			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
 			if (textureCache == null ||
 				textureCache != value)
 			{
 				// TODO: multiple texture units
 				TextureUnit textureUnit = TextureUnit.Texture0;
 				GL.Enable(EnableCap.Texture2D);
+				ErrorHelper.Check("Enable");
 				GL.ActiveTexture(textureUnit);
+				ErrorHelper.Check("ActiveTexture");
 				int handle = (value.NativeTexture as Texture2DGL3).NativeHandle;
-				System.Diagnostics.Debug.WriteLine("GL: Setting Texture uniform " + handle);
 				GL.BindTexture(TextureTarget.Texture2D, handle);
+				ErrorHelper.Check("BindTexture");
 				int unitIndex = (int)(textureUnit - TextureUnit.Texture0);
 				GL.Uniform1(UniformIndex, 1, ref unitIndex);
 				ErrorHelper.Check("Uniform1");

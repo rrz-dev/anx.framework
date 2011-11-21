@@ -240,21 +240,26 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		/// <param name="type">XNA PrimitiveType.</param>
 		/// <returns>Translated BeginMode for OpenGL.</returns>
-		public static BeginMode PrimitiveTypeToBeginMode(PrimitiveType type)
+		public static BeginMode PrimitiveTypeToBeginMode(PrimitiveType type,
+			int primitiveCount, out int count)
 		{
 			switch (type)
 			{
 				case PrimitiveType.LineList:
+					count = primitiveCount * 2;
 					return BeginMode.Lines;
 
 				case PrimitiveType.LineStrip:
+					count = primitiveCount + 1;
 					return BeginMode.LineStrip;
 
 				default:
 				case PrimitiveType.TriangleList:
+					count = primitiveCount * 3;
 					return BeginMode.Triangles;
 
 				case PrimitiveType.TriangleStrip:
+					count = primitiveCount + 2;
 					return BeginMode.TriangleStrip;
 			}
 		}
