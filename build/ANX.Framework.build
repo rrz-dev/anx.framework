@@ -36,7 +36,19 @@
 
 
   <target name="clean" description="Cleans all targets.">
-    
+    <delete>
+      <fileset>
+        <include name="../bin/**" />
+        <include name="${project.anx.path}/obj/**" />
+        <include name="${project.anx.path.inputsystem.xinput}/obj/**" />
+        <include name="${project.anx.path.inputsystem.kinect}/obj/**" />
+        <include name="${project.anx.path.soundsystem.xaudio}/obj/**" />
+        <include name="${project.anx.path.rendersystem.dx10}/obj/**" />
+        <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
+        <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
+        <include name="${project.anxcontent.path}/obj/**" />
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" description="Build all targets.">
@@ -84,7 +96,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
@@ -99,7 +111,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.dx11}.csproj" />
@@ -113,7 +125,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
@@ -145,7 +157,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputsystem.xinput}/${project.anx.name.inputsystem.xinput}.csproj" />
@@ -160,7 +172,7 @@
         <arg value="/t:Build"/>
         <arg value="/p:Configuration=${build.configuration}"/>
         <arg value='/p:Platform="${build.platform}"'/>
-        <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
         <arg value='/p:DefineConstants="${project.anx.directives}"' />
         <arg value="/clp:ErrorsOnly" />
         <arg value="${project.anx.path.inputsystem.kinect}/${project.anx.name.inputsystem.kinect}.csproj" />
@@ -177,7 +189,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.soundsystem.xaudio}/${project.anx.name.soundsystem.xaudio}.csproj" />
@@ -193,7 +205,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=../bin" />
+      <arg value="/p:OutputPath=${build.dir}" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.ANXStatusComparer}/${project.anx.tools.name.ANXStatusComparer}.csproj" />
     </exec>
@@ -206,7 +218,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=../bin" />
+      <arg value="/p:OutputPath=${build.dir}" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.XNAToANXConverter}/${project.anx.tools.name.XNAToANXConverter}.csproj" />
     </exec>
@@ -219,7 +231,7 @@
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=../bin" />
+      <arg value="/p:OutputPath=${build.dir}" />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.StockShaderCodeGenerator}/${project.anx.tools.name.StockShaderCodeGenerator}.csproj" />
