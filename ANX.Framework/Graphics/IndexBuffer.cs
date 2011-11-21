@@ -76,11 +76,11 @@ namespace ANX.Framework.Graphics
         public IndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
             : base(graphicsDevice)
         {
-            if (indexType.GetType().Equals(typeof(int)))
+            if (indexType == typeof(int) || indexType == typeof(uint))
             {
                 this.indexElementSize = Graphics.IndexElementSize.ThirtyTwoBits;
             }
-            else if (indexType.GetType().Equals(typeof(short)))
+            else if (indexType == typeof(short) || indexType == typeof(ushort))
             {
                 this.indexElementSize = Graphics.IndexElementSize.SixteenBits;
             }
