@@ -178,7 +178,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXCurveKey anx2 = new ANXCurveKey(a2, a1, a3, a4);
 
 
-            AssertHelper.ConvertEquals(xna == null, anx == null, "op_Equality2");
+            AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "op_Equality2");
         }
         [TestCaseSource("sixteenfloats")]
         public void op_Unequality(float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, float a10, float a11, float a12, float a13, float a14, float a15, float a16)
@@ -200,7 +200,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXCurveKey anx2 = new ANXCurveKey(a2, a1, a3, a4);
 
 
-            AssertHelper.ConvertEquals(xna != null, anx != null, "op_Unequality2");
+            AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "op_Unequality2");
         }
         [TestCaseSource("sixteenfloats")]
         public void GetHashCode(float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, float a10, float a11, float a12, float a13, float a14, float a15, float a16)

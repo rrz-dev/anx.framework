@@ -130,10 +130,9 @@ namespace ANX.Framework
 
 		public override bool Equals(object obj)
 		{
-            CurveKey ck = obj as CurveKey;
-			if (ck != null)
+			if (obj == null && obj.GetType() == typeof(CurveKey))
 			{
-				return Equals(ck);
+                return this == (CurveKey)obj;
 			}
 
 			return false;
@@ -152,20 +151,22 @@ namespace ANX.Framework
 		#region Equality
 		public static bool operator ==(CurveKey a, CurveKey b)
 		{
-				return a.Equals(b);
-		}
+            return a.Position == b.Position &&
+                   a.Value == b.Value &&
+                   a.TangentIn == b.TangentIn &&
+                   a.TangentOut == b.TangentOut &&
+                   a.Continuity == b.Continuity;
+        }
 		#endregion
 
 		#region Inequality
 		public static bool operator !=(CurveKey a, CurveKey b)
 		{
-            return !a.Equals(b);
-
-			/*return a.Position != b.Position ||
-				a.Value != b.Value ||
-				a.TangentIn != b.TangentIn ||
-				a.TangentOut != b.TangentOut ||
-				a.Continuity != b.Continuity;*/
+			return a.Position != b.Position ||
+			  	   a.Value != b.Value ||
+				   a.TangentIn != b.TangentIn ||
+				   a.TangentOut != b.TangentOut ||
+				   a.Continuity != b.Continuity;
 		}
 		#endregion
 
