@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using ANX.Framework.Input;
+using NLog;
 
 #endregion // Using Statements
 
@@ -64,6 +65,8 @@ namespace ANX.Framework.NonXNA
         private bool initialized;
         private Dictionary<Type, ICreator> defaultCreators = new Dictionary<Type, ICreator>();
 
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public static AddInSystemFactory Instance
         {
             get
@@ -71,6 +74,7 @@ namespace ANX.Framework.NonXNA
                 if (instance == null)
                 {
                     instance = new AddInSystemFactory();
+                    logger.Debug("Created AddInSystemFactory instance");
                 }
 
                 return instance;
@@ -86,12 +90,16 @@ namespace ANX.Framework.NonXNA
         {
             if (!initialized)
             {
+                logger.Info("[ANX] Initializing ANX.Framework AddInSystemFactory...");
+
                 String executingAssembly = Assembly.GetExecutingAssembly().Location;
 
                 foreach (String file in Directory.EnumerateFiles(Path.GetDirectoryName(executingAssembly), "*.dll", SearchOption.TopDirectoryOnly))
                 {
                     if (!file.Equals(executingAssembly))
                     {
+                        logger.Info("[ANX] trying to load '{0}'...", file);
+
                         Assembly part = null;
 
                         try
@@ -100,16 +108,20 @@ namespace ANX.Framework.NonXNA
                         }
                         catch (Exception ex)
                         {
-
+                            logger.Debug("error calling Assembly.LoadFile({0}) Exception: {1}", file, ex.Message);
                         }
 
                         if (part != null)
                         {
+                            logger.Info("[ANX] scanning for ANX interfaces...");
+
                             foreach (Type t in part.GetTypes().Where(p => typeof(IInputSystemCreator).IsAssignableFrom(p) ||
                                                                           typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
                                                                           typeof(ISoundSystemCreator).IsAssignableFrom(p)
                                                                     ))
                             {
+                                logger.Info("[ANX] registering instance of '{0}'...", t.FullName);
+
                                 var instance = part.CreateInstance(t.FullName);
                                 ((ICreator)instance).RegisterCreator(this);
                             }

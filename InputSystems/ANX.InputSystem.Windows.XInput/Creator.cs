@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using NLog;
 
 #endregion // Using Statements
 
@@ -60,33 +61,47 @@ namespace ANX.InputSystem.Windows.XInput
 {
     public class Creator : IInputSystemCreator
     {
-
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public string Name
         {
-            get { return "XInput"; }
-        }
-
-        public IGamePad GamePad
-        {
-            get { return new GamePad(); }
+            get 
+            { 
+                return "XInput"; 
+            }
         }
 
         public void RegisterCreator(AddInSystemFactory factory)
         {
+            logger.Debug("adding XInput creator to creator collection of AddInSystemFactory");
             factory.AddCreator(this);
         }
 
-
+        public IGamePad GamePad
+        {
+            get 
+            {
+                logger.Debug("returning a new XInput GamePad device");
+                return new GamePad(); 
+            }
+        }
 
         public IMouse Mouse
         {
-            get { return new Mouse(); }
+            get 
+            {
+                logger.Debug("returning a new XInput Mouse device");
+                return new Mouse(); 
+            }
         }
 
         public IKeyboard Keyboard
         {
-            get { return new Keyboard(); }
+            get 
+            {
+                logger.Debug("returning a new XInput Keyboard device");
+                return new Keyboard(); 
+            }
         }
 
 #if XNAEXT

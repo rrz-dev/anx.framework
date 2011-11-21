@@ -7,6 +7,7 @@ using System.Threading;
 using ANX.Framework.Content;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using NLog;
 
 #endregion // Using Statements
 
@@ -61,6 +62,8 @@ namespace ANX.Framework
 {
     public class Game : IDisposable
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private IGraphicsDeviceManager graphicsDeviceManager;
         private IGraphicsDeviceService graphicsDeviceService;
         private GameServiceContainer gameServices;
@@ -98,15 +101,22 @@ namespace ANX.Framework
 
         public Game(String renderSystemName = "DirectX10", String inputSystemName = "XInput", String soundSystemName = "XAudio")
         {
+            logger.Info("created a new Game-Class");
+            logger.Info("- asked for RenderSystem '{0}'", renderSystemName);
+            logger.Info("- asked for InputSystem '{0}'", inputSystemName);
+            logger.Info("- asked for SoundSystem '{0}'", soundSystemName);
+
             this.gameServices = new GameServiceContainer();
             this.gameTime = new GameTime();
 
             try
             {
-            AddInSystemFactory.Instance.Initialize();
+                logger.Info("initializing AddInSystemFactory");
+                AddInSystemFactory.Instance.Initialize();
             }
             catch (Exception ex)
             {
+                logger.ErrorException("Error while initializing AddInSystem.", ex);
                 throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
             }
 
@@ -116,6 +126,7 @@ namespace ANX.Framework
             }
             catch (Exception ex)
             {
+                logger.ErrorException(String.Format("Error during loading InputSystem {0}", inputSystemName), ex);
                 throw new AddInLoadingException(String.Format("Error during loading InputSystem {0}", inputSystemName), ex);
             }
             IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
@@ -124,12 +135,14 @@ namespace ANX.Framework
                 this.gameServices.AddService(typeof(IInputSystemCreator), inputSystemCreator);
             }
 
-            try{
-            AddInSystemFactory.Instance.SetDefaultCreator(soundSystemName);
+            try
+            {
+                AddInSystemFactory.Instance.SetDefaultCreator(soundSystemName);
             }
             catch (Exception ex)
             {
-                throw new AddInLoadingException(String.Format("Error during loading SoundSystem {0}", inputSystemName), ex);
+                logger.ErrorException(String.Format("Error during loading SoundSystem {0}", soundSystemName), ex);
+                throw new AddInLoadingException(String.Format("Error during loading SoundSystem {0}", soundSystemName), ex);
             }
 
             ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
@@ -140,17 +153,20 @@ namespace ANX.Framework
 
             try
             {
-            AddInSystemFactory.Instance.SetDefaultCreator(renderSystemName);
+                AddInSystemFactory.Instance.SetDefaultCreator(renderSystemName);
             }
             catch (Exception ex)
             {
-                throw new AddInLoadingException(String.Format("Error during loading RenderSystem {0}", inputSystemName), ex);
+                logger.ErrorException(String.Format("Error during loading RenderSystem {0}", renderSystemName), ex);
+                throw new AddInLoadingException(String.Format("Error during loading RenderSystem {0}", renderSystemName), ex);
             }
             IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
             if (renderSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(IRenderSystemCreator), renderSystemCreator);
             }
+
+            logger.Info("creating GameHost");
 
             //TODO: error handling if creator is null
             this.host = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGameHost(this);
@@ -162,13 +178,17 @@ namespace ANX.Framework
             this.host.Idle += new EventHandler<EventArgs>(this.HostIdle);
             this.host.Exiting += new EventHandler<EventArgs>(this.HostExiting);
 
+            logger.Info("creating ContentManager");
             this.content = new ContentManager(this.gameServices);
 
+            logger.Info("creating GameTimer");
             this.clock = new GameTimer();
             this.isFixedTimeStep = true;
             this.gameUpdateTime = new GameTime();
             this.inactiveSleepTime = TimeSpan.Zero;
             this.targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
+
+            logger.Info("finished initializing new Game class");
         }
 
         ~Game()
