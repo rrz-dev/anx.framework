@@ -31,8 +31,8 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
-[assembly: AssemblyVersion("0.4.20.*")]
-[assembly: AssemblyFileVersion("0.4.20.0")]
+[assembly: AssemblyVersion("0.4.21.*")]
+[assembly: AssemblyFileVersion("0.4.21.0")]
 
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.DX10")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.DX11.1")]

@@ -82,7 +82,7 @@ namespace ANX.Framework.Input
 
         public bool IsKeyUp(Keys key)
         {
-            return keyState[(int)key] == KeyState.Up;
+            return keyState != null ? keyState[(int)key] == KeyState.Up : true;
         }
 
         public override int GetHashCode()

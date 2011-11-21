@@ -263,7 +263,6 @@
   </target>
 
   <target name="create_packages" description="Generate zip package containing binaries" depends="build">
-    <!-- Load version from source code SharedAssemblyInfo.cs -->
     <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
     <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
     <property name="build.output.release_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.zip"/>
