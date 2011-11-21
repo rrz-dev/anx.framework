@@ -64,6 +64,7 @@ namespace ANX.InputSystem.Windows.XInput
     public class GamePad : IGamePad
     {
         private Controller[] controller;
+        private const float thumbstickRangeFactor = 1.0f / short.MaxValue;
 
         public GamePad()
         {
@@ -99,7 +100,7 @@ namespace ANX.InputSystem.Windows.XInput
             {
                 result = controller[(int)playerIndex].GetState();
                 //returnres = new GamePadCapabilities(result.Type,result.Gamepad.Buttons.)
-                returnres = new GamePadState(new Vector2(result.Gamepad.LeftThumbX, result.Gamepad.LeftThumbY), new Vector2(result.Gamepad.RightThumbX, result.Gamepad.RightThumbY), (float)result.Gamepad.LeftTrigger, (float)result.Gamepad.RightTrigger, FormatConverter.Translate(result.Gamepad.Buttons));
+                returnres = new GamePadState(new Vector2(result.Gamepad.LeftThumbX * thumbstickRangeFactor, result.Gamepad.LeftThumbY * thumbstickRangeFactor), new Vector2(result.Gamepad.RightThumbX * thumbstickRangeFactor, result.Gamepad.RightThumbY * thumbstickRangeFactor), (float)result.Gamepad.LeftTrigger, (float)result.Gamepad.RightTrigger, FormatConverter.Translate(result.Gamepad.Buttons));
                 packetNumber = result.PacketNumber;
                 isConnected = true;
             }
