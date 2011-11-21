@@ -271,6 +271,7 @@
     <zip ziplevel="9" zipfile="${build.output.release_package}">
       <fileset basedir="${build.dir}/${build.configuration}/">
         <include name="*.dll" />
+        <include name="*.config" />
         <include name="../../doc/license.txt" />
       </fileset>
     </zip>
