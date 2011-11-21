@@ -133,11 +133,11 @@ namespace ANX.Framework
             }
 
             CurveKey prev = index > 0 ? this.keys[index - 1] : this.keys[index];
-            CurveKey current=this.keys[index];
+            CurveKey current = this.keys[index];
             current.TangentIn = 0;
-            CurveKey next=index <this.keys.Count-1? this.keys[index + 1] : this.keys[index];
+            CurveKey next = index < this.keys.Count - 1 ? this.keys[index + 1] : this.keys[index];
 
-            
+
             switch (tangentInType)
             {
                 case CurveTangent.Flat:
@@ -147,7 +147,7 @@ namespace ANX.Framework
                     current.TangentIn = current.Value - prev.Value;
                     break;
                 case CurveTangent.Smooth:
-                current.TangentIn=((next.Value-prev.Value)*((current.Position-prev.Position)/(next.Position-prev.Position)));
+                    current.TangentIn = ((next.Value - prev.Value) * ((current.Position - prev.Position) / (next.Position - prev.Position)));
                     break;
             }
             switch (tangentOutType)
@@ -159,7 +159,7 @@ namespace ANX.Framework
                     current.TangentOut = next.Value - current.Value;
                     break;
                 case CurveTangent.Smooth:
-                 current.TangentOut=((next.Value-prev.Value)*((next.Position-current.Position)/(next.Position-prev.Position)));
+                    current.TangentOut = ((next.Value - prev.Value) * ((next.Position - current.Position) / (next.Position - prev.Position)));
                     break;
             }
 
@@ -175,7 +175,7 @@ namespace ANX.Framework
         {
             for (int i = 0; i < this.keys.Count; ++i)
             {
-                this.ComputeTangent(i, tangentInType,tangentOutType);
+                this.ComputeTangent(i, tangentInType, tangentOutType);
             }
         }
 
@@ -183,12 +183,14 @@ namespace ANX.Framework
 
         public Single Evaluate(Single position)
         {
+            int wraps;
             //Get first and last Point
             CurveKey first = keys[0];
             float firstPosition = first.Position;
             CurveKey last = keys[keys.Count - 1];
             float lastPosition = last.Position;
-            float timeSpan=this.keys[this.keys.Count-1].Position-this.keys[0].Position;
+            //tspan is min 1 to avoid deadlock at constant curves
+            float timeSpan = Math.Max(1, lastPosition - firstPosition);
             //wanted point before first point
             if (position < first.Position)
             {
@@ -204,24 +206,38 @@ namespace ANX.Framework
                         return first.Value - first.TangentIn * (first.Position - position);
 
                     case CurveLoopType.Cycle:
-                    //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
-                     
-                       return this.interpolate( (position % timeSpan));
+                        //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
+
+
+                        position -= timeSpan * countWraps(position);
+
+                        return this.interpolate((position));
+
 
 
                     case CurveLoopType.CycleOffset:
-                    //Positions specified past the ends of the curve will wrap around to the opposite side of the Curve. 
-                    //The value will be offset by the difference between the values of the first and last CurveKey 
-                    //multiplied by the number of times the position wraps around. If the position is before the first 
-                    //point in the Curve, the difference will be subtracted from its value; otherwise, the difference 
-                    //will be added. 
-                        float difference = (this.keys[this.keys.Count - 1].Value - this.keys[0].Value) * (position / timeSpan);
-                        return this.interpolate(position % timeSpan)-difference;
+                        //Positions specified past the ends of the curv will wrap around to the opposite side of the Curve. 
+                        //The value will be offset by the difference between the values of the first and last CurveKey 
+                        //multiplied by the number of times the position wraps around. If the position is before the first 
+                        //point in the Curve, the difference will be subtracted from its value; otherwise, the difference 
+                        //will be added
+                        wraps = countWraps(position);
+                        float difference = (this.keys[this.keys.Count - 1].Value - this.keys[0].Value) * wraps;
+
+                        position -= timeSpan * countWraps(position);
+
+                        return this.interpolate(position) + difference;
 
                     case CurveLoopType.Oscillate:
-                    //Positions specified past the ends of the Curve act as an offset from the same side of the Curve 
-                    //toward the opposite side.
-                        return this.interpolate(timeSpan-(position % timeSpan));
+                        //Positions specified past the ends of the Curve act as an offset from the same side of the Curve 
+                        //toward the opposite side.
+                        wraps = -countWraps(position);
+
+                        if (wraps % 2 == 1)
+                        {
+                            return this.interpolate(lastPosition - position + firstPosition - (wraps * timeSpan));
+                        }
+                        return this.interpolate(position + (wraps * timeSpan));
                 }
             }
             //wanted point behind last point
@@ -239,32 +255,49 @@ namespace ANX.Framework
                         return last.Value + last.TangentOut * (position - last.Position);
 
                     case CurveLoopType.Cycle:
-                    //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
-                           return this.interpolate((position%timeSpan));
+                        //	Positions specified past the ends of the curve will wrap around to the opposite side of the Curve.
+                        position -= timeSpan * countWraps(position);
+
+                        return this.interpolate((position));
 
 
-                      
+
                     case CurveLoopType.CycleOffset:
-                    //Positions specified past the ends of the curve will wrap around to the opposite side of the Curve. 
-                    //The value will be offset by the difference between the values of the first and last CurveKey 
-                    //multiplied by the number of times the position wraps around. If the position is before the first 
-                    //point in the Curve, the difference will be subtracted from its value; otherwise, the difference 
-                    //will be added. 
-                                         float difference = (this.keys[this.keys.Count - 1].Value - this.keys[0].Value) * (position / timeSpan);
-                        return this.interpolate(position % timeSpan)+difference;
+                        //Positions specified past the ends of the curve will wrap around to the opposite side of the Curve. 
+                        //The value will be offset by the difference between the values of the first and last CurveKey 
+                        //multiplied by the number of times the position wraps around. If the position is before the first 
+                        //point in the Curve, the difference will be subtracted from its value; otherwise, the difference 
+                        //will be added. 
+                        wraps = countWraps(position);
+                        float difference = (this.keys[this.keys.Count - 1].Value - this.keys[0].Value) * wraps;
+
+                        position -= timeSpan * countWraps(position);
+
+                        return this.interpolate(position) + difference;
 
                     case CurveLoopType.Oscillate:
-                    //Positions specified past the ends of the Curve act as an offset from the same side of the Curve 
-                    //toward the opposite side.
-                        return this.interpolate(timeSpan - (position % timeSpan));
+                        //Positions specified past the ends of the Curve act as an offset from the same side of the Curve 
+                        //toward the opposite side.
+                        wraps = -countWraps(position);
+                        position += timeSpan * wraps;
+                        if (wraps % 2 == 1)
+                        {
+                            return this.interpolate(lastPosition - position + firstPosition - (wraps * timeSpan));
+                        }
+                        return this.interpolate(position + (wraps * timeSpan));
                 }
             }
 
             //in curve
             return interpolate(position);
-           
-        }
 
+        }
+        private int countWraps(float position)
+        {
+            float wraps = (position - keys[0].Position) / (keys[keys.Count - 1].Position - keys[0].Position);
+            if (wraps < 0) wraps--;
+            return (int)wraps;
+        }
 
         private float interpolate(float position)
         {
@@ -283,13 +316,18 @@ namespace ANX.Framework
                     //stepping 
                     if (a.Continuity == CurveContinuity.Step)
                     {
+                        if (position == b.Position)
+                        {
+                            return b.Position;
+                        }
                         return a.Value;
+
                     }
                     //smooth
                     //get the location between a and b in [0,1]
                     float moment = (position - a.Position) / (b.Position - a.Position);
                     return MathHelper.Hermite(a.Value, a.TangentOut, b.Value, b.TangentOut, moment);
-                
+
                 }
                 //get next pair
                 a = b;
