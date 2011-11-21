@@ -92,7 +92,7 @@
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
-    <None Include="Resources\ANX.Framework_Logo01.png" />
+    <None Include="Resources\ANX.Framework.Logo_459x121.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">

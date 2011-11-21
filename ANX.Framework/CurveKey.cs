@@ -116,7 +116,7 @@ namespace ANX.Framework
 		#region Equals
         public bool Equals(CurveKey other)
         {
-            try
+            if (other != null)
             {
                 return other.Position == Position &&
                     other.Value == Value &&
@@ -124,18 +124,18 @@ namespace ANX.Framework
                     other.TangentOut == TangentOut &&
                     other.Continuity == Continuity;
             }
-            catch (NullReferenceException e)
-                {
-                return ((object)this)==null;
-                }
+
+            return false;
         }
 
 		public override bool Equals(object obj)
 		{
-			if (obj is CurveKey)
+            CurveKey ck = obj as CurveKey;
+			if (ck != null)
 			{
-				return Equals(obj as CurveKey);
+				return Equals(ck);
 			}
+
 			return false;
 		}
 		#endregion
