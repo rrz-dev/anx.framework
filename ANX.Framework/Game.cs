@@ -101,23 +101,51 @@ namespace ANX.Framework
             this.gameServices = new GameServiceContainer();
             this.gameTime = new GameTime();
 
+            try
+            {
             AddInSystemFactory.Instance.Initialize();
+            }
+            catch (Exception ex)
+            {
+                throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
+            }
 
-            AddInSystemFactory.Instance.SetDefaultCreator(inputSystemName);
+            try
+            {
+                AddInSystemFactory.Instance.SetDefaultCreator(inputSystemName);
+            }
+            catch (Exception ex)
+            {
+                throw new AddInLoadingException(String.Format("Error during loading InputSystem {0}", inputSystemName), ex);
+            }
             IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
             if (inputSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(IInputSystemCreator), inputSystemCreator);
             }
 
+            try{
             AddInSystemFactory.Instance.SetDefaultCreator(soundSystemName);
+            }
+            catch (Exception ex)
+            {
+                throw new AddInLoadingException(String.Format("Error during loading SoundSystem {0}", inputSystemName), ex);
+            }
+
             ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
             if (soundSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(ISoundSystemCreator), soundSystemCreator);
             }
 
+            try
+            {
             AddInSystemFactory.Instance.SetDefaultCreator(renderSystemName);
+            }
+            catch (Exception ex)
+            {
+                throw new AddInLoadingException(String.Format("Error during loading RenderSystem {0}", inputSystemName), ex);
+            }
             IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
             if (renderSystemCreator != null)
             {
