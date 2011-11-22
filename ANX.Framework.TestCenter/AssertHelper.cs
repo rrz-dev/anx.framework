@@ -885,13 +885,37 @@ namespace ANX.Framework.TestCenter
         {
             if (Compare(xna,anx))
             {
+                Assert.Pass(test + " passed");
             }
             else
             {
                 Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
         }
+
+        public static void ConvertEquals(XNACurveKey[] xna, ANXCurveKey[] anx, String test)
+        {
+            if (!(xna.Length == anx.Length))
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+            for (int i = 0; i < xna.Length; i++)
+            {
+                if (!(Compare(xna[i], anx[i])))
+                {
+                    Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                }
+            }
+            Assert.Pass(test + " passed");
+
+        }
+       
+        
         #endregion
 
+
+
+
+ 
     }
 }

@@ -85,17 +85,12 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             new object[]{XNAPlayerIndex.Four, ANXPlayerIndex.Four},
         };
         
-        [SetUp]
-        public void BeforeEach()
+        [TestCaseSource("twoplayer")]
+        public void GetState(XNAPlayerIndex xnaplayer, ANXPlayerIndex anxplayer)
         {
             AddInSystemFactory.Instance.Initialize();
 
             AddInSystemFactory.Instance.SetDefaultCreator("XInput");
-        }
-
-        [TestCaseSource("twoplayer")]
-        public void GetState(XNAPlayerIndex xnaplayer, ANXPlayerIndex anxplayer)
-        {
             XNAGamePadState xnastate = XNAGamePad.GetState(xnaplayer);
             ANXGamePadState anxstate = ANXGamePad.GetState(anxplayer);
 
