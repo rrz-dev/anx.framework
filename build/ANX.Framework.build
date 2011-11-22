@@ -295,6 +295,9 @@
       <sources>
         <include name="../Installer/anx.wxs" />
       </sources>
+      <defines>
+        <define name="PRODUCTVERSION" value="${assembly_version}" />
+      </defines>
     </candle>
 
     <light

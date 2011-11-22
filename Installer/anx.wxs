@@ -3,7 +3,7 @@
 	<Product Id="{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}" 
            Name="ANX.Framework" 
            Language="1033" 
-           Version="1.0.0.0" 
+           Version="$(var.PRODUCTVERSION)" 
            Manufacturer="ANX.Framework Developer Team" 
            UpgradeCode="{7A54B375-318B-40B7-ABF7-60BB50689361}">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
