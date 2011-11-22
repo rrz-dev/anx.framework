@@ -262,7 +262,7 @@
     </exec>
   </target>
 
-  <target name="create_packages" description="Generate zip package containing binaries" depends="build">
+  <target name="create_zip_packages" description="Generate zip package containing binaries" depends="build">
     <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
     <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
     <property name="build.output.release_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.zip"/>
@@ -276,4 +276,37 @@
     </zip>
 
   </target>
+
+  <target name="create_msi_package" description="Create the installer package" depends="build">
+    <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
+    <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
+    <property name="build.output.installer_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.msi"/>
+
+    <property name="wix.dir" value="${path::combine(environment::get-variable('WIX'), 'bin')}" readonly="true" />
+    <loadtasks assembly="${wix.dir}\Microsoft.Tools.WindowsInstallerXml.NAntTasks.dll" />
+
+    <candle out="${build.dir}/${build.configuration}/installer/" exedir="${wix.dir}">
+      <sources>
+        <include name="../Installer/anx.wxs" />
+      </sources>
+    </candle>
+
+    <light
+      exedir="${wix.dir}"
+      out="${build.output.installer_package}"
+      warningsaserrors="true"
+      suppressices="ICE57"
+      cultures="en-us"
+      extensions="WixUIExtension"
+      rebuild="true"
+      suppresspdb="true">
+      <!-- Specify additional options -->
+      <arg line="-fv" />
+      <sources basedir="${build.dir}/${build.configuration}/installer/">
+        <include name="*.wixobj" />
+      </sources>
+    </light>
+
+  </target>
+
 </project>

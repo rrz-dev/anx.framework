@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+   <Product Id='{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}' Name='ANX.Framework' Language='1033' 
+            Version='1.0.0.0' Manufacturer='ANX.Framework Developer Team' UpgradeCode='{7A54B375-318B-40B7-ABF7-60BB50689361}' >
+      <Package Description='My first Windows Installer package'
+               Comments='This is my first attempt at creating a Windows Installer database'
+               Manufacturer='Microsoft Corporation' InstallerVersion='200' Compressed='yes' />
+
+	<Media Id='1' Cabinet='ANX.Framework.cab' EmbedCab='yes' />
+ 
+      <Directory Id='TARGETDIR' Name='SourceDir'>
+         <Directory Id='ProgramFilesFolder' Name='PFiles'>
+            <Directory Id='MyDir' Name='Test Program'>
+               <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
+                  <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
+                  <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
+                  <File Id='anx.framework.contentpipeline' Name='ANX.Framework.ContentPipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.ContentPipeline.dll' />
+                  <File Id='nlog' Name='NLog.dll' DiskId='1' Source='../bin/Release/NLog.dll' />
+               </Component>
+            </Directory>
+         </Directory>
+      </Directory>
+
+      <Feature Id='ANX.Framework.Core' Title='ANX.Framework core assemblies' Level='1'>
+         <ComponentRef Id='ANX.Framework' />
+      </Feature>
+   </Product>
+</Wix>
