@@ -10,19 +10,51 @@
  
       <Directory Id='TARGETDIR' Name='SourceDir'>
          <Directory Id='ProgramFilesFolder' Name='PFiles'>
-            <Directory Id='MyDir' Name='Test Program'>
-               <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
+            <Directory Id='MyDir' Name='ANX.Framework'>
+              <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
                   <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
                   <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
                   <File Id='anx.framework.contentpipeline' Name='ANX.Framework.ContentPipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.ContentPipeline.dll' />
                   <File Id='nlog' Name='NLog.dll' DiskId='1' Source='../bin/Release/NLog.dll' />
-               </Component>
+              </Component>
+              <Component Id='SharpDX' Guid='{D6D751D7-A339-4DBB-81BC-D9AC084936C5}'>
+                <File Id='sharpdx.d3dcompiler' Name='ShaprDX.D3DCompiler.dll' DiskId='1' Source='../bin/Release/SharpDX.D3DCompiler.dll' />
+                <File Id='sharpdx.direct3d10' Name='SharpDX.Direct3D10.dll' DiskId='1' Source='../bin/Release/SharpDX.Direct3D10.dll' />
+                <File Id='sharpdx.direct3d11' Name='SharpDX.Direct3D11.dll' DiskId='1' Source='../bin/Release/SharpDX.Direct3D11.dll' />
+                <File Id='sharpdx.directinput' Name='SharpDX.DirectInput.dll' DiskId='1' Source='../bin/Release/SharpDX.DirectInput.dll' />
+                <File Id='sharpdx' Name='SharpDX.dll' DiskId='1' Source='../bin/Release/SharpDX.dll' />
+                <File Id='sharpdx.dxgi' Name='ShaprDX.DXGI.dll' DiskId='1' Source='../bin/Release/SharpDX.DXGI.dll' />
+                <File Id='sharpdx.xapo' Name='ShaprDX.XAPO.dll' DiskId='1' Source='../bin/Release/SharpDX.XAPO.dll' />
+                <File Id='sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../bin/Release/SharpDX.XAudio2.dll' />
+                <File Id='sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../bin/Release/SharpDX.XInput.dll' />
+              </Component>
+              <Component Id='OpenTK' Guid='{132664CF-8DD6-4B6A-A200-88D4BE5F2AE9}'>
+                <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../bin/Release/OpenTK.dll' />
+              </Component>
+              <Component Id='ANX.Framework.Windows.DX10' Guid='{34DD167E-084B-464F-9633-B0220E8C4683}'>
+                <File Id='anx.framework.windows.dx10' Name='ANX.Framework.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Windows.DX10.dll' />
+              </Component>
+              <Component Id='ANX.Framework.Windows.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
+                <File Id='anx.framework.windows.gl3' Name='ANX.Framework.Windows.GL3.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Windows.GL3.dll' />
+              </Component>
+              <Component Id='ANX.InputSystem.Windows.XInput' Guid='{825A36A3-5071-46C5-B195-E0EB469EDA51}'>
+                <File Id='anx.inputsystem.windows.xinput' Name='ANX.InputSystem.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Windows.XInput.dll' />
+              </Component>
+              <Component Id='ANX.SoundSystem.Windows.XAudio' Guid='{4C4EDC2B-BF6B-437C-874C-1573373DB55E}'>
+                <File Id='anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
+              </Component>
             </Directory>
          </Directory>
       </Directory>
 
-      <Feature Id='ANX.Framework.Core' Title='ANX.Framework core assemblies' Level='1'>
+      <Feature Id='ANX.Framework' Title='ANX.Framework assemblies' Level='1'>
          <ComponentRef Id='ANX.Framework' />
+         <ComponentRef Id='SharpDX' />
+         <ComponentRef Id='OpenTK' />
+         <ComponentRef Id='ANX.Framework.Windows.DX10' />
+         <ComponentRef Id='ANX.Framework.Windows.GL3' />
+         <ComponentRef Id='ANX.InputSystem.Windows.XInput' />
+         <ComponentRef Id='ANX.SoundSystem.Windows.XAudio' />
       </Feature>
    </Product>
 </Wix>
