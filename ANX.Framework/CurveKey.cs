@@ -151,6 +151,16 @@ namespace ANX.Framework
 		#region Equality
 		public static bool operator ==(CurveKey a, CurveKey b)
 		{
+            if (null == a as Object)
+            {
+                return null == b as Object;
+            }
+
+            if (null == b as Object)
+            {
+                return null == a as Object;
+            }
+
             return a.Position == b.Position &&
                    a.Value == b.Value &&
                    a.TangentIn == b.TangentIn &&
@@ -162,6 +172,16 @@ namespace ANX.Framework
 		#region Inequality
 		public static bool operator !=(CurveKey a, CurveKey b)
 		{
+            if (null == a as Object)
+            {
+                return null != b as Object;
+            }
+
+            if (null == b as Object)
+            {
+                return null != a as Object;
+            }
+
 			return a.Position != b.Position ||
 			  	   a.Value != b.Value ||
 				   a.TangentIn != b.TangentIn ||

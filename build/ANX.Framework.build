@@ -39,6 +39,7 @@
     <delete>
       <fileset>
         <include name="../bin/**" />
+        <include name="${build.dir}/${build.configuration}/installer/**" />
         <include name="${project.anx.path}/obj/**" />
         <include name="${project.anx.path.inputsystem.xinput}/obj/**" />
         <include name="${project.anx.path.inputsystem.kinect}/obj/**" />
