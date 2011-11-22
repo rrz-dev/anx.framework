@@ -83,7 +83,21 @@ namespace ANX.Framework
 			}
 			set
 			{
-				keys[index] = value;
+                if (value == null)
+                    throw new ArgumentNullException();
+
+                if (index >= keys.Count)
+                    throw new IndexOutOfRangeException();
+                //if fitting add here
+                if (keys[index].Position == value.Position)
+                    keys[index] = value;
+                else
+                {
+                    //if not let it be sorted
+                    keys.RemoveAt(index);
+                    keys.Add(value);
+                }
+
 			}
 		}
 		#endregion
@@ -127,7 +141,7 @@ namespace ANX.Framework
                 if (comp == 0)
                 {
                     //Item is equal to half point
-                    this.keys.Insert(half, item);
+                    this.keys.Insert(half+1, item);
                     return;
                 }
                 else if (comp < 0) max = half;   //Item is smaller
@@ -170,7 +184,8 @@ namespace ANX.Framework
 		#region RemoveAt
 		public void RemoveAt(int index)
 		{
-			keys.RemoveAt(index);
+                keys.RemoveAt(index);
+           
 		}
 		#endregion
 
@@ -184,10 +199,11 @@ namespace ANX.Framework
 		#region Clone
 		public CurveKeyCollection Clone()
 		{
-			return new CurveKeyCollection
-			{
-				keys = new List<CurveKey>(keys),
-			};
+            CurveKeyCollection result = new CurveKeyCollection();
+            foreach (CurveKey key in this.keys)
+                result.Add(key);
+            return result;
+
 		}
 		#endregion
 
