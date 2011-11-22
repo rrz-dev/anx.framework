@@ -72,6 +72,8 @@ namespace ANX.Framework.Windows.GL3
 		/// The native shader handle.
 		/// </summary>
 		internal int programHandle;
+
+        private Effect managedEffect;
 		#endregion
 
 		#region Public
@@ -83,12 +85,9 @@ namespace ANX.Framework.Windows.GL3
 				List<EffectTechnique> techniques = new List<EffectTechnique>();
 
 				// TODO: dummy, fill with actual data.
-				techniques.Add(new EffectTechnique()
-					{
-						NativeTechnique = new EffectTechniqueGL3(),
-					});
+				techniques.Add(new EffectTechnique(this.managedEffect, new EffectTechniqueGL3()));
 
-				return techniques;
+                return techniques;
 			}
 		}
 		#endregion
@@ -137,19 +136,19 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		/// <param name="vertexShaderByteCode">The vertex shader code.</param>
 		/// <param name="pixelShaderByteCode">The fragment shader code.</param>
-		public EffectGL3(Stream vertexShaderByteCode,
-			Stream pixelShaderByteCode)
+		public EffectGL3(Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			CreateShader(LoadShaderCode(vertexShaderByteCode),
-				LoadShaderCode(pixelShaderByteCode));
+            this.managedEffect = managedEffect;
+			CreateShader(LoadShaderCode(vertexShaderByteCode), LoadShaderCode(pixelShaderByteCode));
 		}
 
 		/// <summary>
 		/// Create a new effect instance of one streams.
 		/// </summary>
 		/// <param name="byteCode">The byte code of the shader.</param>
-		public EffectGL3(Stream byteCode)
+		public EffectGL3(Effect managedEffect, Stream byteCode)
 		{
+            this.managedEffect = managedEffect;
 			string source = LoadShaderCode(byteCode);
 			string[] parts = source.Split(new string[] { FragmentSeparator },
 				StringSplitOptions.RemoveEmptyEntries);

@@ -121,7 +121,8 @@ namespace VertexIndexBuffer
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            miniTriEffect.NativeEffect.Apply(GraphicsDevice);  //TODO: this is not the right way to do that
+            miniTriEffect.CurrentTechnique.Passes[0].Apply();
+
             GraphicsDevice.SetVertexBuffer(vb);
             GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 6);
 

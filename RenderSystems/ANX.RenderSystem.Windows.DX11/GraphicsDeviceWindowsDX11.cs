@@ -648,5 +648,10 @@ namespace ANX.RenderSystem.Windows.DX11
                 throw new NotImplementedException();
             }
         }
+
+        public void Dispose()
+        {
+            //TODO: implement
         }
+    }
 }

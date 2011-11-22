@@ -406,5 +406,10 @@ namespace ANX.Framework.Windows.GL3
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public void Dispose()
+        {
+            //TODO: implement
+        }
+    }
 }

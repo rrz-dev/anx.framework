@@ -96,13 +96,13 @@ namespace ANX.RenderSystem.Windows.DX11
             return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
         }
 
-        public INativeEffect CreateEffect(GraphicsDevice graphics, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public INativeEffect CreateEffect(GraphicsDevice graphics, Effect effect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
             throw new NotImplementedException();
             //return new Effect_DX11(graphics, vertexShaderByteCode, pixelShaderByteCode);
         }
 
-        public INativeEffect CreateEffect(GraphicsDevice graphics, System.IO.Stream byteCode)
+        public INativeEffect CreateEffect(GraphicsDevice graphics, Effect effect, System.IO.Stream byteCode)
         {
             throw new NotImplementedException();
             //return new Effect_DX11(graphics, byteCode);

@@ -58,17 +58,22 @@ namespace ANX.Framework.Graphics
 {
     public sealed class EffectTechnique
     {
+        private Effect parentEffect;
         private INativeEffectTechnique nativeTechnique;
+        private EffectPassCollection effectPassCollection;
 
-        public INativeEffectTechnique NativeTechnique
+        internal EffectTechnique(Effect parentEffect, INativeEffectTechnique nativeTechnique)
+        {
+            this.parentEffect = parentEffect;
+            this.nativeTechnique = nativeTechnique;
+            this.effectPassCollection = new EffectPassCollection(parentEffect, parentEffect.NativeEffect, nativeTechnique);
+        }
+
+        internal INativeEffectTechnique NativeTechnique
         {
             get
             {
                 return this.nativeTechnique;
-            }
-            set
-            {
-                this.nativeTechnique = value;
             }
         }
 
@@ -92,7 +97,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.effectPassCollection;
             }
         }
     }

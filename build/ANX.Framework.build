@@ -263,6 +263,11 @@
     </exec>
   </target>
 
+  <target name="create_packages" description="generates all type of packages">
+    <call target="create_zip_packages" />
+    <call target="create_msi_packages" />
+  </target>
+  
   <target name="create_zip_packages" description="Generate zip package containing binaries" depends="build">
     <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
     <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
@@ -278,7 +283,7 @@
 
   </target>
 
-  <target name="create_msi_package" description="Create the installer package" depends="build">
+  <target name="create_msi_packages" description="Create the installer package" depends="build">
     <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
     <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
     <property name="build.output.installer_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.msi"/>

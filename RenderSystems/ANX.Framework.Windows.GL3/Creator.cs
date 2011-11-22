@@ -90,15 +90,15 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 		#region CreateEffect
-		public INativeEffect CreateEffect(GraphicsDevice graphics, Stream byteCode)
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
-			return new EffectGL3(byteCode);
+			return new EffectGL3(managedEffect, byteCode);
 		}
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics,
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			return new EffectGL3(vertexShaderByteCode, pixelShaderByteCode);
+			return new EffectGL3(managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 		#endregion
 

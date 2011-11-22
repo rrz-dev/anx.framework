@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -56,12 +57,37 @@ namespace ANX.Framework.Graphics
 {
     public sealed class EffectPassCollection : IEnumerable<EffectPass>
     {
+        #region Private Members
+        private Effect parentEffect;
+        private INativeEffect nativeEffect;
+        private INativeEffectTechnique parentTechnique;
+        private List<EffectPass> passes;
+
+        #endregion // Private Members
+
+        internal EffectPassCollection(Effect parentEffect, INativeEffect nativeEffect, INativeEffectTechnique parentTechnique)
+        {
+            this.parentEffect = parentEffect;
+            this.nativeEffect = nativeEffect;
+            this.parentTechnique = parentTechnique;
+            this.passes = new List<EffectPass>();
+
+            foreach (EffectPass pass in parentTechnique.Passes)
+            {
+                this.passes.Add(pass);
+            }
+        }
 
         public EffectPass this[int index]
         {
             get
             {
-                throw new NotImplementedException();
+                if (index >= passes.Count)
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+
+                return passes[index];
             }
         }
 
@@ -71,28 +97,28 @@ namespace ANX.Framework.Graphics
             {
                 throw new NotImplementedException();
             }
-				}
+		}
 
-				IEnumerator<EffectPass> IEnumerable<EffectPass>.GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		IEnumerator<EffectPass> IEnumerable<EffectPass>.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-				IEnumerator IEnumerable.GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-				public List<EffectPass>.Enumerator GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		public List<EffectPass>.Enumerator GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
         public int Count
         {
             get
             {
-                throw new NotImplementedException();
+                return this.passes.Count;
             }
         }
     }

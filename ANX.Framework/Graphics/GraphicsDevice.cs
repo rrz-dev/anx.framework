@@ -103,6 +103,10 @@ namespace ANX.Framework.Graphics
             this.samplerStateCollection = new SamplerStateCollection(this, 8);    //TODO: get maximum number of sampler states from capabilities
             this.textureCollection = new TextureCollection();
             this.vertexTextureCollection = new TextureCollection();
+
+            this.BlendState = BlendState.Opaque;
+            this.DepthStencilState = DepthStencilState.Default;
+            this.RasterizerState = RasterizerState.CullCounterClockwise;
         }
 
         ~GraphicsDevice()
@@ -138,6 +142,7 @@ namespace ANX.Framework.Graphics
 
         public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle, IntPtr overrideWindowHandle)
         {
+            //TODO: implement
             throw new NotImplementedException();
         }
 
@@ -326,7 +331,13 @@ namespace ANX.Framework.Graphics
 
         public void Dispose()
         {
-            throw new NotImplementedException(); 
+            if (this.nativeDevice != null)
+            {
+                this.nativeDevice.Dispose();
+                this.nativeDevice = null;
+            }
+
+            //TODO: more to dispose?
         }
 
         protected virtual void Dispose(Boolean disposeManaged)
@@ -334,7 +345,7 @@ namespace ANX.Framework.Graphics
             //TODO: implement
         }
 
-        public INativeGraphicsDevice NativeDevice
+        internal INativeGraphicsDevice NativeDevice
         {
             get
             {
@@ -342,6 +353,7 @@ namespace ANX.Framework.Graphics
             }
         }
 
+        #region Public Properties
         public IndexBuffer Indices
         {
             get
@@ -452,31 +464,11 @@ namespace ANX.Framework.Graphics
             }
         }
 
-        public Rectangle ScissorRectangle
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public DisplayMode DisplayMode
         {
             get
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        public GraphicsDeviceStatus GraphicsDeviceStatus
-        {
-            get
-            {
-                throw new NotImplementedException();
+                return this.currentAdapter.CurrentDisplayMode;
             }
         }
 
@@ -562,6 +554,28 @@ namespace ANX.Framework.Graphics
             get
             {
                 return this.textureCollection;
+            }
+        }
+
+        #endregion // Public Properties
+
+        public Rectangle ScissorRectangle
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GraphicsDeviceStatus GraphicsDeviceStatus
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
 

@@ -1,7 +1,10 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
-using ANX.Framework.Graphics;
+using System.Linq;
+using System.Text;
+using ANX.Framework.NonXNA;
+using SharpDX.Direct3D10;
 
 #endregion // Using Statements
 
@@ -52,12 +55,30 @@ using ANX.Framework.Graphics;
 
 #endregion // License
 
-namespace ANX.Framework.NonXNA
+namespace ANX.Framework.Windows.DX10
 {
-    public interface INativeEffectTechnique
+    public class EffectPass_DX10 : INativeEffectPass
     {
-        string Name { get; }
+        private EffectPass nativePass;
 
-        IEnumerable<EffectPass> Passes { get; }
+        public EffectPass NativePass
+        {
+            get
+            {
+                return this.nativePass;
+            }
+            internal set
+            {
+                this.nativePass = value;
+            }
+        }
+
+        public string Name
+        {
+            get 
+            {
+                return nativePass.Description.Name;
+            }
+        }
     }
 }

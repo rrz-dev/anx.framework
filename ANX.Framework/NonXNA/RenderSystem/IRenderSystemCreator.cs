@@ -69,8 +69,8 @@ namespace ANX.Framework
 
         INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
 
-        INativeEffect CreateEffect(GraphicsDevice graphics, Stream byteCode);
-        INativeEffect CreateEffect(GraphicsDevice graphics, Stream vertexShaderByteCode, Stream pixelShaderByteCode);
+        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode);
+        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode);
 
         INativeBlendState CreateBlendState();
         INativeRasterizerState CreateRasterizerState();

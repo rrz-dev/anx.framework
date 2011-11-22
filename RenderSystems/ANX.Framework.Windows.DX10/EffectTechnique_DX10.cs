@@ -60,6 +60,17 @@ namespace ANX.Framework.Windows.DX10
     public class EffectTechnique_DX10 : INativeEffectTechnique
     {
         private EffectTechnique nativeTechnique;
+        private ANX.Framework.Graphics.Effect parentEffect;
+
+        internal EffectTechnique_DX10(ANX.Framework.Graphics.Effect parentEffect)
+        {
+            if (parentEffect == null)
+            {
+                throw new ArgumentNullException("parentEffect");
+            }
+
+            this.parentEffect = parentEffect;
+        }
 
         public EffectTechnique NativeTechnique
         {
@@ -78,6 +89,23 @@ namespace ANX.Framework.Windows.DX10
             get 
             {
                 return nativeTechnique.Description.Name;
+            }
+        }
+
+
+        public IEnumerable<Graphics.EffectPass> Passes
+        {
+            get 
+            {
+                for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
+                {
+                    EffectPass_DX10 passDx10 = new EffectPass_DX10();
+                    passDx10.NativePass = nativeTechnique.GetPassByIndex(i);
+
+                    Graphics.EffectPass pass = new Graphics.EffectPass(this.parentEffect);
+
+                    yield return pass;
+                }
             }
         }
     }

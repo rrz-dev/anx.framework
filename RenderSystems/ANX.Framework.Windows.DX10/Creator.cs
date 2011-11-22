@@ -88,16 +88,16 @@ namespace ANX.Framework.Windows.DX10
             return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
         }
 
-        public INativeEffect CreateEffect(GraphicsDevice graphics, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
-            Effect_DX10 effect = new Effect_DX10(graphics, vertexShaderByteCode, pixelShaderByteCode);
+            Effect_DX10 effect = new Effect_DX10(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 
             return effect;
         }
 
-        public INativeEffect CreateEffect(GraphicsDevice graphics, System.IO.Stream byteCode)
+        public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, System.IO.Stream byteCode)
         {
-            Effect_DX10 effect = new Effect_DX10(graphics, byteCode);
+            Effect_DX10 effect = new Effect_DX10(graphics, managedEffect, byteCode);
 
             return effect;
         }

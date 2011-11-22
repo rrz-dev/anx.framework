@@ -66,12 +66,18 @@ namespace ANX.Framework.Windows.DX10
         private ShaderBytecode vertexShaderByteCode;
         private VertexShader vertexShader;
         private PixelShader pixelShader;
-
+        private ANX.Framework.Graphics.Effect managedEffect;
         private ShaderBytecode effectByteCode;
         private SharpDX.Direct3D10.Effect nativeEffect;
 
-        public Effect_DX10(GraphicsDevice device, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public Effect_DX10(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
+            if (this.managedEffect == null)
+            {
+                throw new ArgumentNullException("managedEffect");
+            }
+            this.managedEffect = managedEffect;
+
             if (vertexShaderByteCode.CanSeek)
             {
                 vertexShaderByteCode.Seek(0, SeekOrigin.Begin);
@@ -87,8 +93,14 @@ namespace ANX.Framework.Windows.DX10
             this.pixelShader = new PixelShader((SharpDX.Direct3D10.Device)device.NativeDevice, this.pixelShaderByteCode);
         }
 
-        public Effect_DX10(GraphicsDevice device, Stream effectByteCode)
+        public Effect_DX10(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream effectByteCode)
         {
+            if (managedEffect == null)
+            {
+                throw new ArgumentNullException("managedEffect");
+            }
+            this.managedEffect = managedEffect;
+
             if (effectByteCode.CanSeek)
             {
                 effectByteCode.Seek(0, SeekOrigin.Begin);
@@ -213,11 +225,10 @@ namespace ANX.Framework.Windows.DX10
             {
                 for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
                 {
-                    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10();
+                    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
                     teqDx10.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
 
-                    Graphics.EffectTechnique teq = new Graphics.EffectTechnique();
-                    teq.NativeTechnique = teqDx10;
+                    Graphics.EffectTechnique teq = new Graphics.EffectTechnique(this.managedEffect, teqDx10);
                     
                     yield return teq;
                 }

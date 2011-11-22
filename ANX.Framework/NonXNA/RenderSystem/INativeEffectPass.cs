@@ -54,10 +54,8 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA
 {
-    public interface INativeEffectTechnique
+    public interface INativeEffectPass
     {
         string Name { get; }
-
-        IEnumerable<EffectPass> Passes { get; }
     }
 }

@@ -74,5 +74,15 @@ namespace ANX.Framework.Windows.GL3
 		{
 		}
 		#endregion
-	}
+
+
+        public System.Collections.Generic.IEnumerable<Graphics.EffectPass> Passes
+        {
+            get 
+            {
+                //TODO: implement
+                yield return null;
+            }
+        }
+    }
 }

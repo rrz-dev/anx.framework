@@ -31,11 +31,11 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
-[assembly: AssemblyVersion("0.4.23.*")]
-[assembly: AssemblyFileVersion("0.4.23.0")]
+[assembly: AssemblyVersion("0.4.24.*")]
+[assembly: AssemblyFileVersion("0.4.24.0")]
 
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.DX10")]
-[assembly:InternalsVisibleTo("ANX.Framework.Windows.DX11.1")]
+[assembly:InternalsVisibleTo("ANX.RenderSystem.Windows.DX11")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.GL3")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.Kinect")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.XInput")]

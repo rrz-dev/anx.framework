@@ -477,5 +477,10 @@ namespace ANX.Framework.Windows.DX10
                 this.vSyncEnabled = value;
             }
         }
+
+        public void Dispose()
+        {
+            //TODO: implement
+        }
     }
 }

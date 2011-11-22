@@ -70,6 +70,9 @@ namespace ANX.Framework
         public static readonly int DefaultBackBufferWidth = 800;
         public static readonly int DefaultBackBufferHeight = 600;   //TODO: this is 480 in the original XNA
 
+        private int backBufferWidth = DefaultBackBufferWidth;
+        private int backBufferHeight = DefaultBackBufferHeight;
+
         public event EventHandler<EventArgs> Disposed;
         public event EventHandler<EventArgs> DeviceCreated;
         public event EventHandler<EventArgs> DeviceDisposing;
@@ -194,7 +197,6 @@ namespace ANX.Framework
             {
                 CreateDevice(graphicsDeviceInformation);
             }
-
         }
 
         public void ToggleFullScreen()
@@ -302,13 +304,19 @@ namespace ANX.Framework
 
         public int PreferredBackBufferWidth
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.backBufferHeight; 
+            }
             set { throw new NotImplementedException(); }
         }
 
         public int PreferredBackBufferHeight
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.backBufferWidth; 
+            }
             set { throw new NotImplementedException(); }
         }
 

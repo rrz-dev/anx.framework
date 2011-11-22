@@ -76,7 +76,7 @@ namespace ANX.Framework.Graphics
         public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
             : base(graphicsDevice)
         {
-            this.nativeEffect = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(graphicsDevice, new MemoryStream(byteCode, false));
+            this.nativeEffect = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(graphicsDevice, this, new MemoryStream(byteCode, false));
 
             this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
             this.currentTechnique = this.techniqueCollection[0];
@@ -89,8 +89,7 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        [Obsolete("This is not a original XNA property")]
-        public INativeEffect NativeEffect
+        internal INativeEffect NativeEffect
         {
             get
             {

@@ -56,10 +56,21 @@ namespace ANX.Framework.Graphics
     {
         private string name;
         private EffectAnnotationCollection annotations;
+        private Effect parentEffect;
+
+        internal EffectPass(Effect parentEffect)
+        {
+            if (parentEffect == null)
+            {
+                throw new ArgumentNullException("parentEffect");
+            }
+
+            this.parentEffect = parentEffect;
+        }
 
         public void Apply()
         {
-            throw new NotImplementedException();
+            this.parentEffect.NativeEffect.Apply(this.parentEffect.GraphicsDevice);
         }
 
         public string Name
