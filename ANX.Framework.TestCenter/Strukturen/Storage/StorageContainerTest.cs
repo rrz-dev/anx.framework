@@ -64,7 +64,7 @@ using XNAPlayerIndex = Microsoft.Xna.Framework.PlayerIndex;
 #endregion // License
 namespace ANX.Framework.TestCenter.Strukturen.Storage
 {
-    [TestFixture]
+    //TODO:[TestFixture]
     class StorageContainerTest
     {
     }

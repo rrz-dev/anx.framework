@@ -67,7 +67,6 @@
     <Compile Include="Strukturen\Design\TypeConverterTest.cs" />
     <Compile Include="Strukturen\Input\GamePadTest.cs" />
     <Compile Include="Strukturen\Input\GamePadTriggersTest.cs" />
-    <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
     <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />
