@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -58,7 +59,7 @@ namespace ANX.Framework.Graphics
     public class EnvironmentMapEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
         public EnvironmentMapEffect(GraphicsDevice graphics)
-            : base(graphics, null)
+            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.EnvironmentMapEffect))
         {
             throw new NotImplementedException();
         }

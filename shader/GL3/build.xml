@@ -6,4 +6,24 @@
           Source="../Shader/GL3/SpriteBatch_GLSL.fx"
           RenderSystem="ANX.Framework.Windows.GL3"
           />
+  <Shader Type="AlphaTestEffect"
+          Source="../Shader/GL3/AlphaTest.fx"
+          RenderSystem="ANX.Framework.Windows.GL3"
+          />
+  <Shader Type="BasicEffect"
+          Source="../Shader/GL3/BasicEffect.fx"
+          RenderSystem="ANX.Framework.Windows.GL3"
+          />
+  <Shader Type="DualTextureEffect"
+          Source="../Shader/GL3/DualTexture.fx"
+          RenderSystem="ANX.Framework.Windows.GL3"
+          />
+  <Shader Type="EnvironmentMapEffect"
+          Source="../Shader/GL3/EnvironmentMap.fx"
+          RenderSystem="ANX.Framework.Windows.GL3"
+          />
+  <Shader Type="SkinnedEffect"
+          Source="../Shader/GL3/Skinned.fx"
+          RenderSystem="ANX.Framework.Windows.GL3"
+          />
 </Build>

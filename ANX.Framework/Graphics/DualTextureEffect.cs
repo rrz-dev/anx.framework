@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -58,7 +59,7 @@ namespace ANX.Framework.Graphics
     public class DualTextureEffect : Effect, IEffectMatrices, IEffectFog
     {
         public DualTextureEffect(GraphicsDevice graphics)
-            : base(graphics, null)
+            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.DualTextureEffect))
         {
             throw new NotImplementedException();
         }

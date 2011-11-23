@@ -61,7 +61,7 @@ namespace ANX.Framework.Graphics
     public class BasicEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
         public BasicEffect(GraphicsDevice graphics)
-            : base(graphics, null)
+            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.BasicEffect))
         {
             throw new NotImplementedException();
         }

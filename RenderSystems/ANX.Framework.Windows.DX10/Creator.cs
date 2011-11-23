@@ -141,6 +141,26 @@ namespace ANX.Framework.Windows.DX10
             {
                 return ShaderByteCode.SpriteBatchByteCode;
             }
+            else if (type == PreDefinedShader.AlphaTestEffect)
+            {
+                return ShaderByteCode.AlphaTestEffectByteCode;
+            }
+            else if (type == PreDefinedShader.BasicEffect)
+            {
+                return ShaderByteCode.BasicEffectByteCode;
+            }
+            else if (type == PreDefinedShader.DualTextureEffect)
+            {
+                return ShaderByteCode.DualTextureEffectByteCode;
+            }
+            else if (type == PreDefinedShader.EnvironmentMapEffect)
+            {
+                return ShaderByteCode.EnvironmentMapEffectByteCode;
+            }
+            else if (type == PreDefinedShader.SkinnedEffect)
+            {
+                return ShaderByteCode.SkinnedEffectByteCode;
+            }
 
             throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
         }

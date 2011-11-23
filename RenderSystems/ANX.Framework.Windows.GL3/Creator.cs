@@ -206,7 +206,7 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region GetShaderByteCode (TODO)
+		#region GetShaderByteCode
 		/// <summary>
 		/// Get the byte code of a pre defined shader.
 		/// </summary>
@@ -214,15 +214,32 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Byte code of the shader.</returns>
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
-			switch (type)
-			{
-				case PreDefinedShader.SpriteBatch:
-				    return ShaderByteCode.SpriteBatchByteCode;
+            if (type == PreDefinedShader.SpriteBatch)
+            {
+                return ShaderByteCode.SpriteBatchByteCode;
+            }
+            else if (type == PreDefinedShader.AlphaTestEffect)
+            {
+                return ShaderByteCode.AlphaTestEffectByteCode;
+            }
+            else if (type == PreDefinedShader.BasicEffect)
+            {
+                return ShaderByteCode.BasicEffectByteCode;
+            }
+            else if (type == PreDefinedShader.DualTextureEffect)
+            {
+                return ShaderByteCode.DualTextureEffectByteCode;
+            }
+            else if (type == PreDefinedShader.EnvironmentMapEffect)
+            {
+                return ShaderByteCode.EnvironmentMapEffectByteCode;
+            }
+            else if (type == PreDefinedShader.SkinnedEffect)
+            {
+                return ShaderByteCode.SkinnedEffectByteCode;
+            }
 
-				default:
-					throw new NotSupportedException("The predefined shader '" + type +
-						"' isn't supported yet!");
-			}
+            throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
 		}
 		#endregion
 

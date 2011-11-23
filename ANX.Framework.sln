@@ -41,13 +41,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock Shaders", "Stock Shad
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX10", "DX10", "{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA}"
 	ProjectSection(SolutionItems) = preProject
+		shader\DX10\AlphaTest.fx = shader\DX10\AlphaTest.fx
+		shader\DX10\BasicEffect.fx = shader\DX10\BasicEffect.fx
 		shader\DX10\build.xml = shader\DX10\build.xml
+		shader\DX10\DualTexture.fx = shader\DX10\DualTexture.fx
+		shader\DX10\EnvironmentMap.fx = shader\DX10\EnvironmentMap.fx
+		shader\DX10\Skinned.fx = shader\DX10\Skinned.fx
 		shader\DX10\SpriteBatch.fx = shader\DX10\SpriteBatch.fx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95FC-48F2-8B6D-8483D0B71666}"
 	ProjectSection(SolutionItems) = preProject
+		shader\GL3\AlphaTest.fx = shader\GL3\AlphaTest.fx
+		shader\GL3\BasicEffect.fx = shader\GL3\BasicEffect.fx
 		shader\GL3\build.xml = shader\GL3\build.xml
+		shader\GL3\DualTexture.fx = shader\GL3\DualTexture.fx
+		shader\GL3\EnvironmentMap.fx = shader\GL3\EnvironmentMap.fx
+		shader\GL3\Skinned.fx = shader\GL3\Skinned.fx
 		shader\GL3\SpriteBatch_GLSL.fx = shader\GL3\SpriteBatch_GLSL.fx
 	EndProjectSection
 EndProject

@@ -55,5 +55,10 @@ namespace ANX.Framework.NonXNA
     public enum PreDefinedShader
     {
         SpriteBatch,
+        BasicEffect,
+        SkinnedEffect,
+        DualTextureEffect,
+        AlphaTestEffect,
+        EnvironmentMapEffect,
     }
 }

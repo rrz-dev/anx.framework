@@ -62,7 +62,7 @@ namespace ANX.Framework.Graphics
     public class SkinnedEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
         public SkinnedEffect(GraphicsDevice graphics)
-            : base(graphics, null)
+            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.SkinnedEffect))
         {
             throw new NotImplementedException();
         }

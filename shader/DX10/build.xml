@@ -6,4 +6,24 @@
           Source="../Shader/DX10/SpriteBatch.fx"
           RenderSystem="ANX.Framework.Windows.DX10"
           />
+  <Shader Type="AlphaTestEffect"
+          Source="../Shader/DX10/AlphaTest.fx"
+          RenderSystem="ANX.Framework.Windows.DX10"
+          />
+  <Shader Type="BasicEffect"
+          Source="../Shader/DX10/BasicEffect.fx"
+          RenderSystem="ANX.Framework.Windows.DX10"
+          />
+  <Shader Type="DualTextureEffect"
+          Source="../Shader/DX10/DualTexture.fx"
+          RenderSystem="ANX.Framework.Windows.DX10"
+          />
+  <Shader Type="EnvironmentMapEffect"
+          Source="../Shader/DX10/EnvironmentMap.fx"
+          RenderSystem="ANX.Framework.Windows.DX10"
+          />
+  <Shader Type="SkinnedEffect"
+          Source="../Shader/DX10/Skinned.fx"
+          RenderSystem="ANX.Framework.Windows.DX10"
+          />
 </Build>
