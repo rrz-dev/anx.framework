@@ -534,13 +534,13 @@ namespace ANX.Framework
 
         public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector3 result)
         {
-            result.X = (rotation.Y * value.Z - rotation.Z * value.Y);
-            result.Y = (rotation.Z * value.X - rotation.X * value.Z);
-            result.Z = (rotation.X * value.Y - rotation.Y * value.X);
+            float x = 2* (rotation.Y * value.Z - rotation.Z * value.Y);
+            float y = 2* (rotation.Z * value.X - rotation.X * value.Z);
+            float z = 2* (rotation.X * value.Y - rotation.Y * value.X);
 
-            result.X = value.X + result.X * rotation.W + (rotation.Y * result.Z - rotation.Z * result.Y);
-            result.Y = value.Y + result.Y * rotation.W + (rotation.Z * result.X - rotation.X * result.Z);
-            result.Z = value.Z + result.Z * rotation.W + (rotation.X * result.Y - rotation.Y * result.X);
+            result.X = value.X + x * rotation.W + (rotation.Y * z - rotation.Z * y);
+            result.Y = value.Y + y * rotation.W + (rotation.Z * x - rotation.X * z);
+            result.Z = value.Z + z * rotation.W + (rotation.X * y - rotation.Y * x);
         }
 
         public static void Transform(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray)

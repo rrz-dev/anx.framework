@@ -448,7 +448,12 @@ namespace ANX.Framework
 
         public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector2 result)
         {
-            throw new NotImplementedException();
+            float x = 2 * (-rotation.Z * value.Y);
+            float y = 2 * (rotation.Z * value.X);
+            float z = 2 * (rotation.X * value.Y - rotation.Y * value.X);
+
+            result.X = value.X + x * rotation.W + (rotation.Y * z - rotation.Z * y);
+            result.Y = value.Y + y * rotation.W + (rotation.Z * x - rotation.X * z);
         }
 
         public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix, Vector2[] destinationArray, int destinationIndex, int length)
