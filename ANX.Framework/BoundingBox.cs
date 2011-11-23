@@ -79,24 +79,25 @@ namespace ANX.Framework
 
         public void Contains(ref BoundingBox box, out ContainmentType result)
         {
-            result = ContainmentType.Disjoint;
-
-            if (box.Min.X >= this.Min.X && box.Min.X <= this.Max.X &&
-                box.Min.Y >= this.Min.Y && box.Min.Y <= this.Max.Y &&
-                box.Min.Z >= this.Min.Z && box.Min.Z <= this.Max.Z)
+            if ((this.Max.X < box.Min.X || this.Min.X > box.Max.X) ||
+                (this.Max.Y < box.Min.Y || this.Min.Y > box.Max.Y) ||
+                (this.Max.Z < box.Min.Z || this.Min.Z > box.Max.Z)
+               )
             {
-                result = ContainmentType.Intersects;
+                result = ContainmentType.Disjoint;
+                return;
             }
 
-            if (box.Max.X >= this.Min.X && box.Max.X <= this.Max.X &&
-                box.Max.Y >= this.Min.Y && box.Max.Y <= this.Max.Y &&
-                box.Max.Z >= this.Min.Z && box.Max.Z <= this.Max.Z)
+            if ((this.Min.X <= box.Min.X && box.Max.X <= this.Max.X) &&
+                (this.Min.Y <= box.Min.Y && box.Max.Y <= this.Max.Y) &&
+                (this.Min.Z <= box.Min.Z && box.Max.Z <= this.Max.Z)
+               )
             {
-                if (result == ContainmentType.Intersects)
-                    result = ContainmentType.Contains;
-                else
-                    result = ContainmentType.Intersects;
+                result = ContainmentType.Contains;
+                return;
             }
+                
+            result = ContainmentType.Intersects;
         }
 
         public ContainmentType Contains(BoundingFrustum frustum)
@@ -137,40 +138,30 @@ namespace ANX.Framework
             return result;
         }
 
-        //source: monoxna
         public void Contains(ref BoundingSphere sphere, out ContainmentType result)
         {
-            //TODO: Find an other way, this one often is wrong!
-            if (sphere.Center.X - Min.X > sphere.Radius
-                && sphere.Center.Y - Min.Y > sphere.Radius
-                && sphere.Center.Z - Min.Z > sphere.Radius
-                && Max.X - sphere.Center.X > sphere.Radius
-                && Max.Y - sphere.Center.Y > sphere.Radius
-                && Max.Z - sphere.Center.Z > sphere.Radius)
+            Vector3 clampedSphereCenter;
+            clampedSphereCenter.X = MathHelper.Clamp(sphere.Center.X, this.Min.X, this.Max.X);
+            clampedSphereCenter.Y = MathHelper.Clamp(sphere.Center.Y, this.Min.Y, this.Max.Y);
+            clampedSphereCenter.Z = MathHelper.Clamp(sphere.Center.Z, this.Min.Z, this.Max.Z);
+
+            if (Vector3.DistanceSquared(sphere.Center, clampedSphereCenter) > (sphere.Radius * sphere.Radius))
+            {
+                result = ContainmentType.Disjoint;
+            }
+            else if ((this.Min.X + sphere.Radius <= sphere.Center.X && sphere.Center.X <= this.Max.X - sphere.Radius) &&
+                     (this.Max.X - this.Min.X > sphere.Radius && this.Min.Y + sphere.Radius <= sphere.Center.Y) &&
+                     (sphere.Center.Y <= this.Max.Y - sphere.Radius && this.Max.Y - this.Min.Y > sphere.Radius) &&
+                     (this.Min.Z + sphere.Radius <= sphere.Center.Z && sphere.Center.Z <= this.Max.Z - sphere.Radius) &&
+                     (this.Max.X - this.Min.X > sphere.Radius)
+                    )
             {
                 result = ContainmentType.Contains;
-                return;
             }
-
-            double dmin = 0;
-
-            if (sphere.Center.X - Min.X <= sphere.Radius)
-                dmin += (sphere.Center.X - Min.X) * (sphere.Center.X - Min.X);
-            else if (Max.X - sphere.Center.X <= sphere.Radius)
-                dmin += (sphere.Center.X - Max.X) * (sphere.Center.X - Max.X);
-            if (sphere.Center.Y - Min.Y <= sphere.Radius)
-                dmin += (sphere.Center.Y - Min.Y) * (sphere.Center.Y - Min.Y);
-            else if (Max.Y - sphere.Center.Y <= sphere.Radius)
-                dmin += (sphere.Center.Y - Max.Y) * (sphere.Center.Y - Max.Y);
-            if (sphere.Center.Z - Min.Z <= sphere.Radius)
-                dmin += (sphere.Center.Z - Min.Z) * (sphere.Center.Z - Min.Z);
-            else if (Max.Z - sphere.Center.Z <= sphere.Radius)
-                dmin += (sphere.Center.Z - Max.Z) * (sphere.Center.Z - Max.Z);
-
-            if (dmin <= sphere.Radius * sphere.Radius)
-                result = ContainmentType.Intersects;
             else
-                result = ContainmentType.Disjoint;
+            {
+                result = ContainmentType.Intersects;
+            }
         }
 
         public ContainmentType Contains(Vector3 point)
@@ -364,22 +355,16 @@ namespace ANX.Framework
 
         public void Intersects(ref BoundingBox box, out bool result)
         {
-            result = false;
-
-            if (box.Min.X >= this.Min.X && box.Min.X <= this.Max.X &&
-                box.Min.Y >= this.Min.Y && box.Min.Y <= this.Max.Y &&
-                box.Min.Z >= this.Min.Z && box.Min.Z <= this.Max.Z)
+            if ((this.Max.X < box.Min.X || this.Min.X > box.Max.X) ||
+                (this.Max.Y < box.Min.Y || this.Min.Y > box.Max.Y) ||
+                (this.Max.Z < box.Min.Z || this.Min.Z > box.Max.Z)
+               )
             {
-                result = true;
-                return;
+                result = false;
             }
-
-            if (box.Max.X >= this.Min.X && box.Max.X <= this.Max.X &&
-                box.Max.Y >= this.Min.Y && box.Max.Y <= this.Max.Y &&
-                box.Max.Z >= this.Min.Z && box.Max.Z <= this.Max.Z)
+            else
             {
                 result = true;
-                return;
             }
         }
 
@@ -414,40 +399,9 @@ namespace ANX.Framework
             return result;
         }
 
-        //source: monoxna
         public void Intersects(ref BoundingSphere sphere, out bool result)
         {
-            //TODO: Find an other way, this one often is wrong!
-            if (sphere.Center.X - Min.X > sphere.Radius
-                && sphere.Center.Y - Min.Y > sphere.Radius
-                && sphere.Center.Z - Min.Z > sphere.Radius
-                && Max.X - sphere.Center.X > sphere.Radius
-                && Max.Y - sphere.Center.Y > sphere.Radius
-                && Max.Z - sphere.Center.Z > sphere.Radius)
-            {
-                result = true;
-                return;
-            }
-
-            double dmin = 0;
-
-            if (sphere.Center.X - Min.X <= sphere.Radius)
-                dmin += (sphere.Center.X - Min.X) * (sphere.Center.X - Min.X);
-            else if (Max.X - sphere.Center.X <= sphere.Radius)
-                dmin += (sphere.Center.X - Max.X) * (sphere.Center.X - Max.X);
-            if (sphere.Center.Y - Min.Y <= sphere.Radius)
-                dmin += (sphere.Center.Y - Min.Y) * (sphere.Center.Y - Min.Y);
-            else if (Max.Y - sphere.Center.Y <= sphere.Radius)
-                dmin += (sphere.Center.Y - Max.Y) * (sphere.Center.Y - Max.Y);
-            if (sphere.Center.Z - Min.Z <= sphere.Radius)
-                dmin += (sphere.Center.Z - Min.Z) * (sphere.Center.Z - Min.Z);
-            else if (Max.Z - sphere.Center.Z <= sphere.Radius)
-                dmin += (sphere.Center.Z - Max.Z) * (sphere.Center.Z - Max.Z);
-
-            if (dmin <= sphere.Radius * sphere.Radius)
-                result = true;
-            else
-                result = false;
+            result = Vector3.DistanceSquared(sphere.Center, Vector3.Clamp(sphere.Center, this.Min, this.Max)) <= sphere.Radius * sphere.Radius;
         }
 
         public PlaneIntersectionType Intersects(Plane plane)
@@ -459,27 +413,33 @@ namespace ANX.Framework
 
         public void Intersects(ref Plane plane, out PlaneIntersectionType result)
         {
-            Vector3 p = this.Min;
+            Vector3 p;
 
-            if (plane.Normal.X >= 0)
-                p.X = this.Max.X;
-            if (plane.Normal.Y >= 0)
-                p.Y = this.Max.Y;
-            if (plane.Normal.Z < 0)
-                p.Z = this.Max.Z;
+            p.X = plane.Normal.X >= 0f ? this.Min.X : this.Max.X;
+            p.Y = plane.Normal.Y >= 0f ? this.Min.Y : this.Max.X;
+            p.Z = plane.Normal.Z >= 0f ? this.Min.Z : this.Max.X;
 
-            float distance;
-            Vector3 planeNormal = -plane.Normal;
+            float dot = plane.Normal.X * p.X + plane.Normal.Y * p.Y + plane.Normal.Z * p.Z;
 
-            Vector3.Dot(ref planeNormal, ref p, out distance);
-            distance -= plane.D;
-
-            if (distance < 0)
+            if (dot + plane.D > 0f)
+            {
                 result = PlaneIntersectionType.Front;
-            else if (distance > 0)
+                return;
+            }
+
+            p.X = plane.Normal.X >= 0f ? this.Max.X : this.Min.X;
+            p.Y = plane.Normal.Y >= 0f ? this.Max.Y : this.Min.X;
+            p.Z = plane.Normal.Z >= 0f ? this.Max.Z : this.Min.X;
+
+            dot = plane.Normal.X * p.X + plane.Normal.Y * p.Y + plane.Normal.Z * p.Z;
+
+            if (dot + plane.D < 0f)
+            {
                 result = PlaneIntersectionType.Back;
-            else
-                result = PlaneIntersectionType.Intersecting;
+                return;
+            }
+
+            result = PlaneIntersectionType.Intersecting;
         }
 
         public Nullable<float> Intersects(Ray ray)
