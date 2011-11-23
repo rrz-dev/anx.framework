@@ -163,6 +163,11 @@ using ANXCurveTangent = ANX.Framework.CurveTangent;
 using XNAGamePadState = Microsoft.Xna.Framework.Input.GamePadState;
 using ANXGamePadState = ANX.Framework.Input.GamePadState;
 
+using XNAGamePadButtons = Microsoft.Xna.Framework.Input.GamePadButtons;
+using ANXGamePadButtons = ANX.Framework.Input.GamePadButtons;
+
+using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using ANXButtonState = ANX.Framework.Input.ButtonState;
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -909,13 +914,19 @@ namespace ANX.Framework.TestCenter
             Assert.Pass(test + " passed");
 
         }
-       
+
+        public static void ConvertEquals(XNAButtonState xna, ANXButtonState anx, String test)
+        {
+            if ((xna==XNAButtonState.Released)==(anx==ANXButtonState.Released))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
         
         #endregion
-
-
-
-
- 
     }
 }

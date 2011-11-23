@@ -216,10 +216,10 @@ namespace ANX.Framework.Input
             buttons += this.button_b == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "B" : "";
             buttons += this.button_x == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "X" : "";
             buttons += this.button_y == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Y" : "";
-            buttons += this.stick_left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftStick" : "";
-            buttons += this.stick_right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightStick" : "";
             buttons += this.shoulder_left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftShoulder" : "";
             buttons += this.shoulder_right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightShoulder" : "";
+            buttons += this.stick_left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "LeftStick" : "";
+            buttons += this.stick_right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "RightStick" : "";
             buttons += this.button_start == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Start" : "";
             buttons += this.button_back == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Back" : "";
             buttons += this.button_big == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "BigButton" : "";
