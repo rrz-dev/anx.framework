@@ -41,13 +41,13 @@
         <File Id='nlog' Name='NLog.dll' DiskId='1' Source='../bin/Release/NLog.dll' />
       </Component>
       <Component Id='SharpDX' Guid='{D6D751D7-A339-4DBB-81BC-D9AC084936C5}'>
-        <File Id='sharpdx.d3dcompiler' Name='ShaprDX.D3DCompiler.dll' DiskId='1' Source='../bin/Release/SharpDX.D3DCompiler.dll' />
+        <File Id='sharpdx.d3dcompiler' Name='SharpDX.D3DCompiler.dll' DiskId='1' Source='../bin/Release/SharpDX.D3DCompiler.dll' />
         <File Id='sharpdx.direct3d10' Name='SharpDX.Direct3D10.dll' DiskId='1' Source='../bin/Release/SharpDX.Direct3D10.dll' />
         <File Id='sharpdx.direct3d11' Name='SharpDX.Direct3D11.dll' DiskId='1' Source='../bin/Release/SharpDX.Direct3D11.dll' />
         <File Id='sharpdx.directinput' Name='SharpDX.DirectInput.dll' DiskId='1' Source='../bin/Release/SharpDX.DirectInput.dll' />
         <File Id='sharpdx' Name='SharpDX.dll' DiskId='1' Source='../bin/Release/SharpDX.dll' />
-        <File Id='sharpdx.dxgi' Name='ShaprDX.DXGI.dll' DiskId='1' Source='../bin/Release/SharpDX.DXGI.dll' />
-        <File Id='sharpdx.xapo' Name='ShaprDX.XAPO.dll' DiskId='1' Source='../bin/Release/SharpDX.XAPO.dll' />
+        <File Id='sharpdx.dxgi' Name='SharpDX.DXGI.dll' DiskId='1' Source='../bin/Release/SharpDX.DXGI.dll' />
+        <File Id='sharpdx.xapo' Name='SharpDX.XAPO.dll' DiskId='1' Source='../bin/Release/SharpDX.XAPO.dll' />
         <File Id='sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../bin/Release/SharpDX.XAudio2.dll' />
         <File Id='sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../bin/Release/SharpDX.XInput.dll' />
       </Component>
