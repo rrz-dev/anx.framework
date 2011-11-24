@@ -65,7 +65,9 @@
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
     <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />
     <Compile Include="Strukturen\Design\TypeConverterTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadStateTest.cs" />
     <Compile Include="Strukturen\Input\GamePadTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadThumbSticksTest.cs" />
     <Compile Include="Strukturen\Input\GamePadTriggersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />

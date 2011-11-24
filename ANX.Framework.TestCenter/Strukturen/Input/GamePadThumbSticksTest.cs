@@ -3,11 +3,16 @@ using System;
 using System.IO;
 using ANX.Framework.NonXNA;
 using NUnit.Framework;
-
 #endregion // Using Statements
 
-using ANXGamePadTriggers = ANX.Framework.Input.GamePadTriggers;
-using XNAGamePadTriggers = Microsoft.Xna.Framework.Input.GamePadTriggers;
+using XNAGamePadButtons = Microsoft.Xna.Framework.Input.GamePadButtons;
+using ANXGamePadButtons = ANX.Framework.Input.GamePadButtons;
+
+using XNAGamePadThumbSticks = Microsoft.Xna.Framework.Input.GamePadThumbSticks;
+using ANXGamePadThumbSticks = ANX.Framework.Input.GamePadThumbSticks;
+
+using XNAVector2 = Microsoft.Xna.Framework.Vector2;
+using ANXVector2 = ANX.Framework.Vector2;
 
 
 #region License
@@ -56,72 +61,75 @@ using XNAGamePadTriggers = Microsoft.Xna.Framework.Input.GamePadTriggers;
 //       particular purpose and non-infringement.
 
 #endregion // License
+
 namespace ANX.Framework.TestCenter.Strukturen.Input
 {
     [TestFixture]
-    class GamePadTriggersTest
+    class GamePadThumbSticksTest
     {
+        #region TestCase
         static object[] twofloats =
         {
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat },
-            new object[]{-1,-1}
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
+            new object[]{-2,-2,-2,-2}
         };
         [TestCaseSource("twofloats")]
-        public void Left(float leftTrigger, float rightTrigger)
+        public void Left(float leftX, float leftY,float rightX,float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX,leftY),new XNAVector2(rightX,rightY));
             AssertHelper.ConvertEquals(xna.Left, anx.Left, "Left");
         }
         [TestCaseSource("twofloats")]
-        public void Right(float leftTrigger, float rightTrigger)
+        public void Right(float leftX, float leftY, float rightX, float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX, leftY), new ANXVector2(rightX, rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
             AssertHelper.ConvertEquals(xna.Right, anx.Right, "Right");
         }
         [TestCaseSource("twofloats")]
-        public void ToString(float leftTrigger, float rightTrigger)
+        public void ToString(float leftX, float leftY,float rightX,float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX,leftY),new XNAVector2(rightX,rightY));
             AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "ToString");
         }
         [TestCaseSource("twofloats")]
-        public void Equals(float leftTrigger, float rightTrigger)
+        public void Equals(float leftX, float leftY,float rightX,float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            ANXGamePadTriggers anx2 = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna2 = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX,leftY),new XNAVector2(rightX,rightY));
+            ANXGamePadThumbSticks anx2 = new ANXGamePadThumbSticks(new ANXVector2(leftX, leftY), new ANXVector2(rightX, rightY));
+            XNAGamePadThumbSticks xna2 = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
             AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "Equals");
         }
         [TestCaseSource("twofloats")]
-        public void Equals2(float leftTrigger, float rightTrigger)
+        public void Equals2(float leftX, float leftY,float rightX,float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            ANXGamePadTriggers anx2 = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna2 = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX,leftY),new XNAVector2(rightX,rightY));
+            ANXGamePadThumbSticks anx2 = new ANXGamePadThumbSticks(new ANXVector2(leftX, leftY), new ANXVector2(rightX, rightY));
+            XNAGamePadThumbSticks xna2 = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
             AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals2");
         }
         [TestCaseSource("twofloats")]
-        public void NotEquals(float leftTrigger, float rightTrigger)
+        public void NotEquals(float leftX, float leftY,float rightX,float rightY)
         {
-            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
-            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
-            while (leftTrigger==rightTrigger)
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX,leftY),new XNAVector2(rightX,rightY));
+            while (leftX == leftY)
             {
-                leftTrigger = DataFactory.RandomFloat;
+                leftX = DataFactory.RandomFloat;
             }
-            ANXGamePadTriggers anx2 = new ANXGamePadTriggers(rightTrigger,leftTrigger);
-            XNAGamePadTriggers xna2 = new XNAGamePadTriggers(rightTrigger,leftTrigger);
+            ANXGamePadThumbSticks anx2 = new ANXGamePadThumbSticks(new ANXVector2(leftX, leftY), new ANXVector2(rightX, rightY));
+            XNAGamePadThumbSticks xna2 = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
             AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "NotEquals");
         }
+        #endregion
     }
 }
