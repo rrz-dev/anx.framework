@@ -75,11 +75,113 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
+        public void SetValue(bool value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
+
+        public void SetValue(bool[] value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
+
+        public void SetValue(int value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
+
+        public void SetValue(int[] value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
 
         public void SetValue(Matrix value)
         {
             SharpDX.Matrix m = new SharpDX.Matrix(value.M11, value.M12, value.M13, value.M14, value.M21, value.M22, value.M23, value.M24, value.M31, value.M32, value.M33, value.M34, value.M41, value.M42, value.M43, value.M44);
             nativeEffectVariable.AsMatrix().SetMatrix(m);
+        }
+
+        public void SetValue(Matrix[] value)
+        {
+            int count = value.Length;
+            SharpDX.Matrix[] m = new SharpDX.Matrix[count];
+            Matrix anxMatrix;
+            for (int i = 0; i < count; i++)
+            {
+                anxMatrix = value[i];
+                m[i] = new SharpDX.Matrix(anxMatrix.M11, anxMatrix.M12, anxMatrix.M13, anxMatrix.M14,
+                                          anxMatrix.M21, anxMatrix.M22, anxMatrix.M23, anxMatrix.M24,
+                                          anxMatrix.M31, anxMatrix.M32, anxMatrix.M33, anxMatrix.M34,
+                                          anxMatrix.M41, anxMatrix.M42, anxMatrix.M43, anxMatrix.M44);
+            }
+
+            nativeEffectVariable.AsMatrix().SetMatrix(m);
+        }
+
+        public void SetValue(Quaternion value)
+        {
+            SharpDX.Vector4 q = new SharpDX.Vector4(value.X, value.Y, value.Z, value.W);
+            nativeEffectVariable.AsVector().Set(q);
+        }
+
+        public void SetValue(Quaternion[] value)
+        {
+            int count = value.Length;
+            SharpDX.Vector4[] q = new SharpDX.Vector4[count];
+            for (int i = 0; i < count; i++)
+            {
+                q[i] = new SharpDX.Vector4(value[i].X, value[i].Y, value[i].Z, value[i].W);
+            }
+            nativeEffectVariable.AsVector().Set(q);
+        }
+
+        public void SetValue(float value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
+
+        public void SetValue(float[] value)
+        {
+            nativeEffectVariable.AsScalar().Set(value);
+        }
+
+        public void SetValue(Vector2 value)
+        {
+            SharpDX.Vector2 v = new SharpDX.Vector2(value.X, value.Y);
+            nativeEffectVariable.AsVector().Set(v);
+        }
+
+        public void SetValue(Vector2[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector3 value)
+        {
+            SharpDX.Vector3 v = new SharpDX.Vector3(value.X, value.Y, value.Z);
+            nativeEffectVariable.AsVector().Set(v);
+        }
+
+        public void SetValue(Vector3[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector4 value)
+        {
+            SharpDX.Vector4 v = new SharpDX.Vector4(value.X, value.Y, value.Z, value.W);
+            nativeEffectVariable.AsVector().Set(v);
+        }
+
+        public void SetValue(Vector4[] value)
+        {
+            int count = value.Length;
+            SharpDX.Vector4[] q = new SharpDX.Vector4[count];
+            for (int i = 0; i < count; i++)
+            {
+                q[i] = new SharpDX.Vector4(value[i].X, value[i].Y, value[i].Z, value[i].W);
+            }
+            nativeEffectVariable.AsVector().Set(q);
         }
 
         public void SetValue(Texture value)
@@ -88,10 +190,10 @@ namespace ANX.Framework.Windows.DX10
             GraphicsDeviceWindowsDX10 graphicsDX10 = tex.GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
             SharpDX.Direct3D10.Device device = graphicsDX10.NativeDevice;
 
-            //ShaderResourceView srv = new ShaderResourceView(device, tex.NativeTexture);
-            //nativeEffectVariable.AsShaderResource().SetResource(srv);
             nativeEffectVariable.AsShaderResource().SetResource(tex.NativeShaderResourceView);
         }
+
+
 
         public string Name
         {

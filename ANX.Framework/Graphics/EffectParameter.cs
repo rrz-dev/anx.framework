@@ -184,22 +184,22 @@ namespace ANX.Framework.Graphics
 
         public void SetValue(bool value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(bool[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(int value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(int[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Matrix value)
@@ -209,27 +209,27 @@ namespace ANX.Framework.Graphics
 
         public void SetValue(Matrix[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Quaternion value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Quaternion[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(float value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(float[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(string value)
@@ -244,32 +244,32 @@ namespace ANX.Framework.Graphics
 
         public void SetValue(Vector2 value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Vector2[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Vector3 value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Vector3[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Vector4 value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValue(Vector4[] value)
         {
-            throw new NotImplementedException();
+            nativeParameter.SetValue(value);
         }
 
         public void SetValueTranspose(Matrix value)

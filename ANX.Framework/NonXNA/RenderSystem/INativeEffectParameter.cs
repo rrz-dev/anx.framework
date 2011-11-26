@@ -57,7 +57,37 @@ namespace ANX.Framework.NonXNA
     {
         string Name { get; }
 
+        void SetValue(bool value);
+
+        void SetValue(bool[] value);
+
+        void SetValue(int value);
+
+        void SetValue(int[] value);
+
         void SetValue(Matrix value);
+
+        void SetValue(Matrix[] value);
+
+        void SetValue(Quaternion value);
+
+        void SetValue(Quaternion[] value);
+
+        void SetValue(float value);
+
+        void SetValue(float[] value);
+
+        void SetValue(Vector2 value);
+
+        void SetValue(Vector2[] value);
+
+        void SetValue(Vector3 value);
+
+        void SetValue(Vector3[] value);
+
+        void SetValue(Vector4 value);
+
+        void SetValue(Vector4[] value);
 
         void SetValue(Texture value);
     }

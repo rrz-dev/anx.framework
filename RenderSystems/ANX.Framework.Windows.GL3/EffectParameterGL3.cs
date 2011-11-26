@@ -143,5 +143,81 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 		#endregion
-	}
+
+
+        public void SetValue(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(bool[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(int[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Matrix[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Quaternion value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Quaternion[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(float[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector2 value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector2[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector3 value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector3[] value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector4 value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(Vector4[] value)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
