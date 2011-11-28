@@ -192,13 +192,6 @@ namespace ANX.Framework.Windows.DX10
                     device.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, depth, (byte)stencil);
                 }
             }
-
-            if ((options & ClearOptions.Target) == ClearOptions.Target)
-            {
-                // Clear a RenderTarget
-
-                throw new NotImplementedException();
-            }
         }
 
 		#endregion
