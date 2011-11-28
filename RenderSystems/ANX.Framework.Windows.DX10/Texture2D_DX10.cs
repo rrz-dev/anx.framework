@@ -63,13 +63,18 @@ namespace ANX.Framework.Windows.DX10
     public class Texture2D_DX10 : INativeTexture2D
     {
         #region Private Members
-        private SharpDX.Direct3D10.Texture2D nativeTexture;
-        private SharpDX.Direct3D10.ShaderResourceView nativeShaderResourceView;
-        private int formatSize;
-        private SurfaceFormat surfaceFormat;
-        private GraphicsDevice graphicsDevice;
+        protected internal SharpDX.Direct3D10.Texture2D nativeTexture;
+        protected internal SharpDX.Direct3D10.ShaderResourceView nativeShaderResourceView;
+        protected internal int formatSize;
+        protected internal SurfaceFormat surfaceFormat;
+        protected internal GraphicsDevice graphicsDevice;
 
         #endregion // Private Members
+
+        internal Texture2D_DX10(GraphicsDevice graphicsDevice)
+        {
+            this.graphicsDevice = graphicsDevice;
+        }
 
         public Texture2D_DX10(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
         {

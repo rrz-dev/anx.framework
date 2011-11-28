@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -61,34 +62,69 @@ namespace ANX.Framework.Graphics
     {
         public event EventHandler<EventArgs> ContentLost;
 
+        #region Private Members
+        private DepthFormat depthStencilFormat;
+        private int multiSampleCount;
+        private RenderTargetUsage usage;
+        private bool isContentLost;
+        private INativeRenderTarget2D nativeRenderTarget;
+
+        #endregion // Private Members
+
+        #region Constructors
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
-            : base(graphicsDevice, width, height)
+            : base(graphicsDevice)
         {
-            throw new NotImplementedException();
+            this.depthStencilFormat = DepthFormat.None;
+            this.multiSampleCount = 0;
+            this.usage = RenderTargetUsage.DiscardContents;
+
+            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
+            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
         }
 
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
-            : base(graphicsDevice, width, height)
+            : base(graphicsDevice)
         {
-            throw new NotImplementedException();
+            this.depthStencilFormat = DepthFormat.None;
+            this.multiSampleCount = 0;
+            this.usage = RenderTargetUsage.DiscardContents;
+
+            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
+            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
         }
 
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-            : base(graphicsDevice, width, height)
+            : base(graphicsDevice)
         {
-            throw new NotImplementedException();
+            this.depthStencilFormat = preferredDepthFormat;
+            this.multiSampleCount = preferredMultiSampleCount;
+            this.usage = usage;
+
+            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
+            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
         }
+
+        #endregion // Constructors
 
         protected virtual void Dispose(Boolean disposeManaged)
         {
             throw new NotImplementedException();
         }
 
+        internal INativeRenderTarget2D NativeRenderTarget
+        {
+            get
+            {
+                return this.nativeRenderTarget;
+            }
+        }
+
         public DepthFormat DepthStencilFormat
         {
             get
             {
-                throw new NotImplementedException();
+                return this.depthStencilFormat;
             }
         }
 
@@ -96,7 +132,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.isContentLost;
             }
         }
 
@@ -104,7 +140,7 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.multiSampleCount;
             }
         }
 
@@ -112,12 +148,18 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.usage;
             }
         }
 
         void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
         {
+            this.isContentLost = isContentLost;
+            if (isContentLost)
+            {
+                raise_ContentLost(this, EventArgs.Empty);
+            }
+
             throw new NotImplementedException();
         }
 

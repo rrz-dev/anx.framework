@@ -229,5 +229,11 @@ namespace ANX.RenderSystem.Windows.DX11
         {
             throw new NotImplementedException();
         }
+
+
+        public Framework.NonXNA.RenderSystem.INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

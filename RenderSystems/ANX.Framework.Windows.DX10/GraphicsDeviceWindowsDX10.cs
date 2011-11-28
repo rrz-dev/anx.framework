@@ -99,6 +99,7 @@ namespace ANX.Framework.Windows.DX10
         private Device device;
         private SwapChain swapChain; 
         private RenderTargetView renderView;
+        private RenderTargetView renderTargetView;
         private DepthStencilView depthStencilView;
         private SharpDX.Direct3D10.Texture2D backBuffer;
         internal Effect_DX10 currentEffect;
@@ -159,7 +160,7 @@ namespace ANX.Framework.Windows.DX10
 				clearColor.Alpha = color.A * ColorMultiplier;
 			}
 
-			this.device.ClearRenderTargetView(this.renderView, this.clearColor);
+			this.device.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
 		}
 
         public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
@@ -172,8 +173,9 @@ namespace ANX.Framework.Windows.DX10
                 this.clearColor.Green = color.Y;
                 this.clearColor.Blue = color.Z;
                 this.clearColor.Alpha = color.W;
+                this.lastClearColor = 0;
 
-                this.device.ClearRenderTargetView(this.renderView, this.clearColor);
+                this.device.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
             }
 
             if (this.depthStencilView != null)
@@ -396,7 +398,40 @@ namespace ANX.Framework.Windows.DX10
 
         public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
-            throw new NotImplementedException();
+            if (renderTargets == null)
+            {
+                // reset the RenderTarget to backbuffer
+                if (renderTargetView != null)
+                {
+                    renderTargetView.Dispose();
+                    renderTargetView = null;
+                }
+                
+                device.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
+            }
+            else
+            {
+                if (renderTargets.Length == 1)
+                {
+                    RenderTarget2D renderTarget = renderTargets[0].RenderTarget as RenderTarget2D;
+                    RenderTarget2D_DX10 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX10;
+                    if (renderTarget != null)
+                    {
+                        if (renderTargetView != null)
+                        {
+                            renderTargetView.Dispose();
+                            renderTargetView = null;
+                        }
+                        this.renderTargetView = new RenderTargetView(device, ((Texture2D_DX10)nativeRenderTarget).NativeShaderResourceView.Resource);
+                        DepthStencilView depthStencilView = null;
+                        device.OutputMerger.SetRenderTargets(1,new RenderTargetView[] { this.renderTargetView }, depthStencilView);
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException("handling of multiple RenderTargets are not yet implemented");
+                }
+            }
         }
 
 
@@ -473,7 +508,25 @@ namespace ANX.Framework.Windows.DX10
 
         public void Dispose()
         {
-            //TODO: implement
+            if (renderTargetView != null)
+            {
+                renderTargetView.Dispose();
+                renderTargetView = null;
+            }
+
+            if (swapChain != null)
+            {
+                renderView.Dispose();
+                renderView = null;
+
+                backBuffer.Dispose();
+                backBuffer = null;
+
+                swapChain.Dispose();
+                swapChain = null;
+            }
+
+            //TODO: dispose everything else
         }
     }
 }

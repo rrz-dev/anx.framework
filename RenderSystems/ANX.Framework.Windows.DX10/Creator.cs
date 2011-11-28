@@ -227,5 +227,10 @@ namespace ANX.Framework.Windows.DX10
         {
             return new Texture2D_DX10(graphics, width, height, surfaceFormat, mipCount);
         }
+
+        public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+        {
+            return new RenderTarget2D_DX10(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
+        }
     }
 }

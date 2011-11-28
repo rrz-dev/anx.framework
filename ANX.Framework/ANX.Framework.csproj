@@ -429,6 +429,7 @@
     <Compile Include="NonXNA\AddInSystemFactory.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeRasterizerState.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeDepthStencilState.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeRenderTarget2D.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeSamplerState.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeTexture.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeTexture2D.cs" />

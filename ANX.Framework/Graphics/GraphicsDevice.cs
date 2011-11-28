@@ -243,9 +243,16 @@ namespace ANX.Framework.Graphics
         #region SetRenderTarget
         public void SetRenderTarget(RenderTarget2D renderTarget)
         {
-            RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget) };
-            this.currentRenderTargetBindings = renderTargetBindings;
-            nativeDevice.SetRenderTargets(renderTargetBindings);
+            if (renderTarget != null)
+            {
+                RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget) };
+                this.currentRenderTargetBindings = renderTargetBindings;
+                nativeDevice.SetRenderTargets(renderTargetBindings);
+            }
+            else
+            {
+                nativeDevice.SetRenderTargets(null);
+            }
         }
 
         public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)

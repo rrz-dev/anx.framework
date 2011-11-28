@@ -63,6 +63,12 @@ namespace ANX.Framework.Graphics
 
         #endregion // Private Members
 
+        internal Texture2D(GraphicsDevice graphicsDevice)
+            : base(graphicsDevice)
+        {
+
+        }
+
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
             : base(graphicsDevice)
         {
@@ -72,7 +78,7 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;
             base.format = SurfaceFormat.Color;
 
-            CreateNativeTextureSurface();
+            CreateNativeTextureSurface(graphicsDevice, SurfaceFormat.Color, width, height, levelCount);
         }
 
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat format)
@@ -84,7 +90,7 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;    //TODO: mipmap paramter?!?!?
             base.format = format;
 
-            CreateNativeTextureSurface();
+            CreateNativeTextureSurface(graphicsDevice, format, width, height, levelCount);
         }
 
         public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
@@ -171,9 +177,9 @@ namespace ANX.Framework.Graphics
             }
         }
 
-        private void CreateNativeTextureSurface()
+        internal void CreateNativeTextureSurface(GraphicsDevice device, SurfaceFormat format, int width, int height, int levelCount)
         {
-            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(GraphicsDevice, format, Width, Height, levelCount);
+            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount);
         }
     }
 }

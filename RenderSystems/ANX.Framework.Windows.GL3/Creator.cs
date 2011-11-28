@@ -302,5 +302,10 @@ namespace ANX.Framework.Windows.GL3
 			return new ReadOnlyCollection<GraphicsAdapter>(result);
 		}
 		#endregion
-	}
+
+        public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
