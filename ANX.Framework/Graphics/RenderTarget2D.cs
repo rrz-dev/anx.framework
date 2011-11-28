@@ -75,6 +75,12 @@ namespace ANX.Framework.Graphics
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
             : base(graphicsDevice)
         {
+            this.width = width;
+            this.height = height;
+
+            base.levelCount = 1;
+            base.format = SurfaceFormat.Color;
+
             this.depthStencilFormat = DepthFormat.None;
             this.multiSampleCount = 0;
             this.usage = RenderTargetUsage.DiscardContents;

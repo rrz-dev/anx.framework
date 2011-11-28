@@ -306,7 +306,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.backBufferHeight; 
+                return this.backBufferWidth; 
             }
             set { throw new NotImplementedException(); }
         }
@@ -315,7 +315,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.backBufferWidth; 
+                return this.backBufferHeight; 
             }
             set { throw new NotImplementedException(); }
         }

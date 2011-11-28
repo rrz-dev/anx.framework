@@ -58,8 +58,8 @@ namespace ANX.Framework.Graphics
     public class Texture2D : Texture, IGraphicsResource
     {
         #region Private Members
-        private int width;
-        private int height;
+        protected internal int width;
+        protected internal int height;
 
         #endregion // Private Members
 
