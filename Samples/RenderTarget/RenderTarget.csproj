@@ -78,13 +78,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="anx.ico" />
-    <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SampleContent\SampleContent.contentproj">
+    <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
       <Name>SampleContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

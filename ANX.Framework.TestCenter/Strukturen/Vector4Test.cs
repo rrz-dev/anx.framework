@@ -833,8 +833,5 @@ namespace ANX.Framework.TestCenter.Strukturen
         #endregion
 
         #endregion
-
-        //TODO: transform operations
-
     }
 }

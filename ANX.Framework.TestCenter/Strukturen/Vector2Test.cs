@@ -902,8 +902,5 @@ namespace ANX.Framework.TestCenter.Strukturen
         #endregion
 
         #endregion
-
-        //TODO: transform, transform normal operations
-
     }
 }
