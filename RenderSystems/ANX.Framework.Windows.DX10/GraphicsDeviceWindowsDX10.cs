@@ -299,7 +299,7 @@ namespace ANX.Framework.Windows.DX10
             device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
 
-            device.OutputMerger.SetTargets(this.renderView);
+            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
             {
@@ -318,7 +318,7 @@ namespace ANX.Framework.Windows.DX10
             // Prepare All the stages
             device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
-            device.OutputMerger.SetTargets(this.renderView);
+            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
             {

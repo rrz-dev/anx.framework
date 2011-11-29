@@ -81,7 +81,7 @@ namespace StencilBuffer
                 DepthBufferWriteEnable = true,
                 DepthBufferFunction = CompareFunction.Always,
                 ReferenceStencil = 2,
-                StencilEnable = false,
+                StencilEnable = true,
                 StencilPass = StencilOperation.Increment,
             };
 
@@ -91,7 +91,7 @@ namespace StencilBuffer
                 DepthBufferWriteEnable = true,
                 DepthBufferFunction = CompareFunction.LessEqual,
                 ReferenceStencil = 1,
-                StencilEnable = false,
+                StencilEnable = true,
                 StencilPass = StencilOperation.Keep,
             };
 

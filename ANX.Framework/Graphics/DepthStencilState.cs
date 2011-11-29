@@ -85,19 +85,24 @@ namespace ANX.Framework.Graphics
         {
             nativeDepthStencilState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateDepthStencilState();
 
+            // BackFace
             CounterClockwiseStencilDepthBufferFail = StencilOperation.Keep;
             CounterClockwiseStencilFail = StencilOperation.Keep;
             CounterClockwiseStencilFunction = CompareFunction.Always;
             CounterClockwiseStencilPass = StencilOperation.Keep;
+
+            // FrontFace
+            StencilDepthBufferFail = StencilOperation.Keep;
+            StencilFail = StencilOperation.Keep;
+            StencilFunction = CompareFunction.Always;
+            StencilPass = StencilOperation.Keep;
+
             DepthBufferEnable = true;
             DepthBufferFunction = CompareFunction.LessEqual;
             DepthBufferWriteEnable = true;
             ReferenceStencil = 0;
-            StencilDepthBufferFail = StencilOperation.Keep;
             StencilEnable = false;
-            StencilFunction = CompareFunction.Always;
             StencilMask = int.MaxValue;
-            StencilPass = StencilOperation.Keep;
             StencilWriteMask = int.MaxValue;
             TwoSidedStencilMode = false;
         }
@@ -106,19 +111,24 @@ namespace ANX.Framework.Graphics
         {
             nativeDepthStencilState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateDepthStencilState();
 
+            // BackFace
             CounterClockwiseStencilDepthBufferFail = StencilOperation.Keep;
             CounterClockwiseStencilFail = StencilOperation.Keep;
             CounterClockwiseStencilFunction = CompareFunction.Always;
             CounterClockwiseStencilPass = StencilOperation.Keep;
+            
+            // FrontFace
+            StencilDepthBufferFail = StencilOperation.Keep;
+            StencilFail = StencilOperation.Keep;
+            StencilFunction = CompareFunction.Always;
+            StencilPass = StencilOperation.Keep;
+
             DepthBufferEnable = depthBufferEnabled;
             DepthBufferFunction = CompareFunction.LessEqual;
             DepthBufferWriteEnable = depthBufferWriteEnabled;
             ReferenceStencil = 0;
-            StencilDepthBufferFail = StencilOperation.Keep;
             StencilEnable = false;
-            StencilFunction = CompareFunction.Always;
             StencilMask = int.MaxValue;
-            StencilPass = StencilOperation.Keep;
             StencilWriteMask = int.MaxValue;
             TwoSidedStencilMode = false;
 
