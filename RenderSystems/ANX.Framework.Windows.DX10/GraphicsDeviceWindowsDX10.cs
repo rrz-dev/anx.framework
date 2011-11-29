@@ -101,6 +101,7 @@ namespace ANX.Framework.Windows.DX10
         private RenderTargetView renderView;
         private RenderTargetView renderTargetView;
         private DepthStencilView depthStencilView;
+        private SharpDX.Direct3D10.Texture2D depthStencilBuffer;
         private SharpDX.Direct3D10.Texture2D backBuffer;
         internal Effect_DX10 currentEffect;
         private VertexBuffer currentVertexBuffer;
@@ -120,7 +121,7 @@ namespace ANX.Framework.Windows.DX10
             var desc = new SwapChainDescription()
             {
                 BufferCount = 1,
-                ModeDescription = new ModeDescription(presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, new Rational(60, 1), Format.R8G8B8A8_UNorm),
+                ModeDescription = new ModeDescription(presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, new Rational(60, 1), FormatConverter.Translate(presentationParameters.BackBufferFormat)),
                 IsWindowed = true,
                 OutputHandle = presentationParameters.DeviceWindowHandle,
                 SampleDescription = new SampleDescription(1, 0),
@@ -145,6 +146,35 @@ namespace ANX.Framework.Windows.DX10
             renderView = new RenderTargetView(device, backBuffer);
 
             currentViewport = new SharpDX.Direct3D10.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
+            //
+            // create the depth stencil buffer
+            //
+            Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+            if (depthFormat != Format.Unknown)
+            {
+                DepthStencilViewDescription depthStencilViewDesc = new DepthStencilViewDescription()
+                {
+                    Format = depthFormat,
+                };
+
+                Texture2DDescription depthStencilTextureDesc = new Texture2DDescription()
+                {
+                    Width = presentationParameters.BackBufferWidth,
+                    Height = presentationParameters.BackBufferHeight,
+                    MipLevels = 1,
+                    ArraySize = 1,
+                    Format = depthFormat,
+                    SampleDescription = new SampleDescription(1, 0),
+                    Usage = ResourceUsage.Default,
+                    BindFlags = BindFlags.DepthStencil,
+                    CpuAccessFlags = CpuAccessFlags.None,
+                    OptionFlags = ResourceOptionFlags.None
+                };
+                this.depthStencilBuffer = new SharpDX.Direct3D10.Texture2D(device, depthStencilTextureDesc);
+
+                this.depthStencilView = new DepthStencilView(device, this.depthStencilBuffer);
+            }
         }
 
 		#region Clear
@@ -524,6 +554,15 @@ namespace ANX.Framework.Windows.DX10
 
                 swapChain.Dispose();
                 swapChain = null;
+            }
+
+            if (this.depthStencilView != null)
+            {
+                this.depthStencilBuffer.Dispose();
+                this.depthStencilBuffer = null;
+
+                this.depthStencilView.Dispose();
+                this.depthStencilView = null;
             }
 
             //TODO: dispose everything else

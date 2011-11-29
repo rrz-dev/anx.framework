@@ -123,7 +123,7 @@ namespace ANX.Framework.Windows.GL3
 				Text = "ANX Framework",
 				MaximizeBox = false,
 				FormBorderStyle = FormBorderStyle.Fixed3D,
-				ClientSize = new System.Drawing.Size(800, 600),
+				ClientSize = new System.Drawing.Size(800, 480),
 			};
 		}
 		#endregion

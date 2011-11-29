@@ -31,7 +31,8 @@ namespace RenderTarget
 
         protected override void Initialize()
         {
-
+            //graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+            //graphics.ApplyChanges();
 
             base.Initialize();
         }

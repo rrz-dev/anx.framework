@@ -62,16 +62,18 @@ namespace ANX.Framework
         #region Private Members
         private Game game;
         private GraphicsDevice graphicsDevice;
+        private int backBufferWidth = DefaultBackBufferWidth;
+        private int backBufferHeight = DefaultBackBufferHeight;
+        private SurfaceFormat backBufferFormat = SurfaceFormat.Color;
         private DepthFormat depthStencilFormat = DepthFormat.Depth24;
         private GraphicsProfile graphicsProfile;
+        private bool isFullScreen;
+        private bool multiSampling;
 
         #endregion // Private Members
 
         public static readonly int DefaultBackBufferWidth = 800;
-        public static readonly int DefaultBackBufferHeight = 600;   //TODO: this is 480 in the original XNA
-
-        private int backBufferWidth = DefaultBackBufferWidth;
-        private int backBufferHeight = DefaultBackBufferHeight;
+        public static readonly int DefaultBackBufferHeight = 480;
 
         public event EventHandler<EventArgs> Disposed;
         public event EventHandler<EventArgs> DeviceCreated;
@@ -143,10 +145,6 @@ namespace ANX.Framework
 
             //TODO: validate graphics device
 
-            //TODO: this should be set somewhere else
-            deviceInformation.PresentationParameters.DeviceWindowHandle = game.Window.Handle;
-            deviceInformation.PresentationParameters.BackBufferWidth = DefaultBackBufferWidth;   //TODO: set real default sizes
-            deviceInformation.PresentationParameters.BackBufferHeight = DefaultBackBufferHeight;
             this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile, deviceInformation.PresentationParameters);
 
             //TODO: hookup events
@@ -211,13 +209,23 @@ namespace ANX.Framework
 
         protected GraphicsDeviceInformation FindBestDevice(bool anySuitableDevice)
         {
-            //TODO: implement
-            return new GraphicsDeviceInformation();
+            //TODO: implement FindBEstDevice
+
+            GraphicsDeviceInformation deviceInformation = new GraphicsDeviceInformation();
+
+            deviceInformation.PresentationParameters.DeviceWindowHandle = game.Window.Handle;
+            deviceInformation.PresentationParameters.BackBufferFormat = backBufferFormat;
+            deviceInformation.PresentationParameters.BackBufferWidth = backBufferWidth;
+            deviceInformation.PresentationParameters.BackBufferHeight = backBufferHeight;
+            deviceInformation.PresentationParameters.DepthStencilFormat = depthStencilFormat;
+            
+            return deviceInformation;
         }
 
         protected virtual bool CanResetDevice(GraphicsDeviceInformation newDeviceInfo)
         {
-            throw new NotImplementedException();
+            //TODO: implement CanResetDevice
+            return false;
         }
 
         protected virtual void RankDevices(List<GraphicsDeviceInformation> foundDevices)
@@ -293,12 +301,18 @@ namespace ANX.Framework
             {
                 return this.depthStencilFormat; 
             }
-            set { throw new NotImplementedException(); }
+            set 
+            { 
+                this.depthStencilFormat = value; 
+            }
         }
 
         public SurfaceFormat PreferredBackBufferFormat
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.backBufferFormat; 
+            }
             set { throw new NotImplementedException(); }
         }
 
@@ -308,7 +322,10 @@ namespace ANX.Framework
             { 
                 return this.backBufferWidth; 
             }
-            set { throw new NotImplementedException(); }
+            set 
+            { 
+                this.backBufferWidth = value; 
+            }
         }
 
         public int PreferredBackBufferHeight
@@ -317,12 +334,18 @@ namespace ANX.Framework
             { 
                 return this.backBufferHeight; 
             }
-            set { throw new NotImplementedException(); }
+            set 
+            { 
+                this.backBufferHeight = value; 
+            }
         }
 
         public bool IsFullScreen
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.isFullScreen; 
+            }
             set { throw new NotImplementedException(); }
         }
 
@@ -330,7 +353,12 @@ namespace ANX.Framework
         {
             get 
             {
-                return graphicsDevice.NativeDevice.VSync;
+                if (graphicsDevice != null && graphicsDevice.NativeDevice != null)
+                {
+                    return graphicsDevice.NativeDevice.VSync;
+                }
+
+                return true;
             }
             set 
             {
@@ -340,7 +368,10 @@ namespace ANX.Framework
 
         public bool PreferMultiSampling
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return this.multiSampling; 
+            }
             set { throw new NotImplementedException(); }
         }
 

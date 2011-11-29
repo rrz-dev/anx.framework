@@ -102,6 +102,23 @@ namespace ANX.Framework.Windows.DX10
             throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
         }
 
+        public static Format Translate(ANX.Framework.Graphics.DepthFormat depthFormat)
+        {
+            switch (depthFormat)
+            {
+                case DepthFormat.Depth16:
+                    return Format.D16_UNorm;
+                case DepthFormat.Depth24:
+                    //TODO: no DirectX10 24Bit depth format???                    
+                case DepthFormat.Depth24Stencil8:
+                    return Format.D24_UNorm_S8_UInt;
+                case DepthFormat.None:
+                    return Format.Unknown;
+            }
+
+            throw new Exception("can't translate DepthFormat: " + depthFormat.ToString());
+        }
+
         public static SurfaceFormat Translate(SharpDX.DXGI.Format format)
         {
             switch (format)

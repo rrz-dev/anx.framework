@@ -66,7 +66,10 @@ namespace ANX.Framework
 
         internal WindowsGameWindow()
         {
-            this.gameWindow = new RenderForm("ANX Framework");
+            this.gameWindow = new RenderForm("ANX.Framework");
+
+            this.gameWindow.Width = 800;
+            this.gameWindow.Height = 480;
 
             this.gameWindow.MaximizeBox = false;
             this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
