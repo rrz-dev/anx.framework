@@ -313,6 +313,7 @@ namespace ANX.Framework.Windows.GL3
 		{
 			if (GraphicsDeviceWindowsGL3.activeEffect != this)
 			{
+				GL.Enable(EnableCap.Blend);
 				GL.UseProgram(programHandle);
 				GraphicsDeviceWindowsGL3.activeEffect = this;
 				ErrorHelper.Check("UseProgram");

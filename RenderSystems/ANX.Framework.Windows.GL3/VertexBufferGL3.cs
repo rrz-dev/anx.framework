@@ -214,7 +214,7 @@ namespace ANX.Framework.Windows.GL3
 						ErrorHelper.Check("GetAttribLocation col");
 						GL.EnableVertexAttribArray(col);
 						ErrorHelper.Check("EnableVertexAttribArray col");
-						GL.VertexAttribPointer(col, 1, VertexAttribPointerType.UnsignedInt,
+						GL.VertexAttribPointer(col, 4, VertexAttribPointerType.UnsignedByte,
 						  false, vertexDeclaration.VertexStride, element.Offset);
 						ErrorHelper.Check("VertexAttribPointer col");
 						break;

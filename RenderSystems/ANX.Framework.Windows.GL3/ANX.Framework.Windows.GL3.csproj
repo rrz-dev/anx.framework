@@ -54,6 +54,7 @@
     <Compile Include="IndexBufferGL3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterizerStateGL3.cs" />
+    <Compile Include="RenderTarget2DGL3.cs" />
     <Compile Include="SamplerStateGL3.cs" />
     <Compile Include="ShaderByteCode.cs" />
     <Compile Include="Texture2DGL3.cs" />

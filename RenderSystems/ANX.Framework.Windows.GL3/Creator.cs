@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using System.Collections.ObjectModel;
-using OpenTK;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using ANX.Framework.NonXNA.RenderSystem;
+using OpenTK;
 
 #region License
 
@@ -74,10 +73,10 @@ namespace ANX.Framework.Windows.GL3
 			}
 		}
 
-        public int Priority
-        {
-            get { return 100; }
-        }
+		public int Priority
+		{
+			get { return 100; }
+		}
 
 		#endregion
 
@@ -220,32 +219,32 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Byte code of the shader.</returns>
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
-            if (type == PreDefinedShader.SpriteBatch)
-            {
-                return ShaderByteCode.SpriteBatchByteCode;
-            }
-            else if (type == PreDefinedShader.AlphaTestEffect)
-            {
-                return ShaderByteCode.AlphaTestEffectByteCode;
-            }
-            else if (type == PreDefinedShader.BasicEffect)
-            {
-                return ShaderByteCode.BasicEffectByteCode;
-            }
-            else if (type == PreDefinedShader.DualTextureEffect)
-            {
-                return ShaderByteCode.DualTextureEffectByteCode;
-            }
-            else if (type == PreDefinedShader.EnvironmentMapEffect)
-            {
-                return ShaderByteCode.EnvironmentMapEffectByteCode;
-            }
-            else if (type == PreDefinedShader.SkinnedEffect)
-            {
-                return ShaderByteCode.SkinnedEffectByteCode;
-            }
+			if (type == PreDefinedShader.SpriteBatch)
+			{
+				return ShaderByteCode.SpriteBatchByteCode;
+			}
+			else if (type == PreDefinedShader.AlphaTestEffect)
+			{
+				return ShaderByteCode.AlphaTestEffectByteCode;
+			}
+			else if (type == PreDefinedShader.BasicEffect)
+			{
+				return ShaderByteCode.BasicEffectByteCode;
+			}
+			else if (type == PreDefinedShader.DualTextureEffect)
+			{
+				return ShaderByteCode.DualTextureEffectByteCode;
+			}
+			else if (type == PreDefinedShader.EnvironmentMapEffect)
+			{
+				return ShaderByteCode.EnvironmentMapEffectByteCode;
+			}
+			else if (type == PreDefinedShader.SkinnedEffect)
+			{
+				return ShaderByteCode.SkinnedEffectByteCode;
+			}
 
-            throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
+			throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
 		}
 		#endregion
 
@@ -309,9 +308,15 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-        public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		#region CreateRenderTarget
+		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics,
+			int width, int height, bool mipMap, SurfaceFormat preferredFormat,
+			DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
+			RenderTargetUsage usage)
+		{
+			return new RenderTarget2DGL3(width, height, mipMap, preferredFormat,
+				preferredDepthFormat, preferredMultiSampleCount, usage);
+		}
+		#endregion
+	}
 }

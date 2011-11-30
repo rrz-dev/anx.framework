@@ -115,13 +115,17 @@ namespace ANX.Framework.Windows.GL3
 			isCompressed = nativeFormat.ToString().StartsWith("Compressed");
 
 			NativeHandle = GL.GenTexture();
+#if DEBUG
 			ErrorHelper.Check("GenTexture");
+#endif
 			GL.BindTexture(TextureTarget.Texture2D, NativeHandle);
+#if DEBUG
 			ErrorHelper.Check("BindTexture");
+#endif
 
 			int wrapMode = (int)All.ClampToEdge;
 			int filter = (int)(mipCount > 1 ? All.LinearMipmapLinear : All.Linear);
-
+			
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureWrapS, wrapMode);
 			GL.TexParameter(TextureTarget.Texture2D,
@@ -130,12 +134,13 @@ namespace ANX.Framework.Windows.GL3
 				TextureParameterName.TextureMagFilter, filter);
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureMinFilter, filter);
+#if DEBUG
 			ErrorHelper.Check("TexParameter");
+#endif
 		}
 		#endregion
 
 		// TODO: offsetInBytes
-		// TODO: startIndex
 		// TODO: elementCount
 		// TODO: get size of first mipmap!
 		#region SetData
@@ -168,19 +173,25 @@ namespace ANX.Framework.Windows.GL3
 			try
 			{
 				IntPtr dataPointer = handle.AddrOfPinnedObject();
+				// Go to the starting point.
+				dataPointer += startIndex;
 
 				if (isCompressed)
 				{
 					GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
 						width, height, 0, mipmapByteSize, dataPointer);
+#if DEBUG
 					ErrorHelper.Check("CompressedTexImage2D Format=" + nativeFormat);
+#endif
 				}
 				else
 				{
 					GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
 						width, height, 0, (PixelFormat)nativeFormat,
 						PixelType.UnsignedByte, dataPointer);
+#if DEBUG
 					ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
+#endif
 				}
 
 				int mipmapWidth = width;
@@ -197,16 +208,19 @@ namespace ANX.Framework.Windows.GL3
 					if (isCompressed)
 					{
 						GL.CompressedTexImage2D(TextureTarget.Texture2D, index,
-							nativeFormat, width, height, 0, mipmapByteSize,
-							dataPointer);
+							nativeFormat, width, height, 0, mipmapByteSize, dataPointer);
+#if DEBUG
 						ErrorHelper.Check("CompressedTexImage2D Format=" + nativeFormat);
+#endif
 					}
 					else
 					{
 						GL.TexImage2D(TextureTarget.Texture2D, index, nativeFormat,
 							mipmapWidth, mipmapHeight, 0, (PixelFormat)nativeFormat,
 							PixelType.UnsignedByte, dataPointer);
+#if DEBUG
 						ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
+#endif
 					}
 				}
 			}
@@ -224,7 +238,9 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 			GL.DeleteTexture(NativeHandle);
+#if DEBUG
 			ErrorHelper.Check("DeleteTexture");
+#endif
 		}
 		#endregion
 	}
