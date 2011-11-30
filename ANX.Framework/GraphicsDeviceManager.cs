@@ -69,6 +69,7 @@ namespace ANX.Framework
         private GraphicsProfile graphicsProfile;
         private bool isFullScreen;
         private bool multiSampling;
+        private GraphicsDeviceInformation currentGraphicsDeviceInformation;
 
         #endregion // Private Members
 
@@ -139,6 +140,7 @@ namespace ANX.Framework
         {
             if (this.graphicsDevice != null)
             {
+                System.Diagnostics.Debugger.Break(); // Test this!!!
                 this.graphicsDevice.Dispose();
                 this.graphicsDevice = null;
             }
@@ -186,8 +188,11 @@ namespace ANX.Framework
                 }
                 else
                 {
-                    graphicsDevice.Dispose();
-                    graphicsDevice = null;
+                    //graphicsDevice.Dispose();
+                    //graphicsDevice = null;
+                    // Dispose could not be used here because all references to graphicsDevice get dirty!
+                    
+                    graphicsDevice.Recreate(graphicsDeviceInformation.PresentationParameters);
                 }
             }
 
@@ -195,6 +200,8 @@ namespace ANX.Framework
             {
                 CreateDevice(graphicsDeviceInformation);
             }
+
+            this.currentGraphicsDeviceInformation = graphicsDeviceInformation;
         }
 
         public void ToggleFullScreen()
@@ -203,6 +210,11 @@ namespace ANX.Framework
         }
 
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             throw new NotImplementedException();
         }
@@ -224,7 +236,16 @@ namespace ANX.Framework
 
         protected virtual bool CanResetDevice(GraphicsDeviceInformation newDeviceInfo)
         {
-            //TODO: implement CanResetDevice
+            if (newDeviceInfo.Adapter == currentGraphicsDeviceInformation.Adapter &&
+                newDeviceInfo.GraphicsProfile == currentGraphicsDeviceInformation.GraphicsProfile &&
+                newDeviceInfo.PresentationParameters.DepthStencilFormat == currentGraphicsDeviceInformation.PresentationParameters.DepthStencilFormat &&
+                newDeviceInfo.PresentationParameters.BackBufferFormat == currentGraphicsDeviceInformation.PresentationParameters.BackBufferFormat)
+            {
+                return true;
+            }
+
+            //TODO: implement CanResetDevice completly
+
             return false;
         }
 
@@ -273,11 +294,6 @@ namespace ANX.Framework
             }
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            throw new NotImplementedException();
-        }
-
         public GraphicsDevice GraphicsDevice
         {
             get { return this.graphicsDevice; }
@@ -287,7 +303,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.graphicsProfile; 
+                return this.currentGraphicsDeviceInformation.GraphicsProfile; 
             }
             set 
             { 
@@ -299,7 +315,7 @@ namespace ANX.Framework
         {
             get 
             {
-                return this.depthStencilFormat; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.DepthStencilFormat; 
             }
             set 
             { 
@@ -311,16 +327,19 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.backBufferFormat; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.BackBufferFormat; 
             }
-            set { throw new NotImplementedException(); }
+            set 
+            { 
+                this.backBufferFormat = value; 
+            }
         }
 
         public int PreferredBackBufferWidth
         {
             get 
             { 
-                return this.backBufferWidth; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.BackBufferWidth; 
             }
             set 
             { 
@@ -332,7 +351,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.backBufferHeight; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.BackBufferHeight; 
             }
             set 
             { 
@@ -344,9 +363,12 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.isFullScreen; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.IsFullScreen; 
             }
-            set { throw new NotImplementedException(); }
+            set 
+            { 
+                throw new NotImplementedException(); 
+            }
         }
 
         public bool SynchronizeWithVerticalRetrace
@@ -370,7 +392,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return this.multiSampling; 
+                return this.currentGraphicsDeviceInformation.PresentationParameters.MultiSampleCount > 0; 
             }
             set { throw new NotImplementedException(); }
         }

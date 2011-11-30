@@ -54,13 +54,16 @@ namespace StencilBuffer
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
             Content.RootDirectory = "SampleContent";
         }
 
         protected override void Initialize()
         {
-            //graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
-            //graphics.ApplyChanges();
+            graphics.PreferredBackBufferWidth = 480;
+            graphics.PreferredBackBufferHeight = 330;
+            graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }

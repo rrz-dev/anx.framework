@@ -141,6 +141,8 @@ namespace ANX.Framework.Windows.DX10
             Factory factory = swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(presentationParameters.DeviceWindowHandle, WindowAssociationFlags.IgnoreAll);
 
+            ResizeRenderWindow(presentationParameters);
+
             // New RenderTargetView from the backbuffer
             backBuffer = SharpDX.Direct3D10.Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(swapChain, 0);
             renderView = new RenderTargetView(device, backBuffer);
@@ -511,7 +513,11 @@ namespace ANX.Framework.Windows.DX10
                 renderView = new RenderTargetView(device, backBuffer);
             }
 
-            // resize the render window
+            ResizeRenderWindow(presentationParameters);
+        }
+
+        private void ResizeRenderWindow(PresentationParameters presentationParameters)
+        {
             RECT windowRect;
             RECT clientRect;
             if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&

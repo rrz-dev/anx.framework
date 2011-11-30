@@ -94,11 +94,10 @@ namespace ANX.Framework.Graphics
         {
             this.currentAdapter = adapter;
             this.graphicsProfile = graphicsProfile;
-            this.currentPresentationParameters = presentationParameters;
 
             this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
-            nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
+            Recreate(presentationParameters);
 
             this.samplerStateCollection = new SamplerStateCollection(this, 8);    //TODO: get maximum number of sampler states from capabilities
             this.textureCollection = new TextureCollection();
@@ -115,6 +114,23 @@ namespace ANX.Framework.Graphics
         }
 
         #endregion // Constructor & Destructor
+
+        internal void Recreate(PresentationParameters presentationParameters)
+        {
+            if (nativeDevice != null)
+            {
+                nativeDevice.Dispose();
+                nativeDevice = null;
+            }
+
+            if (nativeDevice == null)
+            {
+                this.currentPresentationParameters = presentationParameters;
+                nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
+                this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            }
+
+        }
 
         #region Clear
         public void Clear(Color color)
