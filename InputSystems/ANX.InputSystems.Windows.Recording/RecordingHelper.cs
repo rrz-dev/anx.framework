@@ -55,7 +55,7 @@ using System.Text;
 
 namespace ANX.InputSystem.Windows.Recording
 {
-    enum RecordingState
+    public enum RecordingState
     {
         /// <summary>
         /// This device is recording input.
@@ -70,11 +70,18 @@ namespace ANX.InputSystem.Windows.Recording
         /// </summary>
         None
     }
+
+    enum PacketType : byte
+    {
+        NullFrameCounter = 0,
+        InputData = 1
+    }
     
     /// <summary>
     /// Static Helper-class containing some recording related stuff.
     /// </summary>
     static class RecordingHelper
     {
+        
     }
 }

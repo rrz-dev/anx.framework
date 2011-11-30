@@ -61,7 +61,7 @@ namespace ANX.InputSystem.Windows.Recording
     /// <summary>
     /// Wrapper arround another IGamePad, will record all inputs and allows playback.
     /// </summary>
-    class RecordingGamePad : RecordableDevice,IGamePad
+    public class RecordingGamePad : RecordableDevice, IGamePad
     {
         public GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)
         {

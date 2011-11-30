@@ -60,7 +60,7 @@ namespace ANX.InputSystem.Windows.Recording
     /// <summary>
     /// Wrapper arround another IKeyboard, will record all inputs and allows playback.
     /// </summary>
-    class RecordingKeyboard : RecordableDevice, IKeyboard
+    public class RecordingKeyboard : RecordableDevice, IKeyboard
     {
         public IntPtr WindowHandle { get; set; }
 

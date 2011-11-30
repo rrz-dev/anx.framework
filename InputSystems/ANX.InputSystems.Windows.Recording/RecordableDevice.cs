@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 #endregion
 
@@ -58,16 +59,44 @@ namespace ANX.InputSystem.Windows.Recording
     /// <summary>
     /// Abstract Class. Classes derived from this class allow recording and Playback of Inputs.
     /// </summary>
-    abstract class RecordableDevice
+    public abstract class RecordableDevice
     {
+        protected Stream recordStream; //The stream where the input is written to
+        protected int nullStateCounter; //Used to sum up frames with no input.
+
         public RecordingState RecordingState { get; protected set; }
+
+        public event EventHandler EndOfPlaybackReached;
+
+        /// <summary>
+        /// How many bytes this Instance requires per Frame. Must never change!
+        /// </summary>
+        public int FramePacketLenght { get; protected set; }
 
         public RecordableDevice()
         {
             RecordingState = RecordingState.None;
         }
-        
-        public void StartRecording()
+
+        /// <summary>
+        /// Initializes the Device using a new
+        /// MemoryStream for input-buffering.
+        /// </summary>
+        public virtual void Initialize()
+        {
+            Initialize(new MemoryStream());
+        }
+
+        /// <summary>
+        /// Initializes the Device using the specified stream
+        /// for input-buffering.
+        /// </summary>
+        public virtual void Initialize(Stream bufferStream)
+        {
+            recordStream = bufferStream;
+        }
+
+        public virtual void StartRecording()
         {
             if (RecordingState == RecordingState.Recording)
                 return;
@@ -75,7 +104,7 @@ namespace ANX.InputSystem.Windows.Recording
             RecordingState = RecordingState.Recording;
         }
 
-        public void StopRecording()
+        public virtual void StopRecording()
         {
             if (RecordingState != RecordingState.Recording)
                 throw new InvalidOperationException("Recording wasn't started for this device!");
@@ -83,7 +112,7 @@ namespace ANX.InputSystem.Windows.Recording
             RecordingState = RecordingState.None;
         }
 
-        public void StartPlayback()
+        public virtual void StartPlayback()
         {
             if (RecordingState == RecordingState.Recording)
                 throw new InvalidOperationException("Recording is currently running for this device.");
@@ -91,9 +120,78 @@ namespace ANX.InputSystem.Windows.Recording
             RecordingState = RecordingState.Playback;
         }
 
-        public void StopPlayback()
+        public virtual void StopPlayback()
         {
             RecordingState = RecordingState.None;
+        }
+
+        /// <summary>
+        /// Writes the current input state to the buffering stream. Pass null
+        /// for state, if no input is done (no keys down etc.).
+        /// Must be called once per Frame!
+        /// </summary>
+        protected virtual void WriteState(byte[] state)
+        {
+            if (state == null)
+            {
+                nullStateCounter++;
+                return;
+            }
+
+            if (state.Length != FramePacketLenght)
+                throw new InvalidOperationException("The passed state's lenght does not match the speficed FramePaketLenght.");
+
+            if (nullStateCounter > 0) //Note how many packets we had nothing
+            {
+                recordStream.WriteByte((byte)PacketType.NullFrameCounter);
+                recordStream.Write(BitConverter.GetBytes(nullStateCounter), 0, 4);
+            }
+
+            recordStream.WriteByte((byte)PacketType.InputData);
+            recordStream.Write(state, 0, state.Length);
+        }
+
+        /// <summary>
+        /// Reads the next input-state from the buffering stream. Might
+        /// return null, if no input was made in this frame.
+        /// Must be called once per Frame!
+        /// </summary>
+        protected virtual byte[] ReadState()
+        {
+            if (nullStateCounter > 0) //we have null-states pending
+            {
+                nullStateCounter--;
+                return null;
+            }
+
+            if (recordStream.Position == recordStream.Length)
+            {
+                OnEndOfPlaybackReached();
+                return null; //TODO: Better switch to RecordingState.None here?
+            }
+
+            PacketType type = (PacketType)recordStream.ReadByte();
+            switch (type)
+            {
+                case PacketType.NullFrameCounter:
+                    byte[] buffer = new byte[4];
+                    recordStream.Read(buffer, 0, 4);
+                    nullStateCounter = BitConverter.ToInt32(buffer, 0) - 1;
+                    return null;
+                case PacketType.InputData:
+                    byte[] buffer2 = new byte[FramePacketLenght];
+                    recordStream.Read(buffer2, 0, FramePacketLenght);
+                    return buffer2;
+                default:
+                    throw new NotImplementedException("The PaketType " + Enum.GetName(typeof(PacketType), type) + "is not supported.");
+            }
+
+        }
+
+        protected virtual void OnEndOfPlaybackReached()
+        {
+            if (EndOfPlaybackReached != null)
+                EndOfPlaybackReached(this, EventArgs.Empty);
         }
     }
 }

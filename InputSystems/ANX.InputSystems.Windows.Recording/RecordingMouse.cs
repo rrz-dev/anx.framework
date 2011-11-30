@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Input;
+using System.IO;
 
 #endregion
 
@@ -57,10 +58,28 @@ using ANX.Framework.Input;
 
 namespace ANX.InputSystem.Windows.Recording
 {
+    [Flags]
+    public enum MouseRecordInfo : byte
+    {
+        LeftButton = 1,
+        RightButton = 2,
+        MiddleButton = 4,
+        X1Button = 8,
+        X2Button = 16,
+        ScrollWheel = 32,
+        XPosition = 64,
+        YPosition = 128,
+        LRMButtons = LeftButton | RightButton | MiddleButton,
+        XButtons = X1Button | X2Button,
+        AllButtons = LRMButtons | XButtons,
+        Position = XPosition | YPosition,
+        All = AllButtons | Position | ScrollWheel
+    }
+
     /// <summary>
     /// Wrapper arround another IGamePad, will record all inputs and allows playback.
     /// </summary>
-    class RecordingMouse : RecordableDevice,IMouse
+    public class RecordingMouse : RecordableDevice, IMouse
     {
         public IntPtr WindowHandle { get; set; }
 
@@ -72,6 +91,40 @@ namespace ANX.InputSystem.Windows.Recording
         public void SetPosition(int x, int y)
         {
             throw new NotImplementedException();
+        }
+
+        public void Initialize(MouseRecordInfo info)
+        {
+            base.Initialize();
+        }
+
+        public void Initialize(MouseRecordInfo info, Stream bufferStream)
+        {
+            base.Initialize(bufferStream);
+        }
+
+        private int GetPaketSize(MouseRecordInfo info)
+        {
+            int ret = 0; //TODO: Pack the bools in one byte to save space sizeof(bool) == sizeof(byte)!
+            if (info.HasFlag(MouseRecordInfo.LeftButton))
+                ret += sizeof(bool);
+            if (info.HasFlag(MouseRecordInfo.RightButton))
+                ret += sizeof(bool);
+            if (info.HasFlag(MouseRecordInfo.MiddleButton))
+                ret += sizeof(bool);
+            if (info.HasFlag(MouseRecordInfo.X1Button))
+                ret += sizeof(bool);
+            if (info.HasFlag(MouseRecordInfo.X2Button))
+                ret += sizeof(bool);
+
+            if (info.HasFlag(MouseRecordInfo.XPosition))
+                ret += sizeof(int);
+            if (info.HasFlag(MouseRecordInfo.YPosition))
+                ret += sizeof(int);
+            if (info.HasFlag(MouseRecordInfo.ScrollWheel))
+                ret += sizeof(int);
+
+            return ret;
         }
     }
 }

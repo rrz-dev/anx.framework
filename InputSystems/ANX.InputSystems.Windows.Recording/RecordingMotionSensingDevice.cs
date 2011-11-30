@@ -61,7 +61,7 @@ namespace ANX.InputSystem.Windows.Recording
     /// <summary>
     /// Wrapper aroung another IMotionSensingDevice, will record all inputs and allows playback.
     /// </summary>
-    class RecordingMotionSensingDevice : RecordableDevice,IMotionSensingDevice
+    public class RecordingMotionSensingDevice : RecordableDevice, IMotionSensingDevice
     {
         public GraphicsDevice GraphicsDevice
         {
