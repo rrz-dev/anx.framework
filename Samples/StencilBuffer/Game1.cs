@@ -15,6 +15,7 @@ namespace StencilBuffer
         private Texture2D ground;
 
         private SamplerState SamplerState;
+        private DepthStencilState RenderGroundStencilState;
         private DepthStencilState RenderObjectsStencilState;
         private DepthStencilState StencilStateRenderShadows;
 
@@ -75,24 +76,33 @@ namespace StencilBuffer
                 Filter = TextureFilter.Linear,
             };
 
+            this.RenderGroundStencilState = new DepthStencilState()
+            {
+                DepthBufferEnable = false,
+                DepthBufferWriteEnable = false,
+                StencilEnable = true,
+                ReferenceStencil = 1,
+                StencilPass = StencilOperation.Replace,
+                StencilFunction = CompareFunction.Always,
+            };
+
             this.RenderObjectsStencilState = new DepthStencilState()
             {
                 DepthBufferEnable = true,
                 DepthBufferWriteEnable = true,
                 DepthBufferFunction = CompareFunction.Always,
-                ReferenceStencil = 2,
-                StencilEnable = true,
-                StencilPass = StencilOperation.Increment,
+                ReferenceStencil = 1,
+                StencilEnable = false,
+                StencilPass = StencilOperation.Replace,
             };
 
             this.StencilStateRenderShadows = new DepthStencilState
             {
-                DepthBufferEnable = true,
-                DepthBufferWriteEnable = true,
-                DepthBufferFunction = CompareFunction.LessEqual,
-                ReferenceStencil = 1,
+                DepthBufferEnable = false,
                 StencilEnable = true,
-                StencilPass = StencilOperation.Keep,
+                ReferenceStencil = 1,
+                StencilPass = StencilOperation.Increment,
+                StencilFunction = CompareFunction.LessEqual,
             };
 
         }
@@ -107,7 +117,7 @@ namespace StencilBuffer
 
         private void RenderGround()
         {
-            spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState, RenderObjectsStencilState, null);
+            spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState, RenderGroundStencilState, null);
             for (int y = 0; y < 2; y++)
             {
                 for (int x = 0; x < 4; x++)
@@ -122,13 +132,13 @@ namespace StencilBuffer
         {
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState, StencilStateRenderShadows, null);
             spriteBatch.Draw(crate, new Vector2(125, 125), new Color(0, 0, 0, 0.5f));
-            spriteBatch.Draw(crate, new Vector2(10, 10), new Color(0, 0, 0, 0.5f));
+            spriteBatch.Draw(crate, new Vector2(20, 20), new Color(0, 0, 0, 0.5f));
             spriteBatch.End();
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.Stencil, Color.CornflowerBlue, 1.0f, 2);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.Stencil, Color.CornflowerBlue, 1.0f, 0);
 
             RenderGround();
             RenderShadows();

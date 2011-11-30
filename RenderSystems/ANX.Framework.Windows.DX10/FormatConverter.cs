@@ -275,21 +275,34 @@ namespace ANX.Framework.Windows.DX10
 
         public static ColorWriteMaskFlags Translate(ColorWriteChannels colorWriteChannels)
         {
-            switch (colorWriteChannels)
+            ColorWriteMaskFlags mask = 0;
+
+            if ((colorWriteChannels & ColorWriteChannels.All) == ColorWriteChannels.All)
             {
-                case ColorWriteChannels.All:
-                    return ColorWriteMaskFlags.All;
-                case ColorWriteChannels.Alpha:
-                    return ColorWriteMaskFlags.Alpha;
-                case ColorWriteChannels.Blue:
-                    return ColorWriteMaskFlags.Blue;
-                case ColorWriteChannels.Green:
-                    return ColorWriteMaskFlags.Green;
-                case ColorWriteChannels.Red:
-                    return ColorWriteMaskFlags.Red;
+                mask |= ColorWriteMaskFlags.All;
             }
 
-            throw new NotImplementedException();
+            if ((colorWriteChannels & ColorWriteChannels.Alpha) == ColorWriteChannels.Alpha)
+            {
+                mask |= ColorWriteMaskFlags.Alpha;
+            }
+
+            if ((colorWriteChannels & ColorWriteChannels.Blue) == ColorWriteChannels.Blue)
+            {
+                mask |= ColorWriteMaskFlags.Blue;
+            }
+
+            if ((colorWriteChannels & ColorWriteChannels.Green) == ColorWriteChannels.Green)
+            {
+                mask |= ColorWriteMaskFlags.Green;
+            }
+
+            if ((colorWriteChannels & ColorWriteChannels.Red) == ColorWriteChannels.Red)
+            {
+                mask |= ColorWriteMaskFlags.Red;
+            }
+
+            return mask;
         }
 
         public static SharpDX.Direct3D10.StencilOperation Translate(ANX.Framework.Graphics.StencilOperation stencilOperation)
