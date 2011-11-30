@@ -71,6 +71,11 @@ namespace ANX.InputSystem.Windows.XInput
             }
         }
 
+        public int Priority
+        {
+            get { return 10; }
+        }
+
         public void RegisterCreator(AddInSystemFactory factory)
         {
             logger.Debug("adding XInput creator to creator collection of AddInSystemFactory");

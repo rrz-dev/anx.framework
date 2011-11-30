@@ -70,5 +70,11 @@ namespace ANX.SoundSystem.Windows.XAudio
         {
             get { return "XAudio"; }
         }
+
+        public int Priority
+        {
+            get { return 10; }
+        }
+
     }
 }

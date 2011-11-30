@@ -14,38 +14,42 @@ namespace StencilBuffer
         private Texture2D crate;
         private Texture2D ground;
 
-        private SamplerState SamplerState;
-        private DepthStencilState RenderGroundStencilState;
-        private DepthStencilState RenderObjectsStencilState;
-        private DepthStencilState StencilStateRenderShadows;
+        protected static SamplerState SamplerState = new SamplerState()
+        {
+            AddressU = TextureAddressMode.Wrap,
+            AddressV = TextureAddressMode.Wrap,
+            AddressW = TextureAddressMode.Wrap,
+            Filter = TextureFilter.Linear,
+        };
 
-        //protected static SamplerState SamplerState = new SamplerState
-        //{
-        //    AddressU = TextureAddressMode.Wrap,
-        //    AddressV = TextureAddressMode.Wrap,
-        //    AddressW = TextureAddressMode.Wrap,
-        //    Filter = TextureFilter.Linear,
-        //};
+        private static readonly DepthStencilState RenderGroundStencilState = new DepthStencilState()
+        {
+            DepthBufferEnable = false,
+            DepthBufferWriteEnable = false,
+            StencilEnable = true,
+            ReferenceStencil = 1,
+            StencilPass = StencilOperation.Replace,
+            StencilFunction = CompareFunction.Always,
+        };
 
-        //private static readonly DepthStencilState RenderObjectsStencilState = new DepthStencilState()
-        //{
-        //    DepthBufferEnable = true,
-        //    DepthBufferWriteEnable = true,
-        //    DepthBufferFunction = CompareFunction.Always,
-        //    ReferenceStencil = 2,
-        //    StencilEnable = true,
-        //    StencilPass = StencilOperation.Increment,
-        //};
+        private static readonly DepthStencilState RenderObjectsStencilState = new DepthStencilState()
+        {
+            DepthBufferEnable = true,
+            DepthBufferWriteEnable = true,
+            DepthBufferFunction = CompareFunction.Always,
+            ReferenceStencil = 1,
+            StencilEnable = false,
+            StencilPass = StencilOperation.Replace,
+        };
 
-        //private static readonly DepthStencilState StencilStateRenderShadows = new DepthStencilState
-        //{
-        //    DepthBufferEnable = true,
-        //    DepthBufferWriteEnable = true,
-        //    DepthBufferFunction = CompareFunction.LessEqual,
-        //    ReferenceStencil = 1,
-        //    StencilEnable = true,
-        //    StencilPass = StencilOperation.Keep,
-        //};
+        private static readonly DepthStencilState StencilStateRenderShadows = new DepthStencilState
+        {
+            DepthBufferEnable = false,
+            StencilEnable = true,
+            ReferenceStencil = 1,
+            StencilPass = StencilOperation.Increment,
+            StencilFunction = CompareFunction.LessEqual,
+        };
 
         public Game1()
         {
@@ -67,44 +71,6 @@ namespace StencilBuffer
 
             crate = Content.Load<Texture2D>(@"Textures/chest");
             ground = Content.Load<Texture2D>(@"Textures/stone_tile");
-
-            this.SamplerState = new SamplerState()
-            {
-                AddressU = TextureAddressMode.Wrap,
-                AddressV = TextureAddressMode.Wrap,
-                AddressW = TextureAddressMode.Wrap,
-                Filter = TextureFilter.Linear,
-            };
-
-            this.RenderGroundStencilState = new DepthStencilState()
-            {
-                DepthBufferEnable = false,
-                DepthBufferWriteEnable = false,
-                StencilEnable = true,
-                ReferenceStencil = 1,
-                StencilPass = StencilOperation.Replace,
-                StencilFunction = CompareFunction.Always,
-            };
-
-            this.RenderObjectsStencilState = new DepthStencilState()
-            {
-                DepthBufferEnable = true,
-                DepthBufferWriteEnable = true,
-                DepthBufferFunction = CompareFunction.Always,
-                ReferenceStencil = 1,
-                StencilEnable = false,
-                StencilPass = StencilOperation.Replace,
-            };
-
-            this.StencilStateRenderShadows = new DepthStencilState
-            {
-                DepthBufferEnable = false,
-                StencilEnable = true,
-                ReferenceStencil = 1,
-                StencilPass = StencilOperation.Increment,
-                StencilFunction = CompareFunction.LessEqual,
-            };
-
         }
 
         private void RenderObjects()
@@ -132,7 +98,7 @@ namespace StencilBuffer
         {
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState, StencilStateRenderShadows, null);
             spriteBatch.Draw(crate, new Vector2(125, 125), new Color(0, 0, 0, 0.5f));
-            spriteBatch.Draw(crate, new Vector2(20, 20), new Color(0, 0, 0, 0.5f));
+            spriteBatch.Draw(crate, new Vector2(10, 10), new Color(0, 0, 0, 0.5f));
             spriteBatch.End();
         }
 

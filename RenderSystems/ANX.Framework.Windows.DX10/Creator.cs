@@ -68,6 +68,11 @@ namespace ANX.Framework.Windows.DX10
             get { return "DirectX10"; }
         }
 
+        public int Priority
+        {
+            get { return 10; }
+        }
+
         public GameHost CreateGameHost(Game game)
         {
             return new WindowsGameHost(game);

@@ -73,6 +73,11 @@ namespace ANX.RenderSystem.Windows.DX11
             get { return "DirectX11"; }
         }
 
+        public int Priority
+        {
+            get { return int.MaxValue; }
+        }
+
         public GameHost CreateGameHost(Game game)
         {
             throw new NotImplementedException();

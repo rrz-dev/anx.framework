@@ -73,6 +73,12 @@ namespace ANX.Framework.Windows.GL3
 				return "OpenGL3";
 			}
 		}
+
+        public int Priority
+        {
+            get { return 100; }
+        }
+
 		#endregion
 
 		#region RegisterRenderSystemCreator

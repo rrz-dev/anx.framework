@@ -62,6 +62,11 @@ namespace ANX.InputSystem.Windows.Kinect
             get { return "Kinect"; }
         }
 
+        public int Priority
+        {
+            get { return int.MaxValue; }
+        }
+
         public void RegisterCreator(AddInSystemFactory factory)
         {
             factory.AddCreator(this);

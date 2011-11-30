@@ -90,6 +90,8 @@ namespace ANX.Framework.NonXNA
         {
             if (!initialized)
             {
+                initialized = true;
+
                 logger.Info("[ANX] Initializing ANX.Framework AddInSystemFactory...");
 
                 String executingAssembly = Assembly.GetExecutingAssembly().Location;
@@ -129,7 +131,7 @@ namespace ANX.Framework.NonXNA
                     }
                 }
 
-                initialized = true;
+                SetDefaultCreators();
             }
         }
 
@@ -152,6 +154,11 @@ namespace ANX.Framework.NonXNA
 
         public T GetCreator<T>(String name) where T : class, ICreator
         {
+            if (!initialized)
+            {
+                Initialize();
+            }
+
             ICreator creator = null;
             creators.TryGetValue(name.ToLowerInvariant(), out creator);
             return creator as T;
@@ -159,6 +166,11 @@ namespace ANX.Framework.NonXNA
 
         public IEnumerable<T> GetCreators<T>() where T : class, ICreator
         {
+            if (!initialized)
+            {
+                Initialize();
+            }
+
             Type t = typeof(T);
 
             foreach (ICreator creator in this.creators.Values)
@@ -172,6 +184,11 @@ namespace ANX.Framework.NonXNA
 
         public T GetDefaultCreator<T>() where T : class, ICreator
         {
+            if (!initialized)
+            {
+                Initialize();
+            }
+
             Type type = typeof(T);
 
             if (defaultCreators.ContainsKey(type))
@@ -189,9 +206,52 @@ namespace ANX.Framework.NonXNA
 
         public void SetDefaultCreator(string creatorName)
         {
+            if (!initialized)
+            {
+                Initialize();
+            }
+
             ICreator creator = null;
             creators.TryGetValue(creatorName.ToLowerInvariant(), out creator);
             defaultCreators[creator.GetType().GetInterfaces()[0]] = creator;
+        }
+
+        private void SetDefaultCreators()
+        {
+            foreach (ICreator creator in this.creators.Values)
+            {
+                string type = creator.GetType().GetInterfaces()[0].ToString();
+
+                switch (type)
+                {
+                    case "ANX.Framework.NonXNA.IRenderSystemCreator":
+                        IRenderSystemCreator renderSystemCreator = creator as IRenderSystemCreator;
+                        IRenderSystemCreator defaultRenderSystemCreator = GetDefaultCreator<IRenderSystemCreator>();
+                        if (renderSystemCreator != null && (defaultRenderSystemCreator == null || defaultRenderSystemCreator.Priority > renderSystemCreator.Priority))
+                        {
+                            SetDefaultCreator<IRenderSystemCreator>(renderSystemCreator);
+                        }
+                        break;
+                    case "ANX.Framework.NonXNA.ISoundSystemCreator":
+                        ISoundSystemCreator soundSystemCreator = creator as ISoundSystemCreator;
+                        ISoundSystemCreator defaultSoundSystemCreator = GetDefaultCreator<ISoundSystemCreator>();
+                        if (soundSystemCreator != null && (defaultSoundSystemCreator == null || defaultSoundSystemCreator.Priority > soundSystemCreator.Priority))
+                        {
+                            SetDefaultCreator<ISoundSystemCreator>(soundSystemCreator);
+                        }
+                        break;
+                    case "ANX.Framework.NonXNA.IInputSystemCreator":
+                        IInputSystemCreator inputSystemCreator = creator as IInputSystemCreator;
+                        IInputSystemCreator defaultInputSystemCreator = GetDefaultCreator<IInputSystemCreator>();
+                        if (inputSystemCreator != null && (defaultInputSystemCreator == null || defaultInputSystemCreator.Priority > inputSystemCreator.Priority))
+                        {
+                            SetDefaultCreator<IInputSystemCreator>(inputSystemCreator);
+                        }
+                        break;
+                    default:
+                        throw new InvalidOperationException(String.Format("unable to set a default system for creator of type '{0}'", type));
+                }
+            }
         }
 
     }

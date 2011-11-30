@@ -55,7 +55,7 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // License
 
-namespace ANX.Framework
+namespace ANX.Framework.NonXNA
 {
     public interface IRenderSystemCreator : ICreator
     {
