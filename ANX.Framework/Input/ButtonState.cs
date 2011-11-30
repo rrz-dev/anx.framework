@@ -52,7 +52,7 @@ using System;
 
 namespace ANX.Framework.Input
 {
-    public enum ButtonState
+    public enum ButtonState : byte
     {
         Released,
         Pressed

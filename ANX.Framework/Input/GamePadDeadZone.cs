@@ -52,7 +52,7 @@ using System;
 
 namespace ANX.Framework.Input
 {
-    public enum GamePadDeadZone
+    public enum GamePadDeadZone : byte
     {
         None,
         IndependentAxes,

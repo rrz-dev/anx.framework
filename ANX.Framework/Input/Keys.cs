@@ -52,7 +52,7 @@ using System;
 
 namespace ANX.Framework.Input
 {
-    public enum Keys
+    public enum Keys : byte
     {
         None = 0,
         Back = 8,

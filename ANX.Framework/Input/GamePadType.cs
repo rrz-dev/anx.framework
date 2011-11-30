@@ -52,7 +52,7 @@ using System;
 
 namespace ANX.Framework.Input
 {
-    public enum GamePadType
+    public enum GamePadType :short
     {
         Unknown,
         GamePad,
