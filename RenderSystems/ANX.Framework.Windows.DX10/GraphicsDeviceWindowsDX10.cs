@@ -230,10 +230,79 @@ namespace ANX.Framework.Windows.DX10
 
 		#endregion
 
-		public void Present()
+        #region Present
+        public void Present()
         {
             swapChain.Present(this.vSyncEnabled ? 1 : 0, PresentFlags.None);
         }
+
+        #endregion // Present
+
+        #region DrawPrimitives & DrawIndexedPrimitives
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+        {
+            SharpDX.Direct3D10.EffectPass pass; SharpDX.Direct3D10.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            SetupInputLayout(passSignature);
+
+            // Prepare All the stages
+            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            device.Rasterizer.SetViewports(currentViewport);
+
+            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply();
+                device.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
+            }
+        }
+
+        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
+        {
+            SharpDX.Direct3D10.EffectPass pass; SharpDX.Direct3D10.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            SetupInputLayout(passSignature);
+
+            // Prepare All the stages
+            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            device.Rasterizer.SetViewports(currentViewport);
+            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply();
+                device.Draw(primitiveCount, vertexOffset);
+            }
+        }
+
+        #endregion // DrawPrimitives & DrawIndexedPrimitives
+
+        #region DrawInstancedPrimitives
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawInstancedPrimitives
+
+        #region DrawUserIndexedPrimitives<T>
+        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawUserIndexedPrimitives<T>
+
+        #region DrawUserPrimitives<T>
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawUserPrimitives<T>
 
         internal Device NativeDevice
         {
@@ -287,45 +356,6 @@ namespace ANX.Framework.Windows.DX10
             else
             {
                 throw new NotImplementedException("couldn't calculate vertex count for PrimitiveType '" + type.ToString() + "'");
-            }
-        }
-
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
-        {
-            SharpDX.Direct3D10.EffectPass pass; SharpDX.Direct3D10.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
-
-            SetupInputLayout(passSignature);
-
-            // Prepare All the stages
-            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-            device.Rasterizer.SetViewports(currentViewport);
-
-            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-            {
-                pass.Apply();
-                device.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
-            }
-        }
-
-        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
-        {
-            SharpDX.Direct3D10.EffectPass pass; SharpDX.Direct3D10.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
-
-            SetupInputLayout(passSignature);
-
-            // Prepare All the stages
-            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-            device.Rasterizer.SetViewports(currentViewport);
-            device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-            {
-                pass.Apply();
-                device.Draw(primitiveCount, vertexOffset);
             }
         }
 
@@ -466,7 +496,6 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-
         public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
@@ -481,22 +510,6 @@ namespace ANX.Framework.Windows.DX10
         {
             throw new NotImplementedException();
         }
-
-        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
-        {
-            throw new NotImplementedException();
-        }
-
 
         public void ResizeBuffers(PresentationParameters presentationParameters)
         {

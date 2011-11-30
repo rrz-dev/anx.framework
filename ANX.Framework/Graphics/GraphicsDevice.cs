@@ -115,23 +115,6 @@ namespace ANX.Framework.Graphics
 
         #endregion // Constructor & Destructor
 
-        internal void Recreate(PresentationParameters presentationParameters)
-        {
-            if (nativeDevice != null)
-            {
-                nativeDevice.Dispose();
-                nativeDevice = null;
-            }
-
-            if (nativeDevice == null)
-            {
-                this.currentPresentationParameters = presentationParameters;
-                nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
-                this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            }
-
-        }
-
         #region Clear
         public void Clear(Color color)
         {
@@ -368,14 +351,6 @@ namespace ANX.Framework.Graphics
             //TODO: implement
         }
 
-        internal INativeGraphicsDevice NativeDevice
-        {
-            get
-            {
-                return this.nativeDevice;
-            }
-        }
-
         #region Public Properties
         public IndexBuffer Indices
         {
@@ -608,6 +583,31 @@ namespace ANX.Framework.Graphics
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal INativeGraphicsDevice NativeDevice
+        {
+            get
+            {
+                return this.nativeDevice;
+            }
+        }
+
+        internal void Recreate(PresentationParameters presentationParameters)
+        {
+            if (nativeDevice != null)
+            {
+                nativeDevice.Dispose();
+                nativeDevice = null;
+            }
+
+            if (nativeDevice == null)
+            {
+                this.currentPresentationParameters = presentationParameters;
+                nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
+                this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            }
+
         }
 
         protected void raise_Disposing(object sender, EventArgs args)
