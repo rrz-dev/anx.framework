@@ -13,8 +13,8 @@
   <property name="project.anx.name.inputsystem.xinput" value="ANX.InputSystem.Windows.XInput" />
   <property name="project.anx.path.inputsystem.kinect" value="../InputSystems/ANX.InputSystem.Windows.Kinect" />
   <property name="project.anx.name.inputsystem.kinect" value="ANX.InputSystem.Windows.Kinect" />
-  <property name="project.anx.path.inputsystem.recording" value="../InputSystems/ANX.InputSystem.Windows.Recording" />
-  <property name="project.anx.name.inputsystem.recording" value="ANX.InputSystem.Windows.Recording" />
+  <property name="project.anx.path.inputsystem.recording" value="../InputSystems/ANX.InputSystem.Recording" />
+  <property name="project.anx.name.inputsystem.recording" value="ANX.InputSystem.Recording" />
   <property name="project.anx.path.inputsystem.opentk" value="../InputSystems/ANX.InputSystem.OpenTK" />
   <property name="project.anx.name.inputsystem.opentk" value="ANX.InputSystem.OpenTK" />
 
