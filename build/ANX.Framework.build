@@ -13,9 +13,15 @@
   <property name="project.anx.name.inputsystem.xinput" value="ANX.InputSystem.Windows.XInput" />
   <property name="project.anx.path.inputsystem.kinect" value="../InputSystems/ANX.InputSystem.Windows.Kinect" />
   <property name="project.anx.name.inputsystem.kinect" value="ANX.InputSystem.Windows.Kinect" />
+  <property name="project.anx.path.inputsystem.recording" value="../InputSystems/ANX.InputSystem.Windows.Recording" />
+  <property name="project.anx.name.inputsystem.recording" value="ANX.InputSystem.Windows.Recording" />
+  <property name="project.anx.path.inputsystem.opentk" value="../InputSystems/ANX.InputSystem.OpenTK" />
+  <property name="project.anx.name.inputsystem.opentk" value="ANX.InputSystem.OpenTK" />
 
   <property name="project.anx.path.soundsystem.xaudio" value="../SoundSystems/ANX.SoundSystem.Windows.XAudio" />
   <property name="project.anx.name.soundsystem.xaudio" value="ANX.SoundSystem.Windows.XAudio" />
+  <property name="project.anx.path.soundsystem.openal" value="../SoundSystems/ANX.SoundSystem.OpenAL" />
+  <property name="project.anx.name.soundsystem.openal" value="ANX.SoundSystem.OpenAL" />
 
   <property name="project.anx.path.rendersystem.dx10" value="../RenderSystems/ANX.Framework.Windows.DX10" />
   <property name="project.anx.name.rendersystem.dx10" value="ANX.Framework.Windows.DX10" />
@@ -43,7 +49,10 @@
         <include name="${project.anx.path}/obj/**" />
         <include name="${project.anx.path.inputsystem.xinput}/obj/**" />
         <include name="${project.anx.path.inputsystem.kinect}/obj/**" />
+        <include name="${project.anx.path.inputsystem.recording}/obj/**" />
+        <include name="${project.anx.path.inputsystem.opentk}/obj/**" />
         <include name="${project.anx.path.soundsystem.xaudio}/obj/**" />
+        <include name="${project.anx.path.soundsystem.openal}/obj/**" />
         <include name="${project.anx.path.rendersystem.dx10}/obj/**" />
         <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
         <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
@@ -164,6 +173,34 @@
       <arg value="${project.anx.path.inputsystem.xinput}/${project.anx.name.inputsystem.xinput}.csproj" />
     </exec>
 
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework InputSystem Recording" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.inputsystem.recording}/${project.anx.name.inputsystem.recording}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework InputSystem OpenTK" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.inputsystem.opentk}/${project.anx.name.inputsystem.opentk}.csproj" />
+    </exec>
+
     <if test="${project.anx.extended}">
       <echo message="===================================================" />
       <echo message="Now building: ANX.Framework InputSystem Kinect" />
@@ -194,6 +231,20 @@
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.soundsystem.xaudio}/${project.anx.name.soundsystem.xaudio}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework SoundSystem OpenAL" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.soundsystem.openal}/${project.anx.name.soundsystem.openal}.csproj" />
     </exec>
   </target>
 
