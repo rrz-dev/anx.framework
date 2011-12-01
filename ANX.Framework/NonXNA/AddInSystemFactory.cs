@@ -224,7 +224,7 @@ namespace ANX.Framework.NonXNA
                 return defaultCreators[type] as T;
             }
 
-            return default(T);
+            throw new AddInLoadingException(String.Format("couldn't find a DefaultCreator of type '{0}'", type.FullName));
         }
 
         public void SetDefaultCreator<T>(T creator) where T : class, ICreator

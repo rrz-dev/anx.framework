@@ -168,15 +168,23 @@ namespace ANX.Framework
 
             logger.Info("creating GameHost");
 
-            //TODO: error handling if creator is null
-            this.host = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGameHost(this);
+            IRenderSystemCreator creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+            if (creator != null)
+            {
+                this.host = creator.CreateGameHost(this);
 
-            this.host.Activated += new EventHandler<EventArgs>(this.HostActivated);
-            this.host.Deactivated += new EventHandler<EventArgs>(this.HostDeactivated);
-            this.host.Suspend += new EventHandler<EventArgs>(this.HostSuspend);
-            this.host.Resume += new EventHandler<EventArgs>(this.HostResume);
-            this.host.Idle += new EventHandler<EventArgs>(this.HostIdle);
-            this.host.Exiting += new EventHandler<EventArgs>(this.HostExiting);
+                this.host.Activated += new EventHandler<EventArgs>(this.HostActivated);
+                this.host.Deactivated += new EventHandler<EventArgs>(this.HostDeactivated);
+                this.host.Suspend += new EventHandler<EventArgs>(this.HostSuspend);
+                this.host.Resume += new EventHandler<EventArgs>(this.HostResume);
+                this.host.Idle += new EventHandler<EventArgs>(this.HostIdle);
+                this.host.Exiting += new EventHandler<EventArgs>(this.HostExiting);
+            }
+            else
+            {
+                logger.Error("could not fetch RenderSystem creator to create a game host...");
+                throw new NullReferenceException("could not fetch RenderSystem creator");
+            }
 
             logger.Info("creating ContentManager");
             this.content = new ContentManager(this.gameServices);

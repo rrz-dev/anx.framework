@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using NLog;
 
 
 #region License
@@ -53,6 +54,8 @@ namespace ANX.Framework.Windows.GL3
 {
 	public class WindowsGameHost : GameHost
 	{
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
 		#region Private
 		private Game game;
 		private WindowsGameWindow gameWindow;
@@ -75,7 +78,11 @@ namespace ANX.Framework.Windows.GL3
 		{
 			isQuitting = false;
 			game = setGame;
+
+            logger.Info("creating a new GameWindow");
 			gameWindow = new WindowsGameWindow();
+
+            logger.Info("hook up GameWindow events");
 			gameWindow.Activated += delegate
 			{
 				OnActivated();

@@ -103,6 +103,10 @@
       <Project>{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75}</Project>
       <Name>ANX.InputSystem.OpenTK</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Recording\ANX.InputSystem.Recording.csproj">
+      <Project>{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}</Project>
+      <Name>ANX.InputSystem.Recording</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Windows.Kinect\ANX.InputSystem.Windows.Kinect.csproj">
       <Project>{E5D69E75-D77C-493F-BBDA-6F9E73B82549}</Project>
       <Name>ANX.InputSystem.Windows.Kinect</Name>

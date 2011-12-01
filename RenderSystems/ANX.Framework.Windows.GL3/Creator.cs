@@ -6,6 +6,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using OpenTK;
+using NLog;
 
 #region License
 
@@ -61,6 +62,8 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class Creator : IRenderSystemCreator
 	{
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
 		#region Public
 		/// <summary>
 		/// Name of the Creator implementation.
@@ -101,6 +104,7 @@ namespace ANX.Framework.Windows.GL3
 		#region CreateGameHost
 		public GameHost CreateGameHost(Game game)
 		{
+            logger.Info("creating OpenGL3 GameHost");
 			return new WindowsGameHost(game);
 		}
 		#endregion
