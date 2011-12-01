@@ -73,6 +73,15 @@ namespace ANX.Framework.Windows.DX10
             get { return 10; }
         }
 
+        public bool IsSupported
+        {
+            get 
+            {
+                //TODO: this is just a very basic version of test for support
+                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT; 
+            }
+        }
+
         public GameHost CreateGameHost(Game game)
         {
             return new WindowsGameHost(game);

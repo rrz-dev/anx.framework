@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ANX.Framework.Input;
 using NLog;
+using System.Collections;
+using System.Resources;
 
 #endregion // Using Statements
 
@@ -64,6 +66,8 @@ namespace ANX.Framework.NonXNA
         private static AddInSystemFactory instance;
         private bool initialized;
         private Dictionary<Type, ICreator> defaultCreators = new Dictionary<Type, ICreator>();
+        private OperatingSystem operatingSystem;
+        private Version operatingSystemVersion;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -84,6 +88,10 @@ namespace ANX.Framework.NonXNA
         private AddInSystemFactory()
         {
             this.creators = new Dictionary<string, ICreator>();
+
+            this.operatingSystem = Environment.OSVersion;
+            this.operatingSystemVersion = this.operatingSystem.Version;
+            logger.Info("Operating System: {0} ({1})", operatingSystem.VersionString, operatingSystemVersion.ToString());
         }
 
         public void Initialize()
@@ -122,10 +130,30 @@ namespace ANX.Framework.NonXNA
                                                                           typeof(ISoundSystemCreator).IsAssignableFrom(p)
                                                                     ))
                             {
-                                logger.Info("[ANX] registering instance of '{0}'...", t.FullName);
+                                logger.Info("[ANX] testing if assembly is supported on current platform");
+                                string[] platforms = FetchSupportedPlattforms(part);
+                                bool supportedPlatform = false;
 
-                                var instance = part.CreateInstance(t.FullName);
-                                ((ICreator)instance).RegisterCreator(this);
+                                foreach (string platform in platforms)
+                                {
+                                    if (string.Equals(OperatingSystem.Platform.ToString(), platform, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        supportedPlatform = true;
+                                        break;
+                                    }
+                                }
+
+                                if (supportedPlatform)
+                                {
+                                    logger.Info("[ANX] registering instance of '{0}'...", t.FullName);
+
+                                    var instance = part.CreateInstance(t.FullName);
+                                    ((ICreator)instance).RegisterCreator(this);
+                                }
+                                else
+                                {
+                                    logger.Info("[ANX] current platform '{0}' is not supported by '{1}'", OperatingSystem.Platform.ToString(), t.FullName);
+                                }
                             }
                         }
                     }
@@ -216,6 +244,22 @@ namespace ANX.Framework.NonXNA
             defaultCreators[creator.GetType().GetInterfaces()[0]] = creator;
         }
 
+        public OperatingSystem OperatingSystem
+        {
+            get
+            {
+                return this.operatingSystem;
+            }
+        }
+
+        public Version OperatingSystemVersion
+        {
+            get
+            {
+                return this.operatingSystemVersion;
+            }
+        }
+
         private void SetDefaultCreators()
         {
             foreach (ICreator creator in this.creators.Values)
@@ -248,10 +292,46 @@ namespace ANX.Framework.NonXNA
                             SetDefaultCreator<IInputSystemCreator>(inputSystemCreator);
                         }
                         break;
+                    case "ANX.Framework.NonXNA.ICreator":
+                        break;
                     default:
                         throw new InvalidOperationException(String.Format("unable to set a default system for creator of type '{0}'", type));
                 }
             }
+        }
+
+        private string[] FetchSupportedPlattforms(Assembly assembly)
+        {
+            string[] platforms = null;
+            string[] res = assembly.GetManifestResourceNames();
+
+            if (res != null)
+            {
+                foreach (string ressource in res)
+                {
+                    Stream manifestResourceStream = assembly.GetManifestResourceStream(ressource);
+
+                    if (manifestResourceStream != null)
+                    {
+                        using (ResourceReader resourceReader = new ResourceReader(manifestResourceStream))
+                        {
+                            IDictionaryEnumerator dict = resourceReader.GetEnumerator();
+                            while (dict.MoveNext())
+                            {
+                                if (string.Equals(dict.Key.ToString(), "SupportedPlatforms", StringComparison.InvariantCultureIgnoreCase) &&
+                                    dict.Value.GetType() == typeof(string))
+                                {
+                                    platforms = dict.Value.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    return platforms;
+                                }
+                            }
+                            resourceReader.Close();
+                        }
+                    }
+                }
+            }
+
+            return platforms;
         }
 
     }

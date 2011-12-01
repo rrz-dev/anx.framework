@@ -64,5 +64,7 @@ namespace ANX.Framework.NonXNA
         string Name { get; }
 
         int Priority { get; }
+
+        bool IsSupported { get; }
     }
 }

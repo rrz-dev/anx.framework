@@ -76,6 +76,15 @@ namespace ANX.InputSystem.Windows.XInput
             get { return 10; }
         }
 
+        public bool IsSupported
+        {
+            get
+            {
+                //TODO: this is just a very basic version of test for support
+                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
+            }
+        }
+
         public void RegisterCreator(AddInSystemFactory factory)
         {
             logger.Debug("adding XInput creator to creator collection of AddInSystemFactory");

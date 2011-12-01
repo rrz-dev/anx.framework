@@ -78,6 +78,17 @@ namespace ANX.Framework.Windows.GL3
 			get { return 100; }
 		}
 
+        public bool IsSupported
+        {
+            get
+            {
+                //TODO: this is just a very basic version of test for support
+                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT ||
+                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Unix ||
+                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.MacOSX;
+            }
+        }
+
 		#endregion
 
 		#region RegisterRenderSystemCreator

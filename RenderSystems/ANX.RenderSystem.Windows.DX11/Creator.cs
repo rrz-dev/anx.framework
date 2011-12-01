@@ -73,6 +73,15 @@ namespace ANX.RenderSystem.Windows.DX11
             get { return "DirectX11"; }
         }
 
+        public bool IsSupported
+        {
+            get
+            {
+                //TODO: this is just a very basic version of test for support
+                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
+            }
+        }
+
         public int Priority
         {
             get { return int.MaxValue; }

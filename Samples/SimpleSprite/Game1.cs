@@ -91,6 +91,11 @@ namespace WindowsGame1
         /// </summary>
         protected override void Initialize()
         {
+            //TODO: currently not working in OpenGL3
+            //graphics.PreferredBackBufferWidth = 800;
+            //graphics.PreferredBackBufferHeight = 600;
+            //graphics.ApplyChanges();
+
             base.Initialize();
         }
 
