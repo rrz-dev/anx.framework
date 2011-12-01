@@ -26,14 +26,18 @@ namespace Primitives
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "SampleContent";
+
+            graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
+        }
+
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = 600;
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = 600;
         }
 
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 600;
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.ApplyChanges();
-
             base.Initialize();
         }
 

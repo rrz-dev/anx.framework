@@ -221,7 +221,7 @@ namespace ANX.Framework
 
         protected GraphicsDeviceInformation FindBestDevice(bool anySuitableDevice)
         {
-            //TODO: implement FindBEstDevice
+            //TODO: implement FindBestDevice
 
             GraphicsDeviceInformation deviceInformation = new GraphicsDeviceInformation();
 

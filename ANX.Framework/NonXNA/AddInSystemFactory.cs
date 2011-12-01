@@ -270,7 +270,13 @@ namespace ANX.Framework.NonXNA
                 {
                     case "ANX.Framework.NonXNA.IRenderSystemCreator":
                         IRenderSystemCreator renderSystemCreator = creator as IRenderSystemCreator;
-                        IRenderSystemCreator defaultRenderSystemCreator = GetDefaultCreator<IRenderSystemCreator>();
+                        IRenderSystemCreator defaultRenderSystemCreator = null;
+                        try
+                        {
+                            defaultRenderSystemCreator = GetDefaultCreator<IRenderSystemCreator>();
+                        }
+                        catch { }
+
                         if (renderSystemCreator != null && (defaultRenderSystemCreator == null || defaultRenderSystemCreator.Priority > renderSystemCreator.Priority))
                         {
                             SetDefaultCreator<IRenderSystemCreator>(renderSystemCreator);
@@ -278,7 +284,13 @@ namespace ANX.Framework.NonXNA
                         break;
                     case "ANX.Framework.NonXNA.ISoundSystemCreator":
                         ISoundSystemCreator soundSystemCreator = creator as ISoundSystemCreator;
-                        ISoundSystemCreator defaultSoundSystemCreator = GetDefaultCreator<ISoundSystemCreator>();
+                        ISoundSystemCreator defaultSoundSystemCreator = null;
+                        try
+                        {
+                            defaultSoundSystemCreator = GetDefaultCreator<ISoundSystemCreator>();
+                        }
+                        catch { }
+
                         if (soundSystemCreator != null && (defaultSoundSystemCreator == null || defaultSoundSystemCreator.Priority > soundSystemCreator.Priority))
                         {
                             SetDefaultCreator<ISoundSystemCreator>(soundSystemCreator);
@@ -286,7 +298,13 @@ namespace ANX.Framework.NonXNA
                         break;
                     case "ANX.Framework.NonXNA.IInputSystemCreator":
                         IInputSystemCreator inputSystemCreator = creator as IInputSystemCreator;
-                        IInputSystemCreator defaultInputSystemCreator = GetDefaultCreator<IInputSystemCreator>();
+                        IInputSystemCreator defaultInputSystemCreator = null;
+                        try
+                        {
+                            defaultInputSystemCreator = GetDefaultCreator<IInputSystemCreator>();
+                        }
+                        catch { }
+
                         if (inputSystemCreator != null && (defaultInputSystemCreator == null || defaultInputSystemCreator.Priority > inputSystemCreator.Priority))
                         {
                             SetDefaultCreator<IInputSystemCreator>(inputSystemCreator);
