@@ -81,6 +81,14 @@ namespace WindowsGame1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "SampleContent";
+
+            graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
+        }
+
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.DepthStencilFormat = DepthFormat.None;
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferFormat = SurfaceFormat.Bgr565;
         }
 
         /// <summary>

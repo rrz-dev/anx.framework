@@ -58,16 +58,17 @@ namespace ANX.InputSystem.OpenTK
 {
     public class Mouse : IMouse
     {
+        private IntPtr windowHandle;
 
         public IntPtr WindowHandle
         {
             get
             {
-                throw new NotImplementedException();
+                return this.windowHandle;
             }
             set
             {
-                throw new NotImplementedException();
+                this.windowHandle = value;
             }
         }
 

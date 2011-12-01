@@ -173,6 +173,8 @@ namespace ANX.Framework.NonXNA
             }
 
             creators.Add(creatorName, creator);
+
+            logger.Debug("added creator '{0}'. Total count of registered creators is now {1}.", creatorName, creators.Count);
         }
 
         public bool HasFramework(String name)
@@ -224,12 +226,20 @@ namespace ANX.Framework.NonXNA
                 return defaultCreators[type] as T;
             }
 
+            logger.Error(String.Format("couldn't find a DefaultCreator of type '{0}'. Listing all registered creators: ", type.FullName));
+            foreach (KeyValuePair<Type, ICreator> kvp in defaultCreators)
+            {
+                logger.Error(kvp.Key);
+            }
+
             throw new AddInLoadingException(String.Format("couldn't find a DefaultCreator of type '{0}'", type.FullName));
         }
 
         public void SetDefaultCreator<T>(T creator) where T : class, ICreator
         {
-            defaultCreators[typeof(T)] = creator;
+            Type t = typeof(T);
+            logger.Debug("setting DefaultCreator by type: {0}", t.FullName);
+            defaultCreators[t] = creator;
         }
 
         public void SetDefaultCreator(string creatorName)
@@ -241,7 +251,21 @@ namespace ANX.Framework.NonXNA
 
             ICreator creator = null;
             creators.TryGetValue(creatorName.ToLowerInvariant(), out creator);
-            defaultCreators[creator.GetType().GetInterfaces()[0]] = creator;
+            if (creator != null)
+            {
+                Type t = creator.GetType().GetInterfaces()[0];
+                if (t == typeof(ICreator))
+                {
+                    //TODO: exception handling
+                    t = creator.GetType().GetInterfaces()[1];
+                }
+                logger.Debug("setting DefaultCreator by name: '{0}'. Resolved type: '{1}'. ", creatorName, t.FullName);
+                defaultCreators[t] = creator;
+            }
+            else
+            {
+                throw new AddInLoadingException(String.Format("couldn't set DefaultCreator by name: '{0}'. ", creatorName));
+            }
         }
 
         public OperatingSystem OperatingSystem
@@ -271,11 +295,10 @@ namespace ANX.Framework.NonXNA
                     case "ANX.Framework.NonXNA.IRenderSystemCreator":
                         IRenderSystemCreator renderSystemCreator = creator as IRenderSystemCreator;
                         IRenderSystemCreator defaultRenderSystemCreator = null;
-                        try
+                        if (defaultCreators.ContainsKey(typeof(IRenderSystemCreator)))
                         {
-                            defaultRenderSystemCreator = GetDefaultCreator<IRenderSystemCreator>();
+                            renderSystemCreator = defaultCreators[typeof(IRenderSystemCreator)] as IRenderSystemCreator;
                         }
-                        catch { }
 
                         if (renderSystemCreator != null && (defaultRenderSystemCreator == null || defaultRenderSystemCreator.Priority > renderSystemCreator.Priority))
                         {
@@ -285,11 +308,10 @@ namespace ANX.Framework.NonXNA
                     case "ANX.Framework.NonXNA.ISoundSystemCreator":
                         ISoundSystemCreator soundSystemCreator = creator as ISoundSystemCreator;
                         ISoundSystemCreator defaultSoundSystemCreator = null;
-                        try
+                        if (defaultCreators.ContainsKey(typeof(ISoundSystemCreator)))
                         {
-                            defaultSoundSystemCreator = GetDefaultCreator<ISoundSystemCreator>();
+                            defaultSoundSystemCreator = defaultCreators[typeof(ISoundSystemCreator)] as ISoundSystemCreator;
                         }
-                        catch { }
 
                         if (soundSystemCreator != null && (defaultSoundSystemCreator == null || defaultSoundSystemCreator.Priority > soundSystemCreator.Priority))
                         {
@@ -299,11 +321,10 @@ namespace ANX.Framework.NonXNA
                     case "ANX.Framework.NonXNA.IInputSystemCreator":
                         IInputSystemCreator inputSystemCreator = creator as IInputSystemCreator;
                         IInputSystemCreator defaultInputSystemCreator = null;
-                        try
+                        if (defaultCreators.ContainsKey(typeof(IInputSystemCreator)))
                         {
-                            defaultInputSystemCreator = GetDefaultCreator<IInputSystemCreator>();
+                            defaultInputSystemCreator = defaultCreators[typeof(IInputSystemCreator)] as IInputSystemCreator;
                         }
-                        catch { }
 
                         if (inputSystemCreator != null && (defaultInputSystemCreator == null || defaultInputSystemCreator.Priority > inputSystemCreator.Priority))
                         {
