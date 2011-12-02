@@ -384,7 +384,25 @@ namespace ANX.Framework
 
         public static void Lerp(ref Matrix matrix1, ref Matrix matrix2, float amount,out Matrix result)
         {
-            throw new NotImplementedException();
+            result.M11 = matrix1.M11 + (matrix2.M11 - matrix1.M11) * amount;
+            result.M12 = matrix1.M12 + (matrix2.M12 - matrix1.M12) * amount;
+            result.M13 = matrix1.M13 + (matrix2.M13 - matrix1.M13) * amount;
+            result.M14 = matrix1.M14 + (matrix2.M14 - matrix1.M14) * amount;
+
+            result.M21 = matrix1.M21 + (matrix2.M21 - matrix1.M21) * amount;
+            result.M22 = matrix1.M22 + (matrix2.M22 - matrix1.M22) * amount;
+            result.M23 = matrix1.M23 + (matrix2.M23 - matrix1.M23) * amount;
+            result.M24 = matrix1.M24 + (matrix2.M24 - matrix1.M24) * amount;
+
+            result.M31 = matrix1.M31 + (matrix2.M31 - matrix1.M31) * amount;
+            result.M32 = matrix1.M32 + (matrix2.M32 - matrix1.M32) * amount;
+            result.M33 = matrix1.M33 + (matrix2.M33 - matrix1.M33) * amount;
+            result.M34 = matrix1.M34 + (matrix2.M34 - matrix1.M34) * amount;
+
+            result.M41 = matrix1.M41 + (matrix2.M41 - matrix1.M41) * amount;
+            result.M42 = matrix1.M42 + (matrix2.M42 - matrix1.M42) * amount;
+            result.M43 = matrix1.M43 + (matrix2.M43 - matrix1.M43) * amount;
+            result.M44 = matrix1.M44 + (matrix2.M44 - matrix1.M44) * amount;
         }
 
         public static Matrix Negate(Matrix matrix)
