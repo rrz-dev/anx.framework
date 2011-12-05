@@ -474,15 +474,18 @@ namespace ANX.Framework.Windows.GL3
 
         private void ResizeRenderWindow(PresentationParameters presentationParameters)
         {
-            RECT windowRect;
-            RECT clientRect;
-            if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
-                GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+            if (OpenTK.Configuration.RunningOnWindows)
             {
-                int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
-                int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
+                RECT windowRect;
+                RECT clientRect;
+                if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
+                    GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+                {
+                    int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
+                    int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
 
-                SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
+                    SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
+                }
             }
         }
 
