@@ -143,6 +143,7 @@
       <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
     </exec>
 
+<!--    
     <echo message="===================================================" />
     <echo message="Now building: ANX.Framework RenderSystem Metro" />
     <echo message="===================================================" />
@@ -154,9 +155,9 @@
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.metro}.csproj" />
+      <arg value="${project.anx.path.rendersystem.metro}/${project.anx.name.rendersystem.metro}.csproj" />
     </exec>
-
+-->
   </target>
 
   <target name="build_anx_content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
