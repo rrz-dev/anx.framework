@@ -22,6 +22,42 @@ namespace Primitives
         SpriteFont font;
         Texture2D bgTexture;
 
+        BasicEffect basicEffect;
+        Matrix viewMatrix;
+        Matrix projectionMatrix;
+        Matrix worldMatrix;
+
+        VertexBuffer cubeNoIndicesBuffer;
+
+        #region Corners of cube
+        static Vector3 topLeftFront = new Vector3( -1.0f, 1.0f, 1.0f );
+        static Vector3 bottomLeftFront = new Vector3(-1.0f, -1.0f, 1.0f);
+        static Vector3 topRightFront = new Vector3(1.0f, 1.0f, 1.0f);
+        static Vector3 bottomRightFront = new Vector3(1.0f, -1.0f, 1.0f);
+        static Vector3 topLeftBack = new Vector3(-1.0f, 1.0f, -1.0f);
+        static Vector3 topRightBack = new Vector3(1.0f, 1.0f, -1.0f);
+        static Vector3 bottomLeftBack = new Vector3(-1.0f, -1.0f, -1.0f);
+        static Vector3 bottomRightBack = new Vector3(1.0f, -1.0f, -1.0f);
+
+        #endregion
+
+        VertexPositionColor[] cubeNoIndices = new VertexPositionColor[] { new VertexPositionColor(topLeftFront, Color.White),
+                                                                          new VertexPositionColor(bottomRightFront, Color.White),
+                                                                          new VertexPositionColor(bottomLeftFront, Color.White),
+
+                                                                          new VertexPositionColor(topLeftFront, Color.White),
+                                                                          new VertexPositionColor(topRightFront, Color.White),
+                                                                          new VertexPositionColor(bottomRightFront, Color.White),
+
+                                                                          new VertexPositionColor(topLeftBack, Color.White),
+                                                                          new VertexPositionColor(bottomLeftBack, Color.White),
+                                                                          new VertexPositionColor(bottomRightBack, Color.White),
+
+                                                                          new VertexPositionColor(topLeftBack, Color.White),
+                                                                          new VertexPositionColor(bottomRightBack, Color.White),
+                                                                          new VertexPositionColor(topRightBack, Color.White)        
+                                                                        };
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,10 +81,23 @@ namespace Primitives
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            this.basicEffect = new BasicEffect(GraphicsDevice);
+            
+            this.worldMatrix = Matrix.Identity;
+            this.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 0.1f, 10.0f);
+            this.viewMatrix = Matrix.CreateLookAt(new Vector3(5, 5, 5), new Vector3(0, 0, 0), Vector3.Up);
+
             this.font = Content.Load<SpriteFont>(@"Fonts/Debug");
 
             this.bgTexture = new Texture2D(GraphicsDevice, 1, 1);
             this.bgTexture.SetData<Color>(new Color[] { Color.White });
+
+            //
+            // create a VertexBuffer for a cube without indices
+            //
+
+            this.cubeNoIndicesBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), cubeNoIndices.Length, BufferUsage.None);
+            this.cubeNoIndicesBuffer.SetData<VertexPositionColor>(cubeNoIndices);
         }
 
         protected override void UnloadContent()
@@ -85,6 +134,16 @@ namespace Primitives
             DrawShadowText(spriteBatch, this.font, "DrawUserIndexedPrimitives", new Vector2(310, 410), Color.White, Color.Black);
 
             spriteBatch.End();
+
+            this.GraphicsDevice.RasterizerState = new RasterizerState() { CullMode = CullMode.None, FillMode = FillMode.WireFrame };
+
+            this.basicEffect.World = this.worldMatrix;
+            this.basicEffect.View = this.viewMatrix;
+            this.basicEffect.Projection = this.projectionMatrix;
+
+            this.basicEffect.CurrentTechnique.Passes[0].Apply();
+            GraphicsDevice.SetVertexBuffer(this.cubeNoIndicesBuffer);
+            GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, cubeNoIndices.Length / 3);
 
             base.Draw(gameTime);
         }
