@@ -249,6 +249,10 @@ namespace ANX.Framework.Windows.GL3
 
                 nativeWindowInfo = Utilities.CreateX11WindowInfo(display, screen, presentationParameters.DeviceWindowHandle, rootWindow, infoPtr);
             }
+            else if (OpenTK.Configuration.RunningOnMacOS)
+            {
+                nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(presentationParameters.DeviceWindowHandle, false, true);
+            }
             else
             {
                 throw new NotImplementedException();

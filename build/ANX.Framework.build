@@ -27,6 +27,8 @@
   <property name="project.anx.name.rendersystem.dx10" value="ANX.Framework.Windows.DX10" />
   <property name="project.anx.path.rendersystem.dx11" value="../RenderSystems/ANX.RenderSystem.Windows.DX11" />
   <property name="project.anx.name.rendersystem.dx11" value="ANX.RenderSystem.Windows.DX11" />
+  <property name="project.anx.path.rendersystem.metro" value="../RenderSystems/ANX.RenderSystem.Windows.Metro" />
+  <property name="project.anx.name.rendersystem.metro" value="ANX.RenderSystem.Windows.Metro" />
   <property name="project.anx.path.rendersystem.gl3" value="../RenderSystems/ANX.Framework.Windows.GL3" />
   <property name="project.anx.name.rendersystem.gl3" value="ANX.Framework.Windows.GL3" />
 
@@ -140,6 +142,21 @@
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
     </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework RenderSystem Metro" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.metro}.csproj" />
+    </exec>
+
   </target>
 
   <target name="build_anx_content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
