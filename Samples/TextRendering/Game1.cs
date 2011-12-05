@@ -65,6 +65,7 @@ namespace TextRendering
         SpriteFont debugFont;
 
         public Game1()
+            : base("OpenGL3")
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "SampleContent";
@@ -72,9 +73,9 @@ namespace TextRendering
 
         protected override void Initialize()
         {
-            GraphicsDevice.PresentationParameters.BackBufferWidth = 1280;
-            GraphicsDevice.PresentationParameters.BackBufferHeight = 720;
-            GraphicsDevice.Reset();
+            //GraphicsDevice.PresentationParameters.BackBufferWidth = 1280;
+            //GraphicsDevice.PresentationParameters.BackBufferHeight = 720;
+            //GraphicsDevice.Reset();
 
             base.Initialize();
         }

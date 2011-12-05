@@ -77,10 +77,17 @@ namespace WindowsGame1
 				private int lastFps = 60;
 
         public Game1()
-            : base("OpenGL3")
+            : base("DirectX10")
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
             Content.RootDirectory = "SampleContent";
+        }
+
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = 800;
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = 600;
         }
 
         /// <summary>
@@ -91,11 +98,6 @@ namespace WindowsGame1
         /// </summary>
         protected override void Initialize()
         {
-            //TODO: currently not working in OpenGL3
-            //graphics.PreferredBackBufferWidth = 800;
-            //graphics.PreferredBackBufferHeight = 600;
-            //graphics.ApplyChanges();
-
             base.Initialize();
         }
 
