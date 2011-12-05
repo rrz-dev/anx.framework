@@ -68,7 +68,14 @@ namespace TextRendering
             : base("OpenGL3")
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
             Content.RootDirectory = "SampleContent";
+        }
+
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = 1280;
+            e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = 720;
         }
 
         protected override void Initialize()

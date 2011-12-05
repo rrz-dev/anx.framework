@@ -4,6 +4,7 @@ using ANX.Framework.NonXNA;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
+using System.Runtime.InteropServices;
 
 #region License
 
@@ -62,6 +63,29 @@ namespace ANX.Framework.Windows.GL3
 		#region Constants
 		private const float ColorMultiplier = 1f / 255f;
 		#endregion
+
+        #region Interop
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int width, int height, uint uFlags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner 
+            public int Top;         // y position of upper-left corner 
+            public int Right;       // x position of lower-right corner 
+            public int Bottom;      // y position of lower-right corner 
+        }
+
+        #endregion
 
 		#region Private
 		/// <summary>
@@ -155,8 +179,7 @@ namespace ANX.Framework.Windows.GL3
 					break;
 			}
 
-			nativeWindowInfo = Utilities.CreateWindowsWindowInfo(
-					presentationParameters.DeviceWindowHandle);
+			nativeWindowInfo = Utilities.CreateWindowsWindowInfo(presentationParameters.DeviceWindowHandle);
 
 		GraphicsMode graphicsMode = new GraphicsMode(
 					DatatypesMapping.SurfaceToColorFormat(
@@ -164,6 +187,8 @@ namespace ANX.Framework.Windows.GL3
 					depth, stencil,
 				// AntiAlias Samples: 2/4/8/16/32
 					presentationParameters.MultiSampleCount);
+
+            ResizeRenderWindow(presentationParameters);
 
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
@@ -381,6 +406,20 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+        private void ResizeRenderWindow(PresentationParameters presentationParameters)
+        {
+            RECT windowRect;
+            RECT clientRect;
+            if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
+                GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+            {
+                int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
+                int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
+
+                SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
+            }
+        }
+
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{
 			throw new NotImplementedException();
@@ -404,6 +443,8 @@ namespace ANX.Framework.Windows.GL3
 
 		public void ResizeBuffers(PresentationParameters presentationParameters)
 		{
+            ResizeRenderWindow(presentationParameters);
+
 			throw new NotImplementedException();
 		}
 
@@ -411,5 +452,6 @@ namespace ANX.Framework.Windows.GL3
         {
             //TODO: implement
         }
+
     }
 }
