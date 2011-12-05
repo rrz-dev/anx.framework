@@ -158,7 +158,7 @@ namespace ANX.Framework.Windows.GL3
 			nativeWindowInfo = Utilities.CreateWindowsWindowInfo(
 					presentationParameters.DeviceWindowHandle);
 
-			GraphicsMode graphicsMode = new GraphicsMode(
+		GraphicsMode graphicsMode = new GraphicsMode(
 					DatatypesMapping.SurfaceToColorFormat(
 						presentationParameters.BackBufferFormat),
 					depth, stencil,

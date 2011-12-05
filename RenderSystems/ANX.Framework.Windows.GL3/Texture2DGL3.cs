@@ -125,7 +125,7 @@ namespace ANX.Framework.Windows.GL3
 
 			int wrapMode = (int)All.ClampToEdge;
 			int filter = (int)(mipCount > 1 ? All.LinearMipmapLinear : All.Linear);
-			
+
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureWrapS, wrapMode);
 			GL.TexParameter(TextureTarget.Texture2D,
@@ -147,7 +147,7 @@ namespace ANX.Framework.Windows.GL3
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
 			where T : struct
 		{
-			SetData<T>(graphicsDevice, data, 0, data.Length);
+			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
 		}
 
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
@@ -186,9 +186,9 @@ namespace ANX.Framework.Windows.GL3
 				}
 				else
 				{
-					GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
-						width, height, 0, (PixelFormat)nativeFormat,
-						PixelType.UnsignedByte, dataPointer);
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
+                        width, height, 0, (PixelFormat)nativeFormat,
+                        PixelType.UnsignedByte, dataPointer);
 #if DEBUG
 					ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
 #endif

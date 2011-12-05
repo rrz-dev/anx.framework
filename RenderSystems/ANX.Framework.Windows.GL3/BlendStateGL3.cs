@@ -190,28 +190,30 @@ namespace ANX.Framework.Windows.GL3
 		{
 			IsBound = true;
 
-			GL.BlendEquationSeparate(
-				TranslateBlendFunction(ColorBlendFunction),
-				TranslateBlendFunction(AlphaBlendFunction));
-			ErrorHelper.Check("BlendEquationSeparate");
+            GL.Enable(EnableCap.Blend);
 
-			GL.BlendFuncSeparate(
-				TranslateBlendSrc(ColorSourceBlend),
-				TranslateBlendDest(ColorDestinationBlend),
-				TranslateBlendSrc(AlphaSourceBlend),
-				TranslateBlendDest(AlphaDestinationBlend));
-			ErrorHelper.Check("BlendFuncSeparate");
+            GL.BlendEquationSeparate(
+                TranslateBlendFunction(ColorBlendFunction),
+                TranslateBlendFunction(AlphaBlendFunction));
+            ErrorHelper.Check("BlendEquationSeparate");
 
-			SetColorWriteChannel(0, ColorWriteChannels);
-			SetColorWriteChannel(1, ColorWriteChannels1);
-			SetColorWriteChannel(2, ColorWriteChannels2);
-			SetColorWriteChannel(3, ColorWriteChannels3);
+            GL.BlendFuncSeparate(
+                TranslateBlendSrc(ColorSourceBlend),
+                TranslateBlendDest(ColorDestinationBlend),
+                TranslateBlendSrc(AlphaSourceBlend),
+                TranslateBlendDest(AlphaDestinationBlend));
+            ErrorHelper.Check("BlendFuncSeparate");
 
-			GL.BlendColor(BlendFactor.R * DatatypesMapping.ColorMultiplier,
-				BlendFactor.G * DatatypesMapping.ColorMultiplier,
-				BlendFactor.B * DatatypesMapping.ColorMultiplier,
-				BlendFactor.A * DatatypesMapping.ColorMultiplier);
-			ErrorHelper.Check("BlendColor");
+            SetColorWriteChannel(0, ColorWriteChannels);
+            SetColorWriteChannel(1, ColorWriteChannels1);
+            SetColorWriteChannel(2, ColorWriteChannels2);
+            SetColorWriteChannel(3, ColorWriteChannels3);
+
+            GL.BlendColor(BlendFactor.R * DatatypesMapping.ColorMultiplier,
+                BlendFactor.G * DatatypesMapping.ColorMultiplier,
+                BlendFactor.B * DatatypesMapping.ColorMultiplier,
+                BlendFactor.A * DatatypesMapping.ColorMultiplier);
+            ErrorHelper.Check("BlendColor");
 
 // TODO: multi sample mask
 		}
@@ -245,14 +247,10 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="channels">Mask channels to enable.</param>
 		private void SetColorWriteChannel(int index, ColorWriteChannels channels)
 		{
-			bool r = (channels == Graphics.ColorWriteChannels.All ||
-				channels == Graphics.ColorWriteChannels.Red);
-			bool g = (channels == Graphics.ColorWriteChannels.All ||
-				channels == Graphics.ColorWriteChannels.Green);
-			bool b = (channels == Graphics.ColorWriteChannels.All ||
-				channels == Graphics.ColorWriteChannels.Blue);
-			bool a = (channels == Graphics.ColorWriteChannels.All ||
-				channels == Graphics.ColorWriteChannels.Alpha);
+			bool r = (channels & Graphics.ColorWriteChannels.Red) == Graphics.ColorWriteChannels.Red;
+			bool g = (channels & Graphics.ColorWriteChannels.Green) == Graphics.ColorWriteChannels.Green;
+			bool b = (channels & Graphics.ColorWriteChannels.Blue) == Graphics.ColorWriteChannels.Blue;
+			bool a = (channels & Graphics.ColorWriteChannels.Alpha) == Graphics.ColorWriteChannels.Alpha;
 
 			GL.ColorMask(index, r, g, b, a);
 			ErrorHelper.Check("ColorMask");
@@ -358,24 +356,25 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>OpenGL Blend Equation Mode.</returns>
 		private BlendEquationMode TranslateBlendFunction(BlendFunction func)
 		{
-		  switch (func)
-		  {
-				default:
-		    case BlendFunction.Add:
-					return BlendEquationMode.FuncAdd;
+            switch (func)
+            {
+            case BlendFunction.Add:
+                return BlendEquationMode.FuncAdd;
 
-				case BlendFunction.Subtract:
-					return BlendEquationMode.FuncSubtract;
+            case BlendFunction.Subtract:
+                return BlendEquationMode.FuncSubtract;
 
-				case BlendFunction.ReverseSubtract:
-					return BlendEquationMode.FuncReverseSubtract;
+            case BlendFunction.ReverseSubtract:
+                return BlendEquationMode.FuncReverseSubtract;
 
-				case BlendFunction.Min:
-					return BlendEquationMode.Min;
+            case BlendFunction.Min:
+                return BlendEquationMode.Min;
 
-				case BlendFunction.Max:
-					return BlendEquationMode.Max;
-		  }
+            case BlendFunction.Max:
+                return BlendEquationMode.Max;
+            }
+
+            throw new ArgumentException("don't know how to translate BlendFunction '" + func.ToString() + "' to BlendEquationMode");
 		}
 		#endregion
 	}
