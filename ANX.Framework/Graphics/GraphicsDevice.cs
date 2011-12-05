@@ -128,6 +128,19 @@ namespace ANX.Framework.Graphics
 
         public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
         {
+            if ((options & ClearOptions.DepthBuffer) == ClearOptions.DepthBuffer &&
+                this.currentPresentationParameters.DepthStencilFormat == DepthFormat.None)
+            {
+                throw new InvalidOperationException("The depth buffer can only be cleared if it exists. The current DepthStencilFormat is DepthFormat.None");
+            }
+
+            if ((options & ClearOptions.Stencil) == ClearOptions.Stencil &&
+                this.currentPresentationParameters.DepthStencilFormat != DepthFormat.Depth24Stencil8)
+            {
+                throw new InvalidOperationException("The stencil buffer can only be cleared if it exists. The current DepthStencilFormat is not DepthFormat.Depth24Stencil8");
+            }
+
+
             nativeDevice.Clear(options, color, depth, stencil);
         }
 
