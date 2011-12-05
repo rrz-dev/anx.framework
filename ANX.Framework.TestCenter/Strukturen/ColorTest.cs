@@ -681,5 +681,19 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         #endregion
+
+        #region BugFixes
+        [Test]
+        public void BugFixIssue481()
+        {
+            Color textColor = new Color(new Vector4(1));
+
+            Assert.AreEqual((byte)255, textColor.R);
+            Assert.AreEqual((byte)255, textColor.G);
+            Assert.AreEqual((byte)255, textColor.B);
+            Assert.AreEqual((byte)255, textColor.A);
+        }
+
+        #endregion
     }
 }

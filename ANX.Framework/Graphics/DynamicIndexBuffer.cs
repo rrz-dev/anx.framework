@@ -56,39 +56,60 @@ namespace ANX.Framework.Graphics
     {
         public virtual event EventHandler<EventArgs> ContentLost;
 
+        #region Private Members
+        private bool isContentLost;
+
+        #endregion
+
         public DynamicIndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
             : base(graphicsDevice, indexElementSize, indexCount, usage)
         {
-            throw new NotImplementedException();
+            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
         }
 
         public DynamicIndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
             : base(graphicsDevice, indexType, indexCount, usage)
         {
-            throw new NotImplementedException();
+            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+        }
+
+        ~DynamicIndexBuffer()
+        {
+            base.GraphicsDevice.DeviceReset -= graphicsDevice_DeviceReset;
+        }
+
+        private void graphicsDevice_DeviceReset(object sender, EventArgs e)
+        {
+            SetContentLost(true);
         }
 
         public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, SetDataOptions options) where T : struct
         {
-            throw new NotImplementedException();
+            //TODO: SetDataOptions not used
+            base.SetData<T>(offsetInBytes, data, startIndex, elementCount);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount, SetDataOptions options) where T : struct
         {
-            throw new NotImplementedException();
+            //TODO: SetDataOptions not used
+            base.SetData<T>(data, startIndex, elementCount);
         }
 
         public bool IsContentLost
         {
             get
             {
-                throw new NotImplementedException();
+                return this.isContentLost;
             }
         }
 
         public void SetContentLost(bool isContentLost)
         {
-            throw new NotImplementedException();
+            this.isContentLost = isContentLost;
+            if (isContentLost)
+            {
+                raise_ContentLost(this, EventArgs.Empty);
+            }
         }
 
         protected void raise_ContentLost(object sender, EventArgs args)

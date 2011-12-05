@@ -111,9 +111,8 @@ namespace ANX.Framework
         }
 
         public Color(Vector4 vector)
+            : this(vector.X, vector.Y, vector.Z, vector.W)
         {
-            this.packedValue = 0;
-            ((IPackedVector)this).PackFromVector4(vector);
         }
 
         private Color(uint packedValue)

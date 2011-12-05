@@ -66,9 +66,9 @@ namespace ANX.Framework.Graphics
         private SpriteSortMode currentSortMode;
         private SpriteInfo[] spriteInfos;
         private int currentBatchPosition;
-        private IndexBuffer indexBuffer;
+        private DynamicIndexBuffer indexBuffer;
         private VertexPositionColorTexture[] vertices;
-        private VertexBuffer vertexBuffer;
+        private DynamicVertexBuffer vertexBuffer;
 
         private BlendState blendState;
         private SamplerState samplerState;
@@ -476,9 +476,27 @@ namespace ANX.Framework.Graphics
 
             if (this.indexBuffer == null)
             {
-                this.indexBuffer = new IndexBuffer(this.GraphicsDevice, IndexElementSize.SixteenBits, indexCount, BufferUsage.WriteOnly);
+                this.indexBuffer = new DynamicIndexBuffer(this.GraphicsDevice, IndexElementSize.SixteenBits, indexCount, BufferUsage.WriteOnly);
+                this.indexBuffer.ContentLost += new EventHandler<EventArgs>(indexBuffer_ContentLost);
             }
 
+            SetIndexData(indexCount);
+        }
+
+        private void indexBuffer_ContentLost(object sender, EventArgs e)
+        {
+            if (this.indexBuffer != null)
+            {
+                this.indexBuffer.ContentLost -= indexBuffer_ContentLost;
+                this.indexBuffer.Dispose();
+                this.indexBuffer = null;
+            }
+
+            InitializeIndexBuffer(InitialBatchSize);
+        }
+
+        private void SetIndexData(int indexCount)
+        {
             short[] indices = new short[indexCount];
 
             int baseIndex;
@@ -503,8 +521,23 @@ namespace ANX.Framework.Graphics
         {
             if (this.vertexBuffer == null)
             {
-                this.vertexBuffer = new VertexBuffer(this.GraphicsDevice, typeof(VertexPositionColorTexture), InitialBatchSize * 4, BufferUsage.WriteOnly);
+                this.vertexBuffer = new DynamicVertexBuffer(this.GraphicsDevice, typeof(VertexPositionColorTexture), InitialBatchSize * 4, BufferUsage.WriteOnly);
+                this.vertexBuffer.ContentLost += new EventHandler<EventArgs>(vertexBuffer_ContentLost);
             }
+        }
+
+        private void vertexBuffer_ContentLost(object sender, EventArgs e)
+        {
+            this.currentBatchPosition = 0;
+
+            if (this.vertexBuffer != null)
+            {
+                this.vertexBuffer.ContentLost -= vertexBuffer_ContentLost;
+                this.vertexBuffer.Dispose();
+                this.vertexBuffer = null;
+            }
+
+            InitializeVertexBuffer();
         }
 
         private void SetRenderStates()
