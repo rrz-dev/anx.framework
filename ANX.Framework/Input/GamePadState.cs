@@ -75,7 +75,7 @@ namespace ANX.Framework.Input
             this.triggers = triggers;
             this.buttons = buttons;
             this.dPad = dPad;
-            this.isConnected = false;
+            this.isConnected = true;
             this.packetNumber = 0;
             this.buttonsValue = this.buttons.Buttons | this.dPad.Buttons;
         }
@@ -91,7 +91,7 @@ namespace ANX.Framework.Input
                 buttonField |= buttons[i];
             }
             this.buttonsValue = buttonField;
-            this.isConnected = false;
+            this.isConnected = true;
             this.packetNumber = 0;
 
             this.buttons = new GamePadButtons(this.buttonsValue);
