@@ -60,23 +60,39 @@ namespace ANX.InputSystem.Recording
     {
         public IGamePad GamePad
         {
-            get { return new RecordingGamePad(); }
+            get 
+            {
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return new RecordingGamePad(); 
+            }
         }
 
         public IMouse Mouse
         {
-            get { return new RecordingMouse(); }
+            get 
+            {
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return new RecordingMouse(); 
+            }
         }
 
         public IKeyboard Keyboard
         {
-            get { return new RecordingKeyboard(); }
+            get 
+            {
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return new RecordingKeyboard(); 
+            }
         }
 
 #if XNAEXT
         public IMotionSensingDevice MotionSensingDevice
         {
-            get { return new RecordingMotionSensingDevice(); }
+            get 
+            {
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return new RecordingMotionSensingDevice(); 
+            }
         }
 #endif
 

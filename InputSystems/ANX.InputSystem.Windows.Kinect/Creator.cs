@@ -95,7 +95,11 @@ namespace ANX.InputSystem.Windows.Kinect
 
         public IMotionSensingDevice MotionSensingDevice
         {
-            get { return new Kinect(); }
+            get 
+            {
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return new Kinect(); 
+            }
         }
 
         public IKeyboard Keyboard

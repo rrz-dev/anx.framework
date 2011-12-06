@@ -62,6 +62,7 @@ namespace ANX.Framework.NonXNA
 {
     public class AddInSystemFactory
     {
+        #region Private Members
         private Dictionary<String, ICreator> creators;
         private static AddInSystemFactory instance;
         private bool initialized;
@@ -69,7 +70,20 @@ namespace ANX.Framework.NonXNA
         private OperatingSystem operatingSystem;
         private Version operatingSystemVersion;
 
+        private string preferredRenderSystem;
+        private bool preferredRenderSystemLocked;
+        private string preferredInputSystem;
+        private bool preferredInputSystemLocked;
+        private string preferredSoundSystem;
+        private bool preferredSoundSystemLocked;
+
+        private List<AddIn> renderSystems;
+        private List<AddIn> inputSystems;
+        private List<AddIn> soundSystems;
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
+
+        #endregion // Private Members
 
         public static AddInSystemFactory Instance
         {
@@ -87,6 +101,10 @@ namespace ANX.Framework.NonXNA
 
         private AddInSystemFactory()
         {
+            this.renderSystems = new List<AddIn>();
+            this.inputSystems = new List<AddIn>();
+            this.soundSystems = new List<AddIn>();
+
             this.creators = new Dictionary<string, ICreator>();
 
             this.operatingSystem = Environment.OSVersion;
@@ -110,56 +128,33 @@ namespace ANX.Framework.NonXNA
                     {
                         logger.Info("[ANX] trying to load '{0}'...", file);
 
-                        Assembly part = null;
-
-                        try
+                        AddIn addin = new AddIn(file);
+                        if (addin.IsValid && addin.IsSupported)
                         {
-                            part = Assembly.LoadFile(file);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.Debug("error calling Assembly.LoadFile({0}) Exception: {1}", file, ex.Message);
-                        }
-
-                        if (part != null)
-                        {
-                            logger.Info("[ANX] scanning for ANX interfaces...");
-
-                            foreach (Type t in part.GetTypes().Where(p => typeof(IInputSystemCreator).IsAssignableFrom(p) ||
-                                                                          typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
-                                                                          typeof(ISoundSystemCreator).IsAssignableFrom(p)
-                                                                    ))
+                            switch (addin.Type)
                             {
-                                logger.Info("[ANX] testing if assembly is supported on current platform");
-                                string[] platforms = FetchSupportedPlattforms(part);
-                                bool supportedPlatform = false;
-
-                                foreach (string platform in platforms)
-                                {
-                                    if (string.Equals(OperatingSystem.Platform.ToString(), platform, StringComparison.InvariantCultureIgnoreCase))
-                                    {
-                                        supportedPlatform = true;
-                                        break;
-                                    }
-                                }
-
-                                if (supportedPlatform)
-                                {
-                                    logger.Info("[ANX] registering instance of '{0}'...", t.FullName);
-
-                                    var instance = part.CreateInstance(t.FullName);
-                                    ((ICreator)instance).RegisterCreator(this);
-                                }
-                                else
-                                {
-                                    logger.Info("[ANX] current platform '{0}' is not supported by '{1}'", OperatingSystem.Platform.ToString(), t.FullName);
-                                }
+                                case AddInType.InputSystem:
+                                    this.inputSystems.Add(addin);
+                                    break;
+                                case AddInType.RenderSystem:
+                                    this.renderSystems.Add(addin);
+                                    break;
+                                case AddInType.SoundSystem:
+                                    this.soundSystems.Add(addin);
+                                    break;
                             }
+                            logger.Info("[ANX] successfully loaded addin...");
+                        }
+                        else
+                        {
+                            logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
                         }
                     }
                 }
 
-                SetDefaultCreators();
+                this.inputSystems.Sort();
+                this.renderSystems.Sort();
+                this.soundSystems.Sort();
             }
         }
 
@@ -220,52 +215,80 @@ namespace ANX.Framework.NonXNA
             }
 
             Type type = typeof(T);
+            AddInType addInType = GetAddInType(type);
 
-            if (defaultCreators.ContainsKey(type))
+            switch (addInType)
             {
-                return defaultCreators[type] as T;
-            }
+                case AddInType.InputSystem:
+                    if (string.IsNullOrEmpty(preferredInputSystem))
+                    {
+                        if (inputSystems.Count > 0)
+                        {
+                            return inputSystems[0].Instance as T;
+                        }
 
-            logger.Error(String.Format("couldn't find a DefaultCreator of type '{0}'. Listing all registered creators: ", type.FullName));
-            foreach (KeyValuePair<Type, ICreator> kvp in defaultCreators)
-            {
-                logger.Error(kvp.Key);
+                        throw new AddInLoadingException("couldn't get default input system because there are no registered input systems available");
+                    }
+                    else
+                    {
+                        foreach (AddIn addin in this.inputSystems)
+                        {
+                            if (addin.Name.Equals(preferredInputSystem, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                return addin.Instance as T;
+                            }
+                        }
+
+                        throw new AddInLoadingException(String.Format("couldn't get default input system '{0}' because it was not found in the list of registered creators", preferredInputSystem));
+                    }
+                case AddInType.RenderSystem:
+                    if (string.IsNullOrEmpty(preferredRenderSystem))
+                    {
+                        if (renderSystems.Count > 0)
+                        {
+                            return renderSystems[0].Instance as T;
+                        }
+
+                        throw new AddInLoadingException("couldn't get default render system because there are no registered render systems available");
+                    }
+                    else
+                    {
+                        foreach (AddIn addin in this.renderSystems)
+                        {
+                            if (addin.Name.Equals(preferredRenderSystem, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                return addin.Instance as T;
+                            }
+                        }
+
+                        throw new AddInLoadingException(String.Format("couldn't get default render system '{0}' because it was not found in the list of registered creators", preferredRenderSystem));
+                    }
+                case AddInType.SoundSystem:
+                    if (string.IsNullOrEmpty(preferredSoundSystem))
+                    {
+                        if (soundSystems.Count > 0)
+                        {
+                            return soundSystems[0].Instance as T;
+                        }
+
+                        throw new AddInLoadingException("couldn't get default sound system because there are no registered sound systems available");
+                    }
+                    else
+                    {
+                        foreach (AddIn addin in this.soundSystems)
+                        {
+                            if (addin.Name.Equals(preferredSoundSystem, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                return addin.Instance as T;
+                            }
+                        }
+
+                        throw new AddInLoadingException(String.Format("couldn't get default sound system '{0}' because it was not found in the list of registered creators", preferredSoundSystem));
+                    }
+
             }
 
             throw new AddInLoadingException(String.Format("couldn't find a DefaultCreator of type '{0}'", type.FullName));
-        }
-
-        public void SetDefaultCreator<T>(T creator) where T : class, ICreator
-        {
-            Type t = typeof(T);
-            logger.Debug("setting DefaultCreator by type: {0}", t.FullName);
-            defaultCreators[t] = creator;
-        }
-
-        public void SetDefaultCreator(string creatorName)
-        {
-            if (!initialized)
-            {
-                Initialize();
-            }
-
-            ICreator creator = null;
-            creators.TryGetValue(creatorName.ToLowerInvariant(), out creator);
-            if (creator != null)
-            {
-                Type t = creator.GetType().GetInterfaces()[0];
-                if (t == typeof(ICreator))
-                {
-                    //TODO: exception handling
-                    t = creator.GetType().GetInterfaces()[1];
-                }
-                logger.Debug("setting DefaultCreator by name: '{0}'. Resolved type: '{1}'. ", creatorName, t.FullName);
-                defaultCreators[t] = creator;
-            }
-            else
-            {
-                throw new AddInLoadingException(String.Format("couldn't set DefaultCreator by name: '{0}'. ", creatorName));
-            }
         }
 
         public OperatingSystem OperatingSystem
@@ -284,94 +307,90 @@ namespace ANX.Framework.NonXNA
             }
         }
 
-        private void SetDefaultCreators()
+        public string PreferredRenderSystem
         {
-            foreach (ICreator creator in this.creators.Values)
+            get
             {
-                string type = creator.GetType().GetInterfaces()[0].ToString();
-
-                switch (type)
+                return this.preferredRenderSystem;
+            }
+            set
+            {
+                if (this.preferredRenderSystemLocked && !this.preferredRenderSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    case "ANX.Framework.NonXNA.IRenderSystemCreator":
-                        IRenderSystemCreator renderSystemCreator = creator as IRenderSystemCreator;
-                        IRenderSystemCreator defaultRenderSystemCreator = null;
-                        if (defaultCreators.ContainsKey(typeof(IRenderSystemCreator)))
-                        {
-                            renderSystemCreator = defaultCreators[typeof(IRenderSystemCreator)] as IRenderSystemCreator;
-                        }
-
-                        if (renderSystemCreator != null && (defaultRenderSystemCreator == null || defaultRenderSystemCreator.Priority > renderSystemCreator.Priority))
-                        {
-                            SetDefaultCreator<IRenderSystemCreator>(renderSystemCreator);
-                        }
-                        break;
-                    case "ANX.Framework.NonXNA.ISoundSystemCreator":
-                        ISoundSystemCreator soundSystemCreator = creator as ISoundSystemCreator;
-                        ISoundSystemCreator defaultSoundSystemCreator = null;
-                        if (defaultCreators.ContainsKey(typeof(ISoundSystemCreator)))
-                        {
-                            defaultSoundSystemCreator = defaultCreators[typeof(ISoundSystemCreator)] as ISoundSystemCreator;
-                        }
-
-                        if (soundSystemCreator != null && (defaultSoundSystemCreator == null || defaultSoundSystemCreator.Priority > soundSystemCreator.Priority))
-                        {
-                            SetDefaultCreator<ISoundSystemCreator>(soundSystemCreator);
-                        }
-                        break;
-                    case "ANX.Framework.NonXNA.IInputSystemCreator":
-                        IInputSystemCreator inputSystemCreator = creator as IInputSystemCreator;
-                        IInputSystemCreator defaultInputSystemCreator = null;
-                        if (defaultCreators.ContainsKey(typeof(IInputSystemCreator)))
-                        {
-                            defaultInputSystemCreator = defaultCreators[typeof(IInputSystemCreator)] as IInputSystemCreator;
-                        }
-
-                        if (inputSystemCreator != null && (defaultInputSystemCreator == null || defaultInputSystemCreator.Priority > inputSystemCreator.Priority))
-                        {
-                            SetDefaultCreator<IInputSystemCreator>(inputSystemCreator);
-                        }
-                        break;
-                    case "ANX.Framework.NonXNA.ICreator":
-                        break;
-                    default:
-                        throw new InvalidOperationException(String.Format("unable to set a default system for creator of type '{0}'", type));
+                    throw new AddInLoadingException("can't set preferred RenderSystem because a RenderSystem is alread in use.");
                 }
+
+                this.preferredRenderSystem = value;
             }
         }
 
-        private string[] FetchSupportedPlattforms(Assembly assembly)
+        public string PreferredInputSystem
         {
-            string[] platforms = null;
-            string[] res = assembly.GetManifestResourceNames();
-
-            if (res != null)
+            get
             {
-                foreach (string ressource in res)
-                {
-                    Stream manifestResourceStream = assembly.GetManifestResourceStream(ressource);
-
-                    if (manifestResourceStream != null)
-                    {
-                        using (ResourceReader resourceReader = new ResourceReader(manifestResourceStream))
-                        {
-                            IDictionaryEnumerator dict = resourceReader.GetEnumerator();
-                            while (dict.MoveNext())
-                            {
-                                if (string.Equals(dict.Key.ToString(), "SupportedPlatforms", StringComparison.InvariantCultureIgnoreCase) &&
-                                    dict.Value.GetType() == typeof(string))
-                                {
-                                    platforms = dict.Value.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                    return platforms;
-                                }
-                            }
-                            resourceReader.Close();
-                        }
-                    }
-                }
+                return this.preferredInputSystem;
             }
+            set
+            {
+                if (this.preferredInputSystemLocked && !this.preferredInputSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    throw new AddInLoadingException("can't set preferred InputSystem because a InputSystem is alread in use.");
+                }
 
-            return platforms;
+                this.preferredInputSystem = value;
+            }
         }
 
+        public string PreferredSoundSystem
+        {
+            get
+            {
+                return this.preferredSoundSystem;
+            }
+            set
+            {
+                if (this.preferredSoundSystemLocked && !this.preferredSoundSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    throw new AddInLoadingException("can't set preferred SoundSystem because a SoundSystem is alread in use.");
+                }
+
+                this.preferredSoundSystem = value;
+            }
+        }
+
+        public void PreventRenderSystemChange()
+        {
+            this.preferredRenderSystemLocked = true;
+        }
+
+        public void PreventInputSystemChange()
+        {
+            this.preferredInputSystemLocked = true;
+        }
+
+        public void PreventSoundSystemChange()
+        {
+            this.preferredSoundSystemLocked = true;
+        }
+
+        private AddInType GetAddInType(Type t)
+        {
+            if (typeof(IRenderSystemCreator).IsAssignableFrom(t))
+            {
+                return AddInType.RenderSystem;
+            }
+            else if (typeof(IInputSystemCreator).IsAssignableFrom(t))
+            {
+                return AddInType.InputSystem;
+            }
+            else if (typeof(ISoundSystemCreator).IsAssignableFrom(t))
+            {
+                return AddInType.SoundSystem;
+            }
+            else
+            {
+                return AddInType.Unknown;
+            }
+        }
     }
 }

@@ -77,7 +77,6 @@ namespace WindowsGame1
 				private int lastFps = 60;
 
         public Game1()
-            : base("DirectX10")
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);

@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 
 namespace TextRendering
 {
@@ -10,6 +11,8 @@ namespace TextRendering
         /// </summary>
         static void Main(string[] args)
         {
+            AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
+
             using (Game1 game = new Game1())
             {
                 game.Run();

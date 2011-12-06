@@ -96,6 +96,7 @@ namespace ANX.InputSystem.Windows.XInput
             get 
             {
                 logger.Debug("returning a new XInput GamePad device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
                 return new GamePad(); 
             }
         }
@@ -105,6 +106,7 @@ namespace ANX.InputSystem.Windows.XInput
             get 
             {
                 logger.Debug("returning a new XInput Mouse device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
                 return new Mouse(); 
             }
         }
@@ -114,6 +116,7 @@ namespace ANX.InputSystem.Windows.XInput
             get 
             {
                 logger.Debug("returning a new XInput Keyboard device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
                 return new Keyboard(); 
             }
         }
@@ -121,7 +124,7 @@ namespace ANX.InputSystem.Windows.XInput
 #if XNAEXT
         public IMotionSensingDevice MotionSensingDevice
         {
-            get {return null; }
+            get { return null; }
         }
 #endif
     }

@@ -17,7 +17,6 @@ namespace Kinect
         MotionSensingDeviceState kinectState;
 
         public Game1()
-            : base("DirectX10", "Kinect")
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "SampleContent";

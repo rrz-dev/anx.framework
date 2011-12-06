@@ -90,21 +90,9 @@ namespace ANX.Framework
         public event EventHandler<EventArgs> Disposed;
         public event EventHandler<EventArgs> Exiting;
 
-        //TODO: The constructor should be overloaded unlike the original XNA. There will be one argument which is used to
-        //      try to load a specified environment (DX9, DX10, DX11, OpenGL). The default constructor will decide which
-        //      is the best (or only) environment to load. The default environment should behave mostly like XNA.
-
         public Game()
-            : this("DirectX10", "XInput", "XAudio")
-        {
-        }
-
-        public Game(String renderSystemName = "DirectX10", String inputSystemName = "XInput", String soundSystemName = "XAudio")
         {
             logger.Info("created a new Game-Class");
-            logger.Info("- asked for RenderSystem '{0}'", renderSystemName);
-            logger.Info("- asked for InputSystem '{0}'", inputSystemName);
-            logger.Info("- asked for SoundSystem '{0}'", soundSystemName);
 
             this.gameServices = new GameServiceContainer();
             this.gameTime = new GameTime();
@@ -120,29 +108,10 @@ namespace ANX.Framework
                 throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
             }
 
-            try
-            {
-                AddInSystemFactory.Instance.SetDefaultCreator(inputSystemName);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException(String.Format("Error during loading InputSystem {0}", inputSystemName), ex);
-                throw new AddInLoadingException(String.Format("Error during loading InputSystem {0}", inputSystemName), ex);
-            }
             IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
             if (inputSystemCreator != null)
             {
                 this.gameServices.AddService(typeof(IInputSystemCreator), inputSystemCreator);
-            }
-
-            try
-            {
-                AddInSystemFactory.Instance.SetDefaultCreator(soundSystemName);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException(String.Format("Error during loading SoundSystem {0}", soundSystemName), ex);
-                throw new AddInLoadingException(String.Format("Error during loading SoundSystem {0}", soundSystemName), ex);
             }
 
             ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
@@ -151,15 +120,6 @@ namespace ANX.Framework
                 this.gameServices.AddService(typeof(ISoundSystemCreator), soundSystemCreator);
             }
 
-            try
-            {
-                AddInSystemFactory.Instance.SetDefaultCreator(renderSystemName);
-            }
-            catch (Exception ex)
-            {
-                logger.ErrorException(String.Format("Error during loading RenderSystem {0}", renderSystemName), ex);
-                throw new AddInLoadingException(String.Format("Error during loading RenderSystem {0}", renderSystemName), ex);
-            }
             IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
             if (renderSystemCreator != null)
             {
@@ -168,10 +128,9 @@ namespace ANX.Framework
 
             logger.Info("creating GameHost");
 
-            IRenderSystemCreator creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-            if (creator != null)
+            if (renderSystemCreator != null)
             {
-                this.host = creator.CreateGameHost(this);
+                this.host = renderSystemCreator.CreateGameHost(this);
 
                 this.host.Activated += new EventHandler<EventArgs>(this.HostActivated);
                 this.host.Deactivated += new EventHandler<EventArgs>(this.HostDeactivated);

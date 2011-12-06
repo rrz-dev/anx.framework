@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 
 namespace Kinect
 {
@@ -10,6 +11,8 @@ namespace Kinect
         /// </summary>
         static void Main(string[] args)
         {
+            AddInSystemFactory.Instance.PreferredInputSystem = "Kinect";
+
             using (Game1 game = new Game1())
             {
                 game.Run();

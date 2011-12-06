@@ -1,14 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
-using ANX.Framework.NonXNA;
-using NLog;
 
-#endregion // Using Statements
+#endregion
 
 #region License
 
@@ -57,77 +50,13 @@ using NLog;
 
 #endregion // License
 
-namespace ANX.InputSystem.OpenTK
+namespace ANX.Framework.NonXNA
 {
-    public class Creator : IInputSystemCreator
+    public enum AddInType
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
-        public string Name
-        {
-            get 
-            { 
-                return "OpenTK"; 
-            }
-        }
-
-        public int Priority
-        {
-            get { return 100; }
-        }
-
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Unix ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.MacOSX;
-            }
-        }
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            logger.Debug("adding OpenTK InputSystem creator to creator collection of AddInSystemFactory");
-            factory.AddCreator(this);
-        }
-
-        public IGamePad GamePad
-        {
-            get 
-            {
-                logger.Debug("returning a new OpenTK GamePad device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new GamePad(); 
-            }
-        }
-
-        public IMouse Mouse
-        {
-            get 
-            {
-                logger.Debug("returning a new OpenTK Mouse device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Mouse(); 
-            }
-        }
-
-        public IKeyboard Keyboard
-        {
-            get 
-            {
-                logger.Debug("returning a new OpenTK Keyboard device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Keyboard(); 
-            }
-        }
-
-#if XNAEXT
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get { return null; }
-        }
-#endif
+        Unknown,
+        RenderSystem,
+        InputSystem,
+        SoundSystem
     }
 }

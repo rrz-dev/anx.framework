@@ -65,7 +65,6 @@ namespace TextRendering
         SpriteFont debugFont;
 
         public Game1()
-            : base("OpenGL3")
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);

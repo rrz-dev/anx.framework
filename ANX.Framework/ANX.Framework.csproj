@@ -418,7 +418,9 @@
     <Compile Include="Net\QualityOfService.cs" />
     <Compile Include="Net\SendDataOptions.cs" />
     <Compile Include="Net\WriteLeaderboardsEventArgs.cs" />
+    <Compile Include="NonXNA\AddIn.cs" />
     <Compile Include="NonXNA\AddInLoadingException.cs" />
+    <Compile Include="NonXNA\AddInType.cs" />
     <Compile Include="NonXNA\InputSystem\IKeyboard.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDevice.cs" />
     <Compile Include="NonXNA\InputSystem\IMouse.cs" />

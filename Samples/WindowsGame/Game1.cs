@@ -64,8 +64,7 @@ namespace WindowsGame1
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public Game1(string renderSystem, string inputSystem, string audioSystem)
-			: base(renderSystem, inputSystem, audioSystem)
+		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "SampleContent";
