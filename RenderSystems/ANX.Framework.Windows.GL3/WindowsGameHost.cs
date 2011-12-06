@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using NLog;
+using ANX.Framework.Input;
 
 
 #region License
@@ -81,6 +82,9 @@ namespace ANX.Framework.Windows.GL3
 
             logger.Info("creating a new GameWindow");
 			gameWindow = new WindowsGameWindow();
+
+            Mouse.WindowHandle = this.gameWindow.Handle;        //TODO: find a way to initialize all InputSystems with one Handle
+            Keyboard.WindowHandle = this.gameWindow.Handle;
 
             logger.Info("hook up GameWindow events");
 			gameWindow.Activated += delegate

@@ -64,6 +64,7 @@ namespace ANX.InputSystem.Windows.XInput
 {
     class Mouse : IMouse
     {
+        #region Interop
         [DllImport("user32.dll")]
         static extern bool GetCursorPos(ref Point lpPoint);
 
@@ -73,9 +74,14 @@ namespace ANX.InputSystem.Windows.XInput
         [DllImport("user32.dll")]
         static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
 
+        #endregion // Interop
+
+        #region Private Members
         private DirectInput directInput;
         private MouseX mouse;
- 
+
+        #endregion // Private Members
+
         public IntPtr WindowHandle
         {
             get;
