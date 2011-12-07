@@ -604,6 +604,10 @@ namespace ANX.Framework.Graphics
             {
                 return this.nativeDevice;
             }
+            set
+            {
+                this.nativeDevice = value;
+            }
         }
 
         internal void Recreate(PresentationParameters presentationParameters)
@@ -611,6 +615,7 @@ namespace ANX.Framework.Graphics
             if (nativeDevice != null)
             {
                 nativeDevice.Dispose();
+                raise_ResourceDestroyed(this, new ResourceDestroyedEventArgs("NativeGraphicsDevice", nativeDevice));
                 nativeDevice = null;
             }
 
@@ -618,7 +623,9 @@ namespace ANX.Framework.Graphics
             {
                 this.currentPresentationParameters = presentationParameters;
                 nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
+                GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this);
                 this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+                raise_ResourceCreated(this, new ResourceCreatedEventArgs(nativeDevice));
             }
 
         }

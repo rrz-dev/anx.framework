@@ -61,7 +61,7 @@ namespace ANX.Framework.Graphics
         private VertexDeclaration vertexDeclaration;
         private int vertexCount;
         private BufferUsage bufferUsage;
-        private INativeBuffer nativeVertexBuffer;
+        private WeakReference<INativeBuffer> nativeVertexBuffer;
 
         public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
             : this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType), vertexCount, usage)
@@ -75,9 +75,42 @@ namespace ANX.Framework.Graphics
             this.vertexDeclaration = vertexDeclaration;
             this.bufferUsage = usage;
 
-            this.nativeVertexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(graphicsDevice, vertexDeclaration, vertexCount, usage);
+            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
+            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+
+            CreateNativeBuffer();
         }
 
+        ~VertexBuffer()
+        {
+            Dispose();
+            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+        }
+
+        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+        {
+            if (nativeVertexBuffer.IsAlive)
+            {
+                nativeVertexBuffer.Target.Dispose();
+            }
+        }
+
+        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+        {
+            if (nativeVertexBuffer.IsAlive)
+            {
+                nativeVertexBuffer.Target.Dispose();
+            }
+
+            CreateNativeBuffer();
+        }
+
+        private void CreateNativeBuffer()
+        {
+            this.nativeVertexBuffer = new WeakReference<INativeBuffer>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, vertexDeclaration, vertexCount, bufferUsage));
+        }
+        
         public BufferUsage BufferUsage
         {
             get
@@ -125,12 +158,22 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(T[] data) where T : struct
         {
-            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data);
+            if (!this.nativeVertexBuffer.IsAlive)
+            {
+                CreateNativeBuffer();
+            }
+
+            this.nativeVertexBuffer.Target.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
+            if (!this.nativeVertexBuffer.IsAlive)
+            {
+                CreateNativeBuffer();
+            }
+
+            this.nativeVertexBuffer.Target.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
         }
 
         private static VertexDeclaration TypeToVertexDeclaration(Type t)
@@ -146,9 +189,9 @@ namespace ANX.Framework.Graphics
 
         public override void Dispose()
         {
-            if (nativeVertexBuffer != null)
+            if (nativeVertexBuffer.IsAlive)
             {
-                nativeVertexBuffer.Dispose();
+                nativeVertexBuffer.Target.Dispose();
                 nativeVertexBuffer = null;
             }
 
@@ -159,13 +202,18 @@ namespace ANX.Framework.Graphics
             }
         }
 
-				// This is now internal because via befriending the assemblies
-				// it's usable in the modules but doesn't confuse the enduser.
+		// This is now internal because via befriending the assemblies
+		// it's usable in the modules but doesn't confuse the enduser.
         internal INativeBuffer NativeVertexBuffer
         {
             get
             {
-                return this.nativeVertexBuffer;
+                if (!this.nativeVertexBuffer.IsAlive)
+                {
+                    CreateNativeBuffer();
+                }
+
+                return this.nativeVertexBuffer.Target;
             }
         }
 

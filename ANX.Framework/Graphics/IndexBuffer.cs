@@ -61,7 +61,7 @@ namespace ANX.Framework.Graphics
         private int indexCount;
         private BufferUsage bufferUsage;
         private IndexElementSize indexElementSize;
-        private INativeBuffer nativeIndexBuffer;
+        private WeakReference<INativeBuffer> nativeIndexBuffer;
 
         public IndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
             : base(graphicsDevice)
@@ -70,7 +70,10 @@ namespace ANX.Framework.Graphics
             this.indexCount = indexCount;
             this.bufferUsage = usage;
 
-            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
+            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
+            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+
+            CreateNativeBuffer();
         }
 
         public IndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
@@ -92,7 +95,37 @@ namespace ANX.Framework.Graphics
             this.indexCount = indexCount;
             this.bufferUsage = usage;
 
-            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(graphicsDevice, indexElementSize, indexCount, usage);
+            CreateNativeBuffer();
+        }
+
+        ~IndexBuffer()
+        {
+            Dispose();
+            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+        }
+
+        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+        {
+            if (this.nativeIndexBuffer.IsAlive)
+            {
+                this.nativeIndexBuffer.Target.Dispose();
+            }
+        }
+
+        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+        {
+            if (nativeIndexBuffer.IsAlive)
+            {
+                nativeIndexBuffer.Target.Dispose();
+            }
+
+            CreateNativeBuffer();
+        }
+
+        private void CreateNativeBuffer()
+        {
+            this.nativeIndexBuffer = new WeakReference<INativeBuffer>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, indexElementSize, indexCount, bufferUsage));
         }
 
         public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
@@ -112,12 +145,22 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
-            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount);
+            if (!nativeIndexBuffer.IsAlive)
+            {
+                CreateNativeBuffer();
+            }
+
+            this.nativeIndexBuffer.Target.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount);
         }
 
         public void SetData<T>(T[] data) where T : struct
         {
-            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, data);
+            if (!nativeIndexBuffer.IsAlive)
+            {
+                CreateNativeBuffer();
+            }
+
+            this.nativeIndexBuffer.Target.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
@@ -127,16 +170,24 @@ namespace ANX.Framework.Graphics
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            if (this.nativeIndexBuffer.IsAlive)
+            {
+                this.nativeIndexBuffer.Target.Dispose();
+            }
         }
 
-				// This is now internal because via befriending the assemblies
-				// it's usable in the modules but doesn't confuse the enduser.
+		// This is now internal because via befriending the assemblies
+		// it's usable in the modules but doesn't confuse the enduser.
         internal INativeBuffer NativeIndexBuffer
         {
             get
             {
-                return this.nativeIndexBuffer;
+                if (!nativeIndexBuffer.IsAlive)
+                {
+                    CreateNativeBuffer();
+                }
+
+                return this.nativeIndexBuffer.Target;
             }
         }
 

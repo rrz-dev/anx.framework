@@ -1,10 +1,6 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using System.IO;
 
 #endregion // Using Statements
 
@@ -55,128 +51,66 @@ using System.IO;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics
+namespace ANX.Framework.NonXNA
 {
-    public class Effect : GraphicsResource, IGraphicsResource
+    public sealed class WeakReference<T> where T : class
     {
-        #region Private Members
-        private WeakReference<INativeEffect> nativeEffect;
-        private EffectTechniqueCollection techniqueCollection;
-        private EffectTechnique currentTechnique;
-        private EffectParameterCollection parameterCollection;
-        private byte[] byteCode;
+        private WeakReference target;
 
-        #endregion // Private Members
-
-        protected Effect(Effect cloneSource)
-            : this(cloneSource.GraphicsDevice, cloneSource.byteCode)
+        public WeakReference(T target)
         {
-        }
-
-        public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
-            : base(graphicsDevice)
-        {
-            this.byteCode = new byte[byteCode.Length];
-            Array.Copy(byteCode, this.byteCode, byteCode.Length);
-
-            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
-            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
-
-            CreateNativeEffect();
-
-            this.currentTechnique = this.techniqueCollection[0];
-        }
-
-        ~Effect()
-        {
-            Dispose();
-            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
-
-        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
-        {
-            if (nativeEffect.IsAlive)
+            if (target == null)
             {
-                nativeEffect.Target.Dispose();
+                throw new ArgumentNullException("target");
             }
 
-            CreateNativeEffect();
+            this.target = new WeakReference(target);
         }
 
-        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+        public WeakReference(T target, bool trackResurrection)
         {
-            if (nativeEffect.IsAlive)
+            if (target == null)
             {
-                nativeEffect.Target.Dispose();
+                throw new ArgumentNullException("target");
             }
+
+            this.target = new WeakReference(target, trackResurrection);
         }
 
-        public virtual Effect Clone()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal INativeEffect NativeEffect
+        public T Target
         {
             get
             {
-                if (!nativeEffect.IsAlive)
+                return target.Target as T;
+            }
+        }
+
+        public bool IsAlive
+        {
+            get
+            {
+                if (target != null)
                 {
-                    CreateNativeEffect();
+                    return target.IsAlive;
                 }
 
-                return this.nativeEffect.Target;
+                return false;
             }
         }
 
-        public EffectTechnique CurrentTechnique
+        public bool TrackResurrection
         {
             get
             {
-                return this.currentTechnique;
-            }
-            set
-            {
-                this.currentTechnique = value;
-            }
-        }
+                if (target != null)
+                {
+                    return target.TrackResurrection;
+                }
 
-        public EffectParameterCollection Parameters
-        {
-            get
-            {
-                return this.parameterCollection;
+                return false;
             }
         }
 
-        public EffectTechniqueCollection Techniques
-        {
-            get
-            {
-                return this.techniqueCollection;
-            }
-        }
 
-        public override void Dispose()
-        {
-            if (nativeEffect.IsAlive)
-            {
-                nativeEffect.Target.Dispose();
-            }
-        }
-
-        protected override void Dispose(Boolean disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CreateNativeEffect()
-        {
-            this.nativeEffect = new WeakReference<INativeEffect>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false)));
-
-            this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect.Target);
-            this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect.Target);
-        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿#region Using Statements
 using System;
-using ANX.Framework.NonXNA;
+using System.Collections.Generic;
+using ANX.Framework.Graphics;
 
-#endregion // Using Statements
+#endregion
 
 #region License
 
@@ -51,70 +52,62 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.Framework.Graphics
+namespace ANX.Framework.NonXNA
 {
-    public abstract class GraphicsResource : IDisposable
+    public class GraphicsResourceTracker
     {
-        public event EventHandler<EventArgs> Disposing;
+        #region Private members
+        private static GraphicsResourceTracker instance;
+        private static List<GraphicsResource> trackedGraphicsResources;
 
-        public GraphicsResource()
+        #endregion // Private members
+
+        static GraphicsResourceTracker()
         {
-            GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
+            trackedGraphicsResources = new List<GraphicsResource>();
         }
 
-        ~GraphicsResource()
-        {
-            GraphicsResourceTracker.Instance.UnregisterTrackedObject(this);
-        }
+        //~GraphicsResourceTracker()
+        //{
+        //    if (trackedGraphicsResources.Count > 0)
+        //    {
+        //        throw new Exception("The GraphicsResourceTracker is going to be destroyed but is still tracking some objects.");
+        //    }
+        //}
 
-        public GraphicsResource(GraphicsDevice device)
+        public static GraphicsResourceTracker Instance
         {
-            this.GraphicsDevice = device;
-            GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
-        }
-
-        public GraphicsDevice GraphicsDevice
-        {
-            get;
-            set;
-        }
-
-        public bool IsDisposed
-        {
-            get;
-            internal set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public object Tag
-        {
-            get;
-            set;
-        }
-			
-        public abstract void Dispose();
-
-        protected void raise_Disposing(object sender, EventArgs args)
-        {
-            if (Disposing != null)
+            get
             {
-                Disposing(sender, args);
+                if (instance == null)
+                {
+                    instance = new GraphicsResourceTracker();
+                }
+
+                return instance;
             }
         }
 
-        protected virtual void Dispose(Boolean disposeManaged)
+        public void UpdateGraphicsDeviceReference(GraphicsDevice newGraphicsDevice)
         {
-            throw new NotImplementedException();
+            foreach (GraphicsResource resource in trackedGraphicsResources)
+            {
+                resource.GraphicsDevice = newGraphicsDevice;
+                resource.GraphicsDevice.NativeDevice = newGraphicsDevice.NativeDevice;
+            }
         }
 
-        public override string ToString()
+        public void RegisterTrackedObject(GraphicsResource graphicsResource)
         {
-            return base.ToString();
+            if (!trackedGraphicsResources.Contains(graphicsResource))
+            {
+                trackedGraphicsResources.Add(graphicsResource);
+            }
+        }
+
+        public void UnregisterTrackedObject(GraphicsResource graphicsResource)
+        {
+            trackedGraphicsResources.Remove(graphicsResource);
         }
     }
 }

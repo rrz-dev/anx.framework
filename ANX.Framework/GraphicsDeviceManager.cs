@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
 using System.IO;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -148,6 +149,7 @@ namespace ANX.Framework
             //TODO: validate graphics device
 
             this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile, deviceInformation.PresentationParameters);
+            GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this.graphicsDevice);
 
             //TODO: hookup events
             this.graphicsDevice.DeviceResetting += new EventHandler<EventArgs>(graphicsDevice_DeviceResetting);
