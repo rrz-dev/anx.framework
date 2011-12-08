@@ -99,15 +99,15 @@ namespace ANX.InputSystem.Recording
         protected IMouse realMouse;
         protected MouseRecordInfo recordInfo;
 
-        public IntPtr WindowHandle 
-        { 
-            get { return realMouse.WindowHandle; } 
+        public IntPtr WindowHandle
+        {
+            get { return realMouse.WindowHandle; }
             set { realMouse.WindowHandle = value; }
         }
 
         public MouseState GetState() //The main recording/playback logic is placed here
         {
-            switch(RecordingState)
+            switch (RecordingState)
             {
                 case RecordingState.None:
                     return realMouse.GetState();
@@ -117,7 +117,7 @@ namespace ANX.InputSystem.Recording
 
                     if (stateData == null) //No input at this position
                         return new MouseState();
-                        
+
                     byte readOffset = 0;
                     ButtonState left, right, middle, x1, x2;
                     int scrollWheel, xPos, yPos;
@@ -136,17 +136,26 @@ namespace ANX.InputSystem.Recording
                         left = right = middle = x1 = x2 = ButtonState.Released;
 
                     if (recordInfo.HasFlag(MouseRecordInfo.ScrollWheel))
-                        scrollWheel = BitConverter.ToInt32(stateData, readOffset++);
+                    {
+                        scrollWheel = BitConverter.ToInt32(stateData, readOffset);
+                        readOffset += 4;
+                    }
                     else
                         scrollWheel = 0;
 
                     if (recordInfo.HasFlag(MouseRecordInfo.XPosition))
-                        xPos = BitConverter.ToInt32(stateData, readOffset++);
+                    {
+                        xPos = BitConverter.ToInt32(stateData, readOffset);
+                        readOffset += 4;
+                    }
                     else
                         xPos = 0;
 
                     if (recordInfo.HasFlag(MouseRecordInfo.YPosition))
-                        yPos = BitConverter.ToInt32(stateData, readOffset++);
+                    {
+                        yPos = BitConverter.ToInt32(stateData, readOffset);
+                        readOffset += 4;
+                    }
                     else
                         yPos = 0;
 
@@ -168,13 +177,22 @@ namespace ANX.InputSystem.Recording
                     }
 
                     if (recordInfo.HasFlag(MouseRecordInfo.ScrollWheel))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.ScrollWheelValue), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
+                    {
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.ScrollWheelValue), 0, buffer, writeOffset, 4); //int is always 4 byte long.
+                        writeOffset += 4;
+                    }
 
-                    if(recordInfo.HasFlag(MouseRecordInfo.XPosition))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.X), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
+                    if (recordInfo.HasFlag(MouseRecordInfo.XPosition))
+                    {
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.X), 0, buffer, writeOffset, 4); //int is always 4 byte long.
+                        writeOffset += 4;
+                    }
 
-                    if(recordInfo.HasFlag(MouseRecordInfo.YPosition))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.Y), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
+                    if (recordInfo.HasFlag(MouseRecordInfo.YPosition))
+                    {
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.Y), 0, buffer, writeOffset, 4); //int is always 4 byte long.
+                        writeOffset += 4;
+                    }
 
                     WriteState(buffer);
 
@@ -226,7 +244,6 @@ namespace ANX.InputSystem.Recording
         public void Initialize(MouseRecordInfo info, Stream bufferStream, IMouse mouse)
         {
             realMouse = mouse;
-            realMouse.WindowHandle = WindowHandle;
 
             recordInfo = info;
             PacketLenght = GetPaketSize(info);

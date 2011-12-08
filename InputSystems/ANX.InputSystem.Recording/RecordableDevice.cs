@@ -85,6 +85,9 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         protected void Initialize(Stream bufferStream)
         {
+            if (!bufferStream.CanRead || !bufferStream.CanWrite)
+                throw new ArgumentException("The stream must support read and write opearions!", "bufferStream");
+            
             recordStream = bufferStream;
 
             isInitialized = true;
@@ -97,6 +100,10 @@ namespace ANX.InputSystem.Recording
             
             if (RecordingState == RecordingState.Recording)
                 return;
+
+            //Reset the stream if we can seek
+            if(recordStream.CanSeek)
+                recordStream.Position = 0;
 
             RecordingState = RecordingState.Recording;
         }
@@ -116,6 +123,10 @@ namespace ANX.InputSystem.Recording
             
             if (RecordingState == RecordingState.Recording)
                 throw new InvalidOperationException("Recording is currently running for this device.");
+
+            //Reset the stream if we can seek
+            if (recordStream.CanSeek)
+                recordStream.Position = 0;
 
             RecordingState = RecordingState.Playback;
         }
