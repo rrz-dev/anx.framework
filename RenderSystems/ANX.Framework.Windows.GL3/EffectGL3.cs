@@ -63,6 +63,16 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
+		#region ShaderAttribute (Helper struct)
+		public struct ShaderAttribute
+		{
+			public string Name;
+			public uint Location;
+			public int Size;
+			public ActiveAttribType Type;
+		}
+		#endregion
+
 		#region Constants
 		private const string FragmentSeparator = "##!fragment!##";
 		#endregion
@@ -73,7 +83,13 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		internal int programHandle;
 
-        private Effect managedEffect;
+    private Effect managedEffect;
+
+		internal Dictionary<string, ShaderAttribute> ActiveAttributes
+		{
+			get;
+			private set;
+		}
 		#endregion
 
 		#region Public
@@ -193,6 +209,8 @@ namespace ANX.Framework.Windows.GL3
 				throw new InvalidDataException("Failed to link the shader program " +
 					"because of: " + programError);
 			}
+
+			GetAttributes();
 		}
 		#endregion
 
@@ -305,6 +323,31 @@ namespace ANX.Framework.Windows.GL3
 			}
 
 			return source;
+		}
+		#endregion
+
+		#region GetAttributes
+		private void GetAttributes()
+		{
+			ActiveAttributes = new Dictionary<string, ShaderAttribute>();
+			int attributeCount;
+			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
+				out attributeCount);
+			for (int index = 0; index < attributeCount; index++)
+			{
+				int attributeSize;
+				ActiveAttribType attributeType;
+				string name = GL.GetActiveAttrib(programHandle, index,
+					out attributeSize, out attributeType);
+				uint attributeIndex = (uint)GL.GetAttribLocation(programHandle, name);
+				ActiveAttributes.Add(name, new ShaderAttribute
+				{
+					Name = name,
+					Location = attributeIndex,
+					Size = attributeSize,
+					Type = attributeType,
+				});
+			}
 		}
 		#endregion
 

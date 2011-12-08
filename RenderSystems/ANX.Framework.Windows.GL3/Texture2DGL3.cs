@@ -89,14 +89,18 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// The OpenGL texture handle.
 		/// </summary>
-		internal int NativeHandle
+		protected internal int NativeHandle
 		{
 			get;
-			private set;
+			protected set;
 		}
 		#endregion
 
 		#region Constructor
+		internal Texture2DGL3()
+		{
+		}
+
 		/// <summary>
 		/// Create a new native OpenGL texture.
 		/// </summary>
@@ -164,6 +168,11 @@ namespace ANX.Framework.Windows.GL3
 				throw new NotImplementedException(
 					"Loading mipmaps is not correctly implemented yet!");
 			}
+
+			GL.BindTexture(TextureTarget.Texture2D, NativeHandle);
+#if DEBUG
+			ErrorHelper.Check("BindTexture");
+#endif
 
 			GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
 
@@ -235,7 +244,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Dispose the native OpenGL texture handle.
 		/// </summary>
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			GL.DeleteTexture(NativeHandle);
 #if DEBUG

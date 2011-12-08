@@ -53,7 +53,7 @@ attribute vec2 tex;
 
 varying vec4 diffuseColor;
 varying vec2 diffuseTexCoord;
-void main(void)
+void main( )
 {
 	gl_Position = MatrixTransform * pos;
 	diffuseTexCoord = tex;
@@ -66,11 +66,13 @@ void main(void)
 // Fragment Shader
 //
 
+precission mediump float;
+
 uniform sampler2D Texture;
 
 varying vec4 diffuseColor;
 varying vec2 diffuseTexCoord;
-void main(void)
+void main( )
 {
 	gl_FragColor = texture2D(Texture, diffuseTexCoord) * diffuseColor;
 }

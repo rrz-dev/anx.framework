@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 
 namespace RenderTarget
 {
@@ -9,7 +10,8 @@ namespace RenderTarget
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         static void Main(string[] args)
-        {
+			{
+						//AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
             using (Game1 game = new Game1())
             {
                 game.Run();

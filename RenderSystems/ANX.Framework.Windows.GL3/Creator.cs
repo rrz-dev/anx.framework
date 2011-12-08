@@ -5,8 +5,8 @@ using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
-using OpenTK;
 using NLog;
+using OpenTK;
 
 #region License
 
@@ -62,7 +62,7 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class Creator : IRenderSystemCreator
 	{
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+		private static Logger logger = LogManager.GetCurrentClassLogger();
 
 		#region Public
 		/// <summary>
@@ -81,23 +81,23 @@ namespace ANX.Framework.Windows.GL3
 			get { return 100; }
 		}
 
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Unix ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.MacOSX;
-            }
-        }
+		public bool IsSupported
+		{
+			get
+			{
+				//TODO: this is just a very basic version of test for support
+				return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT ||
+							 AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Unix ||
+							 AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.MacOSX;
+			}
+		}
 
 		#endregion
 
 		#region RegisterRenderSystemCreator
 		public void RegisterCreator(AddInSystemFactory factory)
 		{
-            logger.Debug("adding OpenGL3 RenderSystem creator to creator collection of AddInSystemFactory");
+			logger.Debug("adding OpenGL3 RenderSystem creator to creator collection of AddInSystemFactory");
 			factory.AddCreator(this);
 		}
 		#endregion
@@ -105,16 +105,16 @@ namespace ANX.Framework.Windows.GL3
 		#region CreateGameHost
 		public GameHost CreateGameHost(Game game)
 		{
-            logger.Info("creating OpenGL3 GameHost");
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new WindowsGameHost(game);
+			logger.Info("creating OpenGL3 GameHost");
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new WindowsGameHost(game);
 		}
 		#endregion
 
 		#region CreateEffect
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
 
 			return new EffectGL3(managedEffect, byteCode);
 		}
@@ -122,9 +122,9 @@ namespace ANX.Framework.Windows.GL3
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            
-            return new EffectGL3(managedEffect, vertexShaderByteCode, pixelShaderByteCode);
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+
+			return new EffectGL3(managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 		#endregion
 
@@ -132,8 +132,8 @@ namespace ANX.Framework.Windows.GL3
 		INativeGraphicsDevice IRenderSystemCreator.CreateGraphicsDevice(
 			PresentationParameters presentationParameters)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new GraphicsDeviceWindowsGL3(presentationParameters);
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new GraphicsDeviceWindowsGL3(presentationParameters);
 		}
 		#endregion
 
@@ -150,8 +150,8 @@ namespace ANX.Framework.Windows.GL3
 		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
 			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new Texture2DGL3(surfaceFormat, width, height, mipCount);
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new Texture2DGL3(surfaceFormat, width, height, mipCount);
 		}
 		#endregion
 
@@ -168,8 +168,8 @@ namespace ANX.Framework.Windows.GL3
 		public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
 			IndexElementSize size, int indexCount, BufferUsage usage)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new IndexBufferGL3(size, indexCount, usage);
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new IndexBufferGL3(size, indexCount, usage);
 		}
 		#endregion
 
@@ -187,8 +187,8 @@ namespace ANX.Framework.Windows.GL3
 			VertexDeclaration vertexDeclaration, int vertexCount,
 			BufferUsage usage)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new VertexBufferGL3(vertexDeclaration, vertexCount, usage);
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new VertexBufferGL3(vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
@@ -199,8 +199,8 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Blend State.</returns>
 		public INativeBlendState CreateBlendState()
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new BlendStateGL3();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new BlendStateGL3();
 		}
 		#endregion
 
@@ -211,8 +211,8 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Rasterizer State.</returns>
 		public INativeRasterizerState CreateRasterizerState()
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new RasterizerStateGL3();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new RasterizerStateGL3();
 		}
 		#endregion
 
@@ -223,8 +223,8 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Depth Stencil State.</returns>
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new DepthStencilStateGL3();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new DepthStencilStateGL3();
 		}
 		#endregion
 
@@ -235,8 +235,8 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Sampler State.</returns>
 		public INativeSamplerState CreateSamplerState()
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new SamplerStateGL3();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new SamplerStateGL3();
 		}
 		#endregion
 
@@ -248,9 +248,9 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Byte code of the shader.</returns>
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            
-            if (type == PreDefinedShader.SpriteBatch)
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+
+			if (type == PreDefinedShader.SpriteBatch)
 			{
 				return ShaderByteCode.SpriteBatchByteCode;
 			}
@@ -286,9 +286,9 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>List of graphics adapters.</returns>
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            
-            var result = new List<GraphicsAdapter>();
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+
+			var result = new List<GraphicsAdapter>();
 			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
 			{
 				var displayModeCollection = new DisplayModeCollection();
@@ -347,8 +347,8 @@ namespace ANX.Framework.Windows.GL3
 			DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
 			RenderTargetUsage usage)
 		{
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
-            return new RenderTarget2DGL3(width, height, mipMap, preferredFormat,
+			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			return new RenderTarget2DGL3(width, height, mipMap, preferredFormat,
 				preferredDepthFormat, preferredMultiSampleCount, usage);
 		}
 		#endregion

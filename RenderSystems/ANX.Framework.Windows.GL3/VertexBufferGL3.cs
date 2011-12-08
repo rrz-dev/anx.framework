@@ -178,67 +178,54 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 		#region MapVertexDeclaration
-		internal void MapVertexDeclaration(int programHandle)
-		{
-			int attributes;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
-				out attributes);
-			
+		internal void MapVertexDeclaration(EffectGL3 effect)
+		{			
 			VertexElement[] elements = vertexDeclaration.GetVertexElements();
-			if (elements.Length != attributes)
+			if (elements.Length != effect.ActiveAttributes.Count)
 			{
 				throw new InvalidOperationException("Mapping the VertexDeclaration " +
 					"onto the glsl attributes failed because we have " +
-					attributes + " Shader Attributes and " + elements.Length +
-					" elements in the vertex declaration which doesn't fit!");
+					effect.ActiveAttributes.Count + " Shader Attributes and " +
+					elements.Length + " elements in the vertex declaration which " +
+					"doesn't fit!");
 			}
 
-			foreach (VertexElement element in elements)
+			foreach (string key in effect.ActiveAttributes.Keys)
 			{
-				// TODO: element.UsageIndex?
+				EffectGL3.ShaderAttribute attribute = effect.ActiveAttributes[key];
+				GL.EnableVertexAttribArray(attribute.Location);
+				VertexElement element = elements[(int)attribute.Location];
 
 				switch (element.VertexElementUsage)
 				{
+					case VertexElementUsage.Binormal:
+					case VertexElementUsage.Normal:
+					case VertexElementUsage.Tangent:
+					case VertexElementUsage.BlendIndices:
+					case VertexElementUsage.BlendWeight:
 					case VertexElementUsage.Position:
-						int loc = GL.GetAttribLocation(programHandle, "pos");
-						ErrorHelper.Check("GetAttribLocation pos");
-						GL.EnableVertexAttribArray(loc);
-						ErrorHelper.Check("EnableVertexAttribArray pos");
-						GL.VertexAttribPointer(loc, 3, VertexAttribPointerType.Float,
-							false, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check("VertexAttribPointer pos");
+						GL.VertexAttribPointer((int)attribute.Location, 3,
+							VertexAttribPointerType.Float, false,
+							vertexDeclaration.VertexStride, element.Offset);
 						break;
 
 					case VertexElementUsage.Color:
-						int col = GL.GetAttribLocation(programHandle, "col");
-						ErrorHelper.Check("GetAttribLocation col");
-						GL.EnableVertexAttribArray(col);
-						ErrorHelper.Check("EnableVertexAttribArray col");
-						GL.VertexAttribPointer(col, 4, VertexAttribPointerType.UnsignedByte,
-						  true, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check("VertexAttribPointer col");
+						GL.VertexAttribPointer((int)attribute.Location, 4,
+							VertexAttribPointerType.UnsignedByte,
+							true, vertexDeclaration.VertexStride, element.Offset);
 						break;
 
 					case VertexElementUsage.TextureCoordinate:
-						int tex = GL.GetAttribLocation(programHandle, "tex");
-						ErrorHelper.Check("GetAttribLocation tex");
-						GL.EnableVertexAttribArray(tex);
-						ErrorHelper.Check("EnableVertexAttribArray tex");
-						GL.VertexAttribPointer(tex, 2, VertexAttribPointerType.Float,
-						  false, vertexDeclaration.VertexStride, element.Offset);
-						ErrorHelper.Check("VertexAttribPointer tex");
+						GL.VertexAttribPointer((int)attribute.Location, 2,
+							VertexAttribPointerType.Float, false,
+							vertexDeclaration.VertexStride, element.Offset);
 						break;
 
 					// TODO
-					case VertexElementUsage.Binormal:
-					case VertexElementUsage.BlendIndices:
-					case VertexElementUsage.BlendWeight:
 					case VertexElementUsage.Depth:
 					case VertexElementUsage.Fog:
-					case VertexElementUsage.Normal:
 					case VertexElementUsage.PointSize:
 					case VertexElementUsage.Sample:
-					case VertexElementUsage.Tangent:
 					case VertexElementUsage.TessellateFactor:
 						throw new NotImplementedException();
 				}
