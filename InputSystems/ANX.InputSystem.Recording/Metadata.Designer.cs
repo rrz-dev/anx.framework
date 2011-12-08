@@ -61,7 +61,7 @@ namespace ANX.InputSystem.Recording {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Win32NT ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Win32NT Unix MacOsX ähnelt.
         /// </summary>
         public static string SupportedPlatforms {
             get {

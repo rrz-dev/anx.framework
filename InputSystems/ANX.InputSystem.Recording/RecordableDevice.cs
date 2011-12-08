@@ -63,15 +63,16 @@ namespace ANX.InputSystem.Recording
     {
         protected Stream recordStream; //The stream where the input is written to
         protected int nullStateCounter; //Used to sum up frames with no input.
+        protected bool isInitialized = false;
 
         public RecordingState RecordingState { get; protected set; }
 
         public event EventHandler EndOfPlaybackReached;
 
         /// <summary>
-        /// How many bytes this Instance requires per Frame. Must never change!
+        /// How many bytes this Instance requires per Paket. Must never change!
         /// </summary>
-        public int FramePacketLenght { get; protected set; }
+        public int PacketLenght { get; protected set; }
 
         public RecordableDevice()
         {
@@ -79,25 +80,21 @@ namespace ANX.InputSystem.Recording
         }
 
         /// <summary>
-        /// Initializes the Device using a new
-        /// MemoryStream for input-buffering.
-        /// </summary>
-        public virtual void Initialize()
-        {
-            Initialize(new MemoryStream());
-        }
-
-        /// <summary>
         /// Initializes the Device using the specified stream
         /// for input-buffering.
         /// </summary>
-        public virtual void Initialize(Stream bufferStream)
+        protected void Initialize(Stream bufferStream)
         {
             recordStream = bufferStream;
+
+            isInitialized = true;
         }
 
         public virtual void StartRecording()
         {
+            if (!isInitialized)
+                throw new InvalidOperationException("This instance is not initialized!");
+            
             if (RecordingState == RecordingState.Recording)
                 return;
 
@@ -114,6 +111,9 @@ namespace ANX.InputSystem.Recording
 
         public virtual void StartPlayback()
         {
+            if (!isInitialized)
+                throw new InvalidOperationException("This instance is not initialized!");
+            
             if (RecordingState == RecordingState.Recording)
                 throw new InvalidOperationException("Recording is currently running for this device.");
 
@@ -128,7 +128,6 @@ namespace ANX.InputSystem.Recording
         /// <summary>
         /// Writes the current input state to the buffering stream. Pass null
         /// for state, if no input is done (no keys down etc.).
-        /// Must be called once per Frame!
         /// </summary>
         protected virtual void WriteState(byte[] state)
         {
@@ -138,7 +137,7 @@ namespace ANX.InputSystem.Recording
                 return;
             }
 
-            if (state.Length != FramePacketLenght)
+            if (state.Length != PacketLenght)
                 throw new InvalidOperationException("The passed state's lenght does not match the speficed FramePaketLenght.");
 
             if (nullStateCounter > 0) //Note how many packets we had nothing
@@ -153,8 +152,7 @@ namespace ANX.InputSystem.Recording
 
         /// <summary>
         /// Reads the next input-state from the buffering stream. Might
-        /// return null, if no input was made in this frame.
-        /// Must be called once per Frame!
+        /// return null, if no input was made at this Position.
         /// </summary>
         protected virtual byte[] ReadState()
         {
@@ -179,8 +177,8 @@ namespace ANX.InputSystem.Recording
                     nullStateCounter = BitConverter.ToInt32(buffer, 0) - 1;
                     return null;
                 case PacketType.InputData:
-                    byte[] buffer2 = new byte[FramePacketLenght];
-                    recordStream.Read(buffer2, 0, FramePacketLenght);
+                    byte[] buffer2 = new byte[PacketLenght];
+                    recordStream.Read(buffer2, 0, PacketLenght);
                     return buffer2;
                 default:
                     throw new NotImplementedException("The PaketType " + Enum.GetName(typeof(PacketType), type) + "is not supported.");
@@ -188,6 +186,10 @@ namespace ANX.InputSystem.Recording
 
         }
 
+        /// <summary>
+        /// Fires the EndOfPlaybackReaced event. Overwrite this method to change
+        /// this behavoir.
+        /// </summary>
         protected virtual void OnEndOfPlaybackReached()
         {
             if (EndOfPlaybackReached != null)

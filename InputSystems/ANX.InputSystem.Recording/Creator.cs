@@ -113,11 +113,7 @@ namespace ANX.InputSystem.Recording
 
         public bool IsSupported
         {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
-            }
+            get { return true; } //This is just a proxy, so it runs on all plattforms
         }
 
     }

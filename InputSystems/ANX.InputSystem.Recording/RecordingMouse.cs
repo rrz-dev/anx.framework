@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Input;
 using System.IO;
+using System.Runtime.InteropServices;
 
 #endregion
 
@@ -69,6 +70,7 @@ namespace ANX.InputSystem.Recording
         ScrollWheel = 32,
         XPosition = 64,
         YPosition = 128,
+
         LRMButtons = LeftButton | RightButton | MiddleButton,
         XButtons = X1Button | X2Button,
         AllButtons = LRMButtons | XButtons,
@@ -77,45 +79,126 @@ namespace ANX.InputSystem.Recording
     }
 
     /// <summary>
-    /// Wrapper arround another IGamePad, will record all inputs and allows playback.
+    /// Used to store the ButtonStates packed to one byte.
+    /// </summary>
+    [Flags]
+    enum MouseButtons : byte
+    {
+        Left = 1,
+        Right = 2,
+        Middle = 4,
+        X1 = 8,
+        X2 = 16
+    }
+
+    /// <summary>
+    /// Wrapper arround another IMouse, will record all inputs and allows playback.
     /// </summary>
     public class RecordingMouse : RecordableDevice, IMouse
     {
-        public IntPtr WindowHandle { get; set; }
+        protected IMouse realMouse;
+        protected MouseRecordInfo recordInfo;
 
-        public MouseState GetState()
+        public IntPtr WindowHandle 
+        { 
+            get { return realMouse.WindowHandle; } 
+            set { realMouse.WindowHandle = value; }
+        }
+
+        public MouseState GetState() //The main recording/playback logic is placed here
         {
-            throw new NotImplementedException();
+            switch(RecordingState)
+            {
+                case RecordingState.None:
+                    return realMouse.GetState();
+                case RecordingState.Playback:
+                case RecordingState.Recording:
+                    MouseState state = realMouse.GetState();
+                    //Pack the state to a buffer and save it. In can be never null, because the mouse has allways a position.
+                    //TODO: Check if the position is not recorded
+                    byte[] buffer = new byte[PacketLenght];
+                    byte offset = 0;
+                    if ((recordInfo & MouseRecordInfo.AllButtons) != 0) //Any of the Buttons is recorded
+                    {
+                        buffer[offset] |= state.LeftButton == ButtonState.Pressed ? (byte)MouseButtons.Left : (byte)0; //TODO: Is there a byte literal? (like 118L or 91.8f)
+                        buffer[offset] |= state.RightButton == ButtonState.Pressed ? (byte)MouseButtons.Right : (byte)0;
+                        buffer[offset] |= state.MiddleButton == ButtonState.Pressed ? (byte)MouseButtons.Middle : (byte)0;
+                        buffer[offset] |= state.XButton1 == ButtonState.Pressed ? (byte)MouseButtons.X1 : (byte)0;
+                        buffer[offset] |= state.XButton2 == ButtonState.Pressed ? (byte)MouseButtons.X2 : (byte)0;
+                        offset++;
+                    }
+
+                    if (recordInfo.HasFlag(MouseRecordInfo.ScrollWheel))
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.ScrollWheelValue), 0, buffer, offset++, 4); //int is always 4 byte long.
+
+                    if(recordInfo.HasFlag(MouseRecordInfo.XPosition))
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.X), 0, buffer, offset++, 4); //int is always 4 byte long.
+
+                    if(recordInfo.HasFlag(MouseRecordInfo.YPosition))
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.Y), 0, buffer, offset++, 4); //int is always 4 byte long.
+
+                    return state;
+                default:
+                    throw new InvalidOperationException("The recordsingState is invalid!");
+            }
         }
 
         public void SetPosition(int x, int y)
         {
-            throw new NotImplementedException();
+            //We just pass this call the underlying IMouse, unless we are in Playback mode (we don't want the Mouse to jump arround during playback)
+            //There is no need in recording this calls, as they are reflected in the next frame's Mouse position.
+            if (RecordingState != RecordingState.Playback)
+                realMouse.SetPosition(x, y);
         }
 
+        /// <summary>
+        /// Intializes this instance using a new MemoryStream as the Buffer, the
+        /// default's InputSystems Mouse and the passed MouseRecordInfo.
+        /// </summary>
         public void Initialize(MouseRecordInfo info)
         {
-            base.Initialize();
+            this.Initialize(info, new MemoryStream(), AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
         }
 
+        /// <summary>
+        /// Intializes this instance using a new MemoryStream as the Buffer,recording 
+        /// the passed IMouse, using the passed MouseRecordInfo.
+        /// </summary>
+        public void Initialize(MouseRecordInfo info, IMouse mouse)
+        {
+            this.Initialize(info, new MemoryStream(), mouse);
+        }
+
+        /// <summary>
+        /// Intializes this instance using the passed Stream as the Buffer, the
+        /// default's InputSystems Mouse and the passed MouseRecordInfo.
+        /// </summary>
         public void Initialize(MouseRecordInfo info, Stream bufferStream)
         {
+            this.Initialize(info, bufferStream, AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
+        }
+
+        /// <summary>
+        /// Intializes this instance using the passed Stream as the Buffer, recording 
+        /// the passed IMouse, using the passed MouseRecordInfo.
+        /// </summary>
+        public void Initialize(MouseRecordInfo info, Stream bufferStream, IMouse mouse)
+        {
+            realMouse = mouse;
+            realMouse.WindowHandle = WindowHandle;
+
+            recordInfo = info;
+            PacketLenght = GetPaketSize(info);
+
             base.Initialize(bufferStream);
         }
 
         private int GetPaketSize(MouseRecordInfo info)
         {
-            int ret = 0; //TODO: Pack the bools in one byte to save space sizeof(bool) == sizeof(byte)!
-            if (info.HasFlag(MouseRecordInfo.LeftButton))
-                ret += sizeof(bool);
-            if (info.HasFlag(MouseRecordInfo.RightButton))
-                ret += sizeof(bool);
-            if (info.HasFlag(MouseRecordInfo.MiddleButton))
-                ret += sizeof(bool);
-            if (info.HasFlag(MouseRecordInfo.X1Button))
-                ret += sizeof(bool);
-            if (info.HasFlag(MouseRecordInfo.X2Button))
-                ret += sizeof(bool);
+            int ret = 0;
+
+            if ((info & MouseRecordInfo.AllButtons) != 0) //We pack all Buttons in one byte, so it does not matter witch buttons are set.
+                ret += sizeof(byte);
 
             if (info.HasFlag(MouseRecordInfo.XPosition))
                 ret += sizeof(int);
