@@ -112,34 +112,75 @@ namespace ANX.InputSystem.Recording
                 case RecordingState.None:
                     return realMouse.GetState();
                 case RecordingState.Playback:
+                    //Read a state from the Stream and recreate the MouseState from it.
+                    byte[] stateData = ReadState();
+
+                    if (stateData == null) //No input at this position
+                        return new MouseState();
+                        
+                    byte readOffset = 0;
+                    ButtonState left, right, middle, x1, x2;
+                    int scrollWheel, xPos, yPos;
+
+                    if ((recordInfo & MouseRecordInfo.AllButtons) != 0) //Any of the Buttons is recorded
+                    {
+                        MouseButtons buttons = (MouseButtons)stateData[readOffset++];
+
+                        left = buttons.HasFlag(MouseButtons.Left) ? ButtonState.Pressed : ButtonState.Released;
+                        right = buttons.HasFlag(MouseButtons.Right) ? ButtonState.Pressed : ButtonState.Released;
+                        middle = buttons.HasFlag(MouseButtons.Middle) ? ButtonState.Pressed : ButtonState.Released;
+                        x1 = buttons.HasFlag(MouseButtons.X1) ? ButtonState.Pressed : ButtonState.Released;
+                        x2 = buttons.HasFlag(MouseButtons.X2) ? ButtonState.Pressed : ButtonState.Released;
+                    }
+                    else
+                        left = right = middle = x1 = x2 = ButtonState.Released;
+
+                    if (recordInfo.HasFlag(MouseRecordInfo.ScrollWheel))
+                        scrollWheel = BitConverter.ToInt32(stateData, readOffset++);
+                    else
+                        scrollWheel = 0;
+
+                    if (recordInfo.HasFlag(MouseRecordInfo.XPosition))
+                        xPos = BitConverter.ToInt32(stateData, readOffset++);
+                    else
+                        xPos = 0;
+
+                    if (recordInfo.HasFlag(MouseRecordInfo.YPosition))
+                        yPos = BitConverter.ToInt32(stateData, readOffset++);
+                    else
+                        yPos = 0;
+
+                    return new MouseState(xPos, yPos, scrollWheel, left, middle, right, x1, x2);
                 case RecordingState.Recording:
                     MouseState state = realMouse.GetState();
                     //Pack the state to a buffer and save it. In can be never null, because the mouse has allways a position.
                     //TODO: Check if the position is not recorded
                     byte[] buffer = new byte[PacketLenght];
-                    byte offset = 0;
+                    byte writeOffset = 0;
                     if ((recordInfo & MouseRecordInfo.AllButtons) != 0) //Any of the Buttons is recorded
                     {
-                        buffer[offset] |= state.LeftButton == ButtonState.Pressed ? (byte)MouseButtons.Left : (byte)0; //TODO: Is there a byte literal? (like 118L or 91.8f)
-                        buffer[offset] |= state.RightButton == ButtonState.Pressed ? (byte)MouseButtons.Right : (byte)0;
-                        buffer[offset] |= state.MiddleButton == ButtonState.Pressed ? (byte)MouseButtons.Middle : (byte)0;
-                        buffer[offset] |= state.XButton1 == ButtonState.Pressed ? (byte)MouseButtons.X1 : (byte)0;
-                        buffer[offset] |= state.XButton2 == ButtonState.Pressed ? (byte)MouseButtons.X2 : (byte)0;
-                        offset++;
+                        buffer[writeOffset] |= state.LeftButton == ButtonState.Pressed ? (byte)MouseButtons.Left : (byte)0; //TODO: Is there a byte literal? (like 118L or 91.8f)
+                        buffer[writeOffset] |= state.RightButton == ButtonState.Pressed ? (byte)MouseButtons.Right : (byte)0;
+                        buffer[writeOffset] |= state.MiddleButton == ButtonState.Pressed ? (byte)MouseButtons.Middle : (byte)0;
+                        buffer[writeOffset] |= state.XButton1 == ButtonState.Pressed ? (byte)MouseButtons.X1 : (byte)0;
+                        buffer[writeOffset] |= state.XButton2 == ButtonState.Pressed ? (byte)MouseButtons.X2 : (byte)0;
+                        writeOffset++;
                     }
 
                     if (recordInfo.HasFlag(MouseRecordInfo.ScrollWheel))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.ScrollWheelValue), 0, buffer, offset++, 4); //int is always 4 byte long.
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.ScrollWheelValue), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
 
                     if(recordInfo.HasFlag(MouseRecordInfo.XPosition))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.X), 0, buffer, offset++, 4); //int is always 4 byte long.
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.X), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
 
                     if(recordInfo.HasFlag(MouseRecordInfo.YPosition))
-                        Array.ConstrainedCopy(BitConverter.GetBytes(state.Y), 0, buffer, offset++, 4); //int is always 4 byte long.
+                        Array.ConstrainedCopy(BitConverter.GetBytes(state.Y), 0, buffer, writeOffset++, 4); //int is always 4 byte long.
+
+                    WriteState(buffer);
 
                     return state;
                 default:
-                    throw new InvalidOperationException("The recordsingState is invalid!");
+                    throw new InvalidOperationException("The recordingState is invalid!");
             }
         }
 
