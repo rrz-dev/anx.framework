@@ -623,9 +623,46 @@ namespace ANX.Framework.Graphics
             {
                 this.currentPresentationParameters = presentationParameters;
                 nativeDevice = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateGraphicsDevice(presentationParameters);
-                GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this);
                 this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+                
                 raise_ResourceCreated(this, new ResourceCreatedEventArgs(nativeDevice));
+                GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this);
+
+                if (this.indexBuffer != null)
+                {
+                    NativeDevice.SetIndexBuffer(this.indexBuffer);
+                }
+
+                if (this.currentVertexBufferBindings != null)
+                {
+                    NativeDevice.SetVertexBuffers(this.currentVertexBufferBindings);
+                }
+
+                if (this.blendState != null)
+                {
+                    this.blendState.NativeBlendState.Apply(this);
+                }
+
+                if (this.rasterizerState != null)
+                {
+                    this.rasterizerState.NativeRasterizerState.Apply(this);
+                }
+
+                if (this.depthStencilState != null)
+                {
+                    this.depthStencilState.NativeDepthStencilState.Apply(this);
+                }
+
+                if (this.samplerStateCollection != null)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (this.samplerStateCollection[i] != null)
+                        {
+                            this.samplerStateCollection[i].NativeSamplerState.Apply(this, i);
+                        }
+                    }
+                }
             }
 
         }

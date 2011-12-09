@@ -240,7 +240,7 @@ namespace ANX.Framework
         {
             if (newDeviceInfo.Adapter == currentGraphicsDeviceInformation.Adapter &&
                 newDeviceInfo.GraphicsProfile == currentGraphicsDeviceInformation.GraphicsProfile &&
-                newDeviceInfo.PresentationParameters.DepthStencilFormat == currentGraphicsDeviceInformation.PresentationParameters.DepthStencilFormat &&
+//                newDeviceInfo.PresentationParameters.DepthStencilFormat == currentGraphicsDeviceInformation.PresentationParameters.DepthStencilFormat &&
                 newDeviceInfo.PresentationParameters.BackBufferFormat == currentGraphicsDeviceInformation.PresentationParameters.BackBufferFormat)
             {
                 return true;

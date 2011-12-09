@@ -107,6 +107,11 @@ namespace VertexIndexBuffer
             ib = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, 6, BufferUsage.None);
             int[] indices = new[] { 0, 1, 2, 1, 3, 2 };
             ib.SetData<int>(indices);
+
+            graphics.PreferredBackBufferWidth = 810;
+            graphics.PreferredBackBufferHeight = 486;
+            graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+            graphics.ApplyChanges();
         }
 
         protected override void Update(GameTime gameTime)

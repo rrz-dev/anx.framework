@@ -192,7 +192,6 @@ namespace ANX.Framework.Graphics
             if (nativeVertexBuffer.IsAlive)
             {
                 nativeVertexBuffer.Target.Dispose();
-                nativeVertexBuffer = null;
             }
 
             if (vertexDeclaration != null)

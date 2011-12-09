@@ -135,12 +135,12 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(T[] data) where T : struct
         {
-            this.nativeTexture.SetData<T>(GraphicsDevice, data);
+            NativeTexture.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            this.nativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
+            NativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
         }
 
         public override void Dispose()
@@ -177,9 +177,14 @@ namespace ANX.Framework.Graphics
             }
         }
 
+        internal override void ReCreateNativeTextureSurface()
+        {
+            CreateNativeTextureSurface(GraphicsDevice, base.format, this.width, this.height, this.levelCount);
+        }
+
         internal void CreateNativeTextureSurface(GraphicsDevice device, SurfaceFormat format, int width, int height, int levelCount)
         {
-            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount);
+            base.nativeTexture = new WeakReference<INativeTexture>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount));
         }
     }
 }

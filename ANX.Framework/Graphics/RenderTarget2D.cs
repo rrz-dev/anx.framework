@@ -86,7 +86,7 @@ namespace ANX.Framework.Graphics
             this.usage = RenderTargetUsage.DiscardContents;
 
             this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+            base.nativeTexture = new WeakReference<INativeTexture>(this.nativeRenderTarget as INativeTexture2D);
         }
 
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
@@ -97,7 +97,7 @@ namespace ANX.Framework.Graphics
             this.usage = RenderTargetUsage.DiscardContents;
 
             this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+            base.nativeTexture = new WeakReference<INativeTexture>(this.nativeRenderTarget as INativeTexture2D);
         }
 
         public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
@@ -108,7 +108,7 @@ namespace ANX.Framework.Graphics
             this.usage = usage;
 
             this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+            base.nativeTexture = new WeakReference<INativeTexture>(this.nativeRenderTarget as INativeTexture2D);
         }
 
         #endregion // Constructors

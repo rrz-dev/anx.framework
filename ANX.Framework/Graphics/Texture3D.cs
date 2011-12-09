@@ -117,5 +117,10 @@ namespace ANX.Framework.Graphics
             get;
             private set;
         }
+
+        internal override void ReCreateNativeTextureSurface()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

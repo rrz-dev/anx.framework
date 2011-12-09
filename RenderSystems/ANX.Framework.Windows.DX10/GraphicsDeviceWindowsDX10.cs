@@ -155,30 +155,62 @@ namespace ANX.Framework.Windows.DX10
             Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
             if (depthFormat != Format.Unknown)
             {
-                DepthStencilViewDescription depthStencilViewDesc = new DepthStencilViewDescription()
-                {
-                    Format = depthFormat,
-                };
-
-                Texture2DDescription depthStencilTextureDesc = new Texture2DDescription()
-                {
-                    Width = presentationParameters.BackBufferWidth,
-                    Height = presentationParameters.BackBufferHeight,
-                    MipLevels = 1,
-                    ArraySize = 1,
-                    Format = depthFormat,
-                    SampleDescription = new SampleDescription(1, 0),
-                    Usage = ResourceUsage.Default,
-                    BindFlags = BindFlags.DepthStencil,
-                    CpuAccessFlags = CpuAccessFlags.None,
-                    OptionFlags = ResourceOptionFlags.None
-                };
-                this.depthStencilBuffer = new SharpDX.Direct3D10.Texture2D(device, depthStencilTextureDesc);
-
-                this.depthStencilView = new DepthStencilView(device, this.depthStencilBuffer);
-
-                Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
+                CreateDepthStencilBuffer(depthFormat);
             }
+        }
+
+        private void CreateDepthStencilBuffer(Format depthFormat)
+        {
+            if (this.depthStencilBuffer != null &&
+                this.depthStencilBuffer.Description.Format == depthFormat &&
+                this.depthStencilBuffer.Description.Width == this.backBuffer.Description.Width &&
+                this.depthStencilBuffer.Description.Height == this.backBuffer.Description.Height)
+            {
+                // a DepthStencilBuffer with the right format and the right size already exists -> nothing to do
+                return;
+            }
+
+            if (this.depthStencilView != null)
+            {
+                this.depthStencilView.Dispose();
+                this.depthStencilView = null;
+            }
+
+            if (this.depthStencilBuffer != null)
+            {
+                this.depthStencilBuffer.Dispose();
+                this.depthStencilBuffer = null;
+            }
+
+            if (depthFormat == Format.Unknown)
+            {
+                // no DepthStencilBuffer to create... Old one was disposed already...
+                return;
+            }
+
+            DepthStencilViewDescription depthStencilViewDesc = new DepthStencilViewDescription()
+            {
+                Format = depthFormat,
+            };
+
+            Texture2DDescription depthStencilTextureDesc = new Texture2DDescription()
+            {
+                Width = this.backBuffer.Description.Width,
+                Height = this.backBuffer.Description.Height,
+                MipLevels = 1,
+                ArraySize = 1,
+                Format = depthFormat,
+                SampleDescription = new SampleDescription(1, 0),
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
+            this.depthStencilBuffer = new SharpDX.Direct3D10.Texture2D(device, depthStencilTextureDesc);
+
+            this.depthStencilView = new DepthStencilView(device, this.depthStencilBuffer);
+
+            Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
         }
 
 		#region Clear
@@ -528,6 +560,17 @@ namespace ANX.Framework.Windows.DX10
 
                 backBuffer = SharpDX.Direct3D10.Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(swapChain, 0);
                 renderView = new RenderTargetView(device, backBuffer);
+
+                currentViewport = new SharpDX.Direct3D10.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
+                //
+                // create the depth stencil buffer
+                //
+                Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+                if (depthFormat != Format.Unknown)
+                {
+                    CreateDepthStencilBuffer(depthFormat);
+                }
             }
 
             ResizeRenderWindow(presentationParameters);

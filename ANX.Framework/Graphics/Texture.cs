@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -57,12 +58,19 @@ namespace ANX.Framework.Graphics
     {
         protected internal int levelCount;
         protected internal SurfaceFormat format;
-        protected internal INativeTexture nativeTexture;
+        protected internal WeakReference<INativeTexture> nativeTexture;
 
         public Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
         {
+            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
+            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+        }
 
+        ~Texture()
+        {
+            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
         }
 
         public int LevelCount
@@ -85,7 +93,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return this.nativeTexture;
+                if (!this.nativeTexture.IsAlive)
+                {
+                    ReCreateNativeTextureSurface();
+                }
+
+                return this.nativeTexture.Target;
             }
         }
 
@@ -96,11 +109,30 @@ namespace ANX.Framework.Graphics
 
         protected override void Dispose(bool disposeManaged)
         {
-            if (disposeManaged && nativeTexture != null)
+            if (disposeManaged && nativeTexture.IsAlive)
             {
-                nativeTexture.Dispose();
-                nativeTexture = null;
+                nativeTexture.Target.Dispose();
             }
+        }
+
+        internal abstract void ReCreateNativeTextureSurface();
+
+        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+        {
+            if (nativeTexture.IsAlive)
+            {
+                nativeTexture.Target.Dispose();
+            }
+        }
+
+        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+        {
+            if (nativeTexture.IsAlive)
+            {
+                nativeTexture.Target.Dispose();
+            }
+
+            ReCreateNativeTextureSurface();
         }
     }
 }
