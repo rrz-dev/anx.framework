@@ -315,7 +315,7 @@ namespace ANX.Framework.NonXNA
             }
             set
             {
-                if (this.preferredRenderSystemLocked && !this.preferredRenderSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                if (this.preferredRenderSystemLocked)
                 {
                     throw new AddInLoadingException("can't set preferred RenderSystem because a RenderSystem is alread in use.");
                 }
@@ -332,7 +332,7 @@ namespace ANX.Framework.NonXNA
             }
             set
             {
-                if (this.preferredInputSystemLocked && !this.preferredInputSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                if (this.preferredInputSystemLocked)
                 {
                     throw new AddInLoadingException("can't set preferred InputSystem because a InputSystem is alread in use.");
                 }
@@ -349,7 +349,7 @@ namespace ANX.Framework.NonXNA
             }
             set
             {
-                if (this.preferredSoundSystemLocked && !this.preferredSoundSystem.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                if (this.preferredSoundSystemLocked)
                 {
                     throw new AddInLoadingException("can't set preferred SoundSystem because a SoundSystem is alread in use.");
                 }
