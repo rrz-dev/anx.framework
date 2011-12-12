@@ -61,7 +61,7 @@ namespace ANX.Framework.Graphics
         private int indexCount;
         private BufferUsage bufferUsage;
         private IndexElementSize indexElementSize;
-        private WeakReference<INativeBuffer> nativeIndexBuffer;
+        private INativeBuffer nativeIndexBuffer;
 
         public IndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
             : base(graphicsDevice)
@@ -107,17 +107,19 @@ namespace ANX.Framework.Graphics
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
         {
-            if (this.nativeIndexBuffer.IsAlive)
+            if (this.nativeIndexBuffer != null)
             {
-                this.nativeIndexBuffer.Target.Dispose();
+                this.nativeIndexBuffer.Dispose();
+                this.nativeIndexBuffer = null;
             }
         }
 
         private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
         {
-            if (nativeIndexBuffer.IsAlive)
+            if (nativeIndexBuffer != null)
             {
-                nativeIndexBuffer.Target.Dispose();
+                nativeIndexBuffer.Dispose();
+                nativeIndexBuffer = null;
             }
 
             CreateNativeBuffer();
@@ -125,7 +127,7 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeBuffer()
         {
-            this.nativeIndexBuffer = new WeakReference<INativeBuffer>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, indexElementSize, indexCount, bufferUsage));
+            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, indexElementSize, indexCount, bufferUsage);
         }
 
         public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
@@ -145,22 +147,22 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (!nativeIndexBuffer.IsAlive)
+            if (nativeIndexBuffer == null)
             {
                 CreateNativeBuffer();
             }
 
-            this.nativeIndexBuffer.Target.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount);
+            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount);
         }
 
         public void SetData<T>(T[] data) where T : struct
         {
-            if (!nativeIndexBuffer.IsAlive)
+            if (nativeIndexBuffer == null)
             {
                 CreateNativeBuffer();
             }
 
-            this.nativeIndexBuffer.Target.SetData<T>(GraphicsDevice, data);
+            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
@@ -170,9 +172,10 @@ namespace ANX.Framework.Graphics
 
         public override void Dispose()
         {
-            if (this.nativeIndexBuffer.IsAlive)
+            if (this.nativeIndexBuffer != null)
             {
-                this.nativeIndexBuffer.Target.Dispose();
+                this.nativeIndexBuffer.Dispose();
+                this.nativeIndexBuffer = null;
             }
         }
 
@@ -182,12 +185,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                if (!nativeIndexBuffer.IsAlive)
+                if (nativeIndexBuffer == null)
                 {
                     CreateNativeBuffer();
                 }
 
-                return this.nativeIndexBuffer.Target;
+                return this.nativeIndexBuffer;
             }
         }
 

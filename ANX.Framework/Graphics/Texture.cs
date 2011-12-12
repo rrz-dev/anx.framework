@@ -58,7 +58,7 @@ namespace ANX.Framework.Graphics
     {
         protected internal int levelCount;
         protected internal SurfaceFormat format;
-        protected internal WeakReference<INativeTexture> nativeTexture;
+        protected internal INativeTexture nativeTexture;
 
         public Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
@@ -93,12 +93,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                if (!this.nativeTexture.IsAlive)
+                if (this.nativeTexture == null)
                 {
                     ReCreateNativeTextureSurface();
                 }
 
-                return this.nativeTexture.Target;
+                return this.nativeTexture;
             }
         }
 
@@ -109,9 +109,10 @@ namespace ANX.Framework.Graphics
 
         protected override void Dispose(bool disposeManaged)
         {
-            if (disposeManaged && nativeTexture.IsAlive)
+            if (disposeManaged && nativeTexture != null)
             {
-                nativeTexture.Target.Dispose();
+                nativeTexture.Dispose();
+                nativeTexture = null;
             }
         }
 
@@ -119,17 +120,19 @@ namespace ANX.Framework.Graphics
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
         {
-            if (nativeTexture.IsAlive)
+            if (nativeTexture != null)
             {
-                nativeTexture.Target.Dispose();
+                nativeTexture.Dispose();
+                nativeTexture = null;
             }
         }
 
         private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
         {
-            if (nativeTexture.IsAlive)
+            if (nativeTexture != null)
             {
-                nativeTexture.Target.Dispose();
+                nativeTexture.Dispose();
+                nativeTexture = null;
             }
 
             ReCreateNativeTextureSurface();

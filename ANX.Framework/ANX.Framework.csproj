@@ -445,7 +445,7 @@
     <Compile Include="NonXNA\RenderSystem\INativeGraphicsDevice.cs" />
     <Compile Include="NonXNA\RenderSystem\IRenderSystemCreator.cs" />
     <Compile Include="NonXNA\ResourceTracker\GraphicsResourceTracker.cs" />
-    <Compile Include="NonXNA\ResourceTracker\WeakReference.cs" />
+    <None Include="NonXNA\ResourceTracker\WeakReference.cs" />
     <Compile Include="NonXNA\SoundSystem\ISoundSystemCreator.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneIntersectionType.cs" />

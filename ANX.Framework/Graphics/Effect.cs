@@ -60,7 +60,7 @@ namespace ANX.Framework.Graphics
     public class Effect : GraphicsResource, IGraphicsResource
     {
         #region Private Members
-        private WeakReference<INativeEffect> nativeEffect;
+        private INativeEffect nativeEffect;
         private EffectTechniqueCollection techniqueCollection;
         private EffectTechnique currentTechnique;
         private EffectParameterCollection parameterCollection;
@@ -96,9 +96,10 @@ namespace ANX.Framework.Graphics
 
         private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
         {
-            if (nativeEffect.IsAlive)
+            if (nativeEffect != null)
             {
-                nativeEffect.Target.Dispose();
+                nativeEffect.Dispose();
+                nativeEffect = null;
             }
 
             CreateNativeEffect();
@@ -106,9 +107,10 @@ namespace ANX.Framework.Graphics
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
         {
-            if (nativeEffect.IsAlive)
+            if (nativeEffect != null)
             {
-                nativeEffect.Target.Dispose();
+                nativeEffect.Dispose();
+                nativeEffect = null;
             }
         }
 
@@ -121,12 +123,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                if (!nativeEffect.IsAlive)
+                if (nativeEffect == null)
                 {
                     CreateNativeEffect();
                 }
 
-                return this.nativeEffect.Target;
+                return this.nativeEffect;
             }
         }
 
@@ -160,9 +162,10 @@ namespace ANX.Framework.Graphics
 
         public override void Dispose()
         {
-            if (nativeEffect.IsAlive)
+            if (nativeEffect != null)
             {
-                nativeEffect.Target.Dispose();
+                nativeEffect.Dispose();
+                nativeEffect = null;
             }
         }
 
@@ -173,10 +176,10 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeEffect()
         {
-            this.nativeEffect = new WeakReference<INativeEffect>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false)));
+            this.nativeEffect = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
 
-            this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect.Target);
-            this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect.Target);
+            this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
+            this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
         }
     }
 }

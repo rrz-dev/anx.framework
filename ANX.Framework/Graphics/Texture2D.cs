@@ -184,7 +184,7 @@ namespace ANX.Framework.Graphics
 
         internal void CreateNativeTextureSurface(GraphicsDevice device, SurfaceFormat format, int width, int height, int levelCount)
         {
-            base.nativeTexture = new WeakReference<INativeTexture>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount));
+            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount);
         }
     }
 }

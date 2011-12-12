@@ -61,7 +61,7 @@ namespace ANX.Framework.Graphics
         private VertexDeclaration vertexDeclaration;
         private int vertexCount;
         private BufferUsage bufferUsage;
-        private WeakReference<INativeBuffer> nativeVertexBuffer;
+        private INativeBuffer nativeVertexBuffer;
 
         public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
             : this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType), vertexCount, usage)
@@ -90,17 +90,19 @@ namespace ANX.Framework.Graphics
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
         {
-            if (nativeVertexBuffer.IsAlive)
+            if (nativeVertexBuffer != null)
             {
-                nativeVertexBuffer.Target.Dispose();
+                nativeVertexBuffer.Dispose();
+                nativeVertexBuffer = null;
             }
         }
 
         private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
         {
-            if (nativeVertexBuffer.IsAlive)
+            if (nativeVertexBuffer != null)
             {
-                nativeVertexBuffer.Target.Dispose();
+                nativeVertexBuffer.Dispose();
+                nativeVertexBuffer = null;
             }
 
             CreateNativeBuffer();
@@ -108,7 +110,7 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeBuffer()
         {
-            this.nativeVertexBuffer = new WeakReference<INativeBuffer>(AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, vertexDeclaration, vertexCount, bufferUsage));
+            this.nativeVertexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, vertexDeclaration, vertexCount, bufferUsage);
         }
         
         public BufferUsage BufferUsage
@@ -158,22 +160,22 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(T[] data) where T : struct
         {
-            if (!this.nativeVertexBuffer.IsAlive)
+            if (this.nativeVertexBuffer == null)
             {
                 CreateNativeBuffer();
             }
 
-            this.nativeVertexBuffer.Target.SetData<T>(GraphicsDevice, data);
+            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (!this.nativeVertexBuffer.IsAlive)
+            if (this.nativeVertexBuffer == null)
             {
                 CreateNativeBuffer();
             }
 
-            this.nativeVertexBuffer.Target.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
+            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
         }
 
         private static VertexDeclaration TypeToVertexDeclaration(Type t)
@@ -189,9 +191,10 @@ namespace ANX.Framework.Graphics
 
         public override void Dispose()
         {
-            if (nativeVertexBuffer.IsAlive)
+            if (nativeVertexBuffer != null)
             {
-                nativeVertexBuffer.Target.Dispose();
+                nativeVertexBuffer.Dispose();
+                nativeVertexBuffer = null;
             }
 
             if (vertexDeclaration != null)
@@ -207,12 +210,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                if (!this.nativeVertexBuffer.IsAlive)
+                if (this.nativeVertexBuffer == null)
                 {
                     CreateNativeBuffer();
                 }
 
-                return this.nativeVertexBuffer.Target;
+                return this.nativeVertexBuffer;
             }
         }
 
