@@ -117,6 +117,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordingSample", "RecordingSample\RecordingSample\RecordingSample.csproj", "{160150D5-38E6-482D-97F5-2624F322A854}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-07DB-49C9-8CDE-A9092789FE4F}"
+	ProjectSection(SolutionItems) = preProject
+		shader\DX11\AlphaTest.fx = shader\DX11\AlphaTest.fx
+		shader\DX11\BasicEffect.fx = shader\DX11\BasicEffect.fx
+		shader\DX11\build.xml = shader\DX11\build.xml
+		shader\DX11\DualTexture.fx = shader\DX11\DualTexture.fx
+		shader\DX11\EnvironmentMap.fx = shader\DX11\EnvironmentMap.fx
+		shader\DX11\Skinned.fx = shader\DX11\Skinned.fx
+		shader\DX11\SpriteBatch.fx = shader\DX11\SpriteBatch.fx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -442,5 +453,6 @@ Global
 		{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 		{E4FFD875-95FC-48F2-8B6D-8483D0B71666} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 		{BD648BB8-EF28-453C-B4F5-EE3C93EB4DAF} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
+		{6285F3EF-07DB-49C9-8CDE-A9092789FE4F} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 	EndGlobalSection
 EndGlobal

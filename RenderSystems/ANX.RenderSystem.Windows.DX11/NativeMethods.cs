@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.Windows.DX10;
-using ANX.Framework.Windows.GL3;
-using System.IO;
-using ANX.RenderSystem.Windows.DX11;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Drawing;
 
 #endregion // Using Statements
 
@@ -57,64 +56,65 @@ using ANX.RenderSystem.Windows.DX11;
 
 #endregion // License
 
-namespace StockShaderCodeGenerator
+namespace ANX.RenderSystem.Windows.DX11
 {
-    public static class Compiler
+    internal sealed class NativeMethods
     {
-        public static void GenerateShaders()
+        [SuppressUnmanagedCodeSecurity, DllImport("user32.dll", CharSet = CharSet.Auto)]
+        internal static extern bool PeekMessage(out Message msg, IntPtr hWnd, uint messageFilterMin, uint messageFilterMax, uint flags);
+
+        // Nested Types
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Message
         {
-            Console.WriteLine("generating shaders...");
-
-            for (int i = 0; i < Configuration.Shaders.Count; i++)
-            {
-                Shader s = Configuration.Shaders[i];
-
-                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
-                String source = String.Empty;
-                if (File.Exists(s.Source))
-                {
-                    source = File.ReadAllText(s.Source);
-                }
-
-                Console.Write("--> compiling shader... ");
-                try
-                {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
-                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
-                    s.ShaderCompiled = true;
-                }
-                catch (Exception ex)
-                {
-                    s.ShaderCompiled = false;
-                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
-                }
-
-                Configuration.Shaders[i] = s;
-            }
-
-            Console.WriteLine("finished generating shaders...");
+            public IntPtr hWnd;
+            public NativeMethods.WindowMessage msg;
+            public IntPtr wParam;
+            public IntPtr lParam;
+            public uint time;
+            public Point p;
         }
 
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
+        internal enum WindowMessage : uint
         {
-            byte[] byteCode;
-
-            switch (RenderSystem)
-            {
-                case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
-                    break;
-                default:
-                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
-            }
-
-            return byteCode;
+            ActivateApplication = 0x1c,
+            Character = 0x102,
+            Close = 0x10,
+            Destroy = 2,
+            EnterMenuLoop = 0x211,
+            EnterSizeMove = 0x231,
+            ExitMenuLoop = 530,
+            ExitSizeMove = 0x232,
+            GetMinMax = 0x24,
+            KeyDown = 0x100,
+            KeyUp = 0x101,
+            LeftButtonDoubleClick = 0x203,
+            LeftButtonDown = 0x201,
+            LeftButtonUp = 0x202,
+            MiddleButtonDoubleClick = 0x209,
+            MiddleButtonDown = 0x207,
+            MiddleButtonUp = 520,
+            MouseFirst = 0x201,
+            MouseLast = 0x20d,
+            MouseMove = 0x200,
+            MouseWheel = 0x20a,
+            NonClientHitTest = 0x84,
+            Paint = 15,
+            PowerBroadcast = 0x218,
+            Quit = 0x12,
+            RightButtonDoubleClick = 0x206,
+            RightButtonDown = 0x204,
+            RightButtonUp = 0x205,
+            SetCursor = 0x20,
+            Size = 5,
+            SystemCharacter = 0x106,
+            SystemCommand = 0x112,
+            SystemKeyDown = 260,
+            SystemKeyUp = 0x105,
+            XButtonDoubleClick = 0x20d,
+            XButtonDown = 0x20b,
+            XButtonUp = 0x20c
         }
+
     }
 }

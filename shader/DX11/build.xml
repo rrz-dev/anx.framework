@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Build License="../doc/license.txt"
+       Target="../RenderSystems/ANX.RenderSystem.Windows.DX11/ShaderByteCode.cs" 
+       Namespace="ANX.RenderSystem.Windows.DX11">
+  <Shader Type="SpriteBatch"
+          Source="../Shader/DX11/SpriteBatch.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+  <Shader Type="AlphaTestEffect"
+          Source="../Shader/DX11/AlphaTest.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+  <Shader Type="BasicEffect"
+          Source="../Shader/DX11/BasicEffect.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+  <Shader Type="DualTextureEffect"
+          Source="../Shader/DX11/DualTexture.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+  <Shader Type="EnvironmentMapEffect"
+          Source="../Shader/DX11/EnvironmentMap.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+  <Shader Type="SkinnedEffect"
+          Source="../Shader/DX11/Skinned.fx"
+          RenderSystem="ANX.RenderSystem.Windows.DX11"
+          />
+</Build>

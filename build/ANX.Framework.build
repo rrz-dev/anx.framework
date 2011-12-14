@@ -125,6 +125,7 @@
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.dx11}.csproj" />
     </exec>
@@ -321,6 +322,14 @@
 
     <exec program="sscg.exe" >
       <arg value="../shader/DX10/build.xml" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now generating code for DirectX 11 stock shaders" />
+    <echo message="===================================================" />
+
+    <exec program="sscg.exe" >
+      <arg value="../shader/DX11/build.xml" />
     </exec>
 
     <echo message="===================================================" />

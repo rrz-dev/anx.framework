@@ -59,14 +59,14 @@ using System.Runtime.InteropServices;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class VertexBuffer_DX11 : INativeBuffer, IDisposable
+    public class IndexBuffer_DX11 : INativeBuffer, IDisposable
     {
-        SharpDX.Direct3D11.Buffer buffer;
-        int vertexStride;
+        private SharpDX.Direct3D11.Buffer buffer;
+        private IndexElementSize size;
 
-        public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        public IndexBuffer_DX11(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
         {
-            this.vertexStride = vertexDeclaration.VertexStride;
+            this.size = size;
 
             //TODO: translate and use usage
 
@@ -78,8 +78,8 @@ namespace ANX.RenderSystem.Windows.DX11
                 BufferDescription description = new BufferDescription()
                 {
                     Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = BindFlags.VertexBuffer,
+                    SizeInBytes = (size == IndexElementSize.SixteenBits ? 2 : 4) * indexCount,
+                    BindFlags = BindFlags.IndexBuffer,
                     CpuAccessFlags = CpuAccessFlags.Write,
                     OptionFlags = ResourceOptionFlags.None
                 };
@@ -87,6 +87,11 @@ namespace ANX.RenderSystem.Windows.DX11
                 this.buffer = new SharpDX.Direct3D11.Buffer(context.Device, description);
                 //this.buffer.Unmap();
             }
+        }
+
+        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
+        {
+            SetData<T>(graphicsDevice, data, 0, data.Length);
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
@@ -112,7 +117,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 {
                     if (offsetInBytes > 0)
                     {
-                        vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
+                        vData.Seek(offsetInBytes / (size == IndexElementSize.SixteenBits ? 2 : 4), System.IO.SeekOrigin.Begin);
                     }
 
                     SharpDX.DataStream stream;
@@ -123,11 +128,6 @@ namespace ANX.RenderSystem.Windows.DX11
             }
 
             pinnedArray.Free();
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-        {
-            SetData<T>(graphicsDevice, data, 0, data.Length);
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct

@@ -6,11 +6,10 @@ using System.Text;
 using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
-using SharpDX.Direct3D11;
-using ANX.Framework;
 using SharpDX.D3DCompiler;
+using ANX.Framework.NonXNA;
+using SharpDX.Direct3D11;
+using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -63,27 +62,67 @@ using SharpDX.D3DCompiler;
 
 using Device = SharpDX.Direct3D11.Device;
 using Buffer = SharpDX.Direct3D11.Buffer;
+using System.Runtime.InteropServices;
+using ANX.Framework;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
     public class GraphicsDeviceWindowsDX11 : INativeGraphicsDevice
-		{
-        private Device device;
-        private SwapChain swapChain; 
+    {
+        #region Constants
+        private const float ColorMultiplier = 1f / 255f;
+        #endregion
+
+        #region Interop
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int width, int height, uint uFlags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner 
+            public int Top;         // y position of upper-left corner 
+            public int Right;       // x position of lower-right corner 
+            public int Bottom;      // y position of lower-right corner 
+        }
+
+        #endregion
+
+        #region Private Members
+        private DeviceContext deviceContext;
+        private SwapChain swapChain;
         private RenderTargetView renderView;
+        private RenderTargetView renderTargetView;
+        private DepthStencilView depthStencilView;
+        private SharpDX.Direct3D11.Texture2D depthStencilBuffer;
         private SharpDX.Direct3D11.Texture2D backBuffer;
         internal Effect_DX11 currentEffect;
         private VertexBuffer currentVertexBuffer;
         private IndexBuffer currentIndexBuffer;
         private SharpDX.Direct3D11.Viewport currentViewport;
+        private uint lastClearColor;
+        private SharpDX.Color4 clearColor;
+        private bool vSyncEnabled;
+
+        #endregion // Private Members
 
         public GraphicsDeviceWindowsDX11(PresentationParameters presentationParameters)
         {
+            this.vSyncEnabled = true;
+
             // SwapChain description
             var desc = new SwapChainDescription()
             {
                 BufferCount = 1,
-                ModeDescription = new ModeDescription(presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, new Rational(60, 1), Format.R8G8B8A8_UNorm),
+                ModeDescription = new ModeDescription(presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, new Rational(60, 1), FormatConverter.Translate(presentationParameters.BackBufferFormat)),
                 IsWindowed = true,
                 OutputHandle = presentationParameters.DeviceWindowHandle,
                 SampleDescription = new SampleDescription(1, 0),
@@ -92,40 +131,222 @@ namespace ANX.RenderSystem.Windows.DX11
             };
 
             // Create Device and SwapChain
+            Device dxDevice;
 #if DIRECTX_DEBUG_LAYER
             // http://msdn.microsoft.com/en-us/library/windows/desktop/bb205068(v=vs.85).aspx
-            Device.CreateWithSwapChain(SharpDX.Direct3D10.DriverType.Hardware, DeviceCreationFlags.Debug, desc, out device, out swapChain);
+            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.Debug, desc, out dxDevice, out swapChain);
 #else
-            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.None, desc, out device, out swapChain);
+            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.None, desc, out dxDevice, out swapChain);
 #endif
+            this.deviceContext = new DeviceContext(dxDevice);
 
             // Ignore all windows events
             Factory factory = swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(presentationParameters.DeviceWindowHandle, WindowAssociationFlags.IgnoreAll);
 
+            ResizeRenderWindow(presentationParameters);
+
             // New RenderTargetView from the backbuffer
             backBuffer = SharpDX.Direct3D11.Texture2D.FromSwapChain<SharpDX.Direct3D11.Texture2D>(swapChain, 0);
-            renderView = new RenderTargetView(device, backBuffer);
+            renderView = new RenderTargetView(deviceContext.Device, backBuffer);
 
             currentViewport = new SharpDX.Direct3D11.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
+            //
+            // create the depth stencil buffer
+            //
+            Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+            if (depthFormat != Format.Unknown)
+            {
+                CreateDepthStencilBuffer(depthFormat);
+            }
         }
 
+        private void CreateDepthStencilBuffer(Format depthFormat)
+        {
+            if (this.depthStencilBuffer != null &&
+                this.depthStencilBuffer.Description.Format == depthFormat &&
+                this.depthStencilBuffer.Description.Width == this.backBuffer.Description.Width &&
+                this.depthStencilBuffer.Description.Height == this.backBuffer.Description.Height)
+            {
+                // a DepthStencilBuffer with the right format and the right size already exists -> nothing to do
+                return;
+            }
+
+            if (this.depthStencilView != null)
+            {
+                this.depthStencilView.Dispose();
+                this.depthStencilView = null;
+            }
+
+            if (this.depthStencilBuffer != null)
+            {
+                this.depthStencilBuffer.Dispose();
+                this.depthStencilBuffer = null;
+            }
+
+            if (depthFormat == Format.Unknown)
+            {
+                // no DepthStencilBuffer to create... Old one was disposed already...
+                return;
+            }
+
+            DepthStencilViewDescription depthStencilViewDesc = new DepthStencilViewDescription()
+            {
+                Format = depthFormat,
+            };
+
+            Texture2DDescription depthStencilTextureDesc = new Texture2DDescription()
+            {
+                Width = this.backBuffer.Description.Width,
+                Height = this.backBuffer.Description.Height,
+                MipLevels = 1,
+                ArraySize = 1,
+                Format = depthFormat,
+                SampleDescription = new SampleDescription(1, 0),
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
+            this.depthStencilBuffer = new SharpDX.Direct3D11.Texture2D(deviceContext.Device, depthStencilTextureDesc);
+
+            this.depthStencilView = new DepthStencilView(deviceContext.Device, this.depthStencilBuffer);
+
+            Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, ANX.Framework.Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
+        }
+
+        #region Clear
         public void Clear(ref Color color)
         {
-            throw new NotImplementedException();
-            //device.ClearRenderTargetView(renderView, new SharpDX.Color4(color.A / 255f, color.R / 255f, color.G / 255f, color.B / 255f));
+            uint newClearColor = color.PackedValue;
+            if (lastClearColor != newClearColor)
+            {
+                lastClearColor = newClearColor;
+                clearColor.Red = color.R * ColorMultiplier;
+                clearColor.Green = color.G * ColorMultiplier;
+                clearColor.Blue = color.B * ColorMultiplier;
+                clearColor.Alpha = color.A * ColorMultiplier;
+            }
+
+            this.deviceContext.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
         }
 
+        public void Clear(ClearOptions options, ANX.Framework.Vector4 color, float depth, int stencil)
+        {
+            if ((options & ClearOptions.Target) == ClearOptions.Target)
+            {
+                // Clear a RenderTarget (or BackBuffer)
+
+                this.clearColor.Red = color.X;
+                this.clearColor.Green = color.Y;
+                this.clearColor.Blue = color.Z;
+                this.clearColor.Alpha = color.W;
+                this.lastClearColor = 0;
+
+                this.deviceContext.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
+            }
+
+            if (this.depthStencilView != null)
+            {
+                if ((options | ClearOptions.Stencil | ClearOptions.DepthBuffer) == options)
+                {
+                    // Clear the stencil buffer
+                    deviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, depth, (byte)stencil);
+                }
+                else if ((options | ClearOptions.Stencil) == options)
+                {
+                    deviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Stencil, depth, (byte)stencil);
+                }
+                else
+                {
+                    deviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, depth, (byte)stencil);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Present
         public void Present()
         {
-            swapChain.Present(0, PresentFlags.None);
+            swapChain.Present(this.vSyncEnabled ? 1 : 0, PresentFlags.None);
         }
 
-        internal Device NativeDevice
+        #endregion // Present
+
+        #region DrawPrimitives & DrawIndexedPrimitives
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+        {
+            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            SetupInputLayout(passSignature);
+
+            // Prepare All the stages
+            deviceContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            deviceContext.Rasterizer.SetViewports(currentViewport);
+
+            deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply(deviceContext);
+                deviceContext.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
+            }
+        }
+
+        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
+        {
+            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            SetupInputLayout(passSignature);
+
+            // Prepare All the stages
+            deviceContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            deviceContext.Rasterizer.SetViewports(currentViewport);
+
+            deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply(deviceContext);
+                deviceContext.Draw(primitiveCount, vertexOffset);
+            }
+        }
+
+        #endregion // DrawPrimitives & DrawIndexedPrimitives
+
+        #region DrawInstancedPrimitives
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawInstancedPrimitives
+
+        #region DrawUserIndexedPrimitives<T>
+        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawUserIndexedPrimitives<T>
+
+        #region DrawUserPrimitives<T>
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion // DrawUserPrimitives<T>
+
+        internal DeviceContext NativeDevice
         {
             get
             {
-                return this.device;
+                return this.deviceContext;
             }
         }
 
@@ -147,11 +368,9 @@ namespace ANX.RenderSystem.Windows.DX11
             // get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
             //TODO: check for null and throw exception
             VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
-            var layout = CreateInputLayout(device, passSignature, vertexDeclaration);
+            var layout = CreateInputLayout(deviceContext.Device, passSignature, vertexDeclaration);
 
-            throw new NotImplementedException();
-
-            //device.InputAssembler.InputLayout = layout;
+            deviceContext.InputAssembler.InputLayout = layout;
         }
 
         private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
@@ -178,49 +397,6 @@ namespace ANX.RenderSystem.Windows.DX11
             }
         }
 
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
-        {
-            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
-
-            SetupInputLayout(passSignature);
-
-            throw new NotImplementedException();
-
-            // Prepare All the stages
-            //device.InputAssembler.PrimitiveTopology = Translate(primitiveType);
-            //device.Rasterizer.SetViewports(currentViewport);
-
-            //device.OutputMerger.SetTargets(this.renderView);
-
-            //for (int i = 0; i < technique.Description.PassCount; ++i)
-            //{
-            //    pass.Apply();
-            //    device.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
-            //}
-        }
-
-        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
-        {
-            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
-
-            SetupInputLayout(passSignature);
-
-            throw new NotImplementedException();
-
-            // Prepare All the stages
-            //device.InputAssembler.PrimitiveTopology = Translate(primitiveType);
-            //device.Rasterizer.SetViewports(currentViewport);
-            //device.OutputMerger.SetTargets(this.renderView);
-
-            //for (int i = 0; i < technique.Description.PassCount; ++i)
-            //{
-            //    pass.Apply();
-            //    device.Draw(primitiveCount, vertexOffset);
-            //}
-        }
-
         public void SetIndexBuffer(IndexBuffer indexBuffer)
         {
             if (indexBuffer == null)
@@ -230,148 +406,49 @@ namespace ANX.RenderSystem.Windows.DX11
 
             this.currentIndexBuffer = indexBuffer;
 
-            throw new NotImplementedException();
+            IndexBuffer_DX11 nativeIndexBuffer = indexBuffer.NativeIndexBuffer as IndexBuffer_DX11;
 
-            //IndexBuffer_DX11 nativeIndexBuffer = indexBuffer.NativeIndexBuffer as IndexBuffer_DX11;
-
-            //if (nativeIndexBuffer != null)
-            //{
-            //    device.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, Translate(indexBuffer.IndexElementSize), 0);
-            //}
-            //else
-            //{
-            //    throw new Exception("couldn't fetch native DirectX11.1 IndexBuffer");
-            //}
+            if (nativeIndexBuffer != null)
+            {
+                deviceContext.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, FormatConverter.Translate(indexBuffer.IndexElementSize), 0);
+            }
+            else
+            {
+                throw new Exception("couldn't fetch native DirectX10 IndexBuffer");
+            }
         }
 
         public void SetVertexBuffers(ANX.Framework.Graphics.VertexBufferBinding[] vertexBuffers)
         {
-            throw new NotImplementedException();
+            if (vertexBuffers == null)
+            {
+                throw new ArgumentNullException("vertexBuffers");
+            }
+
+            this.currentVertexBuffer = vertexBuffers[0].VertexBuffer;   //TODO: hmmmmm, not nice :-)
+
+            SharpDX.Direct3D11.VertexBufferBinding[] nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding[vertexBuffers.Length];
+            for (int i = 0; i < vertexBuffers.Length; i++)
+            {
+                ANX.Framework.Graphics.VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
+                VertexBuffer_DX11 nativeVertexBuffer = anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_DX11;
+
+                if (nativeVertexBuffer != null)
+                {
+                    nativeVertexBufferBindings[i] = new SharpDX.Direct3D11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
+                }
+                else
+                {
+                    throw new Exception("couldn't fetch native DirectX10 VertexBuffer");
+                }
+            }
+
+            deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
         }
 
         public void SetViewport(ANX.Framework.Graphics.Viewport viewport)
         {
             this.currentViewport = new SharpDX.Direct3D11.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
-        }
-
-        public void ApplyStateObject(ANX.Framework.Graphics.BlendState blendState)
-        {
-            throw new NotImplementedException();
-
-            //BlendStateDescription description = new BlendStateDescription();
-            //description.AlphaBlendOperation = Translate(blendState.AlphaBlendFunction);
-            //description.BlendOperation = Translate(blendState.ColorBlendFunction);
-            //description.DestinationAlphaBlend = Translate(blendState.AlphaDestinationBlend);
-            //description.DestinationBlend = Translate(blendState.ColorDestinationBlend);
-
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    description.IsBlendEnabled[i] = true;
-            //}
-
-            //description.RenderTargetWriteMask[0] = Translate(blendState.ColorWriteChannels);
-            //description.RenderTargetWriteMask[1] = Translate(blendState.ColorWriteChannels1);
-            //description.RenderTargetWriteMask[2] = Translate(blendState.ColorWriteChannels2);
-            //description.RenderTargetWriteMask[3] = Translate(blendState.ColorWriteChannels3);
-
-            //description.SourceAlphaBlend = Translate(blendState.AlphaSourceBlend);
-            //description.SourceBlend = Translate(blendState.ColorSourceBlend);
-
-            //SharpDX.Direct3D11.BlendState nativeBlendState = new SharpDX.Direct3D11.BlendState(device, description);
-
-            //Vector4 tempVector = blendState.BlendFactor.ToVector4();
-            //SharpDX.Color4 blendFactor = new Color4(tempVector.X, tempVector.Y, tempVector.Z, tempVector.W);
-            //device.OutputMerger.SetBlendState(nativeBlendState, blendFactor, blendState.MultiSampleMask);
-        }
-
-        public void ApplyStateObject(ANX.Framework.Graphics.RasterizerState rasterizerState)
-        {
-            RasterizerStateDescription description = new RasterizerStateDescription();
-            description.CullMode = Translate(rasterizerState.CullMode);
-            description.DepthBias = (int)rasterizerState.DepthBias;     //TODO: this looks wrong!!!
-            description.IsScissorEnabled = rasterizerState.ScissorTestEnable;
-            description.SlopeScaledDepthBias = rasterizerState.SlopeScaleDepthBias;
-            description.IsMultisampleEnabled = rasterizerState.MultiSampleAntiAlias;
-            description.FillMode = Translate(rasterizerState.FillMode);
-            
-            description.IsAntialiasedLineEnabled = false;               //TODO: this should be ok
-
-            SharpDX.Direct3D11.RasterizerState nativeRasterizerState = new SharpDX.Direct3D11.RasterizerState(device, description);
-
-            //device.Rasterizer.State = nativeRasterizerState;
-            throw new NotImplementedException();
-        }
-
-        public void ApplyStateObject(ANX.Framework.Graphics.DepthStencilState depthStencilState)
-        {
-            DepthStencilStateDescription description = new DepthStencilStateDescription();
-            description.IsStencilEnabled = depthStencilState.StencilEnable;
-            description.IsDepthEnabled = depthStencilState.DepthBufferEnable;
-            description.DepthComparison = Translate(depthStencilState.DepthBufferFunction);
-
-            //TODO: more to implement
-
-            SharpDX.Direct3D11.DepthStencilState nativeDepthStencilState = new SharpDX.Direct3D11.DepthStencilState(device, description);
-            //device.OutputMerger.SetDepthStencilState(nativeDepthStencilState, depthStencilState.ReferenceStencil);
-            throw new NotImplementedException();
-        }
-
-        public void ApplyStateObject(int slot, ANX.Framework.Graphics.SamplerState samplerState)
-        {
-            SamplerStateDescription description = new SamplerStateDescription();
-            description.AddressU = Translate(samplerState.AddressU);
-            description.AddressV = Translate(samplerState.AddressV);
-            description.AddressW = Translate(samplerState.AddressW);
-            description.Filter = Translate(samplerState.Filter);
-            description.MaximumAnisotropy = samplerState.MaxAnisotropy;
-            description.MaximumLod = samplerState.MaxMipLevel;      //TODO: is this correct?
-            description.MipLodBias = samplerState.MipMapLevelOfDetailBias;
-
-            SharpDX.Direct3D11.SamplerState nativeSamplerState = new SharpDX.Direct3D11.SamplerState(device, description);
-            //device.PixelShader.SetSampler(slot, nativeSamplerState);
-            throw new NotImplementedException();
-        }
-
-        private Filter Translate(TextureFilter filter)
-        {
-            switch (filter)
-            {
-                case TextureFilter.Anisotropic:
-                    return Filter.Anisotropic;
-                case TextureFilter.Linear:
-                    return Filter.MinMagMipLinear;
-                case TextureFilter.LinearMipPoint:
-                    return Filter.MinMagMipPoint;
-                case TextureFilter.MinLinearMagPointMipLinear:
-                    return Filter.MinLinearMagPointMipLinear;
-                case TextureFilter.MinLinearMagPointMipPoint:
-                    return Filter.MinLinearMagMipPoint;
-                case TextureFilter.MinPointMagLinearMipLinear:
-                    return Filter.MinPointMagMipLinear;
-                case TextureFilter.MinPointMagLinearMipPoint:
-                    return Filter.MinPointMagLinearMipPoint;
-                case TextureFilter.Point:
-                    return Filter.MinMagMipPoint;
-                case TextureFilter.PointMipLinear:
-                    return Filter.MinMagPointMipLinear;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        private SharpDX.Direct3D11.TextureAddressMode Translate(ANX.Framework.Graphics.TextureAddressMode addressMode)
-        {
-            switch (addressMode)
-            {
-                case ANX.Framework.Graphics.TextureAddressMode.Clamp:
-                    return SharpDX.Direct3D11.TextureAddressMode.Clamp;
-                case ANX.Framework.Graphics.TextureAddressMode.Mirror:
-                    return SharpDX.Direct3D11.TextureAddressMode.Mirror;
-                case ANX.Framework.Graphics.TextureAddressMode.Wrap:
-                    return SharpDX.Direct3D11.TextureAddressMode.Wrap;
-            }
-
-            return SharpDX.Direct3D11.TextureAddressMode.Clamp;
         }
 
         /// <summary>
@@ -395,7 +472,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
         private InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
         {
-            string elementName = Translate(vertexElement.VertexElementUsage);
+            string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
 
             Format elementFormat;
             switch (vertexElement.VertexElementFormat)
@@ -419,182 +496,46 @@ namespace ANX.RenderSystem.Windows.DX11
             return new InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
         }
 
-        private PrimitiveTopology Translate(PrimitiveType primitiveType)
+        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
-            switch (primitiveType)
+            if (renderTargets == null)
             {
-                case PrimitiveType.LineList:
-                    return PrimitiveTopology.LineList;
-                case PrimitiveType.LineStrip:
-                    return PrimitiveTopology.LineStrip;
-                case PrimitiveType.TriangleList:
-                    return PrimitiveTopology.TriangleList;
-                case PrimitiveType.TriangleStrip:
-                    return PrimitiveTopology.TriangleStrip;
-                default:
-                    throw new InvalidOperationException("unknown PrimitiveType: " + primitiveType.ToString());
-            }
-        }
+                // reset the RenderTarget to backbuffer
+                if (renderTargetView != null)
+                {
+                    renderTargetView.Dispose();
+                    renderTargetView = null;
+                }
 
-        private SharpDX.DXGI.Format Translate(IndexElementSize indexElementSize)
-        {
-            switch (indexElementSize)
-            {
-                case IndexElementSize.SixteenBits:
-                    return Format.R16_UInt;
-                case IndexElementSize.ThirtyTwoBits:
-                    return Format.R32_UInt;
-                default:
-                    throw new InvalidOperationException("unknown IndexElementSize: " + indexElementSize.ToString());
-            }
-        }
-
-        private string Translate(VertexElementUsage usage)
-        {
-            //TODO: map the other Usages
-            if (usage == VertexElementUsage.TextureCoordinate)
-            {
-                return "TEXCOORD";
+                deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
+                deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
             }
             else
             {
-                return usage.ToString().ToUpperInvariant();
+                if (renderTargets.Length == 1)
+                {
+                    RenderTarget2D renderTarget = renderTargets[0].RenderTarget as RenderTarget2D;
+                    RenderTarget2D_DX11 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX11;
+                    if (renderTarget != null)
+                    {
+                        if (renderTargetView != null)
+                        {
+                            renderTargetView.Dispose();
+                            renderTargetView = null;
+                        }
+                        this.renderTargetView = new RenderTargetView(deviceContext.Device, ((Texture2D_DX11)nativeRenderTarget).NativeShaderResourceView.Resource);
+                        DepthStencilView depthStencilView = null;
+                        deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderTargetView }, depthStencilView);
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException("handling of multiple RenderTargets are not yet implemented");
+                }
             }
         }
 
-        private ColorWriteMaskFlags Translate(ColorWriteChannels colorWriteChannels)
-        {
-            switch (colorWriteChannels)
-            {
-                case ColorWriteChannels.All:
-                    return ColorWriteMaskFlags.All;
-                case ColorWriteChannels.Alpha:
-                    return ColorWriteMaskFlags.Alpha;
-                case ColorWriteChannels.Blue:
-                    return ColorWriteMaskFlags.Blue;
-                case ColorWriteChannels.Green:
-                    return ColorWriteMaskFlags.Green;
-                case ColorWriteChannels.Red:
-                    return ColorWriteMaskFlags.Red;
-            }
-
-            return 0;
-        }
-
-        private BlendOption Translate(Blend blend)
-        {
-            switch (blend)
-            {
-                case Blend.BlendFactor:
-                    return BlendOption.BlendFactor;
-                case Blend.DestinationAlpha:
-                    return BlendOption.DestinationAlpha;
-                case Blend.DestinationColor:
-                    return BlendOption.DestinationColor;
-                case Blend.InverseBlendFactor:
-                    return BlendOption.InverseBlendFactor;
-                case Blend.InverseDestinationAlpha:
-                    return BlendOption.InverseDestinationAlpha;
-                case Blend.InverseDestinationColor:
-                    return BlendOption.InverseDestinationColor;
-                case Blend.InverseSourceAlpha:
-                    return BlendOption.InverseSourceAlpha;
-                case Blend.InverseSourceColor:
-                    return BlendOption.InverseSourceColor;
-                case Blend.One:
-                    return BlendOption.One;
-                case Blend.SourceAlpha:
-                    return BlendOption.SourceAlpha;
-                case Blend.SourceAlphaSaturation:
-                    return BlendOption.SourceAlphaSaturate;
-                case Blend.SourceColor:
-                    return BlendOption.SourceColor;
-                case Blend.Zero:
-                    return BlendOption.Zero;
-            }
-
-            return BlendOption.One;
-        }
-
-        private BlendOperation Translate(BlendFunction blendFunction)
-        {
-            switch (blendFunction)
-            {
-                case BlendFunction.Add:
-                    return BlendOperation.Add;
-                case BlendFunction.Max:
-                    return BlendOperation.Maximum;
-                case BlendFunction.Min:
-                    return BlendOperation.Minimum;
-                case BlendFunction.ReverseSubtract:
-                    return BlendOperation.ReverseSubtract;
-                case BlendFunction.Subtract:
-                    return BlendOperation.Subtract;
-            }
-
-            return BlendOperation.Add;
-        }
-
-        private SharpDX.Direct3D11.FillMode Translate(ANX.Framework.Graphics.FillMode fillMode)
-        {
-            if (fillMode == ANX.Framework.Graphics.FillMode.WireFrame)
-            {
-                return SharpDX.Direct3D11.FillMode.Wireframe;
-            }
-            else
-            {
-                return SharpDX.Direct3D11.FillMode.Solid;
-            }
-        }
-
-        private SharpDX.Direct3D11.CullMode Translate(ANX.Framework.Graphics.CullMode cullMode)
-        {
-            if (cullMode == ANX.Framework.Graphics.CullMode.CullClockwiseFace)
-            {
-                return SharpDX.Direct3D11.CullMode.Front;
-            }
-            else if (cullMode == ANX.Framework.Graphics.CullMode.CullCounterClockwiseFace)
-            {
-                return SharpDX.Direct3D11.CullMode.Back;
-            }
-            else
-            {
-                return SharpDX.Direct3D11.CullMode.None;
-            }
-        }
-
-        private Comparison Translate(CompareFunction compareFunction)
-        {
-            switch (compareFunction)
-            {
-                case CompareFunction.Always:
-                    return Comparison.Always;
-                case CompareFunction.Equal:
-                    return Comparison.Equal;
-                case CompareFunction.Greater:
-                    return Comparison.Greater;
-                case CompareFunction.GreaterEqual:
-                    return Comparison.GreaterEqual;
-                case CompareFunction.Less:
-                    return Comparison.Less;
-                case CompareFunction.LessEqual:
-                    return Comparison.LessEqual;
-                case CompareFunction.Never:
-                    return Comparison.Never;
-                case CompareFunction.NotEqual:
-                    return Comparison.NotEqual;
-            }
-
-            return Comparison.Always;
-        }
-
-        public void SetRenderTargets(params Framework.Graphics.RenderTargetBinding[] renderTargets)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void GetBackBufferData<T>(Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+        public void GetBackBufferData<T>(ANX.Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
         }
@@ -609,49 +550,91 @@ namespace ANX.RenderSystem.Windows.DX11
             throw new NotImplementedException();
         }
 
-
-        public void Clear(Framework.Graphics.ClearOptions options, Framework.Vector4 color, float depth, int stencil)
+        public void ResizeBuffers(PresentationParameters presentationParameters)
         {
-            throw new NotImplementedException();
+            if (swapChain != null)
+            {
+                renderView.Dispose();
+                backBuffer.Dispose();
+
+                //TODO: handle format
+
+                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, (int)swapChain.Description.Flags);
+
+                backBuffer = SharpDX.Direct3D11.Texture2D.FromSwapChain<SharpDX.Direct3D11.Texture2D>(swapChain, 0);
+                renderView = new RenderTargetView(deviceContext.Device, backBuffer);
+
+                currentViewport = new SharpDX.Direct3D11.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
+                //
+                // create the depth stencil buffer
+                //
+                Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+                if (depthFormat != Format.Unknown)
+                {
+                    CreateDepthStencilBuffer(depthFormat);
+                }
+            }
+
+            ResizeRenderWindow(presentationParameters);
         }
 
-        public void DrawInstancedPrimitives(Framework.Graphics.PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+        private void ResizeRenderWindow(PresentationParameters presentationParameters)
         {
-            throw new NotImplementedException();
+            RECT windowRect;
+            RECT clientRect;
+            if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
+                GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+            {
+                int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
+                int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
+
+                SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
+            }
         }
-
-        public void DrawUserIndexedPrimitives<T>(Framework.Graphics.PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, Framework.Graphics.VertexDeclaration vertexDeclaration, Framework.Graphics.IndexElementSize indexFormat) where T : struct, Framework.Graphics.IVertexType
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawUserPrimitives<T>(Framework.Graphics.PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, Framework.Graphics.VertexDeclaration vertexDeclaration) where T : struct, Framework.Graphics.IVertexType
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void ResizeBuffers(Framework.Graphics.PresentationParameters presentationParameters)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public bool VSync
         {
             get
             {
-                throw new NotImplementedException();
+                return this.vSyncEnabled;
             }
             set
             {
-                throw new NotImplementedException();
+                this.vSyncEnabled = value;
             }
         }
 
         public void Dispose()
         {
-            //TODO: implement
+            if (renderTargetView != null)
+            {
+                renderTargetView.Dispose();
+                renderTargetView = null;
+            }
+
+            if (swapChain != null)
+            {
+                renderView.Dispose();
+                renderView = null;
+
+                backBuffer.Dispose();
+                backBuffer = null;
+
+                swapChain.Dispose();
+                swapChain = null;
+            }
+
+            if (this.depthStencilView != null)
+            {
+                this.depthStencilBuffer.Dispose();
+                this.depthStencilBuffer = null;
+
+                this.depthStencilView.Dispose();
+                this.depthStencilView = null;
+            }
+
+            //TODO: dispose everything else
         }
     }
 }

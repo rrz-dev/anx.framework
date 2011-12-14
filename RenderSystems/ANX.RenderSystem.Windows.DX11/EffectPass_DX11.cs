@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.Windows.DX10;
-using ANX.Framework.Windows.GL3;
-using System.IO;
-using ANX.RenderSystem.Windows.DX11;
+using ANX.Framework.NonXNA;
+using SharpDX.Direct3D11;
 
 #endregion // Using Statements
 
@@ -57,64 +55,30 @@ using ANX.RenderSystem.Windows.DX11;
 
 #endregion // License
 
-namespace StockShaderCodeGenerator
+namespace ANX.RenderSystem.Windows.DX11
 {
-    public static class Compiler
+    public class EffectPass_DX11 : INativeEffectPass
     {
-        public static void GenerateShaders()
+        private EffectPass nativePass;
+
+        public EffectPass NativePass
         {
-            Console.WriteLine("generating shaders...");
-
-            for (int i = 0; i < Configuration.Shaders.Count; i++)
+            get
             {
-                Shader s = Configuration.Shaders[i];
-
-                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
-                String source = String.Empty;
-                if (File.Exists(s.Source))
-                {
-                    source = File.ReadAllText(s.Source);
-                }
-
-                Console.Write("--> compiling shader... ");
-                try
-                {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
-                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
-                    s.ShaderCompiled = true;
-                }
-                catch (Exception ex)
-                {
-                    s.ShaderCompiled = false;
-                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
-                }
-
-                Configuration.Shaders[i] = s;
+                return this.nativePass;
             }
-
-            Console.WriteLine("finished generating shaders...");
+            internal set
+            {
+                this.nativePass = value;
+            }
         }
 
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
+        public string Name
         {
-            byte[] byteCode;
-
-            switch (RenderSystem)
+            get 
             {
-                case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
-                    break;
-                default:
-                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
+                return nativePass.Description.Name;
             }
-
-            return byteCode;
         }
     }
 }

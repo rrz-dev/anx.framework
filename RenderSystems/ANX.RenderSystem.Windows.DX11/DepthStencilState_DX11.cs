@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework;
@@ -57,13 +57,13 @@ using ANX.Framework;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.RenderSystem.Windows.DX11
 {
-    public class DepthStencilState_DX10 : INativeDepthStencilState
+    public class DepthStencilState_DX11 : INativeDepthStencilState
     {
         #region Private Members
         private DepthStencilStateDescription description;
-        private SharpDX.Direct3D10.DepthStencilState nativeDepthStencilState;
+        private SharpDX.Direct3D11.DepthStencilState nativeDepthStencilState;
         private bool nativeDepthStencilStateDirty;
         private bool bound;
 
@@ -71,22 +71,22 @@ namespace ANX.Framework.Windows.DX10
 
         #endregion // Private Members
 
-        public DepthStencilState_DX10()
+        public DepthStencilState_DX11()
         {
             this.description = new DepthStencilStateDescription();
 
             this.nativeDepthStencilStateDirty = true;
         }
 
-        public void Apply(Graphics.GraphicsDevice graphicsDevice)
+        public void Apply(ANX.Framework.Graphics.GraphicsDevice graphicsDevice)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-            Device device = gdx10.NativeDevice;
+            GraphicsDeviceWindowsDX11 gdx11 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
+            DeviceContext context = gdx11.NativeDevice;
 
-            UpdateNativeDepthStencilState(device);
+            UpdateNativeDepthStencilState(context.Device);
             this.bound = true;
 
-            device.OutputMerger.SetDepthStencilState(nativeDepthStencilState, this.referenceStencil);
+            context.OutputMerger.SetDepthStencilState(nativeDepthStencilState, this.referenceStencil);
         }
 
         public void Release()
@@ -111,11 +111,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation CounterClockwiseStencilDepthBufferFail
+        public ANX.Framework.Graphics.StencilOperation CounterClockwiseStencilDepthBufferFail
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.DepthFailOperation != operation)
                 {
@@ -125,11 +125,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation CounterClockwiseStencilFail
+        public ANX.Framework.Graphics.StencilOperation CounterClockwiseStencilFail
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.FailOperation != operation)
                 {
@@ -139,11 +139,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.CompareFunction CounterClockwiseStencilFunction
+        public ANX.Framework.Graphics.CompareFunction CounterClockwiseStencilFunction
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.BackFace.Comparison != comparison)
                 {
@@ -153,11 +153,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation CounterClockwiseStencilPass
+        public ANX.Framework.Graphics.StencilOperation CounterClockwiseStencilPass
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.BackFace.PassOperation != operation)
                 {
@@ -179,11 +179,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.CompareFunction DepthBufferFunction
+        public ANX.Framework.Graphics.CompareFunction DepthBufferFunction
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.DepthComparison != comparison)
                 {
@@ -219,11 +219,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation StencilDepthBufferFail
+        public ANX.Framework.Graphics.StencilOperation StencilDepthBufferFail
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.DepthFailOperation != operation)
                 {
@@ -245,11 +245,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation StencilFail
+        public ANX.Framework.Graphics.StencilOperation StencilFail
         {
             set
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.FailOperation != operation)
                 {
@@ -259,11 +259,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.CompareFunction StencilFunction
+        public ANX.Framework.Graphics.CompareFunction StencilFunction
         {
             set 
             {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.Comparison comparison = FormatConverter.Translate(value);
 
                 if (description.FrontFace.Comparison != comparison)
                 {
@@ -287,11 +287,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.StencilOperation StencilPass
+        public ANX.Framework.Graphics.StencilOperation StencilPass
         {
             set 
             {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.StencilOperation operation = FormatConverter.Translate(value);
 
                 if (description.FrontFace.PassOperation != operation)
                 {
@@ -333,7 +333,7 @@ namespace ANX.Framework.Windows.DX10
                     this.nativeDepthStencilState = null;
                 }
 
-                this.nativeDepthStencilState = new SharpDX.Direct3D10.DepthStencilState(device, ref this.description);
+                this.nativeDepthStencilState = new SharpDX.Direct3D11.DepthStencilState(device, ref this.description);
 
                 this.nativeDepthStencilStateDirty = false;
             }

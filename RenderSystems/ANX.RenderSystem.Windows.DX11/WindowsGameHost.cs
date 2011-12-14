@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using ANX.Framework.Windows.DX10;
-using ANX.Framework.Windows.GL3;
-using System.IO;
-using ANX.RenderSystem.Windows.DX11;
+using ANX.Framework.Input;
+using ANX.Framework;
 
 #endregion // Using Statements
 
@@ -57,64 +57,81 @@ using ANX.RenderSystem.Windows.DX11;
 
 #endregion // License
 
-namespace StockShaderCodeGenerator
+namespace ANX.RenderSystem.Windows.DX11
 {
-    public static class Compiler
+    public class WindowsGameHost : GameHost
     {
-        public static void GenerateShaders()
+        private Game game;
+        private WindowsGameWindow gameWindow;
+        private bool exitRequested;
+
+        public WindowsGameHost(Game game)
+            : base(game)
         {
-            Console.WriteLine("generating shaders...");
-
-            for (int i = 0; i < Configuration.Shaders.Count; i++)
-            {
-                Shader s = Configuration.Shaders[i];
-
-                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
-                String source = String.Empty;
-                if (File.Exists(s.Source))
-                {
-                    source = File.ReadAllText(s.Source);
-                }
-
-                Console.Write("--> compiling shader... ");
-                try
-                {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
-                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
-                    s.ShaderCompiled = true;
-                }
-                catch (Exception ex)
-                {
-                    s.ShaderCompiled = false;
-                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
-                }
-
-                Configuration.Shaders[i] = s;
-            }
-
-            Console.WriteLine("finished generating shaders...");
+            this.game = game;
+            //this.LockThreadToProcessor();
+            this.gameWindow = new WindowsGameWindow();
+            Mouse.WindowHandle = this.gameWindow.Handle;        //TODO: find a way to initialize all InputSystems with one Handle
+            Keyboard.WindowHandle = this.gameWindow.Handle;
+            //TouchPanel.WindowHandle = this.gameWindow.Handle;
+            //this.gameWindow.IsMouseVisible = game.IsMouseVisible;
+            this.gameWindow.Activated += new EventHandler<EventArgs>(this.GameWindowActivated);
+            this.gameWindow.Deactivated += new EventHandler<EventArgs>(this.GameWindowDeactivated);
+            //this.gameWindow.Suspend += new EventHandler<EventArgs>(this.GameWindowSuspend);
+            //this.gameWindow.Resume += new EventHandler<EventArgs>(this.GameWindowResume);
+        
         }
 
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
+        public override void Run()
         {
-            byte[] byteCode;
+            Application.Idle += new EventHandler(this.ApplicationIdle);
+            Application.Run(this.gameWindow.Form);
+            Application.Idle -= this.ApplicationIdle;
+        }
 
-            switch (RenderSystem)
-            {
-                case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
-                    break;
-                default:
-                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
+        public void RunOneFrame()
+        {
+            //this.gameWindow.Tick();
+            base.OnIdle();
+        }
+
+        public override GameWindow Window
+        {
+            get 
+            { 
+                return this.gameWindow; 
             }
+        }
 
-            return byteCode;
+        public override void Exit()
+        {
+            this.exitRequested = true;
+        }
+
+        private void GameWindowActivated(object sender, EventArgs e)
+        {
+            base.OnActivated();
+        }
+
+        private void GameWindowDeactivated(object sender, EventArgs e)
+        {
+            base.OnDeactivated();
+        }
+
+        private void ApplicationIdle(object sender, EventArgs e)
+        {
+            NativeMethods.Message message;
+            while (!NativeMethods.PeekMessage(out message, IntPtr.Zero, 0, 0, 0))
+            {
+                if (this.exitRequested)
+                {
+                    this.gameWindow.Close();
+                }
+                else
+                {
+                    this.RunOneFrame();
+                }
+            }
         }
     }
 }

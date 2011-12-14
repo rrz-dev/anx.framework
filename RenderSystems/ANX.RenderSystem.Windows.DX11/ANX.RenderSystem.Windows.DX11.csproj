@@ -65,18 +65,35 @@
       <HintPath>..\..\lib\SharpDX\Bin\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlendState_DX11.cs" />
     <Compile Include="Creator.cs" />
+    <Compile Include="DepthStencilState_DX11.cs" />
+    <Compile Include="EffectParameter_DX11.cs" />
+    <Compile Include="EffectPass_DX11.cs" />
+    <Compile Include="EffectTechnique_DX11.cs" />
     <Compile Include="Effect_DX11.cs" />
+    <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX11.cs" />
+    <Compile Include="IndexBuffer_DX11.cs" />
     <Compile Include="Metadata.Designer.cs">
       <DependentUpon>Metadata.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterizerState_DX11.cs" />
+    <Compile Include="RenderTarget2D_DX11.cs" />
+    <Compile Include="SamplerState_DX11.cs" />
+    <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="Texture2D_DX11.cs" />
     <Compile Include="VertexBuffer_DX11.cs" />
+    <Compile Include="WindowsGameHost.cs" />
+    <Compile Include="WindowsGameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Metadata.resx">

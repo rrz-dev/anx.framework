@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.Windows.DX10;
-using ANX.Framework.Windows.GL3;
-using System.IO;
-using ANX.RenderSystem.Windows.DX11;
+using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.RenderSystem;
+using SharpDX.Direct3D11;
 
 #endregion // Using Statements
 
@@ -57,64 +56,48 @@ using ANX.RenderSystem.Windows.DX11;
 
 #endregion // License
 
-namespace StockShaderCodeGenerator
+namespace ANX.RenderSystem.Windows.DX11
 {
-    public static class Compiler
+    public class RenderTarget2D_DX11 : Texture2D_DX11, INativeRenderTarget2D, INativeTexture2D
     {
-        public static void GenerateShaders()
+        #region Private Members
+
+        #endregion // Private Members
+
+        public RenderTarget2D_DX11(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+            : base(graphics)
         {
-            Console.WriteLine("generating shaders...");
-
-            for (int i = 0; i < Configuration.Shaders.Count; i++)
+            if (mipMap)
             {
-                Shader s = Configuration.Shaders[i];
-
-                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
-                String source = String.Empty;
-                if (File.Exists(s.Source))
-                {
-                    source = File.ReadAllText(s.Source);
-                }
-
-                Console.Write("--> compiling shader... ");
-                try
-                {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
-                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
-                    s.ShaderCompiled = true;
-                }
-                catch (Exception ex)
-                {
-                    s.ShaderCompiled = false;
-                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
-                }
-
-                Configuration.Shaders[i] = s;
+                throw new NotImplementedException("creating RenderTargets with mip map not yet implemented");
             }
 
-            Console.WriteLine("finished generating shaders...");
-        }
+            this.surfaceFormat = surfaceFormat;
 
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
-        {
-            byte[] byteCode;
+            GraphicsDeviceWindowsDX11 graphicsDX11 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
+            SharpDX.Direct3D11.DeviceContext device = graphicsDX11.NativeDevice;
 
-            switch (RenderSystem)
+            SharpDX.Direct3D11.Texture2DDescription description = new SharpDX.Direct3D11.Texture2DDescription()
             {
-                case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
-                    break;
-                default:
-                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
-            }
+                Width = width,
+                Height = height,
+                MipLevels = 1,
+                ArraySize = 1,
+                Format = FormatConverter.Translate(preferredFormat),
+                SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
+                Usage = SharpDX.Direct3D11.ResourceUsage.Default,
+                BindFlags = SharpDX.Direct3D11.BindFlags.ShaderResource | SharpDX.Direct3D11.BindFlags.RenderTarget,
+                CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags.None,
+                OptionFlags = SharpDX.Direct3D11.ResourceOptionFlags.None,
+            };
+            this.nativeTexture = new SharpDX.Direct3D11.Texture2D(graphicsDX11.NativeDevice.Device, description);
+            this.nativeShaderResourceView = new SharpDX.Direct3D11.ShaderResourceView(graphicsDX11.NativeDevice.Device, this.nativeTexture);
 
-            return byteCode;
+            // description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
+            // more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
+
+            this.formatSize = FormatConverter.FormatSize(surfaceFormat);
         }
+
     }
 }

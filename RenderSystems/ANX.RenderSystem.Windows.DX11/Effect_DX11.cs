@@ -66,12 +66,18 @@ namespace ANX.RenderSystem.Windows.DX11
         private ShaderBytecode vertexShaderByteCode;
         private VertexShader vertexShader;
         private PixelShader pixelShader;
-
+        private ANX.Framework.Graphics.Effect managedEffect;
         private ShaderBytecode effectByteCode;
         private SharpDX.Direct3D11.Effect nativeEffect;
 
-        public Effect_DX11(GraphicsDevice device, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public Effect_DX11(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
+            if (this.managedEffect == null)
+            {
+                throw new ArgumentNullException("managedEffect");
+            }
+            this.managedEffect = managedEffect;
+
             if (vertexShaderByteCode.CanSeek)
             {
                 vertexShaderByteCode.Seek(0, SeekOrigin.Begin);
@@ -87,14 +93,20 @@ namespace ANX.RenderSystem.Windows.DX11
             this.pixelShader = new PixelShader((SharpDX.Direct3D11.Device)device.NativeDevice, this.pixelShaderByteCode);
         }
 
-        public Effect_DX11(GraphicsDevice device, Stream effectByteCode)
+        public Effect_DX11(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream effectByteCode)
         {
+            if (managedEffect == null)
+            {
+                throw new ArgumentNullException("managedEffect");
+            }
+            this.managedEffect = managedEffect;
+
             if (effectByteCode.CanSeek)
             {
                 effectByteCode.Seek(0, SeekOrigin.Begin);
             }
             this.effectByteCode = ShaderBytecode.FromStream(effectByteCode);
-            this.nativeEffect = new SharpDX.Direct3D11.Effect(((GraphicsDeviceWindowsDX11)device.NativeDevice).NativeDevice, this.effectByteCode);
+            this.nativeEffect = new SharpDX.Direct3D11.Effect(((GraphicsDeviceWindowsDX11)device.NativeDevice).NativeDevice.Device, this.effectByteCode);
         }
 
         public void Apply(GraphicsDevice graphicsDevice)
@@ -209,20 +221,17 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public IEnumerable<ANX.Framework.Graphics.EffectTechnique> Techniques
         {
-            get 
+            get
             {
-                throw new NotImplementedException();
+                for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
+                {
+                    EffectTechnique_DX11 teqDx11 = new EffectTechnique_DX11(this.managedEffect);
+                    teqDx11.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
 
-                //for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
-                //{
-                //    EffectTechnique_DX11 teqDx11 = new EffectTechnique_DX11();
-                //    teqDx10.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
+                    ANX.Framework.Graphics.EffectTechnique teq = new ANX.Framework.Graphics.EffectTechnique(this.managedEffect, teqDx11);
 
-                //    ANX.Framework.Graphics.EffectTechnique teq = new ANX.Framework.Graphics.EffectTechnique();
-                //    teq.NativeTechnique = teqDx11;
-                    
-                //    yield return teq;
-                //}
+                    yield return teq;
+                }
             }
         }
 
@@ -230,18 +239,16 @@ namespace ANX.RenderSystem.Windows.DX11
         {
             get
             {
-                throw new NotImplementedException();
+                for (int i = 0; i < nativeEffect.Description.GlobalVariableCount; i++)
+                {
+                    EffectParameter_DX11 parDx11 = new EffectParameter_DX11();
+                    parDx11.NativeParameter = nativeEffect.GetVariableByIndex(i);
 
-                //for (int i = 0; i < nativeEffect.Description.GlobalVariableCount; i++)
-                //{
-                //    EffectParameter_DX10 parDx10 = new EffectParameter_DX10();
-                //    parDx10.NativeParameter = nativeEffect.GetVariableByIndex(i);
+                    ANX.Framework.Graphics.EffectParameter par = new ANX.Framework.Graphics.EffectParameter();
+                    par.NativeParameter = parDx11;
 
-                //    Graphics.EffectParameter par = new Graphics.EffectParameter();
-                //    par.NativeParameter = parDx10;
-
-                //    yield return par;
-                //}
+                    yield return par;
+                }
             }
         }
     }

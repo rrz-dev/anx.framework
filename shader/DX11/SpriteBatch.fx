@@ -1,17 +1,3 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.Windows.DX10;
-using ANX.Framework.Windows.GL3;
-using System.IO;
-using ANX.RenderSystem.Windows.DX11;
-
-#endregion // Using Statements
-
-#region License
-
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
 //
@@ -55,66 +41,47 @@ using ANX.RenderSystem.Windows.DX11;
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-#endregion // License
+uniform extern float4x4 MatrixTransform;
 
-namespace StockShaderCodeGenerator
+Texture2D<float4> Texture : register(t0);
+   sampler TextureSampler : register(s0);
+
+struct VertexShaderInput
 {
-    public static class Compiler
-    {
-        public static void GenerateShaders()
-        {
-            Console.WriteLine("generating shaders...");
+	float4 pos : POSITION;
+	float4 col : COLOR;
+	float2 tex : TEXCOORD0;
+};
 
-            for (int i = 0; i < Configuration.Shaders.Count; i++)
-            {
-                Shader s = Configuration.Shaders[i];
+struct PixelShaderInput
+{
+	float4 pos : SV_POSITION;
+	float4 col : COLOR;
+	float2 tex : TEXCOORD0;
+};
 
-                Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
-                String source = String.Empty;
-                if (File.Exists(s.Source))
-                {
-                    source = File.ReadAllText(s.Source);
-                }
+PixelShaderInput SpriteVertexShader( VertexShaderInput input )
+{
+	PixelShaderInput output = (PixelShaderInput)0;
+	
+	output.pos = mul(input.pos, MatrixTransform);
+	output.col = input.col;
+	output.tex = input.tex;
 
-                Console.Write("--> compiling shader... ");
-                try
-                {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
-                    Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
-                    s.ShaderCompiled = true;
-                }
-                catch (Exception ex)
-                {
-                    s.ShaderCompiled = false;
-                    Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
-                }
+	return output;
+}
 
-                Configuration.Shaders[i] = s;
-            }
+float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
+{
+	return Texture.Sample(TextureSampler, input.tex) * input.col;
+}
 
-            Console.WriteLine("finished generating shaders...");
-        }
-
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
-        {
-            byte[] byteCode;
-
-            switch (RenderSystem)
-            {
-                case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
-                    break;
-                case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
-                    break;
-                default:
-                    throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");
-            }
-
-            return byteCode;
-        }
-    }
+technique11 SpriteTechnique
+{
+	pass SpriteColorPass
+	{
+		SetGeometryShader( 0 );
+		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
+		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
+	}
 }

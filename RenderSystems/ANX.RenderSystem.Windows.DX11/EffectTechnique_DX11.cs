@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using SharpDX.Direct3D11;
-using ANX.Framework.Graphics;
-using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -59,96 +57,55 @@ using System.Runtime.InteropServices;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class VertexBuffer_DX11 : INativeBuffer, IDisposable
+    public class EffectTechnique_DX11 : INativeEffectTechnique
     {
-        SharpDX.Direct3D11.Buffer buffer;
-        int vertexStride;
+        private EffectTechnique nativeTechnique;
+        private ANX.Framework.Graphics.Effect parentEffect;
 
-        public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        internal EffectTechnique_DX11(ANX.Framework.Graphics.Effect parentEffect)
         {
-            this.vertexStride = vertexDeclaration.VertexStride;
-
-            //TODO: translate and use usage
-
-            GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-            SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
-
-            if (context != null)
+            if (parentEffect == null)
             {
-                BufferDescription description = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = BindFlags.VertexBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None
-                };
-
-                this.buffer = new SharpDX.Direct3D11.Buffer(context.Device, description);
-                //this.buffer.Unmap();
-            }
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            if (startIndex > 0 || elementCount < data.Length)
-            {
-                throw new NotImplementedException("currently starIndex and elementCount of SetData are not implemented");
+                throw new ArgumentNullException("parentEffect");
             }
 
-            GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-            DeviceContext context = dx11GraphicsDevice.NativeDevice;
-
-            //TODO: check offsetInBytes parameter for bounds etc.
-
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
-
-            int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
-
-            unsafe
-            {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
-                {
-                    if (offsetInBytes > 0)
-                    {
-                        vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
-                    }
-
-                    SharpDX.DataStream stream;
-                    SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-                    vData.CopyTo(stream);
-                    context.UnmapSubresource(this.buffer, 0);
-                }
-            }
-
-            pinnedArray.Free();
+            this.parentEffect = parentEffect;
         }
 
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-        {
-            SetData<T>(graphicsDevice, data, 0, data.Length);
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
-        }
-
-        public SharpDX.Direct3D11.Buffer NativeBuffer
+        public EffectTechnique NativeTechnique
         {
             get
             {
-                return this.buffer;
+                return this.nativeTechnique;
+            }
+            internal set
+            {
+                this.nativeTechnique = value;
             }
         }
 
-        public void Dispose()
+        public string Name
         {
-            if (this.buffer != null)
+            get 
             {
-                buffer.Dispose();
-                buffer = null;
+                return nativeTechnique.Description.Name;
+            }
+        }
+
+
+        public IEnumerable<ANX.Framework.Graphics.EffectPass> Passes
+        {
+            get 
+            {
+                for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
+                {
+                    EffectPass_DX11 passDx11 = new EffectPass_DX11();
+                    passDx11.NativePass = nativeTechnique.GetPassByIndex(i);
+
+                    ANX.Framework.Graphics.EffectPass pass = new ANX.Framework.Graphics.EffectPass(this.parentEffect);
+
+                    yield return pass;
+                }
             }
         }
     }

@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.NonXNA;
-using SharpDX.Direct3D11;
-using ANX.Framework.Graphics;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using SharpDX.Windows;
+using ANX.Framework;
 
 #endregion // Using Statements
 
@@ -59,97 +58,106 @@ using System.Runtime.InteropServices;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class VertexBuffer_DX11 : INativeBuffer, IDisposable
+    internal class WindowsGameWindow : GameWindow
     {
-        SharpDX.Direct3D11.Buffer buffer;
-        int vertexStride;
+        #region Private Members
+        private RenderForm gameWindow;
 
-        public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        #endregion // Private Members
+
+        internal WindowsGameWindow()
         {
-            this.vertexStride = vertexDeclaration.VertexStride;
+            this.gameWindow = new RenderForm("ANX.Framework");
 
-            //TODO: translate and use usage
+            this.gameWindow.Width = 800;
+            this.gameWindow.Height = 480;
 
-            GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-            SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
+            this.gameWindow.MaximizeBox = false;
+            this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
+        }
 
-            if (context != null)
+        public void Close()
+        {
+            if (gameWindow != null)
             {
-                BufferDescription description = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = BindFlags.VertexBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None
-                };
-
-                this.buffer = new SharpDX.Direct3D11.Buffer(context.Device, description);
-                //this.buffer.Unmap();
+                gameWindow.Close();
             }
         }
 
-        public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            if (startIndex > 0 || elementCount < data.Length)
-            {
-                throw new NotImplementedException("currently starIndex and elementCount of SetData are not implemented");
-            }
-
-            GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-            DeviceContext context = dx11GraphicsDevice.NativeDevice;
-
-            //TODO: check offsetInBytes parameter for bounds etc.
-
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
-
-            int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
-
-            unsafe
-            {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
-                {
-                    if (offsetInBytes > 0)
-                    {
-                        vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
-                    }
-
-                    SharpDX.DataStream stream;
-                    SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-                    vData.CopyTo(stream);
-                    context.UnmapSubresource(this.buffer, 0);
-                }
-            }
-
-            pinnedArray.Free();
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-        {
-            SetData<T>(graphicsDevice, data, 0, data.Length);
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
-        }
-
-        public SharpDX.Direct3D11.Buffer NativeBuffer
+        public Form Form
         {
             get
             {
-                return this.buffer;
+                return gameWindow;
             }
         }
 
-        public void Dispose()
+        public override IntPtr Handle
         {
-            if (this.buffer != null)
-            {
-                buffer.Dispose();
-                buffer = null;
+            get 
+            { 
+                return gameWindow.Handle; 
             }
+        }
+
+        public override bool IsMinimized
+        {
+            get 
+            {
+                return gameWindow.WindowState == FormWindowState.Minimized;
+            }
+        }
+
+        public override void BeginScreenDeviceChange(bool willBeFullScreen)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SetTitle(string title)
+        {
+            this.gameWindow.Text = title;
+        }
+
+        public override bool AllowUserResizing
+        {
+            get
+            {
+                return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
+            }
+            set
+            {
+                if (value)
+                {
+                    gameWindow.FormBorderStyle = FormBorderStyle.Sizable;
+                }
+                else
+                {
+                    gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
+                }
+            }
+        }
+
+        public override Rectangle ClientBounds
+        {
+            get 
+            {
+                return new Rectangle(this.gameWindow.ClientRectangle.Left, this.gameWindow.ClientRectangle.Top, this.gameWindow.ClientRectangle.Width, this.gameWindow.ClientRectangle.Height);
+            }
+        }
+
+        public override string ScreenDeviceName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override DisplayOrientation CurrentOrientation
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }
