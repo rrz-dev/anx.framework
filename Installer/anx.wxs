@@ -50,12 +50,17 @@
         <File Id='sharpdx.xapo' Name='SharpDX.XAPO.dll' DiskId='1' Source='../bin/Release/SharpDX.XAPO.dll' />
         <File Id='sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../bin/Release/SharpDX.XAudio2.dll' />
         <File Id='sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../bin/Release/SharpDX.XInput.dll' />
+        <File Id='sharpdx_direct3d11_effects_x64' Name='sharpdx_direct3d11_effects_x64.dll' DiskId='1' Source='../bin/Release/sharpdx_direct3d11_effects_x64.dll' />
+        <File Id='sharpdx_direct3d11_effects_x86' Name='sharpdx_direct3d11_effects_x86.dll' DiskId='1' Source='../bin/Release/sharpdx_direct3d11_effects_x86.dll' />
       </Component>
       <Component Id='OpenTK' Guid='{132664CF-8DD6-4B6A-A200-88D4BE5F2AE9}'>
         <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../bin/Release/OpenTK.dll' />
       </Component>
       <Component Id='ANX.Framework.Windows.DX10' Guid='{34DD167E-084B-464F-9633-B0220E8C4683}'>
         <File Id='anx.framework.windows.dx10' Name='ANX.Framework.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Windows.DX10.dll' />
+      </Component>
+      <Component Id='ANX.RenderSystem.Windows.DX11' Guid='{0E0CE2E8-9458-4333-9CF7-D60B126F7310}'>
+        <File Id='anx.RenderSystem.windows.dx11' Name='ANX.RenderSystem.Windows.DX11.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX11.dll' />
       </Component>
       <Component Id='ANX.Framework.Windows.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
         <File Id='anx.framework.windows.gl3' Name='ANX.Framework.Windows.GL3.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Windows.GL3.dll' />
