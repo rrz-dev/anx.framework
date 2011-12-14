@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("ANX.InputSystem.Windows.Kinect")]
+[assembly: AssemblyTitle("ANX.InputDevices.Windows.Kinect")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
-[assembly: AssemblyProduct("ANX.InputSystem.Windows.Kinect")]
+[assembly: AssemblyProduct("ANX.InputDevices.Windows.Kinect")]
 [assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -58,7 +58,7 @@ using ANX.Framework.Input.MotionSensing;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.Kinect
+namespace ANX.InputDevices.Windows.Kinect
 {
     
     public class Kinect : IMotionSensingDevice

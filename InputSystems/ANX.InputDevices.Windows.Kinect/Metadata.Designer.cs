@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ANX.Framework.Windows.DX10 {
+namespace ANX.InputDevices.Windows.Kinect {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ANX.Framework.Windows.DX10 {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.Framework.Windows.DX10.Metadata", typeof(Metadata).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.InputDevices.Windows.Kinect.Metadata", typeof(Metadata).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

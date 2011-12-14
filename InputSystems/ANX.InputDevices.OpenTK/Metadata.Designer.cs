@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ANX.InputSystem.OpenTK {
+namespace ANX.InputDevices.OpenTK {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ANX.InputSystem.OpenTK {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.InputSystem.OpenTK.Metadata", typeof(Metadata).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.InputDevices.OpenTK.Metadata", typeof(Metadata).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

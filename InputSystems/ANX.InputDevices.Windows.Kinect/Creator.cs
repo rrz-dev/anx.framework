@@ -53,7 +53,7 @@ using ANX.Framework.NonXNA;
 #endregion // License
 
 
-namespace ANX.InputSystem.Windows.Kinect
+namespace ANX.InputDevices.Windows.Kinect
 {
     public class Creator : IInputSystemCreator
     {

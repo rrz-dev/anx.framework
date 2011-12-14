@@ -8,8 +8,8 @@
     <ProjectGuid>{E5D69E75-D77C-493F-BBDA-6F9E73B82549}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ANX.InputSystem.Windows.Kinect</RootNamespace>
-    <AssemblyName>ANX.InputSystem.Windows.Kinect</AssemblyName>
+    <RootNamespace>ANX.InputDevices.Windows.Kinect</RootNamespace>
+    <AssemblyName>ANX.InputDevices.Windows.Kinect</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -73,6 +73,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

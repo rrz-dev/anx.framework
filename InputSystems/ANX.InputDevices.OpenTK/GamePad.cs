@@ -54,7 +54,7 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.InputSystem.OpenTK
+namespace ANX.InputDevices.OpenTK
 {
     public class GamePad : IGamePad
     {
