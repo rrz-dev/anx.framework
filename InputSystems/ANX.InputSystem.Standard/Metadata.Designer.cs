@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ANX.InputDevices.Windows.XInput {
+namespace ANX.InputSystem.Standard {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ANX.InputDevices.Windows.XInput {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.InputDevices.Windows.XInput.Metadata", typeof(Metadata).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ANX.InputSystem.Standard.Metadata", typeof(Metadata).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace ANX.InputDevices.Windows.XInput {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Win32NT ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Win32NT Unix MacOsX ähnelt.
         /// </summary>
         public static string SupportedPlatforms {
             get {

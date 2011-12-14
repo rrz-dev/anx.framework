@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Input;
-using SharpDX.DirectInput;
+using System.IO;
 using System.Runtime.InteropServices;
-using ANX.Framework;
+using ANX.Framework.NonXNA;
+using NLog;
 
 #endregion // Using Statements
 
@@ -58,79 +57,79 @@ using ANX.Framework;
 
 #endregion // License
 
-using MouseX = SharpDX.DirectInput.Mouse;
-
 namespace ANX.InputDevices.Windows.XInput
 {
-    class Mouse : IMouse
+    public class Creator : IInputSystemCreator
     {
-        #region Interop
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(ref Point lpPoint);
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        [DllImport("user32.dll")]
-        static extern void SetCursorPos(int x, int y);
-
-        [DllImport("user32.dll")]
-        static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
-
-        #endregion // Interop
-
-        #region Private Members
-        private DirectInput directInput;
-        private MouseX mouse;
-
-        #endregion // Private Members
-
-        public IntPtr WindowHandle
+        public string Name
         {
-            get;
-            set;
-        }
-
-        public Mouse()
-        {
-            this.directInput = new DirectInput();
-            this.mouse = new MouseX(this.directInput);
-            this.mouse.Properties.AxisMode = DeviceAxisMode.Absolute;
-            this.mouse.Acquire();
-        }
-
-        public ANX.Framework.Input.MouseState GetState()
-        {
-            var state = this.mouse.GetCurrentState();
-
-            Point cursorPos = new Point();
-            GetCursorPos(ref cursorPos);
-            if (WindowHandle != IntPtr.Zero)
-            {
-                ScreenToClient(WindowHandle, ref cursorPos);
+            get 
+            { 
+                return "Standard"; 
             }
-            state.X = cursorPos.X;
-            state.Y = cursorPos.Y;
-
-            ButtonState left = new ButtonState();
-            ButtonState middle = new ButtonState();
-            ButtonState right = new ButtonState();
-            ButtonState x1 = new ButtonState();
-            ButtonState x2 = new ButtonState();
-            if(state.Buttons[0]){left=ButtonState.Pressed;}
-            if(state.Buttons[1]){middle=ButtonState.Pressed;}
-            if(state.Buttons[2]){right=ButtonState.Pressed;}
-            if(state.Buttons[3]){x1=ButtonState.Pressed;}
-            if(state.Buttons[4]){x2=ButtonState.Pressed;}
-            return new ANX.Framework.Input.MouseState(state.X,state.Y,state.Z,left,middle,right,x1,x2);
         }
 
-        public void SetPosition(int x, int y)
+        public int Priority
         {
-            Point currentPosition = new Point(x, y);
-            GetCursorPos(ref currentPosition);
-            if (WindowHandle != IntPtr.Zero)
-            {
-                ScreenToClient(WindowHandle, ref currentPosition);
-            }
-            SetCursorPos(currentPosition.X, currentPosition.Y);
+            get { return 0; }
         }
+
+        public bool IsSupported
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public void RegisterCreator(AddInSystemFactory factory)
+        {
+            logger.Debug("adding Standard InputSystem creator to creator collection of AddInSystemFactory");
+            factory.AddCreator(this);
+        }
+
+        public IGamePad GamePad
+        {
+            get 
+            {
+                logger.Debug("returning a new GamePad device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return InputDeviceFactory.Instance.GetDefaultGamePad();
+            }
+        }
+
+        public IMouse Mouse
+        {
+            get 
+            {
+                logger.Debug("returning a new Mouse device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return InputDeviceFactory.Instance.GetDefaultMouse();
+            }
+        }
+
+        public IKeyboard Keyboard
+        {
+            get 
+            {
+                logger.Debug("returning a new Keyboard device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return InputDeviceFactory.Instance.GetDefaultKeyboard();
+            }
+        }
+
+#if XNAEXT
+        public IMotionSensingDevice MotionSensingDevice
+        {
+            get
+            {
+                logger.Debug("returning a new MotionSensingDevice device");
+                AddInSystemFactory.Instance.PreventInputSystemChange();
+                return InputDeviceFactory.Instance.GetDefaultMotionSensingDevice();
+            }
+        }
+#endif
     }
 }

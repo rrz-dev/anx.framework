@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Resources;
 using System.Collections;
 using System.Linq;
+using ANX.Framework.NonXNA.InputSystem;
 
 #endregion
 
@@ -130,6 +131,32 @@ namespace ANX.Framework.NonXNA
                     }
                     catch { }
                 }
+
+                //
+                // Scan the addin for InputDeviceCreators and register them
+                //
+
+                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IGamePadCreator).IsAssignableFrom(p)))
+                {
+                    InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IGamePadCreator);
+                }
+
+                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IKeyboardCreator).IsAssignableFrom(p)))
+                {
+                    InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IKeyboardCreator);
+                }
+
+                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IMouseCreator).IsAssignableFrom(p)))
+                {
+                    InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMouseCreator);
+                }
+
+#if XNAEXT
+                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IMotionSensingDeviceCreator).IsAssignableFrom(p)))
+                {
+                    InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMotionSensingDeviceCreator);
+                }
+#endif
             }
         }
 

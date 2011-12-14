@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.InputSystem;
+using ANX.InputDevices;
 using ANX.Framework.NonXNA;
 using SharpDX.DirectInput;
 using DXKeyboard=SharpDX.DirectInput.Keyboard;
@@ -56,7 +56,7 @@ using DXKeyboard=SharpDX.DirectInput.Keyboard;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+namespace ANX.InputDevices.Windows.XInput
 {
     public class Keyboard : IKeyboard
     {

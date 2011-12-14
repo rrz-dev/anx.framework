@@ -59,7 +59,7 @@ using SharpDX.XInput;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+namespace ANX.InputDevices.Windows.XInput
 {
     public class GamePad : IGamePad
     {

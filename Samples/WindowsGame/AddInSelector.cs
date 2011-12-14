@@ -30,9 +30,9 @@ namespace WindowsGame1
 
             foreach (IInputSystemCreator inputSystemCreator in AddInSystemFactory.Instance.GetCreators<IInputSystemCreator>())
             {
-                cbInputSystems.Items.Add(inputSystemCreator.Name);
+                cbInputSystem.Items.Add(inputSystemCreator.Name);
             }
-            cbInputSystems.SetItemChecked(0, true);
+            cbInputSystem.SelectedIndex = 0;
 
             foreach (ISoundSystemCreator soundSystemCreator in AddInSystemFactory.Instance.GetCreators<ISoundSystemCreator>())
             {

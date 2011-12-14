@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Input;
-using SharpDX.DirectInput;
+using System.IO;
 using System.Runtime.InteropServices;
-using ANX.Framework;
+using ANX.Framework.NonXNA;
+using NLog;
+using ANX.Framework.NonXNA.InputSystem;
 
 #endregion // Using Statements
 
@@ -58,79 +58,28 @@ using ANX.Framework;
 
 #endregion // License
 
-using MouseX = SharpDX.DirectInput.Mouse;
-
 namespace ANX.InputDevices.Windows.XInput
 {
-    class Mouse : IMouse
+    public class MouseCreator : IMouseCreator
     {
-        #region Interop
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(ref Point lpPoint);
-
-        [DllImport("user32.dll")]
-        static extern void SetCursorPos(int x, int y);
-
-        [DllImport("user32.dll")]
-        static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
-
-        #endregion // Interop
-
-        #region Private Members
-        private DirectInput directInput;
-        private MouseX mouse;
-
-        #endregion // Private Members
-
-        public IntPtr WindowHandle
+        public string Name
         {
-            get;
-            set;
+            get { return "DirectInput.Mouse"; }
         }
 
-        public Mouse()
+        public void RegisterCreator(InputDeviceFactory factory)
         {
-            this.directInput = new DirectInput();
-            this.mouse = new MouseX(this.directInput);
-            this.mouse.Properties.AxisMode = DeviceAxisMode.Absolute;
-            this.mouse.Acquire();
+            factory.AddCreator(this);
         }
 
-        public ANX.Framework.Input.MouseState GetState()
+        public int Priority
         {
-            var state = this.mouse.GetCurrentState();
-
-            Point cursorPos = new Point();
-            GetCursorPos(ref cursorPos);
-            if (WindowHandle != IntPtr.Zero)
-            {
-                ScreenToClient(WindowHandle, ref cursorPos);
-            }
-            state.X = cursorPos.X;
-            state.Y = cursorPos.Y;
-
-            ButtonState left = new ButtonState();
-            ButtonState middle = new ButtonState();
-            ButtonState right = new ButtonState();
-            ButtonState x1 = new ButtonState();
-            ButtonState x2 = new ButtonState();
-            if(state.Buttons[0]){left=ButtonState.Pressed;}
-            if(state.Buttons[1]){middle=ButtonState.Pressed;}
-            if(state.Buttons[2]){right=ButtonState.Pressed;}
-            if(state.Buttons[3]){x1=ButtonState.Pressed;}
-            if(state.Buttons[4]){x2=ButtonState.Pressed;}
-            return new ANX.Framework.Input.MouseState(state.X,state.Y,state.Z,left,middle,right,x1,x2);
+            get { return 10; }
         }
 
-        public void SetPosition(int x, int y)
+        public IMouse CreateMouseInstance()
         {
-            Point currentPosition = new Point(x, y);
-            GetCursorPos(ref currentPosition);
-            if (WindowHandle != IntPtr.Zero)
-            {
-                ScreenToClient(WindowHandle, ref currentPosition);
-            }
-            SetCursorPos(currentPosition.X, currentPosition.Y);
+            return new Mouse();
         }
     }
 }

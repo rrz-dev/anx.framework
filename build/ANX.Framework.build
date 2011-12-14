@@ -9,12 +9,15 @@
   <property name="project.anx.extended" value="false" unless="${property::exists('project.anx.extended')}" />
   <property name="project.anx.directives" value="" unless="${property::exists('project.anx.directives')}" />
 
-  <property name="project.anx.path.inputsystem.xinput" value="../InputSystems/ANX.InputSystem.Windows.XInput" />
-  <property name="project.anx.name.inputsystem.xinput" value="ANX.InputSystem.Windows.XInput" />
-  <property name="project.anx.path.inputsystem.kinect" value="../InputSystems/ANX.InputSystem.Windows.Kinect" />
-  <property name="project.anx.name.inputsystem.kinect" value="ANX.InputSystem.Windows.Kinect" />
+  <property name="project.anx.path.inputsystem.standard" value="../InputSystems/ANX.InputSystem.Standard" />
+  <property name="project.anx.name.inputsystem.standard" value="ANX.InputSystem.Standard" />
   <property name="project.anx.path.inputsystem.recording" value="../InputSystems/ANX.InputSystem.Recording" />
   <property name="project.anx.name.inputsystem.recording" value="ANX.InputSystem.Recording" />
+
+  <property name="project.anx.path.inputdevices.xinput" value="../InputSystems/ANX.InputDevices.Windows.XInput" />
+  <property name="project.anx.name.inputdevices.xinput" value="ANX.InputDevices.Windows.XInput" />
+  <property name="project.anx.path.inputsystem.kinect" value="../InputSystems/ANX.InputSystem.Windows.Kinect" />
+  <property name="project.anx.name.inputsystem.kinect" value="ANX.InputSystem.Windows.Kinect" />
   <property name="project.anx.path.inputsystem.opentk" value="../InputSystems/ANX.InputSystem.OpenTK" />
   <property name="project.anx.name.inputsystem.opentk" value="ANX.InputSystem.OpenTK" />
 
@@ -49,7 +52,7 @@
         <include name="../bin/**" />
         <include name="${build.dir}/${build.configuration}/installer/**" />
         <include name="${project.anx.path}/obj/**" />
-        <include name="${project.anx.path.inputsystem.xinput}/obj/**" />
+        <include name="${project.anx.path.inputdevices.xinput}/obj/**" />
         <include name="${project.anx.path.inputsystem.kinect}/obj/**" />
         <include name="${project.anx.path.inputsystem.recording}/obj/**" />
         <include name="${project.anx.path.inputsystem.opentk}/obj/**" />
@@ -179,7 +182,7 @@
 
   <target name="build_anx_inputsystems" description="Build ANX.Framework InputSystems">
     <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework InputSystem XInput" />
+    <echo message="Now building: ANX.Framework InputSystem Standard" />
     <echo message="===================================================" />
 
     <exec program="msbuild.exe" >
@@ -189,7 +192,7 @@
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.inputsystem.xinput}/${project.anx.name.inputsystem.xinput}.csproj" />
+      <arg value="${project.anx.path.inputsystem.standard}/${project.anx.name.inputsystem.standard}.csproj" />
     </exec>
 
     <echo message="===================================================" />
@@ -204,6 +207,20 @@
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputsystem.recording}/${project.anx.name.inputsystem.recording}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework InputDevices XInput" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.inputdevices.xinput}/${project.anx.name.inputdevices.xinput}.csproj" />
     </exec>
 
     <echo message="===================================================" />

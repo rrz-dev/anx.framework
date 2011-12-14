@@ -1,12 +1,6 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
-using ANX.Framework.NonXNA;
-using NLog;
+using ANX.Framework.Input;
 
 #endregion // Using Statements
 
@@ -57,75 +51,14 @@ using NLog;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+namespace ANX.Framework.NonXNA.InputSystem
 {
-    public class Creator : IInputSystemCreator
+    public interface IInputDeviceCreator
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        string Name { get; }
 
-        public string Name
-        {
-            get 
-            { 
-                return "XInput"; 
-            }
-        }
+        void RegisterCreator(InputDeviceFactory factory);
 
-        public int Priority
-        {
-            get { return 10; }
-        }
-
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
-            }
-        }
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            logger.Debug("adding XInput creator to creator collection of AddInSystemFactory");
-            factory.AddCreator(this);
-        }
-
-        public IGamePad GamePad
-        {
-            get 
-            {
-                logger.Debug("returning a new XInput GamePad device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new GamePad(); 
-            }
-        }
-
-        public IMouse Mouse
-        {
-            get 
-            {
-                logger.Debug("returning a new XInput Mouse device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Mouse(); 
-            }
-        }
-
-        public IKeyboard Keyboard
-        {
-            get 
-            {
-                logger.Debug("returning a new XInput Keyboard device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Keyboard(); 
-            }
-        }
-
-#if XNAEXT
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get { return null; }
-        }
-#endif
+        int Priority { get; }
     }
 }

@@ -52,7 +52,7 @@ using SharpDX.XInput;
 
 #endregion // License
 
-namespace ANX.InputSystem.Windows.XInput
+namespace ANX.InputDevices.Windows.XInput
 {
     internal class FormatConverter
     {

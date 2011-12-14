@@ -37,7 +37,7 @@
             this.cbAudioSystem = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.cbInputSystems = new System.Windows.Forms.CheckedListBox();
+            this.cbInputSystem = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,13 +117,14 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
-            // cbInputSystems
+            // cbInputSystem
             // 
-            this.cbInputSystems.FormattingEnabled = true;
-            this.cbInputSystems.Location = new System.Drawing.Point(184, 236);
-            this.cbInputSystems.Name = "cbInputSystems";
-            this.cbInputSystems.Size = new System.Drawing.Size(277, 94);
-            this.cbInputSystems.TabIndex = 9;
+            this.cbInputSystem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbInputSystem.FormattingEnabled = true;
+            this.cbInputSystem.Location = new System.Drawing.Point(184, 233);
+            this.cbInputSystem.Name = "cbInputSystem";
+            this.cbInputSystem.Size = new System.Drawing.Size(277, 21);
+            this.cbInputSystem.TabIndex = 9;
             // 
             // AddInSelector
             // 
@@ -132,7 +133,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(507, 371);
-            this.Controls.Add(this.cbInputSystems);
+            this.Controls.Add(this.cbInputSystem);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.cbAudioSystem);
             this.Controls.Add(this.label3);
@@ -164,6 +165,6 @@
         public System.Windows.Forms.ComboBox cbAudioSystem;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox1;
-        internal System.Windows.Forms.CheckedListBox cbInputSystems;
+        public System.Windows.Forms.ComboBox cbInputSystem;
     }
 }

@@ -79,7 +79,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA", "XNA", "{BD648BB8-EF2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Windows.Kinect", "InputSystems\ANX.InputSystem.Windows.Kinect\ANX.InputSystem.Windows.Kinect.csproj", "{E5D69E75-D77C-493F-BBDA-6F9E73B82549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Windows.XInput", "InputSystems\ANX.InputSystem.Windows.XInput\ANX.InputSystem.Windows.XInput.csproj", "{60D08399-244F-46A3-91F1-4CFD26D961A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.XInput", "InputSystems\ANX.InputSystem.Windows.XInput\ANX.InputDevices.Windows.XInput.csproj", "{60D08399-244F-46A3-91F1-4CFD26D961A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.Windows.DX10", "RenderSystems\ANX.Framework.Windows.DX10\ANX.Framework.Windows.DX10.csproj", "{5BE49183-2F6F-4527-AC90-D816911FCF90}"
 EndProject
@@ -127,6 +127,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-0
 		shader\DX11\Skinned.fx = shader\DX11\Skinned.fx
 		shader\DX11\SpriteBatch.fx = shader\DX11\SpriteBatch.fx
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Standard", "InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard.csproj", "{49066074-3B7B-4A55-B122-6BD33AB73558}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -420,6 +422,16 @@ Global
 		{160150D5-38E6-482D-97F5-2624F322A854}.Release|Mixed Platforms.Build.0 = Release|x86
 		{160150D5-38E6-482D-97F5-2624F322A854}.Release|x86.ActiveCfg = Release|x86
 		{160150D5-38E6-482D-97F5-2624F322A854}.Release|x86.Build.0 = Release|x86
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{49066074-3B7B-4A55-B122-6BD33AB73558}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -448,6 +460,7 @@ Global
 		{60D08399-244F-46A3-91F1-4CFD26D961A3} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
+		{49066074-3B7B-4A55-B122-6BD33AB73558} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{6A582788-C4D2-410C-96CD-177F75712D65} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
 		{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
 		{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}

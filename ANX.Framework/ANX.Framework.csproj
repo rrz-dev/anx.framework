@@ -421,9 +421,15 @@
     <Compile Include="NonXNA\AddIn.cs" />
     <Compile Include="NonXNA\AddInLoadingException.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\InputDeviceFactory.cs" />
+    <Compile Include="NonXNA\InputSystem\IGamePadCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IKeyboard.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDevice.cs" />
     <Compile Include="NonXNA\InputSystem\IMouse.cs" />
+    <Compile Include="NonXNA\InputSystem\IInputDeviceCreator.cs" />
+    <Compile Include="NonXNA\InputSystem\IKeyboardCreator.cs" />
+    <Compile Include="NonXNA\InputSystem\IMouseCreator.cs" />
+    <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />
     <Compile Include="NonXNA\ICreator.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePad.cs" />

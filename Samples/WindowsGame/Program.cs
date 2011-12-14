@@ -21,7 +21,7 @@ namespace WindowsGame1
             {
                 AddInSystemFactory.Instance.PreferredRenderSystem = selector.cbRenderSystem.Text;
                 AddInSystemFactory.Instance.PreferredSoundSystem = selector.cbAudioSystem.Text;
-                AddInSystemFactory.Instance.PreferredInputSystem = selector.cbInputSystems.CheckedItems[0].ToString();
+                AddInSystemFactory.Instance.PreferredInputSystem = selector.cbInputSystem.Text;
 
                 using (Game1 game = new Game1())
                 {

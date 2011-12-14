@@ -50,8 +50,8 @@
         <File Id='sharpdx.xapo' Name='SharpDX.XAPO.dll' DiskId='1' Source='../bin/Release/SharpDX.XAPO.dll' />
         <File Id='sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../bin/Release/SharpDX.XAudio2.dll' />
         <File Id='sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../bin/Release/SharpDX.XInput.dll' />
-        <File Id='sharpdx_direct3d11_effects_x64' Name='sharpdx_direct3d11_effects_x64.dll' DiskId='1' Source='../bin/Release/sharpdx_direct3d11_effects_x64.dll' />
-        <File Id='sharpdx_direct3d11_effects_x86' Name='sharpdx_direct3d11_effects_x86.dll' DiskId='1' Source='../bin/Release/sharpdx_direct3d11_effects_x86.dll' />
+        <File Id='sharpdx_direct3d11_effects_x64' Name='sharpdx_direct3d11_effects_x64.dll' DiskId='1' Source='../lib/SharpDX/Bin/sharpdx_direct3d11_effects_x64.dll' />
+        <File Id='sharpdx_direct3d11_effects_x86' Name='sharpdx_direct3d11_effects_x86.dll' DiskId='1' Source='../lib/SharpDX/Bin/sharpdx_direct3d11_effects_x86.dll' />
       </Component>
       <Component Id='OpenTK' Guid='{132664CF-8DD6-4B6A-A200-88D4BE5F2AE9}'>
         <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../bin/Release/OpenTK.dll' />
@@ -65,8 +65,14 @@
       <Component Id='ANX.Framework.Windows.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
         <File Id='anx.framework.windows.gl3' Name='ANX.Framework.Windows.GL3.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Windows.GL3.dll' />
       </Component>
-      <Component Id='ANX.InputSystem.Windows.XInput' Guid='{825A36A3-5071-46C5-B195-E0EB469EDA51}'>
-        <File Id='anx.inputsystem.windows.xinput' Name='ANX.InputSystem.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Windows.XInput.dll' />
+      <Component Id='ANX.InputSystem.Standard' Guid='{71A52D93-AE81-4847-A29A-6AA6E16C83FB}'>
+        <File Id='anx.inputsystem.Standard' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Standard.dll' />
+      </Component>
+      <Component Id='ANX.InputSystem.Recording' Guid='{F7AF68E6-CFB4-4CCA-8F6C-2C0FD286F258}'>
+        <File Id='anx.inputsystem.Recording' Name='ANX.InputSystem.Recording.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Recording.dll' />
+      </Component>
+      <Component Id='ANX.InputDevices.Windows.XInput' Guid='{825A36A3-5071-46C5-B195-E0EB469EDA51}'>
+        <File Id='ANX.InputDevices.Windows.XInput' Name='ANX.InputDevices.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputDevices.Windows.XInput.dll' />
       </Component>
       <Component Id='ANX.SoundSystem.Windows.XAudio' Guid='{4C4EDC2B-BF6B-437C-874C-1573373DB55E}'>
         <File Id='anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
