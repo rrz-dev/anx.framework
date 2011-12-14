@@ -76,6 +76,7 @@ namespace ANX.RenderSystem.Windows.DX11
             for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
             {
                 blendStateDescription.RenderTarget[i] = new RenderTargetBlendDescription();
+                blendStateDescription.RenderTarget[i].IsBlendEnabled = (i < 4);
                 blendStateDescription.IndependentBlendEnable = true;
             }
 

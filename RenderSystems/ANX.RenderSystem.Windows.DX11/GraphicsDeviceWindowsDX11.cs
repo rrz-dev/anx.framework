@@ -139,7 +139,7 @@ namespace ANX.RenderSystem.Windows.DX11
 #else
             Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.None, desc, out dxDevice, out swapChain);
 #endif
-            this.deviceContext = new DeviceContext(dxDevice);
+            this.deviceContext = dxDevice.ImmediateContext;
 
             // Ignore all windows events
             Factory factory = swapChain.GetParent<Factory>();

@@ -10,8 +10,10 @@ namespace RenderTarget
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         static void Main(string[] args)
-			{
-						//AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
+        {
+			//AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
+            //AddInSystemFactory.Instance.PreferredRenderSystem = "DirectX11";
+
             using (Game1 game = new Game1())
             {
                 game.Run();

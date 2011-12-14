@@ -12,7 +12,7 @@ namespace WindowsGame1
         static void Main(string[] args)
         {
             //AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
-			AddInSystemFactory.Instance.PreferredRenderSystem = "DirectX11";
+			//AddInSystemFactory.Instance.PreferredRenderSystem = "DirectX11";
 
             using (Game1 game = new Game1())
             {
