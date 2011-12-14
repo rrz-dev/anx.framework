@@ -76,7 +76,7 @@ float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
 	return Texture.Sample(TextureSampler, input.tex) * input.col;
 }
 
-technique11 SpriteTechnique
+technique10 SpriteTechnique
 {
 	pass SpriteColorPass
 	{

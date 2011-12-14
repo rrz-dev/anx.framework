@@ -132,6 +132,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
             // Create Device and SwapChain
             Device dxDevice;
+
 #if DIRECTX_DEBUG_LAYER
             // http://msdn.microsoft.com/en-us/library/windows/desktop/bb205068(v=vs.85).aspx
             Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.Debug, desc, out dxDevice, out swapChain);

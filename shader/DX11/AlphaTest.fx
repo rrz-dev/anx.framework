@@ -79,7 +79,7 @@ float4 AlphaTestPixelShader( PixelShaderInput input ) : SV_Target
 	return Texture.Sample(TextureSampler, input.tex) * input.col;
 }
 
-technique11 AlphaTest
+technique10 AlphaTest
 {
 	pass AlphaTestPass
 	{

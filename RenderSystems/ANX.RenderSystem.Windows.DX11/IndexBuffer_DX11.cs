@@ -96,11 +96,6 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (startIndex > 0 || elementCount < data.Length)
-            {
-                throw new NotImplementedException("currently starIndex and elementCount of SetData are not implemented");
-            }
-
             GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
             DeviceContext context = dx11GraphicsDevice.NativeDevice;
 
@@ -113,7 +108,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
             unsafe
             {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
+                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
                 {
                     if (offsetInBytes > 0)
                     {
@@ -122,7 +117,17 @@ namespace ANX.RenderSystem.Windows.DX11
 
                     SharpDX.DataStream stream;
                     SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-                    vData.CopyTo(stream);
+                    if (startIndex > 0 || elementCount < data.Length)
+                    {
+                        for (int i = startIndex; i < startIndex + elementCount; i++)
+                        {
+                            vData.Write<T>(data[i]);
+                        }
+                    }
+                    else
+                    {
+                        vData.CopyTo(stream);
+                    } 
                     context.UnmapSubresource(this.buffer, 0);
                 }
             }

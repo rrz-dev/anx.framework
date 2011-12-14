@@ -100,7 +100,7 @@ namespace ANX.Framework.Windows.DX10
 
             unsafe
             {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
+                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
                 {
                     if (offsetInBytes > 0)
                     {

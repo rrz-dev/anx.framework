@@ -96,11 +96,6 @@ namespace ANX.Framework.Windows.DX10
 
         public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (startIndex > 0 || elementCount < data.Length)
-            {
-                throw new NotImplementedException("currently starIndex and elementCount of SetData are not implemented");
-            }
-
             //TODO: check offsetInBytes parameter for bounds etc.
 
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned); 
@@ -110,7 +105,7 @@ namespace ANX.Framework.Windows.DX10
 
             unsafe
             {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
+                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
                 {
                     if (offsetInBytes > 0)
                     {
@@ -119,7 +114,17 @@ namespace ANX.Framework.Windows.DX10
 
                     using (var d = buffer.Map(MapMode.WriteDiscard))
                     {
-                        vData.CopyTo(d);
+                        if (startIndex > 0 || elementCount < data.Length)
+                        {
+                            for (int i = startIndex; i < startIndex + elementCount; i++)
+                            {
+                                d.Write<T>(data[i]);
+                            }
+                        }
+                        else
+                        {
+                            vData.CopyTo(d);
+                        } 
                         buffer.Unmap();
                     }
                 }

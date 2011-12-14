@@ -173,7 +173,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public static byte[] CompileFXShader(string effectCode)
         {
-            ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_4_0", ShaderFlags.None, EffectFlags.None);
+            ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_5_0", ShaderFlags.None, EffectFlags.None);
             byte[] bytecode = new byte[effectByteCode.BufferSize];
             effectByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
