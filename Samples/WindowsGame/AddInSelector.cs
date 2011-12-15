@@ -22,6 +22,8 @@ namespace WindowsGame1
 
         private void AddInSelector_Load(object sender, EventArgs e)
         {
+            AddInSystemFactory.Instance.SortAddIns();
+
             foreach (IRenderSystemCreator renderSystemCreator in AddInSystemFactory.Instance.GetCreators<IRenderSystemCreator>())
             {
                 cbRenderSystem.Items.Add(renderSystemCreator.Name);

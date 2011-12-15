@@ -73,7 +73,7 @@ namespace ANX.SoundSystem.OpenAL
 
         public int Priority
         {
-            get { return 10; }
+            get { return 100; }
         }
 
         public bool IsSupported

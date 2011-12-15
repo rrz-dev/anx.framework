@@ -8,6 +8,7 @@ using ANX.Framework.Input;
 using NLog;
 using System.Collections;
 using System.Resources;
+using System.Xml.Linq;
 
 #endregion // Using Statements
 
@@ -152,9 +153,7 @@ namespace ANX.Framework.NonXNA
                     }
                 }
 
-                this.inputSystems.Sort();
-                this.renderSystems.Sort();
-                this.soundSystems.Sort();
+                SortAddIns();
             }
         }
 
@@ -289,6 +288,15 @@ namespace ANX.Framework.NonXNA
             }
 
             throw new AddInLoadingException(String.Format("couldn't find a DefaultCreator of type '{0}'", type.FullName));
+        }
+
+        public void SortAddIns()
+        {
+            this.inputSystems.Sort();
+            this.renderSystems.Sort();
+            this.soundSystems.Sort();
+
+            this.creators = this.creators.OrderBy(x => x.Value.Priority).ToDictionary(x => x.Key, x => x.Value);
         }
 
         public OperatingSystem OperatingSystem

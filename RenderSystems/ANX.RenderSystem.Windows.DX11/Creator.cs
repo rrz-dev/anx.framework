@@ -71,7 +71,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public int Priority
         {
-            get { return 5; }
+            get { return 15; }
         }
 
         public bool IsSupported
