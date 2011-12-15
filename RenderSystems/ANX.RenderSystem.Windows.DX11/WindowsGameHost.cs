@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ANX.Framework.Windows.DX10;
 using ANX.Framework.Input;
 using ANX.Framework;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -71,8 +72,7 @@ namespace ANX.RenderSystem.Windows.DX11
             this.game = game;
             //this.LockThreadToProcessor();
             this.gameWindow = new WindowsGameWindow();
-            Mouse.WindowHandle = this.gameWindow.Handle;        //TODO: find a way to initialize all InputSystems with one Handle
-            Keyboard.WindowHandle = this.gameWindow.Handle;
+            InputDeviceFactory.Instance.WindowHandle = this.gameWindow.Handle;
             //TouchPanel.WindowHandle = this.gameWindow.Handle;
             //this.gameWindow.IsMouseVisible = game.IsMouseVisible;
             this.gameWindow.Activated += new EventHandler<EventArgs>(this.GameWindowActivated);

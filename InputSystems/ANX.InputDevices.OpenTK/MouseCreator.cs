@@ -1,7 +1,13 @@
 ﻿#region Using Statements
 using System;
-using ANX.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using NLog;
+using ANX.Framework.NonXNA.InputSystem;
 
 #endregion // Using Statements
 
@@ -52,62 +58,31 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-
-namespace ANX.InputDevices.Windows.Kinect
+namespace ANX.InputDevices.OpenTK
 {
-    public class Creator : IInputSystemCreator
+    public class MouseCreator : IMouseCreator
     {
         public string Name
         {
-            get { return "Kinect"; }
-        }
-
-        public int Priority
-        {
-            get { return int.MaxValue; }
-        }
-
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
+            get 
+            { 
+                return "OpenTK.Mouse"; 
             }
         }
 
-        public void RegisterCreator(AddInSystemFactory factory)
+        public void RegisterCreator(InputDeviceFactory factory)
         {
             factory.AddCreator(this);
         }
 
-        #region IInputSystemCreator Member
-
-        public IGamePad GamePad
+        public int Priority
         {
-            get { throw new NotImplementedException(); }
+            get { return 100; }
         }
 
-        public IMouse Mouse
+        public IMouse CreateMouseInstance()
         {
-            get { return null; }
+            return new Mouse();
         }
-
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get 
-            {
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Kinect(); 
-            }
-        }
-
-        public IKeyboard Keyboard
-        {
-            get { throw new NotImplementedException(); }
-        }
-        
-        #endregion
-        
     }
 }

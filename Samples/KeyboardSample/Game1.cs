@@ -33,7 +33,6 @@ namespace KeyboardSample
 
         protected override void Initialize()
         {
-            //TODO: see CodePlex issue #454
             this.lastKeyState = Keyboard.GetState();
 
             base.Initialize();

@@ -430,6 +430,7 @@
     <Compile Include="NonXNA\InputSystem\IKeyboardCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMouseCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
+    <Compile Include="NonXNA\NoInputDeviceException.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />
     <Compile Include="NonXNA\ICreator.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePad.cs" />

@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 using NLog;
+using ANX.Framework.NonXNA.InputSystem;
 
 #endregion // Using Statements
 
@@ -57,77 +58,34 @@ using NLog;
 
 #endregion // License
 
-namespace ANX.InputDevices.OpenTK
+namespace ANX.InputDevices.Windows.Kinect
 {
-    public class Creator : IInputSystemCreator
+    public class MotionSensingDeviceCreator : IMotionSensingDeviceCreator
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
         public string Name
         {
             get 
             { 
-                return "OpenTK"; 
+                return "Kinect"; 
             }
+        }
+
+        public void RegisterCreator(InputDeviceFactory factory)
+        {
+            factory.AddCreator(this);
         }
 
         public int Priority
         {
-            get { return 100; }
-        }
-
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Unix ||
-                       AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.MacOSX;
-            }
-        }
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            logger.Debug("adding OpenTK InputSystem creator to creator collection of AddInSystemFactory");
-            factory.AddCreator(this);
-        }
-
-        public IGamePad GamePad
-        {
             get 
-            {
-                logger.Debug("returning a new OpenTK GamePad device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new GamePad(); 
+            { 
+                return 10000; 
             }
         }
 
-        public IMouse Mouse
+        public IMotionSensingDevice CreateMotionSensingDeviceInstance()
         {
-            get 
-            {
-                logger.Debug("returning a new OpenTK Mouse device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Mouse(); 
-            }
+            return new Kinect();
         }
-
-        public IKeyboard Keyboard
-        {
-            get 
-            {
-                logger.Debug("returning a new OpenTK Keyboard device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new Keyboard(); 
-            }
-        }
-
-#if XNAEXT
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get { return null; }
-        }
-#endif
     }
 }

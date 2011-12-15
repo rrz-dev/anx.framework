@@ -1,14 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
-using ANX.Framework.NonXNA;
-using NLog;
-
-#endregion // Using Statements
+using System.Runtime.Serialization;
+#endregion
 
 #region License
 
@@ -57,100 +50,29 @@ using NLog;
 
 #endregion // License
 
-namespace ANX.InputDevices.Windows.XInput
+namespace ANX.Framework.NonXNA
 {
-    public class Creator : IInputSystemCreator
+    public class NoInputDeviceException : Exception
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
-        private IKeyboard keyboard;
-        private IMouse mouse;
-
-        public string Name
+        public NoInputDeviceException()
+            : base()
         {
-            get 
-            { 
-                return "Standard"; 
-            }
         }
 
-        public int Priority
+        protected NoInputDeviceException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            get { return 0; }
+        }
+        
+        public NoInputDeviceException(string message)
+            : base(message)
+        {
         }
 
-        public bool IsSupported
+        public NoInputDeviceException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            get
-            {
-                return true;
-            }
         }
 
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            logger.Debug("adding Standard InputSystem creator to creator collection of AddInSystemFactory");
-            factory.AddCreator(this);
-        }
-
-        public IGamePad GamePad
-        {
-            get 
-            {
-                logger.Debug("returning a new GamePad device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return InputDeviceFactory.Instance.GetDefaultGamePad();
-            }
-        }
-
-        public IMouse Mouse
-        {
-            get 
-            {
-                if (this.mouse == null)
-                {
-                    this.mouse = InputDeviceFactory.Instance.GetDefaultMouse();
-                    if (this.mouse == null)
-                    {
-                        throw new NoInputDeviceException("couldn't find a default mouse device creator. Unable to create a mouse instance.");
-                    }
-                    logger.Debug("created a new Mouse device");
-                    AddInSystemFactory.Instance.PreventInputSystemChange();
-                }
-
-                return this.mouse;
-            }
-        }
-
-        public IKeyboard Keyboard
-        {
-            get 
-            {
-                if (this.keyboard == null)
-                {
-                    this.keyboard = InputDeviceFactory.Instance.GetDefaultKeyboard();
-                    if (this.keyboard == null)
-                    {
-                        throw new NoInputDeviceException("couldn't find a default keyboard device creator. Unable to create a keyboard instance.");
-                    }
-                    logger.Debug("created a new Keyboard device");
-                    AddInSystemFactory.Instance.PreventInputSystemChange();
-                }
-
-                return this.keyboard;
-            }
-        }
-
-#if XNAEXT
-        public IMotionSensingDevice MotionSensingDevice
-        {
-            get
-            {
-                logger.Debug("returning a new MotionSensingDevice device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
-                return InputDeviceFactory.Instance.GetDefaultMotionSensingDevice();
-            }
-        }
-#endif
     }
 }

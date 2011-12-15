@@ -73,6 +73,8 @@ namespace ANX.Framework.NonXNA
         private Dictionary<string, IMotionSensingDeviceCreator> motionSensingDeviceCreators;
 #endif 
 
+        private IntPtr windowHandle;
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         #endregion // Private Members
@@ -178,9 +180,17 @@ namespace ANX.Framework.NonXNA
         {
             //TODO: this is a very basic implementation only which needs some more work
 
+            if (this.WindowHandle == null ||
+                this.WindowHandle == IntPtr.Zero)
+            {
+                throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
+            }
+
             if (this.mouseCreators.Count > 0)
             {
-                return this.mouseCreators.Values.First<IMouseCreator>().CreateMouseInstance();
+                IMouse mouse = this.mouseCreators.Values.First<IMouseCreator>().CreateMouseInstance();
+                mouse.WindowHandle = this.windowHandle;
+                return mouse;
             }
 
             throw new Exception("Unable to create instance of Mouse because no MouseCreator was registered.");
@@ -190,9 +200,17 @@ namespace ANX.Framework.NonXNA
         {
             //TODO: this is a very basic implementation only which needs some more work
 
+            if (this.WindowHandle == null ||
+                this.WindowHandle == IntPtr.Zero)
+            {
+                throw new Exception("Unable to create a keyboard instance because the WindowHandle was not set.");
+            }
+
             if (this.keyboardCreators.Count > 0)
             {
-                return this.keyboardCreators.Values.First<IKeyboardCreator>().CreateKeyboardInstance();
+                IKeyboard keyboard = this.keyboardCreators.Values.First<IKeyboardCreator>().CreateKeyboardInstance();
+                keyboard.WindowHandle = this.windowHandle;
+                return keyboard;
             }
 
             throw new Exception("Unable to create instance of Keyboard because no KeyboardCreator was registered.");
@@ -212,5 +230,16 @@ namespace ANX.Framework.NonXNA
         }
 #endif
 
+        public IntPtr WindowHandle
+        {
+            get
+            {
+                return this.windowHandle;
+            }
+            internal set
+            {
+                this.windowHandle = value;
+            }
+        }
     }
 }
