@@ -175,7 +175,11 @@ namespace ANX.Framework.Content
             bool isCompressed = (flags & 0x80) != 0;
 
             int sizeOnDisk = reader.ReadInt32();
-            // TODO: check stream length
+
+            if (input.CanSeek && ((sizeOnDisk - 10) > (input.Length - input.Position)))
+            {
+                throw new ContentLoadException("Bad XNB file size.");
+            }
 
             if (isCompressed)
             {
@@ -399,13 +403,17 @@ namespace ANX.Framework.Content
 
         public override float ReadSingle()
         {
-            // TODO: this is handeled with unsafe code in the original implementation, dont know for what reason
+            // This is handeled with unsafe code in the original implementation.
+            // The original implementation reads as UInt32 and does some pointer magic to copy the UInt bits into the float.
+            // The same "pointer magic" is done by the ReadSingle method of the binary reader already.
             return base.ReadSingle();
         }
 
         public override double ReadDouble()
         {
-            // TODO: this is handeled with unsafe code in the original implementation, dont know for what reason
+            // This is handeled with unsafe code in the original implementation.
+            // The original implementation reads as UInt64 and does some pointer magic to copy the UInt bits into the float.
+            // The same "pointer magic" is done by the ReadDouble method of the binary reader already.
             return base.ReadDouble();
         }
 

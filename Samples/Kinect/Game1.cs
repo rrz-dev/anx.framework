@@ -33,14 +33,12 @@ namespace Kinect
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: Verwenden Sie this.Content, um Ihren Spiel-Inhalt hier zu laden
         }
 
         protected override void Update(GameTime gameTime)
         {
-            //TODO: reactivate
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            //    this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
 
             kinectState = MotionSensingDevice.GetState();
 

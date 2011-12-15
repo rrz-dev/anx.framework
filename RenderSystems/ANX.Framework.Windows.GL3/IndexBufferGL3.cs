@@ -94,6 +94,8 @@ namespace ANX.Framework.Windows.GL3
 			// StaticDraw: set once, use often
 			// DynamicDraw: set frequently, use repeatadly
 			// StreamDraw: set every tick, use once
+
+            // comment from glatzemann: I think static draw should be right HERE. DynamicDraw should be used for DynamicIndexbuffer. StreamDraw shouldn't be used I think.
 			usageHint = BufferUsageHint.DynamicDraw;
 
 			GL.GenBuffers(1, out bufferHandle);

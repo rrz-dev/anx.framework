@@ -210,7 +210,7 @@ namespace ANX.Framework.Windows.DX10
 
             this.depthStencilView = new DepthStencilView(device, this.depthStencilBuffer);
 
-            Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
+            Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, Vector4.Zero, 1.0f, 0);  // this workaround is working but maybe not the best solution to issue #472
         }
 
 		#region Clear

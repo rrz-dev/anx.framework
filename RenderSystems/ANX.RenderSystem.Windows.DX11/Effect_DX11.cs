@@ -111,7 +111,6 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public void Apply(GraphicsDevice graphicsDevice)
         {
-            //TODO: dummy
             ((GraphicsDeviceWindowsDX11)graphicsDevice.NativeDevice).currentEffect = this;
         }
 

@@ -168,7 +168,7 @@ namespace ANX.InputSystem.Recording
                     byte writeOffset = 0;
                     if ((recordInfo & MouseRecordInfo.AllButtons) != 0) //Any of the Buttons is recorded
                     {
-                        buffer[writeOffset] |= state.LeftButton == ButtonState.Pressed ? (byte)MouseButtons.Left : (byte)0; //TODO: Is there a byte literal? (like 118L or 91.8f)
+                        buffer[writeOffset] |= state.LeftButton == ButtonState.Pressed ? (byte)MouseButtons.Left : (byte)0;
                         buffer[writeOffset] |= state.RightButton == ButtonState.Pressed ? (byte)MouseButtons.Right : (byte)0;
                         buffer[writeOffset] |= state.MiddleButton == ButtonState.Pressed ? (byte)MouseButtons.Middle : (byte)0;
                         buffer[writeOffset] |= state.XButton1 == ButtonState.Pressed ? (byte)MouseButtons.X1 : (byte)0;

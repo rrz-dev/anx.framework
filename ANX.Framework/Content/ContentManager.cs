@@ -193,7 +193,8 @@ namespace ANX.Framework.Content
                 throw new ArgumentNullException("assetName");
             }
 
-            // TODO: make clean asset name
+            assetName = TitleContainer.GetCleanPath(assetName);
+
             object result;
             if (this.loadedAssets.TryGetValue(assetName, out result))
             {
@@ -243,10 +244,15 @@ namespace ANX.Framework.Content
         /// <returns></returns>
         protected virtual Stream OpenStream(string assetName)
         {
-            // TODO: catch exception and throw a ContentLoadException
-
-            string path = Path.Combine(rootDirectoryAbsolute, assetName + Extension);
-            return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            try
+            {
+                string path = Path.Combine(rootDirectoryAbsolute, assetName + Extension);
+                return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+            catch (Exception ex)
+            {
+                throw new ContentLoadException("failed to open stream for '" + assetName + "'", ex);
+            }
         }
 
         protected void ThrowExceptionIfDisposed()

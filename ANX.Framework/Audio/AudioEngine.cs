@@ -56,7 +56,7 @@ namespace ANX.Framework.Audio
 {
     public class AudioEngine : IDisposable
     {
-        public const int ContentVersion=0;//ToDo find the original value
+        public const int ContentVersion = 0x27;
 
 
         public AudioEngine(string settingsFile)

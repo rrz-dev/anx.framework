@@ -59,5 +59,12 @@ namespace ANX.Framework
         {
             throw new NotImplementedException();
         }
+
+        internal static string GetCleanPath(string path)
+        {
+            //TODO: implement
+
+            return path;
+        }
     }
 }
