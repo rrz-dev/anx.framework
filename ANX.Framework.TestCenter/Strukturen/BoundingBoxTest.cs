@@ -115,6 +115,21 @@ namespace ANX.Framework.TestCenter.Strukturen
                  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f),  DataFactory.RandomValueMinMax(0f, 100f) },
         };
 
+        private void Swap(ref float a, ref float b)
+        {
+            float t = a;
+            a = b;
+            b = t;
+        }
+
+        private void Sort(ref float a, ref float b)
+        {
+            if (a > b)
+            {
+                Swap(ref a, ref b);
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -164,43 +179,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
-            if (xMin1 > xMax1)
-            {
-                float x = xMin1;
-                xMin1 = xMax1;
-                xMax1 = x;
-            }
-            if (yMin1 > yMax1)
-            {
-                float y = yMin1;
-                yMin1 = yMax1;
-                yMax1 = y;
-            }
-            if (zMin1 > zMax1)
-            {
-                float z = zMin1;
-                zMin1 = zMax1;
-                zMax1 = z;
-            }
+            Sort(ref xMin1, ref xMax1);
+            Sort(ref yMin1, ref yMax1);
+            Sort(ref zMin1, ref zMax1);
 
-            if (xMin2 > xMax2)
-            {
-                float x = xMin2;
-                xMin2 = xMax2;
-                xMax2 = x;
-            }
-            if (yMin2 > yMax2)
-            {
-                float y = yMin2;
-                yMin2 = yMax2;
-                yMax2 = y;
-            }
-            if (zMin2 > zMax2)
-            {
-                float z = zMin2;
-                zMin2 = zMax2;
-                zMax2 = z;
-            }
+            Sort(ref xMin2, ref xMax2);
+            Sort(ref yMin2, ref yMax2);
+            Sort(ref zMin2, ref zMax2);
 
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
@@ -222,24 +207,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
@@ -261,24 +231,9 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("tenfloats")]
         public void ContainsBoundingSphere(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xS, float yS, float zS, float rS)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -298,24 +253,9 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("ninefloats")]
         public void ContainsPoint(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xP, float yP, float zP)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             XNAVector3 xnaPoint = new XNAVector3(xP, yP, zP);
@@ -376,43 +316,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
-            if (xMin1 > xMax1)
-            {
-                float x = xMin1;
-                xMin1 = xMax1;
-                xMax1 = x;
-            }
-            if (yMin1 > yMax1)
-            {
-                float y = yMin1;
-                yMin1 = yMax1;
-                yMax1 = y;
-            }
-            if (zMin1 > zMax1)
-            {
-                float z = zMin1;
-                zMin1 = zMax1;
-                zMax1 = z;
-            }
+            Sort(ref xMin1, ref xMax1);
+            Sort(ref yMin1, ref yMax1);
+            Sort(ref zMin1, ref zMax1);
 
-            if (xMin2 > xMax2)
-            {
-                float x = xMin2;
-                xMin2 = xMax2;
-                xMax2 = x;
-            }
-            if (yMin2 > yMax2)
-            {
-                float y = yMin2;
-                yMin2 = yMax2;
-                yMax2 = y;
-            }
-            if (zMin2 > zMax2)
-            {
-                float z = zMin2;
-                zMin2 = zMax2;
-                zMax2 = z;
-            }
+            Sort(ref xMin2, ref xMax2);
+            Sort(ref yMin2, ref yMax2);
+            Sort(ref zMin2, ref zMax2);
 
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
@@ -429,24 +339,9 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void GetCorners(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
@@ -455,33 +350,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3[] xna = xnaBox.GetCorners();
             ANXVector3[] anx = anxBox.GetCorners();
 
-            if (xna[0].X == anx[0].X &&
-                xna[0].Y == anx[0].Y &&
-                xna[0].Z == anx[0].Z &&
-                xna[1].X == anx[1].X &&
-                xna[1].Y == anx[1].Y &&
-                xna[1].Z == anx[1].Z &&
-                xna[2].X == anx[2].X &&
-                xna[2].Y == anx[2].Y &&
-                xna[2].Z == anx[2].Z &&
-                xna[3].X == anx[3].X &&
-                xna[3].Y == anx[3].Y &&
-                xna[3].Z == anx[3].Z &&
-                xna[4].X == anx[4].X &&
-                xna[4].Y == anx[4].Y &&
-                xna[4].Z == anx[4].Z &&
-                xna[5].X == anx[5].X &&
-                xna[5].Y == anx[5].Y &&
-                xna[5].Z == anx[5].Z &&
-                xna[6].X == anx[6].X &&
-                xna[6].Y == anx[6].Y &&
-                xna[6].Z == anx[6].Z &&
-                xna[7].X == anx[7].X &&
-                xna[7].Y == anx[7].Y &&
-                xna[7].Z == anx[7].Z)
-                Assert.Pass("GetCorners passed");
-            else
-                Assert.Fail(String.Format("GetCorners failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "GetCorners");
         }
 
         [Test, TestCaseSource("twelvefloats")]
@@ -489,43 +358,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
-            if (xMin1 > xMax1)
-            {
-                float x = xMin1;
-                xMin1 = xMax1;
-                xMax1 = x;
-            }
-            if (yMin1 > yMax1)
-            {
-                float y = yMin1;
-                yMin1 = yMax1;
-                yMax1 = y;
-            }
-            if (zMin1 > zMax1)
-            {
-                float z = zMin1;
-                zMin1 = zMax1;
-                zMax1 = z;
-            }
+            Sort(ref xMin1, ref xMax1);
+            Sort(ref yMin1, ref yMax1);
+            Sort(ref zMin1, ref zMax1);
 
-            if (xMin2 > xMax2)
-            {
-                float x = xMin2;
-                xMin2 = xMax2;
-                xMax2 = x;
-            }
-            if (yMin2 > yMax2)
-            {
-                float y = yMin2;
-                yMin2 = yMax2;
-                yMax2 = y;
-            }
-            if (zMin2 > zMax2)
-            {
-                float z = zMin2;
-                zMin2 = zMax2;
-                zMax2 = z;
-            }
+            Sort(ref xMin2, ref xMax2);
+            Sort(ref yMin2, ref yMax2);
+            Sort(ref zMin2, ref zMax2);
 
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
@@ -536,10 +375,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaBox1.Intersects(xnaBox2);
             bool anx = anxBox1.Intersects(anxBox2);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsBoundingBox passed");
-            else
-                Assert.Fail(String.Format("IntersectsBoundingBox failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsBoundingBox");
         }
 
         [Test, TestCaseSource("twentytwofloats")]
@@ -547,24 +383,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Matrix xnaMtrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
@@ -577,33 +398,15 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaBox.Intersects(xnaFrustum);
             bool anx = anxBox.Intersects(anxFrustum);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsFrustum passed");
-            else
-                Assert.Fail(String.Format("IntersectsFrustum failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsFrustum");
         }
 
         [Test, TestCaseSource("tenfloats")]
         public void IntersectsBoundingSphere(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xS, float yS, float zS, float rS)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.BoundingSphere xnaSphere = new Microsoft.Xna.Framework.BoundingSphere(new XNAVector3(xS, yS, zS), rS);
@@ -614,33 +417,15 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaBox.Intersects(xnaSphere);
             bool anx = anxBox.Intersects(anxSphere);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsBoundingSphere passed");
-            else
-                Assert.Fail(String.Format("IntersectsBoundingSphere failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsBoundingSphere");
         }
 
         [Test, TestCaseSource("tenfloats")]
         public void IntersectsPlane(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax, float xP, float yP, float zP, float dP)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Plane xnaPlane = new Microsoft.Xna.Framework.Plane(xP, yP, zP, dP);
@@ -662,24 +447,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin, float yMin, float zMin, float xMax, float yMax, float zMax,
             float xRay, float yRay, float zRay, float xDir, float yDir, float zDir)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
             Microsoft.Xna.Framework.Ray xnaRay = new Microsoft.Xna.Framework.Ray(new XNAVector3(xRay, yRay, zRay), new XNAVector3(xDir, yDir, zDir));
@@ -690,10 +460,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             float? xna = xnaBox.Intersects(xnaRay);
             float? anx = anxBox.Intersects(anxRay);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsRay passed");
-            else
-                Assert.Fail(String.Format("IntersectsRay failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsRay");
         }
         #endregion
 
@@ -701,75 +468,29 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("sixfloats")]
         public void Min(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
 
-            XNAVector3 xna = xnaBox.Min;
-            XNAVector3 anx = xnaBox.Min;
-
-            if (xna.X == anx.X &&
-                xna.Y == anx.Y &&
-                xna.Z == anx.Z)
-                Assert.Pass("Min passed");
-            else
-                Assert.Fail(String.Format("Min failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xnaBox.Min, anxBox.Min, "Min");
         }
 
         [Test, TestCaseSource("sixfloats")]
         public void Max(float xMin, float yMin, float zMin, float xMax, float yMax, float zMax)
         {
-            if (xMin > xMax)
-            {
-                float x = xMin;
-                xMin = xMax;
-                xMax = x;
-            }
-            if (yMin > yMax)
-            {
-                float y = yMin;
-                yMin = yMax;
-                yMax = y;
-            }
-            if (zMin > zMax)
-            {
-                float z = zMin;
-                zMin = zMax;
-                zMax = z;
-            }
+            Sort(ref xMin, ref xMax);
+            Sort(ref yMin, ref yMax);
+            Sort(ref zMin, ref zMax);
 
             XNABoundingBox xnaBox = new XNABoundingBox(new XNAVector3(xMin, yMin, zMin), new XNAVector3(xMax, yMax, zMax));
 
             ANXBoundingBox anxBox = new ANXBoundingBox(new ANXVector3(xMin, yMin, zMin), new ANXVector3(xMax, yMax, zMax));
 
-            XNAVector3 xna = xnaBox.Max;
-            XNAVector3 anx = xnaBox.Max;
-
-            if (xna.X == anx.X &&
-                xna.Y == anx.Y &&
-                xna.Z == anx.Z)
-                Assert.Pass("Max passed");
-            else
-                Assert.Fail(String.Format("Max failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xnaBox.Max, anxBox.Max, "Max");
         }
         #endregion
 
@@ -779,43 +500,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
-            if (xMin1 > xMax1)
-            {
-                float x = xMin1;
-                xMin1 = xMax1;
-                xMax1 = x;
-            }
-            if (yMin1 > yMax1)
-            {
-                float y = yMin1;
-                yMin1 = yMax1;
-                yMax1 = y;
-            }
-            if (zMin1 > zMax1)
-            {
-                float z = zMin1;
-                zMin1 = zMax1;
-                zMax1 = z;
-            }
+            Sort(ref xMin1, ref xMax1);
+            Sort(ref yMin1, ref yMax1);
+            Sort(ref zMin1, ref zMax1);
 
-            if (xMin2 > xMax2)
-            {
-                float x = xMin2;
-                xMin2 = xMax2;
-                xMax2 = x;
-            }
-            if (yMin2 > yMax2)
-            {
-                float y = yMin2;
-                yMin2 = yMax2;
-                yMax2 = y;
-            }
-            if (zMin2 > zMax2)
-            {
-                float z = zMin2;
-                zMin2 = zMax2;
-                zMax2 = z;
-            }
+            Sort(ref xMin2, ref xMax2);
+            Sort(ref yMin2, ref yMax2);
+            Sort(ref zMin2, ref zMax2);
 
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
@@ -823,13 +514,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXBoundingBox anxBox1 = new ANXBoundingBox(new ANXVector3(xMin1, yMin1, zMin1), new ANXVector3(xMax1, yMax1, zMax1));
             ANXBoundingBox anxBox2 = new ANXBoundingBox(new ANXVector3(xMin2, yMin2, zMin2), new ANXVector3(xMax2, yMax2, zMax2));
 
-            bool xna = xnaBox1 == xnaBox2;
-            bool anx = anxBox1 == anxBox2;
-
-            if (xna.Equals(anx))
-                Assert.Pass("EqualsOperator passed");
-            else
-                Assert.Fail(String.Format("EqualsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xnaBox1 == xnaBox2, anxBox1 == anxBox2, "EqualsOperator");
         }
 
         [Test, TestCaseSource("twelvefloats")]
@@ -837,43 +522,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float xMin1, float yMin1, float zMin1, float xMax1, float yMax1, float zMax1,
             float xMin2, float yMin2, float zMin2, float xMax2, float yMax2, float zMax2)
         {
-            if (xMin1 > xMax1)
-            {
-                float x = xMin1;
-                xMin1 = xMax1;
-                xMax1 = x;
-            }
-            if (yMin1 > yMax1)
-            {
-                float y = yMin1;
-                yMin1 = yMax1;
-                yMax1 = y;
-            }
-            if (zMin1 > zMax1)
-            {
-                float z = zMin1;
-                zMin1 = zMax1;
-                zMax1 = z;
-            }
+            Sort(ref xMin1, ref xMax1);
+            Sort(ref yMin1, ref yMax1);
+            Sort(ref zMin1, ref zMax1);
 
-            if (xMin2 > xMax2)
-            {
-                float x = xMin2;
-                xMin2 = xMax2;
-                xMax2 = x;
-            }
-            if (yMin2 > yMax2)
-            {
-                float y = yMin2;
-                yMin2 = yMax2;
-                yMax2 = y;
-            }
-            if (zMin2 > zMax2)
-            {
-                float z = zMin2;
-                zMin2 = zMax2;
-                zMax2 = z;
-            }
+            Sort(ref xMin2, ref xMax2);
+            Sort(ref yMin2, ref yMax2);
+            Sort(ref zMin2, ref zMax2);
 
             XNABoundingBox xnaBox1 = new XNABoundingBox(new XNAVector3(xMin1, yMin1, zMin1), new XNAVector3(xMax1, yMax1, zMax1));
             XNABoundingBox xnaBox2 = new XNABoundingBox(new XNAVector3(xMin2, yMin2, zMin2), new XNAVector3(xMax2, yMax2, zMax2));
@@ -881,13 +536,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXBoundingBox anxBox1 = new ANXBoundingBox(new ANXVector3(xMin1, yMin1, zMin1), new ANXVector3(xMax1, yMax1, zMax1));
             ANXBoundingBox anxBox2 = new ANXBoundingBox(new ANXVector3(xMin2, yMin2, zMin2), new ANXVector3(xMax2, yMax2, zMax2));
 
-            bool xna = xnaBox1 != xnaBox2;
-            bool anx = anxBox1 != anxBox2;
-
-            if (xna.Equals(anx))
-                Assert.Pass("UnequalsOperator passed");
-            else
-                Assert.Fail(String.Format("UnequalsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xnaBox1 != xnaBox2, anxBox1 != anxBox2, "UnequalsOperator");
         }
         #endregion
     }

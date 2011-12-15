@@ -179,6 +179,7 @@ namespace ANX.Framework.TestCenter
  
         #region Compare
 
+/*
         public static bool CompareFloats(float a, float b, float epsilon)
         {
             // Ok, but not right in all cases
@@ -210,6 +211,7 @@ namespace ANX.Framework.TestCenter
             // ok
             return AlmostEqual2sComplement(a, b, complementBits);
         }
+*/
 
         private static unsafe int FloatToInt32Bits(float f)
         {
@@ -284,7 +286,22 @@ namespace ANX.Framework.TestCenter
         #region ConvertEquals
         public static void ConvertEquals(float xna, float anx, String test)
         {
-            if (AssertHelper.CompareFloats(xna, anx, epsilon) ||
+            if (AssertHelper.AlmostEqual2sComplement(xna, anx, complementBits) ||
+                (xna + epsilon >= float.MaxValue && anx + epsilon >= float.MaxValue) ||
+                (xna - epsilon <= float.MinValue && anx - epsilon <= float.MinValue))
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(float? xna, float? anx, String test)
+        {
+            if ((!xna.HasValue && !anx.HasValue) || 
+                (xna.HasValue && anx.HasValue && AssertHelper.AlmostEqual2sComplement(xna.Value, anx.Value, complementBits)) ||
                 (xna + epsilon >= float.MaxValue && anx + epsilon >= float.MaxValue) ||
                 (xna - epsilon <= float.MinValue && anx - epsilon <= float.MinValue))
             {
@@ -553,8 +570,8 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAVector2 xna, ANXVector2 anx, String test)
         {
-            if (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon))
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -566,8 +583,8 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(ANXVector2 xna, ANXVector2 anx, String test)
         {
-            if (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon))
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -585,8 +602,8 @@ namespace ANX.Framework.TestCenter
 
             for (int i = 0; i < xna.Length; i++)
             {
-                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
-                            CompareFloats(xna[i].Y, anx[i].Y, epsilon);
+                result = AlmostEqual2sComplement(xna[i].X, anx[i].X, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].Y, anx[i].Y, complementBits);
 
                 xnaString = xna[i].ToString() + "  ";
                 anxString = anx[i].ToString() + "  ";
@@ -607,9 +624,9 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAVector3 xna, ANXVector3 anx, String test)
         {
-            if (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon) &&
-                CompareFloats(xna.Z, anx.Z, epsilon))
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Z, anx.Z, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -627,9 +644,9 @@ namespace ANX.Framework.TestCenter
 
             for (int i = 0; i < xna.Length; i++)
             {
-                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
-                            CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
-                            CompareFloats(xna[i].Z, anx[i].Z, epsilon);
+                result = AlmostEqual2sComplement(xna[i].X, anx[i].X, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].Y, anx[i].Y, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].Z, anx[i].Z, complementBits);
 
                 xnaString += xna[i].ToString() + "  ";
                 anxString += anx[i].ToString() + "  ";
@@ -650,10 +667,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAVector4 xna, ANXVector4 anx, String test)
         {
-            if (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon) &&
-                CompareFloats(xna.Z, anx.Z, epsilon) &&
-                CompareFloats(xna.W, anx.W, epsilon))
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Z, anx.Z, complementBits) &&
+                AlmostEqual2sComplement(xna.W, anx.W, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -671,10 +688,10 @@ namespace ANX.Framework.TestCenter
 
             for (int i = 0; i < xna.Length; i++)
             {
-                result = CompareFloats(xna[i].X, anx[i].X, epsilon) &&
-                            CompareFloats(xna[i].Y, anx[i].Y, epsilon) &&
-                            CompareFloats(xna[i].Z, anx[i].Z, epsilon) &&
-                            CompareFloats(xna[i].W, anx[i].W, epsilon);
+                result = AlmostEqual2sComplement(xna[i].X, anx[i].X, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].Y, anx[i].Y, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].Z, anx[i].Z, complementBits) &&
+                         AlmostEqual2sComplement(xna[i].W, anx[i].W, complementBits);
 
                 xnaString += xna[i].ToString() + "  ";
                 anxString += anx[i].ToString() + "  ";
@@ -695,12 +712,12 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNABoundingBox xna, ANXBoundingBox anx, String test)
         {
-            if (xna.Min.X == anx.Min.X &&
-                xna.Min.Y == anx.Min.Y &&
-                xna.Min.Z == anx.Min.Z &&
-                xna.Max.X == anx.Max.X &&
-                xna.Max.Y == anx.Max.Y &&
-                xna.Max.Z == anx.Max.Z)
+            if (AlmostEqual2sComplement(xna.Min.X, anx.Min.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Min.Y, anx.Min.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Min.Z, anx.Min.Z, complementBits) &&
+                AlmostEqual2sComplement(xna.Max.X, anx.Max.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Max.Y, anx.Max.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Max.Z, anx.Max.Z, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -712,10 +729,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNABoundingSphere xna, ANXBoundingSphere anx, String test)
         {
-            if (xna.Center.X == anx.Center.X &&
-                xna.Center.Y == anx.Center.Y &&
-                xna.Center.Z == anx.Center.Z &&
-                xna.Radius == anx.Radius)
+            if (AlmostEqual2sComplement(xna.Center.X, anx.Center.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Center.Y, anx.Center.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Center.Z, anx.Center.Z, complementBits) &&
+                AlmostEqual2sComplement(xna.Radius, anx.Radius, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -727,10 +744,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNARect xna, ANXRect anx, String test)
         {
-            if (xna.X == anx.X &&
-                xna.Y == anx.Y &&
-                xna.Width == anx.Width &&
-                xna.Height == anx.Height)
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Width, anx.Width, complementBits) &&
+                AlmostEqual2sComplement(xna.Height, anx.Height, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -747,10 +764,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAPlane xna, ANXPlane anx, String test)
         {
-            if (CompareFloats(xna.D, anx.D, epsilon) &&
-                CompareFloats(xna.Normal.X, anx.Normal.X, epsilon) &&
-                CompareFloats(xna.Normal.Y, anx.Normal.Y, epsilon) &&
-                CompareFloats(xna.Normal.Z, anx.Normal.Z, epsilon))
+            if (AlmostEqual2sComplement(xna.D, anx.D, complementBits) &&
+                AlmostEqual2sComplement(xna.Normal.X, anx.Normal.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Normal.Y, anx.Normal.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Normal.Z, anx.Normal.Z, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -762,22 +779,22 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAMatrix xna, ANXMatrix anx, String test)
         {
-            if (CompareFloats(xna.M11, anx.M11, epsilon) &&
-                CompareFloats(xna.M12, anx.M12, epsilon) &&
-                CompareFloats(xna.M13, anx.M13, epsilon) &&
-                CompareFloats(xna.M14, anx.M14, epsilon) &&
-                CompareFloats(xna.M21, anx.M21, epsilon) &&
-                CompareFloats(xna.M22, anx.M22, epsilon) &&
-                CompareFloats(xna.M23, anx.M23, epsilon) &&
-                CompareFloats(xna.M24, anx.M24, epsilon) &&
-                CompareFloats(xna.M31, anx.M31, epsilon) &&
-                CompareFloats(xna.M32, anx.M32, epsilon) &&
-                CompareFloats(xna.M33, anx.M33, epsilon) &&
-                CompareFloats(xna.M34, anx.M34, epsilon) &&
-                CompareFloats(xna.M41, anx.M41, epsilon) &&
-                CompareFloats(xna.M42, anx.M42, epsilon) &&
-                CompareFloats(xna.M43, anx.M43, epsilon) &&
-                CompareFloats(xna.M44, anx.M44, epsilon))
+            if (AlmostEqual2sComplement(xna.M11, anx.M11, complementBits) &&
+                AlmostEqual2sComplement(xna.M12, anx.M12, complementBits) &&
+                AlmostEqual2sComplement(xna.M13, anx.M13, complementBits) &&
+                AlmostEqual2sComplement(xna.M14, anx.M14, complementBits) &&
+                AlmostEqual2sComplement(xna.M21, anx.M21, complementBits) &&
+                AlmostEqual2sComplement(xna.M22, anx.M22, complementBits) &&
+                AlmostEqual2sComplement(xna.M23, anx.M23, complementBits) &&
+                AlmostEqual2sComplement(xna.M24, anx.M24, complementBits) &&
+                AlmostEqual2sComplement(xna.M31, anx.M31, complementBits) &&
+                AlmostEqual2sComplement(xna.M32, anx.M32, complementBits) &&
+                AlmostEqual2sComplement(xna.M33, anx.M33, complementBits) &&
+                AlmostEqual2sComplement(xna.M34, anx.M34, complementBits) &&
+                AlmostEqual2sComplement(xna.M41, anx.M41, complementBits) &&
+                AlmostEqual2sComplement(xna.M42, anx.M42, complementBits) &&
+                AlmostEqual2sComplement(xna.M43, anx.M43, complementBits) &&
+                AlmostEqual2sComplement(xna.M44, anx.M44, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -789,10 +806,10 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNAQuaternion xna, ANXQuaternion anx, String test)
         {
-            if (CompareFloats(xna.X, anx.X, epsilon) &&
-                CompareFloats(xna.Y, anx.Y, epsilon) &&
-                CompareFloats(xna.Z, anx.Z, epsilon) &&
-                CompareFloats(xna.W, anx.W, epsilon))
+            if (AlmostEqual2sComplement(xna.X, anx.X, complementBits) &&
+                AlmostEqual2sComplement(xna.Y, anx.Y, complementBits) &&
+                AlmostEqual2sComplement(xna.Z, anx.Z, complementBits) &&
+                AlmostEqual2sComplement(xna.W, anx.W, complementBits))
             {
                 Assert.Pass(test + " passed");
             }
@@ -900,7 +917,7 @@ namespace ANX.Framework.TestCenter
 
         public static void ConvertEquals(XNACurveKey[] xna, ANXCurveKey[] anx, String test)
         {
-            if (!(xna.Length == anx.Length))
+            if (!(AlmostEqual2sComplement(xna.Length, anx.Length, complementBits)))
             {
                 Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }

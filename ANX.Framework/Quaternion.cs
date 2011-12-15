@@ -248,8 +248,8 @@ namespace ANX.Framework
 
         public static void Divide(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            Quaternion.Inverse(ref quaternion2, out quaternion2);
-            Quaternion.Multiply(ref quaternion1, ref quaternion2, out result);
+            Quaternion q3 = Quaternion.Inverse(quaternion2);
+            Quaternion.Multiply(ref quaternion1, ref q3, out result);
         }
 
         public static Quaternion Divide(Quaternion quaternion1, float divider)
