@@ -340,6 +340,14 @@ namespace ANX.Framework.Graphics
 
             raise_DeviceResetting(this, EventArgs.Empty);
 
+            // As it seams that no hardware Depth24 exists we handle Depth24 and Depth24Stencil8 the same way. Problem is that the Clear method checks for Depth24Stencil8 when
+            // trying to clear the stencil buffer and the format is setted to Depth24. Internally Depth24 is already handled as Depth24Stencil8 so it is interchangeable.
+            if ((this.currentPresentationParameters.DepthStencilFormat == DepthFormat.Depth24 || this.currentPresentationParameters.DepthStencilFormat == DepthFormat.Depth24Stencil8) &&
+                (presentationParameters.DepthStencilFormat == DepthFormat.Depth24 || presentationParameters.DepthStencilFormat == DepthFormat.Depth24Stencil8))
+            {
+                this.currentPresentationParameters.DepthStencilFormat = presentationParameters.DepthStencilFormat;
+            }
+
             // reset presentation parameters
             nativeDevice.ResizeBuffers(presentationParameters); //TODO: check if necessary
 

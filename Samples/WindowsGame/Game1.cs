@@ -89,7 +89,7 @@ namespace WindowsGame1
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-		}
+        }
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
