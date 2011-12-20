@@ -83,7 +83,7 @@ namespace ANX.InputSystem.Recording
         /// Initializes the Device using the specified stream
         /// for input-buffering.
         /// </summary>
-        protected void Initialize(Stream bufferStream)
+        protected virtual void Initialize(Stream bufferStream)
         {
             if (!bufferStream.CanRead || !bufferStream.CanWrite)
                 throw new ArgumentException("The stream must support read and write opearions!", "bufferStream");

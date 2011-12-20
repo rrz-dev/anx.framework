@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework;
+using ANX.Framework.Input;
+using System.IO;
 
 #endregion
 
@@ -62,7 +64,28 @@ namespace ANX.InputSystem.Recording
     /// </summary>
     public class RecordingKeyboard : RecordableDevice, IKeyboard
     {
-        public IntPtr WindowHandle { get; set; }
+        private IKeyboard realKeyboard;
+        private Keys[] recordedKeys;
+
+        private IntPtr tmpWindowHandle = IntPtr.Zero;
+
+        public IntPtr WindowHandle
+        {
+            get
+            {
+                if (!isInitialized)
+                    return IntPtr.Zero;
+                else
+                    return realKeyboard.WindowHandle;
+            }
+            set
+            {
+                if (!isInitialized) //The GameWindow might assign a WindowHadle even before the real Mouse is loaded. We save this Handle and assign it in Initialize()
+                    tmpWindowHandle = value;
+                else
+                    realKeyboard.WindowHandle = value;
+            }
+        }
 
         public Framework.Input.KeyboardState GetState()
         {
@@ -76,7 +99,60 @@ namespace ANX.InputSystem.Recording
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (realKeyboard != null)
+                realKeyboard.Dispose();
+        }
+
+        /// <summary>
+        /// Intializes this instance using a new MemoryStream as the Buffer and the
+        /// default's InputSystems Keyboard, recording the passed Keys.
+        /// </summary>
+        public void Initialize(params Keys[] keys)
+        {
+            Initialize(new MemoryStream(), InputDeviceFactory.Instance.GetDefaultKeyboard(), keys);
+        }
+
+        /// <summary>
+        /// Intializes this instance using a new MemoryStream as the Buffer and the
+        /// passed Keyboard, recording the passed Keys.
+        /// </summary>
+        public void Initialize(IKeyboard keyboard, params Keys[] keys)
+        {
+            Initialize(new MemoryStream(), keyboard, keys);
+        }
+
+        /// <summary>
+        /// Intializes this instance using the passed Stream as the Buffer and the
+        /// default's InputSystems Keyboard, recording the passed Keys.
+        /// </summary>
+        public void Initialize(Stream bufferStream, params Keys[] keys)
+        {
+            Initialize(bufferStream, InputDeviceFactory.Instance.GetDefaultKeyboard(), keys);
+        }
+
+        /// <summary>
+        /// Intializes this instance using the passed Stream as the Buffer and the
+        /// passed Keyboard, recording the passed Keys.
+        /// </summary>
+        public void Initialize(Stream bufferStream, IKeyboard keyboard, params Keys[] keys)
+        {
+            realKeyboard = keyboard;
+            recordedKeys = keys;
+
+            if (tmpWindowHandle != IntPtr.Zero)
+                WindowHandle = tmpWindowHandle;
+
+            PacketLenght = keys.Length / 8; //8bit per byte
+
+            base.Initialize(bufferStream);
+        }
+
+        private int GetPaketSize()
+        {
+            if (recordedKeys.Length % 8 <= 6) //two bit free in the last byte
+                return (int)Math.Ceiling((double)recordedKeys.Length / 8.0);
+            else
+                return (int)Math.Ceiling((double)recordedKeys.Length / 8.0) + 1; //we need a additional byte to store the player index
         }
     }
 }

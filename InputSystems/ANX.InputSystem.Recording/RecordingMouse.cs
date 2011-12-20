@@ -96,8 +96,8 @@ namespace ANX.InputSystem.Recording
     /// </summary>
     public class RecordingMouse : RecordableDevice, IMouse
     {
-        protected IMouse realMouse;
-        protected MouseRecordInfo recordInfo;
+        private IMouse realMouse;
+        private MouseRecordInfo recordInfo;
 
         private IntPtr tmpWindowHandle = IntPtr.Zero;
 
