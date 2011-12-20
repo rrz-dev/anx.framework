@@ -68,7 +68,6 @@ namespace RecordingSample
         SpriteBatch spriteBatch;
 
         Texture2D logo;
-        RecordingMouse mouse;
         KeyboardState oldState;
 
         public Game1()
@@ -81,10 +80,8 @@ namespace RecordingSample
         {
             Window.Title = "Use Mouse to move arround, press r to record, p for playback and n for none";
 
-            mouse = (RecordingMouse)AddInSystemFactory.Instance.GetCreator<IInputSystemCreator>("Recording").Mouse;
-            mouse.Initialize(MouseRecordInfo.Position);
-            mouse.WindowHandle = Window.Handle;
-            mouse.EndOfPlaybackReached += new EventHandler((sender, args) => mouse.StopPlayback());
+            //We know the Mouse is a RecordingMouse - this is quite ugly... could this be improved?
+            ((RecordingMouse)AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse).Initialize(MouseRecordInfo.Position);
 
             base.Initialize();
         }
@@ -94,32 +91,32 @@ namespace RecordingSample
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             logo = Content.Load<Texture2D>(@"Textures/ANX.Framework.Logo_459x121");
-            oldState = Keyboard.GetState();
+            //oldState = Keyboard.GetState();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState newState = Keyboard.GetState();
+            //KeyboardState newState = Keyboard.GetState();
 
-            if (oldState.IsKeyUp(Keys.R) && newState.IsKeyDown(Keys.R))
-                mouse.StartRecording();
+            //if (oldState.IsKeyUp(Keys.R) && newState.IsKeyDown(Keys.R))
+            //    mouse.StartRecording();
 
-            if (oldState.IsKeyUp(Keys.P) && newState.IsKeyDown(Keys.P))
-            {
-                if (mouse.RecordingState == RecordingState.Recording)
-                    mouse.StopRecording();
-                mouse.StartPlayback();
-            }
+            //if (oldState.IsKeyUp(Keys.P) && newState.IsKeyDown(Keys.P))
+            //{
+            //    if (mouse.RecordingState == RecordingState.Recording)
+            //        mouse.StopRecording();
+            //    mouse.StartPlayback();
+            //}
 
-            if (oldState.IsKeyUp(Keys.N) && newState.IsKeyDown(Keys.N))
-            {
-                if (mouse.RecordingState == RecordingState.Recording)
-                    mouse.StartRecording();
+            //if (oldState.IsKeyUp(Keys.N) && newState.IsKeyDown(Keys.N))
+            //{
+            //    if (mouse.RecordingState == RecordingState.Recording)
+            //        mouse.StartRecording();
 
-                mouse.StopPlayback();
-            }
+            //    mouse.StopPlayback();
+            //}
 
-            oldState = newState;
+            //oldState = newState;
 
             base.Update(gameTime);
         }
@@ -129,7 +126,7 @@ namespace RecordingSample
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(logo, new Rectangle(mouse.GetState().X, mouse.GetState().Y, 115, 30), Color.White);
+            spriteBatch.Draw(logo, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 115, 30), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

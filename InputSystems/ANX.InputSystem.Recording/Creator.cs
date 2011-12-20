@@ -58,12 +58,20 @@ namespace ANX.InputSystem.Recording
 {
     public class Creator : IInputSystemCreator
     {
+        //It not a good idea to have more than one RecordingDevice per Input Device, so we cache the request.
+        RecordingMouse mouse;
+        RecordingKeyboard keyboard;
+        RecordingGamePad gamePad;
+        RecordingMotionSensingDevice msd;
+        
         public IGamePad GamePad
         {
             get 
             {
                 AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new RecordingGamePad(); 
+                if (gamePad == null)
+                    gamePad = new RecordingGamePad();
+                return gamePad;
             }
         }
 
@@ -72,7 +80,9 @@ namespace ANX.InputSystem.Recording
             get 
             {
                 AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new RecordingMouse(); 
+                if (mouse == null)
+                    mouse = new RecordingMouse();
+                return mouse;
             }
         }
 
@@ -81,7 +91,9 @@ namespace ANX.InputSystem.Recording
             get 
             {
                 AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new RecordingKeyboard(); 
+                if (keyboard == null)
+                    keyboard = new RecordingKeyboard();
+                return keyboard;
             }
         }
 
@@ -91,7 +103,9 @@ namespace ANX.InputSystem.Recording
             get 
             {
                 AddInSystemFactory.Instance.PreventInputSystemChange();
-                return new RecordingMotionSensingDevice(); 
+                if (msd == null)
+                    msd = new RecordingMotionSensingDevice();
+                return msd;
             }
         }
 #endif

@@ -99,14 +99,31 @@ namespace ANX.InputSystem.Recording
         protected IMouse realMouse;
         protected MouseRecordInfo recordInfo;
 
+        private IntPtr tmpWindowHandle = IntPtr.Zero;
+
         public IntPtr WindowHandle
         {
-            get { return realMouse.WindowHandle; }
-            set { realMouse.WindowHandle = value; }
+            get
+            {
+                if (!isInitialized)
+                    return IntPtr.Zero;
+                else
+                    return realMouse.WindowHandle;
+            }
+            set
+            {
+                if (!isInitialized) //The GameWindow might assign a WindowHadle even before the real Mouse is loaded. We save this Handle and assign it in Initialize()
+                    tmpWindowHandle = value;
+                else
+                    realMouse.WindowHandle = value;
+            }
         }
 
         public MouseState GetState() //The main recording/playback logic is placed here
         {
+            if (!isInitialized)
+                throw new InvalidOperationException("This instance is not initialized! Refer to documenation for details.");
+            
             switch (RecordingState)
             {
                 case RecordingState.None:
@@ -216,7 +233,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(MouseRecordInfo info)
         {
-            this.Initialize(info, new MemoryStream(), AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
+            this.Initialize(info, new MemoryStream(), InputDeviceFactory.Instance.GetDefaultMouse());
         }
 
         /// <summary>
@@ -234,7 +251,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(MouseRecordInfo info, Stream bufferStream)
         {
-            this.Initialize(info, bufferStream, AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
+            this.Initialize(info, bufferStream, InputDeviceFactory.Instance.GetDefaultMouse());
         }
 
         /// <summary>
@@ -244,6 +261,9 @@ namespace ANX.InputSystem.Recording
         public void Initialize(MouseRecordInfo info, Stream bufferStream, IMouse mouse)
         {
             realMouse = mouse;
+
+            if (tmpWindowHandle != IntPtr.Zero)
+                WindowHandle = tmpWindowHandle;
 
             recordInfo = info;
             PacketLenght = GetPaketSize(info);
