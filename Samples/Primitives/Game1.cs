@@ -49,7 +49,9 @@ namespace Primitives
 
         #endregion
 
-        Matrix[] instanceTransformMatrices = new Matrix[] { Matrix.CreateTranslation(0.0f, 0.0f, 0.0f),
+        Matrix[] instanceTransformMatrices = new Matrix[] { Matrix.CreateTranslation(-10.0f, 0.0f, 0.0f),
+                                                            Matrix.CreateTranslation(-5.0f, 0.0f, 0.0f),
+                                                            Matrix.CreateTranslation(0.0f, 0.0f, 0.0f),
                                                             Matrix.CreateTranslation(5.0f, 0.0f, 0.0f),
                                                             Matrix.CreateTranslation(10.0f, 0.0f, 0.0f),
                                                           };
@@ -190,7 +192,7 @@ namespace Primitives
             //
             // create a VertexBuffer for the transformation matrices used by DrawInstancedPrimitives
             //
-            this.instanceVertexBuffer = new DynamicVertexBuffer(GraphicsDevice, instanceDecl, 3, BufferUsage.WriteOnly);
+            this.instanceVertexBuffer = new DynamicVertexBuffer(GraphicsDevice, instanceDecl, 5, BufferUsage.WriteOnly);
         }
 
         protected override void UnloadContent()
@@ -275,15 +277,15 @@ namespace Primitives
             #region DrawInstancedPrimitives
             GraphicsDevice.Viewport = new Viewport(0, 0, 600, 200);
 
-            this.hardwareInstanceEffect.Parameters["View"].SetValue(this.viewMatrix);
+            this.hardwareInstanceEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0.0f, 5.0f, -10.0f), Vector3.Zero, Vector3.Up));
             this.hardwareInstanceEffect.Parameters["Projection"].SetValue(this.instancedProjectionMatrix);
             this.hardwareInstanceEffect.Parameters["World"].SetValue(this.worldMatrix);
             this.hardwareInstanceEffect.CurrentTechnique.Passes[0].Apply();
 
-            instanceVertexBuffer.SetData(this.instanceTransformMatrices, 0, this.instanceTransformMatrices.Length, SetDataOptions.Discard);
+            instanceVertexBuffer.SetData<Matrix>(this.instanceTransformMatrices, 0, this.instanceTransformMatrices.Length, SetDataOptions.Discard);
             GraphicsDevice.SetVertexBuffers(cubeVertexBuffer, new VertexBufferBinding(instanceVertexBuffer, 0, 1));
             GraphicsDevice.Indices = this.cubeIndexBuffer;
-            GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, this.cubeVertices.Length, 0, this.cubeIndices.Length / 3, 3);
+            GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, this.cubeVertices.Length, 0, this.cubeIndices.Length / 3, 5);
 
             #endregion
 

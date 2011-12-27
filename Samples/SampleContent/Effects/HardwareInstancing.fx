@@ -19,7 +19,7 @@ VertexShaderOutput HardwareInstancingVertexShader(VertexShaderInput input, float
     VertexShaderOutput output;
 
     // Apply the world and camera matrices to compute the output position.
-    float4 worldPosition = mul(input.Position, instanceTransform);
+    float4 worldPosition = mul(input.Position, mul(World, transpose(instanceTransform)));
     float4 viewPosition = mul(worldPosition, View);
     output.Position = mul(viewPosition, Projection);
 
