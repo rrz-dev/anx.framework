@@ -244,7 +244,7 @@ namespace ANX.Framework.Graphics
             this.nativeDevice.SetVertexBuffers(bindings);
         }
 
-        public void SetVertexBuffers(Graphics.VertexBufferBinding[] vertexBuffers)
+        public void SetVertexBuffers(params Graphics.VertexBufferBinding[] vertexBuffers)
         {
             this.currentVertexBufferBindings = vertexBuffers;
             nativeDevice.SetVertexBuffers(vertexBuffers);
@@ -397,7 +397,7 @@ namespace ANX.Framework.Graphics
             }
             set
             {
-                this.Viewport = value;
+                this.viewport = value;
             }
         }
 

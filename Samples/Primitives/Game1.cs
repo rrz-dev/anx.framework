@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using ANX.Framework;
+using ANX.Framework.Content;
+using ANX.Framework.GamerServices;
+using ANX.Framework.Graphics;
+using ANX.Framework.Input;
+using ANX.Framework.Media;
 
 #endregion // Using Statements
 
 namespace Primitives
 {
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : ANX.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -26,6 +25,7 @@ namespace Primitives
         Effect hardwareInstanceEffect;
 
         Matrix viewMatrix;
+        Matrix instancedViewMatrix;
         Matrix projectionMatrix;
         Matrix instancedProjectionMatrix;
         Matrix worldMatrix;
@@ -167,6 +167,7 @@ namespace Primitives
             this.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 300f/200f, 0.1f, 50.0f);
             this.instancedProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 600f / 200f, 0.1f, 50.0f);
             this.viewMatrix = Matrix.CreateLookAt(new Vector3(5, 5, 5), new Vector3(0, 0, 0), Vector3.Up);
+            this.instancedViewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 5.0f, 10.0f), new Vector3(0, 0, 0), Vector3.Up);
 
             this.font = Content.Load<SpriteFont>(@"Fonts/Debug");
 
@@ -277,7 +278,7 @@ namespace Primitives
             #region DrawInstancedPrimitives
             GraphicsDevice.Viewport = new Viewport(0, 0, 600, 200);
 
-            this.hardwareInstanceEffect.Parameters["View"].SetValue(Matrix.CreateLookAt(new Vector3(0.0f, 5.0f, -10.0f), Vector3.Zero, Vector3.Up));
+            this.hardwareInstanceEffect.Parameters["View"].SetValue(this.instancedViewMatrix);
             this.hardwareInstanceEffect.Parameters["Projection"].SetValue(this.instancedProjectionMatrix);
             this.hardwareInstanceEffect.Parameters["World"].SetValue(this.worldMatrix);
             this.hardwareInstanceEffect.CurrentTechnique.Passes[0].Apply();

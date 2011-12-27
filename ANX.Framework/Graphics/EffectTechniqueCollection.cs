@@ -95,24 +95,32 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                foreach (EffectTechnique teq in techniques)
+                {
+                    if (teq.Name.Equals(name))
+                    {
+                        return teq;
+                    }
+                }
+
+                throw new ArgumentException("No technique with name '" + name + "' found.");
             }
-				}
+		}
 
-				IEnumerator<EffectTechnique> IEnumerable<EffectTechnique>.GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		IEnumerator<EffectTechnique> IEnumerable<EffectTechnique>.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-				IEnumerator IEnumerable.GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-				public List<EffectTechnique>.Enumerator GetEnumerator()
-				{
-					throw new NotImplementedException();
-				}
+		public List<EffectTechnique>.Enumerator GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
         public int Count
         {

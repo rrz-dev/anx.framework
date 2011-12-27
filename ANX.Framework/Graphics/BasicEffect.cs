@@ -60,10 +60,18 @@ namespace ANX.Framework.Graphics
 {
     public class BasicEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
+        private bool vertexColorEnabled;
+
+        private EffectParameter world;
+        private EffectParameter view;
+        private EffectParameter projection;
+
         public BasicEffect(GraphicsDevice graphics)
             : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.BasicEffect))
         {
-            throw new NotImplementedException();
+            world = base.Parameters["World"];
+            view = base.Parameters["View"];
+            projection = base.Parameters["Projection"];
         }
 
         protected BasicEffect(BasicEffect cloneSource)
@@ -88,11 +96,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.projection.GetValueMatrix();
             }
             set
             {
-                throw new NotImplementedException();
+                this.projection.SetValue(value);
             }
         }
 
@@ -100,11 +108,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.view.GetValueMatrix();
             }
             set
             {
-                throw new NotImplementedException();
+                this.view.SetValue(value);
             }
         }
 
@@ -112,11 +120,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.world.GetValueMatrix();
             }
             set
             {
-                throw new NotImplementedException();
+                this.world.SetValue(value);
             }
         }
 
@@ -300,17 +308,31 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.vertexColorEnabled;
             }
             set
             {
-                throw new NotImplementedException();
+                this.vertexColorEnabled = value;
+                SetTechnique();
             }
         }
 
         public override Effect Clone()
         {
             return new BasicEffect(this);
+        }
+
+        private void SetTechnique()
+        {
+            //TODO: implement completly
+
+            if (vertexColorEnabled)
+            {
+                this.CurrentTechnique = Techniques["VertexColor"];
+                return;
+            }
+
+            throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
         }
     }
 }

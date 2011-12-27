@@ -33,7 +33,6 @@ float4 PixelShaderFunction(VertexShaderOutput input) : SV_Target
     return input.Color;
 }
 
-/*
 technique10 HardwareInstancing
 {
     pass Pass1
@@ -42,8 +41,8 @@ technique10 HardwareInstancing
         PixelShader = compile ps_4_0 PixelShaderFunction();
     }
 }
-*/
 
+/*
 technique HardwareInstancing
 {
     pass Pass1
@@ -52,3 +51,4 @@ technique HardwareInstancing
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }
+*/

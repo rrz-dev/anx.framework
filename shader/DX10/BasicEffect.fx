@@ -43,47 +43,53 @@
 
 //TODO: dummy implementation / placeholder
 
-uniform extern float4x4 MatrixTransform;
+uniform extern float4x4 World;
+uniform extern float4x4 View;
+uniform extern float4x4 Projection;
 
+/*
 Texture2D<float4> Texture : register(t0);
    sampler TextureSampler : register(s0);
+*/
 
-struct VertexShaderInput
+struct VertexColorVertexShaderInput
 {
-	float4 pos : POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
+	float4 Position		: POSITION;
+	float4 Color		: COLOR;
 };
 
 struct PixelShaderInput
 {
-	float4 pos : SV_POSITION;
-	float4 col : COLOR;
-	float2 tex : TEXCOORD0;
+	float4 Position		: SV_POSITION;
+	float4 Color		: COLOR;
+	float2 TexCoord0	: TEXCOORD0;
 };
 
-PixelShaderInput AlphaTestVertexShader( VertexShaderInput input )
+PixelShaderInput VertexColorVertexShader( VertexColorVertexShaderInput input )
 {
 	PixelShaderInput output = (PixelShaderInput)0;
 	
-	output.pos = mul(input.pos, MatrixTransform);
-	output.col = input.col;
-	output.tex = input.tex;
+    float4 worldPosition = mul(input.Position, World);
+    float4 viewPosition = mul(worldPosition, View);
+    output.Position = mul(viewPosition, Projection);
+
+	output.Color = input.Color;
+	output.TexCoord0 = (float2)0;
 
 	return output;
 }
 
-float4 AlphaTestPixelShader( PixelShaderInput input ) : SV_Target
+float4 VertexColorPixelShader( PixelShaderInput input ) : SV_Target
 {
-	return Texture.Sample(TextureSampler, input.tex) * input.col;
+	return input.Color;
 }
 
-technique10 AlphaTest
+technique10 VertexColor
 {
-	pass AlphaTestPass
+	pass VertexColorPass
 	{
 		SetGeometryShader( 0 );
-		SetVertexShader( CompileShader( vs_4_0, AlphaTestVertexShader() ) );
-		SetPixelShader( CompileShader( ps_4_0, AlphaTestPixelShader() ) );
+		SetVertexShader( CompileShader( vs_4_0, VertexColorVertexShader() ) );
+		SetPixelShader( CompileShader( ps_4_0, VertexColorPixelShader() ) );
 	}
 }
