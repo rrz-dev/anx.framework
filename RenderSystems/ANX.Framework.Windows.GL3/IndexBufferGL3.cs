@@ -90,13 +90,12 @@ namespace ANX.Framework.Windows.GL3
 			elementSize = setElementSize;
 			usage = setUsage;
 
-			// TODO: evaluate whats best
-			// StaticDraw: set once, use often
-			// DynamicDraw: set frequently, use repeatadly
-			// StreamDraw: set every tick, use once
+			// TODO: check if dynamic buffer
+			bool isDynamicBuffer = false;
 
-            // comment from glatzemann: I think static draw should be right HERE. DynamicDraw should be used for DynamicIndexbuffer. StreamDraw shouldn't be used I think.
-			usageHint = BufferUsageHint.DynamicDraw;
+			usageHint = isDynamicBuffer ?
+				BufferUsageHint.DynamicDraw :
+				BufferUsageHint.StaticDraw;
 
 			GL.GenBuffers(1, out bufferHandle);
 			ErrorHelper.Check("GenBuffers");

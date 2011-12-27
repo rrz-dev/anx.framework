@@ -80,7 +80,7 @@ namespace ANX.Framework.Windows.GL3
 			private set;
 		}
 		#endregion
-		
+
 		#region Constructor
 		/// <summary>
 		/// Create a ne effect parameter object.
@@ -115,6 +115,62 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region SetValue (Matrix[])
+		/// <summary>
+		/// Set a Matrix array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Matrix[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			float[] array = new float[value.Length * 16];
+			for (int index = 0; index < value.Length; index++)
+			{
+				array[(index * 16)] = value[index].M11;
+				array[(index * 16) + 1] = value[index].M12;
+				array[(index * 16) + 2] = value[index].M13;
+				array[(index * 16) + 3] = value[index].M14;
+				array[(index * 16) + 4] = value[index].M21;
+				array[(index * 16) + 5] = value[index].M22;
+				array[(index * 16) + 6] = value[index].M23;
+				array[(index * 16) + 7] = value[index].M24;
+				array[(index * 16) + 8] = value[index].M31;
+				array[(index * 16) + 9] = value[index].M32;
+				array[(index * 16) + 10] = value[index].M33;
+				array[(index * 16) + 11] = value[index].M34;
+				array[(index * 16) + 12] = value[index].M41;
+				array[(index * 16) + 13] = value[index].M42;
+				array[(index * 16) + 14] = value[index].M43;
+				array[(index * 16) + 15] = value[index].M44;
+			}
+			GL.UniformMatrix4(UniformIndex, array.Length, false, array);
+			ErrorHelper.Check("UniformMatrix4v");
+		}
+		#endregion
+
+		#region SetValue (Quaternion) (TODO)
+		/// <summary>
+		/// Set a Quaternion value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Quaternion value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region SetValue (Quaternion[]) (TODO)
+		/// <summary>
+		/// Set a Quaternion array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Quaternion[] value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
 		#region SetValue (Texture)
 		private Texture textureCache = null;
 		/// <summary>
@@ -130,8 +186,6 @@ namespace ANX.Framework.Windows.GL3
 			{
 				// TODO: multiple texture units
 				TextureUnit textureUnit = TextureUnit.Texture0;
-				GL.Enable(EnableCap.Texture2D);
-				ErrorHelper.Check("Enable");
 				GL.ActiveTexture(textureUnit);
 				ErrorHelper.Check("ActiveTexture");
 				int handle = (value.NativeTexture as Texture2DGL3).NativeHandle;
@@ -144,80 +198,187 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region SetValue (bool) (TODO)
+		/// <summary>
+		/// Set a bool value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(bool value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void SetValue(bool value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (bool[]) (TODO)
+		/// <summary>
+		/// Set a bool array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(bool[] value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void SetValue(bool[] value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (int)
+		/// <summary>
+		/// Set an int value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(int value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform1(UniformIndex, value);
+			ErrorHelper.Check("Uniform1i");
+		}
+		#endregion
 
-        public void SetValue(int value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (int[])
+		/// <summary>
+		/// Set an int array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(int[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform1(UniformIndex, value.Length, value);
+			ErrorHelper.Check("Uniform1iv");
+		}
+		#endregion
+		
+		#region SetValue (float)
+		/// <summary>
+		/// Set a float value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(float value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform1(UniformIndex, value);
+			ErrorHelper.Check("Uniform1f");
+		}
+		#endregion
 
-        public void SetValue(int[] value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (float[])
+		/// <summary>
+		/// Set a float array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(float[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform1(UniformIndex, value.Length, value);
+			ErrorHelper.Check("Uniform1fv");
+		}
+		#endregion
 
-        public void SetValue(Matrix[] value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (Vector2)
+		/// <summary>
+		/// Set a Vector2 value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector2 value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform2(UniformIndex, value.X, value.Y);
+			ErrorHelper.Check("Uniform2f");
+		}
+		#endregion
 
-        public void SetValue(Quaternion value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (Vector2[])
+		/// <summary>
+		/// Set a Vector2 array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector2[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			float[] array = new float[value.Length * 2];
+			for(int index = 0; index < value.Length; index++)
+			{
+				array[(index * 2)] = value[index].X;
+				array[(index * 2) + 1] = value[index].Y;
+			}
+			GL.Uniform2(UniformIndex, array.Length, array);
+			ErrorHelper.Check("Uniform2fv");
+		}
+		#endregion
 
-        public void SetValue(Quaternion[] value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (Vector3)
+		/// <summary>
+		/// Set a Vector3 value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector3 value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform3(UniformIndex, value.X, value.Y, value.Z);
+			ErrorHelper.Check("Uniform3f");
+		}
+		#endregion
 
-        public void SetValue(float value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (Vector3[])
+		/// <summary>
+		/// Set a Vector3 array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector3[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			float[] array = new float[value.Length * 3];
+			for (int index = 0; index < value.Length; index++)
+			{
+				array[(index * 3)] = value[index].X;
+				array[(index * 3) + 1] = value[index].Y;
+				array[(index * 3) + 2] = value[index].Z;
+			}
+			GL.Uniform3(UniformIndex, array.Length, array);
+			ErrorHelper.Check("Uniform3fv");
+		}
+		#endregion
 
-        public void SetValue(float[] value)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetValue (Vector4)
+		/// <summary>
+		/// Set a Vector4 value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector4 value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			GL.Uniform4(UniformIndex, value.X, value.Y, value.Z, value.W);
+			ErrorHelper.Check("Uniform4f");
+		}
+		#endregion
 
-        public void SetValue(Vector2 value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(Vector2[] value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(Vector3 value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(Vector3[] value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(Vector4 value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(Vector4[] value)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		#region SetValue (Vector4[])
+		/// <summary>
+		/// Set a Vector4 array value to the effect parameter.
+		/// </summary>
+		/// <param name="value">Value for the parameter</param>
+		public void SetValue(Vector4[] value)
+		{
+			GL.UseProgram(parentEffect.programHandle);
+			ErrorHelper.Check("UseProgram");
+			float[] array = new float[value.Length * 4];
+			for (int index = 0; index < value.Length; index++)
+			{
+				array[(index * 4)] = value[index].X;
+				array[(index * 4) + 1] = value[index].Y;
+				array[(index * 4) + 2] = value[index].Z;
+				array[(index * 4) + 3] = value[index].W;
+			}
+			GL.Uniform4(UniformIndex, array.Length, array);
+			ErrorHelper.Check("Uniform4fv");
+		}
+		#endregion
+	}
 }

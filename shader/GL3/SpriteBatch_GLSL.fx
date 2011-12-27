@@ -66,8 +66,6 @@ void main( )
 // Fragment Shader
 //
 
-precission mediump float;
-
 uniform sampler2D Texture;
 
 varying vec4 diffuseColor;

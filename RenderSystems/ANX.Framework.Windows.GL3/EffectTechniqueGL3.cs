@@ -1,5 +1,7 @@
 ﻿using System;
 using ANX.Framework.NonXNA;
+using System.Collections.Generic;
+using ANX.Framework.Graphics;
 
 #region License
 
@@ -64,8 +66,20 @@ namespace ANX.Framework.Windows.GL3
 			get;
 			private set;
 		}
+
+		/// <summary>
+		/// The passes of the technique.
+		/// </summary>
+		public IEnumerable<EffectPass> Passes
+		{
+			get
+			{
+				//TODO: implement
+				yield return null;
+			}
+		}
 		#endregion
-		
+
 		#region Constructor
 		/// <summary>
 		/// Create a ne effect technique object.
@@ -74,15 +88,5 @@ namespace ANX.Framework.Windows.GL3
 		{
 		}
 		#endregion
-
-
-        public System.Collections.Generic.IEnumerable<Graphics.EffectPass> Passes
-        {
-            get 
-            {
-                //TODO: implement
-                yield return null;
-            }
-        }
-    }
+	}
 }

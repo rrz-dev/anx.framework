@@ -108,7 +108,7 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region Parameters (TODO)
+		#region Parameters
 		public IEnumerable<EffectParameter> Parameters
 		{
 			get

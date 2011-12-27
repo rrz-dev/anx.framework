@@ -93,11 +93,12 @@ namespace ANX.Framework.Windows.GL3
 			usage = setUsage;
 			vertexCount = setVertexCount;
 
-			// TODO: evaluate whats best
-			// StaticDraw: set once, use often
-			// DynamicDraw: set frequently, use repeatadly
-			// StreamDraw: set every tick, use once
-			usageHint = BufferUsageHint.DynamicDraw;
+			// TODO: check if dynamic buffer
+			bool isDynamicBuffer = false;
+
+			usageHint = isDynamicBuffer ?
+				BufferUsageHint.DynamicDraw :
+				BufferUsageHint.StaticDraw;
 
 			GL.GenBuffers(1, out bufferHandle);
 			ErrorHelper.Check("GenBuffers");
@@ -114,7 +115,7 @@ namespace ANX.Framework.Windows.GL3
 			if (setSize != size)
 			{
 				throw new Exception("Failed to set the vertexBuffer data. DataSize=" +
-				size + " SetSize=" + setSize);
+					size + " SetSize=" + setSize);
 			}
 		}
 		#endregion
