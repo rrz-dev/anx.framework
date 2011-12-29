@@ -66,6 +66,7 @@ namespace ANX.InputSystem.Recording
     {
         private IKeyboard realKeyboard;
         private Keys[] recordedKeys;
+        private byte[] keyBitmasks;
 
         private IntPtr tmpWindowHandle = IntPtr.Zero;
 
@@ -87,14 +88,94 @@ namespace ANX.InputSystem.Recording
             }
         }
 
-        public Framework.Input.KeyboardState GetState()
+        public KeyboardState GetState()
         {
-            throw new NotImplementedException();
+            switch (RecordingState)
+            {
+                case RecordingState.None:
+                    return realKeyboard.GetState();
+                case RecordingState.Playback:
+                    return ReadKeybaordState(PlayerIndex.One);
+                case RecordingState.Recording:
+                    KeyboardState realState = realKeyboard.GetState();
+                    WriteKeyboardState(realState, PlayerIndex.One);
+                    return realState;
+                default:
+                    throw new InvalidOperationException("The recordingState is invalid!");
+            }
         }
 
-        public Framework.Input.KeyboardState GetState(PlayerIndex playerIndex)
+        public KeyboardState GetState(PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            switch (RecordingState)
+            {
+                case RecordingState.None:
+                    return realKeyboard.GetState(playerIndex);
+                case RecordingState.Playback:
+                    return ReadKeybaordState(playerIndex);
+                case RecordingState.Recording:
+                    KeyboardState realState = realKeyboard.GetState(playerIndex);
+                    WriteKeyboardState(realState, playerIndex);
+                    return realState;
+                default:
+                    throw new InvalidOperationException("The recordingState is invalid!");
+            }
+        }
+
+        private void WriteKeyboardState(KeyboardState state, PlayerIndex index)
+        {
+            Keys[] pressedKeys = state.GetPressedKeys();
+
+            if (pressedKeys.Length == 0 || !pressedKeys.Any((key) => recordedKeys.Contains(key))) //No Key or none of the recorded keys is down
+            {
+                WriteState(null);
+                return;
+            }
+
+            byte[] buffer = new byte[PacketLenght];
+
+            buffer[0] = (byte)((int)index & 3); //Just the first two bits
+
+            for (int i = 0; i < PacketLenght; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (i == PacketLenght - 1 && j == (i + 2) % 8)
+                        break;
+
+                    if (state.IsKeyDown(recordedKeys[i * 8 + j]))
+                        buffer[i] |= keyBitmasks[i * 8 + j];
+                }
+            }
+
+            WriteState(buffer);
+        }
+
+        private KeyboardState ReadKeybaordState(PlayerIndex expectedIndex)
+        {
+            byte[] buffer = ReadState();
+
+            if (buffer == null)
+                return new KeyboardState();
+
+            if ((PlayerIndex)(buffer[0] & 3) != expectedIndex)
+                throw new InvalidOperationException("The requested playerIndex does no match the next recorded state. Refer to documetation.");
+
+            KeyboardState state = new KeyboardState();
+
+            for (int i = 0; i < PacketLenght; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (i == PacketLenght - 1 && j == (i + 2) % 8)
+                        break;
+
+                    if ((buffer[i] & keyBitmasks[i * 8 + j]) != 0)
+                        state.AddPressedKey(recordedKeys[i * 8 + j]);
+                }
+            }
+
+            return state;
         }
 
         public void Dispose()
@@ -142,7 +223,9 @@ namespace ANX.InputSystem.Recording
             if (tmpWindowHandle != IntPtr.Zero)
                 WindowHandle = tmpWindowHandle;
 
-            PacketLenght = keys.Length / 8; //8bit per byte
+            PacketLenght = GetPaketSize(); //8bit per byte
+
+            UpdateBitmasks();
 
             base.Initialize(bufferStream);
         }
@@ -153,6 +236,16 @@ namespace ANX.InputSystem.Recording
                 return (int)Math.Ceiling((double)recordedKeys.Length / 8.0);
             else
                 return (int)Math.Ceiling((double)recordedKeys.Length / 8.0) + 1; //we need a additional byte to store the player index
+        }
+
+        private void UpdateBitmasks()
+        {
+            keyBitmasks = new byte[recordedKeys.Length];
+
+            for (int i = 0; i < recordedKeys.Length; i++)
+            {
+                keyBitmasks[i] = (byte)Math.Pow(2.0, (i + 2) % 8); //The first two bits are reserved for the player index
+            }
         }
     }
 }

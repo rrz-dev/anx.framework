@@ -40,3 +40,4 @@ using System.Runtime.InteropServices;
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.Kinect")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.XInput")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.XAudio")]
+[assembly:InternalsVisibleTo("ANX.InputSystem.Recording")]
