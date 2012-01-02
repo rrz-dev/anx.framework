@@ -113,6 +113,7 @@ namespace ANX.InputSystem.Recording
             if (RecordingState != RecordingState.Recording)
                 throw new InvalidOperationException("Recording wasn't started for this device!");
 
+            nullStateCounter = 0;
             RecordingState = RecordingState.None;
         }
 
@@ -155,6 +156,7 @@ namespace ANX.InputSystem.Recording
             {
                 recordStream.WriteByte((byte)PacketType.NullFrameCounter);
                 recordStream.Write(BitConverter.GetBytes(nullStateCounter), 0, 4);
+                nullStateCounter = 0;
             }
 
             recordStream.WriteByte((byte)PacketType.InputData);
@@ -198,11 +200,13 @@ namespace ANX.InputSystem.Recording
         }
 
         /// <summary>
-        /// Fires the EndOfPlaybackReaced event. Overwrite this method to change
-        /// this behavoir.
+        /// Fires the EndOfPlaybackReaced event and Calls StopPlayback().
+        /// Overwrite this method to change this behavoir.
         /// </summary>
         protected virtual void OnEndOfPlaybackReached()
         {
+            StopPlayback();
+
             if (EndOfPlaybackReached != null)
                 EndOfPlaybackReached(this, EventArgs.Empty);
         }

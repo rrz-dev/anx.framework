@@ -140,7 +140,7 @@ namespace ANX.InputSystem.Recording
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (i == PacketLenght - 1 && j == (i + 2) % 8)
+                    if (i == PacketLenght - 1 && j == recordedKeys.Length % 8)
                         break;
 
                     if (state.IsKeyDown(recordedKeys[i * 8 + j]))
@@ -156,18 +156,18 @@ namespace ANX.InputSystem.Recording
             byte[] buffer = ReadState();
 
             if (buffer == null)
-                return new KeyboardState();
+                return new KeyboardState(new Keys[0]);
 
             if ((PlayerIndex)(buffer[0] & 3) != expectedIndex)
                 throw new InvalidOperationException("The requested playerIndex does no match the next recorded state. Refer to documetation.");
 
-            KeyboardState state = new KeyboardState();
+            KeyboardState state = new KeyboardState(new Keys[0]);
 
             for (int i = 0; i < PacketLenght; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (i == PacketLenght - 1 && j == (i + 2) % 8)
+                    if (i == PacketLenght - 1 && j == recordedKeys.Length % 8)
                         break;
 
                     if ((buffer[i] & keyBitmasks[i * 8 + j]) != 0)
