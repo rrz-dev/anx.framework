@@ -84,7 +84,7 @@ namespace ANX.InputDevices.Windows.XInput
 
             // only available on XBox, behaviour regarding MSDN: empty keystate
 
-            return new Framework.Input.KeyboardState();
+            return new Framework.Input.KeyboardState(new Framework.Input.Keys[0]);
         }
 
         public Framework.Input.KeyboardState GetState()
@@ -106,7 +106,7 @@ namespace ANX.InputDevices.Windows.XInput
                 }
             }
 
-            return new Framework.Input.KeyboardState();
+            return new Framework.Input.KeyboardState(new Framework.Input.Keys[0]);
         }
 
         public void Dispose()
