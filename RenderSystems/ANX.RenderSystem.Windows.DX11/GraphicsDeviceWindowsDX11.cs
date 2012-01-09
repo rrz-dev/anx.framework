@@ -338,7 +338,15 @@ namespace ANX.RenderSystem.Windows.DX11
         #region DrawUserPrimitives<T>
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            int vertexCount = vertexData.Length;
+            VertexBuffer_DX11 vb11 = new VertexBuffer_DX11(this.deviceContext.Device, vertexDeclaration, vertexCount, BufferUsage.None);
+            vb11.SetData<T>(null, vertexData);
+
+            SharpDX.Direct3D11.VertexBufferBinding nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+            deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
+
+            DrawPrimitives(primitiveType, vertexOffset, primitiveCount);
         }
 
         #endregion // DrawUserPrimitives<T>

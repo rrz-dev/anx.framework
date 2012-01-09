@@ -66,12 +66,22 @@ namespace ANX.Framework.Windows.DX10
 
         public VertexBuffer_DX10(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
+            GraphicsDeviceWindowsDX10 gd10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
+            SharpDX.Direct3D10.Device device = gd10 != null ? gd10.NativeDevice as SharpDX.Direct3D10.Device : null;
+
+            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+        }
+
+        internal VertexBuffer_DX10(SharpDX.Direct3D10.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+        }
+
+        private void InitializeBuffer(SharpDX.Direct3D10.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
             this.vertexStride = vertexDeclaration.VertexStride;
 
             //TODO: translate and use usage
-            
-            GraphicsDeviceWindowsDX10 gd10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Device device = gd10 != null ? gd10.NativeDevice as SharpDX.Direct3D10.Device : null;
 
             if (device != null)
             {

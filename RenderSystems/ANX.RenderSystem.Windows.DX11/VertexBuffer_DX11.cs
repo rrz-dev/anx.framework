@@ -66,14 +66,24 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
+            GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
+            SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
+
+            InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
+        }
+
+        internal VertexBuffer_DX11(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+        }
+
+        private void InitializeBuffer(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
             this.vertexStride = vertexDeclaration.VertexStride;
 
             //TODO: translate and use usage
 
-            GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-            SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
-
-            if (context != null)
+            if (device != null)
             {
                 BufferDescription description = new BufferDescription()
                 {
@@ -84,8 +94,7 @@ namespace ANX.RenderSystem.Windows.DX11
                     OptionFlags = ResourceOptionFlags.None
                 };
 
-                this.buffer = new SharpDX.Direct3D11.Buffer(context.Device, description);
-                //this.buffer.Unmap();
+                this.buffer = new SharpDX.Direct3D11.Buffer(device, description);
             }
         }
 
