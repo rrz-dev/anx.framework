@@ -309,10 +309,10 @@ namespace ANX.Framework.Graphics
                 }
 
                 int startOffset = 0;
-                Texture2D lastTexture = null;
+                Texture2D lastTexture = spriteInfos[0].texture;
                 for (int i = 0; i <= currentBatchPosition; i++)
                 {
-                    if ((lastTexture != null && lastTexture != spriteInfos[i].texture) || i == currentBatchPosition - 1)
+                    if (lastTexture != spriteInfos[i].texture || i == currentBatchPosition)
                     {
                         BatchRender(startOffset, i - startOffset);
                         startOffset = i;

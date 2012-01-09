@@ -142,10 +142,12 @@ namespace RecordingSample
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            if(Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
                 spriteBatch.Draw(logo, Vector2.Zero, Color.White);
-            spriteBatch.End();
-            spriteBatch.Begin();
+            }
+            //spriteBatch.End();
+            //spriteBatch.Begin();
             spriteBatch.Draw(logo, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 115, 30), Color.White);
             spriteBatch.End();
 
