@@ -49,7 +49,7 @@
 
 namespace ANX.Framework.Net
 {
-	public class AvailableNetworkSessionCollection
+	public sealed class AvailableNetworkSessionCollection
 	{
 	}
 }

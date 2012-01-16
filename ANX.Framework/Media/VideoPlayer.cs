@@ -1,4 +1,5 @@
 ﻿using System;
+using ANX.Framework.Graphics;
 
 #region License
 
@@ -49,7 +50,97 @@
 
 namespace ANX.Framework.Media
 {
-	public class VideoPlayer
+	public sealed class VideoPlayer : IDisposable
 	{
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public TimeSpan PlayPosition
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public float Volume
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsMuted
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsLooped
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Video Video
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public MediaState State
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		~VideoPlayer()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Play(Video video)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Pause()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Resume()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Stop()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Texture2D GetTexture()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

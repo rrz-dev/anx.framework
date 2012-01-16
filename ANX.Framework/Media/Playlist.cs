@@ -49,7 +49,78 @@
 
 namespace ANX.Framework.Media
 {
-	public class Playlist
+	public sealed class Playlist : IEquatable<Playlist>, IDisposable
 	{
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public SongCollection Songs
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public TimeSpan Duration
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		~Playlist()
+		{
+			Dispose();
+		}
+
+		public bool Equals(Playlist other)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool Equals(object obj)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string ToString()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override int GetHashCode()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator ==(Playlist first, Playlist second)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator !=(Playlist first, Playlist second)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -49,7 +49,89 @@
 
 namespace ANX.Framework.Input.Touch
 {
-	public class TouchPanel
+	public static class TouchPanel
 	{
+		public static GestureType EnabledGestures
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static bool IsGestureAvailable
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static IntPtr WindowHandle
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static DisplayOrientation DisplayOrientation
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static int DisplayWidth
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static int DisplayHeight
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public static TouchPanelCapabilities GetCapabilities()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static GestureSample ReadGesture()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static TouchCollection GetState()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

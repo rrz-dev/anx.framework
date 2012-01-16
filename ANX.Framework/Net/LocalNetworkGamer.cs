@@ -49,7 +49,7 @@
 
 namespace ANX.Framework.Net
 {
-	public class LocalNetworkGamer
+	public sealed class LocalNetworkGamer : NetworkGamer
 	{
 	}
 }

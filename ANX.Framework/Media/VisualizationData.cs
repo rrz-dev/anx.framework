@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 
 #region License
 
@@ -51,5 +52,20 @@ namespace ANX.Framework.Media
 {
 	public class VisualizationData
 	{
+		public ReadOnlyCollection<float> Frequencies
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public ReadOnlyCollection<float> Samples
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

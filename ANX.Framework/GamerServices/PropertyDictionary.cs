@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -139,6 +140,91 @@ namespace ANX.Framework.GamerServices
         }
 
         IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+			
+        public int GetValueInt32(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public Int64 GetValueInt64(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public float GetValueSingle(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public double GetValueDouble(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public string GetValueString(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public LeaderboardOutcome GetValueOutcome(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public DateTime GetValueDateTime(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public TimeSpan GetValueTimeSpan(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public Stream GetValueStream(string key)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, int value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, Int64 value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, float value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, double value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, string value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, LeaderboardOutcome value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, DateTime value)
+        {
+            throw new NotImplementedException();
+        }
+			
+        public void SetValue(string key, TimeSpan value)
         {
             throw new NotImplementedException();
         }

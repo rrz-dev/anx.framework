@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -52,7 +53,83 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class Achievement
-    {
-    }
+	public sealed class Achievement
+	{
+		public bool DisplayBeforeEarned
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool EarnedOnline
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsEarned
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Key
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Description
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string HowToEarn
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public int GamerScore
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public DateTime EarnedDateTime
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Stream GetPicture()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

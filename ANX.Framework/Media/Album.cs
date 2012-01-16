@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 #region License
 
@@ -49,7 +50,112 @@
 
 namespace ANX.Framework.Media
 {
-	public class Album
+	public sealed class Album : IEquatable<Album>, IDisposable
 	{
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public TimeSpan Duration
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool HasArt
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Artist Artist
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public SongCollection Songs
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Genre Genre
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		~Album()
+		{
+			Dispose();
+		}
+
+		public Stream GetAlbumArt()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Stream GetThumbnail()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool Equals(Album other)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool Equals(object other)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator ==(Album first, Album second)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator !=(Album first, Album second)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string ToString()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override int GetHashCode()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -90,7 +90,7 @@ namespace ANX.Framework.Graphics
             base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
         }
 
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
+				public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
             : base(graphicsDevice)
         {
             this.depthStencilFormat = DepthFormat.None;
@@ -101,7 +101,7 @@ namespace ANX.Framework.Graphics
             base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
         }
 
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+				public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)]  bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
             : base(graphicsDevice)
         {
             this.depthStencilFormat = preferredDepthFormat;

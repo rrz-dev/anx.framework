@@ -54,9 +54,9 @@ using System.Collections;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class AchievementCollection : IList<Achievement>, ICollection<Achievement>, IEnumerable<Achievement>, IEnumerable, IDisposable
+    public sealed class AchievementCollection : IList<Achievement>, ICollection<Achievement>,
+			IEnumerable<Achievement>, IEnumerable, IDisposable
     {
-
         public int IndexOf(Achievement item)
         {
             throw new NotImplementedException();
@@ -132,6 +132,16 @@ namespace ANX.Framework.GamerServices
         public void Dispose()
         {
             throw new NotImplementedException();
+        }
+			
+        public bool IsDisposed
+        {
+            get { throw new NotImplementedException(); }
+        }
+			
+        public Achievement this[string name]
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -82,7 +82,7 @@ namespace ANX.Framework.Graphics
             CreateNativeTextureSurface(graphicsDevice, SurfaceFormat.Color, width, height, levelCount);
         }
 
-        public Texture2D(GraphicsDevice graphicsDevice, int width, int height, bool mipMap, SurfaceFormat format)
+				public Texture2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat format)
             : base(graphicsDevice)
         {
             this.width = width;
@@ -99,7 +99,7 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream, int width, int height, bool zoom)
+				public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool zoom)
         {
             throw new NotImplementedException();
         }

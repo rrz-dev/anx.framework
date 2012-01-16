@@ -49,7 +49,42 @@
 
 namespace ANX.Framework.Media
 {
-	public class MediaQueue
+	public sealed class MediaQueue
 	{
+		public int Count
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public int ActiveSongIndex
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Song ActiveSong
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Song this[int index]
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

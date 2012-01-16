@@ -54,5 +54,28 @@ namespace ANX.Framework.GamerServices
 {
     public sealed class GamerPresence
     {
+			public GamerPresenceMode PresenceMode
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+				set
+				{
+					throw new NotImplementedException();
+				}
+			}
+			
+			public int PresenceValue
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+				set
+				{
+					throw new NotImplementedException();
+				}
+			}
     }
 }

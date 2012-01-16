@@ -1,4 +1,5 @@
 ﻿using System;
+using ANX.Framework.GamerServices;
 
 #region License
 
@@ -49,7 +50,19 @@
 
 namespace ANX.Framework.Net
 {
-	public class NetworkMachine
+	public sealed class NetworkMachine
 	{
+		public GamerCollection<NetworkGamer> Gamers
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public void RemoveFromSession()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

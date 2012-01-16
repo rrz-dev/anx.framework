@@ -52,44 +52,63 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public class AvatarAnimation : IAvatarAnimation, IDisposable
-    {
+	public class AvatarAnimation : IAvatarAnimation, IDisposable
+	{
+		public AvatarAnimation(AvatarAnimationPreset preset)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+		~AvatarAnimation()
+		{
+			Dispose();
+		}
 
-        public System.Collections.ObjectModel.ReadOnlyCollection<Matrix> BoneTransforms
-        {
-            get { throw new NotImplementedException(); }
-        }
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
 
-        public TimeSpan CurrentPosition
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+		protected void Dispose(bool disposing)
+		{
+			throw new NotImplementedException();
+		}
 
-        public AvatarExpression Expression
-        {
-            get { throw new NotImplementedException(); }
-        }
+		public System.Collections.ObjectModel.ReadOnlyCollection<Matrix> BoneTransforms
+		{
+			get { throw new NotImplementedException(); }
+		}
 
-        public TimeSpan Length
-        {
-            get { throw new NotImplementedException(); }
-        }
+		public TimeSpan CurrentPosition
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Update(TimeSpan elapsedAnimationTime, bool loop)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public AvatarExpression Expression
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public bool IsDisposed
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public TimeSpan Length
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public void Update(TimeSpan elapsedAnimationTime, bool loop)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

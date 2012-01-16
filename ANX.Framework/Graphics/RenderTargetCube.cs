@@ -62,13 +62,13 @@ namespace ANX.Framework.Graphics
     {
         public event EventHandler<EventArgs> ContentLost;
 
-        public RenderTargetCube(GraphicsDevice graphicsDevice, int size, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
+				public RenderTargetCube(GraphicsDevice graphicsDevice, int size, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
             : base(graphicsDevice, size, mipMap, preferredFormat)
         {
             throw new NotImplementedException();
         }
 
-        public RenderTargetCube(GraphicsDevice graphicsDevice, int size, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+				public RenderTargetCube(GraphicsDevice graphicsDevice, int size, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
             : base(graphicsDevice, size, mipMap, preferredFormat)
         {
             throw new NotImplementedException();

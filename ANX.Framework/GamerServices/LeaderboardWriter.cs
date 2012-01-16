@@ -52,11 +52,16 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class LeaderboardWriter : IDisposable
-    {
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-    }
+	public sealed class LeaderboardWriter : IDisposable
+	{
+		public LeaderboardEntry GetLeaderboard(LeaderboardIdentity identity)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

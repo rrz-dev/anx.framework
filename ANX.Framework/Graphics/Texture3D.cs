@@ -55,7 +55,7 @@ namespace ANX.Framework.Graphics
 {
     public class Texture3D : Texture, IGraphicsResource
     {
-        public Texture3D(GraphicsDevice graphics, int width, int height, int depth, bool mipMap, SurfaceFormat format)
+			public Texture3D(GraphicsDevice graphics, int width, int height, int depth, [MarshalAsAttribute(UnmanagedType.U1)]  bool mipMap, SurfaceFormat format)
             : base(graphics)
         {
 

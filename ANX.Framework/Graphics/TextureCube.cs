@@ -55,7 +55,7 @@ namespace ANX.Framework.Graphics
 {
     public class TextureCube : Texture, IGraphicsResource
     {
-        public TextureCube(GraphicsDevice graphics, int size, bool mipMap, SurfaceFormat format)
+			public TextureCube(GraphicsDevice graphics, int size, [MarshalAsAttribute(UnmanagedType.U1)]  bool mipMap, SurfaceFormat format)
             : base(graphics)
         {
             this.Size = size;

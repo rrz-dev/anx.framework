@@ -52,7 +52,102 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class GameDefaults
-    {
-    }
+	public sealed class GameDefaults
+	{
+		public GameDifficulty GameDifficulty
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public ControllerSensitivity ControllerSensitivity
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool AutoAim
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool AutoCenter
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool MoveWithRightThumbStick
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool InvertYAxis
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool ManualTransmission
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool AccelerateWithButtons
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool BrakeWithButtons
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Color? PrimaryColor
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Color? SecondaryColor
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public RacingCameraAngle RacingCameraAngle
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+	}
 }

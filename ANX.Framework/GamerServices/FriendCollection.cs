@@ -52,12 +52,24 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class FriendCollection : GamerCollection<FriendGamer>, IDisposable
-    {
+	public sealed class FriendCollection : GamerCollection<FriendGamer>, IDisposable
+	{
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		~FriendCollection()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

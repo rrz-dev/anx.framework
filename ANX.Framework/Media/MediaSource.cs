@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #region License
 
@@ -49,7 +50,32 @@
 
 namespace ANX.Framework.Media
 {
-	public class MediaSource
+	public sealed class MediaSource
 	{
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public MediaSourceType MediaSourceType
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public IList<MediaSource> GetAvailableMediaSources()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string ToString()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
