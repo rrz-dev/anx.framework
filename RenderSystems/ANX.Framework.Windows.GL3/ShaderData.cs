@@ -1,14 +1,6 @@
-#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework.Content.Pipeline.Processors;
-
-#endregion // Using Statements
+using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 #region License
 
@@ -57,49 +49,25 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 #endregion // License
 
-using TInput = Microsoft.Xna.Framework.Content.Pipeline.Graphics.EffectContent;
-using TOutput = Microsoft.Xna.Framework.Content.Pipeline.Processors.CompiledEffectContent;
-using ANX.Framework.Windows.GL3;
-using System.Text;
-
-namespace ANX.Framework.ContentPipeline
+namespace ANX.Framework.Windows.GL3
 {
-	[ContentProcessor(DisplayName = "OpenGL3 Effect - ANX Framework")]
-	public class GL3_EffectProcessor : ContentProcessor<TInput, TOutput>
+	public class ShaderData
 	{
-		public override TOutput Process(TInput input, ContentProcessorContext context)
+		public string VertexGlobalCode;
+
+		public Dictionary<string, string> VertexShaderCodes;
+
+		public string FragmentGlobalCode;
+
+		public Dictionary<string, string> FragmentShaderCodes;
+
+		public Dictionary<string, StringPair> Techniques;
+
+		public ShaderData()
 		{
-			byte[] effectByteCode = ShaderHelper.SaveShaderCode(input.EffectCode);
-
-			Byte[] byteCode = new Byte[3 + 2 + 1 + 4 + effectByteCode.Length];
-
-			// Magic Number to recognize format
-			StringToByteArray("ANX").CopyTo(byteCode, 0);
-			// Major Version
-			byteCode[3] = 0;
-			// Minor Version
-			byteCode[4] = 2;
-			// Format of byte array
-			byteCode[5] = (byte)EffectProcessorOutputFormat.OPEN_GL3_GLSL;
-
-			int dataStart = 6;
-
-			// length of vertexShaderByteCode
-			BitConverter.GetBytes(effectByteCode.Length).CopyTo(byteCode, dataStart);
-			Array.Copy(effectByteCode, 0, byteCode, dataStart + 4, effectByteCode.Length);
-
-			return new TOutput(byteCode);
+			VertexShaderCodes = new Dictionary<string, string>();
+			FragmentShaderCodes = new Dictionary<string, string>();
+			Techniques = new Dictionary<string, StringPair>();
 		}
-
-		private byte[] StringToByteArray(string str)
-		{
-			return Encoding.ASCII.GetBytes(str);
-		}
-
-		private string ByteArrayToString(byte[] arr)
-		{
-			return Encoding.ASCII.GetString(arr);
-		}
-
 	}
 }

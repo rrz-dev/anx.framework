@@ -41,38 +41,49 @@
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-//
-// Vertex Shader
-//
-
 //TODO: dummy implementation / placeholder
 
-uniform mat4 MatrixTransform;
-
-attribute vec4 pos;
-attribute vec4 col;
-attribute vec2 tex;
-
-varying vec4 diffuseColor;
-varying vec2 diffuseTexCoord;
-void main(void)
+vertexshaders
 {
-	gl_Position = MatrixTransform * pos;
-	diffuseTexCoord = tex;
-	diffuseColor = col;
+  shader "SpriteVertexShader"
+  {
+    uniform mat4 MatrixTransform;
+
+    attribute vec4 pos;
+    attribute vec4 col;
+    attribute vec2 tex;
+
+    varying vec4 diffuseColor;
+    varying vec2 diffuseTexCoord;
+    void main( )
+    {
+      gl_Position = MatrixTransform * pos;
+      diffuseTexCoord = tex;
+      diffuseColor = col;
+    }
+  }
 }
 
-##!fragment!##
-
-//
-// Fragment Shader
-//
-
-uniform sampler2D Texture;
-
-varying vec4 diffuseColor;
-varying vec2 diffuseTexCoord;
-void main(void)
+fragmentshaders
 {
-	gl_FragColor = texture2D(Texture, diffuseTexCoord) * diffuseColor;
+  shader "SpriteFragmentShader"
+  {
+    uniform sampler2D Texture;
+
+    varying vec4 diffuseColor;
+    varying vec2 diffuseTexCoord;
+    void main( )
+    {
+      gl_FragColor = texture2D(Texture, diffuseTexCoord) * diffuseColor;
+    }
+  }
+}
+
+techniques
+{
+  technique "SpriteTechnique"
+  {
+    vertex "SpriteVertexShader"
+    fragment "SpriteFragmentShader"
+  }
 }

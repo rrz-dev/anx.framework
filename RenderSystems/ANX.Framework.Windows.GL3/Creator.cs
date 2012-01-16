@@ -112,7 +112,8 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 		#region CreateEffect
-		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
+			Stream byteCode)
 		{
 			AddInSystemFactory.Instance.PreventRenderSystemChange();
 

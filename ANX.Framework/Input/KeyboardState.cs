@@ -61,7 +61,7 @@ namespace ANX.Framework.Input
 
         #endregion // Private Members
 
-        public KeyboardState(Keys[] keys)
+        public KeyboardState(params Keys[] keys)
         {
             pressedKeys = new List<Keys>();
             pressedKeys.AddRange(keys);

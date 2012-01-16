@@ -58,7 +58,7 @@ namespace ANX.Framework.Windows.GL3
 	public class EffectParameterGL3 : INativeEffectParameter
 	{
 		#region Private
-		private EffectGL3 parentEffect;
+		private EffectTechniqueGL3 parentTechnique;
 		#endregion
 
 		#region Public
@@ -85,10 +85,10 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Create a ne effect parameter object.
 		/// </summary>
-		internal EffectParameterGL3(EffectGL3 setParentEffect,
+		internal EffectParameterGL3(EffectTechniqueGL3 setParentTechnique,
 			string setName, int setUniformIndex)
 		{
-			parentEffect = setParentEffect;
+			parentTechnique = setParentTechnique;
 			Name = setName;
 			UniformIndex = setUniformIndex;
 		}
@@ -101,7 +101,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Matrix value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 
 			OpenTK.Matrix4 matrix = new OpenTK.Matrix4(
@@ -122,7 +122,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Matrix[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			float[] array = new float[value.Length * 16];
 			for (int index = 0; index < value.Length; index++)
@@ -179,7 +179,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Texture value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			if (textureCache == null ||
 				textureCache != value)
@@ -227,7 +227,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(int value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform1(UniformIndex, value);
 			ErrorHelper.Check("Uniform1i");
@@ -241,7 +241,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(int[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform1(UniformIndex, value.Length, value);
 			ErrorHelper.Check("Uniform1iv");
@@ -255,7 +255,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(float value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform1(UniformIndex, value);
 			ErrorHelper.Check("Uniform1f");
@@ -269,7 +269,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(float[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform1(UniformIndex, value.Length, value);
 			ErrorHelper.Check("Uniform1fv");
@@ -283,7 +283,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector2 value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform2(UniformIndex, value.X, value.Y);
 			ErrorHelper.Check("Uniform2f");
@@ -297,7 +297,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector2[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			float[] array = new float[value.Length * 2];
 			for(int index = 0; index < value.Length; index++)
@@ -317,7 +317,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector3 value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform3(UniformIndex, value.X, value.Y, value.Z);
 			ErrorHelper.Check("Uniform3f");
@@ -331,7 +331,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector3[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			float[] array = new float[value.Length * 3];
 			for (int index = 0; index < value.Length; index++)
@@ -352,7 +352,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector4 value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			GL.Uniform4(UniformIndex, value.X, value.Y, value.Z, value.W);
 			ErrorHelper.Check("Uniform4f");
@@ -366,7 +366,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="value">Value for the parameter</param>
 		public void SetValue(Vector4[] value)
 		{
-			GL.UseProgram(parentEffect.programHandle);
+			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			float[] array = new float[value.Length * 4];
 			for (int index = 0; index < value.Length; index++)

@@ -1,7 +1,8 @@
 ﻿using System;
-using ANX.Framework.NonXNA;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
+using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -57,6 +58,28 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class EffectTechniqueGL3 : INativeEffectTechnique
 	{
+		#region ShaderAttribute (Helper struct)
+		public struct ShaderAttribute
+		{
+			public string Name;
+			public uint Location;
+			public int Size;
+			public ActiveAttribType Type;
+		}
+		#endregion
+
+		#region Private
+		/// <summary>
+		/// The native shader handle.
+		/// </summary>
+		internal int programHandle;
+
+		/// <summary>
+		/// The active attributes of this technique.
+		/// </summary>
+		internal Dictionary<string, ShaderAttribute> activeAttributes;
+		#endregion
+
 		#region Public
 		/// <summary>
 		/// The name of the effect technique.
@@ -84,8 +107,37 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Create a ne effect technique object.
 		/// </summary>
-		internal EffectTechniqueGL3()
+		internal EffectTechniqueGL3(string setName, int setProgramHandle)
 		{
+			Name = setName;
+			programHandle = setProgramHandle;
+
+			GetAttributes();
+		}
+		#endregion
+
+		#region GetAttributes
+		private void GetAttributes()
+		{
+			activeAttributes = new Dictionary<string, ShaderAttribute>();
+			int attributeCount;
+			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
+				out attributeCount);
+			for (int index = 0; index < attributeCount; index++)
+			{
+				int attributeSize;
+				ActiveAttribType attributeType;
+				string name = GL.GetActiveAttrib(programHandle, index,
+					out attributeSize, out attributeType);
+				uint attributeIndex = (uint)GL.GetAttribLocation(programHandle, name);
+				activeAttributes.Add(name, new ShaderAttribute
+				{
+					Name = name,
+					Location = attributeIndex,
+					Size = attributeSize,
+					Type = attributeType,
+				});
+			}
 		}
 		#endregion
 	}

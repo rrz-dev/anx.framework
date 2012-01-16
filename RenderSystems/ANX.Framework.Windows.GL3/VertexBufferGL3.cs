@@ -180,20 +180,23 @@ namespace ANX.Framework.Windows.GL3
 
 		#region MapVertexDeclaration
 		internal void MapVertexDeclaration(EffectGL3 effect)
-		{			
+		{
+			EffectTechniqueGL3 currentTechnique = effect.CurrentTechnique;
+
 			VertexElement[] elements = vertexDeclaration.GetVertexElements();
-			if (elements.Length != effect.ActiveAttributes.Count)
+			if (elements.Length != currentTechnique.activeAttributes.Count)
 			{
 				throw new InvalidOperationException("Mapping the VertexDeclaration " +
 					"onto the glsl attributes failed because we have " +
-					effect.ActiveAttributes.Count + " Shader Attributes and " +
+					currentTechnique.activeAttributes.Count + " Shader Attributes and " +
 					elements.Length + " elements in the vertex declaration which " +
 					"doesn't fit!");
 			}
 
-			foreach (string key in effect.ActiveAttributes.Keys)
+			foreach (string key in currentTechnique.activeAttributes.Keys)
 			{
-				EffectGL3.ShaderAttribute attribute = effect.ActiveAttributes[key];
+				EffectTechniqueGL3.ShaderAttribute attribute =
+					currentTechnique.activeAttributes[key];
 				GL.EnableVertexAttribArray(attribute.Location);
 				VertexElement element = elements[(int)attribute.Location];
 

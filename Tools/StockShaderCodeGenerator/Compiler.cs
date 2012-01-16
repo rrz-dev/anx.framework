@@ -108,7 +108,7 @@ namespace StockShaderCodeGenerator
                     byteCode = Effect_DX11.CompileFXShader(sourceCode);
                     break;
                 case "ANX.Framework.Windows.GL3":
-                    byteCode = EffectGL3.CompileShader(sourceCode);
+                    byteCode = ShaderHelper.SaveShaderCode(sourceCode);
                     break;
                 default:
                     throw new NotImplementedException("compiling shaders for " + RenderSystem + " not yet implemented...");

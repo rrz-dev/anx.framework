@@ -66,6 +66,8 @@
     <Compile Include="RenderTarget2DGL3.cs" />
     <Compile Include="SamplerStateGL3.cs" />
     <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="ShaderData.cs" />
+    <Compile Include="ShaderHelper.cs" />
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
     <Compile Include="WindowsGameHost.cs" />

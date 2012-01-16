@@ -4,8 +4,6 @@ using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using OpenTK.Graphics.OpenGL;
-using System.Text;
-using System.Security.Cryptography;
 
 #region License
 
@@ -63,47 +61,51 @@ namespace ANX.Framework.Windows.GL3
 	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
-		#region ShaderAttribute (Helper struct)
-		public struct ShaderAttribute
-		{
-			public string Name;
-			public uint Location;
-			public int Size;
-			public ActiveAttribType Type;
-		}
-		#endregion
-
-		#region Constants
-		private const string FragmentSeparator = "##!fragment!##";
-		#endregion
-
 		#region Private
 		/// <summary>
-		/// The native shader handle.
+		/// The managed effect instance of this shader.
 		/// </summary>
-		internal int programHandle;
+		private Effect managedEffect;
 
-    private Effect managedEffect;
+		/// <summary>
+		/// The loaded shader data from the shader file.
+		/// </summary>
+		private ShaderData shaderData;
 
-		internal Dictionary<string, ShaderAttribute> ActiveAttributes
+		/// <summary>
+		/// The available techniques of this shader.
+		/// </summary>
+		private List<EffectTechnique> techniques;
+
+		/// <summary>
+		/// The current native technique.
+		/// </summary>
+		internal EffectTechniqueGL3 CurrentTechnique
 		{
-			get;
-			private set;
+			get
+			{
+				return managedEffect.CurrentTechnique.NativeTechnique as EffectTechniqueGL3;
+			}
 		}
+
+		/// <summary>
+		/// The active uniforms of this technique.
+		/// </summary>
+		internal List<EffectParameter> parameters;
 		#endregion
 
 		#region Public
-		#region Techniques (TODO)
+		#region Techniques
 		public IEnumerable<EffectTechnique> Techniques
 		{
 			get
 			{
-				List<EffectTechnique> techniques = new List<EffectTechnique>();
+				if (techniques.Count == 0)
+				{
+					CompileTechniques();
+				}
 
-				// TODO: dummy, fill with actual data.
-				techniques.Add(new EffectTechnique(this.managedEffect, new EffectTechniqueGL3()));
-
-                return techniques;
+				return techniques;
 			}
 		}
 		#endregion
@@ -113,33 +115,6 @@ namespace ANX.Framework.Windows.GL3
 		{
 			get
 			{
-				List<EffectParameter> parameters = new List<EffectParameter>();
-
-				int uniformCount;
-				GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms,
-					out uniformCount);
-				ErrorHelper.Check("GetProgram ActiveUniforms");
-
-				List<string> names = new List<string>();
-				for (int index = 0; index < uniformCount; index++)
-				{
-					string name = GL.GetActiveUniformName(programHandle, index);
-					ErrorHelper.Check("GetActiveUniformName name=" + name);
-
-					if (names.Contains(name) == false)
-					{
-						names.Add(name);
-						int uniformIndex = GL.GetUniformLocation(programHandle, name);
-						ErrorHelper.Check("GetUniformLocation name=" + name +
-							" uniformIndex=" + uniformIndex);
-						parameters.Add(new EffectParameter()
-						{
-							NativeParameter =
-								new EffectParameterGL3(this, name, uniformIndex),
-						});
-					}
-				}
-
 				return parameters;
 			}
 		}
@@ -148,69 +123,140 @@ namespace ANX.Framework.Windows.GL3
 
 		#region Constructor
 		/// <summary>
+		/// Private helper constructor for the basic initialization.
+		/// </summary>
+		/// <param name="setManagedEffect"></param>
+		private EffectGL3(Effect setManagedEffect)
+		{
+			parameters = new List<EffectParameter>();
+			techniques = new List<EffectTechnique>();
+			managedEffect = setManagedEffect;
+		}
+
+		/// <summary>
 		/// Create a new effect instance of separate streams.
 		/// </summary>
 		/// <param name="vertexShaderByteCode">The vertex shader code.</param>
 		/// <param name="pixelShaderByteCode">The fragment shader code.</param>
-		public EffectGL3(Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+		public EffectGL3(Effect setManagedEffect, Stream vertexShaderByteCode,
+			Stream pixelShaderByteCode)
+			: this(setManagedEffect)
 		{
-            this.managedEffect = managedEffect;
-			CreateShader(LoadShaderCode(vertexShaderByteCode), LoadShaderCode(pixelShaderByteCode));
+// TODO: this is probably not right!
+			throw new NotImplementedException("TODO: implement effect constructor with vertex and fragment streams, check HOWTO...");
+			//CreateShader(ShaderHelper.LoadShaderCode(vertexShaderByteCode),
+			//  ShaderHelper.LoadShaderCode(pixelShaderByteCode));
 		}
 
 		/// <summary>
 		/// Create a new effect instance of one streams.
 		/// </summary>
 		/// <param name="byteCode">The byte code of the shader.</param>
-		public EffectGL3(Effect managedEffect, Stream byteCode)
+		public EffectGL3(Effect setManagedEffect, Stream byteCode)
+			: this(setManagedEffect)
 		{
-            this.managedEffect = managedEffect;
-			string source = LoadShaderCode(byteCode);
-			string[] parts = source.Split(new string[] { FragmentSeparator },
-				StringSplitOptions.RemoveEmptyEntries);
-
-			CreateShader(parts[0], parts[1]);
+			string source = ShaderHelper.LoadShaderCode(byteCode);
+			shaderData = ShaderHelper.ParseShaderCode(source);
 		}
 		#endregion
 
-		#region CreateShader
-		private void CreateShader(string vertexSource, string fragmentSource)
+		#region CompileTechniques
+		private void CompileTechniques()
 		{
-			int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-			string vertexError = CompileShader(vertexShader, vertexSource);
-			if (String.IsNullOrEmpty(vertexError) == false)
+			parameters.Clear();
+			techniques.Clear();
+			Dictionary<string, int> vertexShaders = new Dictionary<string, int>();
+			Dictionary<string, int> fragmentShaders = new Dictionary<string, int>();
+			List<string> parameterNames = new List<string>();
+
+			#region Compile vertex shaders
+			foreach (string vertexName in shaderData.VertexShaderCodes.Keys)
 			{
-				throw new InvalidDataException("Failed to compile the vertex " +
-					"shader because of: " + vertexError);
-			}
+				string vertexSource = shaderData.VertexGlobalCode +
+					shaderData.VertexShaderCodes[vertexName];
 
-			int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-			string fragmentError = CompileShader(fragmentShader, fragmentSource);
-			if (String.IsNullOrEmpty(fragmentError) == false)
+				int vertexShader = GL.CreateShader(ShaderType.VertexShader);
+				string vertexError = CompileShader(vertexShader, vertexSource);
+				if (String.IsNullOrEmpty(vertexError) == false)
+				{
+					throw new InvalidDataException("Failed to compile the vertex " +
+						"shader '" + vertexName + "' because of: " + vertexError);
+				}
+
+				vertexShaders.Add(vertexName, vertexShader);
+			}
+			#endregion
+
+			#region Compile fragment shaders
+			foreach (string fragmentName in shaderData.FragmentShaderCodes.Keys)
 			{
-				throw new InvalidDataException("Failed to compile the fragment " +
-					"shader because of: " + fragmentError);
+				string fragmentSource = shaderData.FragmentGlobalCode +
+					shaderData.FragmentShaderCodes[fragmentName];
+
+				int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+				string vertexError = CompileShader(fragmentShader, fragmentSource);
+				if (String.IsNullOrEmpty(vertexError) == false)
+				{
+					throw new InvalidDataException("Failed to compile the fragment " +
+						"shader '" + fragmentName + "' because of: " + vertexError);
+				}
+
+				fragmentShaders.Add(fragmentName, fragmentShader);
 			}
+			#endregion
 
-			programHandle = GL.CreateProgram();
-			ErrorHelper.Check("CreateProgram");
-			GL.AttachShader(programHandle, vertexShader);
-			ErrorHelper.Check("AttachShader vertexShader");
-			GL.AttachShader(programHandle, fragmentShader);
-			ErrorHelper.Check("AttachShader fragmentShader");
-			GL.LinkProgram(programHandle);
-
-			int result;
-			GL.GetProgram(programHandle, ProgramParameter.LinkStatus, out result);
-			if (result == 0)
+			#region Compile programs
+			foreach (string programName in shaderData.Techniques.Keys)
 			{
-				string programError;
-				GL.GetProgramInfoLog(programHandle, out programError);
-				throw new InvalidDataException("Failed to link the shader program " +
-					"because of: " + programError);
-			}
+				string vertexName = shaderData.Techniques[programName].Key;
+				string fragmentName = shaderData.Techniques[programName].Value;
 
-			GetAttributes();
+				int programHandle = GL.CreateProgram();
+				ErrorHelper.Check("CreateProgram");
+				GL.AttachShader(programHandle, vertexShaders[vertexName]);
+				ErrorHelper.Check("AttachShader vertexShader");
+				GL.AttachShader(programHandle, fragmentShaders[fragmentName]);
+				ErrorHelper.Check("AttachShader fragmentShader");
+				GL.LinkProgram(programHandle);
+
+				int result;
+				GL.GetProgram(programHandle, ProgramParameter.LinkStatus, out result);
+				if (result == 0)
+				{
+					string programError;
+					GL.GetProgramInfoLog(programHandle, out programError);
+					throw new InvalidDataException("Failed to link the shader program '" +
+						programName + "' because of: " + programError);
+				}
+
+				EffectTechniqueGL3 technique = new EffectTechniqueGL3(programName, programHandle);
+				techniques.Add(new EffectTechnique(managedEffect, technique));
+
+				int uniformCount;
+				GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms,
+					out uniformCount);
+				ErrorHelper.Check("GetProgram ActiveUniforms");
+
+				for (int index = 0; index < uniformCount; index++)
+				{
+					string name = GL.GetActiveUniformName(programHandle, index);
+					ErrorHelper.Check("GetActiveUniformName name=" + name);
+
+					if (parameterNames.Contains(name) == false)
+					{
+						parameterNames.Add(name);
+						int uniformIndex = GL.GetUniformLocation(programHandle, name);
+						ErrorHelper.Check("GetUniformLocation name=" + name +
+							" uniformIndex=" + uniformIndex);
+						parameters.Add(new EffectParameter()
+						{
+							NativeParameter =
+								new EffectParameterGL3(technique, name, uniformIndex),
+						});
+					}
+				}
+			}
+			#endregion
 		}
 		#endregion
 
@@ -236,128 +282,13 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region CompileShader (for external)
-		public static byte[] CompileShader(string effectCode)
-		{
-			#region Source Cleanup
-			// We wanna clean up the shader a little bit, so we remove
-			// empty lines, spaces and tabs at beginning and end and also
-			// remove comments.
-			List<string> lines = new List<string>(effectCode.Split('\n'));
-			for (int index = lines.Count - 1; index >= 0; index--)
-			{
-				lines[index] = lines[index].Trim();
-				if (String.IsNullOrEmpty(lines[index]) ||
-					lines[index].StartsWith("//"))
-				{
-					lines.RemoveAt(index);
-					continue;
-				}
-
-				// TODO: add /**/ comment checking and removing.
-			}
-
-			effectCode = "";
-			foreach (string line in lines)
-			{
-				effectCode += line + "\n";
-			}
-
-			// Now to some additional cleanup
-			string[] minimizables =
-			{
-				" * ", " = ", " + ", " / ", " - ", ", ",
-			};
-
-			foreach (string mizable in minimizables)
-			{
-				effectCode = effectCode.Replace(mizable, mizable.Trim());
-			}
-
-			effectCode = effectCode.Replace("\n{\n", "{\n");
-			effectCode = effectCode.Replace("\n}\n", "}\n");
-			#endregion
-
-			MemoryStream stream = new MemoryStream();
-			BinaryWriter writer = new BinaryWriter(stream);
-
-			// First of all writer the shader code (which is already preceeded
-			// by a length identifier, making it harder to manipulate the code)
-			writer.Write(effectCode);
-
-			// And now we additionally generate a sha hash so it nearly becomes
-			// impossible to manipulate the shader.
-			SHA512Managed sha = new SHA512Managed();
-			byte[] data = stream.ToArray();
-			byte[] hash = sha.ComputeHash(data);
-			// The hash is added to the end of the stream.
-			writer.Write(hash);
-			writer.Flush();
-			sha.Dispose();
-
-			return stream.ToArray();
-		}
-		#endregion
-
-		#region LoadShaderCode
-		private static string LoadShaderCode(Stream stream)
-		{
-			BinaryReader reader = new BinaryReader(stream);
-			// First load the source.
-			string source = reader.ReadString();
-			// And now check if it was manipulated.
-			SHA512Managed sha = new SHA512Managed();
-			int lengthRead = (int)stream.Position;
-			stream.Position = 0;
-			byte[] data = reader.ReadBytes(lengthRead);
-			byte[] hash = sha.ComputeHash(data);
-			sha.Dispose();
-			byte[] loadedHash = reader.ReadBytes(64);
-			for (int index = 0; index < hash.Length; index++)
-			{
-				if (hash[index] != loadedHash[index])
-				{
-					throw new InvalidDataException("Failed to load the shader " +
-						"because the data got manipulated!");
-				}
-			}
-
-			return source;
-		}
-		#endregion
-
-		#region GetAttributes
-		private void GetAttributes()
-		{
-			ActiveAttributes = new Dictionary<string, ShaderAttribute>();
-			int attributeCount;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
-				out attributeCount);
-			for (int index = 0; index < attributeCount; index++)
-			{
-				int attributeSize;
-				ActiveAttribType attributeType;
-				string name = GL.GetActiveAttrib(programHandle, index,
-					out attributeSize, out attributeType);
-				uint attributeIndex = (uint)GL.GetAttribLocation(programHandle, name);
-				ActiveAttributes.Add(name, new ShaderAttribute
-				{
-					Name = name,
-					Location = attributeIndex,
-					Size = attributeSize,
-					Type = attributeType,
-				});
-			}
-		}
-		#endregion
-
 		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			if (GraphicsDeviceWindowsGL3.activeEffect != this)
 			{
 				GL.Enable(EnableCap.Blend);
-				GL.UseProgram(programHandle);
+				GL.UseProgram(CurrentTechnique.programHandle);
 				GraphicsDeviceWindowsGL3.activeEffect = this;
 				ErrorHelper.Check("UseProgram");
 			}
@@ -370,18 +301,25 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		public void Dispose()
 		{
-			GL.DeleteProgram(programHandle);
-			ErrorHelper.Check("DeleteProgram");
-
-			int result;
-			GL.GetProgram(programHandle, ProgramParameter.DeleteStatus, out result);
-			if (result == 0)
+			foreach (EffectTechnique technique in techniques)
 			{
-				string deleteError;
-				GL.GetProgramInfoLog(programHandle, out deleteError);
-				throw new Exception("Failed to delete the shader program because of: " +
-					deleteError);
+				int programHandle = (technique.NativeTechnique as EffectTechniqueGL3).programHandle;
+
+				GL.DeleteProgram(programHandle);
+				ErrorHelper.Check("DeleteProgram");
+
+				int result;
+				GL.GetProgram(programHandle, ProgramParameter.DeleteStatus, out result);
+				if (result == 0)
+				{
+					string deleteError;
+					GL.GetProgramInfoLog(programHandle, out deleteError);
+					throw new Exception("Failed to delete the shader program '" + technique.Name +
+						"' because of: " + deleteError);
+				}
 			}
+
+			techniques.Clear();
 		}
 		#endregion
 	}

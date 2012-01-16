@@ -79,8 +79,8 @@ namespace ANX.Framework.Graphics
             this.byteCode = new byte[byteCode.Length];
             Array.Copy(byteCode, this.byteCode, byteCode.Length);
 
-            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
-            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
             CreateNativeEffect();
 
