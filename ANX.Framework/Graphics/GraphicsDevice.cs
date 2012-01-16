@@ -367,7 +367,7 @@ namespace ANX.Framework.Graphics
             //TODO: more to dispose?
         }
 
-        protected virtual void Dispose(Boolean disposeManaged)
+				protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
         {
             //TODO: implement
         }

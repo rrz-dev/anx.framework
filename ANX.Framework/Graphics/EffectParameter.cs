@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -57,8 +58,9 @@ using ANX.Framework.NonXNA;
 namespace ANX.Framework.Graphics
 {
     public sealed class EffectParameter
-    {
-        private INativeEffectParameter nativeParameter;
+		{
+				#region Public
+				private INativeEffectParameter nativeParameter;
 
         public INativeEffectParameter NativeParameter
         {
@@ -70,119 +72,194 @@ namespace ANX.Framework.Graphics
             {
                 this.nativeParameter = value;
             }
-        }
+				}
+				public EffectAnnotationCollection Annotations
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
 
-        public bool GetValueBoolean()
-        {
-            throw new NotImplementedException();
+				public int ColumnCount
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public EffectParameterCollection Elements
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public string Name
+				{
+					get
+					{
+						return this.NativeParameter.Name;
+					}
+				}
+
+				public EffectParameterClass ParameterClass
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public EffectParameterType ParameterType
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public int RowCount
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public string Semantic
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+
+				public EffectParameterCollection StructureMembers
+				{
+					get
+					{
+						throw new NotImplementedException();
+					}
+				}
+				#endregion
+
+				#region GetValue
+				public bool GetValueBoolean()
+				{
+					return nativeParameter.GetValueBoolean();
         }
 
         public bool[] GetValueBooleanArray(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueBooleanArray(count);
         }
 
         public int GetValueInt32()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueInt32();
         }
 
         public Int32[] GetValueInt32Array(int count)
         {
-            throw new NotImplementedException();
+					return nativeParameter.GetValueInt32Array(count);
         }
 
         public Matrix GetValueMatrix()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueMatrix();
         }
 
         public Matrix[] GetValueMatrixArray(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueMatrixArray(count);
         }
 
         public Matrix GetValueMatrixTranspose()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueMatrixTranspose();
         }
 
         public Matrix[] GetValueMatrixTransposeArray(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueMatrixTransposeArray(count);
         }
 
         public Quaternion GetValueQuaternion()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueQuaternion();
         }
 
         public Quaternion[] GetValueQuaternionArray(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueQuaternionArray(count);
         }
 
         public float GetValueSingle()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueSingle();
         }
 
         public float[] GetValueSingleArray(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueSingleArray(count);
         }
 
         public string GetValueString()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueString();
         }
 
         public Texture2D GetValueTexture2D()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueTexture2D();
         }
 
         public Texture3D GetValueTexture3D()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueTexture3D();
         }
 
         public TextureCube GetValueTextureCube()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueTextureCube();
         }
 
         public Vector2 GetValueVector2()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueVector2();
         }
 
         public Vector2[] GetValueVector2Array(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueVector2Array(count);
         }
 
         public Vector3 GetValueVector3()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueVector3();
         }
 
         public Vector3[] GetValueVector3Array(int count)
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueVector3Array(count);
         }
 
         public Vector4 GetValueVector4()
-        {
-            throw new NotImplementedException();
+				{
+					return nativeParameter.GetValueVector4();
         }
 
         public Vector4[] GetValueVector4Array(int count)
         {
-            throw new NotImplementedException();
+					return nativeParameter.GetValueVector4Array(count);
         }
+				#endregion
 
-        public void SetValue(bool value)
+				#region SetValue
+				public void SetValue([MarshalAs(UnmanagedType.U1)] bool value)
         {
             nativeParameter.SetValue(value);
         }
@@ -203,13 +280,13 @@ namespace ANX.Framework.Graphics
         }
 
         public void SetValue(Matrix value)
-        {
-            nativeParameter.SetValue(value);
+				{
+						nativeParameter.SetValue(value, false);
         }
 
         public void SetValue(Matrix[] value)
         {
-            nativeParameter.SetValue(value);
+						nativeParameter.SetValue(value, false);
         }
 
         public void SetValue(Quaternion value)
@@ -233,8 +310,8 @@ namespace ANX.Framework.Graphics
         }
 
         public void SetValue(string value)
-        {
-            throw new NotImplementedException();
+				{
+					nativeParameter.SetValue(value);
         }
 
         public void SetValue(Texture value)
@@ -273,85 +350,14 @@ namespace ANX.Framework.Graphics
         }
 
         public void SetValueTranspose(Matrix value)
-        {
-            throw new NotImplementedException();
+				{
+					nativeParameter.SetValue(value, true);
         }
 
         public void SetValueTranspose(Matrix[] value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public EffectAnnotationCollection Annotations
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int ColumnCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public EffectParameterCollection Elements
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return this.NativeParameter.Name;
-            }
-        }
-
-        public EffectParameterClass ParameterClass
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public EffectParameterType ParameterType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int RowCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Semantic
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public EffectParameterCollection StructureMembers
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+				{
+					nativeParameter.SetValue(value, true);
+				}
+				#endregion
     }
 }

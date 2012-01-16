@@ -57,7 +57,54 @@ namespace ANX.Framework.NonXNA
     {
         string Name { get; }
 
-        void SetValue(bool value);
+				#region GetValue
+				bool GetValueBoolean();
+
+				bool[] GetValueBooleanArray(int count);
+
+				int GetValueInt32();
+
+				int[] GetValueInt32Array(int count);
+
+				Matrix GetValueMatrix();
+
+				Matrix[] GetValueMatrixArray(int count);
+
+				Matrix GetValueMatrixTranspose();
+
+				Matrix[] GetValueMatrixTransposeArray(int count);
+
+				Quaternion GetValueQuaternion();
+
+				Quaternion[] GetValueQuaternionArray(int count);
+
+				float GetValueSingle();
+
+				float[] GetValueSingleArray(int count);
+
+				string GetValueString();
+
+				Texture2D GetValueTexture2D();
+
+				Texture3D GetValueTexture3D();
+
+				TextureCube GetValueTextureCube();
+
+				Vector2 GetValueVector2();
+
+				Vector2[] GetValueVector2Array(int count);
+
+				Vector3 GetValueVector3();
+
+				Vector3[] GetValueVector3Array(int count);
+
+				Vector4 GetValueVector4();
+
+				Vector4[] GetValueVector4Array(int count);
+				#endregion
+
+				#region SetValue
+				void SetValue(bool value);
 
         void SetValue(bool[] value);
 
@@ -65,9 +112,9 @@ namespace ANX.Framework.NonXNA
 
         void SetValue(int[] value);
 
-        void SetValue(Matrix value);
+				void SetValue(Matrix value, bool transpose);
 
-        void SetValue(Matrix[] value);
+        void SetValue(Matrix[] value, bool transpose);
 
         void SetValue(Quaternion value);
 
@@ -87,8 +134,11 @@ namespace ANX.Framework.NonXNA
 
         void SetValue(Vector4 value);
 
-        void SetValue(Vector4[] value);
+				void SetValue(Vector4[] value);
+
+				void SetValue(string value);
 
         void SetValue(Texture value);
-    }
+				#endregion
+		}
 }

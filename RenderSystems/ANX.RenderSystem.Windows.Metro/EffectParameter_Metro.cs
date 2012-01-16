@@ -201,6 +201,130 @@ namespace ANX.Framework.Windows.DX10
             {
                 return nativeEffectVariable.Description.Name;
             }
-        }
+				}
+				#region INativeEffectParameter Member
+
+
+				public bool GetValueBoolean()
+				{
+					throw new NotImplementedException();
+				}
+
+				public bool[] GetValueBooleanArray(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public int GetValueInt32()
+				{
+					throw new NotImplementedException();
+				}
+
+				public int[] GetValueInt32Array(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Matrix GetValueMatrix()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Matrix[] GetValueMatrixArray(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Matrix GetValueMatrixTranspose()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Matrix[] GetValueMatrixTransposeArray(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Quaternion GetValueQuaternion()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Quaternion[] GetValueQuaternionArray(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public float GetValueSingle()
+				{
+					throw new NotImplementedException();
+				}
+
+				public float[] GetValueSingleArray(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public string GetValueString()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Graphics.Texture2D GetValueTexture2D()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Graphics.Texture3D GetValueTexture3D()
+				{
+					throw new NotImplementedException();
+				}
+
+				public TextureCube GetValueTextureCube()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector2 GetValueVector2()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector2[] GetValueVector2Array(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector3 GetValueVector3()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector3[] GetValueVector3Array(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector4 GetValueVector4()
+				{
+					throw new NotImplementedException();
+				}
+
+				public Vector4[] GetValueVector4Array(int count)
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+
+				#region INativeEffectParameter Member
+
+
+				public void SetValue(string value)
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
     }
 }

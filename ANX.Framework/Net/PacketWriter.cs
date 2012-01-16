@@ -82,6 +82,16 @@ namespace ANX.Framework.Net
 		{
 		}
 
+		public void Write(float value)
+		{
+			Write(value);
+		}
+
+		public void Write(double value)
+		{
+			Write(value);
+		}
+
 		public void Write(Vector2 value)
 		{
 			Write(value.X);

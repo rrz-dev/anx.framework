@@ -82,6 +82,16 @@ namespace ANX.Framework.Net
 		{
 		}
 
+		public float ReadSingle()
+		{
+			return ReadSingle();
+		}
+
+		public double ReadDouble()
+		{
+			return ReadDouble();
+		}
+
 		public Vector2 ReadVector2()
 		{
 			return new Vector2

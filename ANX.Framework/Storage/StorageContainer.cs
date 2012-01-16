@@ -69,6 +69,11 @@ namespace ANX.Framework.Storage
             baseDirectory.Create(); //fails silently if directory exists
         }
 
+				~StorageContainer()
+				{
+					Dispose();
+				}
+
         /// <summary>
         /// Returns the full path for the given relative path, and makes
         /// some sanity checks.
@@ -116,6 +121,11 @@ namespace ANX.Framework.Storage
             return File.Exists(GetTestFullPath(file));
         }
 
+				public string[] GetDirectoryNames()
+				{
+					return GetDirectoryNames("*");
+				}
+
         public string[] GetDirectoryNames(string searchPattern = "*")
         {
             List<string> dirs = new List<string>();
@@ -126,6 +136,11 @@ namespace ANX.Framework.Storage
 
             return dirs.ToArray();
         }
+
+				public string[] GetFileNames()
+				{
+					return GetFileNames("*");
+				}
 
         public string[] GetFileNames(string searchPattern = "*")
         {
@@ -138,7 +153,18 @@ namespace ANX.Framework.Storage
             return files.ToArray();
         }
 
-        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
+				public Stream OpenFile(string file, FileMode fileMode)
+				{
+					return OpenFile(file, fileMode, FileAccess.ReadWrite, FileShare.None);
+				}
+
+				public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess)
+				{
+					return OpenFile(file, fileMode, fileAccess, FileShare.None);
+				}
+
+        public Stream OpenFile(string file, FileMode fileMode,
+					FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
         {
             return File.Open(GetTestFullPath(file), fileMode, fileAccess, fileShare);
         }

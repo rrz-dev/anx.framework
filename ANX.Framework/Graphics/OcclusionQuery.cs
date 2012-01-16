@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -96,7 +97,7 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        protected override void Dispose(Boolean disposeManaged)
+				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
         {
             throw new NotImplementedException();
         }

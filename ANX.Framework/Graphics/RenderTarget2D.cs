@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -113,7 +114,7 @@ namespace ANX.Framework.Graphics
 
         #endregion // Constructors
 
-        protected virtual void Dispose(Boolean disposeManaged)
+				protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
         {
             throw new NotImplementedException();
         }
