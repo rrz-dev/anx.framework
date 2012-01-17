@@ -73,20 +73,29 @@ namespace ANX.Framework.Windows.DX10
             GraphicsDeviceWindowsDX10 gd10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
             SharpDX.Direct3D10.Device device = gd10 != null ? gd10.NativeDevice as SharpDX.Direct3D10.Device : null;
 
-            if (device != null)
-            {
-                BufferDescription description = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = (size == IndexElementSize.SixteenBits ? 2 : 4) * indexCount,
-                    BindFlags = BindFlags.IndexBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None
-                };
+            InitializeBuffer(device, size, indexCount, usage);
+        }
 
-                this.buffer = new SharpDX.Direct3D10.Buffer(device, description);
-                this.buffer.Unmap();
-            }
+        internal IndexBuffer_DX10(SharpDX.Direct3D10.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            this.size = size;
+
+            InitializeBuffer(device, size, indexCount, usage);
+        }
+
+        private void InitializeBuffer(SharpDX.Direct3D10.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            BufferDescription description = new BufferDescription()
+            {
+                Usage = ResourceUsage.Dynamic,
+                SizeInBytes = (size == IndexElementSize.SixteenBits ? 2 : 4) * indexCount,
+                BindFlags = BindFlags.IndexBuffer,
+                CpuAccessFlags = CpuAccessFlags.Write,
+                OptionFlags = ResourceOptionFlags.None
+            };
+
+            this.buffer = new SharpDX.Direct3D10.Buffer(device, description);
+            this.buffer.Unmap();
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct

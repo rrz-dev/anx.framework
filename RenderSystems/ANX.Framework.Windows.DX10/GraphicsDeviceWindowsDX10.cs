@@ -326,7 +326,19 @@ namespace ANX.Framework.Windows.DX10
         #region DrawUserIndexedPrimitives<T>
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            int vertexCount = vertexData.Length;
+            int indexCount = indexData.Length;
+            VertexBuffer_DX10 vb10 = new VertexBuffer_DX10(this.device, vertexDeclaration, vertexCount, BufferUsage.None);
+            vb10.SetData<T>(null, vertexData);
+
+            SharpDX.Direct3D10.VertexBufferBinding nativeVertexBufferBindings = new SharpDX.Direct3D10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+            device.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
+
+            IndexBuffer_DX10 idx10 = new IndexBuffer_DX10(this.device, indexFormat, indexCount, BufferUsage.None);
+            idx10.SetData<int>(null, (int[])indexData);
+
+            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
         }
 
         #endregion // DrawUserIndexedPrimitives<T>

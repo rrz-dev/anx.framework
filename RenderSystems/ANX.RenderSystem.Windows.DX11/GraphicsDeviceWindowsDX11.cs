@@ -330,7 +330,19 @@ namespace ANX.RenderSystem.Windows.DX11
         #region DrawUserIndexedPrimitives<T>
         public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
         {
-            throw new NotImplementedException();
+            int vertexCount = vertexData.Length;
+            int indexCount = indexData.Length;
+            VertexBuffer_DX11 vb11 = new VertexBuffer_DX11(this.deviceContext.Device, vertexDeclaration, vertexCount, BufferUsage.None);
+            vb11.SetData<T>(null, vertexData);
+
+            SharpDX.Direct3D11.VertexBufferBinding nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+            deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
+
+            IndexBuffer_DX11 idx10 = new IndexBuffer_DX11(this.deviceContext.Device, indexFormat, indexCount, BufferUsage.None);
+            idx10.SetData<int>(null, (int[])indexData);
+
+            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
         }
 
         #endregion // DrawUserIndexedPrimitives<T>
