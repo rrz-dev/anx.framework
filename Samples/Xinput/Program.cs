@@ -66,6 +66,7 @@ namespace Xinput
             controller[2] = new Controller(UserIndex.Three);
             controller[3] = new Controller(UserIndex.Four);
             controller[4] = new Controller(UserIndex.Any);
+            
             foreach (Controller item in controller)
             {
                 Console.WriteLine(item.IsConnected);
@@ -74,16 +75,16 @@ namespace Xinput
                     Console.WriteLine(item.GetState().Gamepad.ToString());
                 }
             }
-            var test = controller[0].GetCapabilities(DeviceQueryType.Gamepad);
-            for (int i = 0; i <16; i++)
+            
+            if (controller[0].IsConnected)
             {
-                Console.WriteLine( "{0,3} - {1}",i, ( (GamepadButtonFlags)i ).ToString( ) );
+                var test = controller[0].GetCapabilities(DeviceQueryType.Gamepad);
+                for (int i = 0; i < 16; i++)
+                {
+                    Console.WriteLine("{0,3} - {1}", i, ((GamepadButtonFlags)i).ToString());
+                }
             }
-            int a = 4;
-            int b = 15;
-            int c = a & b;
-            Console.WriteLine(c);
-            //var state = controller[0].GetState();
+
             Console.Read();
         }
     }
