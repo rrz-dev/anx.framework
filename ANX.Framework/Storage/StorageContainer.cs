@@ -126,7 +126,7 @@ namespace ANX.Framework.Storage
 					return GetDirectoryNames("*");
 				}
 
-        public string[] GetDirectoryNames(string searchPattern = "*")
+        public string[] GetDirectoryNames(string searchPattern)
         {
             List<string> dirs = new List<string>();
             foreach (DirectoryInfo dir in baseDirectory.EnumerateDirectories(searchPattern))
@@ -142,7 +142,7 @@ namespace ANX.Framework.Storage
 					return GetFileNames("*");
 				}
 
-        public string[] GetFileNames(string searchPattern = "*")
+        public string[] GetFileNames(string searchPattern)
         {
             List<string> files = new List<string>();
             foreach (FileInfo file in baseDirectory.EnumerateFiles(searchPattern))
@@ -163,8 +163,8 @@ namespace ANX.Framework.Storage
 					return OpenFile(file, fileMode, fileAccess, FileShare.None);
 				}
 
-        public Stream OpenFile(string file, FileMode fileMode,
-					FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
+        public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess,
+					FileShare fileShare)
         {
             return File.Open(GetTestFullPath(file), fileMode, fileAccess, fileShare);
         }

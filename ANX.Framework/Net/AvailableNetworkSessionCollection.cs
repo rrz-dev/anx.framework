@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 #region License
 
@@ -49,7 +51,30 @@
 
 namespace ANX.Framework.Net
 {
-	public sealed class AvailableNetworkSessionCollection
+	public sealed class AvailableNetworkSessionCollection :
+		ReadOnlyCollection<AvailableNetworkSession>, IDisposable
 	{
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		internal AvailableNetworkSessionCollection(IList<AvailableNetworkSession> sessions)
+			: base(sessions)
+		{
+		}
+
+		~AvailableNetworkSessionCollection()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

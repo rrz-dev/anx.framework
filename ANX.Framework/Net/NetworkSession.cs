@@ -49,7 +49,47 @@
 
 namespace ANX.Framework.Net
 {
-	public sealed class NetworkSession
+	public sealed class NetworkSession : IDisposable
 	{
+		public const int MaxSupportedGamers = 31;
+		public const int MaxPreviousGamers = 100;
+
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		~NetworkSession()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Update()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void StartGame()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void EndGame()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ResetReady()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

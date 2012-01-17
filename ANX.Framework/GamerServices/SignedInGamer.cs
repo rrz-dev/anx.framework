@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.Audio;
 
 #endregion // Using Statements
 
@@ -52,12 +53,110 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-    public sealed class SignedInGamer : Gamer
+	public sealed class SignedInGamer : Gamer
+	{
+		public PlayerIndex PlayerIndex
 		{
-			public PlayerIndex PlayerIndex
+			get
 			{
-				get;
-				private set;
+				throw new NotImplementedException();
 			}
-    }
+		}
+		
+		public bool IsSignedInToLive
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		public bool IsGuest
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		public GameDefaults GameDefaults
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		public GamerPrivileges Privileges
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		public int PartySize
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		
+		public GamerPresence Presence
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public event EventHandler<SignedInEventArgs> SignedIn;
+		public event EventHandler<SignedOutEventArgs> SignedOut;
+
+		public bool IsFriend(Gamer gamer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public FriendCollection GetFriends()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsHeadset(Microphone microphone)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IAsyncResult BeginAwardAchievement(string achievementKey, AsyncCallback callback, object asyncState)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void EndAwardAchievement(IAsyncResult result)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AwardAchievement(string achievementKey)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IAsyncResult BeginGetAchievements(AsyncCallback callback, object asyncState)
+		{
+			throw new NotImplementedException();
+		}
+
+		public AchievementCollection EndGetAchievements(IAsyncResult result)
+		{
+			throw new NotImplementedException();
+		}
+
+		public AchievementCollection GetAchievements()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
