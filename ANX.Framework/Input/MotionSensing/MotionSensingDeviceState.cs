@@ -56,6 +56,8 @@ namespace ANX.Framework.Input.MotionSensing
 {
     public struct MotionSensingDeviceState
     {
+        private bool connected;
+
         private Texture2D pRGB;
         private Texture2D pDepth;
 
@@ -81,6 +83,13 @@ namespace ANX.Framework.Input.MotionSensing
         private Vector3 pFootRight;
         private Vector3 pCount;
 
+        public bool Connected
+        {
+            get
+            {
+                return this.connected;
+            }
+        }
 
         public Texture2D RGB { get { return this.pRGB; } }
         public Texture2D Depth { get { return this.pDepth; } }
@@ -107,10 +116,11 @@ namespace ANX.Framework.Input.MotionSensing
         public Vector3 FootRight { get { return this.pFootRight; } }
         public Vector3 Count { get { return this.pCount; } }
 
-
-        public MotionSensingDeviceState(Texture2D _RGB, Texture2D _Depth, Vector3 _HipCenter, Vector3 _Spine, Vector3 _ShoulderCenter, Vector3 _Head, Vector3 _ShoulderLeft,
+        public MotionSensingDeviceState(bool connected, Texture2D _RGB, Texture2D _Depth, Vector3 _HipCenter, Vector3 _Spine, Vector3 _ShoulderCenter, Vector3 _Head, Vector3 _ShoulderLeft,
  Vector3 _ElbowLeft, Vector3 _WristLeft, Vector3 _HandLeft, Vector3 _ShoulderRight, Vector3 _ElbowRight, Vector3 _WristRight, Vector3 _HandRight, Vector3 _HipLeft, Vector3 _KneeLeft, Vector3 _AnkleLeft, Vector3 _FootLeft, Vector3 _HipRight, Vector3 _KneeRight, Vector3 _AnkleRight, Vector3 _FootRight, Vector3 _Count)
         {
+            this.connected = connected;
+
             pRGB = _RGB;
             pDepth = _Depth;
 

@@ -9,6 +9,7 @@ using NLog;
 using System.Collections;
 using System.Resources;
 using ANX.Framework.NonXNA.InputSystem;
+using ANX.Framework.Graphics;
 
 #endregion // Using Statements
 
@@ -223,7 +224,8 @@ namespace ANX.Framework.NonXNA
 
             if (this.motionSensingDeviceCreators.Count > 0)
             {
-                return this.motionSensingDeviceCreators.Values.First<IMotionSensingDeviceCreator>().CreateMotionSensingDeviceInstance();
+                IMotionSensingDevice motionSensingDevice = this.motionSensingDeviceCreators.Values.First<IMotionSensingDeviceCreator>().CreateMotionSensingDeviceInstance();
+                return motionSensingDevice;
             }
 
             throw new Exception("Unable to create instance of MotionSensingDevice because no MotionSensingDeviceCreator was registered.");

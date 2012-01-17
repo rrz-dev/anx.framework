@@ -72,7 +72,6 @@ namespace ANX.Framework
             //this.LockThreadToProcessor();
             this.gameWindow = new WindowsGameWindow();
             InputDeviceFactory.Instance.WindowHandle = this.gameWindow.Handle;
-            //TouchPanel.WindowHandle = this.gameWindow.Handle;
             //this.gameWindow.IsMouseVisible = game.IsMouseVisible;
             this.gameWindow.Activated += new EventHandler<EventArgs>(this.GameWindowActivated);
             this.gameWindow.Deactivated += new EventHandler<EventArgs>(this.GameWindowDeactivated);

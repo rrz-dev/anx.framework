@@ -69,11 +69,19 @@ namespace ANX.Framework.Input.MotionSensing
         {
             get
             {
-                return motionSensingDevice.GraphicsDevice;
+                if (motionSensingDevice != null)
+                {
+                    return motionSensingDevice.GraphicsDevice;
+                }
+
+                return null;
             }
             set
             {
-                motionSensingDevice.GraphicsDevice = value;
+                if (motionSensingDevice != null)
+                {
+                    motionSensingDevice.GraphicsDevice = value;
+                }
             }
         }
 

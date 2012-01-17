@@ -80,10 +80,10 @@ namespace ANX.InputDevices.Windows.Kinect
                 pNui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
                 pNui.SkeletonEngine.TransformSmooth = true;
             }
-            else
-            {
-                throw new Exception("No Kinect was detected, please connect it to your Computer before running this program and make sure you install the Kinect SDK from Microsoft.");
-            }
+            //else
+            //{
+            //    throw new Exception("No Kinect was detected, please connect it to your Computer before running this program and make sure you install the Kinect SDK from Microsoft.");
+            //}
 
 
             this.cache = new Vector3[21];
@@ -92,6 +92,7 @@ namespace ANX.InputDevices.Windows.Kinect
             {
                 this.cache[i] = Vector3.Zero;
             }
+
             //Added parameters which where used in our Kinect project
             var parameters = new TransformSmoothParameters
             {
@@ -102,30 +103,33 @@ namespace ANX.InputDevices.Windows.Kinect
                 MaxDeviationRadius = 0.9f
             };
 
-            pNui.SkeletonEngine.SmoothParameters = parameters;
-
-            try
+            if (pNui != null)
             {
-                pNui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
-                pNui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
+                pNui.SkeletonEngine.SmoothParameters = parameters;
+
+                try
+                {
+                    pNui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
+                    pNui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
+                }
+                catch (InvalidOperationException)
+                {
+                    // Display error message; omitted for space return; 
+                }
+                //lastTime = DateTime.Now;
+
+                pNui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(pNui_SkeletonFrameReady);
+                pNui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_DepthFrameReady);
+                pNui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_VideoFrameReady);
+
+                // move down all the way
+                pNui.NuiCamera.ElevationAngle = -15;
+
+                System.Threading.Thread.Sleep(1500);
+
+                // move up all the way
+                pNui.NuiCamera.ElevationAngle = 20;
             }
-            catch (InvalidOperationException)
-            {
-                // Display error message; omitted for space return; 
-            }
-            //lastTime = DateTime.Now;
-
-            pNui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(pNui_SkeletonFrameReady);
-            pNui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_DepthFrameReady);
-            pNui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(pNui_VideoFrameReady);
-
-            // move down all the way
-            pNui.NuiCamera.ElevationAngle = -15;
-
-            System.Threading.Thread.Sleep(1500);
-
-            // move up all the way
-            pNui.NuiCamera.ElevationAngle = 20;
         }
 
         void pNui_VideoFrameReady(object sender, ImageFrameReadyEventArgs e)
@@ -184,7 +188,7 @@ namespace ANX.InputDevices.Windows.Kinect
 
         public MotionSensingDeviceState GetState()
         {
-            return new MotionSensingDeviceState(rgb, depth, cache[0], cache[1], cache[2], cache[3], cache[4], cache[5], cache[6], cache[7], cache[8], cache[9], cache[10], cache[11], cache[12], cache[13], cache[14], cache[15], cache[16], cache[17], cache[18], cache[19], cache[20]);
+            return new MotionSensingDeviceState(Runtime.Kinects.Count > 0, rgb, depth, cache[0], cache[1], cache[2], cache[3], cache[4], cache[5], cache[6], cache[7], cache[8], cache[9], cache[10], cache[11], cache[12], cache[13], cache[14], cache[15], cache[16], cache[17], cache[18], cache[19], cache[20]);
         }
 
 
