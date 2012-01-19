@@ -322,7 +322,7 @@ namespace ANX.RenderSystem.Windows.DX11
         #region DrawInstancedPrimitives
         public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
         {
-            throw new NotImplementedException();
+            deviceContext.DrawIndexedInstanced(numVertices, instanceCount, startIndex, baseVertex, 0);
         }
 
         #endregion // DrawInstancedPrimitives
@@ -340,7 +340,14 @@ namespace ANX.RenderSystem.Windows.DX11
             deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
             IndexBuffer_DX11 idx10 = new IndexBuffer_DX11(this.deviceContext.Device, indexFormat, indexCount, BufferUsage.None);
-            idx10.SetData<int>(null, (int[])indexData);
+            if (indexData.GetType() == typeof(Int16[]))
+            {
+                idx10.SetData<short>(null, (short[])indexData);
+            }
+            else
+            {
+                idx10.SetData<int>(null, (int[])indexData);
+            }
 
             DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
         }
