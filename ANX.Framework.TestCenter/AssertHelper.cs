@@ -168,6 +168,12 @@ using ANXGamePadButtons = ANX.Framework.Input.GamePadButtons;
 
 using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using ANXButtonState = ANX.Framework.Input.ButtonState;
+
+using XNAKeyboardState = Microsoft.Xna.Framework.Input.KeyboardState;
+using ANXKeyboardState = ANX.Framework.Input.KeyboardState;
+
+using XNAKeys = Microsoft.Xna.Framework.Input.Keys;
+using ANXKeys = ANX.Framework.Input.Keys;
 #endregion // Datatype usings
 
 namespace ANX.Framework.TestCenter
@@ -943,7 +949,24 @@ namespace ANX.Framework.TestCenter
                 Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
             }
         }
-        
+
+        public static void ConvertEquals(XNAKeys[] xna, ANXKeys[] anx, String test)
+        {
+            if (xna.Length!=anx.Length)
+            {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.Length.ToString(), anx.Length.ToString()));
+            }
+            for (int i = 0; i < xna.Length; i++)
+            {
+                if ((int)xna[i]!=(int)anx[i])
+                {
+                     Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna[i].ToString(), anx[i].ToString()));
+                }
+            }
+            Assert.Pass(test + " passed");
+        }
         #endregion
+
+
     }
 }
