@@ -211,6 +211,15 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         }
 
         [TestCaseSource("buttonSample")]
+        public void Equals2(int buttons)
+        {
+            XNAGamePadButtons xna = new XNAGamePadButtons((XNAButtons)buttons);
+            ANXGamePadButtons anx = new ANXGamePadButtons((ANXButtons)buttons);
+ 
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals2");
+        }
+        
+        [TestCaseSource("buttonSample")]
         public void op_Equality(int buttons)
         {
             XNAGamePadButtons xna = new XNAGamePadButtons((XNAButtons)buttons);

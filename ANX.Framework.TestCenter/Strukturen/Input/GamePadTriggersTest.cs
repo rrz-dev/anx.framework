@@ -111,6 +111,13 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals2");
         }
         [TestCaseSource("twofloats")]
+        public void Equals3(float leftTrigger, float rightTrigger)
+        {
+            ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);
+            XNAGamePadTriggers xna = new XNAGamePadTriggers(leftTrigger, rightTrigger);
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals3");
+        }
+        [TestCaseSource("twofloats")]
         public void NotEquals(float leftTrigger, float rightTrigger)
         {
             ANXGamePadTriggers anx = new ANXGamePadTriggers(leftTrigger, rightTrigger);

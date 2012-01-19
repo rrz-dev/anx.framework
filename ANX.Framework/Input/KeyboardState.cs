@@ -94,22 +94,7 @@ namespace ANX.Framework.Input
         {
             if (obj != null && obj.GetType() == typeof(KeyboardState))
             {
-                KeyboardState other = (KeyboardState)obj;
-
-                if (keyState.Length != other.keyState.Length)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < keyState.Length; i++)
-                {
-                    if (this.keyState[i] != other.keyState[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+                return this == (KeyboardState)obj;
             }
 
             return false;

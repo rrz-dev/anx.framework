@@ -78,6 +78,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             new object[] { DataFactory.RandomFloat,  DataFactory.RandomFloat,DataFactory.RandomFloat,  DataFactory.RandomFloat},
             new object[]{-2,-2,-2,-2}
         };
+        #endregion
         [TestCaseSource("twofloats")]
         public void Left(float leftX, float leftY,float rightX,float rightY)
         {
@@ -118,6 +119,13 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals2");
         }
         [TestCaseSource("twofloats")]
+        public void Equals3(float leftX, float leftY, float rightX, float rightY)
+        {
+            ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX, leftY), new ANXVector2(rightX, rightY));
+            XNAGamePadThumbSticks xna = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals3");
+        }
+        [TestCaseSource("twofloats")]
         public void NotEquals(float leftX, float leftY,float rightX,float rightY)
         {
             ANXGamePadThumbSticks anx = new ANXGamePadThumbSticks(new ANXVector2(leftX,leftY),new ANXVector2(rightX,rightY));
@@ -130,6 +138,6 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             XNAGamePadThumbSticks xna2 = new XNAGamePadThumbSticks(new XNAVector2(leftX, leftY), new XNAVector2(rightX, rightY));
             AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "NotEquals");
         }
-        #endregion
+
     }
 }

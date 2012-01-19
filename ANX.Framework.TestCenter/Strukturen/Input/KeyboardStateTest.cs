@@ -224,6 +224,8 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         {
            new int[]{9,32,33,34,35,36,37,38,39,40},
            new int[]{9,9,9,34,35,36,37,38,39,40},        
+           new int[]{9,42,9,34,35,36,37,38,39,40},
+           new int[]{9,42,43,34,35,36,37,38,39,40},
         };
 #endregion
 
@@ -269,6 +271,44 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             XNAKeyboardState xna2 = new XNAKeyboardState(xnakey);
 
             AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "opequal");
+        }
+
+        [TestCaseSource("Key10")]
+        public void Equals(int[] key)
+        {
+            ANXKeys[] anxkey = new ANXKeys[10];
+
+            XNAKeys[] xnakey = new XNAKeys[10];
+            for (int i = 0; i < key.Length; i++)
+            {
+                anxkey[i] = (ANXKeys)key[i];
+                xnakey[i] = (XNAKeys)key[i];
+
+            }
+            ANXKeyboardState anx = new ANXKeyboardState(anxkey);
+            XNAKeyboardState xna = new XNAKeyboardState(xnakey);
+            ANXKeyboardState anx2 = new ANXKeyboardState(anxkey);
+            XNAKeyboardState xna2 = new XNAKeyboardState(xnakey);
+
+            AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals");
+        }
+
+        [TestCaseSource("Key10")]
+        public void Equals2(int[] key)
+        {
+            ANXKeys[] anxkey = new ANXKeys[10];
+
+            XNAKeys[] xnakey = new XNAKeys[10];
+            for (int i = 0; i < key.Length; i++)
+            {
+                anxkey[i] = (ANXKeys)key[i];
+                xnakey[i] = (XNAKeys)key[i];
+
+            }
+            ANXKeyboardState anx = new ANXKeyboardState(anxkey);
+            XNAKeyboardState xna = new XNAKeyboardState(xnakey);
+
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals2");
         }
 
         [TestCaseSource("Key10")]
@@ -349,6 +389,24 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             XNAKeyboardState xna = new XNAKeyboardState(xnakey);
 
             AssertHelper.ConvertEquals(xna.GetPressedKeys(), anx.GetPressedKeys(), "GetPressedKeys");
+        }
+ 
+        [TestCaseSource("Key10")]
+        public void KeyState(int[] key)
+        {
+            ANXKeys[] anxkey = new ANXKeys[10];
+
+            XNAKeys[] xnakey = new XNAKeys[10];
+            for (int i = 0; i < key.Length; i++)
+            {
+                anxkey[i] = (ANXKeys)key[i];
+                xnakey[i] = (XNAKeys)key[i];
+
+            }
+            ANXKeyboardState anx = new ANXKeyboardState(anxkey);
+            XNAKeyboardState xna = new XNAKeyboardState(xnakey);
+
+            AssertHelper.ConvertEquals(xna[(XNAKeys)9]==Microsoft.Xna.Framework.Input.KeyState.Down, anx[(ANXKeys)9]==ANX.Framework.Input.KeyState.Down, "KeyState");
         }
     }
 }

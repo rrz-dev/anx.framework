@@ -174,6 +174,15 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             }
         }
         [TestCaseSource("Stats16")]
+        public void Equal3(ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
+        {
+            ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
+            XNAGamePadDPad xna = new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2);
+ 
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equal3");
+
+        }
+        [TestCaseSource("Stats16")]
         public void OperatorNoEqual(ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
         {
             ANXGamePadDPad anx = new ANXGamePadDPad(upValue, downValue, leftValue, rightValue);
