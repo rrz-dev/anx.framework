@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strukturen\Input\KeyboardStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseStateTest.cs" />
+    <Compile Include="Strukturen\Input\MouseTest.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
     <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />
     <Compile Include="Strukturen\BoundingBoxTest.cs" />

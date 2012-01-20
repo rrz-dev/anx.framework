@@ -80,14 +80,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         };
 
 
-        public void ConvertEquals(XNAPoint xna, ANXPoint anx, String test)
-        {
-            if (xna.X == anx.X &&
-                xna.Y == anx.Y)
-                Assert.Pass(String.Format("{0} passed", test));
-            else
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
-        }
+        
         #endregion
 
         #region Constructors
@@ -98,7 +91,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXPoint anx = new ANXPoint();
 
-            ConvertEquals(xna, anx, "constructor0");
+            AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
 
         [Test, TestCaseSource("twoint")]
@@ -108,7 +101,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             ANXPoint anx = new ANXPoint(x, y);
 
-            ConvertEquals(xna, anx, "constructor1");
+            AssertHelper.ConvertEquals(xna, anx, "constructor1");
         }
         #endregion
 
@@ -143,6 +136,68 @@ namespace ANX.Framework.TestCenter.Strukturen
                 Assert.Pass("Y passed");
             else
                 Assert.Fail(String.Format("Y failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+        }
+
+        [Test]
+        public void Zero()
+        {
+            AssertHelper.ConvertEquals(XNAPoint.Zero, ANXPoint.Zero, "Zero");
+        }
+        
+        [TestCaseSource("twoint")]
+        public void OpEqual(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+            XNAPoint xna2 = new XNAPoint(x, y);
+            ANXPoint anx2 = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "OpEqual");
+        }
+
+        [TestCaseSource("twoint")]
+        public void OpUnEqual(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+            XNAPoint xna2 = new XNAPoint(x, y);
+            ANXPoint anx2 = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "OpUnEqual");
+        }
+        [TestCaseSource("twoint")]
+        public void Equals(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+            XNAPoint xna2 = new XNAPoint(x, y);
+            ANXPoint anx2 = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals");
+        }
+        [TestCaseSource("twoint")]
+        public void Equals2(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals2");
+        }
+        [TestCaseSource("twoint")]
+        public void ToString(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "ToString");
+        }
+        [TestCaseSource("twoint")]
+        public void GetHashCode(int x, int y)
+        {
+            XNAPoint xna = new XNAPoint(x, y);
+            ANXPoint anx = new ANXPoint(x, y);
+
+            AssertHelper.ConvertEquals(xna.GetHashCode(), anx.GetHashCode(), "GetHashCode");
         }
         #endregion
     }

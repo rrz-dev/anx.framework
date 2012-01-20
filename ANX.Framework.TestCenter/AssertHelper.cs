@@ -55,6 +55,12 @@ using NUnit.Framework;
 #endregion // License
 
 #region Datatype Usings
+using XNAMouseState = Microsoft.Xna.Framework.Input.MouseState;
+using ANXMouseState = ANX.Framework.Input.MouseState;
+
+using XNAPoint = Microsoft.Xna.Framework.Point;
+using ANXPoint = ANX.Framework.Point;
+
 using XNAColor = Microsoft.Xna.Framework.Color;
 using ANXColor = ANX.Framework.Color;
 
@@ -965,8 +971,29 @@ namespace ANX.Framework.TestCenter
             }
             Assert.Pass(test + " passed");
         }
+
+        public static void ConvertEquals(XNAPoint xna, ANXPoint anx, String test)
+        {
+            if (xna.X == anx.X &&
+                xna.Y == anx.Y)
+                Assert.Pass(String.Format("{0} passed", test));
+            else
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+        }
+        public static void ConvertEquals(ANXMouseState referenz, ANXMouseState toTest, String test)
+        {
+            if ((referenz.X == toTest.X) && (referenz.Y == toTest.Y) && (referenz.ScrollWheelValue == toTest.ScrollWheelValue) && (referenz.LeftButton == toTest.LeftButton) && (referenz.MiddleButton == toTest.MiddleButton) && (referenz.RightButton == toTest.RightButton) && (referenz.XButton1 == toTest.XButton1) && (referenz.XButton2 == toTest.XButton2))
+            {
+                Assert.Pass(String.Format("{0} passed", test));
+            }
+            else {
+                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, referenz.ToString(), toTest.ToString()));
+            }
+        }
         #endregion
 
 
+
+ 
     }
 }
