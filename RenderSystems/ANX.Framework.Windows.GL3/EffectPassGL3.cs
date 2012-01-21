@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using OpenTK.Graphics.OpenGL;
 
 #region License
 
@@ -53,101 +50,14 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ANX.Framework.Windows.GL3
 {
-	/// <summary>
-	/// Native OpenGL implementation of an effect technique.
-	/// </summary>
-	public class EffectTechniqueGL3 : INativeEffectTechnique
+	public class EffectPassGL3 : INativeEffectPass
 	{
-		#region ShaderAttribute (Helper struct)
-		public struct ShaderAttribute
-		{
-			public string Name;
-			public uint Location;
-			public int Size;
-			public ActiveAttribType Type;
-		}
-		#endregion
-
-		#region Private
-		/// <summary>
-		/// The native shader handle.
-		/// </summary>
-		internal int programHandle;
-
-		/// <summary>
-		/// The active attributes of this technique.
-		/// </summary>
-		internal Dictionary<string, ShaderAttribute> activeAttributes;
-
-		/// <summary>
-		/// We currently have only one pass per technique.
-		/// </summary>
-		private EffectPass pass;
-
-		private Effect parentEffect;
-		#endregion
-
-		#region Public
-		/// <summary>
-		/// The name of the effect technique.
-		/// </summary>
 		public string Name
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// The passes of the technique.
-		/// </summary>
-		public IEnumerable<EffectPass> Passes
 		{
 			get
 			{
-				yield return pass;
+				return "p0";
 			}
 		}
-		#endregion
-
-		#region Constructor
-		/// <summary>
-		/// Create a ne effect technique object.
-		/// </summary>
-		internal EffectTechniqueGL3(Effect setParentEffect, string setName, int setProgramHandle)
-		{
-			parentEffect = setParentEffect;
-			Name = setName;
-			programHandle = setProgramHandle;
-
-			GetAttributes();
-
-			pass = new EffectPass(parentEffect);
-		}
-		#endregion
-
-		#region GetAttributes
-		private void GetAttributes()
-		{
-			activeAttributes = new Dictionary<string, ShaderAttribute>();
-			int attributeCount;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
-				out attributeCount);
-			for (int index = 0; index < attributeCount; index++)
-			{
-				int attributeSize;
-				ActiveAttribType attributeType;
-				string name = GL.GetActiveAttrib(programHandle, index,
-					out attributeSize, out attributeType);
-				uint attributeIndex = (uint)GL.GetAttribLocation(programHandle, name);
-				activeAttributes.Add(name, new ShaderAttribute
-				{
-					Name = name,
-					Location = attributeIndex,
-					Size = attributeSize,
-					Type = attributeType,
-				});
-			}
-		}
-		#endregion
 	}
 }

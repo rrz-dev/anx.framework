@@ -54,6 +54,7 @@
     <Compile Include="DepthStencilStateGL3.cs" />
     <Compile Include="EffectGL3.cs" />
     <Compile Include="EffectParameterGL3.cs" />
+    <Compile Include="EffectPassGL3.cs" />
     <Compile Include="EffectTechniqueGL3.cs" />
     <Compile Include="ErrorHelper.cs" />
     <Compile Include="GraphicsDeviceWindowsGL3.cs" />

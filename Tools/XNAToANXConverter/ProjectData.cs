@@ -98,7 +98,8 @@ namespace XNAToANXConverter
 								{
 									anxPath = anxPath.Substring(0, anxPath.IndexOf(',')) + ".dll";
 								}
-								propertyGroup.Add(new XElement("Reference",
+								propertyGroup.Add(new XElement(XName.Get("Reference",
+									propertyGroup.Name.NamespaceName),
 									new XAttribute("Include", anxPath)));
 							}
 							#endregion
@@ -113,7 +114,8 @@ namespace XNAToANXConverter
 								// TODO: FQN of the xna assemby
 
 								string xnaPath = assemblyPath.Replace(AnxBaseName, XnaBaseName);
-								propertyGroup.Add(new XElement("Reference",
+								propertyGroup.Add(new XElement(XName.Get("Reference",
+									propertyGroup.Name.NamespaceName),
 									new XAttribute("Include", xnaPath)));
 							}
 							#endregion

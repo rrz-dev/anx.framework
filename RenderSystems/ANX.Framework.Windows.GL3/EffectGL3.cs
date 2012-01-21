@@ -229,7 +229,8 @@ namespace ANX.Framework.Windows.GL3
 						programName + "' because of: " + programError);
 				}
 
-				EffectTechniqueGL3 technique = new EffectTechniqueGL3(programName, programHandle);
+				EffectTechniqueGL3 technique = new EffectTechniqueGL3(managedEffect, programName,
+					programHandle);
 				techniques.Add(new EffectTechnique(managedEffect, technique));
 
 				int uniformCount;
