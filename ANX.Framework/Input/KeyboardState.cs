@@ -133,7 +133,15 @@ namespace ANX.Framework.Input
 
         public Keys[] GetPressedKeys()
         {
-            return this.pressedKeys.ToArray();
+            List<Keys> value = new List<Keys>();
+            for (int i = 0; i < keyState.Length; ++i)
+            {
+                if (keyState[i] == KeyState.Down)
+                {
+                    value.Add((Keys)i);
+                }
+            }
+            return value.ToArray();
         }
 
         internal void AddPressedKey(Keys key)
