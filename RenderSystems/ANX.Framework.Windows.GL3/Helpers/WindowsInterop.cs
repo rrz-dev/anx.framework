@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO;
-using ANX.Framework.Audio;
-using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.SoundSystem;
+using System.Runtime.InteropServices;
 
 #region License
 
@@ -51,66 +48,64 @@ using ANX.Framework.NonXNA.SoundSystem;
 
 #endregion // License
 
-namespace ANX.SoundSystem.OpenAL
+namespace ANX.Framework.Windows.GL3.Helpers
 {
-	public class Creator : ISoundSystemCreator
+	internal static class WindowsInterop
 	{
-		#region Public
-		public string Name
+		#region RECT (Helper struct)
+		[StructLayout(LayoutKind.Sequential)]
+		private struct RECT
 		{
-			get
-			{
-				return "OpenAL";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				PlatformID platform = AddInSystemFactory.Instance.OperatingSystem.Platform;
-				return platform == PlatformID.Win32NT ||
-					platform == PlatformID.Unix ||
-					platform == PlatformID.MacOSX;
-			}
+			/// <summary>
+			/// X position of upper-left corner.
+			/// </summary>
+			public int Left;
+			/// <summary>
+			/// Y position of upper-left corner.
+			/// </summary>
+			public int Top;
+			/// <summary>
+			/// X position of lower-right corner.
+			/// </summary>
+			public int Right;
+			/// <summary>
+			/// Y position of lower-right corner.
+			/// </summary>
+			public int Bottom;
 		}
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
+		#region Invokes
+		[DllImport("user32.dll")]
+		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter,
+			int x, int y, int width, int height, uint uFlags);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 		#endregion
 
-		#region CreateSoundEffectInstance (TODO)
-		public ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent)
+		#region ResizeWindow
+		public static void ResizeWindow(IntPtr windowHandle, int backBufferWidth,
+			int backBufferHeight)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
-		#endregion
+			RECT windowRect;
+			RECT clientRect;
+			if (GetWindowRect(windowHandle, out windowRect) &&
+				GetClientRect(windowHandle, out clientRect))
+			{
+				int width = backBufferWidth + ((windowRect.Right - windowRect.Left) -
+					clientRect.Right);
+				int height = backBufferHeight + ((windowRect.Bottom - windowRect.Top) -
+					clientRect.Bottom);
 
-		#region CreateSoundEffect (TODO)
-		public ISoundEffect CreateSoundEffect(Stream stream)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
-
-		public ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,
-			int sampleRate, AudioChannels channels, int loopStart, int loopLength)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
+				SetWindowPos(windowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top,
+					width, height, 0);
+			}
 		}
 		#endregion
 	}

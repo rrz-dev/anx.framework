@@ -1,8 +1,7 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.IO;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.SoundSystem;
+using ANX.Framework.NonXNA;
 
 #region License
 
@@ -53,33 +52,130 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public class SoundEffectInstance : IDisposable
-    {
-        public bool IsDisposed { get { throw new NotImplementedException(); } }
-        public virtual bool IsLooped { get; set; }
-        public float Pan { get; set; }
-        public float Pitch { get; set; }
-        public SoundState State { get { throw new NotImplementedException(); } }
-        public float Volume { get; set; }
-        public void Apply3D ( AudioListener listener, AudioEmitter emitter){}
-        public void Apply3D ( AudioListener[] listeners, AudioEmitter emitter){}
-        public void Pause (){}
-        public virtual void Play (){}
-        public void Resume (){}
-        public void Stop (){}
-        public void Stop (bool immediate){}
+	public class SoundEffectInstance : IDisposable
+	{
+		#region Private
+		private SoundEffect parent;
 
-        ~SoundEffectInstance()
-        {
-            throw new NotImplementedException();
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-        protected virtual void Dispose (bool disposing)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		private ISoundEffectInstance nativeInstance;
+		#endregion
+
+		#region Public (TODO)
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public virtual bool IsLooped
+		{
+			get;
+			set;
+		}
+
+		public float Pan
+		{
+			get;
+			set;
+		}
+		public float Pitch
+		{
+			get;
+			set;
+		}
+
+		public SoundState State
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public float Volume
+		{
+			get;
+			set;
+		}
+		#endregion
+
+		#region Constructor
+		protected SoundEffectInstance()
+		{
+		}
+
+		internal SoundEffectInstance(SoundEffect setParent)
+		{
+			parent = setParent;
+
+			nativeInstance =
+				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
+				.CreateSoundEffectInstance(setParent);
+		}
+
+		~SoundEffectInstance()
+		{
+			Dispose();
+		}
+		#endregion
+
+		#region Apply3D (TODO)
+		public void Apply3D(AudioListener listener, AudioEmitter emitter)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Pause (TODO)
+		public void Pause()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Play (TODO)
+		public virtual void Play()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Resume (TODO)
+		public void Resume()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Stop (TODO)
+		public void Stop()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Stop(bool immediate)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Dispose (TODO)
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

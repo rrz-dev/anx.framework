@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
@@ -63,64 +62,6 @@ namespace ANX.Framework.Windows.GL3
 	{
 		#region Constants
 		private const float ColorMultiplier = 1f / 255f;
-		#endregion
-
-		#region Interop
-		[DllImport("user32.dll")]
-		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int width, int height, uint uFlags);
-
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct RECT
-		{
-			public int Left;        // x position of upper-left corner 
-			public int Top;         // y position of upper-left corner 
-			public int Right;       // x position of lower-right corner 
-			public int Bottom;      // y position of lower-right corner 
-		}
-
-		[DllImport("libX11")]
-		static extern IntPtr XCreateColormap(IntPtr display, IntPtr window, IntPtr visual, int alloc);
-
-		[DllImport("libX11", EntryPoint = "XGetVisualInfo")]
-		static extern IntPtr XGetVisualInfoInternal(IntPtr display, IntPtr vinfo_mask, ref XVisualInfo template, out int nitems);
-
-		static IntPtr XGetVisualInfo(IntPtr display, int vinfo_mask, ref XVisualInfo template, out int nitems)
-		{
-			return XGetVisualInfoInternal(display, (IntPtr)vinfo_mask, ref template, out nitems);
-		}
-
-		[DllImport("libX11")]
-		extern static int XPending(IntPtr diplay);
-
-		[StructLayout(LayoutKind.Sequential)]
-		struct XVisualInfo
-		{
-			public IntPtr Visual;
-			public IntPtr VisualID;
-			public int Screen;
-			public int Depth;
-			public int Class;
-			public long RedMask;
-			public long GreenMask;
-			public long blueMask;
-			public int ColormapSize;
-			public int BitsPerRgb;
-
-			public override string ToString()
-			{
-				return String.Format("id ({0}), screen ({1}), depth ({2}), class ({3})",
-						VisualID, Screen, Depth, Class);
-			}
-		}
-
 		#endregion
 
 		#region Private
@@ -217,49 +158,16 @@ namespace ANX.Framework.Windows.GL3
 					break;
 			}
 
-			GraphicsMode graphicsMode = new GraphicsMode(DatatypesMapping.SurfaceToColorFormat(presentationParameters.BackBufferFormat),
-																									 depth,
-																									 stencil,
-																									 presentationParameters.MultiSampleCount // AntiAlias Samples: 2/4/8/16/32
-																									);
+			GraphicsMode graphicsMode = new GraphicsMode(
+				DatatypesMapping.SurfaceToColorFormat(
+				presentationParameters.BackBufferFormat),
+				depth,
+				stencil,
+				// AntiAlias Samples: 2/4/8/16/32
+				presentationParameters.MultiSampleCount);
 
-			if (OpenTK.Configuration.RunningOnWindows)
-			{
-				nativeWindowInfo = Utilities.CreateWindowsWindowInfo(presentationParameters.DeviceWindowHandle);
-			}
-			else if (OpenTK.Configuration.RunningOnX11)
-			{
-				// Use reflection to retrieve the necessary values from Mono's Windows.Forms implementation.
-				Type xplatui = Type.GetType("System.Windows.Forms.XplatUIX11, System.Windows.Forms");
-				if (xplatui == null) throw new PlatformNotSupportedException(
-								"System.Windows.Forms.XplatUIX11 missing. Unsupported platform or Mono runtime version, aborting.");
-
-				// get the required handles from the X11 API.
-				IntPtr display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
-				IntPtr rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
-				int screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
-
-				// get the XVisualInfo for this GraphicsMode
-				XVisualInfo info = new XVisualInfo();
-				info.VisualID = graphicsMode.Index.Value;
-				int dummy;
-				IntPtr infoPtr = XGetVisualInfo(display, 1 /* VisualInfoMask.ID */, ref info, out dummy);
-				info = (XVisualInfo)Marshal.PtrToStructure(infoPtr, typeof(XVisualInfo));
-
-				// set the X11 colormap.
-				SetStaticFieldValue(xplatui, "CustomVisual", info.Visual);
-				SetStaticFieldValue(xplatui, "CustomColormap", XCreateColormap(display, rootWindow, info.Visual, 0));
-
-				nativeWindowInfo = Utilities.CreateX11WindowInfo(display, screen, presentationParameters.DeviceWindowHandle, rootWindow, infoPtr);
-			}
-			else if (OpenTK.Configuration.RunningOnMacOS)
-			{
-				nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(presentationParameters.DeviceWindowHandle, false, true);
-			}
-			else
-			{
-				throw new NotImplementedException();
-			}
+			CreateWindowInfo(presentationParameters.DeviceWindowHandle,
+				graphicsMode.Index.Value);
 
 			ResizeRenderWindow(presentationParameters);
 
@@ -275,6 +183,30 @@ namespace ANX.Framework.Windows.GL3
 			//  int.Parse(parts[0]), int.Parse(parts[1]), GraphicsContextFlags.Default);
 			//nativeContext.MakeCurrent(nativeWindowInfo);
 			//nativeContext.LoadAll();
+		}
+		#endregion
+
+		#region CreateWindowInfo
+		private void CreateWindowInfo(IntPtr windowHandle, IntPtr graphicsModeHandle)
+		{
+			if (OpenTK.Configuration.RunningOnWindows)
+			{
+				nativeWindowInfo = Utilities.CreateWindowsWindowInfo(windowHandle);
+			}
+			else if (OpenTK.Configuration.RunningOnX11)
+			{
+				nativeWindowInfo = LinuxInterop.CreateX11WindowInfo(windowHandle,
+					graphicsModeHandle);
+			}
+			else if (OpenTK.Configuration.RunningOnMacOS)
+			{
+				nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(windowHandle,
+					false, true);
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 		#endregion
 
@@ -484,38 +416,14 @@ namespace ANX.Framework.Windows.GL3
 		{
 			if (OpenTK.Configuration.RunningOnWindows)
 			{
-				RECT windowRect;
-				RECT clientRect;
-				if (GetWindowRect(presentationParameters.DeviceWindowHandle,
-					out windowRect) &&
-					GetClientRect(presentationParameters.DeviceWindowHandle,
-					out clientRect))
-				{
-					int width = presentationParameters.BackBufferWidth +
-						((windowRect.Right - windowRect.Left) - clientRect.Right);
-					int height = presentationParameters.BackBufferHeight +
-						((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
-
-					SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero,
-						windowRect.Left, windowRect.Top, width, height, 0);
-				}
+				WindowsInterop.ResizeWindow(presentationParameters.DeviceWindowHandle,
+					presentationParameters.BackBufferWidth,
+					presentationParameters.BackBufferHeight);
 			}
-		}
-		#endregion
-
-		#region GetStaticFieldValue
-		static object GetStaticFieldValue(Type type, string fieldName)
-		{
-			return type.GetField(fieldName,
-				BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
-		}
-		#endregion
-
-		#region SetStaticFieldValue
-		static void SetStaticFieldValue(Type type, string fieldName, object value)
-		{
-			type.GetField(fieldName,
-					System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(null, value);
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 		#endregion
 		

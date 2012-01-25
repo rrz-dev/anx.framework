@@ -1,8 +1,7 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.IO;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -51,51 +50,180 @@ using System.IO;
 
 #endregion // License
 
-
 namespace ANX.Framework.Audio
 {
-    public sealed class SoundEffect : IDisposable
-    {
-        public SoundEffect (byte[] buffer,int sampleRate,AudioChannels channels){}
-        public SoundEffect (byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength){}
-        public static float DistanceScale { get; set; }
-        public static float DopplerScale { get; set; }
-        public TimeSpan Duration { get { throw new NotImplementedException(); } }
-        public bool IsDisposed { get { throw new NotImplementedException(); } }
-        public static float MasterVolume { get; set; }
-        public string Name { get; set; }
-        public static float SpeedOfSound { get; set; }
-        public SoundEffectInstance CreateInstance()
-        {
-            throw new NotImplementedException();
-        }
-        public static SoundEffect FromStream(Stream stream)
-        {
-            throw new NotImplementedException();
-        }
-        public static TimeSpan GetSampleDuration(int sizeInBytes, int sampleRate, AudioChannels channels)
-        {
-            throw new NotImplementedException();
-        }
-        public static int GetSampleSizeInBytes(TimeSpan duration, int sampleRate, AudioChannels channels)
-        {
-            throw new NotImplementedException();
-        }
-        public bool Play ()
-        {
-            throw new NotImplementedException();
-        }
-        public bool Play(float volume, float pitch, float pan)
-        {
-            throw new NotImplementedException();
-        }
-        ~SoundEffect()
-        {
-            throw new NotImplementedException();
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-    }
+	public sealed class SoundEffect : IDisposable
+	{
+		#region Static
+		#region DistanceScale (TODO)
+		public static float DistanceScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region DopplerScale (TODO)
+		public static float DopplerScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region MasterVolume (TODO)
+		public static float MasterVolume
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region SpeedOfSound (TODO)
+		public static float SpeedOfSound
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+		#endregion
+
+		#region Private
+		private ISoundEffect nativeSoundEffect;
+		#endregion
+
+		#region Public
+		public TimeSpan Duration
+		{
+			get
+			{
+				return nativeSoundEffect.Duration;
+			}
+		}
+
+		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
+
+		public string Name
+		{
+			get;
+			set;
+		}
+		#endregion
+
+		#region Constructor
+		private SoundEffect(Stream stream)
+		{
+			nativeSoundEffect =
+				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
+				.CreateSoundEffect(stream);
+		}
+
+		public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels)
+			 : this(buffer, 0, buffer.Length, sampleRate, channels, 0, 0)
+		{
+		}
+
+		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate,
+			AudioChannels channels, int loopStart, int loopLength)
+		{
+			nativeSoundEffect =
+				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
+				.CreateSoundEffect(buffer, offset, count, sampleRate, channels,
+				loopStart, loopLength);
+		}
+
+		~SoundEffect()
+		{
+			Dispose();
+		}
+		#endregion
+
+		#region CreateInstance
+		public SoundEffectInstance CreateInstance()
+		{
+			return new SoundEffectInstance(this);
+		}
+		#endregion
+
+		#region FromStream
+		public static SoundEffect FromStream(Stream stream)
+		{
+			return new SoundEffect(stream);
+		}
+		#endregion
+
+		#region GetSampleDuration
+		public static TimeSpan GetSampleDuration(int sizeInBytes, int sampleRate,
+			AudioChannels channels)
+		{
+			float sizeMulBlockAlign = sizeInBytes / ((int)channels * 2);
+			return TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f /
+				(float)sampleRate));
+		}
+		#endregion
+
+		#region GetSampleSizeInBytes
+		public static int GetSampleSizeInBytes(TimeSpan duration, int sampleRate,
+			AudioChannels channels)
+		{
+			int timeMulSamples = (int)(duration.TotalMilliseconds *
+				(double)((float)sampleRate / 1000f));
+			return (timeMulSamples + timeMulSamples % (int)channels) *
+				((int)channels * 2);
+		}
+		#endregion
+
+		#region Play (TODO)
+		public bool Play()
+		{
+			return Play(1f, 0f, 0f);
+		}
+
+		public bool Play(float volume, float pitch, float pan)
+		{
+			// TODO: fire and forget play
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				nativeSoundEffect.Dispose();
+				nativeSoundEffect = null;
+			}
+		}
+		#endregion
+	}
 }

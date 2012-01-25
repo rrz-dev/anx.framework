@@ -1,9 +1,5 @@
-﻿#region Using Statements
-using System;
-using System.IO;
+﻿using System;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
 
 #region License
 
@@ -54,21 +50,23 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Audio
 {
-    [SerializableAttribute]
-    public sealed class InstancePlayLimitException : ExternalException
-    {
-        public InstancePlayLimitException ()
-        {
+	[SerializableAttribute]
+	public sealed class InstancePlayLimitException : ExternalException
+	{
+		#region Constructor
+		public InstancePlayLimitException()
+		{
+		}
 
-        }
-        public InstancePlayLimitException(string message) 
-        {
+		public InstancePlayLimitException(string message)
+			: base(message)
+		{
+		}
 
-        }
-        public InstancePlayLimitException (string message,Exception inner)
-        {
-
-        }
-
-    }
+		public InstancePlayLimitException(string message, Exception inner)
+			: base(message, inner)
+		{
+		}
+		#endregion
+	}
 }

@@ -1,11 +1,7 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.IO;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-
-#endregion // Using Statements
+using ANX.Framework.Audio;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -56,8 +52,13 @@ using System.Linq;
 
 namespace ANX.Framework.NonXNA
 {
-    public interface ISoundSystemCreator : ICreator
-    {
+	public interface ISoundSystemCreator : ICreator
+	{
+		ISoundEffect CreateSoundEffect(Stream stream);
 
-    }
+		ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,
+			int sampleRate, AudioChannels channels, int loopStart, int loopLength);
+
+		ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent);
+	}
 }

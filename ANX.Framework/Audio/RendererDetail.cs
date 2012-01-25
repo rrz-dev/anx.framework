@@ -1,7 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -52,53 +49,83 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    public struct RendererDetail
-    {
+	public struct RendererDetail
+	{
+		#region Private
+		private string friendlyName;
+		private string rendererId;
+		#endregion
 
-        public string FriendlyName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		#region Public
+		public string FriendlyName
+		{
+			get
+			{
+				return friendlyName;
+			}
+		}
 
-        public string RendererId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public string RendererId
+		{
+			get
+			{
+				return rendererId;
+			}
+		}
+		#endregion
+		
+		#region Constructor
+		internal RendererDetail(string setFriendlyName, string setRendererId)
+		{
+			friendlyName = setFriendlyName;
+			rendererId = setRendererId;
+		}
+		#endregion
 
-        public override int GetHashCode()
-        {
-            throw new NotImplementedException();
-        }
+		#region GetHashCode
+		public override int GetHashCode()
+		{
+			int hash1 = String.IsNullOrEmpty(friendlyName) ?
+				0 :
+				friendlyName.GetHashCode();
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
+			int hash2 = String.IsNullOrEmpty(rendererId) ?
+				0 :
+				rendererId.GetHashCode();
 
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (RendererDetail)obj;
-            }
+			return hash1 ^ hash2;
+		}
+		#endregion
 
-            return false;
-        }
+		#region ToString
+		public override string ToString()
+		{
+			return base.ToString();
+		}
+		#endregion
+		
+		#region Equality
+		public override bool Equals(object obj)
+		{
+			if (obj != null && obj is RendererDetail)
+			{
+				return this == (RendererDetail)obj;
+			}
 
-        public static bool operator ==(RendererDetail lhs, RendererDetail rhs)
-        {
-            return lhs.FriendlyName.Equals(rhs.FriendlyName) && lhs.RendererId.Equals(rhs.RendererId);
-        }
+			return false;
+		}
 
-        public static bool operator !=(RendererDetail lhs, RendererDetail rhs)
-        {
-            return !lhs.FriendlyName.Equals(rhs.FriendlyName) || !lhs.RendererId.Equals(rhs.RendererId);
-        }
-    }
+		public static bool operator ==(RendererDetail lhs, RendererDetail rhs)
+		{
+			return lhs.friendlyName.Equals(rhs.friendlyName) &&
+				lhs.rendererId.Equals(rhs.rendererId);
+		}
+
+		public static bool operator !=(RendererDetail lhs, RendererDetail rhs)
+		{
+			return lhs.friendlyName.Equals(rhs.friendlyName) == false ||
+				lhs.rendererId.Equals(rhs.rendererId) == false;
+		}
+		#endregion
+	}
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.IO;
-using ANX.Framework.Audio;
-using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -51,67 +47,9 @@ using ANX.Framework.NonXNA.SoundSystem;
 
 #endregion // License
 
-namespace ANX.SoundSystem.OpenAL
+namespace ANX.Framework.NonXNA.SoundSystem
 {
-	public class Creator : ISoundSystemCreator
+	public interface ISoundEffectInstance : IDisposable
 	{
-		#region Public
-		public string Name
-		{
-			get
-			{
-				return "OpenAL";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				PlatformID platform = AddInSystemFactory.Instance.OperatingSystem.Platform;
-				return platform == PlatformID.Win32NT ||
-					platform == PlatformID.Unix ||
-					platform == PlatformID.MacOSX;
-			}
-		}
-		#endregion
-
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-		#endregion
-
-		#region CreateSoundEffectInstance (TODO)
-		public ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
-		#endregion
-
-		#region CreateSoundEffect (TODO)
-		public ISoundEffect CreateSoundEffect(Stream stream)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
-
-		public ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,
-			int sampleRate, AudioChannels channels, int loopStart, int loopLength)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
-		#endregion
 	}
 }

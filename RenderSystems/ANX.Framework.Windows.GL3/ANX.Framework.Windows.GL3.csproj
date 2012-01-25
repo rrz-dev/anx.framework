@@ -58,6 +58,8 @@
     <Compile Include="EffectTechniqueGL3.cs" />
     <Compile Include="ErrorHelper.cs" />
     <Compile Include="GraphicsDeviceWindowsGL3.cs" />
+    <Compile Include="Helpers\LinuxInterop.cs" />
+    <Compile Include="Helpers\WindowsInterop.cs" />
     <Compile Include="IndexBufferGL3.cs" />
     <Compile Include="Metadata.Designer.cs">
       <DependentUpon>Metadata.resx</DependentUpon>

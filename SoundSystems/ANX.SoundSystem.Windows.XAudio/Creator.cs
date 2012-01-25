@@ -85,5 +85,24 @@ namespace ANX.SoundSystem.Windows.XAudio
             }
         }
 
-    }
+
+				#region ISoundSystemCreator Member
+
+				public Framework.NonXNA.SoundSystem.ISoundEffect CreateSoundEffect(Stream stream)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Framework.NonXNA.SoundSystem.ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count, int sampleRate, Framework.Audio.AudioChannels channels, int loopStart, int loopLength)
+				{
+					throw new NotImplementedException();
+				}
+
+				public Framework.NonXNA.SoundSystem.ISoundEffectInstance CreateSoundEffectInstance(Framework.Audio.SoundEffect parent)
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+		}
 }

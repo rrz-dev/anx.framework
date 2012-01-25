@@ -453,7 +453,9 @@
     <Compile Include="NonXNA\RenderSystem\IRenderSystemCreator.cs" />
     <Compile Include="NonXNA\ResourceTracker\GraphicsResourceTracker.cs" />
     <None Include="NonXNA\ResourceTracker\WeakReference.cs" />
+    <Compile Include="NonXNA\SoundSystem\ISoundEffect.cs" />
     <Compile Include="NonXNA\SoundSystem\ISoundSystemCreator.cs" />
+    <Compile Include="NonXNA\SoundSystem\ISoundEffectInstance.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneIntersectionType.cs" />
     <Compile Include="PlayerIndex.cs" />

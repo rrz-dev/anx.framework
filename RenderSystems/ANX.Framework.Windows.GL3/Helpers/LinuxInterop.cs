@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
-using ANX.Framework.Audio;
-using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.SoundSystem;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using OpenTK.Platform;
 
 #region License
 
@@ -51,66 +50,99 @@ using ANX.Framework.NonXNA.SoundSystem;
 
 #endregion // License
 
-namespace ANX.SoundSystem.OpenAL
+namespace ANX.Framework.Windows.GL3.Helpers
 {
-	public class Creator : ISoundSystemCreator
+	internal static class LinuxInterop
 	{
-		#region Public
-		public string Name
+		#region XVisualInfo (Helper struct)
+		[StructLayout(LayoutKind.Sequential)]
+		private struct XVisualInfo
 		{
-			get
-			{
-				return "OpenAL";
-			}
-		}
+			public IntPtr Visual;
+			public IntPtr VisualID;
+			public int Screen;
+			public int Depth;
+			public int Class;
+			public long RedMask;
+			public long GreenMask;
+			public long blueMask;
+			public int ColormapSize;
+			public int BitsPerRgb;
 
-		public int Priority
-		{
-			get
+			public override string ToString()
 			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				PlatformID platform = AddInSystemFactory.Instance.OperatingSystem.Platform;
-				return platform == PlatformID.Win32NT ||
-					platform == PlatformID.Unix ||
-					platform == PlatformID.MacOSX;
+				return String.Format("id ({0}), screen ({1}), depth ({2}), class ({3})",
+						VisualID, Screen, Depth, Class);
 			}
 		}
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
+		#region Invokes
+		[DllImport("libX11")]
+		private static extern IntPtr XCreateColormap(IntPtr display, IntPtr window,
+			IntPtr visual, int alloc);
+
+		[DllImport("libX11", EntryPoint = "XGetVisualInfo")]
+		private static extern IntPtr XGetVisualInfoInternal(IntPtr display,
+			IntPtr vinfo_mask, ref XVisualInfo template, out int nitems);
+
+		[DllImport("libX11")]
+		private static extern int XPending(IntPtr diplay);
+		#endregion
+
+		#region GetStaticFieldValue
+		private static object GetStaticFieldValue(Type type, string fieldName)
 		{
-			factory.AddCreator(this);
+			return type.GetField(fieldName,
+				BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 		}
 		#endregion
 
-		#region CreateSoundEffectInstance (TODO)
-		public ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent)
+		#region SetStaticFieldValue
+		private static void SetStaticFieldValue(Type type, string fieldName,
+			object value)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
+			type.GetField(fieldName,
+				BindingFlags.Static | BindingFlags.NonPublic).SetValue(null, value);
 		}
 		#endregion
 
-		#region CreateSoundEffect (TODO)
-		public ISoundEffect CreateSoundEffect(Stream stream)
+		#region CreateX11WindowInfo
+		public static IWindowInfo CreateX11WindowInfo(IntPtr windowHandle,
+			IntPtr graphicsModeHandle)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
-		}
+			// Use reflection to retrieve the necessary values from Mono's
+			// Windows.Forms implementation.
+			Type xplatui = Type.GetType(
+				"System.Windows.Forms.XplatUIX11, System.Windows.Forms");
+			if (xplatui == null)
+			{
+				throw new PlatformNotSupportedException(
+					"System.Windows.Forms.XplatUIX11 missing. Unsupported platform " +
+					"or Mono runtime version, aborting.");
+			}
 
-		public ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,
-			int sampleRate, AudioChannels channels, int loopStart, int loopLength)
-		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
-			throw new NotImplementedException();
+			// get the required handles from the X11 API.
+			IntPtr display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
+			IntPtr rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
+			int screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
+
+			// get the XVisualInfo for this GraphicsMode
+			XVisualInfo info = new XVisualInfo()
+			{
+				VisualID = graphicsModeHandle,
+			};
+			int dummy;
+			IntPtr infoPtr = XGetVisualInfoInternal(display,
+				(IntPtr)1 /* VisualInfoMask.ID */, ref info, out dummy);
+			info = (XVisualInfo)Marshal.PtrToStructure(infoPtr, typeof(XVisualInfo));
+
+			// set the X11 colormap.
+			SetStaticFieldValue(xplatui, "CustomVisual", info.Visual);
+			SetStaticFieldValue(xplatui, "CustomColormap", XCreateColormap(display, rootWindow, info.Visual, 0));
+
+			return Utilities.CreateX11WindowInfo(display, screen, windowHandle,
+				rootWindow, infoPtr);
 		}
 		#endregion
 	}

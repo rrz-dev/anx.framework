@@ -54,38 +54,63 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public sealed class DynamicSoundEffectInstance : SoundEffectInstance
-    {
-        public DynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
-        {
+	public sealed class DynamicSoundEffectInstance : SoundEffectInstance
+	{
+		public event EventHandler<EventArgs> BufferNeeded;
 
-        }
-        public override bool IsLooped { get { return false; } set { } }
-        public int PendingBufferCount { get { throw new NotImplementedException(); } }
-        public TimeSpan GetSampleDuration(int sizeInBytes)
-        {
-            throw new NotImplementedException();
-        }
-        public int GetSampleSizeInBytes(TimeSpan duration)
-        {
-            throw new NotImplementedException();
-        }
-        public override void Play()
-        {
+		public DynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
+		{
+			throw new NotImplementedException();
+		}
 
-        }
-        public void SubmitBuffer(byte[] buffer)
-        {
+		public override bool IsLooped
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        }
-        public void SubmitBuffer(byte[] buffer, int offset, int count)
-        {
+		public int PendingBufferCount
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        }
-        protected override void Dispose(bool disposing)
-        {
-            
-        }
-        public event EventHandler<EventArgs> BufferNeeded;
-    }
+		public TimeSpan GetSampleDuration(int sizeInBytes)
+		{
+			throw new NotImplementedException();
+		}
+
+		public int GetSampleSizeInBytes(TimeSpan duration)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Play()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SubmitBuffer(byte[] buffer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SubmitBuffer(byte[] buffer, int offset, int count)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
