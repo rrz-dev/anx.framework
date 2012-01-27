@@ -144,6 +144,7 @@
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
     </exec>
@@ -387,7 +388,7 @@
     <property name="wix.dir" value="${path::combine(environment::get-variable('WIX'), 'bin')}" readonly="true" />
     <loadtasks assembly="${wix.dir}\Microsoft.Tools.WindowsInstallerXml.NAntTasks.dll" />
 
-    <candle out="${build.dir}/${build.configuration}/installer/" exedir="${wix.dir}">
+    <candle out="${build.dir}/${build.configuration}/installer/" exedir="${wix.dir}" extensions="WixUIExtension;WiXUtilExtension">
       <sources>
         <include name="../Installer/anx.wxs" />
       </sources>
@@ -402,7 +403,7 @@
       warningsaserrors="true"
       suppressices="ICE57"
       cultures="en-us"
-      extensions="WixUIExtension"
+      extensions="WixUIExtension;WiXUtilExtension"
       rebuild="true"
       suppresspdb="true">
       <!-- Specify additional options -->

@@ -1,13 +1,13 @@
-﻿#if XNAEXT
-
-#region Using Statements
+﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+#if XNAEXT
 using ANX.Framework.Input.MotionSensing;
+#endif
 
 #endregion
 
@@ -60,6 +60,8 @@ using ANX.Framework.Input.MotionSensing;
 
 namespace ANX.InputSystem.Recording
 {
+#if XNAEXT
+
     /// <summary>
     /// Wrapper aroung another IMotionSensingDevice, will record all inputs and allows playback.
     /// </summary>
@@ -92,6 +94,5 @@ namespace ANX.InputSystem.Recording
             throw new NotImplementedException();
         }
     }
-}
-
 #endif
+}

@@ -62,7 +62,9 @@ namespace ANX.InputSystem.Recording
         RecordingMouse mouse;
         RecordingKeyboard keyboard;
         RecordingGamePad gamePad;
+#if XNAEXT
         RecordingMotionSensingDevice msd;
+#endif
         
         public IGamePad GamePad
         {

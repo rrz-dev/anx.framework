@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<Product Id="{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}" 
            Name="ANX.Framework" 
            Language="1033" 
@@ -15,6 +16,11 @@
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
 
+    <Feature Id="Tools" Title="ANX.Framework tools" Level="1">
+      <ComponentGroupRef Id="Tools" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <WixVariable Id="WixUILicenseRtf" Value="../doc/license.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="../media/ANX.Framework.Logo_493x58.bmp" />
@@ -27,12 +33,50 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="ANX.Framework" />
+        <Directory Id="INSTALLFOLDER" Name="ANX.Framework">
+          <Directory Id="TOOLSFOLDER" Name="Tools" />
+        </Directory>
 			</Directory>
-		</Directory>
-	</Fragment>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="ANX.Framework" />
+      </Directory>
+    </Directory>
+  </Fragment>
 
-	<Fragment>
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{7A7BEBDF-BE65-413E-A993-8E78311B445D}">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="ANX Status Comparer"
+                  Description="compare the development status between ANX and XNA"
+                  Target="[TOOLSFOLDER]asc.exe"
+                  WorkingDirectory="TOOLSFOLDER"/>
+        <Shortcut Id="ApplicationStartMenuShortcut2"
+                  Name="XNA to ANX converter"
+                  Description="convert XNA projects to ANX"
+                  Target="[TOOLSFOLDER]x2a.exe"
+                  WorkingDirectory="TOOLSFOLDER"/>
+        <util:InternetShortcut Id="OnlineDocumentationShortcut"
+                               Name="ANX.Framework WebSite"
+                               Target="http://anxframework.codeplex.com/"/>
+        <Shortcut Id="UninstallProduct"
+                                  Name="Uninstall ANX.Framework"
+                                  Description="Uninstalls the ANX.Framework from your system"
+                                  Target="[System64Folder]msiexec.exe"
+                                  Arguments="/x [ProductCode]"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
+      <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
+        <File Id='XNA2ANXConverter' Name='x2a.exe' DiskId='1' Source='../Tools/bin/x2a.exe' />
+        <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../Tools/bin/asc.exe' />
+      </Component>
+    </ComponentGroup>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
         <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
