@@ -41,57 +41,51 @@
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-float4x4 World;
-float4x4 View;
-float4x4 Projection;
-
 struct VertexShaderInput
 {
     float4 Position : POSITION0;
-    float4 Color : COLOR0;
+	float4 Color    : Color0;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : POSITION0;
-    float4 Color : COLOR0;
 };
 
-VertexShaderOutput HardwareInstancingVertexShader(VertexShaderInput input, float4x4 instanceTransform : BLENDWEIGHT)
+struct PixelShaderOutput
+{
+	float4 Color0 : COLOR0;
+	float4 Color1 : COLOR1;
+	float4 Color2 : COLOR2;
+	float4 Color3 : COLOR3;
+};
+
+VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
     VertexShaderOutput output;
-
-    // Apply the world and camera matrices to compute the output position.
-    float4 worldPosition = mul(input.Position, mul(World, transpose(instanceTransform)));
-    float4 viewPosition = mul(worldPosition, View);
-    output.Position = mul(viewPosition, Projection);
-
-    output.Color = input.Color;
-
+    output.Position = input.Position;
     return output;
 }
 
-float4 PixelShaderFunction(VertexShaderOutput input) : SV_Target
+PixelShaderOutput PixelShaderFunction(VertexShaderOutput input)
 {
-    return input.Color;
+	PixelShaderOutput output;
+
+	output.Color0 = float4(1, 0, 0, 1);
+	output.Color1 = float4(0, 1, 0, 1);
+	output.Color2 = float4(0, 0, 1, 1);
+	output.Color3 = float4(0.5, 0, 0.5, 1);
+
+	return output;
 }
 
-technique10 HardwareInstancing
+technique Technique1
 {
     pass Pass1
     {
-        VertexShader = compile vs_4_0 HardwareInstancingVertexShader();
-        PixelShader = compile ps_4_0 PixelShaderFunction();
-    }
-}
+        // TODO: Stellen Sie Renderstates hier ein.
 
-/*
-technique HardwareInstancing
-{
-    pass Pass1
-    {
-        VertexShader = compile vs_2_0 HardwareInstancingVertexShader();
+        VertexShader = compile vs_2_0 VertexShaderFunction();
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }
-*/
