@@ -561,7 +561,15 @@ namespace ANX.Framework
 
         public void GetCorners(Vector3[] corners)
         {
-            corners = this.corners;
+            if (corners == null)
+            {
+                throw new ArgumentNullException("corners");
+            }
+            if (corners.Length < 8)
+            {
+                throw new ArgumentOutOfRangeException("corners", "The array to be filled with corner vertices needs at least have a length of 8 Vector3");
+            }
+            this.corners.CopyTo(corners, 0);
         }
 
         public override int GetHashCode()
@@ -824,38 +832,38 @@ namespace ANX.Framework
         #endregion
 
         #region private methods
-        //algorithm from: http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf
+        //algorithm based on but normals were pointing to outside instead of inside: http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf
         private void CreatePlanes()
         {
-            this.left.Normal.X = this.matrix.M14 + this.matrix.M11;
-            this.left.Normal.Y = this.matrix.M24 + this.matrix.M21;
-            this.left.Normal.Z = this.matrix.M34 + this.matrix.M31;
-            this.left.D = this.matrix.M44 + this.matrix.M41;
+            this.near.Normal.X   = -this.matrix.M13;
+            this.near.Normal.Y   = -this.matrix.M23;
+            this.near.Normal.Z   = -this.matrix.M33;
+            this.near.D          = -this.matrix.M43;
 
-            this.right.Normal.X = this.matrix.M14 - this.matrix.M11;
-            this.right.Normal.Y = this.matrix.M24 - this.matrix.M21;
-            this.right.Normal.Z = this.matrix.M34 - this.matrix.M31;
-            this.right.D = this.matrix.M44 - this.matrix.M41;
+            this.far.Normal.X    = this.matrix.M14 - this.matrix.M13;
+            this.far.Normal.Y    = this.matrix.M24 - this.matrix.M23;
+            this.far.Normal.Z    = this.matrix.M34 - this.matrix.M33;
+            this.far.D           = this.matrix.M44 - this.matrix.M43;
 
-            this.bottom.Normal.X = this.matrix.M14 + this.matrix.M12;
-            this.bottom.Normal.Y = this.matrix.M24 + this.matrix.M22;
-            this.bottom.Normal.Z = this.matrix.M34 + this.matrix.M32;
-            this.bottom.D = this.matrix.M44 + this.matrix.M42;
+            this.left.Normal.X    = -this.matrix.M14 - this.matrix.M11;
+            this.left.Normal.Y    = -this.matrix.M24 - this.matrix.M21;
+            this.left.Normal.Z    = -this.matrix.M34 - this.matrix.M31;
+            this.left.D           = -this.matrix.M44 - this.matrix.M41;
 
-            this.top.Normal.X = this.matrix.M14 - this.matrix.M12;
-            this.top.Normal.Y = this.matrix.M24 - this.matrix.M22;
-            this.top.Normal.Z = this.matrix.M34 - this.matrix.M32;
-            this.top.D = this.matrix.M44 - this.matrix.M42;
+            this.right.Normal.X   = -this.matrix.M14 + this.matrix.M11;
+            this.right.Normal.Y   = -this.matrix.M24 + this.matrix.M21;
+            this.right.Normal.Z   = -this.matrix.M34 + this.matrix.M31;
+            this.right.D          = -this.matrix.M44 + this.matrix.M41;
 
-            this.near.Normal.X = this.matrix.M13;
-            this.near.Normal.Y = this.matrix.M23;
-            this.near.Normal.Z = this.matrix.M33;
-            this.near.D = this.matrix.M43;
+            this.top.Normal.X    = -this.matrix.M14 + this.matrix.M12;
+            this.top.Normal.Y    = -this.matrix.M24 + this.matrix.M22;
+            this.top.Normal.Z    = -this.matrix.M34 + this.matrix.M32;
+            this.top.D           = -this.matrix.M44 + this.matrix.M42;
 
-            this.far.Normal.X = this.matrix.M14 - this.matrix.M13;
-            this.far.Normal.Y = this.matrix.M24 - this.matrix.M23;
-            this.far.Normal.Z = this.matrix.M34 - this.matrix.M33;
-            this.far.D = this.matrix.M44 - this.matrix.M43;
+            this.bottom.Normal.X = -this.matrix.M14 - this.matrix.M12;
+            this.bottom.Normal.Y = -this.matrix.M24 - this.matrix.M22;
+            this.bottom.Normal.Z = -this.matrix.M34 - this.matrix.M32;
+            this.bottom.D        = -this.matrix.M44 - this.matrix.M42;
 
             NormalizePlane(ref this.left);
             NormalizePlane(ref this.right);

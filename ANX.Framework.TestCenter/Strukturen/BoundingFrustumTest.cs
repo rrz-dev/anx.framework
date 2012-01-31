@@ -217,6 +217,50 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
+        public void GetCornerArray(
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            Microsoft.Xna.Framework.Matrix xnaMatrix = new Microsoft.Xna.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            Microsoft.Xna.Framework.BoundingFrustum xnaFrustum = new Microsoft.Xna.Framework.BoundingFrustum(xnaMatrix);
+
+            ANX.Framework.Matrix anxMatrix = new ANX.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANX.Framework.BoundingFrustum anxFrustum = new ANX.Framework.BoundingFrustum(anxMatrix);
+
+            XNAVector3[] xna = new XNAVector3[8];
+            ANXVector3[] anx = new ANXVector3[8];
+
+            xnaFrustum.GetCorners(xna);
+            anxFrustum.GetCorners(anx);
+
+            AssertHelper.ConvertEquals(xna, anx, "GetCornerArray");
+        }
+
+        [Test, TestCaseSource("thirtytwofloats"), ExpectedException(typeof(ArgumentNullException))]
+        public void GetCornerArray02(
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            ANX.Framework.Matrix anxMatrix = new ANX.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANX.Framework.BoundingFrustum anxFrustum = new ANX.Framework.BoundingFrustum(anxMatrix);
+
+            anxFrustum.GetCorners(null);
+        }
+
+        [Test, TestCaseSource("thirtytwofloats"), ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetCornerArray03(
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            ANX.Framework.Matrix anxMatrix = new ANX.Framework.Matrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANX.Framework.BoundingFrustum anxFrustum = new ANX.Framework.BoundingFrustum(anxMatrix);
+
+            Vector3[] corners = new Vector3[2];
+
+            anxFrustum.GetCorners(corners);
+        }
+
+        [Test, TestCaseSource("thirtytwofloats")]
         public void GetCorners(
             float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
