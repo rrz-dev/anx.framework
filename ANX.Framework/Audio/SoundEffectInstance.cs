@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using ANX.Framework.NonXNA.SoundSystem;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -60,45 +60,80 @@ namespace ANX.Framework.Audio
 		private ISoundEffectInstance nativeInstance;
 		#endregion
 
-		#region Public (TODO)
+		#region Public
+		#region IsDisposed
 		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
+		#endregion
+
+		#region IsLooped
+		public virtual bool IsLooped
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeInstance.IsLooped;
+			}
+			set
+			{
+				nativeInstance.IsLooped = value;
 			}
 		}
+		#endregion
 
-		public virtual bool IsLooped
-		{
-			get;
-			set;
-		}
-
+		#region Pan
 		public float Pan
 		{
-			get;
-			set;
+			get
+			{
+				return nativeInstance.Pan;
+			}
+			set
+			{
+				nativeInstance.Pan = value;
+			}
 		}
+		#endregion
+
+		#region Pitch
 		public float Pitch
 		{
-			get;
-			set;
+			get
+			{
+				return nativeInstance.Pitch;
+			}
+			set
+			{
+				nativeInstance.Pitch = value;
+			}
 		}
+		#endregion
 
+		#region State
 		public SoundState State
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeInstance.State;
 			}
 		}
+		#endregion
 
+		#region Volume
 		public float Volume
 		{
-			get;
-			set;
+			get
+			{
+				return nativeInstance.Volume;
+			}
+			set
+			{
+				nativeInstance.Volume = value;
+			}
 		}
+		#endregion
 		#endregion
 
 		#region Constructor
@@ -110,9 +145,7 @@ namespace ANX.Framework.Audio
 		{
 			parent = setParent;
 
-			nativeInstance =
-				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
-				.CreateSoundEffectInstance(setParent);
+			nativeInstance = GetCreator().CreateSoundEffectInstance(setParent);
 		}
 
 		~SoundEffectInstance()
@@ -121,60 +154,73 @@ namespace ANX.Framework.Audio
 		}
 		#endregion
 
-		#region Apply3D (TODO)
+		#region GetCreator
+		private static ISoundSystemCreator GetCreator()
+		{
+			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+		}
+		#endregion
+
+		#region Apply3D
 		public void Apply3D(AudioListener listener, AudioEmitter emitter)
 		{
-			throw new NotImplementedException();
+			Apply3D(new AudioListener[] { listener }, emitter);
 		}
 
 		public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)
 		{
-			throw new NotImplementedException();
+			nativeInstance.Apply3D(listeners, emitter);
 		}
 		#endregion
 
-		#region Pause (TODO)
+		#region Pause
 		public void Pause()
 		{
-			throw new NotImplementedException();
+			nativeInstance.Pause();
 		}
 		#endregion
 
-		#region Play (TODO)
+		#region Play
 		public virtual void Play()
 		{
-			throw new NotImplementedException();
+			nativeInstance.Play();
 		}
 		#endregion
 
-		#region Resume (TODO)
+		#region Resume
 		public void Resume()
 		{
-			throw new NotImplementedException();
+			nativeInstance.Resume();
 		}
 		#endregion
 
-		#region Stop (TODO)
+		#region Stop
 		public void Stop()
 		{
-			throw new NotImplementedException();
+			Stop(true);
 		}
 
 		public void Stop(bool immediate)
 		{
-			throw new NotImplementedException();
+			nativeInstance.Stop(immediate);
 		}
 		#endregion
 
-		#region Dispose (TODO)
+		#region Dispose
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			Dispose(true);
 		}
 
 		protected virtual void Dispose(bool disposing)
 		{
-			throw new NotImplementedException();
+			if (nativeInstance != null)
+			{
+				nativeInstance.Dispose();
+				nativeInstance = null;
+			}
+
+			IsDisposed = true;
 		}
 		#endregion
 	}

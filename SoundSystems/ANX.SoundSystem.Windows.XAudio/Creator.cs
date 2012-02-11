@@ -6,6 +6,8 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.SoundSystem;
+using ANX.Framework.Audio;
 
 #endregion // Using Statements
 
@@ -58,51 +60,112 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.SoundSystem.Windows.XAudio
 {
-    public class Creator : ISoundSystemCreator
-    {
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            factory.AddCreator(this);
-        }
-
-        public string Name
-        {
-            get { return "XAudio"; }
-        }
-
-        public int Priority
-        {
-            get { return 10; }
-        }
-
-        public bool IsSupported
-        {
-            get
-            {
-                //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
-            }
-        }
-
-
-				#region ISoundSystemCreator Member
-
-				public Framework.NonXNA.SoundSystem.ISoundEffect CreateSoundEffect(Stream stream)
-				{
-					throw new NotImplementedException();
-				}
-
-				public Framework.NonXNA.SoundSystem.ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count, int sampleRate, Framework.Audio.AudioChannels channels, int loopStart, int loopLength)
-				{
-					throw new NotImplementedException();
-				}
-
-				public Framework.NonXNA.SoundSystem.ISoundEffectInstance CreateSoundEffectInstance(Framework.Audio.SoundEffect parent)
-				{
-					throw new NotImplementedException();
-				}
-
-				#endregion
+	public class Creator : ISoundSystemCreator
+	{
+		public void RegisterCreator(AddInSystemFactory factory)
+		{
+			factory.AddCreator(this);
 		}
+
+		public string Name
+		{
+			get { return "XAudio"; }
+		}
+
+		public int Priority
+		{
+			get { return 10; }
+		}
+
+		public bool IsSupported
+		{
+			get
+			{
+				//TODO: this is just a very basic version of test for support
+				return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
+			}
+		}
+
+		public float DistanceScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public float DopplerScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public float MasterVolume
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public float SpeedOfSound
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+		#region ISoundSystemCreator Member
+
+		public ISoundEffect CreateSoundEffect(Stream stream)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region CreateAudioListener (TODO)
+		public IAudioListener CreateAudioListener()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region CreateAudioEmitter (TODO)
+		public IAudioEmitter CreateAudioEmitter()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

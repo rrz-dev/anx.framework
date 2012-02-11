@@ -1,8 +1,5 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-
-#endregion // Using Statements
+﻿using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -53,12 +50,74 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public class AudioListener
-    {
-        public AudioListener (){}
-        public Vector3 Forward { get; set; }
-        public Vector3 Position { get; set; }
-        public Vector3 Up { get; set; }
-        public Vector3 Velocity { get; set; }
-    }
+	public class AudioListener
+	{
+		#region Private
+		private IAudioListener nativeListener;
+		#endregion
+
+		#region Public
+		public Vector3 Forward
+		{
+			get
+			{
+				return nativeListener.Forward;
+			}
+			set
+			{
+				nativeListener.Forward = value;
+			}
+		}
+
+		public Vector3 Position
+		{
+			get
+			{
+				return nativeListener.Position;
+			}
+			set
+			{
+				nativeListener.Position = value;
+			}
+		}
+
+		public Vector3 Up
+		{
+			get
+			{
+				return nativeListener.Up;
+			}
+			set
+			{
+				nativeListener.Up = value;
+			}
+		}
+
+		public Vector3 Velocity
+		{
+			get
+			{
+				return nativeListener.Velocity;
+			}
+			set
+			{
+				nativeListener.Velocity = value;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public AudioListener()
+		{
+			nativeListener = GetCreator().CreateAudioListener();
+		}
+		#endregion
+
+		#region GetCreator
+		private static ISoundSystemCreator GetCreator()
+		{
+			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+		}
+		#endregion
+	}
 }

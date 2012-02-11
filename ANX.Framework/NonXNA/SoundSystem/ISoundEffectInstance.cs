@@ -1,4 +1,5 @@
 ﻿using System;
+using ANX.Framework.Audio;
 
 #region License
 
@@ -51,5 +52,43 @@ namespace ANX.Framework.NonXNA.SoundSystem
 {
 	public interface ISoundEffectInstance : IDisposable
 	{
+		bool IsLooped
+		{
+			get;
+			set;
+		}
+
+		float Pan
+		{
+			get;
+			set;
+		}
+
+		float Pitch
+		{
+			get;
+			set;
+		}
+
+		SoundState State
+		{
+			get;
+		}
+
+		float Volume
+		{
+			get;
+			set;
+		}
+
+		void Play();
+
+		void Pause();
+
+		void Stop(bool immediate);
+
+		void Resume();
+
+		void Apply3D(AudioListener[] listeners, AudioEmitter emitter);
 	}
 }

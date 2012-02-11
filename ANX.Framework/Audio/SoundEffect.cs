@@ -55,58 +55,58 @@ namespace ANX.Framework.Audio
 	public sealed class SoundEffect : IDisposable
 	{
 		#region Static
-		#region DistanceScale (TODO)
+		#region DistanceScale
 		public static float DistanceScale
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return GetCreator().DistanceScale;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				GetCreator().DistanceScale = value;
 			}
 		}
 		#endregion
 
-		#region DopplerScale (TODO)
+		#region DopplerScale
 		public static float DopplerScale
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return GetCreator().DopplerScale;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				GetCreator().DopplerScale = value;
 			}
 		}
 		#endregion
 
-		#region MasterVolume (TODO)
+		#region MasterVolume
 		public static float MasterVolume
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return GetCreator().MasterVolume;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				GetCreator().MasterVolume = value;
 			}
 		}
 		#endregion
 
-		#region SpeedOfSound (TODO)
+		#region SpeedOfSound
 		public static float SpeedOfSound
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return GetCreator().SpeedOfSound;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				GetCreator().SpeedOfSound = value;
 			}
 		}
 		#endregion
@@ -141,9 +141,7 @@ namespace ANX.Framework.Audio
 		#region Constructor
 		private SoundEffect(Stream stream)
 		{
-			nativeSoundEffect =
-				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
-				.CreateSoundEffect(stream);
+			nativeSoundEffect = GetCreator().CreateSoundEffect(stream);
 		}
 
 		public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels)
@@ -154,15 +152,20 @@ namespace ANX.Framework.Audio
 		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
-			nativeSoundEffect =
-				AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>()
-				.CreateSoundEffect(buffer, offset, count, sampleRate, channels,
-				loopStart, loopLength);
+			nativeSoundEffect = GetCreator().CreateSoundEffect(buffer, offset,
+				count, sampleRate, channels, loopStart, loopLength);
 		}
 
 		~SoundEffect()
 		{
 			Dispose();
+		}
+		#endregion
+
+		#region GetCreator
+		private static ISoundSystemCreator GetCreator()
+		{
+			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
 		}
 		#endregion
 

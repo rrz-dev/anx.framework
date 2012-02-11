@@ -56,6 +56,7 @@ namespace ANX.SoundSystem.OpenAL
 	public class Creator : ISoundSystemCreator
 	{
 		#region Public
+		#region Name
 		public string Name
 		{
 			get
@@ -63,7 +64,9 @@ namespace ANX.SoundSystem.OpenAL
 				return "OpenAL";
 			}
 		}
+		#endregion
 
+		#region Priority
 		public int Priority
 		{
 			get
@@ -71,7 +74,9 @@ namespace ANX.SoundSystem.OpenAL
 				return 100;
 			}
 		}
+		#endregion
 
+		#region IsSupported
 		public bool IsSupported
 		{
 			get
@@ -82,6 +87,63 @@ namespace ANX.SoundSystem.OpenAL
 					platform == PlatformID.MacOSX;
 			}
 		}
+		#endregion
+
+		#region DistanceScale
+		public float DistanceScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region DopplerScale
+		public float DopplerScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region MasterVolume
+		public float MasterVolume
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region SpeedOfSound
+		public float SpeedOfSound
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
 		#endregion
 
 		#region RegisterCreator
@@ -110,6 +172,20 @@ namespace ANX.SoundSystem.OpenAL
 			int sampleRate, AudioChannels channels, int loopStart, int loopLength)
 		{
 			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region CreateAudioListener (TODO)
+		public IAudioListener CreateAudioListener()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region CreateAudioEmitter (TODO)
+		public IAudioEmitter CreateAudioEmitter()
+		{
 			throw new NotImplementedException();
 		}
 		#endregion

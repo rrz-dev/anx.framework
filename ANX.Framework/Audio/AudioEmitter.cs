@@ -1,8 +1,5 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-
-#endregion // Using Statements
+﻿using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #region License
 
@@ -53,13 +50,86 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public class AudioEmitter
-    {
-        public AudioEmitter (){}
-        public float DopplerScale { get; set; }
-        public Vector3 Forward { get; set; }
-        public Vector3 Position { get; set; }
-        public Vector3 Up { get; set; }
-        public Vector3 Velocity { get; set; }
-    }
+	public class AudioEmitter
+	{
+		#region Private
+		private IAudioEmitter nativeEmitter;
+		#endregion
+
+		#region Public
+		public float DopplerScale
+		{
+			get
+			{
+				return nativeEmitter.DopplerScale;
+			}
+			set
+			{
+				nativeEmitter.DopplerScale = value;
+			}
+		}
+
+		public Vector3 Forward
+		{
+			get
+			{
+				return nativeEmitter.Forward;
+			}
+			set
+			{
+				nativeEmitter.Forward = value;
+			}
+		}
+
+		public Vector3 Position
+		{
+			get
+			{
+				return nativeEmitter.Position;
+			}
+			set
+			{
+				nativeEmitter.Position = value;
+			}
+		}
+
+		public Vector3 Up
+		{
+			get
+			{
+				return nativeEmitter.Up;
+			}
+			set
+			{
+				nativeEmitter.Up = value;
+			}
+		}
+
+		public Vector3 Velocity
+		{
+			get
+			{
+				return nativeEmitter.Velocity;
+			}
+			set
+			{
+				nativeEmitter.Velocity = value;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public AudioEmitter()
+		{
+			nativeEmitter = GetCreator().CreateAudioEmitter();
+		}
+		#endregion
+
+		#region GetCreator
+		private static ISoundSystemCreator GetCreator()
+		{
+			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+		}
+		#endregion
+	}
 }

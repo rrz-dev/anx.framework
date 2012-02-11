@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
 
@@ -54,6 +53,34 @@ namespace ANX.Framework.NonXNA
 {
 	public interface ISoundSystemCreator : ICreator
 	{
+		float DistanceScale
+		{
+			get;
+			set;
+		}
+
+		float DopplerScale
+		{
+			get;
+			set;
+		}
+
+		float MasterVolume
+		{
+			get;
+			set;
+		}
+
+		float SpeedOfSound
+		{
+			get;
+			set;
+		}
+
+		IAudioListener CreateAudioListener();
+
+		IAudioEmitter CreateAudioEmitter();
+
 		ISoundEffect CreateSoundEffect(Stream stream);
 
 		ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,

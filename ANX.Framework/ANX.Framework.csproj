@@ -456,6 +456,8 @@
     <Compile Include="NonXNA\SoundSystem\ISoundEffect.cs" />
     <Compile Include="NonXNA\SoundSystem\ISoundSystemCreator.cs" />
     <Compile Include="NonXNA\SoundSystem\ISoundEffectInstance.cs" />
+    <Compile Include="NonXNA\SoundSystem\IAudioListener.cs" />
+    <Compile Include="NonXNA\SoundSystem\IAudioEmitter.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneIntersectionType.cs" />
     <Compile Include="PlayerIndex.cs" />
