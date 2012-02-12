@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.Collections.ObjectModel;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -53,33 +49,70 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.Audio
 {
-    public class WaveBank : IDisposable
-    {
-        public WaveBank(AudioEngine audioEngine, string nonStreamingWaveBankFilename)
-        {
+	public class WaveBank : IDisposable
+	{
+		#region Events
+		public event EventHandler<EventArgs> Disposing;
+		#endregion
 
-        }
-        public WaveBank(AudioEngine audioEngine, string streamingWaveBankFilename, int offset, short packetsize)
-        {
+		#region Public
+		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
 
-        }
-        public bool IsDisposed { get { throw new NotImplementedException(); } }
-        public bool IsInUse { get { throw new NotImplementedException(); } }
-        public bool IsPrepared { get { throw new NotImplementedException(); } }
+		public bool IsInUse
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
+		public bool IsPrepared
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
 
-        ~WaveBank()
-        {
-            throw new NotImplementedException();
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            throw new NotImplementedException();
-        }
-        public event EventHandler<EventArgs> Disposing;
-    }
+		#region Constructor
+		public WaveBank(AudioEngine audioEngine, string nonStreamingWaveBankFilename)
+		{
+
+		}
+		public WaveBank(AudioEngine audioEngine, string streamingWaveBankFilename,
+			int offset, short packetsize)
+		{
+
+		}
+
+		~WaveBank()
+		{
+			Dispose();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (IsDisposed)
+			{
+				return;
+			}
+
+			IsDisposed = true;
+
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -53,42 +49,77 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public class SoundBank : IDisposable
-    {
-        public SoundBank(AudioEngine audioEngine, string filename)
-        {
+	public class SoundBank : IDisposable
+	{
+		#region Events
+		public event EventHandler<EventArgs> Disposing;
+		#endregion
+		
+		#region Public
+		public bool IsDisposed
+		{
+			get;
+			private set;
+		}
 
-        }
-        public bool IsDisposed { get { throw new NotImplementedException(); } }
-        public bool IsInUse { get { throw new NotImplementedException(); } }
+		public bool IsInUse
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+		
+		#region Constructor
+		public SoundBank(AudioEngine audioEngine, string filename)
+		{
+			throw new NotImplementedException();
+		}
 
-        public event EventHandler<EventArgs> Disposing;
+		~SoundBank()
+		{
+			Dispose();
+		}
+		#endregion
 
+		#region GetCue
+		public Cue GetCue(string name)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public Cue GetCue(string name)
-        {
-            throw new NotImplementedException();
-        }
-        public void PlayCue(string name)
-        {
-            throw new NotImplementedException();
-        }
-        public void PlayCue(string name, AudioListener listener, AudioEmitter emitter)
-        {
-            throw new NotImplementedException();
-        }
+		#region PlayCue
+		public void PlayCue(string name)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        ~SoundBank()
-        {
-            throw new NotImplementedException();
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		#region PlayCue
+		public void PlayCue(string name, AudioListener listener, AudioEmitter emitter)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (IsDisposed)
+			{
+				return;
+			}
+
+			IsDisposed = true;
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

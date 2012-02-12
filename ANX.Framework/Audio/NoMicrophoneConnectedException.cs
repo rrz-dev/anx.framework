@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -51,23 +47,23 @@ using System.IO;
 
 #endregion // License
 
-
 namespace ANX.Framework.Audio
 {
-    public sealed class NoMicrophoneConnectedException : Exception
-    {
-        public NoMicrophoneConnectedException()
-        {
+	public sealed class NoMicrophoneConnectedException : Exception
+	{
+		public NoMicrophoneConnectedException()
+			: base()
+		{
+		}
 
-        }
-        public NoMicrophoneConnectedException(string message)
-        {
+		public NoMicrophoneConnectedException(string message)
+			: base(message)
+		{
+		}
 
-        }
-        public NoMicrophoneConnectedException(string message, Exception inner)
-        {
-
-        }
-
-    }
+		public NoMicrophoneConnectedException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+	}
 }

@@ -1,7 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -52,70 +49,88 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    public struct AudioCategory : IEquatable<AudioCategory>
-    {
+	public struct AudioCategory : IEquatable<AudioCategory>
+	{
+		#region Public
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
 
-        public void Pause()
-        {
-            throw new NotImplementedException();
-        }
+		#region Pause
+		public void Pause()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void Resume()
-        {
-            throw new NotImplementedException();
-        }
+		#region Resume
+		public void Resume()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void SetVolume(float volume)
-        {
-            throw new NotImplementedException();
-        }
+		#region SetVolume
+		public void SetVolume(float volume)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void Stop(AudioStopOptions options)
-        {
-            throw new NotImplementedException();
-        }
+		#region Stop
+		public void Stop(AudioStopOptions options)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		#region GetHashCode
+		public override int GetHashCode()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public override int GetHashCode()
-        {
-            throw new NotImplementedException();
-        }
+		#region ToString
+		public override string ToString()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
+		#region Equals
+		public override bool Equals(object obj)
+		{
+			if (obj != null &&
+				obj is AudioCategory)
+			{
+				return this == (AudioCategory)obj;
+			}
 
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (AudioCategory)obj;
-            }
+			return false;
+		}
 
-            return false;
-        }
+		public bool Equals(AudioCategory other)
+		{
+			return this == other;
+		}
+		#endregion
 
-        public bool Equals(AudioCategory other)
-        {
-            return this == other;
-        }
+		#region Equality
+		public static bool operator ==(AudioCategory lhs, AudioCategory rhs)
+		{
+			throw new NotImplementedException();
+		}
 
-        public static bool operator ==(AudioCategory lhs, AudioCategory rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static bool operator !=(AudioCategory lhs, AudioCategory rhs)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public static bool operator !=(AudioCategory lhs, AudioCategory rhs)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

@@ -63,8 +63,8 @@ namespace ANX.Framework.Audio
 		{
 		}
 
-		public InstancePlayLimitException(string message, Exception inner)
-			: base(message, inner)
+		public InstancePlayLimitException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 		#endregion

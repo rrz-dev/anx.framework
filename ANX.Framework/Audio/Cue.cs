@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -53,57 +49,147 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
-    public sealed class Cue : IDisposable
-    {
-        public bool IsCreated { get { throw new NotImplementedException(); } }
-        public bool IsDisposed { get { throw new NotImplementedException(); } }
-        public bool IsPaused { get { throw new NotImplementedException(); } }
-        public bool IsPlaying { get { throw new NotImplementedException(); } }
-        public bool IsPrepared { get { throw new NotImplementedException(); } }
-        public bool IsPreparing { get { throw new NotImplementedException(); } }
-        public bool IsStopped { get { throw new NotImplementedException(); } }
-        public bool IsStopping { get { throw new NotImplementedException(); } }
-        public string Name { get { throw new NotImplementedException(); } }
+	public sealed class Cue : IDisposable
+	{
+		#region Events
+		public event EventHandler<EventArgs> Disposing;
+		#endregion
 
+		#region Public
+		public bool IsCreated
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public event EventHandler<EventArgs> Disposing;
+		public bool IsDisposed
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Apply3D(AudioListener listener, AudioEmitter emitter)
-        {
+		public bool IsPaused
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        }
-        public float GetVariable(string name)
-        {
-            throw new NotImplementedException();
-        }
-        public void Pause ()
-        {
-            throw new NotImplementedException();
-        }
-        public void Play ()
-        {
-            throw new NotImplementedException();
-        }
-        public void Resume ()
-        {
-            throw new NotImplementedException();
-        }
-        public void SetVariable(string name, float value)
-        {
-            throw new NotImplementedException();
-        }
-        public void Stop(AudioStopOptions options)
-        {
-            throw new NotImplementedException();
-        }
+		public bool IsPlaying
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        ~Cue()
-        {
+		public bool IsPrepared
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public bool IsPreparing
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsStopped
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsStopping
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region Constructor
+		~Cue()
+		{
+			Dispose();
+		}
+		#endregion
+
+		#region Apply3D
+		public void Apply3D(AudioListener listener, AudioEmitter emitter)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region SetVariable
+		public void SetVariable(string name, float value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetVariable
+		public float GetVariable(string name)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Pause
+		public void Pause()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Play
+		public void Play()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Resume
+		public void Resume()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Stop
+		public void Stop(AudioStopOptions options)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

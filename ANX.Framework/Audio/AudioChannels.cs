@@ -1,7 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -52,10 +49,10 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    [Flags]
-    public enum AudioChannels
-    {
-        Mono = 1,
-        Stereo = 2,
-    }
+	[Flags]
+	public enum AudioChannels
+	{
+		Mono = 1,
+		Stereo = 2,
+	}
 }

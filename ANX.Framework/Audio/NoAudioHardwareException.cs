@@ -1,9 +1,5 @@
-﻿#region Using Statements
-using System;
-using System.IO;
+﻿using System;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
 
 #region License
 
@@ -51,24 +47,25 @@ using System.Runtime.InteropServices;
 //       particular purpose and non-infringement.
 
 #endregion // License
+
 namespace ANX.Framework.Audio
 {
-    [SerializableAttribute]
-    public sealed class NoAudioHardwareException : ExternalException
-    {
-        public NoAudioHardwareException()
-        {
+	[SerializableAttribute]
+	public sealed class NoAudioHardwareException : ExternalException
+	{
+		public NoAudioHardwareException()
+			: base()
+		{
+		}
 
-        }
-        public NoAudioHardwareException(string message)
-        {
+		public NoAudioHardwareException(string message)
+			: base(message)
+		{
+		}
 
-        }
-        public NoAudioHardwareException(string message, Exception inner)
-        {
-
-        }
-
-
-    }
+		public NoAudioHardwareException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+	}
 }

@@ -1,9 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
-
-#region License
+﻿#region License
 
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
@@ -52,9 +47,9 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    public enum MicrophoneState
-    {
-        Started,
-        Stopped,
-    }
+	public enum MicrophoneState
+	{
+		Started,
+		Stopped,
+	}
 }

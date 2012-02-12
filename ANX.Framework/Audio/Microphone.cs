@@ -1,8 +1,5 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-
-#endregion // Using Statements
 
 #region License
 
@@ -51,48 +48,111 @@ using System.Collections.ObjectModel;
 
 #endregion // License
 
-
 namespace ANX.Framework.Audio
 {
-    public sealed class Microphone
-    {
-        public readonly string Name;
-        public static ReadOnlyCollection<Microphone> All { get { throw new NotImplementedException(); } }
-        public TimeSpan BufferDuration { get; set; }
-        public static Microphone Default { get { throw new NotImplementedException(); } }
-        public bool IsHeadset { get { throw new NotImplementedException(); } }
-        public int SampleRate { get { throw new NotImplementedException(); } }
-        public MicrophoneState State { get { throw new NotImplementedException(); } }
-        public event EventHandler<EventArgs> BufferReady;
+	public sealed class Microphone
+	{
+		#region Events
+		public event EventHandler<EventArgs> BufferReady;
+		#endregion
 
-        public void Stop ()
-        {
-            
-        }
+		#region Public
+		public readonly string Name;
 
-        public void Start ()
-        {
+		public static ReadOnlyCollection<Microphone> All
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        }
-        public int GetSampleSizeInBytes (TimeSpan duration)
-        {
-            throw new NotImplementedException();
-        }
-        public TimeSpan GetSampleDuration (int sizeInBytes)
-        {
-            throw new NotImplementedException();
-        }
-        public int GetData(byte[] buffer)
-        {
-            throw new NotImplementedException();
-        }
-        public int GetData(byte[] buffer, int offset, int count)
-        {
-            throw new NotImplementedException();
-        }
-        ~Microphone()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public TimeSpan BufferDuration
+		{
+			get;
+			set;
+		}
+
+		public static Microphone Default
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool IsHeadset
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public int SampleRate
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public MicrophoneState State
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
+
+		#region Constructor
+		~Microphone()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Stop
+		public void Stop()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Start
+		public void Start()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetSampleSizeInBytes
+		public int GetSampleSizeInBytes(TimeSpan duration)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetSampleDuration
+		public TimeSpan GetSampleDuration(int sizeInBytes)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetData
+		public int GetData(byte[] buffer)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetData
+		public int GetData(byte[] buffer, int offset, int count)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

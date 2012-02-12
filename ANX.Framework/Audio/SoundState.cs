@@ -1,7 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -52,11 +49,11 @@ using System;
 
 namespace ANX.Framework.Audio
 {
-    [Flags]
-    public enum SoundState
-    {
-        Playing = 0,
-        Paused = 1,
-        Stopped = 2,
-    }
+	[Flags]
+	public enum SoundState
+	{
+		Playing = 0,
+		Paused = 1,
+		Stopped = 2,
+	}
 }
