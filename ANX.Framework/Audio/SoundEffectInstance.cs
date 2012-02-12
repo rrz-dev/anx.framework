@@ -58,6 +58,12 @@ namespace ANX.Framework.Audio
 		private SoundEffect parent;
 
 		private ISoundEffectInstance nativeInstance;
+
+		internal bool IsFireAndForget
+		{
+			get;
+			private set;
+		}
 		#endregion
 
 		#region Public
@@ -141,11 +147,13 @@ namespace ANX.Framework.Audio
 		{
 		}
 
-		internal SoundEffectInstance(SoundEffect setParent)
+		internal SoundEffectInstance(SoundEffect setParent, bool setIsFireAndForget)
 		{
 			parent = setParent;
+			IsFireAndForget = setIsFireAndForget;
 
-			nativeInstance = GetCreator().CreateSoundEffectInstance(setParent);
+			nativeInstance = GetCreator().CreateSoundEffectInstance(
+				setParent.nativeSoundEffect);
 		}
 
 		~SoundEffectInstance()

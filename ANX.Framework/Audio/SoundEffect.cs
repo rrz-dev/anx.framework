@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
@@ -113,7 +114,11 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Private
-		private ISoundEffect nativeSoundEffect;
+		internal ISoundEffect nativeSoundEffect;
+
+		private static List<SoundEffectInstance> fireAndForgetInstances;
+
+		private List<WeakReference> children = new List<WeakReference>();
 		#endregion
 
 		#region Public
@@ -139,9 +144,17 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Constructor
+		static SoundEffect()
+		{
+			MasterVolume = 1f;
+			SpeedOfSound = 343.5f;
+			DopplerScale = 1f;
+			DistanceScale = 1f;
+		}
+
 		private SoundEffect(Stream stream)
 		{
-			nativeSoundEffect = GetCreator().CreateSoundEffect(stream);
+			nativeSoundEffect = GetCreator().CreateSoundEffect(this, stream);
 		}
 
 		public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels)
@@ -152,7 +165,7 @@ namespace ANX.Framework.Audio
 		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
-			nativeSoundEffect = GetCreator().CreateSoundEffect(buffer, offset,
+			nativeSoundEffect = GetCreator().CreateSoundEffect(this, buffer, offset,
 				count, sampleRate, channels, loopStart, loopLength);
 		}
 
@@ -172,7 +185,7 @@ namespace ANX.Framework.Audio
 		#region CreateInstance
 		public SoundEffectInstance CreateInstance()
 		{
-			return new SoundEffectInstance(this);
+			return new SoundEffectInstance(this, false);
 		}
 		#endregion
 
@@ -204,7 +217,7 @@ namespace ANX.Framework.Audio
 		}
 		#endregion
 
-		#region Play (TODO)
+		#region Play
 		public bool Play()
 		{
 			return Play(1f, 0f, 0f);
@@ -212,20 +225,72 @@ namespace ANX.Framework.Audio
 
 		public bool Play(float volume, float pitch, float pan)
 		{
-			// TODO: fire and forget play
-			throw new NotImplementedException();
+			if (IsDisposed)
+			{
+				return false;
+			}
+
+			try
+			{
+				SoundEffectInstance newInstance = new SoundEffectInstance(this, true)
+				{
+					Volume = volume,
+					Pitch = pitch,
+					Pan = pan,
+				};
+
+				children.Add(new WeakReference(newInstance));
+
+				lock (fireAndForgetInstances)
+				{
+					fireAndForgetInstances.Add(newInstance);
+				}
+
+				newInstance.Play();
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
 		}
 		#endregion
 
 		#region Dispose
 		public void Dispose()
 		{
-			if (IsDisposed == false)
+			if (IsDisposed)
 			{
-				IsDisposed = true;
-				nativeSoundEffect.Dispose();
-				nativeSoundEffect = null;
+				return;
 			}
+
+			IsDisposed = true;
+			nativeSoundEffect.Dispose();
+			nativeSoundEffect = null;
+
+			List<WeakReference> weakRefs = new List<WeakReference>(children);
+
+			lock (fireAndForgetInstances)
+			{
+				foreach (WeakReference current in weakRefs)
+				{
+					SoundEffectInstance soundInstance =
+						current.Target as SoundEffectInstance;
+
+					if (soundInstance != null)
+					{
+						if (soundInstance.IsFireAndForget)
+						{
+							fireAndForgetInstances.Remove(soundInstance);
+						}
+						soundInstance.Dispose();
+					}
+				}
+			}
+
+			weakRefs.Clear();
+			children.Clear();
 		}
 		#endregion
 	}

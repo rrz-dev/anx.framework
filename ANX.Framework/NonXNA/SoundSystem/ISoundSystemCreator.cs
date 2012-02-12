@@ -81,11 +81,12 @@ namespace ANX.Framework.NonXNA
 
 		IAudioEmitter CreateAudioEmitter();
 
-		ISoundEffect CreateSoundEffect(Stream stream);
+		ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream);
 
-		ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count,
-			int sampleRate, AudioChannels channels, int loopStart, int loopLength);
+		ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset,
+			int count, int sampleRate, AudioChannels channels, int loopStart,
+			int loopLength);
 
-		ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent);
+		ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect);
 	}
 }

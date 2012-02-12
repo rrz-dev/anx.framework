@@ -1,15 +1,8 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
+using ANX.Framework.Audio;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
-using ANX.Framework.Audio;
-
-#endregion // Using Statements
 
 #region License
 
@@ -62,29 +55,42 @@ namespace ANX.SoundSystem.Windows.XAudio
 {
 	public class Creator : ISoundSystemCreator
 	{
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-
+		#region Public
+		#region Name
 		public string Name
 		{
 			get { return "XAudio"; }
 		}
+		#endregion
 
+		#region Priority
 		public int Priority
 		{
 			get { return 10; }
 		}
+		#endregion
 
+		#region IsSupported
 		public bool IsSupported
 		{
 			get
 			{
 				//TODO: this is just a very basic version of test for support
-				return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT;
+				return AddInSystemFactory.Instance.OperatingSystem.Platform ==
+					PlatformID.Win32NT;
 			}
 		}
+		#endregion
+		#endregion
+
+		#region RegisterCreator
+		public void RegisterCreator(AddInSystemFactory factory)
+		{
+			factory.AddCreator(this);
+		}
+		#endregion
+
+		#region ISoundSystemCreator Member
 
 		public float DistanceScale
 		{
@@ -134,38 +140,31 @@ namespace ANX.SoundSystem.Windows.XAudio
 			}
 		}
 
-
-		#region ISoundSystemCreator Member
-
-		public ISoundEffect CreateSoundEffect(Stream stream)
-		{
-			throw new NotImplementedException();
-		}
-
-		public ISoundEffect CreateSoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
-		{
-			throw new NotImplementedException();
-		}
-
-		public ISoundEffectInstance CreateSoundEffectInstance(SoundEffect parent)
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region CreateAudioListener (TODO)
 		public IAudioListener CreateAudioListener()
 		{
 			throw new NotImplementedException();
 		}
-		#endregion
 
-		#region CreateAudioEmitter (TODO)
 		public IAudioEmitter CreateAudioEmitter()
 		{
 			throw new NotImplementedException();
 		}
+
+		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
 	}
 }
