@@ -1,14 +1,10 @@
 ﻿#region Using Statements
 using System;
-using System.IO;
-using System.Reflection;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using ANX.Framework.Input;
+using System.Reflection;
 using NLog;
-using System.Collections;
-using System.Resources;
-using System.Xml.Linq;
 
 #endregion // Using Statements
 
@@ -71,22 +67,14 @@ namespace ANX.Framework.NonXNA
         private OperatingSystem operatingSystem;
         private Version operatingSystemVersion;
 
-        private string preferredRenderSystem;
-        private bool preferredRenderSystemLocked;
-        private string preferredInputSystem;
-        private bool preferredInputSystemLocked;
-        private string preferredSoundSystem;
-        private bool preferredSoundSystemLocked;
-
-        private List<AddIn> renderSystems;
-        private List<AddIn> inputSystems;
-        private List<AddIn> soundSystems;
+				private Dictionary<AddInType, AddInSystemInfo> addinSystems;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         #endregion // Private Members
 
-        public static AddInSystemFactory Instance
+				#region Public
+				public static AddInSystemFactory Instance
         {
             get
             {
@@ -98,24 +86,46 @@ namespace ANX.Framework.NonXNA
 
                 return instance;
             }
-        }
+				}
 
-        private AddInSystemFactory()
+				public OperatingSystem OperatingSystem
+				{
+					get
+					{
+						return this.operatingSystem;
+					}
+				}
+
+				public Version OperatingSystemVersion
+				{
+					get
+					{
+						return this.operatingSystemVersion;
+					}
+				}
+				#endregion
+
+				#region Constructor
+				private AddInSystemFactory()
         {
-            this.renderSystems = new List<AddIn>();
-            this.inputSystems = new List<AddIn>();
-            this.soundSystems = new List<AddIn>();
-
+						addinSystems = new Dictionary<AddInType, AddInSystemInfo>();
+						addinSystems.Add(AddInType.InputSystem, new AddInSystemInfo());
+						addinSystems.Add(AddInType.MediaSystem, new AddInSystemInfo());
+						addinSystems.Add(AddInType.RenderSystem, new AddInSystemInfo());
+						addinSystems.Add(AddInType.SoundSystem, new AddInSystemInfo());
+					
             this.creators = new Dictionary<string, ICreator>();
 
             this.operatingSystem = Environment.OSVersion;
             this.operatingSystemVersion = this.operatingSystem.Version;
             logger.Info("Operating System: {0} ({1})", operatingSystem.VersionString, operatingSystemVersion.ToString());
         }
+				#endregion
 
-        public void Initialize()
+				#region Initialize
+				public void Initialize()
         {
-            if (!initialized)
+            if (initialized == false)
             {
                 initialized = true;
 
@@ -125,25 +135,14 @@ namespace ANX.Framework.NonXNA
 
                 foreach (String file in Directory.EnumerateFiles(Path.GetDirectoryName(executingAssembly), "*.dll", SearchOption.TopDirectoryOnly))
                 {
-                    if (!file.Equals(executingAssembly))
+                    if (file.Equals(executingAssembly) == false)
                     {
                         logger.Info("[ANX] trying to load '{0}'...", file);
 
                         AddIn addin = new AddIn(file);
                         if (addin.IsValid && addin.IsSupported)
                         {
-                            switch (addin.Type)
-                            {
-                                case AddInType.InputSystem:
-                                    this.inputSystems.Add(addin);
-                                    break;
-                                case AddInType.RenderSystem:
-                                    this.renderSystems.Add(addin);
-                                    break;
-                                case AddInType.SoundSystem:
-                                    this.soundSystems.Add(addin);
-                                    break;
-                            }
+														addinSystems[addin.Type].AvailableSystems.Add(addin);
                             logger.Info("[ANX] successfully loaded addin...");
                         }
                         else
@@ -156,8 +155,10 @@ namespace ANX.Framework.NonXNA
                 SortAddIns();
             }
         }
+				#endregion
 
-        public void AddCreator(ICreator creator)
+				#region AddCreator
+				public void AddCreator(ICreator creator)
         {
             string creatorName = creator.Name.ToLowerInvariant();
 
@@ -170,13 +171,17 @@ namespace ANX.Framework.NonXNA
 
             logger.Debug("added creator '{0}'. Total count of registered creators is now {1}.", creatorName, creators.Count);
         }
+				#endregion
 
-        public bool HasFramework(String name)
+				#region HasFramework
+				public bool HasFramework(String name)
         {
             return creators.ContainsKey(name.ToLowerInvariant());
-        }
+				}
+				#endregion
 
-        public T GetCreator<T>(String name) where T : class, ICreator
+				#region GetCreator
+				public T GetCreator<T>(String name) where T : class, ICreator
         {
             if (!initialized)
             {
@@ -186,9 +191,11 @@ namespace ANX.Framework.NonXNA
             ICreator creator = null;
             creators.TryGetValue(name.ToLowerInvariant(), out creator);
             return creator as T;
-        }
+				}
+				#endregion
 
-        public IEnumerable<T> GetCreators<T>() where T : class, ICreator
+				#region GetCreators
+				public IEnumerable<T> GetCreators<T>() where T : class, ICreator
         {
             if (!initialized)
             {
@@ -197,18 +204,18 @@ namespace ANX.Framework.NonXNA
 
             Type t = typeof(T);
 
-            foreach (ICreator creator in this.creators.Values)
+            foreach (ICreator creator in this.creators.Values.Where(p =>
+							p.GetType().GetInterfaces()[0].Equals(t)))
             {
-                if (creator.GetType().GetInterfaces()[0].Equals(t))
-                {
-                    yield return creator as T;
-                }
+                yield return creator as T;
             }
         }
+				#endregion
 
-        public T GetDefaultCreator<T>() where T : class, ICreator
+				#region GetDefaultCreator
+				public T GetDefaultCreator<T>() where T : class, ICreator
         {
-            if (!initialized)
+            if (initialized == false)
             {
                 Initialize();
             }
@@ -216,172 +223,80 @@ namespace ANX.Framework.NonXNA
             Type type = typeof(T);
             AddInType addInType = GetAddInType(type);
 
-            switch (addInType)
-            {
-                case AddInType.InputSystem:
-                    if (string.IsNullOrEmpty(preferredInputSystem))
-                    {
-                        if (inputSystems.Count > 0)
-                        {
-                            return inputSystems[0].Instance as T;
-                        }
+						AddInSystemInfo info = addinSystems[addInType];
+						if (String.IsNullOrEmpty(info.PreferredName))
+						{
+							if (info.AvailableSystems.Count > 0)
+							{
+								return info.AvailableSystems[0].Instance as T;
+							}
 
-                        throw new AddInLoadingException("couldn't get default input system because there are no registered input systems available");
-                    }
-                    else
-                    {
-                        foreach (AddIn addin in this.inputSystems)
-                        {
-                            if (addin.Name.Equals(preferredInputSystem, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                return addin.Instance as T;
-                            }
-                        }
+							throw new AddInLoadingException(String.Format(
+								"Couldn't get default {0} because there are no " +
+								"registered {0}s available!", addInType));
+						}
+						else
+						{
+							foreach (AddIn addin in info.AvailableSystems)
+							{
+								if (addin.Name.Equals(info.PreferredName,
+									StringComparison.InvariantCultureIgnoreCase))
+								{
+									return addin.Instance as T;
+								}
+							}
 
-                        throw new AddInLoadingException(String.Format("couldn't get default input system '{0}' because it was not found in the list of registered creators", preferredInputSystem));
-                    }
-                case AddInType.RenderSystem:
-                    if (string.IsNullOrEmpty(preferredRenderSystem))
-                    {
-                        if (renderSystems.Count > 0)
-                        {
-                            return renderSystems[0].Instance as T;
-                        }
+							throw new AddInLoadingException(String.Format(
+								"Couldn't get default {0} '{1}' because it was not found in the " +
+								"list of registered creators!", addInType, info.PreferredName));
+						}
 
-                        throw new AddInLoadingException("couldn't get default render system because there are no registered render systems available");
-                    }
-                    else
-                    {
-                        foreach (AddIn addin in this.renderSystems)
-                        {
-                            if (addin.Name.Equals(preferredRenderSystem, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                return addin.Instance as T;
-                            }
-                        }
-
-                        throw new AddInLoadingException(String.Format("couldn't get default render system '{0}' because it was not found in the list of registered creators", preferredRenderSystem));
-                    }
-                case AddInType.SoundSystem:
-                    if (string.IsNullOrEmpty(preferredSoundSystem))
-                    {
-                        if (soundSystems.Count > 0)
-                        {
-                            return soundSystems[0].Instance as T;
-                        }
-
-                        throw new AddInLoadingException("couldn't get default sound system because there are no registered sound systems available");
-                    }
-                    else
-                    {
-                        foreach (AddIn addin in this.soundSystems)
-                        {
-                            if (addin.Name.Equals(preferredSoundSystem, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                return addin.Instance as T;
-                            }
-                        }
-
-                        throw new AddInLoadingException(String.Format("couldn't get default sound system '{0}' because it was not found in the list of registered creators", preferredSoundSystem));
-                    }
-
-            }
-
-            throw new AddInLoadingException(String.Format("couldn't find a DefaultCreator of type '{0}'", type.FullName));
+            throw new AddInLoadingException(String.Format(
+							"Couldn't find a DefaultCreator of type '{0}'!", type.FullName));
         }
+				#endregion
 
-        public void SortAddIns()
+				#region SortAddIns
+				public void SortAddIns()
         {
-            this.inputSystems.Sort();
-            this.renderSystems.Sort();
-            this.soundSystems.Sort();
+						foreach (AddInSystemInfo info in addinSystems.Values)
+						{
+							info.AvailableSystems.Sort();
+						}
 
             this.creators = this.creators.OrderBy(x => x.Value.Priority).ToDictionary(x => x.Key, x => x.Value);
-        }
+				}
+				#endregion
 
-        public OperatingSystem OperatingSystem
+				#region GetPreferredSystem
+				public string GetPreferredSystem(AddInType addInType)
+				{
+					return addinSystems[addInType].PreferredName;
+				}
+				#endregion
+
+				#region SetPreferredSystem
+				public void SetPreferredSystem(AddInType addInType, string preferredName)
+				{
+					if (addinSystems[addInType].PreferredLocked)
+					{
+						throw new AddInLoadingException(String.Format(
+							"Can't set preferred {0} because a {0} is alread in use.", addInType));
+					}
+
+					addinSystems[addInType].PreferredName = preferredName;
+				}
+				#endregion
+
+				#region PreventSystemChange
+				public void PreventSystemChange(AddInType addInType)
         {
-            get
-            {
-                return this.operatingSystem;
-            }
+					addinSystems[addInType].PreferredLocked = true;
         }
+				#endregion
 
-        public Version OperatingSystemVersion
-        {
-            get
-            {
-                return this.operatingSystemVersion;
-            }
-        }
-
-        public string PreferredRenderSystem
-        {
-            get
-            {
-                return this.preferredRenderSystem;
-            }
-            set
-            {
-                if (this.preferredRenderSystemLocked)
-                {
-                    throw new AddInLoadingException("can't set preferred RenderSystem because a RenderSystem is alread in use.");
-                }
-
-                this.preferredRenderSystem = value;
-            }
-        }
-
-        public string PreferredInputSystem
-        {
-            get
-            {
-                return this.preferredInputSystem;
-            }
-            set
-            {
-                if (this.preferredInputSystemLocked)
-                {
-                    throw new AddInLoadingException("can't set preferred InputSystem because a InputSystem is alread in use.");
-                }
-
-                this.preferredInputSystem = value;
-            }
-        }
-
-        public string PreferredSoundSystem
-        {
-            get
-            {
-                return this.preferredSoundSystem;
-            }
-            set
-            {
-                if (this.preferredSoundSystemLocked)
-                {
-                    throw new AddInLoadingException("can't set preferred SoundSystem because a SoundSystem is alread in use.");
-                }
-
-                this.preferredSoundSystem = value;
-            }
-        }
-
-        public void PreventRenderSystemChange()
-        {
-            this.preferredRenderSystemLocked = true;
-        }
-
-        public void PreventInputSystemChange()
-        {
-            this.preferredInputSystemLocked = true;
-        }
-
-        public void PreventSoundSystemChange()
-        {
-            this.preferredSoundSystemLocked = true;
-        }
-
-        private AddInType GetAddInType(Type t)
+				#region GetAddInType
+				internal static AddInType GetAddInType(Type t)
         {
             if (typeof(IRenderSystemCreator).IsAssignableFrom(t))
             {
@@ -394,11 +309,16 @@ namespace ANX.Framework.NonXNA
             else if (typeof(ISoundSystemCreator).IsAssignableFrom(t))
             {
                 return AddInType.SoundSystem;
-            }
+						}
+						else if (typeof(IMediaSystemCreator).IsAssignableFrom(t))
+						{
+							return AddInType.MediaSystem;
+						}
             else
             {
                 return AddInType.Unknown;
             }
-        }
-    }
+				}
+				#endregion
+		}
 }

@@ -76,7 +76,8 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         public void Setup()
         {
             AddInSystemFactory.Instance.Initialize();
-            AddInSystemFactory.Instance.PreferredInputSystem = "Test";
+            AddInSystemFactory.Instance.SetPreferredSystem(
+							AddInType.InputSystem, "Test");
  
         }
 

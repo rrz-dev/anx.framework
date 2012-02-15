@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
-using OpenTK;
-using OpenTK.Platform.Windows;
 
 #region License
 
@@ -50,131 +47,27 @@ using OpenTK.Platform.Windows;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.GL3
+namespace ANX.Framework.NonXNA.Development
 {
-	internal class WindowsGameWindow : ANX.Framework.GameWindow
+	public class PercentageCompleteAttribute : Attribute
 	{
 		#region Public
-		#region Form
-		internal static Form Form
+		public int Percentage
 		{
 			get;
 			private set;
 		}
 		#endregion
 
-		#region Handle
-		public override IntPtr Handle
-		{
-			get
-			{
-				return Form.Handle;
-			}
-		}
-		#endregion
-
-		#region IsMinimized
-		public override bool IsMinimized
-		{
-			get
-			{
-				return Form.WindowState == FormWindowState.Minimized;
-			}
-		}
-		#endregion
-
-		#region ScreenDeviceName
-		public override string ScreenDeviceName
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
-
-		#region AllowUserResizing
-		public override bool AllowUserResizing
-		{
-			get
-			{
-				return Form.FormBorderStyle == FormBorderStyle.Sizable;
-			}
-			set
-			{
-				Form.FormBorderStyle = value ?
-					FormBorderStyle.Sizable :
-					FormBorderStyle.Fixed3D;
-			}
-		}
-		#endregion
-
-		#region ClientBounds
-		public override Rectangle ClientBounds
-		{
-			get
-			{
-				System.Drawing.Rectangle rect = Form.ClientRectangle;
-				return new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-			}
-		}
-		#endregion
-
-		#region CurrentOrientation
-		public override DisplayOrientation CurrentOrientation
-		{
-			get
-			{
-				return DisplayOrientation.Default;
-			}
-		}
-		#endregion
-		#endregion
-
 		#region Constructor
-		internal WindowsGameWindow()
+		/// <summary>
+		/// Create a new percentage complete attribute.
+		/// </summary>
+		/// <param name="setPercentage">The percentage [0-100] value defining how
+		/// "complete" the class is.</param>
+		public PercentageCompleteAttribute(int setPercentage)
 		{
-			Form = new Form()
-			{
-				Text = "ANX Framework",
-				MaximizeBox = false,
-				FormBorderStyle = FormBorderStyle.Fixed3D,
-				ClientSize = new System.Drawing.Size(800, 480),
-			};
-		}
-		#endregion
-
-		#region Close
-		public void Close()
-		{
-			if (Form != null)
-			{
-				Form.Close();
-				Form.Dispose();
-				Form = null;
-			}
-		}
-		#endregion
-
-		#region SetTitle
-		protected override void SetTitle(string title)
-		{
-			Form.Text = title;
-		}
-		#endregion
-
-		#region BeginScreenDeviceChange
-		public override void BeginScreenDeviceChange(bool willBeFullScreen)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-
-		#region EndScreenDeviceChange
-		public override void EndScreenDeviceChange(string screenDeviceName,
-			int clientWidth, int clientHeight)
-		{
-			throw new NotImplementedException();
+			Percentage = setPercentage;
 		}
 		#endregion
 	}

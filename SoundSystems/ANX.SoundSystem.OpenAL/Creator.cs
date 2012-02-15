@@ -157,7 +157,7 @@ namespace ANX.SoundSystem.OpenAL
 		public ISoundEffectInstance CreateSoundEffectInstance(
 			ISoundEffect nativeSoundEffect)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			return new OpenALSoundEffectInstance((OpenALSoundEffect)nativeSoundEffect);
 		}
 		#endregion
@@ -165,7 +165,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			return new OpenALSoundEffect(parent, stream);
 		}
 		#endregion
@@ -175,7 +175,7 @@ namespace ANX.SoundSystem.OpenAL
 			int offset, int count, int sampleRate, AudioChannels channels,
 			int loopStart, int loopLength)
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -183,7 +183,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateAudioListener (TODO)
 		public IAudioListener CreateAudioListener()
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -191,7 +191,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateAudioEmitter (TODO)
 		public IAudioEmitter CreateAudioEmitter()
 		{
-			AddInSystemFactory.Instance.PreventSoundSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			throw new NotImplementedException();
 		}
 		#endregion

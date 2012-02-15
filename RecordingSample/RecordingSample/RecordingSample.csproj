@@ -91,6 +91,10 @@
       <Project>{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}</Project>
       <Name>ANX.InputSystem.Recording</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MediaSystems\ANX.MediaSystem.Windows.OpenAL\ANX.MediaSystem.Windows.OpenAL.csproj">
+      <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
+      <Name>ANX.MediaSystem.Windows.OpenAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.Framework.Windows.DX10.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
       <Name>ANX.Framework.Windows.DX10</Name>

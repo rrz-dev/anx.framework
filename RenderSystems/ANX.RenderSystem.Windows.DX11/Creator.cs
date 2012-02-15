@@ -84,32 +84,35 @@ namespace ANX.RenderSystem.Windows.DX11
         }
 
         public GameHost CreateGameHost(Game game)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(
+						AddInType.RenderSystem);
             return new WindowsGameHost(game);
         }
 
         public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(
+						AddInType.RenderSystem);
             return new GraphicsDeviceWindowsDX11(presentationParameters);
         }
 
         public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(
+						AddInType.RenderSystem);
             return new IndexBuffer_DX11(graphics, size, indexCount, usage);
         }
 
         public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             Effect_DX11 effect = new Effect_DX11(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 
@@ -117,8 +120,8 @@ namespace ANX.RenderSystem.Windows.DX11
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, System.IO.Stream byteCode)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             Effect_DX11 effect = new Effect_DX11(graphics, managedEffect, byteCode);
 
@@ -126,8 +129,8 @@ namespace ANX.RenderSystem.Windows.DX11
         }
 
         public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             //TODO: implement
             throw new NotImplementedException();
@@ -141,32 +144,32 @@ namespace ANX.RenderSystem.Windows.DX11
         }
 
         public INativeBlendState CreateBlendState()
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             return new BlendState_DX11();
         }
 
         public INativeRasterizerState CreateRasterizerState()
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             return new RasterizerState_DX11();
         }
 
         public INativeDepthStencilState CreateDepthStencilState()
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             return new DepthStencilState_DX11();
         }
 
         public INativeSamplerState CreateSamplerState()
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             return new SamplerState_DX11();
         }
 
         public byte[] GetShaderByteCode(PreDefinedShader type)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             if (type == PreDefinedShader.SpriteBatch)
             {
@@ -203,8 +206,8 @@ namespace ANX.RenderSystem.Windows.DX11
 
 
         public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             SharpDX.DXGI.Factory factory = new Factory();
 
@@ -257,15 +260,15 @@ namespace ANX.RenderSystem.Windows.DX11
         }
 
         public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             return new Texture2D_DX11(graphics, width, height, surfaceFormat, mipCount);
         }
 
         public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-        {
-            AddInSystemFactory.Instance.PreventRenderSystemChange();
+				{
+					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
             return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
         }

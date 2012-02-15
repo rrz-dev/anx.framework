@@ -106,7 +106,8 @@ namespace ANX.Framework.Windows.GL3
 		public GameHost CreateGameHost(Game game)
 		{
 			logger.Info("creating OpenGL3 GameHost");
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(
+				AddInType.RenderSystem);
 			return new WindowsGameHost(game);
 		}
 		#endregion
@@ -115,7 +116,8 @@ namespace ANX.Framework.Windows.GL3
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream byteCode)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(
+				AddInType.RenderSystem);
 
 			return new EffectGL3(managedEffect, byteCode);
 		}
@@ -123,7 +125,8 @@ namespace ANX.Framework.Windows.GL3
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(
+				AddInType.RenderSystem);
 
 			return new EffectGL3(managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
@@ -133,7 +136,7 @@ namespace ANX.Framework.Windows.GL3
 		INativeGraphicsDevice IRenderSystemCreator.CreateGraphicsDevice(
 			PresentationParameters presentationParameters)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new GraphicsDeviceWindowsGL3(presentationParameters);
 		}
 		#endregion
@@ -151,7 +154,7 @@ namespace ANX.Framework.Windows.GL3
 		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
 			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new Texture2DGL3(surfaceFormat, width, height, mipCount);
 		}
 		#endregion
@@ -169,7 +172,7 @@ namespace ANX.Framework.Windows.GL3
 		public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
 			IndexElementSize size, int indexCount, BufferUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new IndexBufferGL3(size, indexCount, usage);
 		}
 		#endregion
@@ -188,7 +191,7 @@ namespace ANX.Framework.Windows.GL3
 			VertexDeclaration vertexDeclaration, int vertexCount,
 			BufferUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new VertexBufferGL3(vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
@@ -200,7 +203,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Blend State.</returns>
 		public INativeBlendState CreateBlendState()
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new BlendStateGL3();
 		}
 		#endregion
@@ -212,7 +215,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Rasterizer State.</returns>
 		public INativeRasterizerState CreateRasterizerState()
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new RasterizerStateGL3();
 		}
 		#endregion
@@ -224,7 +227,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Depth Stencil State.</returns>
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new DepthStencilStateGL3();
 		}
 		#endregion
@@ -236,7 +239,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Native Sampler State.</returns>
 		public INativeSamplerState CreateSamplerState()
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new SamplerStateGL3();
 		}
 		#endregion
@@ -249,7 +252,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>Byte code of the shader.</returns>
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
 			if (type == PreDefinedShader.SpriteBatch)
 			{
@@ -287,7 +290,7 @@ namespace ANX.Framework.Windows.GL3
 		/// <returns>List of graphics adapters.</returns>
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 
 			var result = new List<GraphicsAdapter>();
 			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
@@ -348,7 +351,7 @@ namespace ANX.Framework.Windows.GL3
 			DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
 			RenderTargetUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventRenderSystemChange();
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new RenderTarget2DGL3(width, height, mipMap, preferredFormat,
 				preferredDepthFormat, preferredMultiSampleCount, usage);
 		}

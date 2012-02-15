@@ -1,9 +1,4 @@
-﻿#region Using Statements
-using System;
-
-#endregion
-
-#region License
+﻿#region License
 
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
@@ -57,6 +52,7 @@ namespace ANX.Framework.NonXNA
         Unknown,
         RenderSystem,
         InputSystem,
-        SoundSystem
+        SoundSystem,
+				MediaSystem
     }
 }

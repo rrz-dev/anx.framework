@@ -98,7 +98,8 @@ namespace ANX.InputDevices.Windows.XInput
             get 
             {
                 logger.Debug("returning a new GamePad device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
+                AddInSystemFactory.Instance.PreventSystemChange(
+									AddInType.InputSystem);
                 return InputDeviceFactory.Instance.GetDefaultGamePad();
             }
         }
@@ -114,8 +115,9 @@ namespace ANX.InputDevices.Windows.XInput
                     {
                         throw new NoInputDeviceException("couldn't find a default mouse device creator. Unable to create a mouse instance.");
                     }
-                    logger.Debug("created a new Mouse device");
-                    AddInSystemFactory.Instance.PreventInputSystemChange();
+										logger.Debug("created a new Mouse device");
+										AddInSystemFactory.Instance.PreventSystemChange(
+											AddInType.InputSystem);
                 }
 
                 return this.mouse;
@@ -133,8 +135,9 @@ namespace ANX.InputDevices.Windows.XInput
                     {
                         throw new NoInputDeviceException("couldn't find a default keyboard device creator. Unable to create a keyboard instance.");
                     }
-                    logger.Debug("created a new Keyboard device");
-                    AddInSystemFactory.Instance.PreventInputSystemChange();
+										logger.Debug("created a new Keyboard device");
+										AddInSystemFactory.Instance.PreventSystemChange(
+											AddInType.InputSystem);
                 }
 
                 return this.keyboard;
@@ -146,8 +149,9 @@ namespace ANX.InputDevices.Windows.XInput
         {
             get
             {
-                logger.Debug("returning a new MotionSensingDevice device");
-                AddInSystemFactory.Instance.PreventInputSystemChange();
+							logger.Debug("returning a new MotionSensingDevice device");
+							AddInSystemFactory.Instance.PreventSystemChange(
+								AddInType.InputSystem);
                 return InputDeviceFactory.Instance.GetDefaultMotionSensingDevice();
             }
         }

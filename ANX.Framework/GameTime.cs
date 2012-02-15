@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System;
-
-#endregion // Using Statements
+﻿using System;
+using ANX.Framework.NonXNA.Development;
 
 #region License
 
@@ -52,64 +50,48 @@ using System;
 
 namespace ANX.Framework
 {
-    public class GameTime
-    {
-        private TimeSpan elapsedGameTime;
-        private bool isRunningSlowly;
-        private TimeSpan totalGameTime;
+	[PercentageComplete(100)]
+	public class GameTime
+	{
+		#region Public
+		public TimeSpan ElapsedGameTime
+		{
+			get;
+			internal set;
+		}
 
-        public GameTime()
-        {
+		public TimeSpan TotalGameTime
+		{
+			get;
+			internal set;
+		}
 
-        }
+		public bool IsRunningSlowly
+		{
+			get;
+			internal set;
+		}
+		#endregion
 
-        public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime)
-        {
-            this.totalGameTime = totalGameTime;
-            this.elapsedGameTime = elapsedGameTime;
-        }
+		#region Constructor
+		public GameTime()
+		{
 
-        public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime, bool isRunningSlowly)
-        {
-            this.totalGameTime = totalGameTime;
-            this.elapsedGameTime = elapsedGameTime;
-            this.isRunningSlowly = isRunningSlowly;
-        }
+		}
 
-        public TimeSpan ElapsedGameTime
-        {
-            get
-            {
-                return this.elapsedGameTime;
-            }
-            internal set
-            {
-                this.elapsedGameTime = value;
-            }
-        }
+		public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime)
+		{
+			this.TotalGameTime = totalGameTime;
+			this.ElapsedGameTime = elapsedGameTime;
+		}
 
-        public TimeSpan TotalGameTime
-        {
-            get
-            {
-                return this.totalGameTime;
-            }
-            internal set
-            {
-                this.totalGameTime = value;
-            }
-        }
-
-        public bool IsRunningSlowly
-        {
-            get
-            {
-                return this.isRunningSlowly;
-            }
-            internal set
-            {
-                this.isRunningSlowly = value;
-            }
-        }
-    }
+		public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime,
+			bool isRunningSlowly)
+		{
+			this.TotalGameTime = totalGameTime;
+			this.ElapsedGameTime = elapsedGameTime;
+			this.IsRunningSlowly = isRunningSlowly;
+		}
+		#endregion
+	}
 }

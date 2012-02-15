@@ -18,10 +18,15 @@ namespace WindowsGame1
 
             AddInSelector selector = new AddInSelector();
             if (selector.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                AddInSystemFactory.Instance.PreferredRenderSystem = selector.cbRenderSystem.Text;
-                AddInSystemFactory.Instance.PreferredSoundSystem = selector.cbAudioSystem.Text;
-                AddInSystemFactory.Instance.PreferredInputSystem = selector.cbInputSystem.Text;
+						{
+							AddInSystemFactory.Instance.SetPreferredSystem(
+								AddInType.RenderSystem, selector.cbRenderSystem.Text);
+							
+							AddInSystemFactory.Instance.SetPreferredSystem(
+								AddInType.SoundSystem, selector.cbAudioSystem.Text);
+							
+							AddInSystemFactory.Instance.SetPreferredSystem(
+								AddInType.InputSystem, selector.cbInputSystem.Text);
 
                 using (Game1 game = new Game1())
                 {

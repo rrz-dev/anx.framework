@@ -41,12 +41,6 @@
       <HintPath>..\lib\NLog\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioCategory.cs" />
@@ -420,7 +414,9 @@
     <Compile Include="Net\WriteLeaderboardsEventArgs.cs" />
     <Compile Include="NonXNA\AddIn.cs" />
     <Compile Include="NonXNA\AddInLoadingException.cs" />
+    <Compile Include="NonXNA\AddInSystemInfo.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
     <Compile Include="NonXNA\InputDeviceFactory.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePadCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IKeyboard.cs" />
@@ -430,6 +426,7 @@
     <Compile Include="NonXNA\InputSystem\IKeyboardCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMouseCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
+    <Compile Include="NonXNA\MediaSystem\IMediaSystemCreator.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />
     <Compile Include="NonXNA\ICreator.cs" />

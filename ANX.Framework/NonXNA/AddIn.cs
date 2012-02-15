@@ -76,14 +76,15 @@ namespace ANX.Framework.NonXNA
 
         public AddIn(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName))
+            if (String.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentNullException("fileName");
             }
 
-            if (!File.Exists(fileName))
+            if (File.Exists(fileName) == false)
             {
-                throw new InvalidOperationException(String.Format("The AddIn '{0}' does not exist.", fileName));
+                throw new InvalidOperationException(
+									String.Format("The AddIn '{0}' does not exist.", fileName));
             }
 
             this.fileName = fileName;
@@ -96,30 +97,14 @@ namespace ANX.Framework.NonXNA
 
             if (this.assembly != null)
             {
-                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IInputSystemCreator).IsAssignableFrom(p) ||
-                                                              typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
-                                                              typeof(ISoundSystemCreator).IsAssignableFrom(p)
-                                                        ))
+                foreach (Type t in this.assembly.GetTypes().Where(p =>
+									typeof(IInputSystemCreator).IsAssignableFrom(p) ||
+									typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
+									typeof(ISoundSystemCreator).IsAssignableFrom(p) ||
+									typeof(IMediaSystemCreator).IsAssignableFrom(p)))
                 {
                     this.creatorType = t;
-
-                    if (typeof(IInputSystemCreator).IsAssignableFrom(t))
-                    {
-                        this.addInType = AddInType.InputSystem;
-                    }
-                    else if (typeof(IRenderSystemCreator).IsAssignableFrom(t))
-                    {
-                        this.addInType = AddInType.RenderSystem;
-                    }
-                    else if (typeof(ISoundSystemCreator).IsAssignableFrom(t))
-                    {
-                        this.addInType = AddInType.SoundSystem;
-                    }
-                    else
-                    {
-                        this.addInType = AddInType.Unknown;
-                    }
-
+										this.addInType = AddInSystemFactory.GetAddInType(t);
                     break;
                 }
 
@@ -136,23 +121,27 @@ namespace ANX.Framework.NonXNA
                 // Scan the addin for InputDeviceCreators and register them
                 //
 
-                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IGamePadCreator).IsAssignableFrom(p)))
+                foreach (Type t in this.assembly.GetTypes().Where(p =>
+									typeof(IGamePadCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IGamePadCreator);
                 }
 
-                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IKeyboardCreator).IsAssignableFrom(p)))
+                foreach (Type t in this.assembly.GetTypes().Where(p =>
+									typeof(IKeyboardCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IKeyboardCreator);
                 }
 
-                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IMouseCreator).IsAssignableFrom(p)))
+                foreach (Type t in this.assembly.GetTypes().Where(p =>
+									typeof(IMouseCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMouseCreator);
                 }
 
 #if XNAEXT
-                foreach (Type t in this.assembly.GetTypes().Where(p => typeof(IMotionSensingDeviceCreator).IsAssignableFrom(p)))
+                foreach (Type t in this.assembly.GetTypes().Where(p =>
+									typeof(IMotionSensingDeviceCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMotionSensingDeviceCreator);
                 }
@@ -290,7 +279,9 @@ namespace ANX.Framework.NonXNA
         #endregion // Properties
 
         #region Private Helpers
-        private string[] FetchSupportedPlattforms(Assembly assembly)
+
+				#region FetchSupportedPlattforms
+				private string[] FetchSupportedPlattforms(Assembly assembly)
         {
             string[] platforms = null;
             string[] res = assembly.GetManifestResourceNames();
@@ -323,10 +314,11 @@ namespace ANX.Framework.NonXNA
 
             return platforms;
         }
+				#endregion
 
-        #endregion // Private Helpers
+				#endregion // Private Helpers
 
-        public int CompareTo(AddIn other)
+				public int CompareTo(AddIn other)
         {
             return this.Priority.CompareTo(other.Priority);
         }

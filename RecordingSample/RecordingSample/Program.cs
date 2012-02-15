@@ -9,7 +9,8 @@ namespace RecordingSample
         static void Main(string[] args)
         {
             //This is technically unessasary, because there is only a reference to the RecordingSystem...
-            AddInSystemFactory.Instance.PreferredInputSystem = "Recording";
+            AddInSystemFactory.Instance.SetPreferredSystem(
+							AddInType.InputSystem, "Recording");
             
             using (Game1 game = new Game1())
             {

@@ -106,6 +106,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MediaSystems\ANX.MediaSystem.Windows.OpenAL\ANX.MediaSystem.Windows.OpenAL.csproj">
+      <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
+      <Name>ANX.MediaSystem.Windows.OpenAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
       <Name>SampleContent</Name>

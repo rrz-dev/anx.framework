@@ -1,14 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.IO;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-using ANX.Framework.Input;
-
-#endregion // Using Statements
-
-#region License
+﻿#region License
 
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".

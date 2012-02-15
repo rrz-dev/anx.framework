@@ -10,9 +10,10 @@ namespace WindowsGame1
         /// The main entry point for the application.
         /// </summary>
         static void Main(string[] args)
-        {
-					//AddInSystemFactory.Instance.PreferredRenderSystem = "OpenGL3";
-			//AddInSystemFactory.Instance.PreferredRenderSystem = "DirectX11";
+			{
+				AddInSystemFactory.Instance.SetPreferredSystem(
+					AddInType.RenderSystem, "OpenGL3");
+				//AddInType.RenderSystem, "DirectX11");
 
             using (Game1 game = new Game1())
             {

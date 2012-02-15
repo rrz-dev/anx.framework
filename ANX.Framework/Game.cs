@@ -108,36 +108,24 @@ namespace ANX.Framework
                 throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
             }
 
-            IInputSystemCreator inputSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
-            if (inputSystemCreator != null)
-            {
-                this.gameServices.AddService(typeof(IInputSystemCreator), inputSystemCreator);
-            }
-
-            ISoundSystemCreator soundSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
-            if (soundSystemCreator != null)
-            {
-                this.gameServices.AddService(typeof(ISoundSystemCreator), soundSystemCreator);
-            }
-
-            IRenderSystemCreator renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-            if (renderSystemCreator != null)
-            {
-                this.gameServices.AddService(typeof(IRenderSystemCreator), renderSystemCreator);
-            }
-
+						AddSystemCreator<IInputSystemCreator>();
+						AddSystemCreator<ISoundSystemCreator>();
+						AddSystemCreator<IMediaSystemCreator>();
+						IRenderSystemCreator renderSystemCreator =
+							AddSystemCreator<IRenderSystemCreator>();
+            
             logger.Info("creating GameHost");
 
             if (renderSystemCreator != null)
             {
                 this.host = renderSystemCreator.CreateGameHost(this);
 
-                this.host.Activated += new EventHandler<EventArgs>(this.HostActivated);
-                this.host.Deactivated += new EventHandler<EventArgs>(this.HostDeactivated);
-                this.host.Suspend += new EventHandler<EventArgs>(this.HostSuspend);
-                this.host.Resume += new EventHandler<EventArgs>(this.HostResume);
-                this.host.Idle += new EventHandler<EventArgs>(this.HostIdle);
-                this.host.Exiting += new EventHandler<EventArgs>(this.HostExiting);
+                this.host.Activated += HostActivated;
+                this.host.Deactivated += HostDeactivated;
+                this.host.Suspend += HostSuspend;
+                this.host.Resume += HostResume;
+                this.host.Idle += HostIdle;
+                this.host.Exiting += HostExiting;
             }
             else
             {
@@ -163,7 +151,19 @@ namespace ANX.Framework
             //TODO: implement
         }
 
-        protected virtual void Initialize()
+				#region AddSystemCreator
+				private T AddSystemCreator<T>() where T : class, ICreator
+				{
+					T creator = AddInSystemFactory.Instance.GetDefaultCreator<T>();
+					if (creator != null)
+					{
+						this.gameServices.AddService(typeof(T), creator);
+					}
+					return creator;
+				}
+				#endregion
+
+				protected virtual void Initialize()
         {
             //TODO: implement
 

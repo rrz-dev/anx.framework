@@ -67,8 +67,9 @@ namespace ANX.InputDevices.Test
         public IGamePad GamePad
         {
             get
-            {
-                AddInSystemFactory.Instance.PreventInputSystemChange();
+					{
+						AddInSystemFactory.Instance.PreventSystemChange(
+							AddInType.InputSystem);
                 if (_gamePad == null)
                 {
                     _gamePad = new GamePad();
@@ -80,8 +81,9 @@ namespace ANX.InputDevices.Test
         public IMouse Mouse
         {
             get
-            {
-                AddInSystemFactory.Instance.PreventInputSystemChange();
+					{
+						AddInSystemFactory.Instance.PreventSystemChange(
+							AddInType.InputSystem);
                 if (_mouse == null)
                 {
                     _mouse = new Mouse();
@@ -93,8 +95,9 @@ namespace ANX.InputDevices.Test
         public IKeyboard Keyboard
         {
             get
-            {
-                AddInSystemFactory.Instance.PreventInputSystemChange();
+					{
+						AddInSystemFactory.Instance.PreventSystemChange(
+							AddInType.InputSystem);
                 if (_keyboard == null)
                 {
                     _keyboard = new Keyboard();

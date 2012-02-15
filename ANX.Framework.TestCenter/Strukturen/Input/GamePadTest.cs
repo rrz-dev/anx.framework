@@ -90,7 +90,8 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         {
             AddInSystemFactory.Instance.Initialize();
 
-            AddInSystemFactory.Instance.PreferredInputSystem = "XInput";
+						AddInSystemFactory.Instance.SetPreferredSystem(
+							AddInType.InputSystem, "XInput");
             XNAGamePadState xnastate = XNAGamePad.GetState(xnaplayer);
             ANXGamePadState anxstate = ANXGamePad.GetState(anxplayer);
 
