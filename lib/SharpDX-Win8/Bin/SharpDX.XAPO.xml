@@ -587,11 +587,6 @@
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.XAPO.Fx.XAPOFx']/*"/>	
         </member>
-        <member name="F:SharpDX.XAPO.Fx.XAPOFx.DllHandle0_">
-            <summary>
-            DLLs loaders
-            </summary>
-        </member>
         <member name="M:SharpDX.XAPO.Fx.XAPOFx.CreateFX(System.Guid,SharpDX.ComObject,System.IntPtr,System.Int32)">
             <summary>	
             <code>	

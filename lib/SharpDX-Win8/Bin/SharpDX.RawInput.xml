@@ -594,11 +594,6 @@
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.RawInput.RawInputFunctions']/*"/>	
         </member>
-        <member name="F:SharpDX.RawInput.RawInputFunctions.DllHandle0_">
-            <summary>
-            DLLs loaders
-            </summary>
-        </member>
         <member name="M:SharpDX.RawInput.RawInputFunctions.GetRawInputDeviceList(SharpDX.RawInput.RawInputDevicelist[],System.Int32@,System.Int32)">
             <summary>	
             Enumerates the raw input devices attached to the system.	

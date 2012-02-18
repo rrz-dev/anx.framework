@@ -635,14 +635,14 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_FLAGS']/*"/>	
             <unmanaged>XAUDIO2_VOICE_FLAGS</unmanaged>	
         </member>
-        <member name="F:SharpDX.XAudio2.VoiceFlags.Nopitch">
+        <member name="F:SharpDX.XAudio2.VoiceFlags.NoPitch">
             <summary>	
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_NOPITCH']/*"/>	
             <unmanaged>XAUDIO2_VOICE_NOPITCH</unmanaged>	
         </member>
-        <member name="F:SharpDX.XAudio2.VoiceFlags.Nosrc">
+        <member name="F:SharpDX.XAudio2.VoiceFlags.NoSampleRateConversion">
             <summary>	
             No documentation.	
             </summary>	
@@ -677,7 +677,7 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_SEND_FLAGS']/*"/>	
             <unmanaged>XAUDIO2_VOICE_SEND_FLAGS</unmanaged>	
         </member>
-        <member name="F:SharpDX.XAudio2.VoiceSendFlags.Usefilter">
+        <member name="F:SharpDX.XAudio2.VoiceSendFlags.UseFilter">
             <summary>	
             No documentation.	
             </summary>	
@@ -710,11 +710,6 @@
             Functions	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.XAudio2.XAudio2Functions']/*"/>	
-        </member>
-        <member name="F:SharpDX.XAudio2.XAudio2Functions.DllHandle0_">
-            <summary>
-            DLLs loaders
-            </summary>
         </member>
         <member name="M:SharpDX.XAudio2.XAudio2Functions.XAudio2Create(SharpDX.XAudio2.XAudio2,System.Int32,System.Int32)">
             <summary>	
@@ -1741,12 +1736,12 @@
             <see cref="T:SharpDX.Result"/> SetFrequencyRatio( float 	
             </code>	
               Parameters<list>	
-            <item><term>Ratio</term><description>[in]  Frequency adjustment ratio. This value must be between XAUDIO2_MIN_FREQ_RATIO and the MaxFrequencyRatio parameter specified when the voice was created (see <see cref="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,SharpDX.Multimedia.WaveFormat@,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})"/>). XAUDIO2_MIN_FREQ_RATIO currently is 0.0005, which allows pitch to be lowered by up to 11 octaves. </description></item>	
+            <item><term>Ratio</term><description>[in]  Frequency adjustment ratio. This value must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and the MaxFrequencyRatio parameter specified when the voice was created (see <see cref="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,System.IntPtr,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})"/>). <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> currently is 0.0005, which allows pitch to be lowered by up to 11 octaves. </description></item>	
             <item><term>OperationSet</term><description>[in]  Identifies this call as part of a deferred batch. See the XAudio2 Operation Sets overview for more information. </description></item>	
             </list>	
              Return Value<para>Returns <see cref="F:SharpDX.Result.Ok"/> if successful, an error code otherwise.  See XAudio2 Error Codes for descriptions of error codes. </para>	
             </summary>	
-            <param name="ratio">[in]  Frequency adjustment ratio. This value must be between XAUDIO2_MIN_FREQ_RATIO and the MaxFrequencyRatio parameter specified when the voice was created (see <see cref="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,SharpDX.Multimedia.WaveFormat@,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})"/>). XAUDIO2_MIN_FREQ_RATIO currently is 0.0005, which allows pitch to be lowered by up to 11 octaves.</param>	
+            <param name="ratio">[in]  Frequency adjustment ratio. This value must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and the MaxFrequencyRatio parameter specified when the voice was created (see <see cref="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,System.IntPtr,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})"/>). <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> currently is 0.0005, which allows pitch to be lowered by up to 11 octaves.</param>	
             <param name="operationSet">[in]  Identifies this call as part of a deferred batch. See the XAudio2 Operation Sets overview for more information.</param>	
             <returns><para>Returns <see cref="F:SharpDX.Result.Ok"/> if successful, an error code otherwise.  See XAudio2 Error Codes for descriptions of error codes. </para></returns>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2SourceVoice::SetFrequencyRatio']/*"/>	
@@ -2088,6 +2083,74 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2']/*"/>	
             <unmanaged>IXAudio2</unmanaged>	
         </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumBufferBytes">
+            <summary>Constant MaximumBufferBytes.</summary>
+            <unmanaged>XAUDIO2_MAX_BUFFER_BYTES</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumQueuedBuffers">
+            <summary>Constant MaximumQueuedBuffers.</summary>
+            <unmanaged>XAUDIO2_MAX_QUEUED_BUFFERS</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels">
+            <summary>Constant MaximumAudioChannels.</summary>
+            <unmanaged>XAUDIO2_MAX_AUDIO_CHANNELS</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate">
+            <summary>Constant MinimumSampleRate.</summary>
+            <unmanaged>XAUDIO2_MIN_SAMPLE_RATE</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate">
+            <summary>Constant MaximumSampleRate.</summary>
+            <unmanaged>XAUDIO2_MAX_SAMPLE_RATE</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumVolumeLevel">
+            <summary>Constant MaximumVolumeLevel.</summary>
+            <unmanaged>XAUDIO2_MAX_VOLUME_LEVEL</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio">
+            <summary>Constant MinimumFrequencyRatio.</summary>
+            <unmanaged>XAUDIO2_MIN_FREQ_RATIO</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumFrequencyRatio">
+            <summary>Constant MaximumFrequencyRatio.</summary>
+            <unmanaged>XAUDIO2_MAX_FREQ_RATIO</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.DefaultFrequencyRatio">
+            <summary>Constant DefaultFrequencyRatio.</summary>
+            <unmanaged>XAUDIO2_DEFAULT_FREQ_RATIO</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumFilterOneOverQ">
+            <summary>Constant MaximumFilterOneOverQ.</summary>
+            <unmanaged>XAUDIO2_MAX_FILTER_ONEOVERQ</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumFilterFrequency">
+            <summary>Constant MaximumFilterFrequency.</summary>
+            <unmanaged>XAUDIO2_MAX_FILTER_FREQUENCY</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.MaximumLoopCount">
+            <summary>Constant MaximumLoopCount.</summary>
+            <unmanaged>XAUDIO2_MAX_LOOP_COUNT</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.CommitNow">
+            <summary>Constant CommitNow.</summary>
+            <unmanaged>XAUDIO2_COMMIT_NOW</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.CommitAll">
+            <summary>Constant CommitAll.</summary>
+            <unmanaged>XAUDIO2_COMMIT_ALL</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.NoLoopRegion">
+            <summary>Constant NoLoopRegion.</summary>
+            <unmanaged>XAUDIO2_NO_LOOP_REGION</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.DefaultChannels">
+            <summary>Constant DefaultChannels.</summary>
+            <unmanaged>XAUDIO2_DEFAULT_CHANNELS</unmanaged>
+        </member>
+        <member name="F:SharpDX.XAudio2.XAudio2.DefaultSampleRate">
+            <summary>Constant DefaultSampleRate.</summary>
+            <unmanaged>XAUDIO2_DEFAULT_SAMPLERATE</unmanaged>
+        </member>
         <member name="M:SharpDX.XAudio2.XAudio2.#ctor(System.IntPtr)">
             <summary>
             Initializes a new instance of the <see cref="T:SharpDX.XAudio2.XAudio2"/> class.
@@ -2111,7 +2174,7 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::UnregisterForCallbacks']/*"/>	
             <unmanaged>void IXAudio2::UnregisterForCallbacks([In] IXAudio2EngineCallback* pCallback)</unmanaged>	
         </member>
-        <member name="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,SharpDX.Multimedia.WaveFormat@,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})">
+        <member name="M:SharpDX.XAudio2.XAudio2.CreateSourceVoice_(SharpDX.XAudio2.SourceVoice,System.IntPtr,SharpDX.XAudio2.VoiceFlags,System.Single,System.IntPtr,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})">
             <summary>	
             <code>	
             <see cref="T:SharpDX.Result"/> CreateSourceVoice( <see cref="T:SharpDX.XAudio2.SourceVoice"/> **	
@@ -2125,10 +2188,10 @@
                <para>24-bit integer PCM (either in 24 or 32 bit containers)</para>	
                <para>32-bit integer PCM</para>	
                <para>32-bit float PCM (preferred format after 16-bit integer)</para>	
-               <para>The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.</para>	
+               <para>The number of channels in a source voice must be less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels"/>. The sample rate of a source voice must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate"/>.</para>	
              Note Data formats such as  ADPCM that require more information than provided by  <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structures. When you create a source voice  with one of those formats, cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure  and use it as the value for pSourceFormat. </description></item>	
-            <item><term>Flags</term><description>[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination  of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice.  The voice's outputs must have the same sample rate. Note The <see cref="F:SharpDX.XAudio2.VoiceFlags.Nosrc"/> flag causes the voice to behave  as though the <see cref="F:SharpDX.XAudio2.VoiceFlags.Nopitch"/> flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.? </description></item>	
-            <item><term>MaxFrequencyRatio</term><description>[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between XAUDIO2_MIN_FREQ_RATIO and MaxFrequencyRatio. <para>The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves.</para>	
+            <item><term>Flags</term><description>[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination  of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice.  The voice's outputs must have the same sample rate. Note The <see cref="F:SharpDX.XAudio2.VoiceFlags.NoSampleRateConversion"/> flag causes the voice to behave  as though the <see cref="F:SharpDX.XAudio2.VoiceFlags.NoPitch"/> flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.? </description></item>	
+            <item><term>MaxFrequencyRatio</term><description>[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFrequencyRatio"/>. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and MaxFrequencyRatio. <para>The maximum value for this argument is defined as <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFrequencyRatio"/>, which allows pitch to be raised by up to 10 octaves.</para>	
              <para>If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0).</para>	
              Xbox 360  <para>For XMA voices, there is one more restriction on the MaxFrequencyRatio argument  and the voice's sample rate. The product of these two numbers  cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices  or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels.  If the value specified for MaxFrequencyRatio is too high for the specified format,  the call to CreateSourceVoice fails and produces a debug message.</para>	
               Note  You can use the lowest possible MaxFrequencyRatio value to reduce XAudio2's memory usage. </description></item>	
@@ -2140,15 +2203,15 @@
              <para> See XAudio2 Error Codes for descriptions of XAudio2-specific error codes.</para>	
             </summary>	
             <param name="sourceVoiceOut">[out]  If successful, returns a reference to the new <see cref="T:SharpDX.XAudio2.SourceVoice"/> object.</param>	
-            <param name="sourceFormatRef">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. <para>XAudio2 supports PCM and ADPCM voice types. XAudio2 supports the following PCM formats.</para>   <para>8-bit (unsigned) integer PCM</para>   <para>16-bit integer PCM (optimal format for XAudio2)</para>   <para>20-bit integer PCM (either in 24 or 32 bit containers)</para>   <para>24-bit integer PCM (either in 24 or 32 bit containers)</para>   <para>32-bit integer PCM</para>   <para>32-bit float PCM (preferred format after 16-bit integer)</para>   <para>The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.</para> Note Data formats such as  ADPCM that require more information than provided by  <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structures. When you create a source voice  with one of those formats, cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure  and use it as the value for pSourceFormat.</param>	
-            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination  of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice.  The voice's outputs must have the same sample rate. Note The <see cref="F:SharpDX.XAudio2.VoiceFlags.Nosrc"/> flag causes the voice to behave  as though the <see cref="F:SharpDX.XAudio2.VoiceFlags.Nopitch"/> flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?</param>	
-            <param name="maxFrequencyRatio">[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between XAUDIO2_MIN_FREQ_RATIO and MaxFrequencyRatio. <para>The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves.</para> <para>If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0).</para> Xbox 360  <para>For XMA voices, there is one more restriction on the MaxFrequencyRatio argument  and the voice's sample rate. The product of these two numbers  cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices  or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels.  If the value specified for MaxFrequencyRatio is too high for the specified format,  the call to CreateSourceVoice fails and produces a debug message.</para>  Note  You can use the lowest possible MaxFrequencyRatio value to reduce XAudio2's memory usage.</param>	
+            <param name="sourceFormatRef">[in]  Pointer to a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure. This structure contains the expected format for all audio buffers submitted to the source voice. <para>XAudio2 supports PCM and ADPCM voice types. XAudio2 supports the following PCM formats.</para>   <para>8-bit (unsigned) integer PCM</para>   <para>16-bit integer PCM (optimal format for XAudio2)</para>   <para>20-bit integer PCM (either in 24 or 32 bit containers)</para>   <para>24-bit integer PCM (either in 24 or 32 bit containers)</para>   <para>32-bit integer PCM</para>   <para>32-bit float PCM (preferred format after 16-bit integer)</para>   <para>The number of channels in a source voice must be less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels"/>. The sample rate of a source voice must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate"/>.</para> Note Data formats such as  ADPCM that require more information than provided by  <see cref="T:SharpDX.Multimedia.WaveFormat"/> have a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure as the first member in their format structures. When you create a source voice  with one of those formats, cast the format's structure as a <see cref="T:SharpDX.Multimedia.WaveFormat"/> structure  and use it as the value for pSourceFormat.</param>	
+            <param name="flags">[in]  Flags that specify the behavior of the source voice. A flag can be 0 or a combination  of one or more of the following: ValueDescriptionXAUDIO2_VOICE_NOPITCHNo pitch control is available on the voice.?XAUDIO2_VOICE_NOSRCNo sample rate conversion is available on the voice.  The voice's outputs must have the same sample rate. Note The <see cref="F:SharpDX.XAudio2.VoiceFlags.NoSampleRateConversion"/> flag causes the voice to behave  as though the <see cref="F:SharpDX.XAudio2.VoiceFlags.NoPitch"/> flag also is specified. ?XAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?</param>	
+            <param name="maxFrequencyRatio">[in]  Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFrequencyRatio"/>. Subsequent calls to <see cref="M:SharpDX.XAudio2.SourceVoice.SetFrequencyRatio(System.Single,System.Int32)"/> are clamped between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumFrequencyRatio"/> and MaxFrequencyRatio. <para>The maximum value for this argument is defined as <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFrequencyRatio"/>, which allows pitch to be raised by up to 10 octaves.</para> <para>If MaxFrequencyRatio is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0).</para> Xbox 360  <para>For XMA voices, there is one more restriction on the MaxFrequencyRatio argument  and the voice's sample rate. The product of these two numbers  cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices  or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels.  If the value specified for MaxFrequencyRatio is too high for the specified format,  the call to CreateSourceVoice fails and produces a debug message.</para>  Note  You can use the lowest possible MaxFrequencyRatio value to reduce XAudio2's memory usage.</param>	
             <param name="callbackRef">[in, optional]  Pointer to a client-provided callback interface, <see cref="T:SharpDX.XAudio2.VoiceCallback"/>.</param>	
             <param name="sendListRef">[in, optional]  Pointer to a list of <see cref="T:SharpDX.XAudio2.VoiceSendDescriptors"/> structures  that describe the set of destination voices for the source voice.  If pSendList is <c>null</c>, the send list defaults to a single output to the first mastering voice created.</param>	
             <param name="effectChainRef">[in, optional]  Pointer to a list of <see cref="T:SharpDX.XAudio2.EffectChain"/> structures that describe  an effect chain to use in the source voice.</param>	
             <returns><para> Returns <see cref="F:SharpDX.Result.Ok"/> if successful; otherwise, an error code. </para> <para> See XAudio2 Error Codes for descriptions of XAudio2-specific error codes.</para></returns>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CreateSourceVoice']/*"/>	
-            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out, Fast] IXAudio2SourceVoice** ppSourceVoice,[In] const WAVEFORMATEX* pSourceFormat,[In] XAUDIO2_VOICE_FLAGS Flags,[In] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
+            <unmanaged>HRESULT IXAudio2::CreateSourceVoice([Out, Fast] IXAudio2SourceVoice** ppSourceVoice,[In] const void* pSourceFormat,[In] XAUDIO2_VOICE_FLAGS Flags,[In] float MaxFrequencyRatio,[In, Optional] IXAudio2VoiceCallback* pCallback,[In, Optional] const XAUDIO2_VOICE_SENDS* pSendList,[In, Optional] const XAUDIO2_EFFECT_CHAIN* pEffectChain)</unmanaged>	
         </member>
         <member name="M:SharpDX.XAudio2.XAudio2.CreateSubmixVoice(SharpDX.XAudio2.SubmixVoice,System.Int32,System.Int32,SharpDX.XAudio2.VoiceSendFlags,System.Int32,System.Nullable{SharpDX.XAudio2.VoiceSendDescriptors},System.Nullable{SharpDX.XAudio2.EffectChain})">
             <summary>	
@@ -2157,9 +2220,9 @@
             </code>	
               Parameters<list>	
             <item><term>ppSubmixVoice</term><description>[out]  On success, returns a reference to the new  <see cref="T:SharpDX.XAudio2.SubmixVoice"/> object. </description></item>	
-            <item><term>InputChannels</term><description>[in]  Number of channels in the input audio data of the submix voice. <para>InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS.</para>	
+            <item><term>InputChannels</term><description>[in]  Number of channels in the input audio data of the submix voice. <para>InputChannels must be less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels"/>.</para>	
              </description></item>	
-            <item><term>InputSampleRate</term><description>[in]  Sample rate of the input audio data of submix voice. This rate must be a multiple of  XAUDIO2_QUANTUM_DENOMINATOR.  InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE. </description></item>	
+            <item><term>InputSampleRate</term><description>[in]  Sample rate of the input audio data of submix voice. This rate must be a multiple of  XAUDIO2_QUANTUM_DENOMINATOR.  InputSampleRate must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate"/>. </description></item>	
             <item><term>Flags</term><description>[in]  Flags that specify the behavior of the submix voice. It can be 0 or the following: ValueDescriptionXAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.? </description></item>	
             <item><term>ProcessingStage</term><description>[in]  An arbitrary number that specifies when this voice is processed with respect to other submix  voices, if the XAudio2 engine is running other submix voices. The voice is processed after all other  voices that include a smaller ProcessingStage value and before all other voices  that include a larger ProcessingStage value. Voices that include the same  ProcessingStage value are processed in any order. A submix voice cannot send to  another submix voice with a lower or equal ProcessingStage value. This prevents  audio being lost due to a submix cycle. </description></item>	
             <item><term>pSendList</term><description>[in, optional]  Pointer to a list of <see cref="T:SharpDX.XAudio2.VoiceSendDescriptors"/> structures that describe the set  of destination voices for the submix voice. If pSendList is <c>null</c>, the send list will default to a single output to the  first mastering voice created. </description></item>	
@@ -2169,8 +2232,8 @@
              <para> See XAudio2 Error Codes for descriptions of XAudio2 specific error codes.</para>	
             </summary>	
             <param name="submixVoiceOut">[out]  On success, returns a reference to the new  <see cref="T:SharpDX.XAudio2.SubmixVoice"/> object.</param>	
-            <param name="inputChannels">[in]  Number of channels in the input audio data of the submix voice. <para>InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS.</para></param>	
-            <param name="inputSampleRate">[in]  Sample rate of the input audio data of submix voice. This rate must be a multiple of  XAUDIO2_QUANTUM_DENOMINATOR.  InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.</param>	
+            <param name="inputChannels">[in]  Number of channels in the input audio data of the submix voice. <para>InputChannels must be less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels"/>.</para></param>	
+            <param name="inputSampleRate">[in]  Sample rate of the input audio data of submix voice. This rate must be a multiple of  XAUDIO2_QUANTUM_DENOMINATOR.  InputSampleRate must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate"/>.</param>	
             <param name="flags">[in]  Flags that specify the behavior of the submix voice. It can be 0 or the following: ValueDescriptionXAUDIO2_VOICE_USEFILTERThe filter effect should be available on this voice.?</param>	
             <param name="processingStage">[in]  An arbitrary number that specifies when this voice is processed with respect to other submix  voices, if the XAudio2 engine is running other submix voices. The voice is processed after all other  voices that include a smaller ProcessingStage value and before all other voices  that include a larger ProcessingStage value. Voices that include the same  ProcessingStage value are processed in any order. A submix voice cannot send to  another submix voice with a lower or equal ProcessingStage value. This prevents  audio being lost due to a submix cycle.</param>	
             <param name="sendListRef">[in, optional]  Pointer to a list of <see cref="T:SharpDX.XAudio2.VoiceSendDescriptors"/> structures that describe the set  of destination voices for the submix voice. If pSendList is <c>null</c>, the send list will default to a single output to the  first mastering voice created.</param>	
@@ -2184,8 +2247,8 @@
             Creates and configures a mastering voice.	
             </summary>	
             <param name="masteringVoiceOut">[out]  If successful, returns a reference to the new <see cref="T:SharpDX.XAudio2.MasteringVoice"/> object.</param>	
-            <param name="inputChannels">[in]  Number of channels the mastering voice expects in its input audio. <para>InputChannels must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS.</para> <para>InputChannels can be set to XAUDIO2_DEFAULT_CHANNELS, with the default being determined by the current platform.</para> Windows  <para>Attempts to detect the system speaker configuration setup.</para>  Xbox 360  <para>Defaults to 5.1 surround.</para></param>	
-            <param name="inputSampleRate">[in]  Sample rate of the input audio data of the mastering voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. <para>InputSampleRate must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.</para> <para>InputSampleRate can be set to XAUDIO2_DEFAULT_SAMPLERATE, with the default being determined by the current platform.</para> Windows  <para>Windows XP defaults to 44100.</para> <para>Windows Vista and Windows 7 default to the setting specified in the Sound Control Panel. The default for this setting is 44100 (or 48000 if required by the driver).</para>  Xbox 360  <para>Defaults to 48000.</para></param>	
+            <param name="inputChannels">[in]  Number of channels the mastering voice expects in its input audio. <para>InputChannels must be less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumAudioChannels"/>.</para> <para>InputChannels can be set to <see cref="F:SharpDX.XAudio2.XAudio2.DefaultChannels"/>, with the default being determined by the current platform.</para> Windows  <para>Attempts to detect the system speaker configuration setup.</para>  Xbox 360  <para>Defaults to 5.1 surround.</para></param>	
+            <param name="inputSampleRate">[in]  Sample rate of the input audio data of the mastering voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. <para>InputSampleRate must be between <see cref="F:SharpDX.XAudio2.XAudio2.MinimumSampleRate"/> and <see cref="F:SharpDX.XAudio2.XAudio2.MaximumSampleRate"/>.</para> <para>InputSampleRate can be set to <see cref="F:SharpDX.XAudio2.XAudio2.DefaultSampleRate"/>, with the default being determined by the current platform.</para> Windows  <para>Windows XP defaults to 44100.</para> <para>Windows Vista and Windows 7 default to the setting specified in the Sound Control Panel. The default for this setting is 44100 (or 48000 if required by the driver).</para>  Xbox 360  <para>Defaults to 48000.</para></param>	
             <param name="flags">[in]  Flags that specify the behavior of the mastering voice. Must be 0.</param>	
             <param name="szDeviceId">[in]  Index of the output device that will be sent input by the mastering voice. Specifying the default value of 0 causes XAudio2 to select the global default audio device.</param>	
             <param name="effectChainRef">[in, optional]  Pointer to an <see cref="T:SharpDX.XAudio2.EffectChain"/> structure that describe an effect chain to use in the mastering voice, or <c>null</c> to use no effects.</param>	
@@ -2221,11 +2284,11 @@
             <see cref="T:SharpDX.Result"/> CommitChanges( UINT32 	
             </code>	
               Parameters<list>	
-            <item><term>OperationSet</term><description>[in]  Identifier of the set of operations to be applied. To commit all pending operations, pass XAUDIO2_COMMIT_ALL. </description></item>	
+            <item><term>OperationSet</term><description>[in]  Identifier of the set of operations to be applied. To commit all pending operations, pass <see cref="F:SharpDX.XAudio2.XAudio2.CommitAll"/>. </description></item>	
             </list>	
              Return Value <para>Returns <see cref="F:SharpDX.Result.Ok"/> if successful; returns an error code otherwise. See XAudio2 Error Codes for descriptions of XAudio2 specific error codes.</para>	
             </summary>	
-            <param name="operationSet">[in]  Identifier of the set of operations to be applied. To commit all pending operations, pass XAUDIO2_COMMIT_ALL.</param>	
+            <param name="operationSet">[in]  Identifier of the set of operations to be applied. To commit all pending operations, pass <see cref="F:SharpDX.XAudio2.XAudio2.CommitAll"/>.</param>	
             <returns><para>Returns <see cref="F:SharpDX.Result.Ok"/> if successful; returns an error code otherwise. See XAudio2 Error Codes for descriptions of XAudio2 specific error codes.</para></returns>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IXAudio2::CommitChanges']/*"/>	
             <unmanaged>HRESULT IXAudio2::CommitChanges([In] unsigned int OperationSet)</unmanaged>	
@@ -2450,9 +2513,9 @@
             </code>	
              Members<list>	
             <item><term>Type</term><description> An <see cref="T:SharpDX.XAudio2.FilterType"/> indicating whether the filter is low pass, band pass, high pass, or notch. </description></item>	
-            <item><term>Frequency</term><description> Filter radian frequency calculated as (2 * sin(pi * (desired filter cutoff frequency) / sampleRate)). The frequency must be greater than or equal to 0 and less than or equal to XAUDIO2_MAX_FILTER_FREQUENCY. The maximum frequency allowable is equal to the source sound's sample rate divided by six which corresponds to the maximum filter radian frequency of 1. For example, if a sound's sample rate is 48000 and the desired cutoff frequency is the maximum allowable value for that sample rate, 8000, the value for Frequency will be 1. <para>If XAUDIO2_HELPER_FUNCTIONS is defined, XAudio2.h will include the XAudio2RadiansToCutoffFrequency and XAudio2CutoffFrequencyToRadians helper functions for converting between hertz and radian frequencies.</para>	
+            <item><term>Frequency</term><description> Filter radian frequency calculated as (2 * sin(pi * (desired filter cutoff frequency) / sampleRate)). The frequency must be greater than or equal to 0 and less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFilterFrequency"/>. The maximum frequency allowable is equal to the source sound's sample rate divided by six which corresponds to the maximum filter radian frequency of 1. For example, if a sound's sample rate is 48000 and the desired cutoff frequency is the maximum allowable value for that sample rate, 8000, the value for Frequency will be 1. <para>If XAUDIO2_HELPER_FUNCTIONS is defined, XAudio2.h will include the XAudio2RadiansToCutoffFrequency and XAudio2CutoffFrequencyToRadians helper functions for converting between hertz and radian frequencies.</para>	
              </description></item>	
-            <item><term>OneOverQ</term><description> Reciprocal of Q factor. Controls how quickly frequencies beyond Frequency are dampened. Larger values result in quicker dampening while smaller values cause dampening to occur more gradually. Must be greater than 0 and less than or equal to XAUDIO2_MAX_FILTER_ONEOVERQ. </description></item>	
+            <item><term>OneOverQ</term><description> Reciprocal of Q factor. Controls how quickly frequencies beyond Frequency are dampened. Larger values result in quicker dampening while smaller values cause dampening to occur more gradually. Must be greater than 0 and less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFilterOneOverQ"/>. </description></item>	
             </list>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS']/*"/>	
@@ -2467,14 +2530,14 @@
         </member>
         <member name="F:SharpDX.XAudio2.FilterParameters.Frequency">
             <summary>	
-            Filter radian frequency calculated as (2 * sin(pi * (desired filter cutoff frequency) / sampleRate)). The frequency must be greater than or equal to 0 and less than or equal to XAUDIO2_MAX_FILTER_FREQUENCY. The maximum frequency allowable is equal to the source sound's sample rate divided by six which corresponds to the maximum filter radian frequency of 1. For example, if a sound's sample rate is 48000 and the desired cutoff frequency is the maximum allowable value for that sample rate, 8000, the value for Frequency will be 1. <para>If XAUDIO2_HELPER_FUNCTIONS is defined, XAudio2.h will include the XAudio2RadiansToCutoffFrequency and XAudio2CutoffFrequencyToRadians helper functions for converting between hertz and radian frequencies.</para>	
+            Filter radian frequency calculated as (2 * sin(pi * (desired filter cutoff frequency) / sampleRate)). The frequency must be greater than or equal to 0 and less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFilterFrequency"/>. The maximum frequency allowable is equal to the source sound's sample rate divided by six which corresponds to the maximum filter radian frequency of 1. For example, if a sound's sample rate is 48000 and the desired cutoff frequency is the maximum allowable value for that sample rate, 8000, the value for Frequency will be 1. <para>If XAUDIO2_HELPER_FUNCTIONS is defined, XAudio2.h will include the XAudio2RadiansToCutoffFrequency and XAudio2CutoffFrequencyToRadians helper functions for converting between hertz and radian frequencies.</para>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS::Frequency']/*"/>	
             <unmanaged>float Frequency</unmanaged>	
         </member>
         <member name="F:SharpDX.XAudio2.FilterParameters.OneOverQ">
             <summary>	
-            Reciprocal of Q factor. Controls how quickly frequencies beyond Frequency are dampened. Larger values result in quicker dampening while smaller values cause dampening to occur more gradually. Must be greater than 0 and less than or equal to XAUDIO2_MAX_FILTER_ONEOVERQ.	
+            Reciprocal of Q factor. Controls how quickly frequencies beyond Frequency are dampened. Larger values result in quicker dampening while smaller values cause dampening to occur more gradually. Must be greater than 0 and less than or equal to <see cref="F:SharpDX.XAudio2.XAudio2.MaximumFilterOneOverQ"/>.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_FILTER_PARAMETERS::OneOverQ']/*"/>	
             <unmanaged>float OneOverQ</unmanaged>	
@@ -2633,7 +2696,7 @@
             Flags used to create the voice; see the individual voice interfaces for more information.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS::CreationFlags']/*"/>	
-            <unmanaged>unsigned int CreationFlags</unmanaged>	
+            <unmanaged>XAUDIO2_VOICE_FLAGS CreationFlags</unmanaged>	
         </member>
         <member name="F:SharpDX.XAudio2.VoiceDetails.ActiveFlags">
             <summary>	
@@ -2642,7 +2705,7 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XAUDIO2_VOICE_DETAILS::ActiveFlags']/*"/>	
             <unmanaged>unsigned int ActiveFlags</unmanaged>	
         </member>
-        <member name="F:SharpDX.XAudio2.VoiceDetails.InputChanneCount">
+        <member name="F:SharpDX.XAudio2.VoiceDetails.InputChannelCount">
             <summary>	
             The number of input channels the voice expects.	
             </summary>	

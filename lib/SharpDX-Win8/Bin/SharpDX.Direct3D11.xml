@@ -897,6 +897,10 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device']/*"/>	
             <unmanaged>ID3D11Device</unmanaged>	
         </member>
+        <member name="F:SharpDX.Direct3D11.Device.MultisampleCountMaximum">
+            <summary>Constant MultisampleCountMaximum.</summary>
+            <unmanaged>D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT</unmanaged>
+        </member>
         <member name="M:SharpDX.Direct3D11.Device.#ctor(SharpDX.Direct3D.DriverType)">
             <summary>
               Constructor for a D3D11 Device. See <see cref="M:SharpDX.Direct3D11.D3D11.CreateDevice(SharpDX.DXGI.Adapter,SharpDX.Direct3D.DriverType,System.IntPtr,SharpDX.Direct3D11.DeviceCreationFlags,SharpDX.Direct3D.FeatureLevel[],System.Int32,System.Int32,SharpDX.Direct3D11.Device,SharpDX.Direct3D.FeatureLevel@,SharpDX.Direct3D11.DeviceContext@)"/> for more information.
@@ -1472,7 +1476,7 @@
             <param name="sampleCount"><para>The number of samples during multisampling.</para></param>	
             <returns><para>Number of quality levels supported by the adapter. See remarks.</para></returns>	
             <remarks>	
-            When multisampling a texture, the number of quality levels available for an adapter is dependent on the texture format used and the number of  samples requested. The maximum number of quality levels is defined by D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT in D3D11.h. If this method returns 0, the format  and sample count combination is not supported for the installed adapter.Furthermore, the definition of a quality level is up to each hardware vendor to define, however no facility is provided by Direct3D to help discover  this information.Note that FEATURE_LEVEL_10_1 devices are required to support 4x MSAA for all render targets except R32G32B32A32 and R32G32B32. FEATURE_LEVEL_11_0 devices are required to support 4x MSAA for all render target formats, and 8x MSAA for all render target formats  except R32G32B32A32 formats.	
+            When multisampling a texture, the number of quality levels available for an adapter is dependent on the texture format used and the number of  samples requested. The maximum number of quality levels is defined by <see cref="F:SharpDX.Direct3D11.Device.MultisampleCountMaximum"/> in D3D11.h. If this method returns 0, the format  and sample count combination is not supported for the installed adapter.Furthermore, the definition of a quality level is up to each hardware vendor to define, however no facility is provided by Direct3D to help discover  this information.Note that FEATURE_LEVEL_10_1 devices are required to support 4x MSAA for all render targets except R32G32B32A32 and R32G32B32. FEATURE_LEVEL_11_0 devices are required to support 4x MSAA for all render target formats, and 8x MSAA for all render target formats  except R32G32B32A32 formats.	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11Device::CheckMultisampleQualityLevels']/*"/>	
             <unmanaged>HRESULT ID3D11Device::CheckMultisampleQualityLevels([In] DXGI_FORMAT Format,[In] unsigned int SampleCount,[Out] unsigned int* pNumQualityLevels)</unmanaged>	
@@ -3838,6 +3842,12 @@
             <param name="minZ">The min Z.</param>
             <param name="maxZ">The max Z.</param>
         </member>
+        <member name="M:SharpDX.Direct3D11.RasterizerStage.SetViewports(SharpDX.Direct3D11.Viewport)">
+            <summary>
+            Binds a single viewport to the rasterizer stage.
+            </summary>
+            <param name="viewport">The viewport.</param>
+        </member>
         <member name="M:SharpDX.Direct3D11.RasterizerStage.SetViewports(SharpDX.Direct3D11.Viewport[])">
             <summary>
               Binds a set of viewports to the rasterizer stage.
@@ -3880,7 +3890,7 @@
             <param name="numRects"><para>Number of scissor rectangles to bind.</para></param>	
             <param name="rectsRef"><para>An array of scissor rectangles (see D3D11_RECT).</para></param>	
             <remarks>	
-            All scissor rects must be set atomically as one operation. Any scissor rects not defined by the call are disabled.The scissor rectangles will only be used if ScissorEnable is set to true in the rasterizer state (see <see cref="T:SharpDX.Direct3D11.RasterizerStateDescription"/>).Which scissor rectangle to use is determined by the SV_ViewportArrayIndex semantic output by a geometry shader (see shader semantic syntax). If a geometry shader does not make use of the SV_ViewportArrayIndex semantic then Direct3D will use the first scissor rectangle in the array.Each scissor rectangle in the array corresponds to a viewport in an array of viewports (see <see cref="M:SharpDX.Direct3D11.RasterizerStage.SetViewports(SharpDX.Direct3D11.Viewport[])"/>).	
+            All scissor rects must be set atomically as one operation. Any scissor rects not defined by the call are disabled.The scissor rectangles will only be used if ScissorEnable is set to true in the rasterizer state (see <see cref="T:SharpDX.Direct3D11.RasterizerStateDescription"/>).Which scissor rectangle to use is determined by the SV_ViewportArrayIndex semantic output by a geometry shader (see shader semantic syntax). If a geometry shader does not make use of the SV_ViewportArrayIndex semantic then Direct3D will use the first scissor rectangle in the array.Each scissor rectangle in the array corresponds to a viewport in an array of viewports (see <see cref="M:SharpDX.Direct3D11.RasterizerStage.SetViewports(SharpDX.Direct3D11.Viewport)"/>).	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11DeviceContext::RSSetScissorRects']/*"/>	
             <unmanaged>void ID3D11DeviceContext::RSSetScissorRects([In] unsigned int NumRects,[In, Buffer, Optional] const void* pRects)</unmanaged>	
@@ -7480,11 +7490,6 @@
             <summary>Constant SdkVersion.</summary>
             <unmanaged>D3D11_SDK_VERSION</unmanaged>
         </member>
-        <member name="F:SharpDX.Direct3D11.D3D11.DllHandle0_">
-            <summary>
-            DLLs loaders
-            </summary>
-        </member>
         <member name="M:SharpDX.Direct3D11.D3D11.CreateDevice(SharpDX.DXGI.Adapter,SharpDX.Direct3D.DriverType,System.IntPtr,SharpDX.Direct3D11.DeviceCreationFlags,SharpDX.Direct3D.FeatureLevel[],System.Int32,System.Int32,SharpDX.Direct3D11.Device,SharpDX.Direct3D.FeatureLevel@,SharpDX.Direct3D11.DeviceContext@)">
             <summary>	
             Creates a device that represents the display adapter.	
@@ -7550,6 +7555,28 @@
             Functions	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.Direct3D11.D3DX11Effects']/*"/>	
+        </member>
+        <member name="T:SharpDX.Direct3D11.ResultCode">
+            <summary>	
+            Functions	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='SharpDX.Direct3D11.ResultCode']/*"/>	
+        </member>
+        <member name="F:SharpDX.Direct3D11.ResultCode.TooManyUniqueViewObjects">
+            <summary>Constant TooManyUniqueViewObjects.</summary>
+            <unmanaged>D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS</unmanaged>
+        </member>
+        <member name="F:SharpDX.Direct3D11.ResultCode.FileNotFound">
+            <summary>Constant FileNotFound.</summary>
+            <unmanaged>D3D11_ERROR_FILE_NOT_FOUND</unmanaged>
+        </member>
+        <member name="F:SharpDX.Direct3D11.ResultCode.DeferredContextMapWithoutInitialDiscard">
+            <summary>Constant DeferredContextMapWithoutInitialDiscard.</summary>
+            <unmanaged>D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD</unmanaged>
+        </member>
+        <member name="F:SharpDX.Direct3D11.ResultCode.TooManyUniqueStateObjects">
+            <summary>Constant TooManyUniqueStateObjects.</summary>
+            <unmanaged>D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS</unmanaged>
         </member>
         <member name="T:SharpDX.Direct3D11.AuthenticatedChannel">
             <summary>	
@@ -10007,7 +10034,7 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11VideoContext::VideoProcessorSetOutputAlphaFillMode']/*"/>	
             <unmanaged>void ID3D11VideoContext::VideoProcessorSetOutputAlphaFillMode([In] ID3D11VideoProcessor* pVideoProcessor,[In] D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE AlphaFillMode,[In] unsigned int StreamIndex)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.VideoContext.VideoProcessorSetOutputConstriction(SharpDX.Direct3D11.VideoProcessor,System.Boolean,System.Drawing.Size)">
+        <member name="M:SharpDX.Direct3D11.VideoContext.VideoProcessorSetOutputConstriction(SharpDX.Direct3D11.VideoProcessor,System.Boolean,SharpDX.DrawingSize)">
             <summary>	
             [This documentation is preliminary and is subject to change.]	
             </summary>	
@@ -10083,7 +10110,7 @@
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D11VideoContext::VideoProcessorGetOutputAlphaFillMode']/*"/>	
             <unmanaged>void ID3D11VideoContext::VideoProcessorGetOutputAlphaFillMode([In] ID3D11VideoProcessor* pVideoProcessor,[Out] D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE* pAlphaFillMode,[Out] unsigned int* pStreamIndex)</unmanaged>	
         </member>
-        <member name="M:SharpDX.Direct3D11.VideoContext.VideoProcessorGetOutputConstriction(SharpDX.Direct3D11.VideoProcessor,System.Boolean@,System.Drawing.Size@)">
+        <member name="M:SharpDX.Direct3D11.VideoContext.VideoProcessorGetOutputConstriction(SharpDX.Direct3D11.VideoProcessor,System.Boolean@,SharpDX.DrawingSize@)">
             <summary>	
             No documentation.	
             </summary>	
