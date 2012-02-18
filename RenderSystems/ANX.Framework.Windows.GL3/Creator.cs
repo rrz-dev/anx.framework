@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
 using NLog;
 using OpenTK;
@@ -60,6 +61,8 @@ namespace ANX.Framework.Windows.GL3
 	/// <summary>
 	/// OpenGL graphics creator.
 	/// </summary>
+	[PercentageComplete(90)]
+	[TestState(TestStateAttribute.TestState.Untested)]
 	public class Creator : IRenderSystemCreator
 	{
 		private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -283,7 +286,7 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region GetAdapterList
+		#region GetAdapterList (TODO)
 		/// <summary>
 		/// Get a list of available graphics adapter information.
 		/// </summary>

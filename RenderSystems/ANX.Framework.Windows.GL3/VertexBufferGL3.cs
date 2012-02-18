@@ -1,6 +1,7 @@
 ﻿using System;
-using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -80,6 +81,8 @@ namespace ANX.Framework.Windows.GL3
 		private int vertexCount;
 
 		private BufferUsageHint usageHint;
+
+		internal bool IsDisposed;
 		#endregion
 
 		#region Constructor
@@ -89,6 +92,8 @@ namespace ANX.Framework.Windows.GL3
 		internal VertexBufferGL3(VertexDeclaration setVertexDeclaration,
 			int setVertexCount, BufferUsage setUsage)
 		{
+			GraphicsResourceManager.UpdateResource(this, true);
+
 			vertexDeclaration = setVertexDeclaration;
 			usage = setUsage;
 			vertexCount = setVertexCount;
@@ -100,11 +105,23 @@ namespace ANX.Framework.Windows.GL3
 				BufferUsageHint.DynamicDraw :
 				BufferUsageHint.StaticDraw;
 
+			CreateBuffer();
+		}
+
+		~VertexBufferGL3()
+		{
+			GraphicsResourceManager.UpdateResource(this, false);
+		}
+		#endregion
+
+		#region CreateBuffer
+		private void CreateBuffer()
+		{
 			GL.GenBuffers(1, out bufferHandle);
 			ErrorHelper.Check("GenBuffers");
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 			ErrorHelper.Check("BindBuffer");
-			int size = vertexDeclaration.VertexStride * setVertexCount;
+			int size = vertexDeclaration.VertexStride * vertexCount;
 			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)size, IntPtr.Zero,
 				usageHint);
 			ErrorHelper.Check("BufferData");
@@ -117,6 +134,13 @@ namespace ANX.Framework.Windows.GL3
 				throw new Exception("Failed to set the vertexBuffer data. DataSize=" +
 					size + " SetSize=" + setSize);
 			}
+		}
+		#endregion
+
+		#region RecreateData
+		internal void RecreateData()
+		{
+			CreateBuffer();
 		}
 		#endregion
 
@@ -243,8 +267,22 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		public void Dispose()
 		{
-			GL.DeleteBuffers(1, ref bufferHandle);
-			ErrorHelper.Check("DeleteBuffers");
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				DisposeResource();
+			}
+		}
+
+		internal void DisposeResource()
+		{
+			if (bufferHandle != -1 &&
+				GraphicsDeviceWindowsGL3.IsContextCurrent)
+			{
+				GL.DeleteBuffers(1, ref bufferHandle);
+				ErrorHelper.Check("DeleteBuffers");
+				bufferHandle = -1;
+			}
 		}
 		#endregion
 	}

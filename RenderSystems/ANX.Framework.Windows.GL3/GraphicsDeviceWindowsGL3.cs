@@ -76,12 +76,24 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		private IWindowInfo nativeWindowInfo;
 
-		internal static VertexBufferGL3[] boundVertexBuffers =
-			new VertexBufferGL3[0];
-		private static RenderTarget2DGL3[] boundRenderTargets =
-			new RenderTarget2DGL3[0];
+		internal static VertexBufferGL3[] boundVertexBuffers;
+		private static RenderTarget2DGL3[] boundRenderTargets;
 		internal static IndexBufferGL3 boundIndexBuffer;
 		internal static EffectGL3 activeEffect;
+
+		internal static GraphicsDeviceWindowsGL3 Current
+		{
+			get;
+			private set;
+		}
+
+		internal static bool IsContextCurrent
+		{
+			get
+			{
+				return Current.nativeContext.IsCurrent;
+			}
+		}
 		#endregion
 
 		#region Public
@@ -109,6 +121,7 @@ namespace ANX.Framework.Windows.GL3
 		internal GraphicsDeviceWindowsGL3(
 				PresentationParameters presentationParameters)
 		{
+			Current = this;
 			ResetDevice(presentationParameters);
 		}
 		#endregion
@@ -125,16 +138,15 @@ namespace ANX.Framework.Windows.GL3
 			#region Validation
 			if (nativeContext != null)
 			{
-				nativeContext.Dispose();
-				nativeContext = null;
-			}
-
-			if (nativeWindowInfo != null)
-			{
-				nativeWindowInfo.Dispose();
-				nativeWindowInfo = null;
+				Dispose();
 			}
 			#endregion
+
+			// Reset the previous set buffers, effects and targets.
+			boundVertexBuffers = new VertexBufferGL3[0];
+			boundRenderTargets = new RenderTarget2DGL3[0];
+			boundIndexBuffer = null;
+			activeEffect = null;
 
 			// OpenGL Depth Buffer Size: 0/16/24/32
 			int depth = 0;
@@ -183,6 +195,8 @@ namespace ANX.Framework.Windows.GL3
 			//  int.Parse(parts[0]), int.Parse(parts[1]), GraphicsContextFlags.Default);
 			//nativeContext.MakeCurrent(nativeWindowInfo);
 			//nativeContext.LoadAll();
+
+			GraphicsResourceManager.RecreateAllResources();
 		}
 		#endregion
 
@@ -223,7 +237,7 @@ namespace ANX.Framework.Windows.GL3
 		#endregion
 
 		#region Clear
-		private uint lastClearColor;
+		private uint? lastClearColor;
 		/// <summary>
 		/// Clear the current screen by the specified clear color.
 		/// </summary>
@@ -231,7 +245,8 @@ namespace ANX.Framework.Windows.GL3
 		public void Clear(ref Color color)
 		{
 			uint newClearColor = color.PackedValue;
-			if (lastClearColor != newClearColor)
+			if (lastClearColor.HasValue == false ||
+				lastClearColor != newClearColor)
 			{
 				lastClearColor = newClearColor;
 				GL.ClearColor(color.R * ColorMultiplier, color.G * ColorMultiplier,
@@ -422,7 +437,9 @@ namespace ANX.Framework.Windows.GL3
 			}
 			else
 			{
-				throw new NotImplementedException();
+				LinuxInterop.ResizeWindow(presentationParameters.DeviceWindowHandle,
+					presentationParameters.BackBufferWidth,
+					presentationParameters.BackBufferHeight);
 			}
 		}
 		#endregion
@@ -467,6 +484,7 @@ namespace ANX.Framework.Windows.GL3
 
 		public void GetBackBufferData<T>(T[] data) where T : struct
 		{
+			//glReadPixels(0, 0, nWidth, nHeight, GL_RGB, GL_UNSIGNED_BYTE, m_pPixelData)
 			throw new NotImplementedException();
 		}
 
@@ -477,18 +495,24 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region ResizeBuffers (TODO)
+		#region ResizeBuffers
 		public void ResizeBuffers(PresentationParameters presentationParameters)
 		{
 			ResizeRenderWindow(presentationParameters);
 
-			throw new NotImplementedException();
+			GL.Viewport(0, 0, presentationParameters.BackBufferWidth,
+				presentationParameters.BackBufferHeight);
+
+			ResetDevice(presentationParameters);
 		}
 		#endregion
 
 		#region Dispose
 		public void Dispose()
 		{
+			GraphicsResourceManager.DisposeAllResources();
+
+			lastClearColor = new uint?();
 			boundVertexBuffers = null;
 			boundIndexBuffer = null;
 			activeEffect = null;

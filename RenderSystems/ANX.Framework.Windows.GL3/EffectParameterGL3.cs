@@ -1,6 +1,6 @@
 ﻿using System;
-using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -161,8 +161,9 @@ namespace ANX.Framework.Windows.GL3
 			GL.UseProgram(parentTechnique.programHandle);
 			ErrorHelper.Check("UseProgram");
 			if (textureCache == null ||
-				textureCache != value)
+			  textureCache != value)
 			{
+			  textureCache = value;
 				// TODO: multiple texture units
 				TextureUnit textureUnit = TextureUnit.Texture0;
 				GL.ActiveTexture(textureUnit);

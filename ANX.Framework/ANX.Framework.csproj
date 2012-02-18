@@ -416,6 +416,7 @@
     <Compile Include="NonXNA\AddInLoadingException.cs" />
     <Compile Include="NonXNA\AddInSystemInfo.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\Development\TestStateAttribute.cs" />
     <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
     <Compile Include="NonXNA\InputDeviceFactory.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePadCreator.cs" />

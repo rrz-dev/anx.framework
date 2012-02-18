@@ -349,7 +349,7 @@ namespace ANX.Framework.Graphics
             }
 
             // reset presentation parameters
-            nativeDevice.ResizeBuffers(presentationParameters); //TODO: check if necessary
+            nativeDevice.ResizeBuffers(presentationParameters);
 
             raise_DeviceReset(this, EventArgs.Empty);
         }

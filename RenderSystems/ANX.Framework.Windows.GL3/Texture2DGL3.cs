@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -83,6 +84,17 @@ namespace ANX.Framework.Windows.GL3
 		/// Flag if the texture is a compressed format or not.
 		/// </summary>
 		private bool isCompressed;
+
+		internal bool IsDisposed;
+
+		private int uncompressedDataSize;
+
+		private byte[] texData;
+
+		/// <summary>
+		/// TODO: find better solution
+		/// </summary>
+		private int maxSetDataSize;
 		#endregion
 
 		#region Public
@@ -99,6 +111,7 @@ namespace ANX.Framework.Windows.GL3
 		#region Constructor
 		internal Texture2DGL3()
 		{
+			GraphicsResourceManager.UpdateResource(this, true);
 		}
 
 		/// <summary>
@@ -111,13 +124,28 @@ namespace ANX.Framework.Windows.GL3
 		internal Texture2DGL3(SurfaceFormat surfaceFormat, int setWidth,
 			int setHeight, int mipCount)
 		{
+			GraphicsResourceManager.UpdateResource(this, true);
+
 			width = setWidth;
 			height = setHeight;
 			numberOfMipMaps = mipCount;
-			nativeFormat =
-				DatatypesMapping.SurfaceToPixelInternalFormat(surfaceFormat);
+			nativeFormat = DatatypesMapping.SurfaceToPixelInternalFormat(surfaceFormat);
 			isCompressed = nativeFormat.ToString().StartsWith("Compressed");
 
+			uncompressedDataSize = GetUncompressedDataSize();
+
+			CreateTexture();
+		}
+
+		~Texture2DGL3()
+		{
+			GraphicsResourceManager.UpdateResource(this, false);
+		}
+		#endregion
+
+		#region CreateTexture
+		private void CreateTexture()
+		{
 			NativeHandle = GL.GenTexture();
 #if DEBUG
 			ErrorHelper.Check("GenTexture");
@@ -128,7 +156,9 @@ namespace ANX.Framework.Windows.GL3
 #endif
 
 			int wrapMode = (int)All.ClampToEdge;
-			int filter = (int)(mipCount > 1 ? All.LinearMipmapLinear : All.Linear);
+			int filter = (int)(numberOfMipMaps > 1 ?
+				All.LinearMipmapLinear :
+				All.Linear);
 
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureWrapS, wrapMode);
@@ -174,6 +204,11 @@ namespace ANX.Framework.Windows.GL3
 			ErrorHelper.Check("BindTexture");
 #endif
 
+			if (data.Length > maxSetDataSize)
+			{
+				maxSetDataSize = data.Length;
+			}
+
 			GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
 
 			// TODO: get size of first mipmap!
@@ -195,9 +230,9 @@ namespace ANX.Framework.Windows.GL3
 				}
 				else
 				{
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
-                        width, height, 0, (PixelFormat)nativeFormat,
-                        PixelType.UnsignedByte, dataPointer);
+					GL.TexImage2D(TextureTarget.Texture2D, 0, nativeFormat,
+						width, height, 0, (PixelFormat)nativeFormat,
+						PixelType.UnsignedByte, dataPointer);
 #if DEBUG
 					ErrorHelper.Check("TexImage2D Format=" + nativeFormat);
 #endif
@@ -240,16 +275,111 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region GetTextureData
+		private void GetTextureData()
+		{
+			GL.BindTexture(TextureTarget.Texture2D, NativeHandle);
+
+			if (isCompressed)
+			{
+				texData = new byte[maxSetDataSize];
+				GCHandle handle = GCHandle.Alloc(texData, GCHandleType.Pinned);
+
+				GL.GetCompressedTexImage(TextureTarget.Texture2D, 0,
+					handle.AddrOfPinnedObject());
+
+				handle.Free();
+			}
+			else
+			{
+				texData = new byte[uncompressedDataSize];
+				GCHandle handle = GCHandle.Alloc(texData, GCHandleType.Pinned);
+
+				GL.GetTexImage(TextureTarget.Texture2D, 0, (PixelFormat)nativeFormat,
+					PixelType.UnsignedByte, handle.AddrOfPinnedObject());
+
+				handle.Free();
+			}
+		}
+		#endregion
+
+		#region RecreateData
+		internal void RecreateData()
+		{
+			CreateTexture();
+			SetData(null, texData);
+			texData = null;
+		}
+		#endregion
+
+		#region GetUncompressedDataSize
+		private int GetUncompressedDataSize()
+		{
+			int size = width * height;
+
+			switch (nativeFormat)
+			{
+				default:
+				case PixelInternalFormat.R32f:
+				case PixelInternalFormat.Rgb10A2:
+				case PixelInternalFormat.Rg16:
+				case PixelInternalFormat.Rgba:
+					size *= 4;
+					break;
+
+				case PixelInternalFormat.Rg32f:
+				case PixelInternalFormat.Rgba16f:
+					size *= 8;
+					break;
+
+				case PixelInternalFormat.R16f:
+				case PixelInternalFormat.Rgb5A1:
+				case PixelInternalFormat.Rgba4:
+					size *= 2;
+					break;
+
+				case PixelInternalFormat.Alpha8:
+					//size *= 1;
+					break;
+
+				case PixelInternalFormat.Rgba32f:
+					size *= 16;
+					break;
+			}
+
+			return size;
+		}
+		#endregion
+
 		#region Dispose
 		/// <summary>
 		/// Dispose the native OpenGL texture handle.
 		/// </summary>
 		public virtual void Dispose()
 		{
-			GL.DeleteTexture(NativeHandle);
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				DisposeResource();
+			}
+		}
+
+		internal void DisposeResource()
+		{
+			if (IsDisposed == false)
+			{
+				GetTextureData();
+			}
+
+			if (NativeHandle != -1 &&
+				GraphicsDeviceWindowsGL3.IsContextCurrent)
+			{
+				GL.DeleteTexture(NativeHandle);
+				NativeHandle = -1;
 #if DEBUG
-			ErrorHelper.Check("DeleteTexture");
+				ErrorHelper.Check("DeleteTexture");
 #endif
+			}
 		}
 		#endregion
 	}

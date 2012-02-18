@@ -50,7 +50,7 @@ using OpenTK.Graphics.OpenGL;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.GL3
+namespace ANX.Framework.Windows.GL3.Helpers
 {
 	internal static class DatatypesMapping
 	{
@@ -198,6 +198,7 @@ namespace ANX.Framework.Windows.GL3
 				case SurfaceFormat.HalfVector2:
 					return PixelInternalFormat.Rg16;
 
+				case SurfaceFormat.Rgba64:
 				case SurfaceFormat.HalfVector4:
 					return PixelInternalFormat.Rgba16f;
 
@@ -210,23 +211,18 @@ namespace ANX.Framework.Windows.GL3
 				case SurfaceFormat.Alpha8:
 					return PixelInternalFormat.Alpha8;
 
+				case SurfaceFormat.Vector2:
 				case SurfaceFormat.Rg32:
 					return PixelInternalFormat.Rg32f;
 
 				case SurfaceFormat.Rgba1010102:
 					return PixelInternalFormat.Rgb10A2;
 
-				case SurfaceFormat.Rgba64:
-					return PixelInternalFormat.Rgba16f;
-
 				case SurfaceFormat.HalfSingle:
 					return PixelInternalFormat.R16f;
 
 				case SurfaceFormat.Single:
 					return PixelInternalFormat.R32f;
-
-				case SurfaceFormat.Vector2:
-					return PixelInternalFormat.Rg32f;
 
 				case SurfaceFormat.Vector4:
 					return PixelInternalFormat.Rgba32f;
@@ -268,6 +264,26 @@ namespace ANX.Framework.Windows.GL3
 		#region Tests
 		private class Tests
 		{
+			#region TestConvertColorToOtkColor
+			public static void TestConvertColorToOtkColor()
+			{
+				Color anxColor = new Color(1f, 0.5f, 0.75f, 0f);
+				Color4 color;
+				DatatypesMapping.Convert(ref anxColor, out color);
+				Console.WriteLine(color.ToString());
+			}
+			#endregion
+
+			#region TestConvertOtkColorToColor
+			public static void TestConvertOtkColorToColor()
+			{
+				Color4 color = new Color4(1f, 0.5f, 0.75f, 0f);
+				Color anxColor;
+				DatatypesMapping.Convert(ref color, out anxColor);
+				Console.WriteLine(anxColor.ToString());
+			}
+			#endregion
+
 			#region TestConvertVector4ToColor
 			public static void TestConvertVector4ToColor()
 			{
@@ -275,6 +291,49 @@ namespace ANX.Framework.Windows.GL3
 				Color color;
 				DatatypesMapping.Convert(ref vector, out color);
 				Console.WriteLine(color.ToString());
+			}
+			#endregion
+
+			#region TestPrimitiveTypeToBeginMode
+			public static void TestPrimitiveTypeToBeginMode()
+			{
+				PrimitiveType type = PrimitiveType.LineList;
+				int primitiveCount = 10;
+				int count = 0;
+
+				BeginMode result = DatatypesMapping.PrimitiveTypeToBeginMode(type,
+					primitiveCount, out count);
+				AssetValues(result, BeginMode.Lines);
+				AssetValues(count, primitiveCount * 2);
+
+				type = PrimitiveType.LineStrip;
+				result = DatatypesMapping.PrimitiveTypeToBeginMode(type, primitiveCount,
+					out count);
+				AssetValues(result, BeginMode.LineStrip);
+				AssetValues(count, primitiveCount + 1);
+
+				type = PrimitiveType.TriangleList;
+				result = DatatypesMapping.PrimitiveTypeToBeginMode(type, primitiveCount,
+					out count);
+				AssetValues(result, BeginMode.Triangles);
+				AssetValues(count, primitiveCount * 3);
+
+				type = PrimitiveType.TriangleStrip;
+				result = DatatypesMapping.PrimitiveTypeToBeginMode(type, primitiveCount,
+					out count);
+				AssetValues(result, BeginMode.TriangleStrip);
+				AssetValues(count, primitiveCount + 2);
+			}
+			#endregion
+
+			#region AssetValues
+			private static void AssetValues<T>(T first, T second)
+			{
+				if (first.Equals(second) == false)
+				{
+					throw new Exception("The two values are not equal:\n\t1: " + first +
+						"\n\t2: " + second);
+				}
 			}
 			#endregion
 		}

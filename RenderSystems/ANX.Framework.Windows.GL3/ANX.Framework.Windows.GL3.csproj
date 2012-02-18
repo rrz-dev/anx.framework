@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="BlendStateGL3.cs" />
     <Compile Include="Creator.cs" />
-    <Compile Include="DatatypesMapping.cs" />
+    <Compile Include="Helpers\DatatypesMapping.cs" />
     <Compile Include="DepthStencilStateGL3.cs" />
     <Compile Include="EffectGL3.cs" />
     <Compile Include="EffectParameterGL3.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="EffectTechniqueGL3.cs" />
     <Compile Include="ErrorHelper.cs" />
     <Compile Include="GraphicsDeviceWindowsGL3.cs" />
+    <Compile Include="Helpers\GraphicsResourceManager.cs" />
     <Compile Include="Helpers\LinuxInterop.cs" />
     <Compile Include="Helpers\WindowsInterop.cs" />
     <Compile Include="IndexBufferGL3.cs" />

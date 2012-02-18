@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
 namespace ANX.Framework.Windows.GL3
@@ -19,6 +20,7 @@ namespace ANX.Framework.Windows.GL3
 		public RenderTarget2DGL3(int width, int height, bool mipMap,
 			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat,
 			int preferredMultiSampleCount, RenderTargetUsage usage)
+			: base()
 		{
 			generateMipmaps = mipMap;
 			PixelInternalFormat nativeFormat =

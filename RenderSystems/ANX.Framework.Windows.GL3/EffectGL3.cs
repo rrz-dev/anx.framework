@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -84,6 +85,11 @@ namespace ANX.Framework.Windows.GL3
 		{
 			get
 			{
+				if (managedEffect.CurrentTechnique == null)
+				{
+					return null;
+				}
+
 				return managedEffect.CurrentTechnique.NativeTechnique as EffectTechniqueGL3;
 			}
 		}
@@ -92,6 +98,8 @@ namespace ANX.Framework.Windows.GL3
 		/// The active uniforms of this technique.
 		/// </summary>
 		internal List<EffectParameter> parameters;
+
+		internal bool IsDisposed;
 		#endregion
 
 		#region Public
@@ -102,7 +110,7 @@ namespace ANX.Framework.Windows.GL3
 			{
 				if (techniques.Count == 0)
 				{
-					CompileTechniques();
+					Compile();
 				}
 
 				return techniques;
@@ -115,6 +123,11 @@ namespace ANX.Framework.Windows.GL3
 		{
 			get
 			{
+				if (techniques.Count == 0)
+				{
+					Compile();
+				}
+
 				return parameters;
 			}
 		}
@@ -128,9 +141,16 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="setManagedEffect"></param>
 		private EffectGL3(Effect setManagedEffect)
 		{
+			GraphicsResourceManager.UpdateResource(this, true);
+
 			parameters = new List<EffectParameter>();
 			techniques = new List<EffectTechnique>();
 			managedEffect = setManagedEffect;
+		}
+
+		~EffectGL3()
+		{
+			GraphicsResourceManager.UpdateResource(this, false);
 		}
 
 		/// <summary>
@@ -160,8 +180,15 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region CompileTechniques
-		private void CompileTechniques()
+		#region RecreateData
+		internal void RecreateData()
+		{
+			Compile();
+		}
+		#endregion
+
+		#region Compile
+		private void Compile()
 		{
 			parameters.Clear();
 			techniques.Clear();
@@ -302,9 +329,24 @@ namespace ANX.Framework.Windows.GL3
 		/// </summary>
 		public void Dispose()
 		{
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				DisposeResource();
+			}
+		}
+
+		internal void DisposeResource()
+		{
+			if (GraphicsDeviceWindowsGL3.IsContextCurrent == false)
+			{
+				return;
+			}
+
 			foreach (EffectTechnique technique in techniques)
 			{
-				int programHandle = (technique.NativeTechnique as EffectTechniqueGL3).programHandle;
+				int programHandle =
+					(technique.NativeTechnique as EffectTechniqueGL3).programHandle;
 
 				GL.DeleteProgram(programHandle);
 				ErrorHelper.Check("DeleteProgram");
@@ -315,12 +357,12 @@ namespace ANX.Framework.Windows.GL3
 				{
 					string deleteError;
 					GL.GetProgramInfoLog(programHandle, out deleteError);
-					throw new Exception("Failed to delete the shader program '" + technique.Name +
-						"' because of: " + deleteError);
+					throw new Exception("Failed to delete the shader program '" +
+						technique.Name + "' because of: " + deleteError);
 				}
 			}
-
 			techniques.Clear();
+			parameters.Clear();
 		}
 		#endregion
 	}

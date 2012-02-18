@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -58,8 +58,18 @@ namespace ANX.Framework.Windows.GL3
 	/// Basically this is a wrapper class for setting the different values all
 	/// at once, because OpenGL has no State objects like DirectX.
 	/// </summary>
+	[PercentageComplete(100)]
+	[TestStateAttribute(TestStateAttribute.TestState.Untested)]
 	public class RasterizerStateGL3 : INativeRasterizerState
 	{
+		#region Private
+		internal static RasterizerStateGL3 Current
+		{
+			get;
+			private set;
+		}
+		#endregion
+
 		#region Public
 		#region IsBound
 		/// <summary>
@@ -157,6 +167,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			IsBound = true;
+			Current = this;
 
 			#region Cull Mode
 			GL.FrontFace(FrontFaceDirection.Cw);
@@ -234,6 +245,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Release()
 		{
 			IsBound = false;
+			Current = null;
 		}
 		#endregion
 

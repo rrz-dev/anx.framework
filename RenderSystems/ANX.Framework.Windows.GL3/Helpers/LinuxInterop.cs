@@ -88,6 +88,10 @@ namespace ANX.Framework.Windows.GL3.Helpers
 
 		[DllImport("libX11")]
 		private static extern int XPending(IntPtr diplay);
+
+		[DllImport("libX11")]
+		private static extern void XResizeWindow(IntPtr display, IntPtr window,
+			int width, int height);
 		#endregion
 
 		#region GetStaticFieldValue
@@ -143,6 +147,14 @@ namespace ANX.Framework.Windows.GL3.Helpers
 
 			return Utilities.CreateX11WindowInfo(display, screen, windowHandle,
 				rootWindow, infoPtr);
+		}
+		#endregion
+
+		#region ResizeWindow
+		public static void ResizeWindow(IntPtr windowHandle, int backBufferWidth,
+			int backBufferHeight)
+		{
+			XResizeWindow(IntPtr.Zero, windowHandle, backBufferWidth, backBufferHeight);
 		}
 		#endregion
 	}

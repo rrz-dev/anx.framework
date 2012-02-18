@@ -1,6 +1,8 @@
 ﻿using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
+using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -60,8 +62,18 @@ namespace ANX.Framework.Windows.GL3
 	/// <para />
 	/// For Information on OpenGL blending: http://www.opengl.org/wiki/Blending
 	/// </summary>
+	[PercentageComplete(90)]
+	[TestStateAttribute(TestStateAttribute.TestState.Untested)]
 	public class BlendStateGL3 : INativeBlendState
 	{
+		#region Private
+		internal static BlendStateGL3 Current
+		{
+			get;
+			private set;
+		}
+		#endregion
+
 		#region Public
 		#region IsBound
 		/// <summary>
@@ -181,7 +193,7 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region Apply
+		#region Apply (TODO)
 		/// <summary>
 		/// Apply the blend state on the graphics device.
 		/// </summary>
@@ -189,6 +201,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			IsBound = true;
+			Current = this;
 
 			GL.Enable(EnableCap.Blend);
 
@@ -226,6 +239,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Release()
 		{
 			IsBound = false;
+			Current = null;
 		}
 		#endregion
 
@@ -236,7 +250,6 @@ namespace ANX.Framework.Windows.GL3
 		public void Dispose()
 		{
 		}
-
 		#endregion
 
 		#region SetColorWriteChannel
@@ -247,10 +260,10 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="channels">Mask channels to enable.</param>
 		private void SetColorWriteChannel(int index, ColorWriteChannels channels)
 		{
-			bool r = (channels & Graphics.ColorWriteChannels.Red) == Graphics.ColorWriteChannels.Red;
-			bool g = (channels & Graphics.ColorWriteChannels.Green) == Graphics.ColorWriteChannels.Green;
-			bool b = (channels & Graphics.ColorWriteChannels.Blue) == Graphics.ColorWriteChannels.Blue;
-			bool a = (channels & Graphics.ColorWriteChannels.Alpha) == Graphics.ColorWriteChannels.Alpha;
+			bool r = (channels | Graphics.ColorWriteChannels.Red) == channels;
+			bool g = (channels | Graphics.ColorWriteChannels.Green) == channels;
+			bool b = (channels | Graphics.ColorWriteChannels.Blue) == channels;
+			bool a = (channels | Graphics.ColorWriteChannels.Alpha) == channels;
 
 			GL.ColorMask(index, r, g, b, a);
 			ErrorHelper.Check("ColorMask");
@@ -267,10 +280,6 @@ namespace ANX.Framework.Windows.GL3
 		{
 			switch (blending)
 			{
-				default:
-					throw new NotSupportedException("The blend mode '" + blending +
-						"' is not supported for OpenGL BlendingFactorSrc!");
-
 				case Blend.SourceAlpha:
 					return BlendingFactorSrc.SrcAlpha;
 
@@ -297,6 +306,10 @@ namespace ANX.Framework.Windows.GL3
 
 				case Blend.Zero:
 					return BlendingFactorSrc.Zero;
+
+				default:
+					throw new ArgumentException("Unable to translate SourceBlend '" +
+						blending + "' to OpenGL BlendingFactorSrc.");
 			}
 		}
 		#endregion
@@ -313,10 +326,6 @@ namespace ANX.Framework.Windows.GL3
 			{
 				case Blend.SourceAlpha:
 					return BlendingFactorDest.SrcAlpha;
-
-				default:
-					throw new NotSupportedException("The blend mode '" + blending +
-						"' is not supported for OpenGL BlendingFactorDest!");
 
 				case Blend.DestinationAlpha:
 					return BlendingFactorDest.DstAlpha;
@@ -344,6 +353,10 @@ namespace ANX.Framework.Windows.GL3
 
 				case Blend.Zero:
 					return BlendingFactorDest.Zero;
+
+				default:
+					throw new ArgumentException("Unable to translate DestinationBlend '" +
+						blending + "' to OpenGL BlendingFactorDest.");
 			}
 		}
 		#endregion
@@ -374,7 +387,8 @@ namespace ANX.Framework.Windows.GL3
 					return BlendEquationMode.Max;
 			}
 
-			throw new ArgumentException("don't know how to translate BlendFunction '" + func.ToString() + "' to BlendEquationMode");
+			throw new ArgumentException("Unable to translate BlendFunction '" +
+				func + "' to OpenGL BlendEquationMode.");
 		}
 		#endregion
 	}

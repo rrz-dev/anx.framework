@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 using OpenTK.Graphics.OpenGL;
 
 #region License
@@ -58,8 +58,18 @@ namespace ANX.Framework.Windows.GL3
 	/// Basically this is a wrapper class for setting the different values all
 	/// at once, because OpenGL has no State objects like DirectX.
 	/// </summary>
+	[PercentageComplete(100)]
+	[TestStateAttribute(TestStateAttribute.TestState.Untested)]
 	public class DepthStencilStateGL3 : INativeDepthStencilState
 	{
+		#region Private
+		internal static DepthStencilStateGL3 Current
+		{
+			get;
+			private set;
+		}
+		#endregion
+
 		#region Public
 		#region IsBound
 		/// <summary>
@@ -219,6 +229,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			IsBound = true;
+			Current = this;
 
 			#region Depth
 			if (DepthBufferEnable)
@@ -416,6 +427,7 @@ namespace ANX.Framework.Windows.GL3
 		public void Release()
 		{
 			IsBound = false;
+			Current = null;
 		}
 		#endregion
 
