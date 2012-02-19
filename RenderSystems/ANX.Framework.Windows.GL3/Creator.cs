@@ -172,7 +172,7 @@ namespace ANX.Framework.Windows.GL3
 		/// </param>
 		/// <param name="usage">The usage type of the buffer.</param>
 		/// <returns>Native OpenGL index buffer.</returns>
-		public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
+		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
 			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
 			BufferUsage usage)
 		{
@@ -191,7 +191,7 @@ namespace ANX.Framework.Windows.GL3
 		/// </param>
 		/// <param name="usage">The usage type of the buffer.</param>
 		/// <returns>Native OpenGL vertex buffer.</returns>
-		public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics,
+		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
 			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
 			int vertexCount, BufferUsage usage)
 		{

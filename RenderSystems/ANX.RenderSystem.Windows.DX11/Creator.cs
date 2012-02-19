@@ -97,7 +97,7 @@ namespace ANX.RenderSystem.Windows.DX11
             return new GraphicsDeviceWindowsDX11(presentationParameters);
         }
 
-				public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
+				public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
 					IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
 				{
 					AddInSystemFactory.Instance.PreventSystemChange(
@@ -105,7 +105,7 @@ namespace ANX.RenderSystem.Windows.DX11
             return new IndexBuffer_DX11(graphics, size, indexCount, usage);
         }
 
-				public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics,
+				public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
 					VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 				{
 					AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);

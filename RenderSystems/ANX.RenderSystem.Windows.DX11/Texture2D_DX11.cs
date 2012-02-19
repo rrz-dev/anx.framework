@@ -326,5 +326,35 @@ namespace ANX.RenderSystem.Windows.DX11
 					throw new NotImplementedException();
 				}
 				#endregion
-    }
+
+				#region INativeTexture2D Member
+
+
+				public void GetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void SetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+
+				#region INativeBuffer Member
+
+
+				public void GetData<T>(T[] data) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+		}
 }

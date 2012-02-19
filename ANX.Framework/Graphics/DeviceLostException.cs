@@ -1,12 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -57,22 +49,21 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public sealed class DeviceLostException : Exception
-    {
-        public DeviceLostException()
-            : base()
-        {
-        }
+	public sealed class DeviceLostException : Exception
+	{
+		public DeviceLostException()
+			: base()
+		{
+		}
 
-        public DeviceLostException(string message)
-            : base(message)
-        {
-        }
+		public DeviceLostException(string message)
+			: base(message)
+		{
+		}
 
-        public DeviceLostException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-
-    }
+		public DeviceLostException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+	}
 }

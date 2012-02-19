@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.Direct3D10;
 using ANX.Framework.Graphics;
 using System.Runtime.InteropServices;
@@ -59,7 +60,7 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Windows.DX10
 {
-    public class VertexBuffer_DX10 : INativeBuffer, IDisposable
+    public class VertexBuffer_DX10 : INativeVertexBuffer, IDisposable
     {
         SharpDX.Direct3D10.Buffer buffer;
         int vertexStride;
@@ -153,6 +154,35 @@ namespace ANX.Framework.Windows.DX10
                 buffer.Dispose();
                 buffer = null;
             }
-        }
+				}
+
+				#region INativeVertexBuffer Member
+
+				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+
+				#region INativeBuffer Member
+
+
+				public void GetData<T>(T[] data) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
     }
 }

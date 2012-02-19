@@ -1,9 +1,7 @@
 ﻿#region Using Statements
-using System;
-using ANX.Framework.Graphics;
-using System.IO;
-using ANX.Framework.NonXNA;
 using System.Collections.ObjectModel;
+using System.IO;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
@@ -61,18 +59,29 @@ namespace ANX.Framework.NonXNA
     {
         GameHost CreateGameHost(Game game);
 
-        INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters);
+        INativeGraphicsDevice CreateGraphicsDevice(
+					PresentationParameters presentationParameters);
 
-        INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount);
+        INativeTexture2D CreateTexture(GraphicsDevice graphics,
+					SurfaceFormat surfaceFormat, int width, int height, int mipCount);
 
-        INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage);
+        INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics,
+					int width, int height, bool mipMap, SurfaceFormat preferredFormat,
+					DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
+					RenderTargetUsage usage);
 
-        INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage);
+				INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
+					IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
+					BufferUsage usage);
 
-        INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
+        INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
+					VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
+					int vertexCount, BufferUsage usage);
 
-        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode);
-        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode);
+        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
+					Stream byteCode);
+        INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
+					Stream vertexShaderByteCode, Stream pixelShaderByteCode);
 
         INativeBlendState CreateBlendState();
         INativeRasterizerState CreateRasterizerState();

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 #region License
 
@@ -53,5 +54,11 @@ namespace ANX.Framework.NonXNA.RenderSystem
 	{
 		void SaveAsJpeg(Stream stream, int width, int height);
 		void SaveAsPng(Stream stream, int width, int height);
+
+		void GetData<T>(int level, Nullable<Rectangle> rect, T[] data,
+			int startIndex, int elementCount) where T : struct;
+
+		void SetData<T>(int level, Nullable<Rectangle> rect, T[] data,
+			int startIndex, int elementCount) where T : struct;
 	}
 }

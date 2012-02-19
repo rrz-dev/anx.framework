@@ -1,6 +1,6 @@
 ﻿using System;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
@@ -56,7 +56,7 @@ namespace ANX.Framework.Windows.GL3
 	/// <summary>
 	/// Native OpenGL implementation of a Index Buffer.
 	/// </summary>
-	public class IndexBufferGL3 : INativeBuffer
+	public class IndexBufferGL3 : INativeIndexBuffer
 	{
 		#region Private
 		private IndexBuffer managedBuffer;
@@ -185,6 +185,25 @@ namespace ANX.Framework.Windows.GL3
 			{
 				BufferData(data, offsetInBytes);
 			}
+		}
+		#endregion
+
+		#region GetData (TODO)
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 

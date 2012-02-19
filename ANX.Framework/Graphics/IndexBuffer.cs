@@ -1,12 +1,8 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
+﻿using System;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #region License
 
@@ -57,172 +53,190 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Graphics
 {
-    public class IndexBuffer : GraphicsResource, IGraphicsResource
-    {
-        private int indexCount;
-        private BufferUsage bufferUsage;
-        private IndexElementSize indexElementSize;
-        private INativeBuffer nativeIndexBuffer;
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	public class IndexBuffer : GraphicsResource, IGraphicsResource
+	{
+		#region Private
+		private int indexCount;
+		private BufferUsage bufferUsage;
+		private IndexElementSize indexElementSize;
+		private INativeIndexBuffer nativeIndexBuffer;
+		#endregion
 
-        public IndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
-            : base(graphicsDevice)
-        {
-            this.indexElementSize = indexElementSize;
-            this.indexCount = indexCount;
-            this.bufferUsage = usage;
-
-            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
-
-            CreateNativeBuffer();
-        }
-
-        public IndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
-            : base(graphicsDevice)
-        {
-            if (indexType == typeof(int) || indexType == typeof(uint))
-            {
-                this.indexElementSize = Graphics.IndexElementSize.ThirtyTwoBits;
-            }
-            else if (indexType == typeof(short) || indexType == typeof(ushort))
-            {
-                this.indexElementSize = Graphics.IndexElementSize.SixteenBits;
-            }
-            else
-            {
-                throw new Exception("can't use IndexType " + indexType.ToString());
-            }
-
-            this.indexCount = indexCount;
-            this.bufferUsage = usage;
-
-            CreateNativeBuffer();
-        }
-
-        ~IndexBuffer()
-        {
-            Dispose();
-            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
-
-        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
-        {
-            if (this.nativeIndexBuffer != null)
-            {
-                this.nativeIndexBuffer.Dispose();
-                this.nativeIndexBuffer = null;
-            }
-        }
-
-        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
-        {
-            if (nativeIndexBuffer != null)
-            {
-                nativeIndexBuffer.Dispose();
-                nativeIndexBuffer = null;
-            }
-
-            CreateNativeBuffer();
-        }
-
-        private void CreateNativeBuffer()
-        {
-            this.nativeIndexBuffer =
-							AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, this, indexElementSize, indexCount, bufferUsage);
-        }
-
-        public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetData<T>(T[] data) where T : struct
-        {
-            GetData<T>(0, data, 0, data.Length);
-        }
-
-        public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-            GetData<T>(0, data, startIndex, elementCount);
-        }
-
-        public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            if (nativeIndexBuffer == null)
-            {
-                CreateNativeBuffer();
-            }
-
-            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount);
-        }
-
-        public void SetData<T>(T[] data) where T : struct
-        {
-            if (nativeIndexBuffer == null)
-            {
-                CreateNativeBuffer();
-            }
-
-            this.nativeIndexBuffer.SetData<T>(GraphicsDevice, data);
-        }
-
-        public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-            SetData<T>(0, data, startIndex, elementCount);
-        }
-
-        public override void Dispose()
-        {
-            if (this.nativeIndexBuffer != null)
-            {
-                this.nativeIndexBuffer.Dispose();
-                this.nativeIndexBuffer = null;
-            }
-        }
-
+		#region Public
 		// This is now internal because via befriending the assemblies
 		// it's usable in the modules but doesn't confuse the enduser.
-        internal INativeBuffer NativeIndexBuffer
-        {
-            get
-            {
-                if (nativeIndexBuffer == null)
-                {
-                    CreateNativeBuffer();
-                }
+		internal INativeIndexBuffer NativeIndexBuffer
+		{
+			get
+			{
+				if (nativeIndexBuffer == null)
+				{
+					CreateNativeBuffer();
+				}
 
-                return this.nativeIndexBuffer;
-            }
-        }
+				return this.nativeIndexBuffer;
+			}
+		}
 
-        public BufferUsage BufferUsage
-        {
-            get
-            {
-                return this.bufferUsage;
-            }
-        }
+		public BufferUsage BufferUsage
+		{
+			get
+			{
+				return this.bufferUsage;
+			}
+		}
 
-        public int IndexCount
-        {
-            get
-            {
-                return this.indexCount;
-            }
-        }
+		public int IndexCount
+		{
+			get
+			{
+				return this.indexCount;
+			}
+		}
 
-        public IndexElementSize IndexElementSize
-        {
-            get
-            {
-                return this.indexElementSize;
-            }
-        }
+		public IndexElementSize IndexElementSize
+		{
+			get
+			{
+				return this.indexElementSize;
+			}
+		}
+		#endregion
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		#region Constructor
+		public IndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
+			: base(graphicsDevice)
+		{
+			this.indexElementSize = indexElementSize;
+			this.indexCount = indexCount;
+			this.bufferUsage = usage;
+
+			base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
+
+			CreateNativeBuffer();
+		}
+
+		public IndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
+			: base(graphicsDevice)
+		{
+			if (indexType == typeof(int) ||
+					indexType == typeof(uint))
+			{
+				this.indexElementSize = IndexElementSize.ThirtyTwoBits;
+			}
+			else if (indexType == typeof(short) ||
+				indexType == typeof(ushort))
+			{
+				this.indexElementSize = IndexElementSize.SixteenBits;
+			}
+			else
+			{
+				throw new Exception("can't use IndexType " + indexType.ToString());
+			}
+
+			this.indexCount = indexCount;
+			this.bufferUsage = usage;
+
+			CreateNativeBuffer();
+		}
+
+		~IndexBuffer()
+		{
+			Dispose();
+			base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+		}
+		#endregion
+
+		#region GraphicsDevice_ResourceDestroyed
+		private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+		{
+			if (this.nativeIndexBuffer != null)
+			{
+				this.nativeIndexBuffer.Dispose();
+				this.nativeIndexBuffer = null;
+			}
+		}
+		#endregion
+
+		#region GraphicsDevice_ResourceCreated
+		private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+		{
+			if (nativeIndexBuffer != null)
+			{
+				nativeIndexBuffer.Dispose();
+				nativeIndexBuffer = null;
+			}
+
+			CreateNativeBuffer();
+		}
+		#endregion
+
+		#region CreateNativeBuffer
+		private void CreateNativeBuffer()
+		{
+			this.nativeIndexBuffer =
+				AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, this, indexElementSize, indexCount, bufferUsage);
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			NativeIndexBuffer.GetData(offsetInBytes, data, startIndex, elementCount);
+		}
+
+		public void GetData<T>(T[] data) where T : struct
+		{
+			NativeIndexBuffer.GetData(data);
+		}
+
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			NativeIndexBuffer.GetData(data, startIndex, elementCount);
+		}
+		#endregion
+
+		#region SetData
+		public void SetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			NativeIndexBuffer.SetData(GraphicsDevice, offsetInBytes, data,
+				startIndex, elementCount);
+		}
+
+		public void SetData<T>(T[] data) where T : struct
+		{
+			NativeIndexBuffer.SetData(GraphicsDevice, data);
+		}
+
+		public void SetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			NativeIndexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+		}
+		#endregion
+
+		#region Dispose
+		public override void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected override void Dispose(
+			[MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		{
+			if (this.nativeIndexBuffer != null)
+			{
+				this.nativeIndexBuffer.Dispose();
+				this.nativeIndexBuffer = null;
+			}
+		}
+		#endregion
+	}
 }

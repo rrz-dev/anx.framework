@@ -1,4 +1,8 @@
-﻿#region License
+﻿using System;
+using System.IO;
+using ANX.Framework.Graphics;
+
+#region License
 
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
@@ -45,15 +49,14 @@
 
 #endregion // License
 
-namespace ANX.Framework.NonXNA
+namespace ANX.Framework.NonXNA.RenderSystem
 {
-    public enum PreDefinedShader
-    {
-        SpriteBatch,
-        BasicEffect,
-        SkinnedEffect,
-        DualTextureEffect,
-        AlphaTestEffect,
-        EnvironmentMapEffect,
-    }
+	public interface INativeVertexBuffer : INativeBuffer
+	{
+		void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount,
+			int vertexStride) where T : struct;
+
+		void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data,
+			int startIndex, int elementCount, int vertexStride) where T : struct;
+	}
 }

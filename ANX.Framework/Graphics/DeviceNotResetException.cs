@@ -1,12 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
-
-#endregion // Using Statements
+﻿using System;
 
 #region License
 
@@ -57,22 +49,21 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
-    public sealed class DeviceNotResetException : Exception
-    {
-        public DeviceNotResetException()
-            : base()
-        {
-        }
+	public sealed class DeviceNotResetException : Exception
+	{
+		public DeviceNotResetException()
+			: base()
+		{
+		}
 
-        public DeviceNotResetException(string message)
-            : base(message)
-        {
-        }
+		public DeviceNotResetException(string message)
+			: base(message)
+		{
+		}
 
-        public DeviceNotResetException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-
-    }
+		public DeviceNotResetException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+	}
 }

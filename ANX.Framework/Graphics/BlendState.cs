@@ -1,10 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 

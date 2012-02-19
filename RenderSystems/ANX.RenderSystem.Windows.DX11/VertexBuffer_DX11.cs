@@ -7,6 +7,7 @@ using ANX.Framework.NonXNA;
 using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -59,7 +60,7 @@ using System.Runtime.InteropServices;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class VertexBuffer_DX11 : INativeBuffer, IDisposable
+    public class VertexBuffer_DX11 : INativeVertexBuffer, IDisposable
     {
         SharpDX.Direct3D11.Buffer buffer;
         int vertexStride;
@@ -165,5 +166,34 @@ namespace ANX.RenderSystem.Windows.DX11
                 buffer = null;
             }
         }
-    }
+
+				#region INativeVertexBuffer Member
+
+				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+
+				#region INativeBuffer Member
+
+
+				public void GetData<T>(T[] data) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+		}
 }

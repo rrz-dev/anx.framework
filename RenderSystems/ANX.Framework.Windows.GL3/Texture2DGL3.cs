@@ -276,6 +276,31 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
+		#region GetData (TODO)
+		public void GetData<T>(int level, Rectangle? rect, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetData<T>(int level, Rectangle? rect, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
 		#region GetTextureData
 		private void GetTextureData()
 		{

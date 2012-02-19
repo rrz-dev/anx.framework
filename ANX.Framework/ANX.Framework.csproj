@@ -441,6 +441,8 @@
     <Compile Include="NonXNA\RenderSystem\INativeTexture.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeTexture2D.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeEffectPass.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeVertexBuffer.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeIndexBuffer.cs" />
     <Compile Include="NonXNA\RenderSystem\PreDefinedShader.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeBlendState.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeBuffer.cs" />

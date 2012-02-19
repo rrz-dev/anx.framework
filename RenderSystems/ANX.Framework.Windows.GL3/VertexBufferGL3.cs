@@ -1,6 +1,6 @@
 ﻿using System;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
 
@@ -59,7 +59,7 @@ namespace ANX.Framework.Windows.GL3
 	/// Great tutorial about VBO/IBO directly for OpenTK:
 	/// http://www.opentk.com/doc/graphics/geometry/vertex-buffer-objects
 	/// </summary>
-	public class VertexBufferGL3 : INativeBuffer
+	public class VertexBufferGL3 : INativeVertexBuffer
 	{
 		#region Private
 		private VertexBuffer managedBuffer;
@@ -188,6 +188,33 @@ namespace ANX.Framework.Windows.GL3
 			{
 				BufferData(data, offsetInBytes);
 			}
+		}
+		#endregion
+
+		#region SetData (TODO)
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
+			T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetData (TODO)
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount, int vertexStride) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 

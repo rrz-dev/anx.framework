@@ -7,6 +7,7 @@ using ANX.Framework.NonXNA;
 using SharpDX.Direct3D10;
 using ANX.Framework.Graphics;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -59,7 +60,7 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Windows.DX10
 {
-    public class IndexBuffer_DX10 : INativeBuffer, IDisposable
+    public class IndexBuffer_DX10 : INativeIndexBuffer, IDisposable
     {
         private SharpDX.Direct3D10.Buffer buffer;
         private IndexElementSize size;
@@ -163,5 +164,29 @@ namespace ANX.Framework.Windows.DX10
                 buffer = null;
             }
         }
-    }
+
+				#region INativeIndexBuffer Member
+
+				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+
+				#region INativeBuffer Member
+
+
+				public void GetData<T>(T[] data) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+				{
+					throw new NotImplementedException();
+				}
+
+				#endregion
+		}
 }

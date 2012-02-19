@@ -1,8 +1,5 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using ANX.Framework.Graphics;
-
-#endregion // Using Statements
 
 #region License
 
@@ -51,12 +48,17 @@ using ANX.Framework.Graphics;
 
 #endregion // License
 
-namespace ANX.Framework.NonXNA
+namespace ANX.Framework.NonXNA.RenderSystem
 {
-    public interface INativeBuffer : IDisposable
-    {
-        void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct;
-        void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct;
-        void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct;
-    }
+	public interface INativeBuffer : IDisposable
+	{
+		void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct;
+		void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex,
+			int elementCount) where T : struct;
+		void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data,
+			int startIndex, int elementCount) where T : struct;
+
+		void GetData<T>(T[] data) where T : struct;
+		void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct;
+	}
 }

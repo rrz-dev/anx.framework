@@ -1,9 +1,8 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #region License
 
@@ -54,183 +53,192 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
-    public class VertexBuffer : GraphicsResource, IGraphicsResource
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	public class VertexBuffer : GraphicsResource, IGraphicsResource
+	{
+		#region Private
+		private VertexDeclaration vertexDeclaration;
+		private int vertexCount;
+		private BufferUsage bufferUsage;
+		private INativeVertexBuffer nativeVertexBuffer;
+		#endregion
+
+		#region Public
+		// This is now internal because via befriending the assemblies
+		// it's usable in the modules but doesn't confuse the enduser.
+		internal INativeVertexBuffer NativeVertexBuffer
 		{
-				#region Private
-        private VertexDeclaration vertexDeclaration;
-        private int vertexCount;
-        private BufferUsage bufferUsage;
-				private INativeBuffer nativeVertexBuffer;
-				#endregion
-
-				#region Constructor
-				// This is now internal because via befriending the assemblies
-				// it's usable in the modules but doesn't confuse the enduser.
-				internal INativeBuffer NativeVertexBuffer
+			get
+			{
+				if (this.nativeVertexBuffer == null)
 				{
-					get
-					{
-						if (this.nativeVertexBuffer == null)
-						{
-							CreateNativeBuffer();
-						}
-
-						return this.nativeVertexBuffer;
-					}
+					CreateNativeBuffer();
 				}
 
-				public BufferUsage BufferUsage
-				{
-					get
-					{
-						return this.bufferUsage;
-					}
-				}
+				return this.nativeVertexBuffer;
+			}
+		}
 
-				public int VertexCount
-				{
-					get
-					{
-						return this.vertexCount;
-					}
-				}
+		public BufferUsage BufferUsage
+		{
+			get
+			{
+				return this.bufferUsage;
+			}
+		}
 
-				public VertexDeclaration VertexDeclaration
-				{
-					get
-					{
-						return this.vertexDeclaration;
-					}
-				}
-				#endregion
+		public int VertexCount
+		{
+			get
+			{
+				return this.vertexCount;
+			}
+		}
 
-				#region Constructor
-				public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
-            : this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType), vertexCount, usage)
-        {
-        }
+		public VertexDeclaration VertexDeclaration
+		{
+			get
+			{
+				return this.vertexDeclaration;
+			}
+		}
+		#endregion
 
-        public VertexBuffer(GraphicsDevice graphicsDevice, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
-            : base(graphicsDevice)
-        {
-            this.vertexCount = vertexCount;
-            this.vertexDeclaration = vertexDeclaration;
-            this.bufferUsage = usage;
+		#region Constructor
+		public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType,
+			int vertexCount, BufferUsage usage)
+			: this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType),
+		vertexCount, usage)
+		{
+		}
 
-            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
+		public VertexBuffer(GraphicsDevice graphicsDevice,
+			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+			: base(graphicsDevice)
+		{
+			this.vertexCount = vertexCount;
+			this.vertexDeclaration = vertexDeclaration;
+			this.bufferUsage = usage;
 
-            CreateNativeBuffer();
-        }
+			base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
-        ~VertexBuffer()
-        {
-            Dispose();
-            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-				}
-				#endregion
+			CreateNativeBuffer();
+		}
 
-				#region GraphicsDevice_ResourceDestroyed
-				private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
-        {
-            if (nativeVertexBuffer != null)
-            {
-                nativeVertexBuffer.Dispose();
-                nativeVertexBuffer = null;
-            }
-				}
-				#endregion
+		~VertexBuffer()
+		{
+			Dispose();
+			base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+		}
+		#endregion
 
-				#region GraphicsDevice_ResourceCreated
-				private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
-        {
-            if (nativeVertexBuffer != null)
-            {
-                nativeVertexBuffer.Dispose();
-                nativeVertexBuffer = null;
-            }
+		#region GraphicsDevice_ResourceDestroyed
+		private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+		{
+			if (nativeVertexBuffer != null)
+			{
+				nativeVertexBuffer.Dispose();
+				nativeVertexBuffer = null;
+			}
+		}
+		#endregion
 
-            CreateNativeBuffer();
-				}
-				#endregion
+		#region GraphicsDevice_ResourceCreated
+		private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+		{
+			if (nativeVertexBuffer != null)
+			{
+				nativeVertexBuffer.Dispose();
+				nativeVertexBuffer = null;
+			}
 
-				#region CreateNativeBuffer
-				private void CreateNativeBuffer()
-        {
-            this.nativeVertexBuffer =
-							AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, this, vertexDeclaration, vertexCount, bufferUsage);
-				}
-				#endregion
+			CreateNativeBuffer();
+		}
+		#endregion
 
-				#region GetData
-				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-        {
-            throw new NotImplementedException();
-        }
+		#region CreateNativeBuffer
+		private void CreateNativeBuffer()
+		{
+			this.nativeVertexBuffer =
+				AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, this, vertexDeclaration, vertexCount, bufferUsage);
+		}
+		#endregion
 
-        public void GetData<T>(T[] data) where T : struct
-        {
-            throw new NotImplementedException();
-        }
+		#region GetData
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount, int vertexStride) where T : struct
+		{
+			NativeVertexBuffer.GetData(offsetInBytes, data, startIndex,
+				elementCount, vertexStride);
+		}
 
-        public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-            throw new NotImplementedException();
-				}
-				#endregion
+		public void GetData<T>(T[] data) where T : struct
+		{
+			NativeVertexBuffer.GetData(data);
+		}
 
-				#region SetData
-				public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-        {
-					//NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
-            throw new NotImplementedException();
-        }
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			NativeVertexBuffer.GetData(data, startIndex, elementCount);
+		}
+		#endregion
 
-        public void SetData<T>(T[] data) where T : struct
-        {
-            NativeVertexBuffer.SetData(GraphicsDevice, data);
-        }
+		#region SetData
+		public void SetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount, int vertexStride) where T : struct
+		{
+			NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data,
+				startIndex, elementCount, vertexStride);
+		}
 
-        public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-        {
-					NativeVertexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
-        }
-				#endregion
+		public void SetData<T>(T[] data) where T : struct
+		{
+			NativeVertexBuffer.SetData(GraphicsDevice, data);
+		}
 
-				#region TypeToVertexDeclaration
-				private static VertexDeclaration TypeToVertexDeclaration(Type t)
-        {
-            IVertexType vt = Activator.CreateInstance(t) as IVertexType;
-            if (vt != null)
-            {
-                return vt.VertexDeclaration;
-            }
+		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+		{
+			NativeVertexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+		}
+		#endregion
 
-            return null;
-        }
-				#endregion
+		#region TypeToVertexDeclaration
+		private static VertexDeclaration TypeToVertexDeclaration(Type t)
+		{
+			IVertexType vt = Activator.CreateInstance(t) as IVertexType;
+			if (vt != null)
+			{
+				return vt.VertexDeclaration;
+			}
 
-				#region Dispose
-				public override void Dispose()
-        {
-            if (nativeVertexBuffer != null)
-            {
-                nativeVertexBuffer.Dispose();
-                nativeVertexBuffer = null;
-            }
+			return null;
+		}
+		#endregion
 
-            if (vertexDeclaration != null)
-            {
-                // do not dispose the VertexDeclaration here, because it's only a reference
-                vertexDeclaration = null;
-            }
-				}
+		#region Dispose
+		public override void Dispose()
+		{
+			if (nativeVertexBuffer != null)
+			{
+				nativeVertexBuffer.Dispose();
+				nativeVertexBuffer = null;
+			}
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-				{
-					throw new NotImplementedException();
-				}
-				#endregion
-    }
+			if (vertexDeclaration != null)
+			{
+				// do not dispose the VertexDeclaration here, because it's only a reference
+				vertexDeclaration = null;
+			}
+		}
+
+		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }
