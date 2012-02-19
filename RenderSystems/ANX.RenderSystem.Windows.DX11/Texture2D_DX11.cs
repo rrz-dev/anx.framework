@@ -311,6 +311,20 @@ namespace ANX.RenderSystem.Windows.DX11
                 this.nativeTexture.Dispose();
                 this.nativeTexture = null;
             }
-        }
+				}
+
+				#region SaveAsJpeg (TODO)
+				public void SaveAsJpeg(Stream stream, int width, int height)
+				{
+					throw new NotImplementedException();
+				}
+				#endregion
+
+				#region SaveAsPng (TODO)
+				public void SaveAsPng(Stream stream, int width, int height)
+				{
+					throw new NotImplementedException();
+				}
+				#endregion
     }
 }

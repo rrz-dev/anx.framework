@@ -97,7 +97,17 @@ namespace ANX.Framework.NonXNA
 
             if (this.assembly != null)
             {
-                foreach (Type t in this.assembly.GetTypes().Where(p =>
+							Type[] allTypes;
+							try
+							{
+								allTypes = this.assembly.GetTypes();
+							}
+							catch (ReflectionTypeLoadException ex)
+							{
+								allTypes = ex.Types;
+							}
+
+                foreach (Type t in allTypes.Where(p =>
 									typeof(IInputSystemCreator).IsAssignableFrom(p) ||
 									typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
 									typeof(ISoundSystemCreator).IsAssignableFrom(p) ||
@@ -121,26 +131,26 @@ namespace ANX.Framework.NonXNA
                 // Scan the addin for InputDeviceCreators and register them
                 //
 
-                foreach (Type t in this.assembly.GetTypes().Where(p =>
+                foreach (Type t in allTypes.Where(p =>
 									typeof(IGamePadCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IGamePadCreator);
                 }
 
-                foreach (Type t in this.assembly.GetTypes().Where(p =>
+                foreach (Type t in allTypes.Where(p =>
 									typeof(IKeyboardCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IKeyboardCreator);
                 }
 
-                foreach (Type t in this.assembly.GetTypes().Where(p =>
+                foreach (Type t in allTypes.Where(p =>
 									typeof(IMouseCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMouseCreator);
                 }
 
 #if XNAEXT
-                foreach (Type t in this.assembly.GetTypes().Where(p =>
+                foreach (Type t in allTypes.Where(p =>
 									typeof(IMotionSensingDeviceCreator).IsAssignableFrom(p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMotionSensingDeviceCreator);

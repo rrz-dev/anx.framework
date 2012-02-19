@@ -57,7 +57,7 @@ using NLog;
 
 #endregion // License
 
-namespace ANX.InputDevices.Windows.XInput
+namespace ANX.InputDevices.Standard
 {
     public class Creator : IInputSystemCreator
     {

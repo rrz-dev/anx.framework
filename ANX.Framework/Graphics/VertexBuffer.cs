@@ -1,10 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -58,13 +55,57 @@ using System.Runtime.InteropServices;
 namespace ANX.Framework.Graphics
 {
     public class VertexBuffer : GraphicsResource, IGraphicsResource
-    {
+		{
+				#region Private
         private VertexDeclaration vertexDeclaration;
         private int vertexCount;
         private BufferUsage bufferUsage;
-        private INativeBuffer nativeVertexBuffer;
+				private INativeBuffer nativeVertexBuffer;
+				#endregion
 
-        public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
+				#region Constructor
+				// This is now internal because via befriending the assemblies
+				// it's usable in the modules but doesn't confuse the enduser.
+				internal INativeBuffer NativeVertexBuffer
+				{
+					get
+					{
+						if (this.nativeVertexBuffer == null)
+						{
+							CreateNativeBuffer();
+						}
+
+						return this.nativeVertexBuffer;
+					}
+				}
+
+				public BufferUsage BufferUsage
+				{
+					get
+					{
+						return this.bufferUsage;
+					}
+				}
+
+				public int VertexCount
+				{
+					get
+					{
+						return this.vertexCount;
+					}
+				}
+
+				public VertexDeclaration VertexDeclaration
+				{
+					get
+					{
+						return this.vertexDeclaration;
+					}
+				}
+				#endregion
+
+				#region Constructor
+				public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
             : this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType), vertexCount, usage)
         {
         }
@@ -87,18 +128,22 @@ namespace ANX.Framework.Graphics
             Dispose();
             base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
             base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
+				}
+				#endregion
 
-        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+				#region GraphicsDevice_ResourceDestroyed
+				private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
         {
             if (nativeVertexBuffer != null)
             {
                 nativeVertexBuffer.Dispose();
                 nativeVertexBuffer = null;
             }
-        }
+				}
+				#endregion
 
-        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+				#region GraphicsDevice_ResourceCreated
+				private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
         {
             if (nativeVertexBuffer != null)
             {
@@ -107,39 +152,19 @@ namespace ANX.Framework.Graphics
             }
 
             CreateNativeBuffer();
-        }
+				}
+				#endregion
 
-        private void CreateNativeBuffer()
+				#region CreateNativeBuffer
+				private void CreateNativeBuffer()
         {
             this.nativeVertexBuffer =
 							AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, this, vertexDeclaration, vertexCount, bufferUsage);
-        }
-        
-        public BufferUsage BufferUsage
-        {
-            get
-            {
-                return this.bufferUsage;
-            }
-        }
+				}
+				#endregion
 
-        public int VertexCount
-        {
-            get
-            {
-                return this.vertexCount;
-            }
-        }
-
-        public VertexDeclaration VertexDeclaration
-        {
-            get
-            {
-                return this.vertexDeclaration;
-            }
-        }
-
-        public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				#region GetData
+				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
         {
             throw new NotImplementedException();
         }
@@ -152,35 +177,29 @@ namespace ANX.Framework.Graphics
         public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
-        }
+				}
+				#endregion
 
-        public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+				#region SetData
+				public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
         {
-            //this.nativeVertexBuffer.SetData<T>(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
+					//NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
             throw new NotImplementedException();
         }
 
         public void SetData<T>(T[] data) where T : struct
         {
-            if (this.nativeVertexBuffer == null)
-            {
-                CreateNativeBuffer();
-            }
-
-            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data);
+            NativeVertexBuffer.SetData(GraphicsDevice, data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (this.nativeVertexBuffer == null)
-            {
-                CreateNativeBuffer();
-            }
-
-            this.nativeVertexBuffer.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
+					NativeVertexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
         }
+				#endregion
 
-        private static VertexDeclaration TypeToVertexDeclaration(Type t)
+				#region TypeToVertexDeclaration
+				private static VertexDeclaration TypeToVertexDeclaration(Type t)
         {
             IVertexType vt = Activator.CreateInstance(t) as IVertexType;
             if (vt != null)
@@ -190,8 +209,10 @@ namespace ANX.Framework.Graphics
 
             return null;
         }
+				#endregion
 
-        public override void Dispose()
+				#region Dispose
+				public override void Dispose()
         {
             if (nativeVertexBuffer != null)
             {
@@ -204,27 +225,12 @@ namespace ANX.Framework.Graphics
                 // do not dispose the VertexDeclaration here, because it's only a reference
                 vertexDeclaration = null;
             }
-        }
-
-		// This is now internal because via befriending the assemblies
-		// it's usable in the modules but doesn't confuse the enduser.
-        internal INativeBuffer NativeVertexBuffer
-        {
-            get
-            {
-                if (this.nativeVertexBuffer == null)
-                {
-                    CreateNativeBuffer();
-                }
-
-                return this.nativeVertexBuffer;
-            }
-        }
+				}
 
 				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
-
+				{
+					throw new NotImplementedException();
+				}
+				#endregion
     }
 }

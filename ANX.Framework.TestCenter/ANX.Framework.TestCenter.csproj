@@ -129,6 +129,14 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput.csproj">
+      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
+      <Name>ANX.InputDevices.Windows.XInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard.csproj">
+      <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
+      <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

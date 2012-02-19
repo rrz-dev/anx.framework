@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using ANX.Framework.Graphics;
-
-#endregion // Using Statements
+﻿using System.IO;
 
 #region License
 
@@ -53,8 +49,9 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA.RenderSystem
 {
-    public interface INativeTexture2D : INativeTexture
-    {
-
-    }
+	public interface INativeTexture2D : INativeTexture
+	{
+		void SaveAsJpeg(Stream stream, int width, int height);
+		void SaveAsPng(Stream stream, int width, int height);
+	}
 }

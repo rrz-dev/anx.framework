@@ -58,16 +58,43 @@ namespace ANX.Framework.Graphics
 {
     public class Texture2D : Texture, IGraphicsResource
     {
-        #region Private Members
+        #region Private
         protected internal int width;
         protected internal int height;
 
-        #endregion // Private Members
+				private INativeTexture2D nativeTexture2D;
+				#endregion
 
-        internal Texture2D(GraphicsDevice graphicsDevice)
+				#region Public
+				public Rectangle Bounds
+				{
+					get
+					{
+						return new Rectangle(0, 0, this.width, this.height);
+					}
+				}
+
+				public int Width
+				{
+					get
+					{
+						return this.width;
+					}
+				}
+
+				public int Height
+				{
+					get
+					{
+						return this.height;
+					}
+				}
+				#endregion
+
+				#region Constructor
+				internal Texture2D(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
         {
-
         }
 
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
@@ -79,7 +106,7 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;
             base.format = SurfaceFormat.Color;
 
-            CreateNativeTextureSurface(graphicsDevice, SurfaceFormat.Color, width, height, levelCount);
+            CreateNativeTextureSurface();
         }
 
 				public Texture2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat format)
@@ -91,10 +118,12 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;    //TODO: mipmap paramter?!?!?
             base.format = format;
 
-            CreateNativeTextureSurface(graphicsDevice, format, width, height, levelCount);
+            CreateNativeTextureSurface();
         }
+				#endregion
 
-        public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
+				#region FromStream (TODO)
+				public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
         {
             throw new NotImplementedException();
         }
@@ -103,8 +132,10 @@ namespace ANX.Framework.Graphics
         {
             throw new NotImplementedException();
         }
+				#endregion
 
-        public void GetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
+				#region GetData (TODO)
+				public void GetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
         }
@@ -117,19 +148,11 @@ namespace ANX.Framework.Graphics
         public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
-        }
+				}
+				#endregion
 
-        public void SaveAsJpeg(Stream stream, int width, int height)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveAsPng(Stream stream, int width, int height)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
+				#region SetData (TODO)
+				public void SetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
         }
@@ -142,50 +165,50 @@ namespace ANX.Framework.Graphics
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
             NativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
-        }
+				}
+				#endregion
 
-        public override void Dispose()
+				#region SaveAsJpeg
+				public void SaveAsJpeg(Stream stream, int width, int height)
+				{
+					nativeTexture2D.SaveAsJpeg(stream, width, height);
+				}
+				#endregion
+
+				#region SaveAsPng
+				public void SaveAsPng(Stream stream, int width, int height)
+				{
+					nativeTexture2D.SaveAsPng(stream, width, height);
+				}
+				#endregion
+
+				#region Dispose
+				public override void Dispose()
         {
             base.Dispose(true);
         }
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+				protected override void Dispose(
+					[MarshalAs(UnmanagedType.U1)] bool disposeManaged)
         {
             base.Dispose(disposeManaged);
-        }
+				}
+				#endregion
 
-        public Rectangle Bounds
+				#region ReCreateNativeTextureSurface
+				internal override void ReCreateNativeTextureSurface()
         {
-            get
-            {
-                return new Rectangle(0, 0, this.width, this.height);
-            }
-        }
+            CreateNativeTextureSurface();
+				}
+				#endregion
 
-        public int Width
+				#region CreateNativeTextureSurface
+				private void CreateNativeTextureSurface()
         {
-            get
-            {
-                return this.width;
-            }
-        }
-
-        public int Height
-        {
-            get
-            {
-                return this.height;
-            }
-        }
-
-        internal override void ReCreateNativeTextureSurface()
-        {
-            CreateNativeTextureSurface(GraphicsDevice, base.format, this.width, this.height, this.levelCount);
-        }
-
-        internal void CreateNativeTextureSurface(GraphicsDevice device, SurfaceFormat format, int width, int height, int levelCount)
-        {
-            base.nativeTexture = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(device, format, width, height, levelCount);
-        }
+					nativeTexture2D =
+						AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateTexture(GraphicsDevice, format, width, height, levelCount);
+					base.nativeTexture = nativeTexture2D;
+				}
+				#endregion
     }
 }

@@ -63,8 +63,8 @@ namespace ANX.Framework.Graphics
         public Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
         {
-            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
-            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
         }
 
         ~Texture()

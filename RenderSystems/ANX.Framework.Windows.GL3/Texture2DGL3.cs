@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
@@ -348,6 +349,20 @@ namespace ANX.Framework.Windows.GL3
 			}
 
 			return size;
+		}
+		#endregion
+
+		#region SaveAsJpeg (TODO)
+		public void SaveAsJpeg(Stream stream, int width, int height)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region SaveAsPng (TODO)
+		public void SaveAsPng(Stream stream, int width, int height)
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 
