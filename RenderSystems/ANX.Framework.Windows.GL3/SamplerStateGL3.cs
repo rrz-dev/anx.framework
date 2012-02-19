@@ -1,7 +1,6 @@
-﻿using System;
-using ANX.Framework.Graphics;
+﻿using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using OpenTK.Graphics.OpenGL;
+using ANX.Framework.NonXNA.Development;
 
 #region License
 
@@ -64,6 +63,8 @@ namespace ANX.Framework.Windows.GL3
 	/// Info for OGL 3.3 sampler objects (sadly not implemented in OpenTK yet):
 	/// http://www.sinanc.org/blog/?p=215
 	/// </summary>
+	[PercentageComplete(10)]
+	[TestState(TestStateAttribute.TestState.Untested)]
 	public class SamplerStateGL3 : INativeSamplerState
 	{
 		#region Public
@@ -150,7 +151,7 @@ namespace ANX.Framework.Windows.GL3
 		/// Apply the sampler state.
 		/// </summary>
 		/// <param name="graphicsDevice">Graphics device.</param>
-		/// <param name="index"></param>
+		/// <param name="index">The index of which sampler should be modified.</param>
 		public void Apply(GraphicsDevice graphicsDevice, int index)
 		{
 			IsBound = true;

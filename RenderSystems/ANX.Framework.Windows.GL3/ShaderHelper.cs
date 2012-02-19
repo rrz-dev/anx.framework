@@ -115,6 +115,7 @@ namespace ANX.Framework.Windows.GL3
 			// empty lines, spaces and tabs at beginning and end and also
 			// remove comments.
 			List<string> lines = new List<string>(input.Split('\n'));
+			input = "";
 			for (int index = lines.Count - 1; index >= 0; index--)
 			{
 				lines[index] = lines[index].Trim();
@@ -125,14 +126,50 @@ namespace ANX.Framework.Windows.GL3
 					continue;
 				}
 
-				// TODO: add /**/ comment checking and removing.
+				input = lines[index] + input;
 			}
 
-			input = "";
-			foreach (string line in lines)
+			#region Multiline comment removing
+			input = input.Replace("/*/*", "/* /*");
+			input = input.Replace("*/*/", "*/ */");
+
+			int length = input.Length;
+			int foundStartIndex = -1;
+			int openCommentsCount = 0;
+			for (int index = 0; index < length - 1; index++)
 			{
-				input += line + "\n";
+				if (input[index] == '/' &&
+					input[index + 1] == '*')
+				{
+					if (openCommentsCount == 0)
+					{
+						foundStartIndex = index;
+					}
+					openCommentsCount++;
+				}
+
+				if (input[index] == '*' &&
+					input[index + 1] == '/')
+				{
+					openCommentsCount--;
+					if (openCommentsCount == 0)
+					{
+						int commentLength = index - foundStartIndex + 2;
+						length -= commentLength;
+						index = foundStartIndex - 1;
+						input = input.Remove(foundStartIndex, commentLength);
+						foundStartIndex = -1;
+					}
+				}
 			}
+
+			if (openCommentsCount > 0)
+			{
+				throw new Exception("Unable to clean the shader code because it seems " +
+					"some multiline comments interfere with each other or with the code. " +
+					"Please make sure your shader code and comments are well formatted!");
+			}
+			#endregion
 
 			// Now to some additional cleanup
 			string[] minimizables =
@@ -145,8 +182,6 @@ namespace ANX.Framework.Windows.GL3
 				input = input.Replace(mizable, mizable.Trim());
 			}
 			
-			input = input.Replace("\n", "");
-
 			return input;
 		}
 		#endregion
@@ -302,6 +337,27 @@ namespace ANX.Framework.Windows.GL3
 			public static void TestCleanCode()
 			{
 				string input = File.ReadAllText(@"..\..\shader\GL3\SpriteBatch_GLSL.fx");
+				Console.WriteLine(CleanCode(input));
+			}
+			#endregion
+
+			#region TestCleanCodeWithExtendedComments
+			public static void TestCleanCodeWithExtendedComments()
+			{
+				string input =
+@"// This is a simple comment.
+
+/*Hello
+im a multiline comment*/
+
+/* Multiline on a single line */
+
+/* And now the hardcore...a multiline comment
+/*in a multiline comment/*in another one
+*/*/
+Wow...
+*/
+";
 				Console.WriteLine(CleanCode(input));
 			}
 			#endregion

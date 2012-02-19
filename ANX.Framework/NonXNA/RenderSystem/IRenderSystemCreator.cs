@@ -67,9 +67,9 @@ namespace ANX.Framework.NonXNA
 
         INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage);
 
-        INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage);
+        INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage);
 
-        INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
+        INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
 
         INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode);
         INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode);

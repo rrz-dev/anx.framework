@@ -76,8 +76,8 @@ namespace ANX.Framework.Graphics
             this.vertexDeclaration = vertexDeclaration;
             this.bufferUsage = usage;
 
-            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
-            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
             CreateNativeBuffer();
         }
@@ -111,7 +111,8 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeBuffer()
         {
-            this.nativeVertexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, vertexDeclaration, vertexCount, bufferUsage);
+            this.nativeVertexBuffer =
+							AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, this, vertexDeclaration, vertexCount, bufferUsage);
         }
         
         public BufferUsage BufferUsage

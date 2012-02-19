@@ -71,8 +71,8 @@ namespace ANX.Framework.Graphics
             this.indexCount = indexCount;
             this.bufferUsage = usage;
 
-            base.GraphicsDevice.ResourceCreated += new EventHandler<ResourceCreatedEventArgs>(GraphicsDevice_ResourceCreated);
-            base.GraphicsDevice.ResourceDestroyed += new EventHandler<ResourceDestroyedEventArgs>(GraphicsDevice_ResourceDestroyed);
+            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
             CreateNativeBuffer();
         }
@@ -128,7 +128,8 @@ namespace ANX.Framework.Graphics
 
         private void CreateNativeBuffer()
         {
-            this.nativeIndexBuffer = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, indexElementSize, indexCount, bufferUsage);
+            this.nativeIndexBuffer =
+							AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateIndexBuffer(GraphicsDevice, this, indexElementSize, indexCount, bufferUsage);
         }
 
         public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct

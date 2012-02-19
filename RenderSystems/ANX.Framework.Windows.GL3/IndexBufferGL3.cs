@@ -59,6 +59,8 @@ namespace ANX.Framework.Windows.GL3
 	public class IndexBufferGL3 : INativeBuffer
 	{
 		#region Private
+		private IndexBuffer managedBuffer;
+
 		private int bufferHandle;
 		/// <summary>
 		/// Native index buffer handle.
@@ -86,17 +88,17 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Create a new Index Buffer object.
 		/// </summary>
-		internal IndexBufferGL3(IndexElementSize setElementSize,
-			int setIndexCount, BufferUsage setUsage)
+		internal IndexBufferGL3(IndexBuffer setManagedBuffer,
+			IndexElementSize setElementSize, int setIndexCount, BufferUsage setUsage)
 		{
 			GraphicsResourceManager.UpdateResource(this, true);
 
+			managedBuffer = setManagedBuffer;
 			indexCount = setIndexCount;
 			elementSize = setElementSize;
 			usage = setUsage;
 
-			// TODO: check if dynamic buffer
-			bool isDynamicBuffer = false;
+			bool isDynamicBuffer = managedBuffer is DynamicIndexBuffer;
 
 			usageHint = isDynamicBuffer ?
 				BufferUsageHint.DynamicDraw :

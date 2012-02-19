@@ -62,6 +62,8 @@ namespace ANX.Framework.Windows.GL3
 	public class VertexBufferGL3 : INativeBuffer
 	{
 		#region Private
+		private VertexBuffer managedBuffer;
+
 		/// <summary>
 		/// Native vertex buffer handle.
 		/// </summary>
@@ -89,17 +91,18 @@ namespace ANX.Framework.Windows.GL3
 		/// <summary>
 		/// Create a new Vertex Buffer object.
 		/// </summary>
-		internal VertexBufferGL3(VertexDeclaration setVertexDeclaration,
-			int setVertexCount, BufferUsage setUsage)
+		internal VertexBufferGL3(VertexBuffer setManagedBuffer,
+			VertexDeclaration setVertexDeclaration, int setVertexCount,
+			BufferUsage setUsage)
 		{
 			GraphicsResourceManager.UpdateResource(this, true);
 
+			managedBuffer = setManagedBuffer;
 			vertexDeclaration = setVertexDeclaration;
 			usage = setUsage;
 			vertexCount = setVertexCount;
 
-			// TODO: check if dynamic buffer
-			bool isDynamicBuffer = false;
+			bool isDynamicBuffer = managedBuffer is DynamicVertexBuffer;
 
 			usageHint = isDynamicBuffer ?
 				BufferUsageHint.DynamicDraw :
@@ -224,6 +227,10 @@ namespace ANX.Framework.Windows.GL3
 				GL.EnableVertexAttribArray(attribute.Location);
 				VertexElement element = elements[(int)attribute.Location];
 
+				int size = 0;
+				VertexAttribPointerType type = VertexAttribPointerType.Float;
+				bool normalized = false;
+
 				switch (element.VertexElementUsage)
 				{
 					case VertexElementUsage.Binormal:
@@ -232,31 +239,33 @@ namespace ANX.Framework.Windows.GL3
 					case VertexElementUsage.BlendIndices:
 					case VertexElementUsage.BlendWeight:
 					case VertexElementUsage.Position:
-						GL.VertexAttribPointer((int)attribute.Location, 3,
-							VertexAttribPointerType.Float, false,
-							vertexDeclaration.VertexStride, element.Offset);
+						size = 3;
 						break;
 
 					case VertexElementUsage.Color:
-						GL.VertexAttribPointer((int)attribute.Location, 4,
-							VertexAttribPointerType.UnsignedByte,
-							true, vertexDeclaration.VertexStride, element.Offset);
+						size = 4;
+						type = VertexAttribPointerType.UnsignedByte;
+						normalized = true;
 						break;
 
 					case VertexElementUsage.TextureCoordinate:
-						GL.VertexAttribPointer((int)attribute.Location, 2,
-							VertexAttribPointerType.Float, false,
-							vertexDeclaration.VertexStride, element.Offset);
+						size = 2;
+						break;
+
+					case VertexElementUsage.Fog:
+					case VertexElementUsage.PointSize:
+					case VertexElementUsage.TessellateFactor:
+						size = 1;
 						break;
 
 					// TODO
 					case VertexElementUsage.Depth:
-					case VertexElementUsage.Fog:
-					case VertexElementUsage.PointSize:
 					case VertexElementUsage.Sample:
-					case VertexElementUsage.TessellateFactor:
 						throw new NotImplementedException();
 				}
+
+				GL.VertexAttribPointer((int)attribute.Location, size, type, normalized,
+					vertexDeclaration.VertexStride, element.Offset);
 			}
 		}
 		#endregion

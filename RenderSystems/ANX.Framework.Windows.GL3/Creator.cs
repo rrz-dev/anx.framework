@@ -173,10 +173,11 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="usage">The usage type of the buffer.</param>
 		/// <returns>Native OpenGL index buffer.</returns>
 		public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
-			IndexElementSize size, int indexCount, BufferUsage usage)
+			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
+			BufferUsage usage)
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-			return new IndexBufferGL3(size, indexCount, usage);
+			return new IndexBufferGL3(managedBuffer, size, indexCount, usage);
 		}
 		#endregion
 
@@ -191,11 +192,12 @@ namespace ANX.Framework.Windows.GL3
 		/// <param name="usage">The usage type of the buffer.</param>
 		/// <returns>Native OpenGL vertex buffer.</returns>
 		public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexDeclaration vertexDeclaration, int vertexCount,
-			BufferUsage usage)
+			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
+			int vertexCount, BufferUsage usage)
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-			return new VertexBufferGL3(vertexDeclaration, vertexCount, usage);
+			return new VertexBufferGL3(managedBuffer, vertexDeclaration, vertexCount,
+				usage);
 		}
 		#endregion
 

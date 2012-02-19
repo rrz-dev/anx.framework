@@ -92,12 +92,14 @@ namespace ANX.Framework.Windows.DX10
             return new GraphicsDeviceWindowsDX10(presentationParameters);
         }
 
-        public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
+				public INativeBuffer CreateIndexBuffer(GraphicsDevice graphics,
+					IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
         {
             return new IndexBuffer_DX10(graphics, size, indexCount, usage);
         }
 
-        public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+				public INativeBuffer CreateVertexBuffer(GraphicsDevice graphics,
+					VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
             return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
         }
