@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 using NLog;
 using ANX.Framework.NonXNA.InputSystem;
+using ANX.Framework.Input;
+using ANX.Framework;
 
 #endregion // Using Statements
 
@@ -59,26 +61,85 @@ using ANX.Framework.NonXNA.InputSystem;
 #endregion // License
 namespace ANX.InputDevices.Test
 {
-    public class GamePad:IGamePad
+    public class GamePad : IGamePad
     {
-        public Framework.Input.GamePadCapabilities GetCapabilities(Framework.PlayerIndex playerIndex)
+        public GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+
+            return new GamePadCapabilities();
         }
 
-        public Framework.Input.GamePadState GetState(Framework.PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
+        public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
         {
-            throw new NotImplementedException();
+            GamePadState gamepad;
+            switch (playerIndex)
+            {
+                case PlayerIndex.One:
+                    isConnected = true;
+                    packetNumber = 0;
+                    gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A, Buttons.B);
+                    break;
+                case PlayerIndex.Two:
+                    isConnected = true;
+                    packetNumber = 0;
+                    gamepad = new GamePadState(new Vector2(200, 200), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A, Buttons.BigButton);
+                    break;
+                case PlayerIndex.Three:
+                    isConnected = true;
+                    packetNumber = 0;
+                    gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A, Buttons.X);
+                    break;
+                case PlayerIndex.Four:
+                default:
+                    isConnected = false;
+                    packetNumber = 0;
+                    gamepad = new GamePadState();
+                    break;
+            }
+            return gamepad;
         }
 
-        public Framework.Input.GamePadState GetState(Framework.PlayerIndex playerIndex, Framework.Input.GamePadDeadZone deadZoneMode, out bool isConnected, out int packetNumber)
+        public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode, out bool isConnected, out int packetNumber)
         {
-            throw new NotImplementedException();
+            return this.GetState(playerIndex, out isConnected, out packetNumber);
         }
 
-        public bool SetVibration(Framework.PlayerIndex playerIndex, float leftMotor, float rightMotor)
+        public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
-            throw new NotImplementedException();
+            switch (playerIndex)
+            {
+                case PlayerIndex.One:
+                    if (leftMotor == 0.5f && rightMotor == 0.5f)
+                    {
+                        return true;
+                    }
+                    return false;
+                    break;
+                case PlayerIndex.Two:
+                    if (leftMotor == 0.7f && rightMotor == 0.5f)
+                    {
+                        return true;
+                    }
+                    return false;
+                    break;
+                case PlayerIndex.Three:
+                    if (leftMotor == -0.5f && rightMotor == 0.7f)
+                    {
+                        return true;
+                    }
+                    return false;
+                    break;
+                case PlayerIndex.Four:
+                    if (leftMotor == 0.5f && rightMotor == 0.5f)
+                    {
+                        return false;
+                    }
+                    return true;
+
+                default:
+                    return false;
+                    break;
+            }
         }
     }
 }

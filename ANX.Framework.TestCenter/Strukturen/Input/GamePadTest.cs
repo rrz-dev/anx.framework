@@ -77,26 +77,58 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
     class GamePadTest
     {
 
-        static object[] twoplayer =
+        static object[] playergets =
         {
-            new object[]{XNAPlayerIndex.One, ANXPlayerIndex.One},
-            new object[]{XNAPlayerIndex.Two, ANXPlayerIndex.Two},
-            new object[]{XNAPlayerIndex.Three, ANXPlayerIndex.Three},
-            new object[]{XNAPlayerIndex.Four, ANXPlayerIndex.Four},
+            new object[]{ANXPlayerIndex.One,new ANXGamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, ANXButtons.A, ANXButtons.B)},
+            new object[]{ANXPlayerIndex.Two,new ANXGamePadState(new Vector2(200, 200), new Vector2(100, 100), 0.5f, 0.5f, ANXButtons.A, ANXButtons.BigButton)},
+            new object[]{ ANXPlayerIndex.Three, new ANXGamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, ANXButtons.A, ANXButtons.X)},
+            new object[]{ ANXPlayerIndex.Four,new ANXGamePadState()},
         };
-        
-        [TestCaseSource("twoplayer")]
-        public void GetState(XNAPlayerIndex xnaplayer, ANXPlayerIndex anxplayer)
+        static object[] playervib =
+        {
+            new object[]{ANXPlayerIndex.One,0.5f,0.5f,true},
+            new object[]{ANXPlayerIndex.Two,0.7f,0.5f,true},
+            new object[]{ ANXPlayerIndex.Three,-0.5f,0.7f,true},
+            new object[]{ ANXPlayerIndex.Four,0.5f,0.5f,false},
+        };
+        [TestFixtureSetUp]
+        public void Setup()
         {
             AddInSystemFactory.Instance.Initialize();
+            AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, "Test");
 
-						AddInSystemFactory.Instance.SetPreferredSystem(
-							AddInType.InputSystem, "XInput");
-            XNAGamePadState xnastate = XNAGamePad.GetState(xnaplayer);
+        }
+
+        [TestCaseSource("playergets")]
+        public void GetState(ANXPlayerIndex anxplayer, ANXGamePadState state)
+        {
+
             ANXGamePadState anxstate = ANXGamePad.GetState(anxplayer);
 
-            AssertHelper.ConvertEquals(xnastate, anxstate, "GetState");
+            AssertHelper.ConvertEquals(true, anxstate == state, "GetState");
 
+        }
+
+        [TestCaseSource("playergets")]
+        public void GetState2(ANXPlayerIndex anxplayer, ANXGamePadState state)
+        {
+
+            ANXGamePadState anxstate = ANXGamePad.GetState(anxplayer, Framework.Input.GamePadDeadZone.None);
+
+            AssertHelper.ConvertEquals(true, anxstate == state, "GetState2");
+
+        }
+        [Test]
+        public void GetCapabilities()
+        {
+            ANX.Framework.Input.GamePadCapabilities test = new Framework.Input.GamePadCapabilities();
+            AssertHelper.ConvertEquals(true, ANXGamePad.GetCapabilities(PlayerIndex.One).Equals(test), "GetCapabilities");
+        }
+        [TestCaseSource("playervib")]
+        public void SetVibration(ANXPlayerIndex anxplayer, float left, float right, bool result)
+        {
+
+            AssertHelper.ConvertEquals(result, ANXGamePad.SetVibration(anxplayer, left, right), "SetVibration");
         }
     }
 }
