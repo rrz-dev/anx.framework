@@ -76,9 +76,10 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         public void Setup()
         {
             AddInSystemFactory.Instance.Initialize();
-            AddInSystemFactory.Instance.SetPreferredSystem(
-							AddInType.InputSystem, "Test");
- 
+            if (AddInSystemFactory.Instance.GetPreferredSystem(AddInType.InputSystem) == null)
+            {
+                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, "Test");
+            }
         }
 
         [TestCaseSource("twoInt")]
@@ -87,6 +88,14 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             ANXMouse.SetPosition(x, y);
             AssertHelper.ConvertEquals(new ANXMouseState(x, y, 0, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released), ANXMouse.GetState(), "GetState");
 
-        }       
+        }
+        [TestCaseSource("twoInt")]
+        public void WindowHandle(int x, int y)
+        {
+            ANXMouse.SetPosition(x, y);
+            ANXMouse.WindowHandle = new IntPtr(x);
+            AssertHelper.ConvertEquals((int)ANXMouse.WindowHandle, x, "WindowHandle");
+
+        }
     }
 }

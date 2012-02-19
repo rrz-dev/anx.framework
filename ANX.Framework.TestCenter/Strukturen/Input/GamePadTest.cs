@@ -95,8 +95,10 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         public void Setup()
         {
             AddInSystemFactory.Instance.Initialize();
-            AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, "Test");
-
+            if (AddInSystemFactory.Instance.GetPreferredSystem(AddInType.InputSystem) == null)
+            {
+                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, "Test");
+            }
         }
 
         [TestCaseSource("playergets")]
