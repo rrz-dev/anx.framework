@@ -61,7 +61,7 @@ namespace StockShaderCodeGenerator
 {
     public static class Compiler
     {
-        public static void GenerateShaders()
+        public static bool GenerateShaders()
         {
             Console.WriteLine("generating shaders...");
 
@@ -87,12 +87,14 @@ namespace StockShaderCodeGenerator
                 {
                     s.ShaderCompiled = false;
                     Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
+                    return false;
                 }
 
                 Configuration.Shaders[i] = s;
             }
 
             Console.WriteLine("finished generating shaders...");
+            return true;
         }
 
         private static Byte[] CompileShader(string RenderSystem, string sourceCode)

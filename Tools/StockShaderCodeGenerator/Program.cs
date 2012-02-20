@@ -81,9 +81,14 @@ namespace StockShaderCodeGenerator
 
             if (Configuration.ConfigurationValid)
             {
-                Compiler.GenerateShaders();
-
-                CodeGenerator.Generate();
+                if (Compiler.GenerateShaders())
+                {
+                    CodeGenerator.Generate();
+                }
+                else
+                {
+                    Console.WriteLine("error while compiling shaders. Code generation skipped...");
+                }
             }
 
 //#if DEBUG
