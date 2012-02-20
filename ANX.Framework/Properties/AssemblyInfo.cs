@@ -36,6 +36,7 @@ using System.Runtime.InteropServices;
 
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.DX10")]
 [assembly:InternalsVisibleTo("ANX.RenderSystem.Windows.DX11")]
+[assembly:InternalsVisibleTo("ANX.RenderSystem.Windows.Metro")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.GL3")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.Kinect")]
 [assembly:InternalsVisibleTo("ANX.Framework.Windows.XInput")]

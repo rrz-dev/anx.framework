@@ -2,7 +2,8 @@
   <property name="build.configuration" value="Release" />
   <property name="build.platform" value="Any CPU" />
   <property name="build.dir" value="../bin" />
-  
+  <property name="build.solution_dir" value="../" />  
+
   <property name="project.anx.path" value="../ANX.Framework" />
   <property name="project.anx.name" value="ANX.Framework" />
   <property name="project.anx.build_env" value="VS2010" />
@@ -75,6 +76,7 @@
   <target name="win8">
     <property name="project.anx.win8" value="true" />
     <property name="build.configuration" value="ReleaseWin8" />
+    <property name="project.anx.directives" value="${project.anx.directives} WIN8" />
   </target>
   
   <target name="build">
@@ -89,10 +91,9 @@
 
     <if test="${project.anx.extended}">
       <property name="project.anx.directives" value="${project.anx.directives} XNAEXT" />
-      <echo message="Compiler directives: ${project.anx.directives}" />
     </if>
-    
-    <call target="clean" />
+
+    <echo message="Compiler directives: ${project.anx.directives}" />
 
     <call target="build_tools" />
 
@@ -116,6 +117,7 @@
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
       <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path}/${project.anx.name}.csproj" />
@@ -132,6 +134,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
@@ -147,6 +150,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
@@ -163,6 +167,7 @@
         <arg value="/p:Configuration=${build.configuration}"/>
         <arg value='/p:Platform="${build.platform}"'/>
         <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+        <arg value="/p:SolutionDir=${build.solution_dir}" />
         <arg value='/p:DefineConstants="${project.anx.directives}"' />
         <arg value="/clp:ErrorsOnly" />
         <arg value="${project.anx.path.rendersystem.metro}/${project.anx.name.rendersystem.metro}.csproj" />
@@ -178,6 +183,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
@@ -196,6 +202,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anxcontent.path}/${project.anxcontent.name}.csproj" />
@@ -212,6 +219,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputsystem.standard}/${project.anx.name.inputsystem.standard}.csproj" />
@@ -226,6 +234,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputsystem.recording}/${project.anx.name.inputsystem.recording}.csproj" />
@@ -240,6 +249,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputdevices.xinput}/${project.anx.name.inputdevices.xinput}.csproj" />
@@ -254,6 +264,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputdevices.opentk}/${project.anx.name.inputdevices.opentk}.csproj" />
@@ -269,6 +280,7 @@
         <arg value="/p:Configuration=${build.configuration}"/>
         <arg value='/p:Platform="${build.platform}"'/>
         <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+        <arg value="/p:SolutionDir=${build.solution_dir}" />
         <arg value='/p:DefineConstants="${project.anx.directives}"' />
         <arg value="/clp:ErrorsOnly" />
         <arg value="${project.anx.path.inputdevices.kinect}/${project.anx.name.inputdevices.kinect}.csproj" />
@@ -286,6 +298,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.soundsystem.xaudio}/${project.anx.name.soundsystem.xaudio}.csproj" />
@@ -300,6 +313,7 @@
       <arg value="/p:Configuration=${build.configuration}"/>
       <arg value='/p:Platform="${build.platform}"'/>
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.soundsystem.openal}/${project.anx.name.soundsystem.openal}.csproj" />
@@ -316,6 +330,7 @@
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
       <arg value="/p:OutputPath=${build.dir}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.ANXStatusComparer}/${project.anx.tools.name.ANXStatusComparer}.csproj" />
     </exec>
@@ -329,6 +344,7 @@
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
       <arg value="/p:OutputPath=${build.dir}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.XNAToANXConverter}/${project.anx.tools.name.XNAToANXConverter}.csproj" />
     </exec>
@@ -342,6 +358,7 @@
       <arg value="/p:Configuration=Release"/>
       <arg value='/p:Platform="Any CPU"'/>
       <arg value="/p:OutputPath=${build.dir}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.tools.path.StockShaderCodeGenerator}/${project.anx.tools.name.StockShaderCodeGenerator}.csproj" />
