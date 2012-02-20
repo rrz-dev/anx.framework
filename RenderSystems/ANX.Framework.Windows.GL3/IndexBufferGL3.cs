@@ -188,25 +188,6 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region GetData (TODO)
-		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
-			int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GetData<T>(T[] data) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GetData<T>(T[] data, int startIndex, int elementCount)
-			where T : struct
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-
 		#region BufferData (private helper)
 		private void BufferData<T>(T[] data, int offset) where T : struct
 		{
@@ -237,6 +218,64 @@ namespace ANX.Framework.Windows.GL3
 				throw new Exception("Failed to set the indexBuffer data. DataSize=" +
 				size + " SetSize=" + setSize);
 			}
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(T[] data) where T : struct
+		{
+			BufferData(data, 0);
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, 0);
+			}
+			else
+			{
+				BufferData(data, 0);
+			}
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount) where T : struct
+		{
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				T[] subArray = new T[elementCount];
+				Array.Copy(data, startIndex, subArray, 0, elementCount);
+				BufferData(subArray, offsetInBytes);
+			}
+			else
+			{
+				BufferData(data, offsetInBytes);
+			}
+		}
+		#endregion
+
+		#region GetBufferData (private helper)
+		private void GetBufferData<T>(T[] data, int offset) where T : struct
+		{
+			int size = (elementSize == IndexElementSize.SixteenBits ?
+				2 : 4) * data.Length;
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
+
+			GL.GetBufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)offset,
+				(IntPtr)size, data);
+			ErrorHelper.Check("GetBufferSubData");
 		}
 		#endregion
 

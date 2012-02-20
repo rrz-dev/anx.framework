@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
 using ANX.Framework.Windows.GL3.Helpers;
@@ -191,37 +192,41 @@ namespace ANX.Framework.Windows.GL3
 		}
 		#endregion
 
-		#region SetData (TODO)
+		#region SetData
 		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
 			T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			throw new NotImplementedException();
-		}
-		#endregion
+			T[] elements;
+			if (startIndex != 0 ||
+				elementCount != data.Length)
+			{
+				elements = new T[elementCount];
+				Array.Copy(data, startIndex, elements, 0, elementCount);
+			}
+			else
+			{
+				elements = data;
+			}
 
-		#region GetData (TODO)
-		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
-			int elementCount, int vertexStride) where T : struct
-		{
-			throw new NotImplementedException();
-		}
+			int size = Marshal.SizeOf(typeof(T));
 
-		public void GetData<T>(T[] data) where T : struct
-		{
-			throw new NotImplementedException();
-		}
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
 
-		public void GetData<T>(T[] data, int startIndex, int elementCount)
-			where T : struct
-		{
-			throw new NotImplementedException();
+			for (int index = 0; index < elementCount; index++)
+			{
+				GL.BufferSubData<T>(BufferTarget.ArrayBuffer,
+					(IntPtr)offsetInBytes + (index * vertexStride),
+					(IntPtr)size, ref elements[index]);
+				ErrorHelper.Check("BufferSubData");
+			}
 		}
 		#endregion
 
 		#region BufferData (private helper)
 		private void BufferData<T>(T[] data, int offset) where T : struct
 		{
-			int size = vertexDeclaration.VertexStride * data.Length;
+			int size = Marshal.SizeOf(typeof(T)) * data.Length;
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
 			ErrorHelper.Check("BindBuffer");
@@ -229,6 +234,61 @@ namespace ANX.Framework.Windows.GL3
 			GL.BufferSubData<T>(BufferTarget.ArrayBuffer, (IntPtr)offset,
 				(IntPtr)size, data);
 			ErrorHelper.Check("BufferSubData");
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(T[] data) where T : struct
+		{
+			int size = Marshal.SizeOf(typeof(T)) * data.Length;
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
+
+			GL.GetBufferSubData<T>(BufferTarget.ArrayBuffer, IntPtr.Zero,
+				(IntPtr)size, data);
+			ErrorHelper.Check("GetBufferSubData");
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			T[] copyElements = new T[elementCount];
+			int size = Marshal.SizeOf(typeof(T)) * elementCount;
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
+
+			GL.GetBufferSubData<T>(BufferTarget.ArrayBuffer, (IntPtr)0,
+				(IntPtr)size, copyElements);
+			ErrorHelper.Check("GetBufferSubData");
+
+			Array.Copy(copyElements, 0, data, startIndex, elementCount);
+		}
+		#endregion
+
+		#region GetData
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
+			int elementCount, int vertexStride) where T : struct
+		{
+			T[] copyElements = new T[elementCount];
+			int size = Marshal.SizeOf(typeof(T));
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferHandle);
+			ErrorHelper.Check("BindBuffer");
+
+			for (int index = 0; index < elementCount; index++)
+			{
+				GL.GetBufferSubData<T>(BufferTarget.ArrayBuffer,
+					(IntPtr)offsetInBytes + (index * vertexStride),
+					(IntPtr)size,
+					ref copyElements[index]);
+				ErrorHelper.Check("GetBufferSubData");
+			}
+
+			Array.Copy(copyElements, 0, data, startIndex, elementCount);
 		}
 		#endregion
 
