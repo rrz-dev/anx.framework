@@ -5,7 +5,9 @@
   
   <property name="project.anx.path" value="../ANX.Framework" />
   <property name="project.anx.name" value="ANX.Framework" />
-
+  <property name="project.anx.build_env" value="VS2010" />
+  <property name="project.anx.win8" value="false" />
+  
   <property name="project.anx.extended" value="false" unless="${property::exists('project.anx.extended')}" />
   <property name="project.anx.directives" value="" unless="${property::exists('project.anx.directives')}" />
 
@@ -45,7 +47,6 @@
   <property name="project.anx.tools.path.XNAToANXConverter" value="../Tools/XNAToANXConverter" />
   <property name="project.anx.tools.name.XNAToANXConverter" value="XNAToANXConverter" />
 
-
   <target name="clean" description="Cleans all targets.">
     <delete>
       <fileset>
@@ -67,7 +68,25 @@
     </delete>
   </target>
 
-  <target name="build" description="Build all targets.">
+  <target name="VS2011">
+    <property name="project.anx.build_env" value="VS2011" />
+  </target>
+
+  <target name="win8">
+    <property name="project.anx.win8" value="true" />
+    <property name="build.configuration" value="ReleaseWin8" />
+  </target>
+  
+  <target name="build">
+    <echo message="===================================================" />
+    <echo message="ANX.Framework build script" />
+    <echo message="===================================================" />
+    <echo message="" />
+    <echo message="Build environment: ${project.anx.build_env}" />
+    <echo message="Build configuration: ${build.configuration}" />
+    <echo message="Win8 / Metro build: ${project.anx.win8}" />
+    <echo message="" />
+
     <if test="${project.anx.extended}">
       <property name="project.anx.directives" value="${project.anx.directives} XNAEXT" />
       <echo message="Compiler directives: ${project.anx.directives}" />
@@ -134,6 +153,22 @@
       <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.dx11}.csproj" />
     </exec>
 
+    <if test="${project.anx.win8}">
+      <echo message="===================================================" />
+      <echo message="Now building: ANX.Framework RenderSystem Metro" />
+      <echo message="===================================================" />
+
+      <exec program="msbuild.exe" >
+        <arg value="/t:Build"/>
+        <arg value="/p:Configuration=${build.configuration}"/>
+        <arg value='/p:Platform="${build.platform}"'/>
+        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+        <arg value='/p:DefineConstants="${project.anx.directives}"' />
+        <arg value="/clp:ErrorsOnly" />
+        <arg value="${project.anx.path.rendersystem.metro}/${project.anx.name.rendersystem.metro}.csproj" />
+      </exec>
+    </if>
+
     <echo message="===================================================" />
     <echo message="Now building: ANX.Framework RenderSystem OpenGL3" />
     <echo message="===================================================" />
@@ -149,21 +184,6 @@
       <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
     </exec>
 
-<!--    
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework RenderSystem Metro" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.rendersystem.metro}/${project.anx.name.rendersystem.metro}.csproj" />
-    </exec>
--->
   </target>
 
   <target name="build_anx_content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
