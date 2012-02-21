@@ -54,6 +54,8 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Storage
 {
+#if !WIN8      //TODO: search replacement for Win8
+
     public class StorageContainer : IDisposable
     {
         private DirectoryInfo baseDirectory;
@@ -181,4 +183,5 @@ namespace ANX.Framework.Storage
             IsDisposed = true;
         }
     }
+#endif
 }

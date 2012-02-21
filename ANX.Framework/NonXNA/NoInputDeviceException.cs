@@ -59,10 +59,12 @@ namespace ANX.Framework.NonXNA
         {
         }
 
+#if !WIN8      //TODO: search replacement for Win8
         protected NoInputDeviceException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
         
         public NoInputDeviceException(string message)
             : base(message)

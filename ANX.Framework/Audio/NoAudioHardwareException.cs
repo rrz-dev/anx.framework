@@ -50,8 +50,10 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Audio
 {
-	[SerializableAttribute]
-	public sealed class NoAudioHardwareException : ExternalException
+#if !WIN8      //TODO: search replacement for Win8
+    [SerializableAttribute]
+#endif
+    public sealed class NoAudioHardwareException : ExternalException
 	{
 		public NoAudioHardwareException()
 			: base()

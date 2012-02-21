@@ -108,10 +108,10 @@ namespace ANX.Framework.NonXNA
 							}
 
                 foreach (Type t in allTypes.Where(p =>
-									typeof(IInputSystemCreator).IsAssignableFrom(p) ||
-									typeof(IRenderSystemCreator).IsAssignableFrom(p) ||
-									typeof(ISoundSystemCreator).IsAssignableFrom(p) ||
-									typeof(IMediaSystemCreator).IsAssignableFrom(p)))
+									IsAssignable(typeof(IInputSystemCreator), p) ||
+									IsAssignable(typeof(IRenderSystemCreator), p) ||
+									IsAssignable(typeof(ISoundSystemCreator), p) ||
+									IsAssignable(typeof(IMediaSystemCreator), p)))
                 {
                     this.creatorType = t;
 										this.addInType = AddInSystemFactory.GetAddInType(t);
@@ -131,27 +131,23 @@ namespace ANX.Framework.NonXNA
                 // Scan the addin for InputDeviceCreators and register them
                 //
 
-                foreach (Type t in allTypes.Where(p =>
-									typeof(IGamePadCreator).IsAssignableFrom(p)))
+                foreach (Type t in allTypes.Where(p => IsAssignable(typeof(IGamePadCreator), p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IGamePadCreator);
                 }
 
-                foreach (Type t in allTypes.Where(p =>
-									typeof(IKeyboardCreator).IsAssignableFrom(p)))
+                foreach (Type t in allTypes.Where(p => IsAssignable(typeof(IKeyboardCreator), p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IKeyboardCreator);
                 }
 
-                foreach (Type t in allTypes.Where(p =>
-									typeof(IMouseCreator).IsAssignableFrom(p)))
+                foreach (Type t in allTypes.Where(p => IsAssignable(typeof(IMouseCreator), p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMouseCreator);
                 }
 
 #if XNAEXT
-                foreach (Type t in allTypes.Where(p =>
-									typeof(IMotionSensingDeviceCreator).IsAssignableFrom(p)))
+                foreach (Type t in allTypes.Where(p => IsAssignable(typeof(IMotionSensingDeviceCreator), p)))
                 {
                     InputDeviceFactory.Instance.AddCreator(Activator.CreateInstance(t) as IMotionSensingDeviceCreator);
                 }
@@ -201,7 +197,11 @@ namespace ANX.Framework.NonXNA
                 {
                     foreach (string platform in this.platforms)
                     {
-                        if (string.Equals(Environment.OSVersion.Platform.ToString(), platform, StringComparison.InvariantCultureIgnoreCase))
+#if !WIN8
+                        if (string.Equals(Environment.OSVersion.Platform.ToString(), platform, StringComparison.OrdinalIgnoreCase))
+#else
+                        if (string.Equals("Win8", platform, StringComparison.OrdinalIgnoreCase))
+#endif
                         {
                             return true;
                         }
@@ -290,8 +290,8 @@ namespace ANX.Framework.NonXNA
 
         #region Private Helpers
 
-				#region FetchSupportedPlattforms
-				private string[] FetchSupportedPlattforms(Assembly assembly)
+		#region FetchSupportedPlattforms
+		private string[] FetchSupportedPlattforms(Assembly assembly)
         {
             string[] platforms = null;
             string[] res = assembly.GetManifestResourceNames();
@@ -309,7 +309,7 @@ namespace ANX.Framework.NonXNA
                             IDictionaryEnumerator dict = resourceReader.GetEnumerator();
                             while (dict.MoveNext())
                             {
-                                if (string.Equals(dict.Key.ToString(), "SupportedPlatforms", StringComparison.InvariantCultureIgnoreCase) &&
+                                if (string.Equals(dict.Key.ToString(), "SupportedPlatforms", StringComparison.OrdinalIgnoreCase) &&
                                     dict.Value.GetType() == typeof(string))
                                 {
                                     platforms = dict.Value.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -324,13 +324,23 @@ namespace ANX.Framework.NonXNA
 
             return platforms;
         }
-				#endregion
+		#endregion
 
-				#endregion // Private Helpers
+		#endregion // Private Helpers
 
-				public int CompareTo(AddIn other)
+        public int CompareTo(AddIn other)
         {
             return this.Priority.CompareTo(other.Priority);
         }
+
+        private static bool IsAssignable(System.Type lt, System.Type rt)
+        {
+#if WIN8
+            return lt.GetTypeInfo().IsAssignableFrom(rt.GetTypeInfo());
+#else
+            return lt.IsAssignableFrom(rt);
+#endif
+        }
+
     }
 }

@@ -59,13 +59,13 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
     public class Creator : IRenderSystemCreator
     {
         public string Name
         {
-            get { return "DirectX10"; }
+            get { return "Metro"; }
         }
 
         public int Priority
@@ -78,7 +78,8 @@ namespace ANX.Framework.Windows.DX10
             get 
             {
                 //TODO: this is just a very basic version of test for support
-                return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT; 
+                //TODO: return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT; 
+                throw new NotImplementedException();
             }
         }
 
@@ -89,31 +90,31 @@ namespace ANX.Framework.Windows.DX10
 
         public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
         {
-            return new GraphicsDeviceWindowsDX10(presentationParameters);
+            return new GraphicsDeviceWindowsMetro(presentationParameters);
         }
 
-				public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
-					IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
+			IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
         {
-            return new IndexBuffer_DX10(graphics, size, indexCount, usage);
+            return new IndexBuffer_Metro(graphics, size, indexCount, usage);
         }
 
 				public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
 					VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
-            return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
+            return new VertexBuffer_Metro(graphics, vertexDeclaration, vertexCount, usage);
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
-            Effect_DX10 effect = new Effect_DX10(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
+            Effect_Metro effect = new Effect_Metro(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 
             return effect;
         }
 
         public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, System.IO.Stream byteCode)
         {
-            Effect_DX10 effect = new Effect_DX10(graphics, managedEffect, byteCode);
+            Effect_Metro effect = new Effect_Metro(graphics, managedEffect, byteCode);
 
             return effect;
         }
@@ -124,7 +125,7 @@ namespace ANX.Framework.Windows.DX10
             throw new NotImplementedException();
 
             //GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            //SharpDX.Direct3D10.Texture2D nativeTexture = SharpDX.Direct3D10.Texture2D.FromFile<SharpDX.Direct3D10.Texture2D>(graphicsDX10.NativeDevice, fileName);
+            //SharpDX.Direct3D11.Texture2D nativeTexture = SharpDX.Direct3D11.Texture2D.FromFile<SharpDX.Direct3D11.Texture2D>(graphicsDX10.NativeDevice, fileName);
             //Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height, FormatConverter.Translate(nativeTexture.Description.Format), nativeTexture.Description.MipLevels);
             //texture.NativeTexture = nativeTexture;
 
@@ -133,22 +134,22 @@ namespace ANX.Framework.Windows.DX10
 
         public INativeBlendState CreateBlendState()
         {
-            return new BlendState_DX10();
+            return new BlendState_Metro();
         }
 
         public INativeRasterizerState CreateRasterizerState()
         {
-            return new RasterizerState_DX10();
+            return new RasterizerState_Metro();
         }
 
         public INativeDepthStencilState CreateDepthStencilState()
         {
-            return new DepthStencilState_DX10();
+            return new DepthStencilState_Metro();
         }
 
         public INativeSamplerState CreateSamplerState()
         {
-            return new SamplerState_DX10();
+            return new SamplerState_Metro();
         }
 
         public byte[] GetShaderByteCode(PreDefinedShader type)
@@ -241,12 +242,12 @@ namespace ANX.Framework.Windows.DX10
 
         public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
         {
-            return new Texture2D_DX10(graphics, width, height, surfaceFormat, mipCount);
+            return new Texture2D_Metro(graphics, width, height, surfaceFormat, mipCount);
         }
 
         public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
         {
-            return new RenderTarget2D_DX10(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
+            return new RenderTarget2D_Metro(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
         }
     }
 }

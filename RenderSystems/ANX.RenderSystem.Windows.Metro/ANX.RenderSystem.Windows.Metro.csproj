@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FFA7FF96-572C-4284-AB4D-E8B5539565F3}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>appcontainerexe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.RenderSystem.Windows.Metro</RootNamespace>
     <AssemblyName>ANX.RenderSystem.Windows.Metro</AssemblyName>
@@ -18,22 +18,47 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;METRO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;METRO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Creator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlendState_Metro.cs" />
+    <Compile Include="Creator.cs" />
+    <Compile Include="DepthStencilState_Metro.cs" />
+    <Compile Include="EffectParameter_Metro.cs" />
+    <Compile Include="EffectPass_Metro.cs" />
+    <Compile Include="EffectTechnique_Metro.cs" />
+    <Compile Include="Effect_Metro.cs" />
+    <Compile Include="FormatConverter.cs" />
+    <Compile Include="GraphicsDeviceWindowsMetro.cs" />
+    <Compile Include="IndexBuffer_Metro.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="RasterizerState_Metro.cs" />
+    <Compile Include="RenderTarget2D_Metro.cs" />
+    <Compile Include="SamplerState_Metro.cs" />
+    <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="Texture2D_Metro.cs" />
+    <Compile Include="VertexBuffer_Metro.cs" />
+    <Compile Include="WindowsGameHost.cs" />
+    <Compile Include="WindowsGameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SharpDX">

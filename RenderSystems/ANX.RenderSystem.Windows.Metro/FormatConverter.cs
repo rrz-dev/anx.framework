@@ -1,7 +1,7 @@
 ﻿#region Using Statements
 using System;
 using ANX.Framework.Graphics;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using SharpDX.Direct3D;
 using SharpDX.DXGI;
 
@@ -54,7 +54,7 @@ using SharpDX.DXGI;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
     internal class FormatConverter
     {
@@ -161,19 +161,19 @@ namespace ANX.Framework.Windows.DX10
             throw new NotImplementedException();
         }
 
-        public static SharpDX.Direct3D10.TextureAddressMode Translate(ANX.Framework.Graphics.TextureAddressMode addressMode)
+        public static SharpDX.Direct3D11.TextureAddressMode Translate(ANX.Framework.Graphics.TextureAddressMode addressMode)
         {
             switch (addressMode)
             {
                 case Graphics.TextureAddressMode.Clamp:
-                    return SharpDX.Direct3D10.TextureAddressMode.Clamp;
+                    return SharpDX.Direct3D11.TextureAddressMode.Clamp;
                 case Graphics.TextureAddressMode.Mirror:
-                    return SharpDX.Direct3D10.TextureAddressMode.Mirror;
+                    return SharpDX.Direct3D11.TextureAddressMode.Mirror;
                 case Graphics.TextureAddressMode.Wrap:
-                    return SharpDX.Direct3D10.TextureAddressMode.Wrap;
+                    return SharpDX.Direct3D11.TextureAddressMode.Wrap;
             }
 
-            return SharpDX.Direct3D10.TextureAddressMode.Clamp;
+            return SharpDX.Direct3D11.TextureAddressMode.Clamp;
         }
 
         public static PrimitiveTopology Translate(PrimitiveType primitiveType)
@@ -305,26 +305,26 @@ namespace ANX.Framework.Windows.DX10
             return mask;
         }
 
-        public static SharpDX.Direct3D10.StencilOperation Translate(ANX.Framework.Graphics.StencilOperation stencilOperation)
+        public static SharpDX.Direct3D11.StencilOperation Translate(ANX.Framework.Graphics.StencilOperation stencilOperation)
         {
             switch (stencilOperation)
             {
                 case Graphics.StencilOperation.Decrement:
-                    return SharpDX.Direct3D10.StencilOperation.Decrement;
+                    return SharpDX.Direct3D11.StencilOperation.Decrement;
                 case Graphics.StencilOperation.DecrementSaturation:
-                    return SharpDX.Direct3D10.StencilOperation.DecrementAndClamp;
+                    return SharpDX.Direct3D11.StencilOperation.DecrementAndClamp;
                 case Graphics.StencilOperation.Increment:
-                    return SharpDX.Direct3D10.StencilOperation.Increment;
+                    return SharpDX.Direct3D11.StencilOperation.Increment;
                 case Graphics.StencilOperation.IncrementSaturation:
-                    return SharpDX.Direct3D10.StencilOperation.IncrementAndClamp;
+                    return SharpDX.Direct3D11.StencilOperation.IncrementAndClamp;
                 case Graphics.StencilOperation.Invert:
-                    return SharpDX.Direct3D10.StencilOperation.Invert;
+                    return SharpDX.Direct3D11.StencilOperation.Invert;
                 case Graphics.StencilOperation.Keep:
-                    return SharpDX.Direct3D10.StencilOperation.Keep;
+                    return SharpDX.Direct3D11.StencilOperation.Keep;
                 case Graphics.StencilOperation.Replace:
-                    return SharpDX.Direct3D10.StencilOperation.Replace;
+                    return SharpDX.Direct3D11.StencilOperation.Replace;
                 case Graphics.StencilOperation.Zero:
-                    return SharpDX.Direct3D10.StencilOperation.Zero;
+                    return SharpDX.Direct3D11.StencilOperation.Zero;
             }
 
             throw new NotImplementedException("unknown StencilOperation");
@@ -355,31 +355,31 @@ namespace ANX.Framework.Windows.DX10
             throw new NotImplementedException("unknown CompareFunction");
         }
 
-        public static SharpDX.Direct3D10.CullMode Translate(ANX.Framework.Graphics.CullMode cullMode)
+        public static SharpDX.Direct3D11.CullMode Translate(ANX.Framework.Graphics.CullMode cullMode)
         {
             if (cullMode == Graphics.CullMode.CullClockwiseFace)
             {
-                return SharpDX.Direct3D10.CullMode.Front;
+                return SharpDX.Direct3D11.CullMode.Front;
             }
             else if (cullMode == Graphics.CullMode.CullCounterClockwiseFace)
             {
-                return SharpDX.Direct3D10.CullMode.Back;
+                return SharpDX.Direct3D11.CullMode.Back;
             }
             else
             {
-                return SharpDX.Direct3D10.CullMode.None;
+                return SharpDX.Direct3D11.CullMode.None;
             }
         }
 
-        public static SharpDX.Direct3D10.FillMode Translate(ANX.Framework.Graphics.FillMode fillMode)
+        public static SharpDX.Direct3D11.FillMode Translate(ANX.Framework.Graphics.FillMode fillMode)
         {
             if (fillMode == Graphics.FillMode.WireFrame)
             {
-                return SharpDX.Direct3D10.FillMode.Wireframe;
+                return SharpDX.Direct3D11.FillMode.Wireframe;
             }
             else
             {
-                return SharpDX.Direct3D10.FillMode.Solid;
+                return SharpDX.Direct3D11.FillMode.Solid;
             }
         }
 

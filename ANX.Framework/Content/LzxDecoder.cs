@@ -220,7 +220,7 @@ namespace ANX.Framework.Content
                      * remaining - in this boundary case they aren't really part of
                      * the compressed data)
                      */
-                    Console.WriteLine("WTF");
+                    //TODO Console.WriteLine("WTF"); // does not work under Win8
                     if (inData.Position > (startpos + inLen + 2) || bitbuf.GetBitsLeft() < 16) return -1; //TODO throw proper exception
                 }
 
@@ -445,7 +445,7 @@ namespace ANX.Framework.Content
                             if ((inData.Position + this_run) > endpos) return -1; //TODO throw proper exception
                             byte[] temp_buffer = new byte[this_run];
                             inData.Read(temp_buffer, 0, this_run);
-                            temp_buffer.CopyTo(window, window_posn);
+                            temp_buffer.CopyTo(window, (int)window_posn);
                             window_posn += (uint)this_run;
                             break;
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 
@@ -56,27 +56,28 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class BlendState_DX10 : INativeBlendState
+    public class BlendState_Metro : INativeBlendState
     {
         #region Private Members
-        private BlendStateDescription description;
-        private SharpDX.Direct3D10.BlendState nativeBlendState;
+        private BlendStateDescription blendStateDescription;
+        private SharpDX.Direct3D11.BlendState nativeBlendState;
         private bool nativeBlendStateDirty;
         private SharpDX.Color4 blendFactor;
         private int multiSampleMask;
         private bool bound;
 
+
         #endregion // Private Members
 
-        public BlendState_DX10()
+        public BlendState_Metro()
         {
-            this.description = new BlendStateDescription();
-
-            for (int i = 0; i < description.IsBlendEnabled.Length; i++)
+            for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
             {
-                description.IsBlendEnabled[i] = (i < 4);
+                blendStateDescription.RenderTarget[i] = new RenderTargetBlendDescription();
+                blendStateDescription.RenderTarget[i].IsBlendEnabled = (i < 4);
+                blendStateDescription.IndependentBlendEnable = true;
             }
 
             nativeBlendStateDirty = true;
@@ -84,13 +85,13 @@ namespace ANX.Framework.Windows.DX10
 
         public void Apply(GraphicsDevice graphics)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Device device = gdx10.NativeDevice;
+            GraphicsDeviceWindowsMetro gdMetro = graphics.NativeDevice as GraphicsDeviceWindowsMetro;
+            SharpDX.Direct3D11.DeviceContext context = gdMetro.NativeDevice;
 
-            UpdateNativeBlendState(device);
+            UpdateNativeBlendState(context.Device);
             this.bound = true;
 
-            device.OutputMerger.SetBlendState(nativeBlendState, this.blendFactor, this.multiSampleMask);
+            context.OutputMerger.SetBlendState(nativeBlendState, this.blendFactor, this.multiSampleMask);
         }
 
         public void Release()
@@ -142,10 +143,14 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOperation alphaBlendOperation = FormatConverter.Translate(value);
 
-                if (description.AlphaBlendOperation != alphaBlendOperation)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.AlphaBlendOperation = alphaBlendOperation;
+                    if (blendStateDescription.RenderTarget[i].AlphaBlendOperation != alphaBlendOperation)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].AlphaBlendOperation = alphaBlendOperation;
+                    }
+
                 }
             }
         }
@@ -156,10 +161,14 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOperation blendOperation = FormatConverter.Translate(value);
 
-                if (description.BlendOperation != blendOperation)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.BlendOperation = blendOperation;
+                    if (blendStateDescription.RenderTarget[i].BlendOperation != blendOperation)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].BlendOperation = blendOperation;
+                    }
+
                 }
             }
         }
@@ -170,10 +179,14 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOption destinationAlphaBlend = FormatConverter.Translate(value);
 
-                if (description.DestinationAlphaBlend != destinationAlphaBlend)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.DestinationAlphaBlend = destinationAlphaBlend;
+                    if (blendStateDescription.RenderTarget[i].DestinationAlphaBlend != destinationAlphaBlend)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].DestinationAlphaBlend = destinationAlphaBlend;
+                    }
+
                 }
             }
         }
@@ -184,10 +197,14 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOption destinationBlend = FormatConverter.Translate(value);
 
-                if (description.DestinationBlend != destinationBlend)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.DestinationBlend = destinationBlend;
+                    if (blendStateDescription.RenderTarget[i].DestinationBlend != destinationBlend)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].DestinationBlend = destinationBlend;
+                    }
+
                 }
             }
         }
@@ -198,10 +215,12 @@ namespace ANX.Framework.Windows.DX10
             {
                 ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
-                if (description.RenderTargetWriteMask[0] != renderTargetWriteMask)
+                //TODO: range check
+
+                if (blendStateDescription.RenderTarget[0].RenderTargetWriteMask != renderTargetWriteMask)
                 {
                     nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[0] = renderTargetWriteMask;
+                    blendStateDescription.RenderTarget[0].RenderTargetWriteMask = renderTargetWriteMask;
                 }
             }
         }
@@ -212,10 +231,12 @@ namespace ANX.Framework.Windows.DX10
             {
                 ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
-                if (description.RenderTargetWriteMask[1] != renderTargetWriteMask)
+                //TODO: range check
+
+                if (blendStateDescription.RenderTarget[1].RenderTargetWriteMask != renderTargetWriteMask)
                 {
                     nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[1] = renderTargetWriteMask;
+                    blendStateDescription.RenderTarget[1].RenderTargetWriteMask = renderTargetWriteMask;
                 }
             }
         }
@@ -226,10 +247,12 @@ namespace ANX.Framework.Windows.DX10
             {
                 ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
-                if (description.RenderTargetWriteMask[2] != renderTargetWriteMask)
+                //TODO: range check
+
+                if (blendStateDescription.RenderTarget[2].RenderTargetWriteMask != renderTargetWriteMask)
                 {
                     nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[2] = renderTargetWriteMask;
+                    blendStateDescription.RenderTarget[2].RenderTargetWriteMask = renderTargetWriteMask;
                 }
             }
         }
@@ -240,10 +263,12 @@ namespace ANX.Framework.Windows.DX10
             {
                 ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
 
-                if (description.RenderTargetWriteMask[3] != renderTargetWriteMask)
+                //TODO: range check
+
+                if (blendStateDescription.RenderTarget[3].RenderTargetWriteMask != renderTargetWriteMask)
                 {
                     nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[3] = renderTargetWriteMask;
+                    blendStateDescription.RenderTarget[3].RenderTargetWriteMask = renderTargetWriteMask;
                 }
             }
         }
@@ -254,10 +279,14 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOption sourceAlphaBlend = FormatConverter.Translate(value);
 
-                if (description.SourceAlphaBlend != sourceAlphaBlend)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.SourceAlphaBlend = sourceAlphaBlend;
+                    if (blendStateDescription.RenderTarget[i].SourceAlphaBlend != sourceAlphaBlend)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].SourceAlphaBlend = sourceAlphaBlend;
+                    }
+
                 }
             }
         }
@@ -268,15 +297,19 @@ namespace ANX.Framework.Windows.DX10
             {
                 BlendOption sourceBlend = FormatConverter.Translate(value);
 
-                if (description.SourceBlend != sourceBlend)
+                for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
                 {
-                    nativeBlendStateDirty = true;
-                    description.SourceBlend = sourceBlend;
+                    if (blendStateDescription.RenderTarget[i].SourceBlend != sourceBlend)
+                    {
+                        nativeBlendStateDirty = true;
+                        blendStateDescription.RenderTarget[i].SourceBlend = sourceBlend;
+                    }
+
                 }
             }
         }
 
-        private void UpdateNativeBlendState(SharpDX.Direct3D10.Device device)
+        private void UpdateNativeBlendState(SharpDX.Direct3D11.Device device)
         {
             if (this.nativeBlendStateDirty == true || this.nativeBlendState == null)
             {
@@ -286,7 +319,7 @@ namespace ANX.Framework.Windows.DX10
                     this.nativeBlendState = null;
                 }
 
-                this.nativeBlendState = new SharpDX.Direct3D10.BlendState(device, ref this.description);
+                this.nativeBlendState = new SharpDX.Direct3D11.BlendState(device, ref this.blendStateDescription);
 
                 this.nativeBlendStateDirty = false;
             }

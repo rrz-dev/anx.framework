@@ -47,7 +47,7 @@ using System;
 //       particular purpose and non-infringement.
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
 	internal static class ShaderByteCode
 	{

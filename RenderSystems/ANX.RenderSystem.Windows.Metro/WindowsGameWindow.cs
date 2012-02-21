@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using SharpDX.Windows;
+using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Infrastructure;
+using Windows.UI.Core;
 
 #endregion // Using Statements
 
@@ -57,22 +58,42 @@ using SharpDX.Windows;
 
 namespace ANX.Framework
 {
-    internal class WindowsGameWindow : GameWindow
+    internal class WindowsGameWindow : GameWindow, IViewProvider
     {
         #region Private Members
-        private RenderForm gameWindow;
+        private CoreWindow gameWindow;
 
         #endregion // Private Members
 
         internal WindowsGameWindow()
         {
-            this.gameWindow = new RenderForm("ANX.Framework");
+            //this.gameWindow = new RenderForm("ANX.Framework");
 
-            this.gameWindow.Width = 800;
-            this.gameWindow.Height = 480;
+            //this.gameWindow.Width = 800;
+            //this.gameWindow.Height = 480;
 
-            this.gameWindow.MaximizeBox = false;
-            this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
+            //this.gameWindow.MaximizeBox = false;
+            //this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
+        }
+
+        public void Initialize(CoreWindow window, CoreApplicationView applicationView)
+        {
+            this.gameWindow = window;
+        }
+
+        public void Load(string entryPoint)
+        {
+
+        }
+
+        public void Run()
+        {
+            System.Diagnostics.Debugger.Break();
+        }
+
+        public void Uninitialize()
+        {
+
         }
 
         public void Close()
@@ -83,7 +104,7 @@ namespace ANX.Framework
             }
         }
 
-        public Form Form
+        public CoreWindow Form
         {
             get
             {
@@ -95,7 +116,7 @@ namespace ANX.Framework
         {
             get 
             { 
-                return gameWindow.Handle; 
+                return IntPtr.Zero; 
             }
         }
 
@@ -103,7 +124,8 @@ namespace ANX.Framework
         {
             get 
             {
-                return gameWindow.WindowState == FormWindowState.Minimized;
+                //TODO: return gameWindow.WindowState == FormWindowState.Minimized;
+                return false;
             }
         }
 
@@ -119,25 +141,19 @@ namespace ANX.Framework
 
         protected override void SetTitle(string title)
         {
-            this.gameWindow.Text = title;
+            //TODO: this.gameWindow.Text = title;
         }
 
         public override bool AllowUserResizing
         {
             get
             {
-                return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
+                //return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
+                return false;
             }
             set
             {
-                if (value)
-                {
-                    gameWindow.FormBorderStyle = FormBorderStyle.Sizable;
-                }
-                else
-                {
-                    gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
-                }
+                throw new NotSupportedException("AllowUserResizing can not be changed in RenderSystem Metro");
             }
         }
 
@@ -145,7 +161,12 @@ namespace ANX.Framework
         {
             get 
             {
-                return new Rectangle(this.gameWindow.ClientRectangle.Left, this.gameWindow.ClientRectangle.Top, this.gameWindow.ClientRectangle.Width, this.gameWindow.ClientRectangle.Height);
+                //TODO: cache this to prevent four castings on every access
+                //TODO: check if double type bounds are really castable to int
+                return new Rectangle((int)this.gameWindow.Bounds.Left, 
+                                     (int)this.gameWindow.Bounds.Top, 
+                                     (int)this.gameWindow.Bounds.Width, 
+                                     (int)this.gameWindow.Bounds.Height);
             }
         }
 

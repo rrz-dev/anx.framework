@@ -56,8 +56,10 @@ namespace ANX.Framework.Net
         private int openPublicGamerSlots;
         private QualityOfService qualityOfService;
         private NetworkSessionProperties sessionProperties;
+#if !WIN8      //TODO: search replacement for Win8
         private IPEndPoint endPoint;
         private IPEndPoint internalendPoint;
+#endif
         private int _currentGameCount;
         private string hostGamertag;
         private int openPrivateGamerSlots;
@@ -139,6 +141,7 @@ namespace ANX.Framework.Net
             } 
         }
         
+#if !WIN8      //TODO: search replacement for Win8
         internal IPEndPoint EndPoint 
         { 
             get 
@@ -162,6 +165,7 @@ namespace ANX.Framework.Net
                 internalendPoint = value; 
             } 
         }        
+#endif
         
         internal NetworkSessionType SessionType 
         {

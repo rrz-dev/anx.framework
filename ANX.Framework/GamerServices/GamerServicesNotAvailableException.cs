@@ -60,10 +60,12 @@ namespace ANX.Framework.GamerServices
         {
         }
 
+#if !WIN8      //TODO: search replacement for Win8
         protected GamerServicesNotAvailableException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
         
         public GamerServicesNotAvailableException(string message)
             : base(message)

@@ -53,6 +53,8 @@ using System.IO;
 
 namespace ANX.Framework.Storage
 {
+#if !WIN8      //TODO: search replacement for Win8
+
     public sealed class StorageDevice
     {
         private static Func<PlayerIndex, int, int, StorageDevice> openDeviceDelegate = null;
@@ -217,4 +219,5 @@ namespace ANX.Framework.Storage
             return new StorageContainer(this, this.PlayerIndex, displayName);
         }
     }
+#endif
 }

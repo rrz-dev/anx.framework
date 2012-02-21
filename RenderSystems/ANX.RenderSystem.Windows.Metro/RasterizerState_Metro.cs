@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 
@@ -56,13 +56,13 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class RasterizerState_DX10 : INativeRasterizerState
+    public class RasterizerState_Metro : INativeRasterizerState
     {
         #region Private Members
         private RasterizerStateDescription description;
-        private SharpDX.Direct3D10.RasterizerState nativeRasterizerState;
+        private SharpDX.Direct3D11.RasterizerState nativeRasterizerState;
         private bool nativeRasterizerStateDirty;
         private bool bound;
 
@@ -70,7 +70,7 @@ namespace ANX.Framework.Windows.DX10
 
         #endregion // Private Members
 
-        public RasterizerState_DX10()
+        public RasterizerState_Metro()
         {
             this.description = new RasterizerStateDescription();
 
@@ -79,15 +79,15 @@ namespace ANX.Framework.Windows.DX10
             this.nativeRasterizerStateDirty = true;
         }
 
-        public void Apply(Graphics.GraphicsDevice graphicsDevice)
+        public void Apply(ANX.Framework.Graphics.GraphicsDevice graphicsDevice)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-            Device device = gdx10.NativeDevice;
+            GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+            DeviceContext context = gdMetro.NativeDevice;
 
-            UpdateNativeRasterizerState(device);
+            UpdateNativeRasterizerState(context.Device);
             this.bound = true;
 
-            device.Rasterizer.State = this.nativeRasterizerState;
+            context.Rasterizer.State = this.nativeRasterizerState;
         }
 
         public void Release()
@@ -112,11 +112,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.CullMode CullMode
+        public ANX.Framework.Graphics.CullMode CullMode
         {
             set 
             {
-                SharpDX.Direct3D10.CullMode cullMode = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.CullMode cullMode = FormatConverter.Translate(value);
 
                 if (description.CullMode != cullMode)
                 {
@@ -143,11 +143,11 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public Graphics.FillMode FillMode
+        public ANX.Framework.Graphics.FillMode FillMode
         {
             set 
             {
-                SharpDX.Direct3D10.FillMode fillMode = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.FillMode fillMode = FormatConverter.Translate(value);
 
                 if (description.FillMode != fillMode)
                 {
@@ -203,10 +203,11 @@ namespace ANX.Framework.Windows.DX10
                     this.nativeRasterizerState = null;
                 }
 
-                this.nativeRasterizerState = new SharpDX.Direct3D10.RasterizerState(device, ref this.description);
+                this.nativeRasterizerState = new SharpDX.Direct3D11.RasterizerState(device, ref this.description);
 
                 this.nativeRasterizerStateDirty = false;
             }
         }
     }
 }
+

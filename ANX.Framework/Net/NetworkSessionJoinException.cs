@@ -80,6 +80,7 @@ namespace ANX.Framework.Net
 		{
 		}
 
+#if !WIN8      //TODO: search replacement for Win8
 		protected NetworkSessionJoinException(SerializationInfo info,
 			StreamingContext context)
 			: base(info, context)
@@ -93,5 +94,6 @@ namespace ANX.Framework.Net
 			base.GetObjectData(info, context);
 			info.AddValue("joinError", (int)JoinError);
 		}
-	}
+#endif
+    }
 }

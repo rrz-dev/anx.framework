@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 
 #endregion // Using Statements
 
@@ -55,40 +55,41 @@ using SharpDX.Direct3D10;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class EffectTechnique_DX10 : INativeEffectTechnique
+    public class EffectTechnique_Metro : INativeEffectTechnique
     {
-        private EffectTechnique nativeTechnique;
+        //private EffectTechnique nativeTechnique;
         private ANX.Framework.Graphics.Effect parentEffect;
 
-        internal EffectTechnique_DX10(ANX.Framework.Graphics.Effect parentEffect)
-        {
-            if (parentEffect == null)
-            {
-                throw new ArgumentNullException("parentEffect");
-            }
+        //internal EffectTechnique_DX10(ANX.Framework.Graphics.Effect parentEffect)
+        //{
+        //    if (parentEffect == null)
+        //    {
+        //        throw new ArgumentNullException("parentEffect");
+        //    }
 
-            this.parentEffect = parentEffect;
-        }
+        //    this.parentEffect = parentEffect;
+        //}
 
-        public EffectTechnique NativeTechnique
-        {
-            get
-            {
-                return this.nativeTechnique;
-            }
-            internal set
-            {
-                this.nativeTechnique = value;
-            }
-        }
+        //public EffectTechnique NativeTechnique
+        //{
+        //    get
+        //    {
+        //        return this.nativeTechnique;
+        //    }
+        //    internal set
+        //    {
+        //        this.nativeTechnique = value;
+        //    }
+        //}
 
         public string Name
         {
             get 
             {
-                return nativeTechnique.Description.Name;
+                //return nativeTechnique.Description.Name;
+                throw new NotImplementedException();
             }
         }
 
@@ -97,15 +98,19 @@ namespace ANX.Framework.Windows.DX10
         {
             get 
             {
-                for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
-                {
-                    EffectPass_DX10 passDx10 = new EffectPass_DX10();
-                    passDx10.NativePass = nativeTechnique.GetPassByIndex(i);
+                //TODO: implement
+                System.Diagnostics.Debugger.Break();
+                return null;
 
-                    Graphics.EffectPass pass = new Graphics.EffectPass(this.parentEffect);
+                //for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
+                //{
+                //    EffectPass_DX10 passDx10 = new EffectPass_DX10();
+                //    passDx10.NativePass = nativeTechnique.GetPassByIndex(i);
 
-                    yield return pass;
-                }
+                //    Graphics.EffectPass pass = new Graphics.EffectPass(this.parentEffect);
+
+                //    yield return pass;
+                //}
             }
         }
     }

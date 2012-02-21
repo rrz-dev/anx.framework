@@ -52,6 +52,8 @@ using System.Reflection;
 
 namespace ANX.Framework.Content
 {
+#if !WIN8
+
     public class ReflectiveReader<T> : ContentTypeReader
     {
         private int typeVersion;
@@ -114,4 +116,6 @@ namespace ANX.Framework.Content
             return existingInstance;    
         }
     }
+
+#endif
 }

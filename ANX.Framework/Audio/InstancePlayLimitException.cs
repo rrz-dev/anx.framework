@@ -1,5 +1,8 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Runtime.InteropServices;
+
+#endregion // Using Statements
 
 #region License
 
@@ -50,8 +53,10 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Audio
 {
-	[SerializableAttribute]
-	public sealed class InstancePlayLimitException : ExternalException
+#if !WIN8      //TODO: search replacement for Win8
+    [SerializableAttribute]
+#endif
+    public sealed class InstancePlayLimitException : ExternalException
 	{
 		#region Constructor
 		public InstancePlayLimitException()

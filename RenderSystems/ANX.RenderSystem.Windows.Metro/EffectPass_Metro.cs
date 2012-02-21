@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 
 #endregion // Using Statements
 
@@ -55,29 +55,30 @@ using SharpDX.Direct3D10;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class EffectPass_DX10 : INativeEffectPass
+    public class EffectPass_Metro : INativeEffectPass
     {
-        private EffectPass nativePass;
+        //private EffectPass nativePass;
 
-        public EffectPass NativePass
-        {
-            get
-            {
-                return this.nativePass;
-            }
-            internal set
-            {
-                this.nativePass = value;
-            }
-        }
+        //public EffectPass NativePass
+        //{
+        //    get
+        //    {
+        //        return this.nativePass;
+        //    }
+        //    internal set
+        //    {
+        //        this.nativePass = value;
+        //    }
+        //}
 
         public string Name
         {
             get 
             {
-                return nativePass.Description.Name;
+                //return nativePass.Description.Name;
+                throw new NotImplementedException();
             }
         }
     }

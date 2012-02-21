@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using ANX.Framework;
+using ANX.Framework.Content;
+using ANX.Framework.Graphics;
+using ANX.Framework.Input;
 #endregion
 
 #region License
@@ -57,7 +57,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MultiRenderTarget
 {
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : ANX.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -65,8 +65,6 @@ namespace MultiRenderTarget
         Effect effect;
 
         RenderTarget2D[] renderTargets;
-        Color[] backgroundColors = new Color[] { Color.Red, Color.Green, Color.Blue, Color.DarkMagenta };
-
         VertexPositionColor[] primitives;
 
         public Game1()

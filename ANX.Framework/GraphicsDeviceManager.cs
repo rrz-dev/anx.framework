@@ -407,8 +407,11 @@ namespace ANX.Framework
 
         private GraphicsProfile FetchGraphicsProfile()
         {
+#if !WIN8
             Stream manifestResourceStream = this.game.GetType().Assembly.GetManifestResourceStream("Microsoft.Xna.Framework.RuntimeProfile");
-            
+#else
+            Stream manifestResourceStream = this.game.GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Microsoft.Xna.Framework.RuntimeProfile");
+#endif
             if (manifestResourceStream != null)
             {
                 using (StreamReader reader = new StreamReader(manifestResourceStream))

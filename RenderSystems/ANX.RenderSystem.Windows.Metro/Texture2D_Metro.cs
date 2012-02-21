@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using ANX.Framework.NonXNA.RenderSystem;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -58,25 +58,25 @@ using System.Runtime.InteropServices;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class Texture2D_DX10 : INativeTexture2D
+    public class Texture2D_Metro : INativeTexture2D
     {
         #region Private Members
-        protected internal SharpDX.Direct3D10.Texture2D nativeTexture;
-        protected internal SharpDX.Direct3D10.ShaderResourceView nativeShaderResourceView;
+        protected internal SharpDX.Direct3D11.Texture2D nativeTexture;
+        protected internal SharpDX.Direct3D11.ShaderResourceView nativeShaderResourceView;
         protected internal int formatSize;
         protected internal SurfaceFormat surfaceFormat;
         protected internal GraphicsDevice graphicsDevice;
 
         #endregion // Private Members
 
-        internal Texture2D_DX10(GraphicsDevice graphicsDevice)
+        internal Texture2D_Metro(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
         }
 
-        public Texture2D_DX10(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
+        public Texture2D_Metro(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
         {
             if (mipCount > 1)
             {
@@ -86,10 +86,10 @@ namespace ANX.Framework.Windows.DX10
             this.graphicsDevice = graphicsDevice;
             this.surfaceFormat = surfaceFormat;
 
-            GraphicsDeviceWindowsDX10 graphicsDX10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Device device = graphicsDX10.NativeDevice;
+            GraphicsDeviceWindowsMetro graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+            SharpDX.Direct3D11.DeviceContext context = graphicsMetro.NativeDevice;
 
-            SharpDX.Direct3D10.Texture2DDescription description = new SharpDX.Direct3D10.Texture2DDescription()
+            SharpDX.Direct3D11.Texture2DDescription description = new SharpDX.Direct3D11.Texture2DDescription()
             {
                 Width = width,
                 Height = height,
@@ -97,13 +97,13 @@ namespace ANX.Framework.Windows.DX10
                 ArraySize = mipCount,
                 Format = FormatConverter.Translate(surfaceFormat),
                 SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
-                Usage = SharpDX.Direct3D10.ResourceUsage.Dynamic,
-                BindFlags = SharpDX.Direct3D10.BindFlags.ShaderResource,
-                CpuAccessFlags = SharpDX.Direct3D10.CpuAccessFlags.Write,
-                OptionFlags = SharpDX.Direct3D10.ResourceOptionFlags.None,
+                Usage = SharpDX.Direct3D11.ResourceUsage.Dynamic,
+                BindFlags = SharpDX.Direct3D11.BindFlags.ShaderResource,
+                CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags.Write,
+                OptionFlags = SharpDX.Direct3D11.ResourceOptionFlags.None,
             };
-            this.nativeTexture = new SharpDX.Direct3D10.Texture2D(graphicsDX10.NativeDevice, description);
-            this.nativeShaderResourceView = new SharpDX.Direct3D10.ShaderResourceView(graphicsDX10.NativeDevice, this.nativeTexture);
+            this.nativeTexture = new SharpDX.Direct3D11.Texture2D(context.Device, description);
+            this.nativeShaderResourceView = new SharpDX.Direct3D11.ShaderResourceView(context.Device, this.nativeTexture);
 
             // description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
             // more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
@@ -116,7 +116,7 @@ namespace ANX.Framework.Windows.DX10
             return NativeTexture.NativePointer.ToInt32();
         }
 
-        internal SharpDX.Direct3D10.Texture2D NativeTexture
+        internal SharpDX.Direct3D11.Texture2D NativeTexture
         {
             get
             {
@@ -136,7 +136,7 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        internal SharpDX.Direct3D10.ShaderResourceView NativeShaderResourceView
+        internal SharpDX.Direct3D11.ShaderResourceView NativeShaderResourceView
         {
             get
             {
@@ -172,11 +172,14 @@ namespace ANX.Framework.Windows.DX10
             //TODO: handle startIndex parameter
             //TODO: handle elementCount parameter
 
+            GraphicsDeviceWindowsMetro metroGraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+            DeviceContext context = metroGraphicsDevice.NativeDevice;
+
             if (this.surfaceFormat == SurfaceFormat.Color)
             {
-                int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubresourceIndex(0, 0, 1);
-                SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, SharpDX.Direct3D10.MapMode.WriteDiscard, SharpDX.Direct3D10.MapFlags.None);
-                int rowPitch = rectangle.Pitch;
+                int subresource = SharpDX.Direct3D11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
+                SharpDX.DataBox rectangle = context.MapSubresource(this.nativeTexture, subresource, MapMode.WriteDiscard, MapFlags.None);
+                int rowPitch = rectangle.RowPitch;
 
                 unsafe
                 {
@@ -203,7 +206,7 @@ namespace ANX.Framework.Windows.DX10
                     handle.Free();
                 }
 
-                this.nativeTexture.Unmap(subresource);
+                context.UnmapSubresource(this.nativeTexture, subresource);
             }
             else if (surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 || surfaceFormat == SurfaceFormat.Dxt1)
             {
@@ -216,10 +219,10 @@ namespace ANX.Framework.Windows.DX10
                     int h = (Height + 3) >> 2;
                     formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
 
-                    int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubresourceIndex(0, 0, 1);
-                    SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, SharpDX.Direct3D10.MapMode.WriteDiscard, SharpDX.Direct3D10.MapFlags.None);
+                    int subresource = SharpDX.Direct3D11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
+                    SharpDX.DataBox rectangle = context.MapSubresource(this.nativeTexture, subresource, MapMode.WriteDiscard, MapFlags.None);
                     SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
-                    int pitch = rectangle.Pitch;
+                    int pitch = rectangle.RowPitch;
                     int col = 0;
                     int index = 0; // startIndex
                     int count = data.Length; // elementCount
@@ -238,8 +241,6 @@ namespace ANX.Framework.Windows.DX10
                             {
                                 ds.WriteByte(colorData[idx]);
                             }
-                            //ds.WriteRange<byte>(colorDataArray, index, count);
-
                             break;
                         }
 
@@ -247,7 +248,6 @@ namespace ANX.Framework.Windows.DX10
                         {
                             ds.WriteByte(colorData[idx]);
                         }
-                        //ds.WriteRange<byte>(colorDataArray, index, actWidth);
 
                         index += actWidth;
                         count -= actWidth;
@@ -255,7 +255,7 @@ namespace ANX.Framework.Windows.DX10
 
                     handle.Free();
 
-                    this.nativeTexture.Unmap(subresource);
+                    context.UnmapSubresource(this.nativeTexture, subresource);
                 }
             }
             else

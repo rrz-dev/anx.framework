@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.RenderSystem;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA.RenderSystem;
 
 #endregion // Using Statements
 
@@ -58,36 +58,44 @@ using System.Runtime.InteropServices;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class IndexBuffer_DX10 : INativeIndexBuffer, IDisposable
+    public class IndexBuffer_Metro : INativeIndexBuffer, IDisposable
     {
-        private SharpDX.Direct3D10.Buffer buffer;
+        private SharpDX.Direct3D11.Buffer buffer;
         private IndexElementSize size;
 
-        public IndexBuffer_DX10(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
+        public IndexBuffer_Metro(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
         {
             this.size = size;
 
             //TODO: translate and use usage
 
-            GraphicsDeviceWindowsDX10 gd10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Device device = gd10 != null ? gd10.NativeDevice as SharpDX.Direct3D10.Device : null;
+            GraphicsDeviceWindowsMetro gdMetro = graphics.NativeDevice as GraphicsDeviceWindowsMetro;
+            SharpDX.Direct3D11.DeviceContext context = gdMetro != null ? gdMetro.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
 
-            if (device != null)
+            InitializeBuffer(context.Device, size, indexCount, usage);
+        }
+
+        internal IndexBuffer_Metro(SharpDX.Direct3D11.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            this.size = size;
+
+            InitializeBuffer(device, size, indexCount, usage);
+        }
+
+        private void InitializeBuffer(SharpDX.Direct3D11.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            BufferDescription description = new BufferDescription()
             {
-                BufferDescription description = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = (size == IndexElementSize.SixteenBits ? 2 : 4) * indexCount,
-                    BindFlags = BindFlags.IndexBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None
-                };
+                Usage = ResourceUsage.Dynamic,
+                SizeInBytes = (size == IndexElementSize.SixteenBits ? 2 : 4) * indexCount,
+                BindFlags = BindFlags.IndexBuffer,
+                CpuAccessFlags = CpuAccessFlags.Write,
+                OptionFlags = ResourceOptionFlags.None
+            };
 
-                this.buffer = new SharpDX.Direct3D10.Buffer(device, description);
-                this.buffer.Unmap();
-            }
+            this.buffer = new SharpDX.Direct3D11.Buffer(device, description);
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
@@ -97,36 +105,43 @@ namespace ANX.Framework.Windows.DX10
 
         public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
-            if (startIndex > 0 || elementCount < data.Length)
-            {
-                throw new NotImplementedException("currently starIndex and elementCount of SetData are not implemented");
-            }
+            GraphicsDeviceWindowsMetro metroGraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+            DeviceContext context = metroGraphicsDevice.NativeDevice;
 
             //TODO: check offsetInBytes parameter for bounds etc.
 
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned); 
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
 
             int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
 
             unsafe
             {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, false))
+                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
                 {
                     if (offsetInBytes > 0)
                     {
                         vData.Seek(offsetInBytes / (size == IndexElementSize.SixteenBits ? 2 : 4), System.IO.SeekOrigin.Begin);
                     }
 
-                    using (var d = buffer.Map(MapMode.WriteDiscard))
+                    SharpDX.DataStream stream;
+                    SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
+                    if (startIndex > 0 || elementCount < data.Length)
                     {
-                        vData.CopyTo(d);
-                        buffer.Unmap();
+                        for (int i = startIndex; i < startIndex + elementCount; i++)
+                        {
+                            vData.Write<T>(data[i]);
+                        }
                     }
+                    else
+                    {
+                        vData.CopyTo(stream);
+                    }
+                    context.UnmapSubresource(this.buffer, 0);
                 }
             }
 
-            pinnedArray.Free(); 
+            pinnedArray.Free();
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
@@ -134,7 +149,7 @@ namespace ANX.Framework.Windows.DX10
             SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
         }
 
-        public SharpDX.Direct3D10.Buffer NativeBuffer
+        public SharpDX.Direct3D11.Buffer NativeBuffer
         {
             get
             {

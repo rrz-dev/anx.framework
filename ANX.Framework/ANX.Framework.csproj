@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(SolutionDir)\build\ANX.PreSettings.targets" />
-
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -9,7 +8,6 @@
     <RootNamespace>ANX.Framework</RootNamespace>
     <AssemblyName>ANX.Framework</AssemblyName>
   </PropertyGroup>
-
   <ItemGroup>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -402,6 +400,7 @@
     <Compile Include="NonXNA\InputSystem\IKeyboardCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMouseCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
+    <Compile Include="NonXNA\IServiceProvider.cs" />
     <Compile Include="NonXNA\MediaSystem\IMediaSystemCreator.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />

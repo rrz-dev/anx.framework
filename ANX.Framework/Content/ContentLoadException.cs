@@ -54,7 +54,9 @@ using System.Runtime.Serialization;
 
 namespace ANX.Framework.Content
 {
-    [Serializable]
+#if !WIN8      //TODO: search replacement for Win8
+    [SerializableAttribute]
+#endif
     public class ContentLoadException : Exception
     {
         /// <summary>
@@ -79,6 +81,7 @@ namespace ANX.Framework.Content
         {
         }
 
+#if !WIN8      //TODO: search replacement for Win8
         /// <summary>
         /// Creates a new ContentLoadException.
         /// </summary>
@@ -86,5 +89,6 @@ namespace ANX.Framework.Content
             : base(info, context)
         {
         }
+#endif
     }
 }

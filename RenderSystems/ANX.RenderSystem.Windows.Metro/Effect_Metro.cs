@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 using SharpDX.D3DCompiler;
 using System.IO;
 using ANX.Framework.NonXNA;
@@ -58,9 +58,9 @@ using ANX.Framework.Graphics;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class Effect_DX10 : INativeEffect
+    public class Effect_Metro : INativeEffect
     {
         private ShaderBytecode pixelShaderByteCode;
         private ShaderBytecode vertexShaderByteCode;
@@ -68,9 +68,8 @@ namespace ANX.Framework.Windows.DX10
         private PixelShader pixelShader;
         private ANX.Framework.Graphics.Effect managedEffect;
         private ShaderBytecode effectByteCode;
-        private SharpDX.Direct3D10.Effect nativeEffect;
 
-        public Effect_DX10(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public Effect_Metro(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {
             if (this.managedEffect == null)
             {
@@ -83,17 +82,17 @@ namespace ANX.Framework.Windows.DX10
                 vertexShaderByteCode.Seek(0, SeekOrigin.Begin);
             }
             this.vertexShaderByteCode = ShaderBytecode.FromStream(vertexShaderByteCode);
-            this.vertexShader = new VertexShader((SharpDX.Direct3D10.Device)device.NativeDevice, this.vertexShaderByteCode);
+            this.vertexShader = new VertexShader((SharpDX.Direct3D11.Device)device.NativeDevice, this.vertexShaderByteCode);
 
             if (pixelShaderByteCode.CanSeek)
             {
                 pixelShaderByteCode.Seek(0, SeekOrigin.Begin);
             }
             this.pixelShaderByteCode = ShaderBytecode.FromStream(pixelShaderByteCode);
-            this.pixelShader = new PixelShader((SharpDX.Direct3D10.Device)device.NativeDevice, this.pixelShaderByteCode);
+            this.pixelShader = new PixelShader((SharpDX.Direct3D11.Device)device.NativeDevice, this.pixelShaderByteCode);
         }
 
-        public Effect_DX10(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream effectByteCode)
+        public Effect_Metro(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream effectByteCode)
         {
             if (managedEffect == null)
             {
@@ -106,20 +105,36 @@ namespace ANX.Framework.Windows.DX10
                 effectByteCode.Seek(0, SeekOrigin.Begin);
             }
             this.effectByteCode = ShaderBytecode.FromStream(effectByteCode);
-            this.nativeEffect = new SharpDX.Direct3D10.Effect(((GraphicsDeviceWindowsDX10)device.NativeDevice).NativeDevice, this.effectByteCode);
+            //this.nativeEffect = new SharpDX.Direct3D11.Effect(((GraphicsDeviceWindowsDX10)device.NativeDevice).NativeDevice, this.effectByteCode);
         }
 
         public void Apply(GraphicsDevice graphicsDevice)
         {
             //TODO: dummy
-            ((GraphicsDeviceWindowsDX10)graphicsDevice.NativeDevice).currentEffect = this;
+            ((GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice).currentEffect = this;
         }
 
-        internal SharpDX.Direct3D10.Effect NativeEffect
+        //internal SharpDX.Direct3D11.Effect NativeEffect
+        //{
+        //    get
+        //    {
+        //        return this.nativeEffect;
+        //    }
+        //}
+
+        internal SharpDX.Direct3D11.VertexShader NativeVertexShader
         {
             get
             {
-                return this.nativeEffect;
+                return this.vertexShader;
+            }
+        }
+
+        internal SharpDX.Direct3D11.PixelShader NativePixelShader
+        {
+            get
+            {
+                return this.pixelShader;
             }
         }
 
@@ -211,11 +226,11 @@ namespace ANX.Framework.Windows.DX10
                 this.effectByteCode = null;
             }
 
-            if (this.nativeEffect != null)
-            {
-                this.nativeEffect.Dispose();
-                this.nativeEffect = null;
-            }
+            //if (this.nativeEffect != null)
+            //{
+            //    this.nativeEffect.Dispose();
+            //    this.nativeEffect = null;
+            //}
         }
 
 
@@ -223,15 +238,17 @@ namespace ANX.Framework.Windows.DX10
         {
             get 
             {
-                for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
-                {
-                    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
-                    teqDx10.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
+                throw new NotImplementedException();
 
-                    Graphics.EffectTechnique teq = new Graphics.EffectTechnique(this.managedEffect, teqDx10);
+                //for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
+                //{
+                //    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
+                //    teqDx10.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
+
+                //    Graphics.EffectTechnique teq = new Graphics.EffectTechnique(this.managedEffect, teqDx10);
                     
-                    yield return teq;
-                }
+                //    yield return teq;
+                //}
             }
         }
 
@@ -239,16 +256,25 @@ namespace ANX.Framework.Windows.DX10
         {
             get
             {
-                for (int i = 0; i < nativeEffect.Description.GlobalVariableCount; i++)
-                {
-                    EffectParameter_DX10 parDx10 = new EffectParameter_DX10();
-                    parDx10.NativeParameter = nativeEffect.GetVariableByIndex(i);
+                ShaderReflection shaderReflection = new ShaderReflection(this.vertexShaderByteCode);
+                ShaderDescription description = shaderReflection.Description;
 
-                    Graphics.EffectParameter par = new Graphics.EffectParameter();
-                    par.NativeParameter = parDx10;
+                //TODO: implement
 
-                    yield return par;
-                }
+                System.Diagnostics.Debugger.Break();
+
+                return null;
+
+                //for (int i = 0; i < nativeEffect.Description.GlobalVariableCount; i++)
+                //{
+                //    EffectParameter_Metro parDx10 = new EffectParameter_Metro();
+                //    parDx10.NativeParameter = nativeEffect.GetVariableByIndex(i);
+
+                //    Graphics.EffectParameter par = new Graphics.EffectParameter();
+                //    par.NativeParameter = parDx10;
+
+                //    yield return par;
+                //}
             }
         }
     }

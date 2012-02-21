@@ -2,7 +2,7 @@
 using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using SharpDX.Direct3D10;
+using SharpDX.Direct3D11;
 
 #endregion // Using Statements
 
@@ -53,19 +53,19 @@ using SharpDX.Direct3D10;
 
 #endregion // License
 
-namespace ANX.Framework.Windows.DX10
+namespace ANX.Framework.Windows.Metro
 {
-    public class SamplerState_DX10 : INativeSamplerState
+    public class SamplerState_Metro : INativeSamplerState
     {
         #region Private Members
         private SamplerStateDescription description;
-        private SharpDX.Direct3D10.SamplerState nativeSamplerState;
+        private SharpDX.Direct3D11.SamplerState nativeSamplerState;
         private bool nativeSamplerStateDirty;
         private bool bound;
 
         #endregion // Private Members
 
-        public SamplerState_DX10()
+        public SamplerState_Metro()
         {
             this.description = new SamplerStateDescription();
 
@@ -74,13 +74,15 @@ namespace ANX.Framework.Windows.DX10
 
         public void Apply(GraphicsDevice graphicsDevice, int index)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-            Device device = gdx10.NativeDevice;
+            throw new NotImplementedException();
 
-            UpdateNativeSamplerState(device);
-            this.bound = true;
+            //GraphicsDeviceWindowsMetro gdm = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+            //Device device = gdm.NativeDevice;
 
-            device.PixelShader.SetSampler(index, this.nativeSamplerState);
+            //UpdateNativeSamplerState(device);
+            //this.bound = true;
+
+            //device.PixelShader.SetSampler(index, this.nativeSamplerState);
         }
 
         public void Release()
@@ -100,7 +102,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressU != mode)
                 {
@@ -114,7 +116,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressV != mode)
                 {
@@ -128,7 +130,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set
             {
-                SharpDX.Direct3D10.TextureAddressMode mode = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
 
                 if (description.AddressW != mode)
                 {
@@ -142,7 +144,7 @@ namespace ANX.Framework.Windows.DX10
         {
             set 
             {
-                SharpDX.Direct3D10.Filter filter = FormatConverter.Translate(value);
+                SharpDX.Direct3D11.Filter filter = FormatConverter.Translate(value);
 
                 if (description.Filter != filter)
                 {
@@ -207,7 +209,7 @@ namespace ANX.Framework.Windows.DX10
                     this.nativeSamplerState = null;
                 }
 
-                this.nativeSamplerState = new SharpDX.Direct3D10.SamplerState(device, ref this.description);
+                this.nativeSamplerState = new SharpDX.Direct3D11.SamplerState(device, ref this.description);
 
                 this.nativeSamplerStateDirty = false;
             }

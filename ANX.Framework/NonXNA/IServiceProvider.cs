@@ -1,8 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Runtime.Serialization;
 
-#endregion // Using Statements
+#endregion
 
 #region License
 
@@ -51,30 +50,13 @@ using System.Runtime.Serialization;
 
 #endregion // License
 
-namespace ANX.Framework.GamerServices
+
+namespace ANX.Framework
 {
-    public class NetworkNotAvailableException : NetworkException
+#if WIN8
+    public interface IServiceProvider
     {
-        public NetworkNotAvailableException()
-            : base()
-        {
-        }
-
-#if !WIN8      //TODO: search replacement for Win8
-        protected NetworkNotAvailableException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-#endif
-        
-        public NetworkNotAvailableException(string message)
-            : base(message)
-        {
-        }
-
-        public NetworkNotAvailableException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+        Object GetService(Type serviceType);
     }
+#endif
 }

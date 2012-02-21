@@ -54,10 +54,10 @@ struct VertexShaderOutput
 
 struct PixelShaderOutput
 {
-	float4 Color0 : COLOR0;
-	float4 Color1 : COLOR1;
-	float4 Color2 : COLOR2;
-	float4 Color3 : COLOR3;
+	float4 Color0 : SV_TARGET0;
+	float4 Color1 : SV_TARGET1;
+	float4 Color2 : SV_TARGET2;
+	float4 Color3 : SV_TARGET3;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -79,13 +79,13 @@ PixelShaderOutput PixelShaderFunction(VertexShaderOutput input)
 	return output;
 }
 
-technique Technique1
+technique10 Technique1
 {
     pass Pass1
     {
         // TODO: Stellen Sie Renderstates hier ein.
 
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        VertexShader = compile vs_4_0 VertexShaderFunction();
+        PixelShader = compile ps_4_0 PixelShaderFunction();
     }
 }

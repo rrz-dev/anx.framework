@@ -60,9 +60,11 @@ namespace ANX.Framework.Storage
             : base()
         { }
 
+#if !WIN8      //TODO: search replacement for Win8
         protected StorageDeviceNotConnectedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
 
         public StorageDeviceNotConnectedException(string message)
             : base(message)

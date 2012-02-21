@@ -60,10 +60,12 @@ namespace ANX.Framework.GamerServices
         {
         }
 
+#if !WIN8      //TODO: search replacement for Win8
         protected GuideAlreadyVisibleException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
         
         public GuideAlreadyVisibleException(string message)
             : base(message)

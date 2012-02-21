@@ -52,7 +52,9 @@ using System;
 
 namespace ANX.Framework.Input
 {
+#if !WIN8      //TODO: search replacement for Win8
     [SerializableAttribute]
+#endif
     public struct MouseState
     {
         private int x;

@@ -66,10 +66,12 @@ namespace ANX.Framework.Net
 		{
 		}
 
+#if !WIN8      //TODO: search replacement for Win8
 		protected NetworkException(SerializationInfo info,
 			StreamingContext context)
 			: base(info, context)
 		{
 		}
+#endif
 	}
 }
