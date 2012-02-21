@@ -38,6 +38,9 @@
   <property name="project.anx.path.rendersystem.gl3" value="../RenderSystems/ANX.Framework.Windows.GL3" />
   <property name="project.anx.name.rendersystem.gl3" value="ANX.Framework.Windows.GL3" />
 
+  <property name="project.anx.path.mediasystem.openal" value="../MediaSystems/ANX.MediaSystem.Windows.OpenAL" />
+  <property name="project.anx.name.mediasystem.openal" value="ANX.MediaSystem.Windows.OpenAL" />
+  
   <property name="project.anxcontent.path" value="../ANX.Framework.ContentPipeline" />
   <property name="project.anxcontent.name" value="ANX.Framework.ContentPipeline" />
 
@@ -64,6 +67,8 @@
         <include name="${project.anx.path.rendersystem.dx10}/obj/**" />
         <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
         <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
+        <include name="${project.anx.path.rendersystem.metro}/obj/**" />
+        <include name="${project.anx.path.mediasystemsystem.openal}/obj/**" />
         <include name="${project.anxcontent.path}/obj/**" />
       </fileset>
     </delete>
@@ -103,6 +108,7 @@
     <call target="build_anx_inputsystems" />
     <call target="build_anx_soundsystems" />
     <call target="build_anx_rendersystems" />
+    <call target="build_anx_mediasystems" />
     <call target="build_anx_content_pipeline" />
   </target>
 
@@ -317,6 +323,24 @@
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.soundsystem.openal}/${project.anx.name.soundsystem.openal}.csproj" />
+    </exec>
+  </target>
+
+  <target name="build_anx_mediasystems" description="Build ANX.Framework MediaSystems">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework MediaSystem OpenAL" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.mediasystem.openal}/${project.anx.name.mediasystem.openal}.csproj" />
     </exec>
   </target>
 

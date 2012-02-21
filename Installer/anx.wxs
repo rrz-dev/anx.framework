@@ -121,6 +121,9 @@
       <Component Id='ANX.SoundSystem.Windows.XAudio' Guid='{4C4EDC2B-BF6B-437C-874C-1573373DB55E}'>
         <File Id='anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
       </Component>
+      <Component Id='ANX.MediaSystem.Windows.OpenAL' Guid='{9B798FF1-7E7B-48A6-8D8C-10EBA7EF1BB3}'>
+        <File Id='anx.mediasystem.windows.openal' Name='ANX.MediaSystem.Windows.OpenAL.dll' DiskId='1' Source='../bin/Release/ANX.MediaSystem.Windows.OpenAL.dll' />
+      </Component>
     </ComponentGroup>
 	</Fragment>
 </Wix>
