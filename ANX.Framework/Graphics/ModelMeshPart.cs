@@ -54,12 +54,22 @@ namespace ANX.Framework.Graphics
 {
     public sealed class ModelMeshPart
     {
+        internal ModelMesh parentMesh;
+
         private Effect effect;
 
         public Effect Effect
         {
             get { return effect; }
-            set { this.effect = value; }
+            set 
+            {
+                if (this.effect != value)
+                {
+                    var old = this.effect;
+                    this.effect = value;
+                    this.parentMesh.EffectChangedOnMeshPart(this, old, value);
+                }
+            }
         }
 
         private IndexBuffer indexBuffer;

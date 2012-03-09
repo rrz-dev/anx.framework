@@ -60,7 +60,7 @@ namespace ANX.Framework.Content
         protected internal override VertexBuffer Read(ContentReader input, VertexBuffer existingInstance)
         {
             GraphicsDevice graphics = input.ResolveGraphicsDevice();
-            VertexDeclaration declaration = input.ReadObject<VertexDeclaration>();
+            VertexDeclaration declaration = input.ReadRawObject<VertexDeclaration>();
             int vertexCount = input.ReadInt32();
             byte[] data = new byte[vertexCount * declaration.VertexStride];
             for (int i = 0; i < data.Length; i++)

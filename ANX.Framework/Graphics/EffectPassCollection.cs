@@ -101,17 +101,17 @@ namespace ANX.Framework.Graphics
 
 		IEnumerator<EffectPass> IEnumerable<EffectPass>.GetEnumerator()
 		{
-			throw new NotImplementedException();
+            return (IEnumerator<EffectPass>)this.passes.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			throw new NotImplementedException();
+            return (IEnumerator)this.passes.GetEnumerator();
 		}
 
 		public List<EffectPass>.Enumerator GetEnumerator()
 		{
-			throw new NotImplementedException();
+            return this.passes.GetEnumerator();
 		}
 
         public int Count

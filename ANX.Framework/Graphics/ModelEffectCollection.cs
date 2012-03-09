@@ -57,12 +57,12 @@ namespace ANX.Framework.Graphics
 {
     public sealed class ModelEffectCollection : ReadOnlyCollection<Effect>
     {
-        private Effect[] effects;
+        private List<Effect> effects;
 
-        internal ModelEffectCollection(Effect[] effects)
-            : base(effects)
+        internal ModelEffectCollection()
+            : base(new List<Effect>())
         {
-            this.effects = effects;
+            this.effects = base.Items as List<Effect>;
         }
 
         public new Enumerator GetEnumerator()
@@ -70,12 +70,22 @@ namespace ANX.Framework.Graphics
             return new Enumerator(this.effects);
         }
 
+        public void Add(Effect effect)
+        {
+            base.Items.Add(effect);
+        }
+
+        public void Remove(Effect effect)
+        {
+            base.Items.Remove(effect);
+        }
+
         public struct Enumerator : IEnumerator<Effect>, IDisposable, IEnumerator
         {
-            private Effect[] wrappedArray;
+            private List<Effect> wrappedArray;
             private int position;
 
-            internal Enumerator(Effect[] wrappedArray)
+            internal Enumerator(List<Effect> wrappedArray)
             {
                 this.wrappedArray = wrappedArray;
                 this.position = -1;
@@ -92,9 +102,9 @@ namespace ANX.Framework.Graphics
             public bool MoveNext()
             {
                 this.position++;
-                if (this.position >= this.wrappedArray.Length)
+                if (this.position >= this.wrappedArray.Count)
                 {
-                    this.position = this.wrappedArray.Length;
+                    this.position = this.wrappedArray.Count;
                     return false;
                 }
                 return true;

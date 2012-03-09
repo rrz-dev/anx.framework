@@ -54,7 +54,7 @@ using ANX.Framework.NonXNA;
 
 #endregion // License
 
-namespace ANX.Framework.Content.GraphicTypeReaders
+namespace ANX.Framework.Content
 {
     internal class TextureCubeReader : ContentTypeReader<TextureCube>
     {

@@ -83,6 +83,8 @@ namespace ANX.Framework.Graphics
             set { tag = value; }
         }
 
+        private static Matrix[] cachedBonesArray;
+
         public Model(ModelBoneCollection bones, ModelMeshCollection meshes, ModelBone rootBone, Object tag)
         {
             this.bones = bones;
@@ -93,22 +95,92 @@ namespace ANX.Framework.Graphics
 
         public void CopyAbsoluteBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
-            throw new NotImplementedException();
+            if (destinationBoneTransforms == null)
+            {
+                throw new ArgumentNullException("destinationBoneTransforms");
+            }
+
+            if (destinationBoneTransforms.Length < bones.Count)
+            {
+                throw new ArgumentOutOfRangeException("destinationBoneTransforms");
+            }
+
+            for (int i = 0; i < bones.Count; i++)
+            {
+                var bone = bones[i];
+                if (bone.Parent == null)
+                {
+                    destinationBoneTransforms[i] = bone.Transform;
+                }
+                else
+                {
+                    int parentIndex = bone.Parent.Index;
+                    destinationBoneTransforms[i] = bone.Transform * destinationBoneTransforms[parentIndex];
+                }
+            }
         }
 
         public void CopyBoneTransformsFrom(Matrix[] sourceBoneTransforms)
         {
-            throw new NotImplementedException();
+            if (sourceBoneTransforms == null)
+            {
+                throw new ArgumentNullException("sourceBoneTransforms");
+            }
+
+            if (sourceBoneTransforms.Length < bones.Count)
+            {
+                throw new ArgumentOutOfRangeException("sourceBoneTransforms");
+            }
+
+            for (int i = 0; i < bones.Count; i++)
+            {
+                bones[i].Transform = sourceBoneTransforms[i];
+            }
         }
 
         public void CopyBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
-            throw new NotImplementedException();
+            if (destinationBoneTransforms == null)
+            {
+                throw new ArgumentNullException("destinationBoneTransforms");
+            }
+
+            if (destinationBoneTransforms.Length < bones.Count)
+            {
+                throw new ArgumentOutOfRangeException("destinationBoneTransforms");
+            }
+
+            for (int i = 0; i < bones.Count; i++)
+            {
+                destinationBoneTransforms[i] = bones[i].Transform;
+            }
         }
 
         public void Draw (Matrix world, Matrix view, Matrix projection)
         {
-            throw new NotImplementedException();
+            Matrix[] absTransforms = Model.cachedBonesArray;
+            if (absTransforms == null || absTransforms.Length < this.bones.Count)
+            {
+                Array.Resize<Matrix>(ref absTransforms, this.bones.Count);
+                Model.cachedBonesArray = absTransforms;
+            }
+            this.CopyAbsoluteBoneTransformsTo(absTransforms);
+
+            foreach (var mesh in meshes)
+            {
+                foreach (var effect in mesh.Effects)
+                {
+                    IEffectMatrices matEffect = effect as IEffectMatrices;
+                    if (matEffect != null)
+                    {
+                        matEffect.World = absTransforms[mesh.ParentBone.Index] * world;
+                        matEffect.View = view;
+                        matEffect.Projection = projection;
+                    }
+                }
+
+                mesh.Draw();
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ using ANX.Framework.Graphics;
 
 #endregion // License
 
-namespace ANX.Framework.Content.GraphicTypeReaders
+namespace ANX.Framework.Content
 {
     public class EffectMaterialReader : ContentTypeReader<EffectMaterial>
     {

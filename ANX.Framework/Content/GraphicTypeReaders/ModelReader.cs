@@ -56,7 +56,7 @@ using ANX.Framework.NonXNA;
 #endregion // License
 
 
-namespace ANX.Framework.Content.GraphicTypeReaders
+namespace ANX.Framework.Content
 {
     public class ModelReader : ContentTypeReader<Model>
     {
@@ -90,7 +90,7 @@ namespace ANX.Framework.Content.GraphicTypeReaders
             ModelBone[] bones = new ModelBone[boneCount];
             for (int i = 0; i < boneCount; i++)
             {
-                string name = reader.ReadString();
+                string name = reader.ReadObject<String>();
                 Matrix transform = reader.ReadMatrix();
                 bones[i] = new ModelBone(name, transform, i);
             }
@@ -123,14 +123,14 @@ namespace ANX.Framework.Content.GraphicTypeReaders
             {
                 index = (int)reader.ReadInt32();
             }
-            return index;
+            return index - 1;
         }
 
         private ModelBone ReadBoneReference(ContentReader reader, ModelBone[] bones)
         {
             ModelBone reference = null;
             int index = ReadBoneIndex(reader, bones.Length);
-            if (index != 0)
+            if (index >= 0 && index < bones.Length)
             {
                 reference = bones[index];
             }
@@ -141,7 +141,7 @@ namespace ANX.Framework.Content.GraphicTypeReaders
         {
             ModelBone reference = null;
             int index = ReadBoneIndex(reader, bones.Count);
-            if (index != 0)
+            if (index >= 0)
             {
                 reference = bones[index];
             }
@@ -154,9 +154,11 @@ namespace ANX.Framework.Content.GraphicTypeReaders
             ModelMesh[] meshes = new ModelMesh[meshCount];
             for (int i = 0; i < meshCount; i++)
             {
-                string name = reader.ReadString();
+                string name = reader.ReadObject<String>();
                 ModelBone parentBone = ReadBoneReference(reader, bones);
-                BoundingSphere boundingSphere = reader.ReadObject<BoundingSphere>();
+                BoundingSphere boundingSphere = new BoundingSphere();
+                boundingSphere.Center = reader.ReadVector3();
+                boundingSphere.Radius = reader.ReadSingle();
                 object meshTag = reader.ReadObject<object>();
 
                 int meshPartCount = reader.ReadInt32();

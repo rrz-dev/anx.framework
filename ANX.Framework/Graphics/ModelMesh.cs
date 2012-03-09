@@ -105,11 +105,66 @@ namespace ANX.Framework.Graphics
             this.boundingSphere = sphere;
             this.tag = tag;
             this.meshParts = new ModelMeshPartCollection(meshParts);
+            this.effects = new ModelEffectCollection();
+
+            foreach (var item in this.meshParts)
+            {
+                item.parentMesh = this;
+                if (item.Effect != null && !this.effects.Contains(item.Effect))
+                {
+                    this.effects.Add(item.Effect);
+                }
+            }
+        }
+
+        internal void EffectChangedOnMeshPart(ModelMeshPart part, Effect oldEffect, Effect newEffect)
+        {
+            bool oldEffectIsInUse = false;
+            bool newEffectIsKnown = false;
+
+            foreach (var item in meshParts)
+            {
+                if (object.ReferenceEquals(item, part))
+                {
+                    continue;
+                }
+
+                if (object.ReferenceEquals(item.Effect, oldEffect))
+                {
+                    oldEffectIsInUse = true;
+                }
+
+                if (object.ReferenceEquals(item.Effect, newEffect))
+                {
+                    newEffectIsKnown = true;
+                }
+            }
+
+            if (oldEffect != null && !oldEffectIsInUse)
+            {
+                effects.Remove(oldEffect);
+            }
+
+            if (newEffect != null && !newEffectIsKnown)
+            {
+                effects.Add(oldEffect);
+            }
         }
 
         public void Draw()
         {
-            throw new NotImplementedException();
+            foreach (var part in meshParts)
+            {
+                foreach (var pass in part.Effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+
+                    GraphicsDevice graphics = part.VertexBuffer.GraphicsDevice;
+                    graphics.SetVertexBuffer(part.VertexBuffer, part.VertexOffset);
+                    graphics.Indices = part.IndexBuffer;
+                    graphics.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
+                }
+            }
         }
     }
 }

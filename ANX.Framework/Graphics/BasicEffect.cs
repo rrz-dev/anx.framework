@@ -84,11 +84,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -137,11 +138,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return Vector3.One;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -164,11 +166,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -176,11 +179,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return Vector3.One;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -188,11 +192,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -200,11 +205,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return 0;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -212,11 +218,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return 0;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -224,11 +231,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return null;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -236,11 +244,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -248,11 +257,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return Vector3.One;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -260,11 +270,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return Vector3.One;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -272,11 +283,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return Vector3.One;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -284,11 +296,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return 16;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -296,11 +309,12 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return 1;
+                //throw new NotImplementedException();
             }
             set
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -332,7 +346,8 @@ namespace ANX.Framework.Graphics
                 return;
             }
 
-            throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
+            this.CurrentTechnique = Techniques["VertexColor"];
+            //throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
         }
     }
 }

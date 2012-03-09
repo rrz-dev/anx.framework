@@ -249,12 +249,12 @@ namespace ANX.Framework.Content
             {
                 return default(T);
             }
-
-            if (index > this.typeReaders.Length)
+            index -= 1;
+            if (index >= this.typeReaders.Length)
             {
                 throw new ContentLoadException("Bad Xnb");
             }
-            ContentTypeReader reader = this.typeReaders[index-1];
+            ContentTypeReader reader = this.typeReaders[index];
             return this.ReadWithTypeReader<T>(reader, null);
         }
 
