@@ -84,12 +84,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return false;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -138,12 +137,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return Vector3.One;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -166,12 +164,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return false;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -179,12 +176,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return Vector3.One;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -192,12 +188,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return false;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -205,12 +200,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return 0;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -218,12 +212,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return 0;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -231,12 +224,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return null;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -244,12 +236,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return false;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -257,12 +248,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return Vector3.One;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -270,12 +260,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return Vector3.One;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -283,12 +272,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return Vector3.One;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -296,12 +284,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return 16;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -309,12 +296,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return 1;
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -346,8 +332,8 @@ namespace ANX.Framework.Graphics
                 return;
             }
 
-            this.CurrentTechnique = Techniques["NormalTex"];    //TODO: this is for ModelSample to be work
-            //throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
+            //this.CurrentTechnique = Techniques["NormalTex"];    //TODO: this is for ModelSample to be work
+            throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
         }
     }
 }

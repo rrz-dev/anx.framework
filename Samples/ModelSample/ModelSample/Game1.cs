@@ -64,6 +64,12 @@ namespace ModelSample
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Model cubeModel;
+        Effect effect;
+        bool overrideWithSimpleEffect = true;
+
+        Matrix world;
+        Matrix view;
+        Matrix projection;
 
         public Game1()
         {
@@ -71,10 +77,36 @@ namespace ModelSample
             Content.RootDirectory = "SampleContent";
         }
 
+        protected override void Initialize()
+        {
+            const float nearplane = 1;
+            const float farplane = 100;
+            float aspect = (float)graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
+
+            world = Matrix.Identity;
+            view = Matrix.CreateLookAt(Vector3.Backward * 10, world.Translation, Vector3.Up);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect, nearplane, farplane);
+
+            base.Initialize();
+        }
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            effect = Content.Load<Effect>("Effects/SimpleEffect");
             cubeModel = Content.Load<Model>("Models/Cube");
+
+            // Ovrride the basic effect in the model for testing
+            if (overrideWithSimpleEffect)
+            {
+                foreach (var mesh in cubeModel.Meshes)
+                {
+                    foreach (var part in mesh.MeshParts)
+                    {
+                        part.Effect = effect;
+                    }
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -83,13 +115,32 @@ namespace ModelSample
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                world = Matrix.Identity;
+            }
+            else
+            {
+                world = Matrix.Identity * Matrix.CreateRotationX(MathHelper.PiOver4) * Matrix.CreateRotationY(MathHelper.PiOver4);
+            }
+            
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            cubeModel.Draw(Matrix.Identity, Matrix.Identity, Matrix.Identity);
+
+            if (overrideWithSimpleEffect)
+            {
+                this.effect.Parameters["World"].SetValue(this.world);
+                this.effect.Parameters["View"].SetValue(this.view);
+                this.effect.Parameters["Projection"].SetValue(this.projection);
+                this.effect.CurrentTechnique.Passes[0].Apply();
+            }
+
+            cubeModel.Draw(world, view, projection);
             base.Draw(gameTime);
         }
     }

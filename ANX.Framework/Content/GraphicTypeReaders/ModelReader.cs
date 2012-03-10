@@ -172,9 +172,15 @@ namespace ANX.Framework.Content
                     object meshPartTag = reader.ReadObject<object>();
 
                     ModelMeshPart meshPart = new ModelMeshPart(vertexOffset, numVertices, startIndex, primitiveCount, meshPartTag);
-                    reader.ReadSharedResource<VertexBuffer>((buffer) => { meshPart.VertexBuffer = buffer; });
-                    reader.ReadSharedResource<IndexBuffer>((buffer) => { meshPart.IndexBuffer = buffer; });
-                    reader.ReadSharedResource<Effect>((effect) => { meshPart.Effect = effect; });
+                    reader.ReadSharedResource<VertexBuffer>((buffer) => { 
+                        meshPart.VertexBuffer = buffer; 
+                    });
+                    reader.ReadSharedResource<IndexBuffer>((buffer) => { 
+                        meshPart.IndexBuffer = buffer; 
+                    });
+                    reader.ReadSharedResource<Effect>((effect) => { 
+                        meshPart.Effect = effect; 
+                    });
                     meshParts[j] = meshPart;
                 }
 

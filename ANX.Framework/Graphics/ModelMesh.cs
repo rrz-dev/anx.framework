@@ -147,7 +147,7 @@ namespace ANX.Framework.Graphics
 
             if (newEffect != null && !newEffectIsKnown)
             {
-                effects.Add(oldEffect);
+                effects.Add(newEffect);
             }
         }
 

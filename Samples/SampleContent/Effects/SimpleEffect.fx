@@ -1,15 +1,3 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
-
-#endregion // Using Statements
-
-#region License
-
 //
 // This file is part of the ANX.Framework created by the "ANX.Framework developer group".
 //
@@ -53,30 +41,51 @@ using ANX.Framework.Graphics;
 //       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
 //       particular purpose and non-infringement.
 
-#endregion // License
+uniform extern float4x4 World;
+uniform extern float4x4 View;
+uniform extern float4x4 Projection;
 
-namespace ANX.Framework.Content
+struct VertexShaderInput
 {
-    public class BasicEffectReader : ContentTypeReader<BasicEffect>
+	// SV_POSITION semantic does not work. Results in an exception on draw call
+    // float4 Position : SV_POSITION;
+
+    float4 Position : POSITION0;
+};
+
+struct VertexShaderOutput
+{
+	// POSITION semantic does not work -> blank screen
+    // float4 Position : POSITION;
+
+	// POSITION semantic does not work -> blank screen
+    // float4 Position : POSITION0;
+
+	// SV_POSITION semantic does work
+    float4 Position : SV_POSITION;
+};
+
+VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
+{
+    VertexShaderOutput output;
+
+    float4 worldPosition = mul(input.Position.xyz, World);
+    float4 viewPosition = mul(worldPosition, View);
+    output.Position = mul(viewPosition, Projection);
+
+    return output;
+}
+
+float4 PixelShaderFunction(VertexShaderOutput input) : SV_TARGET
+{
+    return float4(1, 0, 0, 1);
+}
+
+technique10 Technique1
+{
+    pass Pass1
     {
-        protected internal override BasicEffect Read(ContentReader input, BasicEffect existingInstance)
-        {
-            var graphics = input.ResolveGraphicsDevice();
-            var effect = new BasicEffect(graphics);
-            Texture2D texture = input.ReadExternalReference<Texture2D>();
-            // TODO: enable parameter setup when basic effect is implemented
-            //if (texture != null)
-            //{
-            //    effect.Texture = texture;
-            //    effect.TextureEnabled = true;
-            //}
-            /*effect.DiffuseColor = */input.ReadVector3();
-            /*effect.EmissiveColor = */input.ReadVector3();
-            /*effect.SpecularColor = */input.ReadVector3();
-            /*effect.SpecularPower = */input.ReadSingle();
-            /*effect.Alpha = */input.ReadSingle();
-            /*effect.VertexColorEnabled = */input.ReadBoolean();
-            return effect;
-        }
+        VertexShader = compile vs_4_0 VertexShaderFunction();
+        PixelShader = compile ps_4_0 PixelShaderFunction();
     }
 }

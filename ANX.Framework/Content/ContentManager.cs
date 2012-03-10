@@ -251,7 +251,7 @@ namespace ANX.Framework.Content
             }
             catch (Exception ex)
             {
-                throw new ContentLoadException("failed to open stream for '" + assetName + "'", ex);
+                throw new ContentLoadException(String.Format("failed to open stream for '{0}'", assetName), ex);
             }
         }
 
