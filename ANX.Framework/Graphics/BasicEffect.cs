@@ -346,7 +346,7 @@ namespace ANX.Framework.Graphics
                 return;
             }
 
-            this.CurrentTechnique = Techniques["VertexColor"];
+            this.CurrentTechnique = Techniques["NormalTex"];    //TODO: this is for ModelSample to be work
             //throw new InvalidOperationException("Currently ANX's BasicEffect only supports VertexColor technique");
         }
     }

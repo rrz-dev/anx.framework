@@ -43,19 +43,42 @@
 
 //TODO: dummy implementation / placeholder
 
+Texture2D<float4> Texture : register(t0);
+sampler Sampler : register(s0);
+
 uniform extern float4x4 World;
 uniform extern float4x4 View;
 uniform extern float4x4 Projection;
 
-/*
-Texture2D<float4> Texture : register(t0);
-   sampler TextureSampler : register(s0);
-*/
-
-struct VertexColorVertexShaderInput
+struct VSInput
 {
-	float4 Position		: POSITION;
+	float4 Position		: SV_POSITION;
+};
+
+struct VertexColorVSInput
+{
+	float4 Position		: SV_POSITION;
 	float4 Color		: COLOR;
+};
+
+struct NormalVSInput
+{
+	float4 Position		: SV_POSITION;
+	float3 Normal		: NORMAL;
+};
+
+struct NormalColorVSInput
+{
+	float4 Position		: SV_POSITION;
+	float3 Normal		: NORMAL;
+	float4 Color		: COLOR;
+};
+
+struct NormalTexVSInput
+{
+	float4 Position		: SV_POSITION;
+	float3 Normal		: NORMAL;
+	float2 TexCoord		: TEXCOORD0;
 };
 
 struct PixelShaderInput
@@ -65,7 +88,7 @@ struct PixelShaderInput
 	float2 TexCoord0	: TEXCOORD0;
 };
 
-PixelShaderInput VertexColorVertexShader( VertexColorVertexShaderInput input )
+PixelShaderInput VertexColorVertexShader( VertexColorVSInput input )
 {
 	PixelShaderInput output = (PixelShaderInput)0;
 	
@@ -75,6 +98,20 @@ PixelShaderInput VertexColorVertexShader( VertexColorVertexShaderInput input )
 
 	output.Color = input.Color;
 	output.TexCoord0 = (float2)0;
+
+	return output;
+}
+
+PixelShaderInput NormalTexShader( NormalTexVSInput input)
+{
+	PixelShaderInput output = (PixelShaderInput)0;
+	
+    float4 worldPosition = mul(input.Position, World);
+    float4 viewPosition = mul(worldPosition, View);
+    output.Position = mul(viewPosition, Projection);
+
+	output.Color = float4(1,1,1,1);
+	output.TexCoord0 = input.TexCoord;
 
 	return output;
 }
@@ -90,6 +127,16 @@ technique10 VertexColor
 	{
 		SetGeometryShader( 0 );
 		SetVertexShader( CompileShader( vs_4_0, VertexColorVertexShader() ) );
+		SetPixelShader( CompileShader( ps_4_0, VertexColorPixelShader() ) );
+	}
+}
+
+technique10 NormalTex
+{
+	pass NormalTexPass
+	{
+		SetGeometryShader( 0 );
+		SetVertexShader( CompileShader( vs_4_0, NormalTexShader() ) );
 		SetPixelShader( CompileShader( ps_4_0, VertexColorPixelShader() ) );
 	}
 }
