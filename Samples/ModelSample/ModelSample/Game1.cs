@@ -65,11 +65,15 @@ namespace ModelSample
         SpriteBatch spriteBatch;
         Model cubeModel;
         Effect effect;
+        Texture2D texture;
         bool overrideWithSimpleEffect = true;
 
         Matrix world;
         Matrix view;
         Matrix projection;
+
+        Matrix worldViewProj;
+        Matrix worldInverseTranspose;
 
         public Game1()
         {
@@ -95,6 +99,7 @@ namespace ModelSample
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = Content.Load<Effect>("Effects/SimpleEffect");
             cubeModel = Content.Load<Model>("Models/Cube");
+            texture = Content.Load<Texture2D>("Textures/Test_100x100");
 
             // Ovrride the basic effect in the model for testing
             if (overrideWithSimpleEffect)
@@ -115,15 +120,14 @@ namespace ModelSample
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                world = Matrix.Identity;
-            }
-            else
-            {
-                world = Matrix.Identity * Matrix.CreateRotationX(MathHelper.PiOver4) * Matrix.CreateRotationY(MathHelper.PiOver4);
-            }
-            
+            const float speed = 0.00001f;
+            world = Matrix.Identity *
+                Matrix.CreateRotationX((float)gameTime.TotalGameTime.TotalSeconds * speed) *
+                Matrix.CreateRotationY((float)gameTime.TotalGameTime.TotalSeconds * speed) *
+                Matrix.CreateRotationZ((float)gameTime.TotalGameTime.TotalSeconds * speed);
+
+            worldViewProj = world * view * projection;
+            worldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
 
             base.Update(gameTime);
         }
@@ -137,7 +141,9 @@ namespace ModelSample
                 this.effect.Parameters["World"].SetValue(this.world);
                 this.effect.Parameters["View"].SetValue(this.view);
                 this.effect.Parameters["Projection"].SetValue(this.projection);
-                this.effect.CurrentTechnique.Passes[0].Apply();
+                this.effect.Parameters["WorldViewProj"].SetValue(this.worldViewProj);
+                this.effect.Parameters["WorldInverseTranspose"].SetValue(this.worldInverseTranspose);
+                this.effect.Parameters["Texture"].SetValue(this.texture);
             }
 
             cubeModel.Draw(world, view, projection);

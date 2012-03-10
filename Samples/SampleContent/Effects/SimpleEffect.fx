@@ -45,40 +45,40 @@ uniform extern float4x4 World;
 uniform extern float4x4 View;
 uniform extern float4x4 Projection;
 
+uniform extern float4x4 WorldViewProj;
+uniform extern float4x4 WorldInverseTranspose;
+
+Texture2D<float4> Texture : register(t0);
+   sampler TextureSampler : register(s0);
+
 struct VertexShaderInput
 {
-	// SV_POSITION semantic does not work. Results in an exception on draw call
-    // float4 Position : SV_POSITION;
-
-    float4 Position : POSITION0;
+	float4 Position : POSITION0;
+	float3 Normal	: NORMAL;
+	float2 TexCoord : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
-	// POSITION semantic does not work -> blank screen
-    // float4 Position : POSITION;
-
-	// POSITION semantic does not work -> blank screen
-    // float4 Position : POSITION0;
-
-	// SV_POSITION semantic does work
     float4 Position : SV_POSITION;
+	float3 Normal	: NORMAL;
+	float2 TexCoord : TEXCOORD0;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
     VertexShaderOutput output;
 
-    float4 worldPosition = mul(input.Position.xyz, World);
-    float4 viewPosition = mul(worldPosition, View);
-    output.Position = mul(viewPosition, Projection);
+	output.Position = mul(input.Position, WorldViewProj);
+	output.Normal = normalize(mul(input.Normal.xyz, (float3x3)WorldInverseTranspose));
+	output.TexCoord = input.TexCoord;
 
     return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : SV_TARGET
 {
-    return float4(1, 0, 0, 1);
+	return Texture.Sample(TextureSampler, input.TexCoord);
 }
 
 technique10 Technique1

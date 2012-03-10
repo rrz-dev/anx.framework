@@ -118,7 +118,18 @@ namespace ANX.Framework.Graphics
         #region Clear
         public void Clear(Color color)
         {
-            nativeDevice.Clear(ref color);
+            ClearOptions options = ClearOptions.Target;
+            if (this.currentPresentationParameters.DepthStencilFormat != DepthFormat.None)
+            {
+                options |= ClearOptions.DepthBuffer;
+            }
+            if (this.currentPresentationParameters.DepthStencilFormat == DepthFormat.Depth24Stencil8)
+            {
+                options |= ClearOptions.Stencil;
+            }
+            
+            Clear(options, color, 1, 0);
+            // nativeDevice.Clear(ref color);
         }
 
         public void Clear(ClearOptions options, Color color, float depth, int stencil)
