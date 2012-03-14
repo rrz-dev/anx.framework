@@ -154,25 +154,25 @@ namespace ANX.RenderSystem.Windows.DX11
             }
         }
 
-        public static byte[] CompileVertexShader(string effectCode)
+        public static byte[] CompileVertexShader(string effectCode, string directory = "")
         {
-            ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None, EffectFlags.None);
+            ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
             byte[] bytecode = new byte[vertexShaderByteCode.BufferSize];
             vertexShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
         }
 
-        public static byte[] CompilePixelShader(string effectCode)
+        public static byte[] CompilePixelShader(string effectCode, string directory = "")
         {
-            ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None, EffectFlags.None);
+            ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
             byte[] bytecode = new byte[pixelShaderByteCode.BufferSize];
             pixelShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
         }
 
-        public static byte[] CompileFXShader(string effectCode)
+        public static byte[] CompileFXShader(string effectCode, string directory = "")
         {
-            ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_5_0", ShaderFlags.None, EffectFlags.None);
+            ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_5_0", ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
             byte[] bytecode = new byte[effectByteCode.BufferSize];
             effectByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;

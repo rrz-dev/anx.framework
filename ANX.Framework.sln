@@ -48,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX10", "DX10", "{CCB4679D-1
 		shader\DX10\EnvironmentMap.fx = shader\DX10\EnvironmentMap.fx
 		shader\DX10\Skinned.fx = shader\DX10\Skinned.fx
 		shader\DX10\SpriteBatch.fx = shader\DX10\SpriteBatch.fx
+		shader\DX10\Structures.fxh = shader\DX10\Structures.fxh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95FC-48F2-8B6D-8483D0B71666}"

@@ -78,6 +78,7 @@
     <Compile Include="Effect_DX11.cs" />
     <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX11.cs" />
+    <Compile Include="IncludeHandler.cs" />
     <Compile Include="IndexBuffer_DX11.cs" />
     <Compile Include="Metadata.Designer.cs">
       <DependentUpon>Metadata.resx</DependentUpon>

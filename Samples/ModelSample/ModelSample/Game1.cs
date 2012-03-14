@@ -120,7 +120,7 @@ namespace ModelSample
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            const float speed = 0.00001f;
+            const float speed = 0.0000001f;
             world = Matrix.Identity *
                 Matrix.CreateRotationX((float)gameTime.TotalGameTime.TotalSeconds * speed) *
                 Matrix.CreateRotationY((float)gameTime.TotalGameTime.TotalSeconds * speed) *

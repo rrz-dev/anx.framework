@@ -79,7 +79,7 @@ namespace StockShaderCodeGenerator
                 Console.Write("--> compiling shader... ");
                 try
                 {
-                    s.ByteCode = CompileShader(s.RenderSystem, source);
+                    s.ByteCode = CompileShader(s.RenderSystem, source, Path.GetDirectoryName(s.Source));
                     Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
                     s.ShaderCompiled = true;
                 }
@@ -97,17 +97,17 @@ namespace StockShaderCodeGenerator
             return true;
         }
 
-        private static Byte[] CompileShader(string RenderSystem, string sourceCode)
+        private static Byte[] CompileShader(string RenderSystem, string sourceCode, string directory)
         {
             byte[] byteCode;
 
             switch (RenderSystem)
             {
                 case "ANX.Framework.Windows.DX10":
-                    byteCode = Effect_DX10.CompileFXShader(sourceCode);
+                    byteCode = Effect_DX10.CompileFXShader(sourceCode, directory);
                     break;
                 case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = Effect_DX11.CompileFXShader(sourceCode);
+                    byteCode = Effect_DX11.CompileFXShader(sourceCode, directory);
                     break;
                 case "ANX.Framework.Windows.GL3":
                     byteCode = ShaderHelper.SaveShaderCode(sourceCode);

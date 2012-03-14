@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("ANX.RenderSystem.Windows.DX11.1")]
+[assembly: AssemblyTitle("ANX.RenderSystem.Windows.DX11")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
-[assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX11.1")]
-[assembly: AssemblyCopyright("Copyright (c) ANX.Framework Team 2011")]
+[assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX11")]
+[assembly: AssemblyCopyright("Copyright (c) ANX.Framework Team 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion("0.7.6.0")]
-[assembly: AssemblyFileVersion("0.7.6.0")]
+[assembly: AssemblyVersion("0.7.7.0")]
+[assembly: AssemblyFileVersion("0.7.7.0")]

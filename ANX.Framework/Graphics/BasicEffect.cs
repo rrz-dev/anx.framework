@@ -60,11 +60,21 @@ namespace ANX.Framework.Graphics
 {
     public class BasicEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
-        private bool vertexColorEnabled;
+        private bool vertexColorEnabled = false;
+        private bool perPixelLighting = false;
+        private bool lightingEnabled = false;
+        private bool fogEnabled = false;
+        private bool textureEnabled = false;
 
         private EffectParameter world;
         private EffectParameter view;
         private EffectParameter projection;
+        private EffectParameter texture;
+        private EffectParameter fogColor;
+        private EffectParameter fogVector;
+
+        private DirectionalLight[] directionalLight;
+        private Vector3 ambientLightColor;
 
         public BasicEffect(GraphicsDevice graphics)
             : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.BasicEffect))
@@ -72,6 +82,18 @@ namespace ANX.Framework.Graphics
             world = base.Parameters["World"];
             view = base.Parameters["View"];
             projection = base.Parameters["Projection"];
+
+            directionalLight = new DirectionalLight[]
+            {
+                new DirectionalLight(base.Parameters["LightDirection[0]"], base.Parameters["LightDiffuseColor[0]"], base.Parameters["LightSpecularColor[0]"], null),
+                new DirectionalLight(base.Parameters["LightDirection[1]"], base.Parameters["LightDiffuseColor[1]"], base.Parameters["LightSpecularColor[1]"], null),
+                new DirectionalLight(base.Parameters["LightDirection[2]"], base.Parameters["LightDiffuseColor[2]"], base.Parameters["LightSpecularColor[2]"], null),
+            };
+
+            fogColor = base.Parameters["FogColor"];
+            fogVector = base.Parameters["FogVector"];
+
+            texture = base.Parameters["Texture"];
         }
 
         protected BasicEffect(BasicEffect cloneSource)
@@ -84,11 +106,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return perPixelLighting;
             }
             set
             {
-                throw new NotImplementedException();
+                perPixelLighting = value;
             }
         }
 
@@ -130,45 +152,70 @@ namespace ANX.Framework.Graphics
 
         public void EnableDefaultLighting()
         {
-            throw new NotImplementedException();
+            LightingEnabled = true;
+            ambientLightColor = new Vector3(0.05333332f, 0.09882354f, 0.1819608f);
+
+            directionalLight[0].Direction = new Vector3(-0.5265408f, -0.5735765f, -0.6275069f);
+            directionalLight[0].DiffuseColor = new Vector3(1.0000000f, 0.9607844f, 0.8078432f);
+            directionalLight[0].SpecularColor = new Vector3(1.0000000f, 0.9607844f, 0.8078432f);
+            directionalLight[0].Enabled = true;
+
+            directionalLight[1].Direction = new Vector3(0.7198464f, 0.3420201f, 0.6040227f);
+            directionalLight[1].DiffuseColor = new Vector3(0.9647059f, 0.7607844f, 0.4078432f);
+            directionalLight[1].SpecularColor = new Vector3(0.0000000f, 0.0000000f, 0.0000000f);
+            directionalLight[1].Enabled = true;
+
+            directionalLight[2].Direction = new Vector3(0.4545195f, -0.7660444f, 0.4545195f);
+            directionalLight[2].DiffuseColor = new Vector3(0.3231373f, 0.3607844f, 0.3937255f);
+            directionalLight[2].SpecularColor = new Vector3(0.3231373f, 0.3607844f, 0.3937255f);
+            directionalLight[2].Enabled = true;
         }
 
         public Vector3 AmbientLightColor
         {
             get
             {
-                throw new NotImplementedException();
+                return ambientLightColor;
             }
             set
             {
-                throw new NotImplementedException();
+                ambientLightColor = value;
             }
         }
 
         public DirectionalLight DirectionalLight0
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return directionalLight[0]; 
+            }
         }
 
         public DirectionalLight DirectionalLight1
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return directionalLight[1]; 
+            }
         }
 
         public DirectionalLight DirectionalLight2
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return directionalLight[2]; 
+            }
         }
 
         public bool LightingEnabled
         {
             get
             {
-                throw new NotImplementedException();
+                return lightingEnabled;
             }
             set
             {
-                throw new NotImplementedException();
+                lightingEnabled = value;
             }
         }
 
@@ -176,11 +223,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.fogColor.GetValueVector3();
             }
             set
             {
-                throw new NotImplementedException();
+                this.fogVector.SetValue(value);
             }
         }
 
@@ -188,11 +235,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return fogEnabled;
             }
             set
             {
-                throw new NotImplementedException();
+                FogEnabled = value;
             }
         }
 
@@ -224,11 +271,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return this.texture.GetValueTexture2D();
             }
             set
             {
-                throw new NotImplementedException();
+                this.texture.SetValue(value);
             }
         }
 
@@ -236,11 +283,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                throw new NotImplementedException();
+                return textureEnabled;
             }
             set
             {
-                throw new NotImplementedException();
+                TextureEnabled = value;
             }
         }
 
