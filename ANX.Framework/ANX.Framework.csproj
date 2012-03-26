@@ -432,6 +432,10 @@
     <Compile Include="NonXNA\SoundSystem\ISoundEffectInstance.cs" />
     <Compile Include="NonXNA\SoundSystem\IAudioListener.cs" />
     <Compile Include="NonXNA\SoundSystem\IAudioEmitter.cs" />
+    <Compile Include="NonXNA\Windows8\DictionaryEntry.cs" />
+    <Compile Include="NonXNA\Windows8\ExternalException.cs" />
+    <Compile Include="NonXNA\Windows8\IDictionaryEnumerator.cs" />
+    <Compile Include="NonXNA\Windows8\ResourceReader.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneIntersectionType.cs" />
     <Compile Include="PlayerIndex.cs" />

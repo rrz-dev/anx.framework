@@ -83,8 +83,7 @@ namespace ANX.Framework.NonXNA
 
             if (File.Exists(fileName) == false)
             {
-                throw new InvalidOperationException(
-									String.Format("The AddIn '{0}' does not exist.", fileName));
+                throw new InvalidOperationException(String.Format("The AddIn '{0}' does not exist.", fileName));
             }
 
             this.fileName = fileName;
@@ -97,15 +96,15 @@ namespace ANX.Framework.NonXNA
 
             if (this.assembly != null)
             {
-							Type[] allTypes;
-							try
-							{
-								allTypes = this.assembly.GetTypes();
-							}
-							catch (ReflectionTypeLoadException ex)
-							{
-								allTypes = ex.Types;
-							}
+				Type[] allTypes;
+				try
+				{
+					allTypes = this.assembly.GetTypes();
+				}
+				catch (ReflectionTypeLoadException ex)
+				{
+					allTypes = ex.Types;
+				}
 
                 foreach (Type t in allTypes.Where(p =>
 									IsAssignable(typeof(IInputSystemCreator), p) ||
