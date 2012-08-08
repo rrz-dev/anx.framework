@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.NonXNA;
 
 #endregion
 
@@ -71,6 +72,7 @@ namespace ANX.InputSystem.Recording
         None
     }
 
+    //0-1 are reserved for the recording Engine, 2-255 can be used using WriteUserState().
     enum PacketType : byte
     {
         NullFrameCounter = 0,
@@ -78,10 +80,32 @@ namespace ANX.InputSystem.Recording
     }
     
     /// <summary>
-    /// Static Helper-class containing some recording related stuff.
+    /// Static Helper-class containing some recording-related stuff.
     /// </summary>
-    static class RecordingHelper
+    public static class RecordingHelper
     {
-        
+        /// <summary>
+        /// Returns the RecordingMouse of the RecordingInput-System.
+        /// </summary>
+        public static RecordingMouse GetMouse()
+        {
+            return ((RecordingMouse)AddInSystemFactory.Instance.GetCreator<IInputSystemCreator>("Recording").Mouse);
+        }
+
+        /// <summary>
+        /// Returns the RecordingKeyboard of the RecordingInput-System.
+        /// </summary>
+        public static RecordingKeyboard GetKeyboard()
+        {
+            return ((RecordingKeyboard)AddInSystemFactory.Instance.GetCreator<IInputSystemCreator>("Recording").Keyboard);
+        }
+
+        /// <summary>
+        /// Returns the RecordingGamePad of the RecordingInput-System.
+        /// </summary>
+        public static RecordingGamePad GetGamepad()
+        {
+            return ((RecordingGamePad)AddInSystemFactory.Instance.GetCreator<IInputSystemCreator>("Recording").GamePad);
+        }
     }
 }

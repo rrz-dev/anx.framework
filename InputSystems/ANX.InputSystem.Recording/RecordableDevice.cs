@@ -70,7 +70,7 @@ namespace ANX.InputSystem.Recording
         public event EventHandler EndOfPlaybackReached;
 
         /// <summary>
-        /// How many bytes this Instance requires per Paket. Must never change!
+        /// How many bytes this Instance requires per Packet. Must never change!
         /// </summary>
         public int PacketLenght { get; protected set; }
 
@@ -150,17 +150,35 @@ namespace ANX.InputSystem.Recording
             }
 
             if (state.Length != PacketLenght)
-                throw new InvalidOperationException("The passed state's lenght does not match the speficed FramePaketLenght.");
+                throw new InvalidOperationException("The passed state's lenght does not match the speficed FramePacketLenght.");
 
+            TryWriteNullStates();
+
+            recordStream.WriteByte((byte)PacketType.InputData);
+            recordStream.Write(state, 0, state.Length);
+        }
+
+        /// <summary>
+        /// Writes a custom packet to the stream. When this packet is found during ReadState()
+        /// HandleUserPacket is called to handle the packet. Please note that the packetTypes 0 and
+        /// 1 are reseved.
+        /// </summary>
+        protected virtual void WriteUserState(byte packetType, byte[] packetData)
+        {
+            TryWriteNullStates();
+
+            recordStream.WriteByte(packetType);
+            recordStream.WriteByte(packetData.Length);
+        }
+
+        private void TryWriteNullStates()
+        {
             if (nullStateCounter > 0) //Note how many packets we had nothing
             {
                 recordStream.WriteByte((byte)PacketType.NullFrameCounter);
                 recordStream.Write(BitConverter.GetBytes(nullStateCounter), 0, 4);
                 nullStateCounter = 0;
             }
-
-            recordStream.WriteByte((byte)PacketType.InputData);
-            recordStream.Write(state, 0, state.Length);
         }
 
         /// <summary>
@@ -178,7 +196,7 @@ namespace ANX.InputSystem.Recording
             if (recordStream.Position == recordStream.Length)
             {
                 OnEndOfPlaybackReached();
-                return null; //TODO: Better switch to RecordingState.None here?
+                return null;
             }
 
             PacketType type = (PacketType)recordStream.ReadByte();
@@ -193,8 +211,12 @@ namespace ANX.InputSystem.Recording
                     byte[] buffer2 = new byte[PacketLenght];
                     recordStream.Read(buffer2, 0, PacketLenght);
                     return buffer2;
-                default:
-                    throw new NotImplementedException("The PaketType " + Enum.GetName(typeof(PacketType), type) + "is not supported.");
+                default: //Custom Packet Type
+                    byte packetLenght = (byte)recordStream.ReadByte();
+                    byte[] buffer3 = new byte[packetLenght];
+                    recordStream.Read(buffer3, 0, packetLenght);
+                    HandleUserPacket((byte)type, buffer3);
+                    return ReadState(); //We read another packet until we find a "valid" one.
             }
 
         }
@@ -209,6 +231,14 @@ namespace ANX.InputSystem.Recording
 
             if (EndOfPlaybackReached != null)
                 EndOfPlaybackReached(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Overwrite this method to handle custom packet types written by WriteUserState(). When
+        /// ReadState() encounters an unknown packet type this method is called.
+        /// </summary>
+        protected virtual void HandleUserPacket(byte packetType, byte[] packetData)
+        {
         }
     }
 }

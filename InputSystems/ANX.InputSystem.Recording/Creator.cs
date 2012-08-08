@@ -65,13 +65,13 @@ namespace ANX.InputSystem.Recording
 #if XNAEXT
         RecordingMotionSensingDevice msd;
 #endif
-        
+
         public IGamePad GamePad
         {
             get
-					{
-						AddInSystemFactory.Instance.PreventSystemChange(
-							AddInType.InputSystem);
+            {
+                AddInSystemFactory.Instance.PreventSystemChange(
+                    AddInType.InputSystem);
                 if (gamePad == null)
                     gamePad = new RecordingGamePad();
                 return gamePad;
@@ -81,9 +81,9 @@ namespace ANX.InputSystem.Recording
         public IMouse Mouse
         {
             get
-					{
-						AddInSystemFactory.Instance.PreventSystemChange(
-							AddInType.InputSystem);
+            {
+                AddInSystemFactory.Instance.PreventSystemChange(
+                    AddInType.InputSystem);
                 if (mouse == null)
                     mouse = new RecordingMouse();
                 return mouse;
@@ -93,9 +93,9 @@ namespace ANX.InputSystem.Recording
         public IKeyboard Keyboard
         {
             get
-					{
-						AddInSystemFactory.Instance.PreventSystemChange(
-							AddInType.InputSystem);
+            {
+                AddInSystemFactory.Instance.PreventSystemChange(
+                    AddInType.InputSystem);
                 if (keyboard == null)
                     keyboard = new RecordingKeyboard();
                 return keyboard;
@@ -106,9 +106,9 @@ namespace ANX.InputSystem.Recording
         public IMotionSensingDevice MotionSensingDevice
         {
             get
-					{
-						AddInSystemFactory.Instance.PreventSystemChange(
-							AddInType.InputSystem);
+            {
+                AddInSystemFactory.Instance.PreventSystemChange(
+                    AddInType.InputSystem);
                 if (msd == null)
                     msd = new RecordingMotionSensingDevice();
                 return msd;

@@ -60,7 +60,7 @@ using ANX.InputSystem.Recording;
 namespace RecordingSample
 {
     /// <summary>
-    /// Sample, showing the use of the RecordingSystem (currently only the Mouse).
+    /// Sample, showing the use of the RecordingSystem.
     /// </summary>
     public class Game1 : Game
     {
@@ -81,12 +81,11 @@ namespace RecordingSample
 
         protected override void Initialize()
         {
-            Window.Title = "Use Mouse to move arround, press r to record, p for playback and n for none";
-
-            //this is quite ugly... could this be improved?
-            recMouse = ((RecordingMouse)AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
+            Window.Title = "Move the Mouse or press Enter. press R to record, P for playback and N for none";
+            
+            recMouse = RecordingHelper.GetMouse(); //((RecordingMouse)AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse);
             recMouse.Initialize(MouseRecordInfo.Position);
-            recKeyboard = ((RecordingKeyboard)AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard);
+            recKeyboard = RecordingHelper.GetKeyboard();
             recKeyboard.Initialize(Keys.Enter);
 
             base.Initialize();
@@ -142,13 +141,10 @@ namespace RecordingSample
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) //Keyboard
                 spriteBatch.Draw(logo, Vector2.Zero, Color.White);
-            }
-            //spriteBatch.End();
-            //spriteBatch.Begin();
-            spriteBatch.Draw(logo, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 115, 30), Color.White);
+
+            spriteBatch.Draw(logo, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 115, 30), Color.White); //Mouse
             spriteBatch.End();
 
             base.Draw(gameTime);
