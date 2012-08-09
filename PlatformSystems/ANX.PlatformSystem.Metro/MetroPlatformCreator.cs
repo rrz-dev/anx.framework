@@ -2,7 +2,6 @@ using System;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework;
-using NLog;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,8 +11,6 @@ namespace ANX.PlatformSystem.Metro
 {
 	public class MetroPlatformCreator : IPlatformSystemCreator
 	{
-		private static Logger logger = LogManager.GetCurrentClassLogger();
-
 		public string Name
 		{
 			get
@@ -41,7 +38,7 @@ namespace ANX.PlatformSystem.Metro
 		#region RegisterCreator
 		public void RegisterCreator(AddInSystemFactory factory)
 		{
-			logger.Debug("adding Windows PlatformSystem creator to collection of AddInSystemFactory");
+			Logger.Info("adding Windows PlatformSystem creator to collection of AddInSystemFactory");
 			factory.AddCreator(this);
 		}
 		#endregion
@@ -53,7 +50,7 @@ namespace ANX.PlatformSystem.Metro
 		#region CreateGameHost
 		public GameHost CreateGameHost(Game game)
 		{
-			logger.Info("creating Windows GameHost");
+			Logger.Info("creating Windows GameHost");
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.PlatformSystem);
 			return new WindowsGameHost(game);
 		}

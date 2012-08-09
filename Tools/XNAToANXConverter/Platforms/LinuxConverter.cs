@@ -15,15 +15,13 @@ namespace ProjectConverter.Platforms
 		}
 
 		#region ConvertImport
-		protected override void ConvertImport(XElement element)
+		protected override void ConvertImport(XElement element, XAttribute projectAttribute)
 		{
-			XAttribute projectAttribute = element.Attribute("Project");
-			if (projectAttribute != null)
+			if (projectAttribute != null &&
+				(projectAttribute.Value.EndsWith(XnaGameStudioTarget) ||
+				projectAttribute.Value.EndsWith(XnaPipelineExtensionTarget)))
 			{
-				if (projectAttribute.Value.EndsWith("Microsoft.Xna.GameStudio.targets"))
-				{
-					element.Remove();
-				}
+				element.Remove();
 			}
 		}
 		#endregion

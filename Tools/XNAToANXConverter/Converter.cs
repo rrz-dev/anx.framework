@@ -13,6 +13,11 @@ namespace ProjectConverter
 {
 	public abstract class Converter
 	{
+		protected const string XnaGameStudioTarget =
+			"Microsoft.Xna.GameStudio.targets";
+		protected const string XnaPipelineExtensionTarget =
+			"Microsoft.Xna.GameStudio.ContentPipelineExtensions.targets";
+
 		protected ProjectPath currentProject
 		{
 			get;
@@ -75,7 +80,8 @@ namespace ProjectConverter
 				}
 				else if (group.Name == importName)
 				{
-					ConvertImport(group);
+					XAttribute projectAttribute = group.Attribute("Project");
+					ConvertImport(group, projectAttribute);
 				}
 				else if (group.Name == itemGroupName)
 				{
@@ -121,7 +127,7 @@ namespace ProjectConverter
 		#endregion
 
 		#region ConvertImport
-		protected virtual void ConvertImport(XElement element)
+		protected virtual void ConvertImport(XElement element, XAttribute projectAttribute)
 		{
 		}
 		#endregion

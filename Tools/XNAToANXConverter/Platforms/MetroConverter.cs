@@ -14,9 +14,8 @@ namespace ProjectConverter.Platforms
 		}
 
 		#region ConvertImport
-		protected override void ConvertImport(XElement element)
+		protected override void ConvertImport(XElement element, XAttribute projectAttribute)
 		{
-			XAttribute projectAttribute = element.Attribute("Project");
 			if (projectAttribute != null)
 			{
 				if (projectAttribute.Value.EndsWith("Microsoft.CSharp.targets"))
@@ -25,7 +24,8 @@ namespace ProjectConverter.Platforms
 						@"$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\" +
 						@"v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets";
 				}
-				else if (projectAttribute.Value.EndsWith("Microsoft.Xna.GameStudio.targets"))
+				else if (projectAttribute.Value.EndsWith(XnaGameStudioTarget) ||
+					projectAttribute.Value.EndsWith(XnaPipelineExtensionTarget))
 				{
 					element.Remove();
 				}
