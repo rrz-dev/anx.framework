@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("ANX.Framework.Windows.GL3")]
+[assembly: AssemblyTitle("ANX.RenderSystem.Windows.GL3")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
-[assembly: AssemblyProduct("ANX.Framework.Windows.GL3")]
-[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011")]
+[assembly: AssemblyProduct("ANX.RenderSystem.Windows.GL3")]
+[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011 - 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

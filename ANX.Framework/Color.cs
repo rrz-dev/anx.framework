@@ -1,59 +1,9 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using ANX.Framework.Graphics.PackedVector;
-using System.Globalization;
 
-#endregion // Using Statements
-
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework
 {
@@ -849,12 +799,12 @@ namespace ANX.Framework
 
         public static bool operator ==(Color a, Color b)
         {
-            return a.Equals(b);
+					return a.packedValue == b.packedValue;
         }
 
         public static bool operator !=(Color a, Color b)
         {
-            return !a.Equals(b);
+					return a.packedValue != b.packedValue;
         }
 
         public static Color FromNonPremultiplied(int r, int g, int b, int a)
@@ -892,7 +842,8 @@ namespace ANX.Framework
             return this.packedValue.GetHashCode();
         }
 
-        public static Color Lerp(Color value1, Color value2, float amount)
+				#region Lerp
+				public static Color Lerp(Color value1, Color value2, float amount)
         {
             Color color;
 
@@ -916,9 +867,11 @@ namespace ANX.Framework
             color.packedValue = (uint)(((r3 | (g3 << 8)) | (b3 << 16)) | (a3 << 24));
 
             return color;
-        }
+				}
+				#endregion
 
-        public static Color Multiply(Color value, float scale)
+				#region Multiply
+				public static Color Multiply(Color value, float scale)
         {
             Color color;
 
@@ -943,6 +896,7 @@ namespace ANX.Framework
 
             return color;
         }
+				#endregion
 
         public static Color operator *(Color a, float scale)
         {
@@ -950,8 +904,12 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-        {
-            return string.Format(CultureInfo.CurrentCulture, "{{R:{0} G:{1} B:{2} A:{3}}}", new object[] { this.R, this.G, this.B, this.A });
+				{
+					// This may look a bit more ugly, but String.Format should
+					// be avoided cause of it's bad performance!
+					return "{R:" + R + " G:" + G + " B:" + B + " A:" + A + "}";
+
+					//return string.Format(CultureInfo.CurrentCulture, "{{R:{0} G:{1} B:{2} A:{3}}}", new object[] { this.R, this.G, this.B, this.A });
         }
 
         public Vector3 ToVector3()

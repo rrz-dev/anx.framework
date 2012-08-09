@@ -1,54 +1,12 @@
-﻿#region Using Statements
+#region Using Statements
 using System;
+using System.Globalization;
 
 #endregion // Using Statements
 
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework
 {
@@ -178,12 +136,14 @@ namespace ANX.Framework
             this.Y = value;
             this.Z = value;
         }
+
         public Vector3(float x, float y, float z)
         {
             this.X = x;
             this.Y = y;
             this.Z = z;
         }
+
         public Vector3(Vector2 value, float z)
         {
             this.X = value.X;
@@ -195,50 +155,55 @@ namespace ANX.Framework
 
         #region Public Static Methods
 
-        public static Vector3 Add(Vector3 value1, Vector3 value2)
+				#region Add
+				public static Vector3 Add(Vector3 value1, Vector3 value2)
         {
             Vector3 result;
             Add(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Add(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Add(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X + value2.X;
             result.Y = value1.Y + value2.Y;
             result.Z = value1.Z + value2.Z;
         }
+				#endregion
 
-
-        public static Vector3 Subtract(Vector3 value1, Vector3 value2)
+				#region Subtract
+				public static Vector3 Subtract(Vector3 value1, Vector3 value2)
         {
             Vector3 result;
             Subtract(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Subtract(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Subtract(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X - value2.X;
             result.Y = value1.Y - value2.Y;
             result.Z = value1.Z - value2.Z;
         }
+				#endregion
 
-
-        public static Vector3 Multiply(Vector3 value1, float scaleFactor)
+				#region Multiply
+				public static Vector3 Multiply(Vector3 value1, float scaleFactor)
         {
             Vector3 result;
             Multiply(ref value1, scaleFactor, out result);
             return result;
         }
 
-        public static void Multiply(ref Vector3 value1, float scaleFactor, out Vector3 result)
+        public static void Multiply(ref Vector3 value1, float scaleFactor,
+					out Vector3 result)
         {
             result.X = value1.X * scaleFactor;
             result.Y = value1.Y * scaleFactor;
             result.Z = value1.Z * scaleFactor;
-        }
-
+				}
 
         public static Vector3 Multiply(Vector3 value1, Vector3 value2)
         {
@@ -247,29 +212,31 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Multiply(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Multiply(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X * value2.X;
             result.Y = value1.Y * value2.Y;
             result.Z = value1.Z * value2.Z;
-        }
+				}
+				#endregion
 
-
-        public static Vector3 Divide(Vector3 value1, float value2)
+				#region Divide
+				public static Vector3 Divide(Vector3 value1, float value2)
         {
             Vector3 result;
             Divide(ref value1, value2, out result);
             return result;
         }
 
-        public static void Divide(ref Vector3 value1, float value2, out Vector3 result)
+        public static void Divide(ref Vector3 value1, float value2,
+					out Vector3 result)
         {
-            float divFactor = 1f / value2;
-            result.X = value1.X * divFactor;
-            result.Y = value1.Y * divFactor;
-            result.Z = value1.Z * divFactor;
+            float factor = 1f / value2;
+            result.X = value1.X * factor;
+            result.Y = value1.Y * factor;
+            result.Z = value1.Z * factor;
         }
-
 
         public static Vector3 Divide(Vector3 value1, Vector3 value2)
         {
@@ -278,42 +245,50 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Divide(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Divide(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X / value2.X;
             result.Y = value1.Y / value2.Y;
             result.Z = value1.Z / value2.Z;
-        }
+				}
+				#endregion
 
-        public static float Dot(Vector3 vector1, Vector3 vector2)
+				#region Dot
+				public static float Dot(Vector3 vector1, Vector3 vector2)
         {
             float result;
             Dot(ref vector1, ref vector2, out result);
             return result;
         }
 
-        public static void Dot(ref Vector3 vector1, ref Vector3 vector2, out float result)
+        public static void Dot(ref Vector3 vector1, ref Vector3 vector2,
+					out float result)
         {
-            result = vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z;
-        }
+            result = vector1.X * vector2.X + vector1.Y * vector2.Y +
+							vector1.Z * vector2.Z;
+				}
+				#endregion
 
-
-        public static Vector3 Cross(Vector3 vector1, Vector3 vector2)
+				#region Cross
+				public static Vector3 Cross(Vector3 vector1, Vector3 vector2)
         {
             Vector3 result;
             Cross(ref vector1, ref vector2, out result);
             return result;
         }
 
-        public static void Cross(ref Vector3 vector1, ref Vector3 vector2, out Vector3 result)
+        public static void Cross(ref Vector3 vector1, ref Vector3 vector2,
+					out Vector3 result)
         {
             result.X = vector1.Y * vector2.Z - vector1.Z * vector2.Y;
             result.Y = vector1.Z * vector2.X - vector1.X * vector2.Z;
             result.Z = vector1.X * vector2.Y - vector1.Y * vector2.X;
         }
+				#endregion
 
-
-        public static Vector3 Normalize(Vector3 value)
+				#region Normalize
+				public static Vector3 Normalize(Vector3 value)
         {
             Vector3 result;
             Normalize(ref value, out result);
@@ -322,73 +297,92 @@ namespace ANX.Framework
 
         public static void Normalize(ref Vector3 value, out Vector3 result)
         {
-            float divFactor = 1f / value.Length();
-            result.X = value.X * divFactor;
-            result.Y = value.Y * divFactor;
-            result.Z = value.Z * divFactor;
-        }
+            float factor = 1f / value.Length();
+            result.X = value.X * factor;
+            result.Y = value.Y * factor;
+            result.Z = value.Z * factor;
+				}
+				#endregion
 
-
-        public static float Distance(Vector3 value1, Vector3 value2)
+				#region Distance
+				public static float Distance(Vector3 value1, Vector3 value2)
         {
             float result;
             Distance(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Distance(ref Vector3 value1, ref Vector3 value2, out float result)
+        public static void Distance(ref Vector3 value1, ref Vector3 value2,
+					out float result)
         {
             Vector3 resultVector;
             Subtract(ref value1, ref value2, out resultVector);
             result = resultVector.Length();
-        }
+				}
+				#endregion
 
-
-        public static float DistanceSquared(Vector3 value1, Vector3 value2)
+				#region DistanceSquared
+				public static float DistanceSquared(Vector3 value1, Vector3 value2)
         {
             float result;
             DistanceSquared(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void DistanceSquared(ref Vector3 value1, ref Vector3 value2, out float result)
+        public static void DistanceSquared(ref Vector3 value1,
+					ref Vector3 value2, out float result)
         {
             Vector3 resultVector;
             Subtract(ref value1, ref value2, out resultVector);
             result = resultVector.LengthSquared();
-        }
+				}
+				#endregion
 
-
-        public static Vector3 Barycentric(Vector3 value1, Vector3 value2, Vector3 value3, float amount1, float amount2)
+				#region Barycentric
+				public static Vector3 Barycentric(Vector3 value1, Vector3 value2,
+					Vector3 value3, float amount1, float amount2)
         {
             Vector3 result;
-            Barycentric(ref value1, ref value2, ref value3, amount1, amount2, out result);
+            Barycentric(ref value1, ref value2, ref value3, amount1, amount2,
+							out result);
             return result;
         }
 
-        public static void Barycentric(ref Vector3 value1, ref Vector3 value2, ref Vector3 value3, float amount1, float amount2, out Vector3 result)
+        public static void Barycentric(ref Vector3 value1, ref Vector3 value2,
+					ref Vector3 value3, float amount1, float amount2, out Vector3 result)
         {
-            result.X = MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2);
-            result.Y = MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2);
-            result.Z = MathHelper.Barycentric(value1.Z, value2.Z, value3.Z, amount1, amount2);
+            result.X = MathHelper.Barycentric(value1.X, value2.X, value3.X,
+							amount1, amount2);
+            result.Y = MathHelper.Barycentric(value1.Y, value2.Y, value3.Y,
+							amount1, amount2);
+            result.Z = MathHelper.Barycentric(value1.Z, value2.Z, value3.Z,
+							amount1, amount2);
         }
-
-
-        public static Vector3 CatmullRom(Vector3 value1, Vector3 value2, Vector3 value3, Vector3 value4, float amount)
+				#endregion
+			
+				#region CatmullRom
+        public static Vector3 CatmullRom(Vector3 value1, Vector3 value2,
+					Vector3 value3, Vector3 value4, float amount)
         {
             Vector3 result;
-            CatmullRom(ref value1, ref value2, ref value3, ref value4, amount, out result);
+            CatmullRom(ref value1, ref value2, ref value3, ref value4, amount,
+							out result);
             return result;
         }
 
-        public static void CatmullRom(ref Vector3 value1, ref Vector3 value2, ref Vector3 value3, ref Vector3 value4, float amount, out Vector3 result)
+        public static void CatmullRom(ref Vector3 value1, ref Vector3 value2,
+					ref Vector3 value3, ref Vector3 value4, float amount, out Vector3 result)
         {
-            result.X = MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount);
-            result.Y = MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount);
-            result.Z = MathHelper.CatmullRom(value1.Z, value2.Z, value3.Z, value4.Z, amount);
+            result.X = MathHelper.CatmullRom(value1.X, value2.X, value3.X,
+							value4.X, amount);
+            result.Y = MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y,
+							value4.Y, amount);
+            result.Z = MathHelper.CatmullRom(value1.Z, value2.Z, value3.Z,
+							value4.Z, amount);
         }
-
-
+				#endregion
+			
+				#region Clamp
         public static Vector3 Clamp(Vector3 value1, Vector3 min, Vector3 max)
         {
             Vector3 result;
@@ -396,29 +390,38 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Clamp(ref Vector3 value1, ref Vector3 min, ref Vector3 max, out Vector3 result)
+        public static void Clamp(ref Vector3 value1, ref Vector3 min,
+					ref Vector3 max, out Vector3 result)
         {
             result.X = MathHelper.Clamp(value1.X, min.X, max.X);
             result.Y = MathHelper.Clamp(value1.Y, min.Y, max.Y);
             result.Z = MathHelper.Clamp(value1.Z, min.Z, max.Z);
         }
-
-
-        public static Vector3 Hermite(Vector3 value1, Vector3 tangent1, Vector3 value2, Vector3 tangent2, float amount)
+				#endregion
+			
+				#region Hermite
+        public static Vector3 Hermite(Vector3 value1, Vector3 tangent1,
+					Vector3 value2, Vector3 tangent2, float amount)
         {
             Vector3 result;
-            Hermite(ref value1, ref tangent1, ref value2, ref tangent2, amount, out result);
+            Hermite(ref value1, ref tangent1, ref value2, ref tangent2, amount,
+							out result);
             return result;
         }
 
-        public static void Hermite(ref Vector3 value1, ref Vector3 tangent1, ref Vector3 value2, ref Vector3 tangent2, float amount, out Vector3 result)
+        public static void Hermite(ref Vector3 value1, ref Vector3 tangent1,
+					ref Vector3 value2, ref Vector3 tangent2, float amount, out Vector3 result)
         {
-            result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
-            result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
-            result.Z = MathHelper.Hermite(value1.Z, tangent1.Z, value2.Z, tangent2.Z, amount);
+            result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X,
+							tangent2.X, amount);
+            result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y,
+							tangent2.Y, amount);
+            result.Z = MathHelper.Hermite(value1.Z, tangent1.Z, value2.Z,
+							tangent2.Z, amount);
         }
-
-
+				#endregion
+			
+				#region Lerp
         public static Vector3 Lerp(Vector3 value1, Vector3 value2, float amount)
         {
             Vector3 result;
@@ -426,14 +429,16 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Lerp(ref Vector3 value1, ref Vector3 value2, float amount, out Vector3 result)
+        public static void Lerp(ref Vector3 value1, ref Vector3 value2,
+					float amount, out Vector3 result)
         {
             result.X = MathHelper.Lerp(value1.X, value2.X, amount);
             result.Y = MathHelper.Lerp(value1.Y, value2.Y, amount);
             result.Z = MathHelper.Lerp(value1.Z, value2.Z, amount);
         }
-
-
+				#endregion
+			
+				#region Max
         public static Vector3 Max(Vector3 value1, Vector3 value2)
         {
             Vector3 result;
@@ -441,14 +446,16 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Max(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Max(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X > value2.X ? value1.X : value2.X;
             result.Y = value1.Y > value2.Y ? value1.Y : value2.Y;
             result.Z = value1.Z > value2.Z ? value1.Z : value2.Z;
         }
-
-
+				#endregion
+			
+				#region Min
         public static Vector3 Min(Vector3 value1, Vector3 value2)
         {
             Vector3 result;
@@ -456,14 +463,16 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Min(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Min(ref Vector3 value1, ref Vector3 value2,
+					out Vector3 result)
         {
             result.X = value1.X < value2.X ? value1.X : value2.X;
             result.Y = value1.Y < value2.Y ? value1.Y : value2.Y;
             result.Z = value1.Z < value2.Z ? value1.Z : value2.Z;
         }
-
-
+				#endregion
+			
+				#region Negate
         public static Vector3 Negate(Vector3 value)
         {
             Vector3 result;
@@ -477,8 +486,9 @@ namespace ANX.Framework
             result.Y = -value.Y;
             result.Z = -value.Z;
         }
-
-
+				#endregion
+			
+				#region Reflect
         public static Vector3 Reflect(Vector3 vector, Vector3 normal)
         {
             Vector3 result;
@@ -486,28 +496,33 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Reflect(ref Vector3 vector, ref Vector3 normal, out Vector3 result)
+        public static void Reflect(ref Vector3 vector, ref Vector3 normal,
+					out Vector3 result)
         {
             float scaleFactor = Vector3.Dot(vector, normal) * 2;
             Vector3 tmp;
             Multiply(ref normal, scaleFactor, out tmp);
             Subtract(ref vector, ref tmp, out result);
         }
+				#endregion
 
-
-        public static Vector3 SmoothStep(Vector3 value1, Vector3 value2, float amount)
+				#region SmoothStep
+        public static Vector3 SmoothStep(Vector3 value1, Vector3 value2,
+					float amount)
         {
             Vector3 result;
             Vector3.SmoothStep(ref value1, ref value2, amount, out result);
             return result;
         }
 
-        public static void SmoothStep(ref Vector3 value1, ref Vector3 value2, float amount, out Vector3 result)
+        public static void SmoothStep(ref Vector3 value1, ref Vector3 value2,
+					float amount, out Vector3 result)
         {
             result.X = MathHelper.SmoothStep(value1.X, value2.X, amount);
             result.Y = MathHelper.SmoothStep(value1.Y, value2.Y, amount);
             result.Z = MathHelper.SmoothStep(value1.Z, value2.Z, amount);
         }
+				#endregion
 
         #region Transformations
         public static Vector3 Transform(Vector3 position, Matrix matrix)
@@ -603,124 +618,120 @@ namespace ANX.Framework
 
         public static Vector3 operator +(Vector3 value1, Vector3 value2)
         {
-            Vector3 result = new Vector3();
-            result.X = value1.X + value2.X;
-            result.Y = value1.Y + value2.Y;
-            result.Z = value1.Z + value2.Z;
-            return result;
+            return new Vector3(value1.X + value2.X, value1.Y + value2.Y,
+							value1.Z + value2.Z);
         }
 
         public static Vector3 operator /(Vector3 value1, float divider)
-        {
-            Vector3 result = new Vector3();
-            float divFactor = 1f / divider;
-            result.X = value1.X * divFactor;
-            result.Y = value1.Y * divFactor;
-            result.Z = value1.Z * divFactor;
-            return result;
+				{
+					float factor = 1f / divider;
+					return new Vector3(value1.X * factor, value1.Y * factor,
+						value1.Z * factor);
         }
 
         public static Vector3 operator /(Vector3 value1, Vector3 value2)
         {
-            Vector3 result = new Vector3();
-            result.X = value1.X / value2.X;
-            result.Y = value1.Y / value2.Y;
-            result.Z = value1.Z / value2.Z;
-            return result;
+					return new Vector3(value1.X / value2.X, value1.Y / value2.Y,
+						value1.Z / value2.Z);
         }
 
         public static bool operator ==(Vector3 value1, Vector3 value2)
-        {
-            return value1.Equals(value2);
+				{
+					return value1.X == value2.X &&
+						value1.Y == value2.Y &&
+						value1.Z == value2.Z;
         }
 
         public static bool operator !=(Vector3 value1, Vector3 value2)
-        {
-            return !value1.Equals(value2);
+				{
+					return value1.X != value2.X ||
+						value1.Y != value2.Y ||
+						value1.Z != value2.Z;
         }
 
         public static Vector3 operator *(Vector3 value, float scaleFactor)
         {
-            Vector3 result = new Vector3();
-            result.X = value.X * scaleFactor;
-            result.Y = value.Y * scaleFactor;
-            result.Z = value.Z * scaleFactor;
-            return result;
+					return new Vector3(value.X * scaleFactor, value.Y * scaleFactor,
+						value.Z * scaleFactor);
         }
 
         public static Vector3 operator *(float scaleFactor, Vector3 value)
-        {
-            Vector3 result = new Vector3();
-            result.X = value.X * scaleFactor;
-            result.Y = value.Y * scaleFactor;
-            result.Z = value.Z * scaleFactor;
-            return result;
+				{
+					return new Vector3(value.X * scaleFactor, value.Y * scaleFactor,
+						value.Z * scaleFactor);
         }
 
         public static Vector3 operator *(Vector3 value1, Vector3 value2)
         {
-            Vector3 result = new Vector3();
-            result.X = value1.X * value2.X;
-            result.Y = value1.Y * value2.Y;
-            result.Z = value1.Z * value2.Z;
-            return result;
+					return new Vector3(value1.X * value2.X, value1.Y * value2.Y,
+						value1.Z * value2.Z);
         }
 
         public static Vector3 operator -(Vector3 value1, Vector3 value2)
-        {
-            Vector3 result = new Vector3();
-            result.X = value1.X - value2.X;
-            result.Y = value1.Y - value2.Y;
-            result.Z = value1.Z - value2.Z;
-            return result;
+				{
+					return new Vector3(value1.X - value2.X, value1.Y - value2.Y,
+						value1.Z - value2.Z);
         }
 
         public static Vector3 operator -(Vector3 value)
         {
-            Vector3 result = new Vector3();
-            result.X = value.X;
-            result.Y = value.Y;
-            result.Z = value.Z;
-            return result;
+					return new Vector3(-value.X, -value.Y, -value.Z);
         }
 
         #endregion
 
         #region Public Methods
 
-        public float Length()
+				#region Length
+				public float Length()
         {
             return (float)Math.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
         }
+				#endregion
 
-        public float LengthSquared()
+				#region LengthSquared
+				public float LengthSquared()
         {
             return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
-        }
+				}
+				#endregion
 
-        public void Normalize()
+				#region Normalize
+				public void Normalize()
         {
-            float divFactor = 1f / this.Length();
-            this.X = this.X * divFactor;
-            this.Y = this.Y * divFactor;
-            this.Z = this.Z * divFactor;
+            float factor = 1f / this.Length();
+            this.X *= factor;
+            this.Y *= factor;
+            this.Z *= factor;
         }
+				#endregion
 
-        public override int GetHashCode()
+				#region GetHashCode
+				public override int GetHashCode()
         {
-            return this.X.GetHashCode() + this.Y.GetHashCode() + this.Z.GetHashCode();
+            return this.X.GetHashCode() + this.Y.GetHashCode() +
+							this.Z.GetHashCode();
         }
+				#endregion
 
-        public override string ToString()
-        {
-            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
-            return string.Format(currentCulture, "{{X:{0} Y:{1} Z:{2}}}", new object[]
-	        {
-		        this.X.ToString(currentCulture), 
-                this.Y.ToString(currentCulture),
-                this.Z.ToString(currentCulture)
-	        });
-        }
+				#region ToString
+				public override string ToString()
+				{
+          var culture = CultureInfo.CurrentCulture;
+					// This may look a bit more ugly, but String.Format should
+					// be avoided cause of it's bad performance!
+					return "{X:" + X.ToString(culture) +
+						" Y:" + Y.ToString(culture) +
+						" Z:" + Z.ToString(culture) + "}";
+          
+					//return string.Format(culture, "{{X:{0} Y:{1} Z:{2}}}", new object[]
+					//{
+					//  this.X.ToString(culture), 
+					//      this.Y.ToString(culture),
+					//      this.Z.ToString(culture)
+					//});
+				}
+				#endregion
 
         #endregion
 
@@ -733,7 +744,9 @@ namespace ANX.Framework
 
         public bool Equals(Vector3 other)
         {
-            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+            return this.X == other.X &&
+							this.Y == other.Y &&
+							this.Z == other.Z;
         }
 
         #endregion

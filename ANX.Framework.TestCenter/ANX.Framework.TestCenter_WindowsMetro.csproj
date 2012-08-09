@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ANX.Framework.TestCenter</RootNamespace>
+    <AssemblyName>ANX.Framework.TestCenter</AssemblyName>
+    <TargetFrameworkVersion>4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetPlatformVersion>8.0</TargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin8|AnyCPU'">
+    <OutputPath>bin\DebugWin8\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin8|AnyCPU'">
+    <OutputPath>bin\ReleaseWin8\</OutputPath>
+    <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>..\bin\Release\ANX.Framework.TestCenter.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Entwicklung\NUnit\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssertHelper.cs" />
+    <Compile Include="ContentPipeline\Helper\SharedResource.cs" />
+    <Compile Include="ContentPipeline\MathTypesTests.cs" />
+    <Compile Include="ContentPipeline\Helper\Compiler.cs" />
+    <Compile Include="ContentPipeline\PrimitiveTypesTests.cs" />
+    <Compile Include="ContentPipeline\SystemTypesTests.cs" />
+    <Compile Include="ContentPipeline\Helper\Nullable.cs" />
+    <Compile Include="DataFactory.cs" />
+    <Compile Include="ReflectionLearningTests.cs" />
+    <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
+    <Compile Include="Strukturen\CurveKeyTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />
+    <Compile Include="Strukturen\Design\TypeConverterTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadStateTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadThumbSticksTest.cs" />
+    <Compile Include="Strukturen\Input\GamePadTriggersTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strukturen\Input\KeyboardStateTest.cs" />
+    <Compile Include="Strukturen\Input\MouseStateTest.cs" />
+    <Compile Include="Strukturen\Input\MouseTest.cs" />
+    <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
+    <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />
+    <Compile Include="Strukturen\BoundingBoxTest.cs" />
+    <Compile Include="Strukturen\BoundingFrustumTest.cs" />
+    <Compile Include="Strukturen\BoundingSphereTest.cs" />
+    <Compile Include="Strukturen\ColorTest.cs" />
+    <Compile Include="Strukturen\CurveTest.cs" />
+    <Compile Include="Strukturen\MathHelperTest.cs" />
+    <Compile Include="Strukturen\MatrixTest.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Bgr565Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Bgra5551Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Bgra4444Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Byte4Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\HalfSingleTest.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\HalfVector2Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\HalfVector4Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Short2Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Short4Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\NormalizedShort4Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\NormalizedShort2Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\NormalizedByte4Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\NormalizedByte2Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Rgba64Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Rgba1010102Test.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Rg32Test.cs" />
+    <Compile Include="Strukturen\PlaneTest.cs" />
+    <Compile Include="Strukturen\PointTest.cs" />
+    <Compile Include="Strukturen\QuaternionTest.cs" />
+    <Compile Include="Strukturen\RayTest.cs" />
+    <Compile Include="Strukturen\RectangleTest.cs" />
+    <Compile Include="Strukturen\Vector2Test.cs" />
+    <Compile Include="Strukturen\Vector3Test.cs" />
+    <Compile Include="Strukturen\Vector4Test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Strukturen\Audio\" />
+    <Folder Include="Strukturen\Content\GraphicTypeReaders\" />
+    <Folder Include="Strukturen\Content\MathTypeReaders\" />
+    <Folder Include="Strukturen\Content\MediaTypeReaders\" />
+    <Folder Include="Strukturen\Content\PrimitiveTypeReaders\" />
+    <Folder Include="Strukturen\Content\SystemTypeReaders\" />
+    <Folder Include="Strukturen\Design\GamerServices\" />
+    <Folder Include="Strukturen\Input\MotionSensing\" />
+    <Folder Include="Strukturen\Input\Touch\" />
+    <Folder Include="Strukturen\Media\" />
+    <Folder Include="Strukturen\Net\" />
+    <Folder Include="Strukturen\NonXNA\InputSystem\" />
+    <Folder Include="Strukturen\NonXNA\RenderSystem\" />
+    <Folder Include="Strukturen\NonXNA\SoundSystem\" />
+    <Folder Include="Strukturen\PackedVector\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj">
+      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
+      <Name>ANX.InputDevices.Windows.XInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj">
+      <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
+      <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_WindowsMetro.csproj">
+      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+</Project>

@@ -62,9 +62,12 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
+      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SharpDX, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
@@ -85,7 +88,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlendState_DX11.cs" />
@@ -112,8 +114,6 @@
     <Compile Include="ShaderByteCode.cs" />
     <Compile Include="Texture2D_DX11.cs" />
     <Compile Include="VertexBuffer_DX11.cs" />
-    <Compile Include="WindowsGameHost.cs" />
-    <Compile Include="WindowsGameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Metadata.resx">

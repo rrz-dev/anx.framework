@@ -1,10 +1,10 @@
 ﻿using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
-using ANX.Framework.Windows.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
+using ANX.RenderSystem.Windows.GL3.Helpers;
 
-namespace ANX.Framework.Windows.GL3
+namespace ANX.RenderSystem.Windows.GL3
 {
 	public class RenderTarget2DGL3 : Texture2DGL3, INativeRenderTarget2D
 	{

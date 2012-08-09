@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{441D953C-94C2-42FD-9917-3EB2F6E28173}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WindowsFormsEditor</RootNamespace>
+    <AssemblyName>WindowsFormsEditor</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_PSVita.csproj">
+      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
+      <Name>ANX.InputDevices.Windows.XInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_PSVita.csproj">
+      <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
+      <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MediaSystems\ANX.MediaSystem.Windows.OpenAL\ANX.MediaSystem.Windows.OpenAL_PSVita.csproj">
+      <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
+      <Name>ANX.MediaSystem.Windows.OpenAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_PSVita.csproj">
+      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
+      <Name>ANX.RenderSystem.Windows.GL3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_PSVita.csproj">
+      <Project>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</Project>
+      <Name>ANX.SoundSystem.OpenAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

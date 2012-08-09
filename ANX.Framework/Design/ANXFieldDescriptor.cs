@@ -1,122 +1,75 @@
-﻿#region Using Statements
 using System;
-using System.Collections;
 using System.ComponentModel;
-#if !WIN8
-using System.ComponentModel.Design.Serialization;
-#endif
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
 
-#endregion // Using Statements
-
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework.Design
 {
-#if !WIN8
+#if !WINDOWSMETRO
+	public class ANXFieldDescriptor : PropertyDescriptor
+	{
+		private FieldInfo field;
 
-    public class ANXFieldDescriptor : PropertyDescriptor
-    {
-        private FieldInfo field;
+		public ANXFieldDescriptor(FieldInfo field)
+			: base(field.Name, (Attribute[])field.GetCustomAttributes(typeof(Attribute), true))
+		{
+			if (field == null)
+				throw new ArgumentNullException("field");
 
-        public ANXFieldDescriptor(FieldInfo field)
-            : base(field.Name, (Attribute[])field.GetCustomAttributes(typeof(Attribute), true))
-        {
-            if (field == null)
-            {
-                throw new ArgumentNullException("field");
-            }
-            this.field = field;
-        }
+			this.field = field;
+		}
 
-        public override bool CanResetValue(object component)
-        {
-            return false;
-        }
+		public override bool CanResetValue(object component)
+		{
+			return false;
+		}
 
-        public override Type ComponentType
-        {
-            get { return field.DeclaringType; }
-        }
+		public override Type ComponentType
+		{
+			get
+			{
+				return field.DeclaringType;
+			}
+		}
 
-        public override object GetValue(object component)
-        {
-            return field.GetValue(component);
-        }
+		public override object GetValue(object component)
+		{
+			return field.GetValue(component);
+		}
 
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
+		public override bool IsReadOnly
+		{
+			get
+			{
+				return false;
+			}
+		}
 
-        public override Type PropertyType
-        {
-            get { return field.FieldType; }
-        }
+		public override Type PropertyType
+		{
+			get
+			{
+				return field.FieldType;
+			}
+		}
 
-        public override void ResetValue(object component)
-        {
+		public override void ResetValue(object component)
+		{
+		}
 
-        }
+		public override void SetValue(object component, object value)
+		{
+			this.field.SetValue(component, value);
+			this.OnValueChanged(component, EventArgs.Empty);
+		}
 
-        public override void SetValue(object component, object value)
-        {
-            this.field.SetValue(component, value);
-            this.OnValueChanged(component, EventArgs.Empty);
-        }
-
-        public override bool ShouldSerializeValue(object component)
-        {
-            return true;
-        }
-    }
-
+		public override bool ShouldSerializeValue(object component)
+		{
+			return true;
+		}
+	}
 #endif
 }

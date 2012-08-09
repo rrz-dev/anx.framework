@@ -1,69 +1,21 @@
-﻿#region Using Statements
+#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using ANX.Framework.Content;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using NLog;
+using ANX.Framework.NonXNA.PlatformSystem;
 
 #endregion // Using Statements
 
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework
 {
     public class Game : IDisposable
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
         private IGraphicsDeviceManager graphicsDeviceManager;
         private IGraphicsDeviceService graphicsDeviceService;
         private GameServiceContainer gameServices;
@@ -92,64 +44,72 @@ namespace ANX.Framework
 
         public Game()
         {
-            logger.Info("created a new Game-Class");
+            Logger.Info("created a new Game-Class");
 
             this.gameServices = new GameServiceContainer();
             this.gameTime = new GameTime();
 
             try
             {
-                logger.Info("initializing AddInSystemFactory");
+                Logger.Info("initializing AddInSystemFactory");
                 AddInSystemFactory.Instance.Initialize();
             }
             catch (Exception ex)
             {
-                logger.ErrorException("Error while initializing AddInSystem.", ex);
+                Logger.Error("Error while initializing AddInSystem: " + ex);
                 throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
             }
 
 						AddSystemCreator<IInputSystemCreator>();
 						AddSystemCreator<ISoundSystemCreator>();
 						AddSystemCreator<IMediaSystemCreator>();
-						IRenderSystemCreator renderSystemCreator =
-							AddSystemCreator<IRenderSystemCreator>();
-            
-            logger.Info("creating GameHost");
+						AddSystemCreator<IPlatformSystemCreator>();
+						AddSystemCreator<IRenderSystemCreator>();
 
-            if (renderSystemCreator != null)
-            {
-                this.host = renderSystemCreator.CreateGameHost(this);
+						CreateGameHost();
 
-                this.host.Activated += HostActivated;
-                this.host.Deactivated += HostDeactivated;
-                this.host.Suspend += HostSuspend;
-                this.host.Resume += HostResume;
-                this.host.Idle += HostIdle;
-                this.host.Exiting += HostExiting;
-            }
-            else
-            {
-                logger.Error("could not fetch RenderSystem creator to create a game host...");
-                throw new NullReferenceException("could not fetch RenderSystem creator");
-            }
-
-            logger.Info("creating ContentManager");
+            Logger.Info("creating ContentManager");
             this.content = new ContentManager(this.gameServices);
 
-            logger.Info("creating GameTimer");
+            Logger.Info("creating GameTimer");
             this.clock = new GameTimer();
             this.isFixedTimeStep = true;
             this.gameUpdateTime = new GameTime();
             this.inactiveSleepTime = TimeSpan.Zero;
             this.targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
 
-            logger.Info("finished initializing new Game class");
+            Logger.Info("finished initializing new Game class");
         }
 
         ~Game()
         {
             //TODO: implement
         }
+
+				#region CreateGameHost
+				private void CreateGameHost()
+				{
+					Logger.Info("creating GameHost");
+					var creator = 
+						AddInSystemFactory.Instance.GetDefaultCreator<IPlatformSystemCreator>();
+					if (creator != null)
+					{
+						host = creator.CreateGameHost(this);
+
+						host.Activated += HostActivated;
+						host.Deactivated += HostDeactivated;
+						host.Suspend += HostSuspend;
+						host.Resume += HostResume;
+						host.Idle += HostIdle;
+						host.Exiting += HostExiting;
+					}
+					else
+					{
+						Logger.Error("could not fetch PlatformSystem creator to create a game host...");
+						throw new NullReferenceException("could not fetch PlatformSystem creator");
+					}
+				}
+				#endregion
 
 				#region AddSystemCreator
 				private T AddSystemCreator<T>() where T : class, ICreator
@@ -248,13 +208,16 @@ namespace ANX.Framework
         {
             //TODO: calculation of times is wrong
             //TODO: encapsulate timing stuff in GameTimer class
-            TimeSpan elapsedUpdate = TimeSpan.FromTicks(GameTimer.Timestamp - lastUpdate);
+            TimeSpan elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - lastUpdate);
             if (isFixedTimeStep)
             {
                 while (elapsedUpdate < targetElapsedTime)
                 {
+                    // TODO: search replacement
+#if !WINDOWSMETRO
                     Thread.Sleep(TargetElapsedTime.Milliseconds - elapsedUpdate.Milliseconds);
-                    elapsedUpdate = TimeSpan.FromTicks(GameTimer.Timestamp - elapsedUpdate.Ticks);
+#endif
+					elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - elapsedUpdate.Ticks);
                 }
 
                 gameUpdateTime.ElapsedGameTime = targetElapsedTime;
@@ -268,10 +231,10 @@ namespace ANX.Framework
 
             //TODO: behaviour of update is wrong (I think): update should be called multiple times if we are behind the time
             //TODO: is update called if minimized?
-            lastUpdate = GameTimer.Timestamp;
+						lastUpdate = clock.Timestamp;
             Update(gameUpdateTime);
 
-            elapsedUpdate = TimeSpan.FromTicks(GameTimer.Timestamp - lastUpdate);
+						//elapsedUpdate = TimeSpan.FromTicks(GameTimer.Timestamp - lastUpdate);
             gameUpdateTime.IsRunningSlowly = isFixedTimeStep && elapsedUpdate > targetElapsedTime;
 
             if (!Window.IsMinimized && BeginDraw())
@@ -296,7 +259,7 @@ namespace ANX.Framework
             this.gameTime.ElapsedGameTime = TimeSpan.Zero;
             this.gameTime.TotalGameTime = this.totalGameTime;
             this.gameTime.IsRunningSlowly = false;
-            this.lastUpdate = GameTimer.Timestamp;
+						this.lastUpdate = clock.Timestamp;
             this.Update(this.gameTime);
             this.doneFirstUpdate = true;
             this.host.Run();

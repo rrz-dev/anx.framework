@@ -117,13 +117,17 @@
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.Framework.Windows.DX10.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.Framework.Windows.DX10</Name>
+    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows.csproj">
+      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.Framework.Windows.GL3.csproj">
+    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
+      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3.csproj">
       <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.Framework.Windows.GL3</Name>
+      <Name>ANX.RenderSystem.Windows.GL3</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11.csproj">
       <Project>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</Project>

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenTK.Graphics.OpenGL;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
+using ANX.Framework.NonXNA;
+using OpenTK.Graphics.OpenGL;
 
-namespace ANX.Framework.Windows.GL3
+namespace ANX.RenderSystem.Windows.GL3
 {
 	internal static class ErrorHelper
 	{
@@ -26,8 +23,7 @@ namespace ANX.Framework.Windows.GL3
 				string message = "OpenGL Error '" + code + "' Checked at: '" +
 					extraInformation + "'" + frameInfo;
 
-				Console.WriteLine(message);
-				Debug.WriteLine(message);
+				Logger.Info(message);
 			}
 		}
 	}

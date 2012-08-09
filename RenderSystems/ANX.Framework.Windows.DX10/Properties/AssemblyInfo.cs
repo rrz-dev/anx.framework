@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("ANX.Framework.Windows.DX10")]
+[assembly: AssemblyTitle("ANX.RenderSystem.Windows.DX10")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX Developer Team")]
-[assembly: AssemblyProduct("ANX.Framework.Windows.DX10")]
+[assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX10")]
 [assembly: AssemblyCopyright("Copyright © ANX Developer Team 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

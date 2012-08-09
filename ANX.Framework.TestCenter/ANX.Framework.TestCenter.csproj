@@ -80,6 +80,7 @@
     <Compile Include="ContentPipeline\SystemTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Nullable.cs" />
     <Compile Include="DataFactory.cs" />
+    <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
@@ -156,6 +157,10 @@
     <ProjectReference Include="..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows.csproj">
+      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

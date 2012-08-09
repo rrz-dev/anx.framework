@@ -1,4 +1,4 @@
-﻿#region Using Statements
+#region Using Statements
 using System;
 using ANX.Framework.Graphics;
 using SharpDX.Direct3D10;
@@ -7,54 +7,16 @@ using SharpDX.DXGI;
 
 #endregion // Using Statements
 
-#region License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
+using TextureAddressMode = ANX.Framework.Graphics.TextureAddressMode;
+using StencilOperation = ANX.Framework.Graphics.StencilOperation;
+using CullMode = ANX.Framework.Graphics.CullMode;
+using FillMode = ANX.Framework.Graphics.FillMode;
 
-#endregion // License
-
-namespace ANX.Framework.Windows.DX10
+namespace ANX.RenderSystem.Windows.DX10
 {
     internal class FormatConverter
     {
@@ -165,11 +127,11 @@ namespace ANX.Framework.Windows.DX10
         {
             switch (addressMode)
             {
-                case Graphics.TextureAddressMode.Clamp:
+                case TextureAddressMode.Clamp:
                     return SharpDX.Direct3D10.TextureAddressMode.Clamp;
-                case Graphics.TextureAddressMode.Mirror:
+                case TextureAddressMode.Mirror:
                     return SharpDX.Direct3D10.TextureAddressMode.Mirror;
-                case Graphics.TextureAddressMode.Wrap:
+                case TextureAddressMode.Wrap:
                     return SharpDX.Direct3D10.TextureAddressMode.Wrap;
             }
 
@@ -309,21 +271,21 @@ namespace ANX.Framework.Windows.DX10
         {
             switch (stencilOperation)
             {
-                case Graphics.StencilOperation.Decrement:
+                case StencilOperation.Decrement:
                     return SharpDX.Direct3D10.StencilOperation.Decrement;
-                case Graphics.StencilOperation.DecrementSaturation:
+                case StencilOperation.DecrementSaturation:
                     return SharpDX.Direct3D10.StencilOperation.DecrementAndClamp;
-                case Graphics.StencilOperation.Increment:
+                case StencilOperation.Increment:
                     return SharpDX.Direct3D10.StencilOperation.Increment;
-                case Graphics.StencilOperation.IncrementSaturation:
+                case StencilOperation.IncrementSaturation:
                     return SharpDX.Direct3D10.StencilOperation.IncrementAndClamp;
-                case Graphics.StencilOperation.Invert:
+                case StencilOperation.Invert:
                     return SharpDX.Direct3D10.StencilOperation.Invert;
-                case Graphics.StencilOperation.Keep:
+                case StencilOperation.Keep:
                     return SharpDX.Direct3D10.StencilOperation.Keep;
-                case Graphics.StencilOperation.Replace:
+                case StencilOperation.Replace:
                     return SharpDX.Direct3D10.StencilOperation.Replace;
-                case Graphics.StencilOperation.Zero:
+                case StencilOperation.Zero:
                     return SharpDX.Direct3D10.StencilOperation.Zero;
             }
 
@@ -355,13 +317,13 @@ namespace ANX.Framework.Windows.DX10
             throw new NotImplementedException("unknown CompareFunction");
         }
 
-        public static SharpDX.Direct3D10.CullMode Translate(ANX.Framework.Graphics.CullMode cullMode)
+        public static SharpDX.Direct3D10.CullMode Translate(CullMode cullMode)
         {
-            if (cullMode == Graphics.CullMode.CullClockwiseFace)
+            if (cullMode == CullMode.CullClockwiseFace)
             {
                 return SharpDX.Direct3D10.CullMode.Front;
             }
-            else if (cullMode == Graphics.CullMode.CullCounterClockwiseFace)
+            else if (cullMode == CullMode.CullCounterClockwiseFace)
             {
                 return SharpDX.Direct3D10.CullMode.Back;
             }
@@ -371,9 +333,9 @@ namespace ANX.Framework.Windows.DX10
             }
         }
 
-        public static SharpDX.Direct3D10.FillMode Translate(ANX.Framework.Graphics.FillMode fillMode)
+        public static SharpDX.Direct3D10.FillMode Translate(FillMode fillMode)
         {
-            if (fillMode == Graphics.FillMode.WireFrame)
+            if (fillMode == FillMode.WireFrame)
             {
                 return SharpDX.Direct3D10.FillMode.Wireframe;
             }

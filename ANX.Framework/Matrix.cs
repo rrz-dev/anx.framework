@@ -1,54 +1,12 @@
-﻿#region Using Statements
+#region Using Statements
 using System;
+using System.Globalization;
 
 #endregion // Using Statements
 
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework
 {
@@ -77,23 +35,10 @@ namespace ANX.Framework
 
         #region Constructors
 
-        public Matrix(
-            float m11,
-            float m12,
-            float m13,
-            float m14,
-            float m21,
-            float m22,
-            float m23,
-            float m24,
-            float m31,
-            float m32,
-            float m33,
-            float m34,
-            float m41,
-            float m42,
-            float m43,
-            float m44)
+        public Matrix(float m11, float m12, float m13, float m14,
+            float m21, float m22, float m23, float m24,
+            float m31, float m32, float m33, float m34,
+            float m41, float m42, float m43, float m44)
         {
             M11 = m11;
             M12 = m12;
@@ -1112,24 +1057,58 @@ namespace ANX.Framework
 
         #region Operator Overloading
 
-        public static Matrix operator -(Matrix matrix1)
-        {
-            Matrix result;
-            Negate(ref matrix1, out result);
-            return result;
-        }
-
-        public static Matrix operator -(Matrix matrix1, Matrix matrix2)
-        {
-            Matrix result;
-            Subtract(ref matrix1, ref matrix2, out result);
-            return result;
-        }
-
         public static bool operator !=(Matrix matrix1, Matrix matrix2)
         {
-            return !(matrix1.Equals(matrix2));
+					//obs. return !(matrix1.Equals(matrix2));
+					
+					// This is way faster than the above! First of all we have the
+					// early out optimization in the != way if a single component
+					// is not equal (instead of checking all together and negating
+					// the result).
+					// Secondly we don't copy the matrix2's 16 floats each time we
+					// call Equals above!
+					return (matrix1.M11 != matrix2.M11) ||
+						(matrix1.M12 != matrix2.M12) ||
+						(matrix1.M13 != matrix2.M13) ||
+						(matrix1.M14 != matrix2.M14) ||
+						(matrix1.M21 != matrix2.M21) ||
+						(matrix1.M22 != matrix2.M22) ||
+						(matrix1.M23 != matrix2.M23) ||
+						(matrix1.M24 != matrix2.M24) ||
+						(matrix1.M31 != matrix2.M31) ||
+						(matrix1.M32 != matrix2.M32) ||
+						(matrix1.M33 != matrix2.M33) ||
+						(matrix1.M34 != matrix2.M34) ||
+						(matrix1.M41 != matrix2.M41) ||
+						(matrix1.M42 != matrix2.M42) ||
+						(matrix1.M43 != matrix2.M43) ||
+						(matrix1.M44 != matrix2.M44);
         }
+
+				public static bool operator ==(Matrix matrix1, Matrix matrix2)
+				{
+					//obs. return (matrix1.Equals(matrix2));
+					
+					// Duplicated code is way faster than the above!
+					// Here we don't copy the matrix2's 16 floats each time we
+					// call Equals above!
+					return (matrix1.M11 == matrix2.M11) &&
+						(matrix1.M12 == matrix2.M12) &&
+						(matrix1.M13 == matrix2.M13) &&
+						(matrix1.M14 == matrix2.M14) &&
+						(matrix1.M21 == matrix2.M21) &&
+						(matrix1.M22 == matrix2.M22) &&
+						(matrix1.M23 == matrix2.M23) &&
+						(matrix1.M24 == matrix2.M24) &&
+						(matrix1.M31 == matrix2.M31) &&
+						(matrix1.M32 == matrix2.M32) &&
+						(matrix1.M33 == matrix2.M33) &&
+						(matrix1.M34 == matrix2.M34) &&
+						(matrix1.M41 == matrix2.M41) &&
+						(matrix1.M42 == matrix2.M42) &&
+						(matrix1.M43 == matrix2.M43) &&
+						(matrix1.M44 == matrix2.M44);
+				}
 
         public static Matrix operator *(float scaleFactor, Matrix matrix)
         {
@@ -1171,12 +1150,21 @@ namespace ANX.Framework
             Matrix result;
             Add(ref matrix1, ref matrix2, out result);
             return result;
-        }
+				}
 
-        public static bool operator ==(Matrix matrix1, Matrix matrix2)
-        {
-            return (matrix1.Equals(matrix2));
-        }
+				public static Matrix operator -(Matrix matrix1)
+				{
+					Matrix result;
+					Negate(ref matrix1, out result);
+					return result;
+				}
+
+				public static Matrix operator -(Matrix matrix1, Matrix matrix2)
+				{
+					Matrix result;
+					Subtract(ref matrix1, ref matrix2, out result);
+					return result;
+				}
 
         #endregion
 
@@ -1243,40 +1231,56 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-        {
-            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
-            var parts = new string[6];
-            parts[0] = "{ ";
-            parts[1] = string.Format(currentCulture, "{{M11:{0} M12:{1} M13:{2} M14:{3}}} ", new object[]
-            {
-                M11.ToString(currentCulture), 
-                M12.ToString(currentCulture), 
-                M13.ToString(currentCulture), 
-                M14.ToString(currentCulture)
-            });
-            parts[2] = string.Format(currentCulture, "{{M21:{0} M22:{1} M23:{2} M24:{3}}} ", new object[]
-            {
-                M21.ToString(currentCulture), 
-                M22.ToString(currentCulture), 
-                M23.ToString(currentCulture), 
-                M24.ToString(currentCulture)
-            });
-            parts[3] = string.Format(currentCulture, "{{M31:{0} M32:{1} M33:{2} M34:{3}}} ", new object[]
-            {
-                M31.ToString(currentCulture), 
-                M32.ToString(currentCulture), 
-                M33.ToString(currentCulture), 
-                M34.ToString(currentCulture)
-            });
-            parts[4] = string.Format(currentCulture, "{{M41:{0} M42:{1} M43:{2} M44:{3}}} ", new object[]
-            {
-                M41.ToString(currentCulture), 
-                M42.ToString(currentCulture), 
-                M43.ToString(currentCulture), 
-                M44.ToString(currentCulture)
-            });
-            parts[5] = "}";
-            return string.Concat(parts);
+				{
+					var culture = CultureInfo.CurrentCulture;
+					// This may look a bit more ugly, but String.Format should
+					// be avoided cause of it's bad performance!
+					return "{ " +
+						"{M11:" + M11.ToString(culture) + " M12:" + M12.ToString(culture) +
+						" M13:" + M13.ToString(culture) + " M14:" + M14.ToString(culture) +
+
+						"} {M21:" + M21.ToString(culture) + " M22:" + M22.ToString(culture) +
+						" M23:" + M23.ToString(culture) + " M24:" + M24.ToString(culture) +
+
+						"} {M31:" + M31.ToString(culture) + " M32:" + M32.ToString(culture) +
+						" M33:" + M33.ToString(culture) + " M34:" + M34.ToString(culture) +
+
+						"} {M41:" + M41.ToString(culture) + " M42:" + M42.ToString(culture) +
+						" M43:" + M43.ToString(culture) + " M44:" + M44.ToString(culture) +
+						"} }";
+
+						//var parts = new string[6];
+						//parts[0] = "{ ";
+						//parts[1] = string.Format(culture, "{{M11:{0} M12:{1} M13:{2} M14:{3}}} ", new object[]
+						//{
+						//    M11.ToString(culture), 
+						//    M12.ToString(culture), 
+						//    M13.ToString(culture), 
+						//    M14.ToString(culture)
+						//});
+						//parts[2] = string.Format(culture, "{{M21:{0} M22:{1} M23:{2} M24:{3}}} ", new object[]
+						//{
+						//    M21.ToString(culture), 
+						//    M22.ToString(culture), 
+						//    M23.ToString(culture), 
+						//    M24.ToString(culture)
+						//});
+						//parts[3] = string.Format(culture, "{{M31:{0} M32:{1} M33:{2} M34:{3}}} ", new object[]
+						//{
+						//    M31.ToString(culture), 
+						//    M32.ToString(culture), 
+						//    M33.ToString(culture), 
+						//    M34.ToString(culture)
+						//});
+						//parts[4] = string.Format(culture, "{{M41:{0} M42:{1} M43:{2} M44:{3}}} ", new object[]
+						//{
+						//    M41.ToString(culture), 
+						//    M42.ToString(culture), 
+						//    M43.ToString(culture), 
+						//    M44.ToString(culture)
+						//});
+						//parts[5] = "}";
+						//return string.Concat(parts);
         }
 
         #endregion

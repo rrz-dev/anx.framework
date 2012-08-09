@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SupportedPlatforms" xml:space="preserve">
-    <value>Win32NT Unix MacOsX</value>
+    <value>Linux MacOSX WindowsXP WindowsVista Windows7 Windows8</value>
   </data>
 </root>

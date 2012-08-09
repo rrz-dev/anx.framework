@@ -5,21 +5,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FFA7FF96-572C-4284-AB4D-E8B5539565F3}</ProjectGuid>
-    <OutputType>appcontainerexe</OutputType>
+    <ProjectGuid>{FF0AB665-2796-4354-9630-76C2751DB3C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.RenderSystem.Windows.Metro</RootNamespace>
     <AssemblyName>ANX.RenderSystem.Windows.Metro</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;METRO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -28,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE;METRO</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -57,24 +56,29 @@
     <Compile Include="ShaderByteCode.cs" />
     <Compile Include="Texture2D_Metro.cs" />
     <Compile Include="VertexBuffer_Metro.cs" />
-    <Compile Include="WindowsGameHost.cs" />
-    <Compile Include="WindowsGameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.D3DCompiler">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.DXGI.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v1.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

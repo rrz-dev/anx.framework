@@ -1,83 +1,30 @@
-﻿#region Using Statements
 using System;
+using System.Globalization;
 
-#endregion // Using Statements
-
-#region License
-
-//
-// This file is part of the ANX.Framework created by the "ANX.Framework developer group".
-//
-// This file is released under the Ms-PL license.
-//
-//
-//
-// Microsoft Public License (Ms-PL)
-//
-// This license governs use of the accompanying software. If you use the software, you accept this license. 
-// If you do not accept the license, do not use the software.
-//
-// 1.Definitions
-//   The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning 
-//   here as under U.S. copyright law.
-//   A "contribution" is the original software, or any additions or changes to the software.
-//   A "contributor" is any person that distributes its contribution under this license.
-//   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-//
-// 2.Grant of Rights
-//   (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations 
-//       in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to 
-//       reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution
-//       or any derivative works that you create.
-//   (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in 
-//       section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed
-//       patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution 
-//       in the software or derivative works of the contribution in the software.
-//
-// 3.Conditions and Limitations
-//   (A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.
-//   (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your 
-//       patent license from such contributor to the software ends automatically.
-//   (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution 
-//       notices that are present in the software.
-//   (D) If you distribute any portion of the software in source code form, you may do so only under this license by including
-//       a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or 
-//       object code form, you may only do so under a license that complies with this license.
-//   (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees,
-//       or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the
-//       extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a 
-//       particular purpose and non-infringement.
-
-#endregion // License
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework
 {
     public struct Rectangle : IEquatable<Rectangle>
     {
         #region fields
-        public int Height;
-        public int Width;
         public int X;
-        public int Y;
+				public int Y;
+				public int Width;
+				public int Height;
         #endregion
 
-
         #region properties
-        public int Bottom
-        {
-            get
-            {
-                return this.Y + Height;
-            }
-        }
         public Point Center
         {
             get
             {
-                float faktor = 1 / 2f;
-                return new Point((int)(this.X + this.Width * faktor), (int)(this.Y + this.Height * faktor));
+                return new Point((int)(X + Width * 0.5f), (int)(Y + Height * 0.5f));
             }
         }
+
         public static Rectangle Empty
         {
             get
@@ -85,25 +32,23 @@ namespace ANX.Framework
                 return new Rectangle();
             }
         }
+
         public bool IsEmpty
         {
             get
             {
-                return (this.X == 0) && (this.Y == 0) & (this.Width == 0) && (this.Height == 0);
+                return (this.X == 0) &&
+									(this.Y == 0) &&
+									(this.Width == 0) &&
+									(this.Height == 0);
             }
         }
-        public int Left
-        {
-            get
-            {
-                return this.X;
-            }
-        }
+
         public Point Location
         {
             get
             {
-                return new Point(this.Left, this.Top);
+                return new Point(this.X, this.Y);
             }
             set
             {
@@ -111,6 +56,15 @@ namespace ANX.Framework
                 this.Y = value.Y;
             }
         }
+
+				public int Left
+				{
+					get
+					{
+						return this.X;
+					}
+				}
+
         public int Right
         {
             get
@@ -118,6 +72,7 @@ namespace ANX.Framework
                 return this.X + Width;
             }
         }
+
         public int Top
         {
             get
@@ -125,8 +80,15 @@ namespace ANX.Framework
                 return this.Y;
             }
         }
-        #endregion
 
+				public int Bottom
+				{
+					get
+					{
+						return this.Y + Height;
+					}
+				}
+        #endregion
 
         #region constructors
         public Rectangle(int x, int y, int width, int height)
@@ -137,7 +99,6 @@ namespace ANX.Framework
             this.Y = y;
         }
         #endregion
-
 
         #region public methods
         public bool Contains(int x, int y)
@@ -162,9 +123,9 @@ namespace ANX.Framework
         private void Contains(ref int x, ref int y, out bool result)
         {
             result = x > this.X &&
-        x < this.X + this.Width &&
-        y > this.Y &&
-        y < this.Y + this.Height;
+								x < this.Right &&
+								y > this.Y &&
+								y < this.Bottom;
         }
 
         public bool Contains(Rectangle value)
@@ -177,9 +138,9 @@ namespace ANX.Framework
         public void Contains(ref Rectangle value, out bool result)
         {
             result = value.X >= this.X &&
-            value.X + value.Width <= this.X + this.Width &&
+						value.X + value.Width <= this.Right &&
             value.Y >= this.Y &&
-            value.Y + this.Height <= this.Y + this.Height;
+            value.Y + this.Height <= this.Bottom;
         }
 
         public override int GetHashCode()
@@ -210,8 +171,8 @@ namespace ANX.Framework
             //intersects if it dont contains it and is not outer
 
             //outer
-            if (value.X > this.X + this.Width ||
-            value.Y > this.Y + this.Height ||
+            if (value.X > this.Right ||
+            value.Y > this.Bottom ||
             value.X + value.Width < this.X ||
             value.Y + value.Height < this.Y)
             {
@@ -242,15 +203,22 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-        {
-            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
-            return string.Format(currentCulture, "{{X:{0} Y:{1} Width:{2} Height:{3}}}", new object[]
-	        {
-		        this.X.ToString(currentCulture), 
-                this.Y.ToString(currentCulture),
-                this.Width.ToString(currentCulture),
-                this.Height.ToString(currentCulture)
-	        });
+				{
+					var culture = CultureInfo.CurrentCulture;
+					// This may look a bit more ugly, but String.Format should
+					// be avoided cause of it's bad performance!
+					return "{X:" + X.ToString(culture) +
+						" Y:" + Y.ToString(culture) +
+						" Width:" + Width.ToString(culture) +
+						" Height:" + Height.ToString(culture) + "}";
+
+					//return string.Format(culture, "{{X:{0} Y:{1} Width:{2} Height:{3}}}", new object[]
+					//{
+					//  this.X.ToString(culture), 
+					//      this.Y.ToString(culture),
+					//      this.Width.ToString(culture),
+					//      this.Height.ToString(culture)
+					//});
         }
 
         #endregion
@@ -393,19 +361,29 @@ namespace ANX.Framework
         }
         public bool Equals(Rectangle other)
         {
-            return this.Height == other.Height && this.Width == other.Width && this.X == other.X && this.Y == other.Y;
+            return this.Height == other.Height &&
+							this.Width == other.Width &&
+							this.X == other.X &&
+							this.Y == other.Y;
         }
         #endregion
 
-
         #region operator overloading
         public static bool operator ==(Rectangle a, Rectangle b)
-        {
-            return a.Equals(b);
+				{
+					// NOTE: Duplicated code is better than copying 4 floats around!
+					return a.Height == b.Height &&
+						a.Width == b.Width &&
+						a.X == b.X &&
+						a.Y == b.Y;
         }
         public static bool operator !=(Rectangle a, Rectangle b)
-        {
-            return !a.Equals(b);
+				{
+					// NOTE: Duplicated code is better than copying 4 floats around!
+					return a.Height != b.Height ||
+						a.Width != b.Width ||
+						a.X != b.X ||
+						a.Y != b.Y;
         }
         #endregion
     }
