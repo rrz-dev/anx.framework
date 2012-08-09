@@ -252,30 +252,33 @@ namespace ANX.Framework.Graphics
 
             if (this.currentSortMode != SpriteSortMode.Immediate)
             {
-                if (this.currentSortMode == SpriteSortMode.Texture)
+                if (currentBatchPosition > 0)
                 {
-                    Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, textureComparer);
-                }
-                else if (this.currentSortMode == SpriteSortMode.BackToFront)
-                {
-                    Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, backToFrontComparer);
-                }
-                else if (this.currentSortMode == SpriteSortMode.FrontToBack)
-                {
-                    Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, frontToBackComparer);
-                }
-
-                int startOffset = 0;
-                Texture2D lastTexture = spriteInfos[0].texture;
-                for (int i = 0; i <= currentBatchPosition; i++)
-                {
-                    if (lastTexture != spriteInfos[i].texture || i == currentBatchPosition)
+                    if (this.currentSortMode == SpriteSortMode.Texture)
                     {
-                        BatchRender(startOffset, i - startOffset);
-                        startOffset = i;
+                        Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, textureComparer);
+                    }
+                    else if (this.currentSortMode == SpriteSortMode.BackToFront)
+                    {
+                        Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, backToFrontComparer);
+                    }
+                    else if (this.currentSortMode == SpriteSortMode.FrontToBack)
+                    {
+                        Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, frontToBackComparer);
                     }
 
-                    lastTexture = spriteInfos[i].texture;
+                    int startOffset = 0;
+                    Texture2D lastTexture = spriteInfos[0].texture;
+                    for (int i = 0; i <= currentBatchPosition; i++)
+                    {
+                        if (lastTexture != spriteInfos[i].texture || i == currentBatchPosition)
+                        {
+                            BatchRender(startOffset, i - startOffset);
+                            startOffset = i;
+                        }
+
+                        lastTexture = spriteInfos[i].texture;
+                    }
                 }
             }
 

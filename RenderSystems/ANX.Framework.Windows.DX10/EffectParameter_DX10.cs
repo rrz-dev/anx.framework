@@ -149,6 +149,11 @@ namespace ANX.RenderSystem.Windows.DX10
 
         public void SetValue(Texture value)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
             Texture2D_DX10 tex = value.NativeTexture as Texture2D_DX10;
             GraphicsDeviceWindowsDX10 graphicsDX10 = tex.GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
             SharpDX.Direct3D10.Device device = graphicsDX10.NativeDevice;
