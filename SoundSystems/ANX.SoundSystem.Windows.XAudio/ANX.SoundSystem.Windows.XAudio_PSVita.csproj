@@ -62,24 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
-    <Compile Include="Metadata.Designer.cs">
-      <DependentUpon>Metadata.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Metadata.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Metadata.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

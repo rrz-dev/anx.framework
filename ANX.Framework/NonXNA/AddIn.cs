@@ -19,10 +19,10 @@ namespace ANX.Framework.NonXNA
 
 		#region Private
 		private string assemblyFilepath;
-		private string[] platforms;
 		private Assembly assembly;
 		private Type creatorType;
 		private ICreator instance;
+		private ISupportedPlatforms supportedPlatforms;
 		#endregion
 
 		#region Public
@@ -38,12 +38,12 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-				if (IsValid && platforms.Length > 0)
+				if (IsValid && supportedPlatforms != null)
 				{
-					string platformName = OSInformation.GetName().ToString();
-					foreach (string platform in platforms)
+					PlatformName platformName = OSInformation.GetName();
+					foreach (var platform in supportedPlatforms.Names)
 					{
-						if (String.Equals(platformName, platform, StringComparison.OrdinalIgnoreCase))
+						if (platformName == platform)
 						{
 							return true;
 						}
@@ -135,16 +135,7 @@ namespace ANX.Framework.NonXNA
 				return;
 			}
 
-			SearchForCreatorsAndInputDevices();
-
-			if (creatorType != null)
-			{
-				GetSupportedPlatformsFromResources(assembly);
-			}
-			else
-			{
-				platforms = new string[0];
-			}
+			SearchForValidAddInTypes();
 		}
 		#endregion
 
@@ -154,60 +145,7 @@ namespace ANX.Framework.NonXNA
 			return this.Priority.CompareTo(other.Priority);
 		}
 		#endregion
-
-		#region GetSupportedPlatformsFromResources
-		private void GetSupportedPlatformsFromResources(Assembly assembly)
-		{
-			string[] allResourceNames = assembly.GetManifestResourceNames();
-			foreach (string resource in allResourceNames)
-			{
-				try
-				{
-					Stream manifestResourceStream = assembly.GetManifestResourceStream(resource);
-					CheckIfResourceIsPlatformsEntry(manifestResourceStream);
-				}
-				catch
-				{
-				}
-			}
-		}
-		#endregion
-
-		#region CheckIfResourceIsPlatformsEntry
-		private void CheckIfResourceIsPlatformsEntry(Stream manifestResourceStream)
-		{
-			using (var resourceReader = new ResourceReader(manifestResourceStream))
-			{
-				IDictionaryEnumerator currentResourceEntry = resourceReader.GetEnumerator();
-				while (currentResourceEntry.MoveNext())
-				{
-					if (IsResourceEntryPlatformsString(currentResourceEntry))
-					{
-						SetPlatformsByResourceEntry(currentResourceEntry.Value.ToString());
-						break;
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region IsResourceEntryPlatformsString
-		private bool IsResourceEntryPlatformsString(IDictionaryEnumerator entry)
-		{
-			string key = entry.Key.ToString();
-			return String.Equals(key, PlatformsResourceEntryKey,
-				StringComparison.OrdinalIgnoreCase) &&
-				entry.Value is String;
-		}
-		#endregion
-
-		#region SetPlatformsByResourceEntry
-		private void SetPlatformsByResourceEntry(string entry)
-		{
-			platforms = entry.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-		}
-		#endregion
-
+		
 		#region ValidateAndSetFilepath
 		private void ValidateAndSetFilepath(string setFilepath)
 		{
@@ -228,14 +166,27 @@ namespace ANX.Framework.NonXNA
 		}
 		#endregion
 
-		#region SearchForCreatorsAndInputDevices
-		private void SearchForCreatorsAndInputDevices()
+		#region SearchForValidAddInTypes
+		private void SearchForValidAddInTypes()
 		{
 			Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
 
 			bool foundCreator = false;
 			foreach (Type type in allTypes)
 			{
+				bool isSupportedPlatformsImpl =
+					TypeHelper.IsTypeAssignableFrom(typeof(ISupportedPlatforms), type);
+				if (isSupportedPlatformsImpl && TypeHelper.IsAbstract(type) == false)
+				{
+					try
+					{
+						supportedPlatforms = (ISupportedPlatforms)Activator.CreateInstance(type);
+					}
+					catch
+					{
+					}
+				}
+
 				if (foundCreator == false)
 				{
 					bool isTypeValidCreator = TypeHelper.IsAnyTypeAssignableFrom(
@@ -245,7 +196,7 @@ namespace ANX.Framework.NonXNA
 						creatorType = type;
 						Type = AddInSystemFactory.GetAddInType(type);
 						foundCreator = true;
-						break;
+						continue;
 					}
 				}
 

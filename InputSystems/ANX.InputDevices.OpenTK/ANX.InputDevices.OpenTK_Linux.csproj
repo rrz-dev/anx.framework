@@ -65,20 +65,10 @@
     <Compile Include="GamePadCreator.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="KeyboardCreator.cs" />
-    <Compile Include="Metadata.Designer.cs">
-      <DependentUpon>Metadata.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Mouse.cs" />
     <Compile Include="MouseCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Metadata.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Metadata.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">

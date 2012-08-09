@@ -57,7 +57,7 @@ namespace ANX.Framework.NonXNA
 		#region SafelyExtractTypesFrom
 		public static Type[] SafelyExtractTypesFrom(Assembly assembly)
 		{
-            Type[] result = new Type[0];
+			Type[] result = new Type[0];
 			try
 			{
 #if WINDOWSMETRO
@@ -72,25 +72,36 @@ namespace ANX.Framework.NonXNA
 #else
 				result = assembly.GetTypes();
 #endif
-            }
+			}
 			catch (ReflectionTypeLoadException ex)
 			{
 				result = ex.Types;
 			}
 
-            return result;
+			return result;
 		}
 		#endregion
 
-        #region IsValueType
-        public static bool IsValueType(Type type)
-        {
+		#region IsValueType
+		public static bool IsValueType(Type type)
+		{
 #if WINDOWSMETRO
-            return type.GetTypeInfo().IsValueType;
+			return type.GetTypeInfo().IsValueType;
 #else
-            return type.IsValueType;
+			return type.IsValueType;
 #endif
-        }
-        #endregion
-    }
+		}
+		#endregion
+
+		#region IsAbstract
+		public static bool IsAbstract(Type type)
+		{
+#if WINDOWSMETRO
+			return type.GetTypeInfo().IsAbstract;
+#else
+			return type.IsAbstract;
+#endif
+		}
+		#endregion
+	}
 }

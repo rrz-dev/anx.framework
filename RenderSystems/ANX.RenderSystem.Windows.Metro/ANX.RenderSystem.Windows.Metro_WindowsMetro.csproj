@@ -57,6 +57,7 @@
     <Compile Include="RenderTarget2D_Metro.cs" />
     <Compile Include="SamplerState_Metro.cs" />
     <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="Texture2D_Metro.cs" />
     <Compile Include="VertexBuffer_Metro.cs" />
   </ItemGroup>

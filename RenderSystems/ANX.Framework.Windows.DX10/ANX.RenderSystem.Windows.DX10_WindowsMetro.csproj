@@ -91,17 +91,13 @@
     <Compile Include="IncludeHandler.cs" />
     <Compile Include="IndexBuffer_DX10.cs" />
     <Compile Include="EffectPass_DX10.cs" />
-    <Compile Include="Metadata.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Metadata.resx</DependentUpon>
-    </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterizerState_DX10.cs" />
     <Compile Include="RenderTarget2D_DX10.cs" />
     <Compile Include="SamplerState_DX10.cs" />
     <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="Texture2D_DX10.cs" />
     <Compile Include="VertexBuffer_DX10.cs" />
   </ItemGroup>
@@ -110,12 +106,6 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Metadata.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Metadata.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>

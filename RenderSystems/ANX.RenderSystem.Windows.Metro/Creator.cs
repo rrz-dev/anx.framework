@@ -34,9 +34,7 @@ namespace ANX.Framework.Windows.Metro
         {
             get 
             {
-                //TODO: this is just a very basic version of test for support
-                //TODO: return AddInSystemFactory.Instance.OperatingSystem.Platform == PlatformID.Win32NT; 
-                throw new NotImplementedException();
+							return OSInformation.GetName() == PlatformName.Windows8;
             }
         }
 			
