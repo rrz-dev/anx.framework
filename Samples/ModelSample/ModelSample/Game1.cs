@@ -71,7 +71,7 @@ namespace ModelSample
                 this.Exit();
 
             const float speed = 0.000001f;
-						float rotation = (float)gameTime.TotalGameTime.TotalSeconds * speed;
+            float rotation = (float)gameTime.TotalGameTime.TotalSeconds * speed;
             world = Matrix.CreateRotationX(rotation) *
 								Matrix.CreateRotationY(rotation) *
 								Matrix.CreateRotationZ(rotation);

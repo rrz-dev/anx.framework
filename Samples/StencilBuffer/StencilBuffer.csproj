@@ -152,6 +152,10 @@
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows.csproj">
+      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
       <Name>ANX.Framework.Windows.DX10</Name>
