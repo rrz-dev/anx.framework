@@ -1,7 +1,7 @@
 <project name="ANX.Framework Build" default="build">
   <property name="build.configuration" value="Release" />
   <property name="build.platform" value="Any CPU" />
-  <property name="build.dir" value="../bin" />
+  <property name="build.dir" value="../../bin" />
   <property name="build.solution_dir" value="../" />  
 
   <property name="project.anx.path" value="../ANX.Framework" />
@@ -30,17 +30,26 @@
   <property name="project.anx.name.soundsystem.openal" value="ANX.SoundSystem.OpenAL" />
 
   <property name="project.anx.path.rendersystem.dx10" value="../RenderSystems/ANX.Framework.Windows.DX10" />
-  <property name="project.anx.name.rendersystem.dx10" value="ANX.Framework.Windows.DX10" />
+  <property name="project.anx.name.rendersystem.dx10" value="ANX.RenderSystem.Windows.DX10" />
   <property name="project.anx.path.rendersystem.dx11" value="../RenderSystems/ANX.RenderSystem.Windows.DX11" />
   <property name="project.anx.name.rendersystem.dx11" value="ANX.RenderSystem.Windows.DX11" />
   <property name="project.anx.path.rendersystem.metro" value="../RenderSystems/ANX.RenderSystem.Windows.Metro" />
   <property name="project.anx.name.rendersystem.metro" value="ANX.RenderSystem.Windows.Metro" />
   <property name="project.anx.path.rendersystem.gl3" value="../RenderSystems/ANX.Framework.Windows.GL3" />
-  <property name="project.anx.name.rendersystem.gl3" value="ANX.Framework.Windows.GL3" />
+  <property name="project.anx.name.rendersystem.gl3" value="ANX.RenderSystem.Windows.GL3" />
 
   <property name="project.anx.path.mediasystem.openal" value="../MediaSystems/ANX.MediaSystem.Windows.OpenAL" />
   <property name="project.anx.name.mediasystem.openal" value="ANX.MediaSystem.Windows.OpenAL" />
-  
+
+  <property name="project.anx.path.platformsystem.linux" value="../PlatformSystems/ANX.PlatformSystem.Linux" />
+  <property name="project.anx.name.platformsystem.linux" value="ANX.PlatformSystem.Linux" />
+
+  <property name="project.anx.path.platformsystem.metro" value="../PlatformSystems/ANX.PlatformSystem.metro" />
+  <property name="project.anx.name.platformsystem.metro" value="ANX.PlatformSystem.metro" />
+
+  <property name="project.anx.path.platformsystem.windows" value="../PlatformSystems/ANX.PlatformSystem.windows" />
+  <property name="project.anx.name.platformsystem.windows" value="ANX.PlatformSystem.windows" />
+
   <property name="project.anxcontent.path" value="../ANX.Framework.ContentPipeline" />
   <property name="project.anxcontent.name" value="ANX.Framework.ContentPipeline" />
 
@@ -48,8 +57,8 @@
   <property name="project.anx.tools.name.ANXStatusComparer" value="ANXStatusComparer" />
   <property name="project.anx.tools.path.StockShaderCodeGenerator" value="../Tools/StockShaderCodeGenerator" />
   <property name="project.anx.tools.name.StockShaderCodeGenerator" value="StockShaderCodeGenerator" />
-  <property name="project.anx.tools.path.XNAToANXConverter" value="../Tools/XNAToANXConverter" />
-  <property name="project.anx.tools.name.XNAToANXConverter" value="XNAToANXConverter" />
+  <property name="project.anx.tools.path.ProjectConverter" value="../Tools/ProjectConverter" />
+  <property name="project.anx.tools.name.ProjectConverter" value="ProjectConverter" />
 
   <target name="clean" description="Cleans all targets.">
     <delete>
@@ -68,22 +77,20 @@
         <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
         <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
         <include name="${project.anx.path.rendersystem.metro}/obj/**" />
-        <include name="${project.anx.path.mediasystemsystem.openal}/obj/**" />
+        <include name="${project.anx.path.mediasystem.openal}/obj/**" />
         <include name="${project.anxcontent.path}/obj/**" />
       </fileset>
     </delete>
+  </target>
+
+  <target name="VS2010">
+    <property name="project.anx.build_env" value="VS2010" />
   </target>
 
   <target name="VS2011">
     <property name="project.anx.build_env" value="VS2011" />
   </target>
 
-  <target name="win8">
-    <property name="project.anx.win8" value="true" />
-    <property name="build.configuration" value="ReleaseWin8" />
-    <property name="project.anx.directives" value="${project.anx.directives} WIN8" />
-  </target>
-  
   <target name="build">
     <echo message="===================================================" />
     <echo message="ANX.Framework build script" />
@@ -109,6 +116,7 @@
     <call target="build_anx_soundsystems" />
     <call target="build_anx_rendersystems" />
     <call target="build_anx_mediasystems" />
+    <call target="build_anx_platformsystems" />
     <call target="build_anx_content_pipeline" />
   </target>
 
@@ -210,6 +218,7 @@
       <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
       <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anxcontent.path}/${project.anxcontent.name}.csproj" />
     </exec>
@@ -227,6 +236,7 @@
       <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
       <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
       <arg value="${project.anx.path.inputsystem.standard}/${project.anx.name.inputsystem.standard}.csproj" />
     </exec>
@@ -344,6 +354,58 @@
     </exec>
   </target>
 
+  <target name="build_anx_platformsystems" description="Build ANX.Framework PlatformSystems">
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework PlatformSystem Linux" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.platformsystem.linux}/${project.anx.name.platformsystem.linux}.csproj" />
+    </exec>
+
+    <if test="${project.anx.win8}">
+      <echo message="===================================================" />
+      <echo message="Now building: ANX.Framework PlatformSystem Metro" />
+      <echo message="===================================================" />
+
+      <exec program="msbuild.exe" >
+        <arg value="/t:Build"/>
+        <arg value="/p:Configuration=${build.configuration}"/>
+        <arg value='/p:Platform="${build.platform}"'/>
+        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+        <arg value="/p:SolutionDir=${build.solution_dir}" />
+        <arg value='/p:DefineConstants="${project.anx.directives}"' />
+        <arg value="/p:AllowUnsafeBlocks=true" />
+        <arg value="/clp:ErrorsOnly" />
+        <arg value="${project.anx.path.platformsystem.metro}/${project.anx.name.platformsystem.metro}.csproj" />
+      </exec>
+    </if>
+    
+    <echo message="===================================================" />
+    <echo message="Now building: ANX.Framework PlatformSystem Windows" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=${build.configuration}"/>
+      <arg value='/p:Platform="${build.platform}"'/>
+      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
+      <arg value='/p:DefineConstants="${project.anx.directives}"' />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.path.platformsystem.windows}/${project.anx.name.platformsystem.windows}.csproj" />
+    </exec>
+  </target>
+  
   <target name="build_tools" description="Build ANX.Framework tools">
     <echo message="===================================================" />
     <echo message="Now building: ANXStatusComparer tool (asc.exe)" />
@@ -360,7 +422,7 @@
     </exec>
 
     <echo message="===================================================" />
-    <echo message="Now building: XNAToANXConverter tool (x2a.exe)" />
+    <echo message="Now building: ProjectConverter tool (ProjectConverter.exe)" />
     <echo message="===================================================" />
 
     <exec program="msbuild.exe" >
@@ -370,7 +432,7 @@
       <arg value="/p:OutputPath=${build.dir}" />
       <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.XNAToANXConverter}/${project.anx.tools.name.XNAToANXConverter}.csproj" />
+      <arg value="${project.anx.tools.path.ProjectConverter}/${project.anx.tools.name.ProjectConverter}.csproj" />
     </exec>
 
     <echo message="===================================================" />
@@ -400,7 +462,7 @@
     <echo message="Now generating code for DirectX 10 stock shaders" />
     <echo message="===================================================" />
 
-    <exec program="sscg.exe" >
+    <exec program="../bin/sscg.exe" >
       <arg value="../shader/DX10/build.xml" />
     </exec>
 
@@ -408,7 +470,7 @@
     <echo message="Now generating code for DirectX 11 stock shaders" />
     <echo message="===================================================" />
 
-    <exec program="sscg.exe" >
+    <exec program="../bin/sscg.exe" >
       <arg value="../shader/DX11/build.xml" />
     </exec>
 
@@ -416,7 +478,7 @@
     <echo message="Now generating code for OpenGL 3 stock shaders" />
     <echo message="===================================================" />
 
-    <exec program="sscg.exe" >
+    <exec program="../bin/sscg.exe" >
       <arg value="../shader/GL3/build.xml" />
     </exec>
   </target>

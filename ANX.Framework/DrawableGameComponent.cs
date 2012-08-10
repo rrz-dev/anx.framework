@@ -121,7 +121,7 @@ namespace ANX.Framework
         {
         }
 
-        public void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime gameTime)
         {
             
         }

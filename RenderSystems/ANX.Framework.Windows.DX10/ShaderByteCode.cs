@@ -6,7 +6,7 @@ using System;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.RenderSystem.Windows.DX10
+namespace ANX.Framework.Windows.DX10
 {
 	internal static class ShaderByteCode
 	{

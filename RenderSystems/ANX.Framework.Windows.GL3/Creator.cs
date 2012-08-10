@@ -1,3 +1,4 @@
+#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,9 @@ using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
 using OpenTK;
+using ANX.Framework.Windows.GL3;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
