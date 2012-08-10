@@ -7,9 +7,11 @@ using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
 using SharpDX.D3DCompiler;
-using ANX.Framework.NonXNA;
 using SharpDX.Direct3D10;
+using ANX.Framework;
+using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -19,8 +21,6 @@ using ANX.Framework.Graphics;
 
 using Device = SharpDX.Direct3D10.Device;
 using Buffer = SharpDX.Direct3D10.Buffer;
-using System.Runtime.InteropServices;
-using ANX.Framework;
 using Rectangle = ANX.Framework.Rectangle;
 using Vector4 = ANX.Framework.Vector4;
 using VertexBufferBinding = ANX.Framework.Graphics.VertexBufferBinding;
@@ -61,7 +61,7 @@ namespace ANX.RenderSystem.Windows.DX10
         private Device device;
         private SwapChain swapChain; 
         private RenderTargetView renderView;
-        private RenderTargetView renderTargetView;
+        private RenderTargetView[] renderTargetView = new RenderTargetView[1];
         private DepthStencilView depthStencilView;
         private SharpDX.Direct3D10.Texture2D depthStencilBuffer;
         private SharpDX.Direct3D10.Texture2D backBuffer;
@@ -188,7 +188,22 @@ namespace ANX.RenderSystem.Windows.DX10
 				clearColor.Alpha = color.A * ColorMultiplier;
 			}
 
-			this.device.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
+            if (this.renderTargetView[0] == null)
+            {
+                this.device.ClearRenderTargetView(this.renderView, this.clearColor);
+            }
+            else
+            {
+                for (int i = 0; i < this.renderTargetView.Length; i++)
+                {
+                    if (this.renderTargetView[i] == null)
+                    {
+                        break;
+                    }
+
+                    this.device.ClearRenderTargetView(this.renderTargetView[i], this.clearColor);
+                }
+            }
 		}
 
         public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
@@ -203,7 +218,22 @@ namespace ANX.RenderSystem.Windows.DX10
                 this.clearColor.Alpha = color.W;
                 this.lastClearColor = 0;
 
-                this.device.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
+                if (this.renderTargetView[0] == null)
+                {
+                    this.device.ClearRenderTargetView(this.renderView, this.clearColor);
+                }
+                else
+                {
+                    for (int i = 0; i < this.renderTargetView.Length; i++)
+                    {
+                        if (this.renderTargetView[i] == null)
+                        {
+                            break;
+                        }
+
+                        this.device.ClearRenderTargetView(this.renderTargetView[i], this.clearColor);
+                    }
+                }
             }
 
             if (this.depthStencilView != null)
@@ -323,7 +353,23 @@ namespace ANX.RenderSystem.Windows.DX10
 
             device.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
-            DrawPrimitives(primitiveType, vertexOffset, primitiveCount);
+            SharpDX.Direct3D10.EffectPass pass; SharpDX.Direct3D10.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            var layout = CreateInputLayout(device, passSignature, vertexDeclaration);
+
+            device.InputAssembler.InputLayout = layout;
+            // Prepare All the stages
+            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            device.Rasterizer.SetViewports(currentViewport);
+
+            //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply();
+                device.Draw(primitiveCount, vertexOffset);
+            }
         }
 
         #endregion // DrawUserPrimitives<T>
@@ -352,7 +398,12 @@ namespace ANX.RenderSystem.Windows.DX10
         private void SetupInputLayout(ShaderBytecode passSignature)
         {
             // get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
-            //TODO: check for null and throw exception
+            
+            if (currentVertexBuffer == null)
+            {
+                throw new ArgumentNullException("passSignature");
+            }
+
             VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
             var layout = CreateInputLayout(device, passSignature, vertexDeclaration);
 
@@ -487,10 +538,13 @@ namespace ANX.RenderSystem.Windows.DX10
             if (renderTargets == null)
             {
                 // reset the RenderTarget to backbuffer
-                if (renderTargetView != null)
+                for (int i = 0; i < renderTargetView.Length; i++)
                 {
-                    renderTargetView.Dispose();
-                    renderTargetView = null;
+                    if (renderTargetView[i] != null)
+                    {
+                        renderTargetView[i].Dispose();
+                        renderTargetView[i] = null;
+                    }
                 }
 
                 device.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
@@ -498,26 +552,60 @@ namespace ANX.RenderSystem.Windows.DX10
             }
             else
             {
-                if (renderTargets.Length == 1)
+                int renderTargetCount = renderTargets.Length;
+                if (this.renderTargetView.Length != renderTargetCount)
                 {
-                    RenderTarget2D renderTarget = renderTargets[0].RenderTarget as RenderTarget2D;
-                    RenderTarget2D_DX10 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX10;
+                    for (int i = 0; i < renderTargetView.Length; i++)
+                    {
+                        if (renderTargetView[i] != null)
+                        {
+                            renderTargetView[i].Dispose();
+                            renderTargetView[i] = null;
+                        }
+                    }
+
+                    this.renderTargetView = new RenderTargetView[renderTargetCount];
+                }
+
+                for (int i = 0; i < renderTargetCount; i++)
+                {
+                    RenderTarget2D renderTarget = renderTargets[i].RenderTarget as RenderTarget2D;
                     if (renderTarget != null)
                     {
-                        if (renderTargetView != null)
+                        RenderTarget2D_DX10 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX10;
+
+                        if (renderTargetView[i] != null)
                         {
-                            renderTargetView.Dispose();
-                            renderTargetView = null;
+                            renderTargetView[i].Dispose();
                         }
-                        this.renderTargetView = new RenderTargetView(device, ((Texture2D_DX10)nativeRenderTarget).NativeShaderResourceView.Resource);
-                        DepthStencilView depthStencilView = null;
-                        device.OutputMerger.SetRenderTargets(1,new RenderTargetView[] { this.renderTargetView }, depthStencilView);
+
+                        renderTargetView[i] = new RenderTargetView(device, ((Texture2D_DX10)nativeRenderTarget).NativeShaderResourceView.Resource);
                     }
                 }
-                else
-                {
-                    throw new NotImplementedException("handling of multiple RenderTargets are not yet implemented");
-                }
+
+                device.OutputMerger.SetRenderTargets(renderTargetCount, renderTargetView, this.depthStencilView);
+                device.OutputMerger.SetTargets(this.depthStencilView, this.renderTargetView);
+
+                //if (renderTargets.Length == 1)
+                //{
+                //    RenderTarget2D renderTarget = renderTargets[0].RenderTarget as RenderTarget2D;
+                //    RenderTarget2D_DX10 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX10;
+                //    if (renderTarget != null)
+                //    {
+                //        if (renderTargetView != null)
+                //        {
+                //            renderTargetView.Dispose();
+                //            renderTargetView = null;
+                //        }
+                //        this.renderTargetView = new RenderTargetView(device, ((Texture2D_DX10)nativeRenderTarget).NativeShaderResourceView.Resource);
+                //        DepthStencilView depthStencilView = null;
+                //        device.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderTargetView }, depthStencilView);
+                //    }
+                //}
+                //else
+                //{
+                //    throw new NotImplementedException("handling of multiple RenderTargets are not yet implemented");
+                //}
             }
         }
 
@@ -593,10 +681,13 @@ namespace ANX.RenderSystem.Windows.DX10
 
         public void Dispose()
         {
-            if (renderTargetView != null)
+            for (int i = 0; i < renderTargetView.Length; i++)
             {
-                renderTargetView.Dispose();
-                renderTargetView = null;
+                if (renderTargetView[i] != null)
+                {
+                    renderTargetView[i].Dispose();
+                    renderTargetView[i] = null;
+                }
             }
 
             if (swapChain != null)

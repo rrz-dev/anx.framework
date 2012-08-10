@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANXStatusComparer", "ANXSta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", "StockShaderCodeGenerator\StockShaderCodeGenerator.csproj", "{D73E5FF4-AE88-4637-8159-120FBDA564BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNAToANXConverter", "XNAToANXConverter\XNAToANXConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectConverter", "ProjectConverter\ProjectConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

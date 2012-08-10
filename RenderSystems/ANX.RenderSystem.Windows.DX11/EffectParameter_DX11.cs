@@ -15,6 +15,9 @@ using ANX.Framework;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using Texture2D = ANX.Framework.Graphics.Texture2D;
+using Texture3D = ANX.Framework.Graphics.Texture3D;
+
 namespace ANX.RenderSystem.Windows.DX11
 {
     public class EffectParameter_DX11 : INativeEffectParameter
@@ -53,14 +56,16 @@ namespace ANX.RenderSystem.Windows.DX11
             nativeEffectVariable.AsScalar().Set(value);
         }
 
-				public void SetValue(Matrix value, bool transpose)
+        public void SetValue(Matrix value, bool transpose)
         {
+            // TODO: handle transpose!
             SharpDX.Matrix m = new SharpDX.Matrix(value.M11, value.M12, value.M13, value.M14, value.M21, value.M22, value.M23, value.M24, value.M31, value.M32, value.M33, value.M34, value.M41, value.M42, value.M43, value.M44);
             nativeEffectVariable.AsMatrix().SetMatrix(m);
         }
 
-				public void SetValue(Matrix[] value, bool transpose)
+		public void SetValue(Matrix[] value, bool transpose)
         {
+            // TODO: handle transpose!
             int count = value.Length;
             SharpDX.Matrix[] m = new SharpDX.Matrix[count];
             Matrix anxMatrix;

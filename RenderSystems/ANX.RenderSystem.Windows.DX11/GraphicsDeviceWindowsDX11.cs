@@ -7,9 +7,11 @@ using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
 using SharpDX.D3DCompiler;
-using ANX.Framework.NonXNA;
 using SharpDX.Direct3D11;
+using ANX.Framework;
+using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using System.Runtime.InteropServices;
 
 #endregion // Using Statements
 
@@ -19,8 +21,10 @@ using ANX.Framework.Graphics;
 
 using Device = SharpDX.Direct3D11.Device;
 using Buffer = SharpDX.Direct3D11.Buffer;
-using System.Runtime.InteropServices;
-using ANX.Framework;
+using Rectangle = ANX.Framework.Rectangle;
+using Vector4 = ANX.Framework.Vector4;
+using VertexBufferBinding = ANX.Framework.Graphics.VertexBufferBinding;
+using Viewport = ANX.Framework.Graphics.Viewport;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
@@ -57,7 +61,7 @@ namespace ANX.RenderSystem.Windows.DX11
         private DeviceContext deviceContext;
         private SwapChain swapChain;
         private RenderTargetView renderView;
-        private RenderTargetView renderTargetView;
+        private RenderTargetView[] renderTargetView = new RenderTargetView[1];
         private DepthStencilView depthStencilView;
         private SharpDX.Direct3D11.Texture2D depthStencilBuffer;
         private SharpDX.Direct3D11.Texture2D backBuffer;
@@ -187,7 +191,23 @@ namespace ANX.RenderSystem.Windows.DX11
                 clearColor.Alpha = color.A * ColorMultiplier;
             }
 
-            this.deviceContext.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
+            if (this.renderTargetView[0] == null)
+            {
+                this.deviceContext.ClearRenderTargetView(this.renderView, this.clearColor);
+            }
+            else
+            {
+                for (int i = 0; i < this.renderTargetView.Length; i++)
+                {
+                    if (this.renderTargetView[i] == null)
+                    {
+                        break;
+                    }
+
+                    this.deviceContext.ClearRenderTargetView(this.renderTargetView[i], this.clearColor);
+                }
+            }
+
         }
 
         public void Clear(ClearOptions options, ANX.Framework.Vector4 color, float depth, int stencil)
@@ -202,7 +222,22 @@ namespace ANX.RenderSystem.Windows.DX11
                 this.clearColor.Alpha = color.W;
                 this.lastClearColor = 0;
 
-                this.deviceContext.ClearRenderTargetView(this.renderTargetView != null ? this.renderTargetView : this.renderView, this.clearColor);
+                if (this.renderTargetView[0] == null)
+                {
+                    this.deviceContext.ClearRenderTargetView(this.renderView, this.clearColor);
+                }
+                else
+                {
+                    for (int i = 0; i < this.renderTargetView.Length; i++)
+                    {
+                        if (this.renderTargetView[i] == null)
+                        {
+                            break;
+                        }
+
+                        this.deviceContext.ClearRenderTargetView(this.renderTargetView[i], this.clearColor);
+                    }
+                }
             }
 
             if (this.depthStencilView != null)
@@ -322,7 +357,23 @@ namespace ANX.RenderSystem.Windows.DX11
 
             deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
-            DrawPrimitives(primitiveType, vertexOffset, primitiveCount);
+            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+            SetupEffectForDraw(out pass, out technique, out passSignature);
+
+            var layout = CreateInputLayout(deviceContext.Device, passSignature, vertexDeclaration);
+
+            deviceContext.InputAssembler.InputLayout = layout;
+            // Prepare All the stages
+            deviceContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            deviceContext.Rasterizer.SetViewports(currentViewport);
+
+            //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                pass.Apply(deviceContext);
+                deviceContext.Draw(primitiveCount, vertexOffset);
+            }
         }
 
         #endregion // DrawUserPrimitives<T>
@@ -486,10 +537,13 @@ namespace ANX.RenderSystem.Windows.DX11
             if (renderTargets == null)
             {
                 // reset the RenderTarget to backbuffer
-                if (renderTargetView != null)
+                for (int i = 0; i < renderTargetView.Length; i++)
                 {
-                    renderTargetView.Dispose();
-                    renderTargetView = null;
+                    if (renderTargetView[i] != null)
+                    {
+                        renderTargetView[i].Dispose();
+                        renderTargetView[i] = null;
+                    }
                 }
 
                 deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
@@ -497,26 +551,39 @@ namespace ANX.RenderSystem.Windows.DX11
             }
             else
             {
-                if (renderTargets.Length == 1)
+                int renderTargetCount = renderTargets.Length;
+                if (this.renderTargetView.Length != renderTargetCount)
                 {
-                    RenderTarget2D renderTarget = renderTargets[0].RenderTarget as RenderTarget2D;
-                    RenderTarget2D_DX11 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX11;
+                    for (int i = 0; i < renderTargetView.Length; i++)
+                    {
+                        if (renderTargetView[i] != null)
+                        {
+                            renderTargetView[i].Dispose();
+                            renderTargetView[i] = null;
+                        }
+                    }
+
+                    this.renderTargetView = new RenderTargetView[renderTargetCount];
+                }
+
+                for (int i = 0; i < renderTargetCount; i++)
+                {
+                    RenderTarget2D renderTarget = renderTargets[i].RenderTarget as RenderTarget2D;
                     if (renderTarget != null)
                     {
-                        if (renderTargetView != null)
+                        RenderTarget2D_DX11 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX11;
+
+                        if (renderTargetView[i] != null)
                         {
-                            renderTargetView.Dispose();
-                            renderTargetView = null;
+                            renderTargetView[i].Dispose();
                         }
-                        this.renderTargetView = new RenderTargetView(deviceContext.Device, ((Texture2D_DX11)nativeRenderTarget).NativeShaderResourceView.Resource);
-                        DepthStencilView depthStencilView = null;
-                        deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderTargetView }, depthStencilView);
+
+                        renderTargetView[i] = new RenderTargetView(deviceContext.Device, ((Texture2D_DX11)nativeRenderTarget).NativeShaderResourceView.Resource);
                     }
                 }
-                else
-                {
-                    throw new NotImplementedException("handling of multiple RenderTargets are not yet implemented");
-                }
+
+                deviceContext.OutputMerger.SetRenderTargets(renderTargetCount, renderTargetView, this.depthStencilView);
+                deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderTargetView);
             }
         }
 
@@ -592,10 +659,13 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public void Dispose()
         {
-            if (renderTargetView != null)
+            for (int i = 0; i < renderTargetView.Length; i++)
             {
-                renderTargetView.Dispose();
-                renderTargetView = null;
+                if (renderTargetView[i] != null)
+                {
+                    renderTargetView[i].Dispose();
+                    renderTargetView[i] = null;
+                }
             }
 
             if (swapChain != null)

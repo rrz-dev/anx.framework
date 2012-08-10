@@ -15,6 +15,8 @@ using ANX.Framework.Graphics;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using EffectTechnique = ANX.Framework.Graphics.EffectTechnique;
+
 namespace ANX.RenderSystem.Windows.DX11
 {
     public class Effect_DX11 : INativeEffect
@@ -184,14 +186,14 @@ namespace ANX.RenderSystem.Windows.DX11
                     EffectTechnique_DX11 teqDx11 = new EffectTechnique_DX11(this.managedEffect);
                     teqDx11.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
 
-                    ANX.Framework.Graphics.EffectTechnique teq = new ANX.Framework.Graphics.EffectTechnique(this.managedEffect, teqDx11);
+                    EffectTechnique teq = new EffectTechnique(this.managedEffect, teqDx11);
 
                     yield return teq;
                 }
             }
         }
 
-        public IEnumerable<ANX.Framework.Graphics.EffectParameter> Parameters
+        public IEnumerable<EffectParameter> Parameters
         {
             get
             {
@@ -200,7 +202,7 @@ namespace ANX.RenderSystem.Windows.DX11
                     EffectParameter_DX11 parDx11 = new EffectParameter_DX11();
                     parDx11.NativeParameter = nativeEffect.GetVariableByIndex(i);
 
-                    ANX.Framework.Graphics.EffectParameter par = new ANX.Framework.Graphics.EffectParameter();
+                    EffectParameter par = new EffectParameter();
                     par.NativeParameter = parDx11;
 
                     yield return par;
