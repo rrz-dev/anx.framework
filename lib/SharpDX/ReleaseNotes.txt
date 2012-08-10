@@ -1,22 +1,46 @@
-Release Notes (2011-09-24)
-* SharpDX goes 2.0 beta
-* Adding missing DirectX APIs including Direct3D9 (not finished yet for Beta but WPF Interop is working), DirectInput, RawInput, XInput, X3DAudio, XACT3, WIC (integrated with Direct2D1).
-* API Support for upcomming Win8/DirectX11.1 (D3DCompiler 44, DXGI 1.2, Direct3D11.1, Direct2D1.1) and including support for DirectX Metro application in C#/.Net!
-* New Samples (Direct3D10 WPF Interop, Direct3D11 MiniCube, WIC RenderToTarget, WIC EncodeDecode, XAudio2 play XWMA,ADPCM,WAV)
-* New 2 Samples for Win8/Metro Preview (MiniCube and port of Win8 C++ DirectX Tutorial)
-* NuGet Package available for all SharpDX 2.0 assemblies with symbols (enabling "source step into" debugging)
-* Lots of bugfixes, apis simplification and helpers.
-* Interop performance slightly improved for method calls.
-* Full rewrite of SharpGen, the core technology of SharpDX, a genuine C# code generator directly from C++ Headers using now gccxml. SharpGen is now able to parse all Windows headers!
+--------------------------
+Release Notes (2012-06-10)
+--------------------------
+SharpDX 2.2.0 
 
-Release Notes (2011-02-17)
-* SharpDX goes 1.3
-* Full support for Mono 2.10
-* Various bugfixes and enhancement. See ChangeLog.txt file.
+This is a maintenance release, mainly to support new Windows 8 Release Preview. Starting with 2.2 version, SharpDX for Metro App is only compatible with Windows 8 Release Preview.
 
-Release Notes (2010-12-19)
+Lots of improvements and bug fixes, check the following details:
 
-* SharpDX goes 1.1
-* SharpDX is now compatible with all .Net Frameworks 2.0 / 3.5 / 4.0
-* Various bugfixes and enhancement. See ChangeLog.txt file.
+*************
+Core
+*************
+    Fix issue with Reflection.Emit not compatible with Win8 Release Preview. Using Linq.Expressions instead.
 
+*************
+Samples
+*************
+Win8
+    All samples have been ported to use new Windows 8 RP. Lots of small breaking changes
+    Add property DrawingPosition to CommonDX.SurfaceImageSourceTarget
+
+*************
+Sound API
+*************
+X3DAudio2
+    The project/assembly X3DAudio is removed and is now part of XAudio2. In order to use X3DAudio, you only have to reference XAudio2.
+
+*************
+Graphics API
+*************
+Direct3D11
+    New constants for ComputeShaderStage and PixelShaderStage
+    New UpdateSubresourceSafe method to support workaround for deferred context with non null resource region (see http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx)
+    Fix issue #195. DeviceContext.UpdateSubresource is now public
+    Update MiniCube to demonstrate how to handle resize and fullscreen
+
+MediaFoundation
+    Project started. Not yet available but a MediaPlayer will be available soon for Windows 8 Metro App.
+
+WIC
+    Fix bug in ComStreamShadow.Seek, newPosition can be null
+
+*************
+Build
+*************
+    Add support for building all desktop with Windows SDK 7.1 (http://www.microsoft.com/en-us/download/details.aspx?id=8279) with Visual Studio 2010 installed

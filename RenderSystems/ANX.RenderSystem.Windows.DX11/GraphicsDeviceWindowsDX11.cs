@@ -546,7 +546,7 @@ namespace ANX.RenderSystem.Windows.DX11
                     }
                 }
 
-                deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
+                //deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
                 deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
             }
             else
@@ -582,7 +582,7 @@ namespace ANX.RenderSystem.Windows.DX11
                     }
                 }
 
-                deviceContext.OutputMerger.SetRenderTargets(renderTargetCount, renderTargetView, this.depthStencilView);
+                //deviceContext.OutputMerger.SetRenderTargets(renderTargetCount, renderTargetView, this.depthStencilView);
                 deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderTargetView);
             }
         }
@@ -611,7 +611,7 @@ namespace ANX.RenderSystem.Windows.DX11
 
                 //TODO: handle format
 
-                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, (int)swapChain.Description.Flags);
+                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, swapChain.Description.Flags);
 
                 backBuffer = SharpDX.Direct3D11.Texture2D.FromSwapChain<SharpDX.Direct3D11.Texture2D>(swapChain, 0);
                 renderView = new RenderTargetView(deviceContext.Device, backBuffer);

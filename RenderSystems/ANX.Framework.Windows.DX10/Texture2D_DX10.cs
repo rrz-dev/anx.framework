@@ -132,7 +132,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
             if (this.surfaceFormat == SurfaceFormat.Color)
             {
-                int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubresourceIndex(0, 0, 1);
+                int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
                 SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, SharpDX.Direct3D10.MapMode.WriteDiscard, SharpDX.Direct3D10.MapFlags.None);
                 int rowPitch = rectangle.Pitch;
 
@@ -174,7 +174,7 @@ namespace ANX.RenderSystem.Windows.DX10
                     int h = (Height + 3) >> 2;
                     formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
 
-                    int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubresourceIndex(0, 0, 1);
+                    int subresource = SharpDX.Direct3D10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
                     SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, SharpDX.Direct3D10.MapMode.WriteDiscard, SharpDX.Direct3D10.MapFlags.None);
                     SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
                     int pitch = rectangle.Pitch;
