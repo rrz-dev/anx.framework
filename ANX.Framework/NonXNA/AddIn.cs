@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.IO;
 using System.Reflection;
-using System.Resources;
 using ANX.Framework.NonXNA.InputSystem;
+using ANX.Framework.NonXNA.Reflection;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -18,7 +16,6 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region Private
-		private string assemblyFilepath;
 		private Assembly assembly;
 		private Type creatorType;
 		private ICreator instance;
@@ -117,24 +114,9 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region Constructor
-		public AddIn(string assemblyFilepath)
+		public AddIn(Assembly assembly)
 		{
-			ValidateAndSetFilepath(assemblyFilepath);
-
-			try
-			{
-#if WINDOWSMETRO
-                // TODO: make sure this works with the extracted data from the typelist, move to an extra class with all stuff for assembly loading
-                assembly = Assembly.Load(new AssemblyName(assemblyFilepath));
-#else
-				assembly = Assembly.LoadFrom(assemblyFilepath);
-#endif
-			}
-			catch
-			{
-				return;
-			}
-
+			this.assembly = assembly;
 			SearchForValidAddInTypes();
 		}
 		#endregion
@@ -146,26 +128,6 @@ namespace ANX.Framework.NonXNA
 		}
 		#endregion
 		
-		#region ValidateAndSetFilepath
-		private void ValidateAndSetFilepath(string setFilepath)
-		{
-			if (String.IsNullOrEmpty(setFilepath))
-			{
-				throw new ArgumentNullException("fileName");
-			}
-
-#if !WINDOWSMETRO
-			if (File.Exists(setFilepath) == false)
-			{
-				throw new InvalidOperationException(
-					String.Format("The AddIn '{0}' does not exist.", setFilepath));
-			}
-#endif
-
-			assemblyFilepath = setFilepath;
-		}
-		#endregion
-
 		#region SearchForValidAddInTypes
 		private void SearchForValidAddInTypes()
 		{

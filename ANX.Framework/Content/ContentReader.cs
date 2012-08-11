@@ -7,6 +7,7 @@ using System.IO;
 using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Reflection;
 
 #endregion // Using Statements
 

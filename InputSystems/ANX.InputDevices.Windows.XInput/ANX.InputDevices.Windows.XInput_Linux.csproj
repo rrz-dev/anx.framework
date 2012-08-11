@@ -50,16 +50,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
-      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Diagnostics">
-      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.Diagnostics.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DirectInput">
-      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.DirectInput.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput">
-      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.XInput.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

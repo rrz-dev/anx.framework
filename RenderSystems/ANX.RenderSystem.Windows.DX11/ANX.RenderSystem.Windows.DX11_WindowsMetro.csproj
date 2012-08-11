@@ -70,23 +70,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SharpDX, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SharpDX.D3DCompiler, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Diagnostics">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SharpDX.Direct3D11, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

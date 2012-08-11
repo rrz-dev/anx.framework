@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using ANX.Framework.NonXNA.PlatformSystem;
+using ANX.Framework.NonXNA.Reflection;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -92,33 +92,19 @@ namespace ANX.Framework.NonXNA
 		#region CreateAllAddIns
 		private void CreateAllAddIns()
 		{
-			// TODO: load type list
-			string[] allAssemblies = new string[0];
-			string executingAssembly = "";
-#if !WINDOWSMETRO
-			executingAssembly = Assembly.GetExecutingAssembly().Location;
-			string basePath = Path.GetDirectoryName(executingAssembly);
+			Assembly[] allAssemblies = AssemblyLoader.GetAllAssemblies();
 
-			allAssemblies = Directory.GetFiles(basePath, "*.dll",
-					SearchOption.TopDirectoryOnly);
-#endif
-
-			foreach (string file in allAssemblies)
+			foreach (Assembly assembly in allAssemblies)
 			{
-				if (file.Equals(executingAssembly) == false)
+				AddIn addin = new AddIn(assembly);
+				if (addin.IsValid && addin.IsSupported)
 				{
-					Logger.Info("[ANX] trying to load '" + file + "'...");
-
-					AddIn addin = new AddIn(file);
-					if (addin.IsValid && addin.IsSupported)
-					{
-						addinSystems[addin.Type].AvailableSystems.Add(addin);
-						Logger.Info("[ANX] successfully loaded addin...");
-					}
-					else
-					{
-						Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
-					}
+					addinSystems[addin.Type].AvailableSystems.Add(addin);
+					Logger.Info("[ANX] successfully loaded addin...");
+				}
+				else
+				{
+					Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
 				}
 			}
 		}

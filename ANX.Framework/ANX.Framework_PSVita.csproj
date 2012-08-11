@@ -429,6 +429,8 @@
     <Compile Include="NonXNA\PlatformSystem\INativeTitleContainer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeGameTimer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
+    <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
+    <Compile Include="NonXNA\Reflection\AssemblyListFile.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />
     <Compile Include="NonXNA\MediaSystem\IMediaSystemCreator.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
@@ -463,7 +465,7 @@
     <Compile Include="NonXNA\SoundSystem\ISoundEffectInstance.cs" />
     <Compile Include="NonXNA\SoundSystem\IAudioListener.cs" />
     <Compile Include="NonXNA\SoundSystem\IAudioEmitter.cs" />
-    <Compile Include="NonXNA\TypeHelper.cs" />
+    <Compile Include="NonXNA\Reflection\TypeHelper.cs" />
     <Compile Include="NonXNA\Windows8\DictionaryEntry.cs" />
     <Compile Include="NonXNA\Windows8\ExternalException.cs" />
     <Compile Include="NonXNA\Windows8\IDictionaryEnumerator.cs" />

@@ -38,6 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ANX.RenderSystem.Windows.DX11")]
 [assembly: InternalsVisibleTo("ANX.RenderSystem.Windows.Metro")]
 [assembly: InternalsVisibleTo("ANX.RenderSystem.Windows.GL3")]
+[assembly: InternalsVisibleTo("ANX.RenderSystem.Windows.PsVita")]
 [assembly: InternalsVisibleTo("ANX.Framework.Windows.Kinect")]
 [assembly: InternalsVisibleTo("ANX.Framework.Windows.XInput")]
 [assembly: InternalsVisibleTo("ANX.Framework.Windows.XAudio")]
@@ -45,3 +46,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Windows")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Linux")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Metro")]
+[assembly: InternalsVisibleTo("ANX.PlatformSystem.PsVita")]

@@ -135,13 +135,13 @@
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_Linux.csproj">
+      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.Framework.Windows.DX10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11_Linux.csproj">
-      <Project>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</Project>
-      <Name>ANX.RenderSystem.Windows.DX11</Name>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_Linux.csproj">
       <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>

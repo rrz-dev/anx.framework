@@ -6,7 +6,7 @@ using System.Reflection;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.NonXNA
+namespace ANX.Framework.NonXNA.Reflection
 {
 	internal static class TypeHelper
 	{
