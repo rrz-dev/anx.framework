@@ -40,8 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
+    <Compile Include="DatatypesMapping.cs" />
+    <Compile Include="PsVitaBlendState.cs" />
+    <Compile Include="PsVitaDepthStencilState.cs" />
+    <Compile Include="PsVitaEffect.cs" />
+    <Compile Include="PsVitaIndexBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsVitaGraphicsDevice.cs" />
+    <Compile Include="PsVitaRasterizerState.cs" />
+    <Compile Include="PsVitaRenderTarget2D.cs" />
+    <Compile Include="PsVitaTexture2D.cs" />
+    <Compile Include="PsVitaSamplerState.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="PsVitaVertexBuffer.cs" />
   </ItemGroup>

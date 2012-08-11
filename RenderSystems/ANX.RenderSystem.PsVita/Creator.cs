@@ -13,6 +13,7 @@ namespace ANX.RenderSystem.PsVita
 {
 	public class Creator : IRenderSystemCreator
 	{
+		#region Public
 		public string Name
 		{
 			get
@@ -36,6 +37,7 @@ namespace ANX.RenderSystem.PsVita
 				return OSInformation.GetName() == PlatformName.PSVita;
 			}
 		}
+		#endregion
 
 		#region RegisterCreator
 		public void RegisterCreator(AddInSystemFactory factory)
@@ -44,73 +46,93 @@ namespace ANX.RenderSystem.PsVita
 		}
 		#endregion
 
-		#region IRenderSystemCreator Member
-
+		#region CreateGraphicsDevice
 		public INativeGraphicsDevice CreateGraphicsDevice(
 			PresentationParameters presentationParameters)
 		{
 			return new PsVitaGraphicsDevice(presentationParameters);
 		}
+		#endregion
 
+		#region CreateIndexBuffer
+		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
+			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
+			BufferUsage usage)
+		{
+			return new PsVitaIndexBuffer(managedBuffer, size, indexCount, usage);
+		}
+		#endregion
+
+		#region CreateVertexBuffer
+		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
+			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
+			int vertexCount, BufferUsage usage)
+		{
+			return new PsVitaVertexBuffer(managedBuffer, vertexDeclaration,
+				vertexCount, usage);
+		}
+		#endregion
+
+		#region CreateTexture
 		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
 			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
 		{
-			throw new NotImplementedException();
+			return new PsVitaTexture2D(surfaceFormat, width, height, mipCount);
 		}
+		#endregion
 
+		#region CreateRenderTarget
 		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics,
 			int width, int height, bool mipMap, SurfaceFormat preferredFormat,
 			DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
 			RenderTargetUsage usage)
 		{
-			throw new NotImplementedException();
+			return new PsVitaRenderTarget2D();
 		}
+		#endregion
 
-		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
-			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
-			BufferUsage usage)
-		{
-			throw new NotImplementedException();
-		}
-
-		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
-			int vertexCount, BufferUsage usage)
-		{
-			throw new NotImplementedException();
-		}
-
+		#region CreateEffect
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream byteCode)
 		{
-			throw new NotImplementedException();
+			return new PsVitaEffect(managedEffect, byteCode);
 		}
-
+		
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			throw new NotImplementedException();
+			return new PsVitaEffect(managedEffect, vertexShaderByteCode,
+				pixelShaderByteCode);
 		}
+		#endregion
 
+		#region CreateBlendState
 		public INativeBlendState CreateBlendState()
 		{
-			throw new NotImplementedException();
+			return new PsVitaBlendState();
 		}
+		#endregion
 
+		#region CreateRasterizerState
 		public INativeRasterizerState CreateRasterizerState()
 		{
-			throw new NotImplementedException();
+			return new PsVitaRasterizerState();
 		}
+		#endregion
 
+		#region CreateDepthStencilState
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
-			throw new NotImplementedException();
+			return new PsVitaDepthStencilState();
 		}
+		#endregion
 
+		#region CreateSamplerState
 		public INativeSamplerState CreateSamplerState()
 		{
-			throw new NotImplementedException();
+			return new PsVitaSamplerState();
 		}
+		#endregion
 
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
@@ -121,7 +143,5 @@ namespace ANX.RenderSystem.PsVita
 		{
 			throw new NotImplementedException();
 		}
-
-		#endregion
 	}
 }

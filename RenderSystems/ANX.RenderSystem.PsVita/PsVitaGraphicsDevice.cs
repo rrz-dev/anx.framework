@@ -4,12 +4,27 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using Sce.PlayStation.Core.Graphics;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace ANX.RenderSystem.PsVita
 {
 	public class PsVitaGraphicsDevice : INativeGraphicsDevice
 	{
-		private GraphicsContext context;
+		internal static PsVitaGraphicsDevice Current
+		{
+			get;
+			private set;
+		}
+
 		private uint? lastClearColor;
+
+		internal GraphicsContext NativeContext
+		{
+			get;
+			private set;
+		}
 
 		public bool VSync
 		{
@@ -25,8 +40,9 @@ namespace ANX.RenderSystem.PsVita
 
 		public PsVitaGraphicsDevice(PresentationParameters presentationParameters)
 		{
+			Current = this;
 			// TODO
-			context = new GraphicsContext(presentationParameters.BackBufferWidth,
+			NativeContext = new GraphicsContext(presentationParameters.BackBufferWidth,
 				presentationParameters.BackBufferHeight, PixelFormat.Rgba,
 				PixelFormat.Depth24Stencil8, MultiSampleMode.None);
 		}
@@ -41,15 +57,15 @@ namespace ANX.RenderSystem.PsVita
 				lastClearColor != newClearColor)
 			{
 				lastClearColor = newClearColor;
-				context.SetClearColor(color.R, color.G, color.B, color.A);
+				NativeContext.SetClearColor(color.R, color.G, color.B, color.A);
 			}
 
-			context.Clear(ClearMask.Color | ClearMask.Depth);
+			NativeContext.Clear(ClearMask.Color | ClearMask.Depth);
 		}
 
 		public void Clear(ClearOptions options, Vector4 color, float depth, int stencil)
 		{
-			context.SetClearColor(color.X, color.Y, color.Z, color.W);
+			NativeContext.SetClearColor(color.X, color.Y, color.Z, color.W);
 
 			ClearMask mask = ClearMask.None;
 			if ((options | ClearOptions.Target) == options)
@@ -65,16 +81,16 @@ namespace ANX.RenderSystem.PsVita
 				mask |= ClearMask.Depth;
 			}
 
-			context.SetClearDepth(depth);
-			context.SetClearStencil(stencil);
-			context.Clear(mask);
+			NativeContext.SetClearDepth(depth);
+			NativeContext.SetClearStencil(stencil);
+			NativeContext.Clear(mask);
 		}
 		#endregion
 
 		#region Present
 		public void Present()
 		{
-			context.SwapBuffers();
+			NativeContext.SwapBuffers();
 		}
 		#endregion
 
@@ -126,7 +142,7 @@ namespace ANX.RenderSystem.PsVita
 		#region SetViewport
 		public void SetViewport(Viewport viewport)
 		{
-			context.SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+			NativeContext.SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 		}
 		#endregion
 
@@ -161,8 +177,8 @@ namespace ANX.RenderSystem.PsVita
 		#region Dispose
 		public void Dispose()
 		{
-			context.Dispose();
-			context = null;
+			NativeContext.Dispose();
+			NativeContext = null;
 		}
 		#endregion
 	}
