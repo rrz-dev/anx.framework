@@ -41,9 +41,13 @@ namespace ProjectConverter.Platforms
 			ChangeOrCreateNodeValue(element, "ProjectTypeGuids",
 				"{BC8A1FFA-BEE3-4634-8014-F334798102B3};" +
 				"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}");
+			ChangeOrCreateNodeValue(element, "DefaultLanguage", "en-US");
+			ChangeOrCreateNodeValue(element, "FileAlignment", "512");
 
-			//ChangeOrCreateNodeValue(element, "TargetFrameworkVersion", "4.5");
-			//ChangeOrCreateNodeValue(element, "TargetPlatformVersion", "8.0");
+			// TODO: generate cert
+			ChangeOrCreateNodeValue(element, "PackageCertificateKeyFile",
+				"Test_TemporaryKey.pfx");
+			
 			DeleteNodeIfExists(element, "TargetFrameworkVersion");
 			DeleteNodeIfExists(element, "TargetPlatformVersion");
 
@@ -69,6 +73,7 @@ namespace ProjectConverter.Platforms
 			DeleteNodeIfExists(element, "IsWebBootstrapper");
 			DeleteNodeIfExists(element, "UseApplicationTrust");
 			DeleteNodeIfExists(element, "BootstrapperEnabled");
+			DeleteNodeIfExists(element, "InstallFrom");
 
 			XElement outputTypeNode = GetOrCreateNode(element, "OutputType");
 			string outputTypeValue = outputTypeNode.Value.ToLower();
@@ -95,6 +100,17 @@ namespace ProjectConverter.Platforms
 			{
 				bootstrapper.Remove();
 			}
+
+			XName noneName = XName.Get("None", element.Name.NamespaceName);
+			
+			var noneElements = element.Elements(noneName);
+			foreach (XElement noneNode in noneElements)
+			{
+				if (noneNode.Attribute("Include").Value == "app.config")
+				{
+					noneNode.Remove();
+				}
+			}
 		}
 		#endregion
 
@@ -110,9 +126,25 @@ namespace ProjectConverter.Platforms
 		protected override void PostConvert()
 		{
 			string namespaceName = currentProject.Root.Name.NamespaceName;
-			
+
+			AddAppManifestAndCertNode(namespaceName);
+
 			AddMetroVersionNode(namespaceName);
-			AddAppManifestNode(namespaceName);
+			AddCommonPropsNode(namespaceName);
+		}
+		#endregion
+
+		#region AddCommonPropsNode
+		private void AddCommonPropsNode(string namespaceName)
+		{
+			XName importName = XName.Get("Import", namespaceName);
+			XElement commonPropsNode = new XElement(importName);
+			commonPropsNode.Add(new XAttribute("Project",
+				 @"$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"));
+			commonPropsNode.Add(new XAttribute("Condition",
+				@"Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\" +
+				"Microsoft.Common.props')"));
+			currentProject.Root.Add(commonPropsNode);
 		}
 		#endregion
 
@@ -130,8 +162,8 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
-		#region AddAppManifestNode
-		private void AddAppManifestNode(string namespaceName)
+		#region AddAppManifestAndCertNode
+		private void AddAppManifestAndCertNode(string namespaceName)
 		{
 			if(isCurrentProjectExecutable == false)
 				return;
@@ -139,12 +171,19 @@ namespace ProjectConverter.Platforms
 			XName itemGroupName = XName.Get("ItemGroup", namespaceName);
 			XName appxManifestName = XName.Get("AppxManifest", namespaceName);
 			XName subTypeName = XName.Get("SubType", namespaceName);
+			XName noneName = XName.Get("None", namespaceName);
 
 			XElement newItemGroup = new XElement(itemGroupName);
+
+			XElement noneGroup = new XElement(noneName);
+			noneGroup.Add(new XAttribute("Include", "Test_TemporaryKey.pfx"));
+
 			XElement appManifestElement = new XElement(appxManifestName);
-			newItemGroup.Add(appManifestElement);
 			appManifestElement.Add(new XAttribute("Include", "Manifest.appxmanifest"));
 			appManifestElement.Add(new XElement(subTypeName, "Designer"));
+
+			newItemGroup.Add(noneGroup);
+			newItemGroup.Add(appManifestElement);
 			currentProject.Root.Add(newItemGroup);
 		}
 		#endregion
