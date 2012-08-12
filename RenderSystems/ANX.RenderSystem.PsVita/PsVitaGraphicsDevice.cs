@@ -12,6 +12,7 @@ namespace ANX.RenderSystem.PsVita
 {
 	public class PsVitaGraphicsDevice : INativeGraphicsDevice
 	{
+		#region Private
 		internal static PsVitaGraphicsDevice Current
 		{
 			get;
@@ -25,19 +26,22 @@ namespace ANX.RenderSystem.PsVita
 			get;
 			private set;
 		}
+		#endregion
 
+		#region Public
 		public bool VSync
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return true;
 			}
 			set
 			{
-				throw new NotImplementedException();
 			}
 		}
+		#endregion
 
+		#region Constructor
 		public PsVitaGraphicsDevice(PresentationParameters presentationParameters)
 		{
 			Current = this;
@@ -46,8 +50,7 @@ namespace ANX.RenderSystem.PsVita
 				presentationParameters.BackBufferHeight, PixelFormat.Rgba,
 				PixelFormat.Depth24Stencil8, MultiSampleMode.None);
 		}
-
-		#region INativeGraphicsDevice Member
+		#endregion
 
 		#region Clear
 		public void Clear(ref Color color)
@@ -94,6 +97,18 @@ namespace ANX.RenderSystem.PsVita
 		}
 		#endregion
 
+		#region DrawPrimitives (TODO: check)
+		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
+			int primitiveCount)
+		{
+			int count;
+			DrawMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType,
+				primitiveCount, out count);
+			NativeContext.DrawArrays(mode, vertexOffset, count);
+		}
+		#endregion
+
+		#region INativeGraphicsDevice Member
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
 			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 			int primitiveCount)
@@ -123,12 +138,6 @@ namespace ANX.RenderSystem.PsVita
 			throw new NotImplementedException();
 		}
 
-		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset,
-			int primitiveCount)
-		{
-			throw new NotImplementedException();
-		}
-
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			throw new NotImplementedException();
@@ -138,13 +147,6 @@ namespace ANX.RenderSystem.PsVita
 		{
 			throw new NotImplementedException();
 		}
-
-		#region SetViewport
-		public void SetViewport(Viewport viewport)
-		{
-			NativeContext.SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
-		}
-		#endregion
 
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{
@@ -171,6 +173,13 @@ namespace ANX.RenderSystem.PsVita
 		public void ResizeBuffers(PresentationParameters presentationParameters)
 		{
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region SetViewport
+		public void SetViewport(Viewport viewport)
+		{
+			NativeContext.SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 		}
 		#endregion
 

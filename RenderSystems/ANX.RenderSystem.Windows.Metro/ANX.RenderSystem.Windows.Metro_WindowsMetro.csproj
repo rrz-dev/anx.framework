@@ -39,6 +39,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="NativeDxDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,31 +53,31 @@
     <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsMetro.cs" />
     <Compile Include="IndexBuffer_Metro.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="RasterizerState_Metro.cs" />
     <Compile Include="RenderTarget2D_Metro.cs" />
     <Compile Include="SamplerState_Metro.cs" />
     <Compile Include="ShaderByteCode.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
+    <Compile Include="SwapChainMetro.cs" />
     <Compile Include="Texture2D_Metro.cs" />
     <Compile Include="VertexBuffer_Metro.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Win8Metro\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.D3DCompiler, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Win8Metro\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Win8Metro\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Win8Metro\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

@@ -93,6 +93,8 @@ namespace ProjectConverter
 						FixProjectReferencePath(projectReference);
 						ConvertProjectReference(projectReference);
 					}
+
+					ConvertItemGroup(group);
 				}
 			}
 
@@ -110,6 +112,12 @@ namespace ProjectConverter
 
 		#region ConvertPropertyGroup
 		protected virtual void ConvertPropertyGroup(XElement element)
+		{
+		}
+		#endregion
+
+		#region ConvertItemGroup
+		protected virtual void ConvertItemGroup(XElement element)
 		{
 		}
 		#endregion

@@ -11,7 +11,6 @@
     <RootNamespace>ANX.RenderSystem.Windows.DX11</RootNamespace>
     <AssemblyName>ANX.RenderSystem.Windows.DX11</AssemblyName>
     <TargetFrameworkVersion>4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
@@ -72,19 +71,19 @@
   <ItemGroup>
     <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.D3DCompiler, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

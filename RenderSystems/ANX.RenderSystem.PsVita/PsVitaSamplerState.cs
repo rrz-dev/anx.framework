@@ -1,4 +1,5 @@
 ﻿using System;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
@@ -9,67 +10,83 @@ namespace ANX.RenderSystem.PsVita
 {
 	public class PsVitaSamplerState : INativeSamplerState
 	{
-		#region INativeSamplerState Member
-
-		public void Apply(Framework.Graphics.GraphicsDevice graphicsDevice, int index)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Release()
-		{
-			throw new NotImplementedException();
-		}
-
+		#region Public
 		public bool IsBound
 		{
-			get { throw new NotImplementedException(); }
+			get;
+			private set;
 		}
 
-		public Framework.Graphics.TextureAddressMode AddressU
+		public TextureAddressMode AddressU
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
-		public Framework.Graphics.TextureAddressMode AddressV
+		public TextureAddressMode AddressV
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
-		public Framework.Graphics.TextureAddressMode AddressW
+		public TextureAddressMode AddressW
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
-		public Framework.Graphics.TextureFilter Filter
+		public TextureFilter Filter
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
 		public int MaxAnisotropy
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
 		public int MaxMipLevel
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
 
 		public float MipMapLevelOfDetailBias
 		{
-			set { throw new NotImplementedException(); }
+			set;
+			private get;
 		}
-
 		#endregion
 
-		#region IDisposable Member
+		#region Constructor
+		internal PsVitaSamplerState()
+		{
+			IsBound = false;
+		}
+		#endregion
 
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice, int index)
+		{
+			IsBound = true;
+
+			// TODO: set stuff
+		}
+		#endregion
+
+		#region Release
+		public void Release()
+		{
+			IsBound = false;
+		}
+		#endregion
+
+		#region Dispose
 		public void Dispose()
 		{
-			throw new NotImplementedException();
 		}
-
 		#endregion
 	}
 }

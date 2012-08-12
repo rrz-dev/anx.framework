@@ -1,7 +1,8 @@
 using System;
+using ANX.Framework;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
-using ANX.Framework;
+using ANX.Framework.Storage;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,11 +12,12 @@ namespace ANX.PlatformSystem.Metro
 {
 	public class MetroPlatformCreator : IPlatformSystemCreator
 	{
+		#region Public
 		public string Name
 		{
 			get
 			{
-				return "Windows";
+				return "Platform.Metro";
 			}
 		}
 
@@ -34,18 +36,22 @@ namespace ANX.PlatformSystem.Metro
 				return OSInformation.IsWindows;
 			}
 		}
+		#endregion
 
 		#region RegisterCreator
 		public void RegisterCreator(AddInSystemFactory factory)
 		{
-			Logger.Info("adding Windows PlatformSystem creator to collection of AddInSystemFactory");
+			Logger.Info(
+				"adding Metro PlatformSystem creator to collection of AddInSystemFactory");
 			factory.AddCreator(this);
 		}
 		#endregion
 
+		#region Constructor
 		public MetroPlatformCreator()
 		{
 		}
+		#endregion
 
 		#region CreateGameHost
 		public GameHost CreateGameHost(Game game)
@@ -56,44 +62,40 @@ namespace ANX.PlatformSystem.Metro
 		}
 		#endregion
 
-		#region IPlatformSystemCreator Member
-
-
-		public INativeStorageDevice CreateStorageDevice(Framework.Storage.StorageDevice device, PlayerIndex player, int sizeInBytes, int directoryCount)
+		#region CreateStorageDevice (TODO)
+		public INativeStorageDevice CreateStorageDevice(StorageDevice device,
+			PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
 			throw new NotImplementedException();
 		}
-
 		#endregion
 
-		#region IPlatformSystemCreator Member
-
-
-		public INativeStorageContainer CreateStorageContainer(Framework.Storage.StorageContainer container)
+		#region CreateStorageContainer (TODO)
+		public INativeStorageContainer CreateStorageContainer(StorageContainer container)
 		{
 			throw new NotImplementedException();
 		}
-
 		#endregion
 
-		#region IPlatformSystemCreator Member
-
-
+		#region CreateTitleContainer (TODO)
 		public INativeTitleContainer CreateTitleContainer()
 		{
 			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region CreateGameTimer
 		public INativeGameTimer CreateGameTimer()
 		{
-			throw new NotImplementedException();
+			return new MetroGameTimer();
 		}
+		#endregion
 
+		#region CreateContentManager
 		public INativeContentManager CreateContentManager()
 		{
-			throw new NotImplementedException();
+			return new MetroContentManager();
 		}
-
 		#endregion
 	}
 }

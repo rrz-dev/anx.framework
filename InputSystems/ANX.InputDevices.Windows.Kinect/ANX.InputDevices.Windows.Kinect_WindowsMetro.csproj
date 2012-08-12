@@ -11,7 +11,6 @@
     <RootNamespace>ANX.InputDevices.Windows.Kinect</RootNamespace>
     <AssemblyName>ANX.InputDevices.Windows.Kinect</AssemblyName>
     <TargetFrameworkVersion>4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>

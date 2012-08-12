@@ -98,6 +98,11 @@ namespace ProjectConverter
 		}
 		#endregion
 
+		public override string ToString()
+		{
+			return "ProjectPath{" + RelativeSourcePath + "}";
+		}
+
 		private class ProjectPathTests
 		{
 			#region TestBuildTargetFilepath

@@ -1,8 +1,8 @@
 using System;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Infrastructure;
-using Windows.UI.Core;
 using ANX.Framework;
+using Windows.ApplicationModel.Core;
+using Windows.Graphics.Display;
+using Windows.UI.Core;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,126 +10,177 @@ using ANX.Framework;
 
 namespace ANX.PlatformSystem.Metro
 {
-    internal class WindowsGameWindow : GameWindow, IViewProvider
-    {
-        #region Private Members
-        private CoreWindow gameWindow;
+	public class WindowsGameWindow : GameWindow, IFrameworkView
+	{
+		#region Private
+		private WindowsGameHost gameHost;
+		private CoreWindow gameWindow;
+		private float dpi;
+		#endregion
 
-        #endregion // Private Members
+		#region Public
+		public CoreWindow Form
+		{
+			get
+			{
+				return gameWindow;
+			}
+		}
 
-        internal WindowsGameWindow()
-        {
-            //this.gameWindow = new RenderForm("ANX.Framework");
+		public override IntPtr Handle
+		{
+			get
+			{
+				return IntPtr.Zero;
+			}
+		}
 
-            //this.gameWindow.Width = 800;
-            //this.gameWindow.Height = 480;
+		public override bool IsMinimized
+		{
+			get
+			{
+				//TODO: return gameWindow.WindowState == FormWindowState.Minimized;
+				return false;
+			}
+		}
 
-            //this.gameWindow.MaximizeBox = false;
-            //this.gameWindow.FormBorderStyle = FormBorderStyle.Fixed3D;
-        }
+		public override string ScreenDeviceName
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Initialize(CoreWindow window, CoreApplicationView applicationView)
-        {
-            this.gameWindow = window;
-        }
+		public override DisplayOrientation CurrentOrientation
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Load(string entryPoint)
-        {
+		public override bool AllowUserResizing
+		{
+			get
+			{
+				//return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
+				return false;
+			}
+			set
+			{
+				throw new NotSupportedException("AllowUserResizing can not be changed in RenderSystem Metro");
+			}
+		}
 
-        }
+		public override Rectangle ClientBounds
+		{
+			get
+			{
+				//TODO: cache this to prevent four castings on every access
+				//TODO: check if double type bounds are really castable to int
+				return new Rectangle((int)this.gameWindow.Bounds.Left,
+														 (int)this.gameWindow.Bounds.Top,
+														 (int)this.gameWindow.Bounds.Width,
+														 (int)this.gameWindow.Bounds.Height);
+			}
+		}
+		#endregion
 
-        public void Run()
-        {
-            System.Diagnostics.Debugger.Break();
-        }
+		#region Constructor
+		internal WindowsGameWindow(WindowsGameHost setGameHost)
+		{
+			gameHost = setGameHost;
+		}
+		#endregion
 
-        public void Uninitialize()
-        {
+		#region Close
+		public void Close()
+		{
+			if (gameWindow != null)
+			{
+				gameWindow.Close();
+			}
+		}
+		#endregion
 
-        }
+		#region BeginScreenDeviceChange
+		public override void BeginScreenDeviceChange(bool willBeFullScreen)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public void Close()
-        {
-            if (gameWindow != null)
-            {
-                gameWindow.Close();
-            }
-        }
+		#region EndScreenDeviceChange
+		public override void EndScreenDeviceChange(string screenDeviceName,
+			int clientWidth, int clientHeight)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public CoreWindow Form
-        {
-            get
-            {
-                return gameWindow;
-            }
-        }
+		#region SetTitle
+		protected override void SetTitle(string title)
+		{
+			//TODO: this.gameWindow.Text = title;
+		}
+		#endregion
 
-        public override IntPtr Handle
-        {
-            get 
-            { 
-                return IntPtr.Zero; 
-            }
-        }
+		#region SetDpiIfNeeded
+		private void SetDpiIfNeeded(float setDpi)
+		{
+			if (dpi != setDpi)
+			{
+				dpi = setDpi;
+				//ClientSizeChanged(this,);
+			}
+		}
+		#endregion
 
-        public override bool IsMinimized
-        {
-            get 
-            {
-                //TODO: return gameWindow.WindowState == FormWindowState.Minimized;
-                return false;
-            }
-        }
+		#region SetWindow
+		public void SetWindow(CoreWindow window)
+		{
+			gameWindow = window;
 
-        public override void BeginScreenDeviceChange(bool willBeFullScreen)
-        {
-            throw new NotImplementedException();
-        }
+			window.SizeChanged += delegate
+			{
+				//ClientSizeChanged(this,);
+			};
 
-        public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
-        {
-            throw new NotImplementedException();
-        }
+			SetDpiIfNeeded(DisplayProperties.LogicalDpi);
+		}
+		#endregion
 
-        protected override void SetTitle(string title)
-        {
-            //TODO: this.gameWindow.Text = title;
-        }
+		#region Run
+		public void Run()
+		{
+			DisplayProperties.LogicalDpiChanged += delegate
+			{
+				SetDpiIfNeeded(DisplayProperties.LogicalDpi);
+			};
+			gameWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+			gameWindow.Activate();
 
-        public override bool AllowUserResizing
-        {
-            get
-            {
-                //return gameWindow.FormBorderStyle == FormBorderStyle.Sizable;
-                return false;
-            }
-            set
-            {
-                throw new NotSupportedException("AllowUserResizing can not be changed in RenderSystem Metro");
-            }
-        }
+			while (gameHost.ExitRequested == false)
+			{
+				gameWindow.Dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessAllIfPresent);
+				gameHost.InvokeOnIdle();
+			}
+		}
+		#endregion
+		
+		#region IFrameworkView Methods
+		public void Uninitialize()
+		{
+		}
 
-        public override Rectangle ClientBounds
-        {
-            get 
-            {
-                //TODO: cache this to prevent four castings on every access
-                //TODO: check if double type bounds are really castable to int
-                return new Rectangle((int)this.gameWindow.Bounds.Left, 
-                                     (int)this.gameWindow.Bounds.Top, 
-                                     (int)this.gameWindow.Bounds.Width, 
-                                     (int)this.gameWindow.Bounds.Height);
-            }
-        }
+		public void Initialize(CoreApplicationView applicationView)
+		{
+		}
 
-        public override string ScreenDeviceName
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override DisplayOrientation CurrentOrientation
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
+		public void Load(string entryPoint)
+		{
+		}
+		#endregion
+	}
 }

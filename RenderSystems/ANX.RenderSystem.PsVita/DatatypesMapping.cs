@@ -33,5 +33,31 @@ namespace ANX.RenderSystem.PsVita
 			}
 		}
 		#endregion
+
+		#region PrimitiveTypeToBeginMode
+		public static DrawMode PrimitiveTypeToBeginMode(PrimitiveType type,
+			int primitiveCount, out int count)
+		{
+			switch (type)
+			{
+				case PrimitiveType.LineList:
+					count = primitiveCount * 2;
+					return DrawMode.Lines;
+
+				case PrimitiveType.LineStrip:
+					count = primitiveCount + 1;
+					return DrawMode.LineStrip;
+
+				default:
+				case PrimitiveType.TriangleList:
+					count = primitiveCount * 3;
+					return DrawMode.Triangles;
+
+				case PrimitiveType.TriangleStrip:
+					count = primitiveCount + 2;
+					return DrawMode.TriangleStrip;
+			}
+		}
+		#endregion
 	}
 }

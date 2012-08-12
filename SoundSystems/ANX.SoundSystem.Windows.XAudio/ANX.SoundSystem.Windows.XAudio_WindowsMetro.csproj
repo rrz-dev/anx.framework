@@ -52,13 +52,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Diagnostics">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.Diagnostics.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\..\lib\SharpDX-Win8\Bin\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

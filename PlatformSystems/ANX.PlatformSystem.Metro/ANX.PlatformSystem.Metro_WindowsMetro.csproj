@@ -36,6 +36,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MetroContentManager.cs" />
+    <Compile Include="MetroGameTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MetroPlatformCreator.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />

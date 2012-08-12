@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="NativeDxDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,12 +51,12 @@
     <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsMetro.cs" />
     <Compile Include="IndexBuffer_Metro.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="RasterizerState_Metro.cs" />
     <Compile Include="RenderTarget2D_Metro.cs" />
     <Compile Include="SamplerState_Metro.cs" />
     <Compile Include="ShaderByteCode.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
+    <Compile Include="SwapChainMetro.cs" />
     <Compile Include="Texture2D_Metro.cs" />
     <Compile Include="VertexBuffer_Metro.cs" />
   </ItemGroup>

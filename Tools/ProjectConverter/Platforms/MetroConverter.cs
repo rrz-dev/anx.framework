@@ -32,23 +32,7 @@ namespace ProjectConverter.Platforms
 			}
 		}
 		#endregion
-
-		#region ConvertReference
-		protected override void ConvertReference(XElement element)
-		{
-			XName hintPathName = XName.Get("HintPath", element.Name.NamespaceName);
-			XElement hintPath = element.Element(hintPathName);
-			if (hintPath != null)
-			{
-				if (hintPath.Value.Contains("lib\\SharpDX\\Bin\\"))
-				{
-					hintPath.Value = hintPath.Value.Replace("lib\\SharpDX\\Bin\\",
-					 "lib\\SharpDX-Win8\\Bin\\");
-				}
-			}
-		}
-		#endregion
-
+		
 		#region ConvertMainPropertyGroup
 		protected override void ConvertMainPropertyGroup(XElement element)
 		{
@@ -57,6 +41,35 @@ namespace ProjectConverter.Platforms
 				"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}");
 			ChangeOrCreateNodeValue(element, "TargetFrameworkVersion", "4.5");
 			ChangeOrCreateNodeValue(element, "TargetPlatformVersion", "8.0");
+			DeleteNodeIfExists(element, "TargetFrameworkProfile");
+			DeleteNodeIfExists(element, "XnaFrameworkVersion");
+			DeleteNodeIfExists(element, "XnaPlatform");
+			DeleteNodeIfExists(element, "XnaProfile");
+			DeleteNodeIfExists(element, "XnaCrossPlatformGroupID");
+			DeleteNodeIfExists(element, "XnaOutputType");
+
+			XElement outputTypeNode = GetOrCreateNode(element, "OutputType");
+			string outputTypeValue = outputTypeNode.Value.ToLower();
+			if (outputTypeValue == "winexe" ||
+				outputTypeValue == "appcontainerexe" ||
+				outputTypeValue == "exe")
+			{
+				outputTypeNode.Value = "AppContainerExe";
+			}
+		}
+		#endregion
+
+		#region ConvertItemGroup
+		protected override void ConvertItemGroup(XElement element)
+		{
+			XName bootstrapperPackageName = XName.Get("BootstrapperPackage",
+				element.Name.NamespaceName);
+			
+			var bootstrappers = element.Elements(bootstrapperPackageName);
+			foreach (XElement bootstrapper in bootstrappers)
+			{
+				bootstrapper.Remove();
+			}
 		}
 		#endregion
 
