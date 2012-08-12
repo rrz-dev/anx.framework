@@ -83,6 +83,10 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Metro\ANX.PlatformSystem.Metro.csproj">
+      <Project>{04F6041E-475E-4B2A-A889-6A33EABD718B}</Project>
+      <Name>ANX.PlatformSystem.Metro</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
