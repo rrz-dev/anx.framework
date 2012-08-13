@@ -16,6 +16,7 @@ namespace ANX.PlatformSystem.Metro
 		private WindowsGameHost gameHost;
 		private CoreWindow gameWindow;
 		private float dpi;
+		private Rectangle clientBounds;
 		#endregion
 
 		#region Public
@@ -77,12 +78,7 @@ namespace ANX.PlatformSystem.Metro
 		{
 			get
 			{
-				//TODO: cache this to prevent four castings on every access
-				//TODO: check if double type bounds are really castable to int
-				return new Rectangle((int)this.gameWindow.Bounds.Left,
-														 (int)this.gameWindow.Bounds.Top,
-														 (int)this.gameWindow.Bounds.Width,
-														 (int)this.gameWindow.Bounds.Height);
+				return clientBounds;
 			}
 		}
 		#endregion
@@ -132,7 +128,7 @@ namespace ANX.PlatformSystem.Metro
 			if (dpi != setDpi)
 			{
 				dpi = setDpi;
-				//ClientSizeChanged(this,);
+				SizeChanged();
 			}
 		}
 		#endregion
@@ -144,12 +140,21 @@ namespace ANX.PlatformSystem.Metro
 
 			window.SizeChanged += delegate
 			{
-				//ClientSizeChanged(this,);
+				SizeChanged();
 			};
 
 			SetDpiIfNeeded(DisplayProperties.LogicalDpi);
 		}
 		#endregion
+
+		private void SizeChanged()
+		{
+			clientBounds = new Rectangle(
+				(int)gameWindow.Bounds.Left, (int)gameWindow.Bounds.Top,
+				(int)gameWindow.Bounds.Width, (int)gameWindow.Bounds.Height);
+
+			OnClientSizeChanged();
+		}
 
 		#region Run
 		public void Run()

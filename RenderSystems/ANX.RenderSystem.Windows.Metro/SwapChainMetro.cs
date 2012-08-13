@@ -1,9 +1,14 @@
 ﻿using System;
+using ANX.PlatformSystem.Metro;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using Windows.UI.Core;
 using PresentationParameters = ANX.Framework.Graphics.PresentationParameters;
+
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.RenderSystem.Windows.Metro
 {
@@ -11,16 +16,14 @@ namespace ANX.RenderSystem.Windows.Metro
 	{
 		#region Private
 		private SwapChain1 swapChain;
-		private CoreWindow window;
 		private NativeDxDevice graphicsDevice;
 		private PresentationParameters presentationParameters;
 		#endregion
 
 		#region Constructor
-		public SwapChainMetro(CoreWindow setWindow, NativeDxDevice setGraphicsDevice,
+		public SwapChainMetro(NativeDxDevice setGraphicsDevice,
 			PresentationParameters presentationParameters)
 		{
-			window = setWindow;
 			graphicsDevice = setGraphicsDevice;
 			this.presentationParameters = presentationParameters;
 		}
@@ -64,7 +67,9 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				var dxgiAdapter = dxgiDevice2.Adapter;
 				var dxgiFactory2 = dxgiAdapter.GetParent<Factory2>();
-				var comWindow = new ComObject(window);
+
+				WindowsGameWindow gameWindow = (WindowsGameHost.Instance.Window as WindowsGameWindow);
+				var comWindow = new ComObject(gameWindow.Form);
 
 				swapChain = dxgiFactory2.CreateSwapChainForCoreWindow(graphicsDevice.NativeDevice,
 						comWindow, ref desc, null);
@@ -84,9 +89,9 @@ namespace ANX.RenderSystem.Windows.Metro
 				Stereo = false,
 				SampleDescription = new SampleDescription(1, 0),
 				Usage = Usage.RenderTargetOutput,
-				BufferCount = 1,
+				BufferCount = 2,
 				Scaling = Scaling.None,
-				SwapEffect = SwapEffect.Discard,
+				SwapEffect = SwapEffect.FlipSequential,
 			};
 		}
 		#endregion

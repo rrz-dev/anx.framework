@@ -81,7 +81,11 @@ namespace ANX.Framework
 
 		void Window_ClientSizeChanged(object sender, EventArgs e)
 		{
-			throw new NotImplementedException();
+			// TODO: validate
+			var parameters = graphicsDevice.PresentationParameters;
+			parameters.BackBufferWidth = game.Window.ClientBounds.Width;
+			parameters.BackBufferHeight = game.Window.ClientBounds.Height;
+			graphicsDevice.Reset(parameters);
 		}
 
 		public bool BeginDraw()

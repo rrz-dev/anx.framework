@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
+using ProjectConverter.Platforms.Metro;
 
 namespace ProjectConverter.Platforms
 {
 	public class MetroConverter : Converter
 	{
+		private const string OpenSSLToolPath = "../../lib/OpenSSL/openssl.exe";
+
 		private bool isCurrentProjectExecutable;
 
 		public override string Postfix
@@ -34,7 +40,25 @@ namespace ProjectConverter.Platforms
 			}
 		}
 		#endregion
-		
+
+		#region ConvertProjectReference
+		protected override void ConvertProjectReference(XElement element)
+		{
+			XAttribute includeAttribute = element.Attribute("Include");
+			if (includeAttribute != null)
+			{
+				string value = includeAttribute.Value;
+				if (value.Contains("ANX.RenderSystem.Windows.DX10") ||
+					value.Contains("ANX.RenderSystem.Windows.GL3") ||
+					value.Contains("ANX.PlatformSystem.Windows") ||
+					value.Contains("ANX.RenderSystem.Windows.DX11"))
+				{
+					element.Remove();
+				}
+			}
+		}
+		#endregion
+
 		#region ConvertMainPropertyGroup
 		protected override void ConvertMainPropertyGroup(XElement element)
 		{
@@ -95,11 +119,8 @@ namespace ProjectConverter.Platforms
 			XName bootstrapperPackageName = XName.Get("BootstrapperPackage",
 				element.Name.NamespaceName);
 			
-			var bootstrappers = element.Elements(bootstrapperPackageName);
-			foreach (XElement bootstrapper in bootstrappers)
-			{
-				bootstrapper.Remove();
-			}
+			var bootstrappers = element.Elements(bootstrapperPackageName).ToList();
+			bootstrappers.Remove();
 
 			XName noneName = XName.Get("None", element.Name.NamespaceName);
 			
@@ -110,6 +131,11 @@ namespace ProjectConverter.Platforms
 				{
 					noneNode.Remove();
 				}
+			}
+
+			if (element.IsEmpty)
+			{
+				element.Remove();
 			}
 		}
 		#endregion
@@ -131,6 +157,8 @@ namespace ProjectConverter.Platforms
 
 			AddMetroVersionNode(namespaceName);
 			AddCommonPropsNode(namespaceName);
+
+			//GenerateTestCertificate();
 		}
 		#endregion
 
@@ -169,22 +197,81 @@ namespace ProjectConverter.Platforms
 				return;
 
 			XName itemGroupName = XName.Get("ItemGroup", namespaceName);
-			XName appxManifestName = XName.Get("AppxManifest", namespaceName);
-			XName subTypeName = XName.Get("SubType", namespaceName);
-			XName noneName = XName.Get("None", namespaceName);
-
 			XElement newItemGroup = new XElement(itemGroupName);
+			currentProject.Root.Add(newItemGroup);
 
+			XName noneName = XName.Get("None", namespaceName);
 			XElement noneGroup = new XElement(noneName);
 			noneGroup.Add(new XAttribute("Include", "Test_TemporaryKey.pfx"));
-
-			XElement appManifestElement = new XElement(appxManifestName);
-			appManifestElement.Add(new XAttribute("Include", "Manifest.appxmanifest"));
-			appManifestElement.Add(new XElement(subTypeName, "Designer"));
-
 			newItemGroup.Add(noneGroup);
-			newItemGroup.Add(appManifestElement);
-			currentProject.Root.Add(newItemGroup);
+
+			GenerateAppxManifest(newItemGroup);
+		}
+		#endregion
+
+		#region GenerateAppxManifest
+		private void GenerateAppxManifest(XElement itemGroup)
+		{
+			AppxManifest manifest = new AppxManifest(currentProject);
+			manifest.AddNode(itemGroup);
+			manifest.Save();
+		}
+		#endregion
+
+		// TODO: not working yet
+		#region GenerateTestCertificate
+		private void GenerateTestCertificate()
+		{
+			//string tempKeyFilepath = Path.GetTempFileName() + ".key";
+			//string tempFilepath = Path.GetTempFileName() + ".pem";
+			string tempKeyFilepath = "C:\\test.key";
+			string tempFilepath = "C:\\test.pem";
+			string pfxFilepath = Path.Combine(currentProject.FullSourceDirectoryPath,
+				"Test_TemporaryKey.pfx");
+			string dir = Directory.GetCurrentDirectory();
+			string toolPath = Path.Combine(dir, OpenSSLToolPath);
+
+			//string cmd = "req -x509 -nodes -days 365 -newkey rsa:2048 -keyout \"" +
+			//  tempFilepath + "\" -out \"" + tempFilepath + "\"";
+			string cmd = "req -new -sha256 -keyout C:\\test.pem -out C:\\test2.pem -days 1500 -newkey rsa:2048";
+			string output = Execute(toolPath, cmd);
+
+			// # export mycert.pem as PKCS#12 file, mycert.pfx
+			// openssl pkcs12 -export -out mycert.pfx -in mycert.pem -name "testkey"
+			cmd =
+				"pkcs12 -export -out \"" + pfxFilepath + "\" -in \"" + tempFilepath +
+				"\" -name \"testkey\"";
+			output = Execute(toolPath, cmd);
+
+			File.Delete(tempFilepath);
+		}
+		#endregion
+
+		#region Execute
+		private string Execute(string filepath, string args)
+		{
+			string result = "";
+
+			Process process = new Process();
+			process.StartInfo.FileName = filepath;
+			process.StartInfo.Arguments = args;
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.RedirectStandardOutput = true;
+			DataReceivedEventHandler dataReceived =
+				delegate(object sender, DataReceivedEventArgs e)
+			{
+				result += e.Data + "\n";
+			};
+			process.OutputDataReceived += dataReceived;
+			process.ErrorDataReceived += dataReceived;
+			process.Start();
+			process.BeginErrorReadLine();
+			process.BeginOutputReadLine();
+			process.WaitForExit();
+
+			return result;
 		}
 		#endregion
 	}

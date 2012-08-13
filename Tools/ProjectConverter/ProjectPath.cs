@@ -24,6 +24,14 @@ namespace ProjectConverter
 			private set;
 		}
 
+		public string FullSourceDirectoryPath
+		{
+			get
+			{
+				return Path.GetDirectoryName(FullSourcePath);
+			}
+		}
+
 		public string RelativeDestinationPath
 		{
 			get;

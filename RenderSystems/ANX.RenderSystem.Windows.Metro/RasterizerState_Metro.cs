@@ -11,70 +11,32 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class RasterizerState_Metro : INativeRasterizerState
 	{
-		#region Private Members
-		private Dx11.RasterizerStateDescription description;
-		private Dx11.RasterizerState nativeRasterizerState;
+		#region Constants
+		private const int intMaxOver16 = int.MaxValue / 16;
+		#endregion
+
+		#region Private
+		private Dx11.RasterizerDescription1 description;
+		private Dx11.RasterizerState1 nativeRasterizerState;
 		private bool nativeRasterizerStateDirty;
 		private bool bound;
+		#endregion
 
-		private const int intMaxOver16 = int.MaxValue / 16;
-
-		#endregion // Private Members
-
-		public RasterizerState_Metro()
-		{
-			this.description = new Dx11.RasterizerStateDescription();
-
-			this.description.IsAntialiasedLineEnabled = false;
-
-			this.nativeRasterizerStateDirty = true;
-		}
-
-		public void Apply(ANX.Framework.Graphics.GraphicsDevice graphicsDevice)
-		{
-			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeRasterizerState(device);
-			this.bound = true;
-
-			context.Rasterizer.State = this.nativeRasterizerState;
-		}
-
-		public void Release()
-		{
-			this.bound = false;
-		}
-
-		public void Dispose()
-		{
-			if (this.nativeRasterizerState != null)
-			{
-				this.nativeRasterizerState.Dispose();
-				this.nativeRasterizerState = null;
-			}
-		}
-
+		#region Public
 		public bool IsBound
 		{
 			get
 			{
-				return this.bound;
+				return bound;
 			}
 		}
 
-		public ANX.Framework.Graphics.CullMode CullMode
+		public CullMode CullMode
 		{
 			set
 			{
 				Dx11.CullMode cullMode = FormatConverter.Translate(value);
-
-				if (description.CullMode != cullMode)
-				{
-					nativeRasterizerStateDirty = true;
-					description.CullMode = cullMode;
-				}
+				SetValueIfDifferentAndMarkDirty(ref description.CullMode, ref cullMode);
 			}
 		}
 
@@ -83,29 +45,19 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				// XNA uses a float value in the range of 0f..16f as value
-				// DirectX 10 uses a INT value
+				// DirectX 11 uses an INT value
 
 				int depthBiasValue = (int)(value * intMaxOver16);
-
-				if (description.DepthBias != depthBiasValue)
-				{
-					nativeRasterizerStateDirty = true;
-					description.DepthBias = depthBiasValue;
-				}
+				SetValueIfDifferentAndMarkDirty(ref description.DepthBias, ref depthBiasValue);
 			}
 		}
 
-		public ANX.Framework.Graphics.FillMode FillMode
+		public FillMode FillMode
 		{
 			set
 			{
 				Dx11.FillMode fillMode = FormatConverter.Translate(value);
-
-				if (description.FillMode != fillMode)
-				{
-					nativeRasterizerStateDirty = true;
-					description.FillMode = fillMode;
-				}
+				SetValueIfDifferentAndMarkDirty(ref description.FillMode, ref fillMode);
 			}
 		}
 
@@ -113,10 +65,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.IsMultisampleEnabled != value)
+				if (description.MultisampleEnable != value)
 				{
 					nativeRasterizerStateDirty = true;
-					description.IsMultisampleEnabled = value;
+					description.MultisampleEnable = value;
 				}
 			}
 		}
@@ -125,10 +77,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.IsScissorEnabled != value)
+				if (description.ScissorEnable != value)
 				{
 					nativeRasterizerStateDirty = true;
-					description.IsScissorEnabled = value;
+					description.ScissorEnable = value;
 				}
 			}
 		}
@@ -137,28 +89,82 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.SlopeScaledDepthBias != value)
-				{
-					nativeRasterizerStateDirty = true;
-					description.SlopeScaledDepthBias = value;
-				}
+				SetValueIfDifferentAndMarkDirty(ref description.SlopeScaledDepthBias, ref value);
 			}
 		}
+		#endregion
 
+		#region Constructor
+		public RasterizerState_Metro()
+		{
+			description = new Dx11.RasterizerDescription1();
+			description.AntialiasedLineEnable = false;
+
+			nativeRasterizerStateDirty = true;
+		}
+		#endregion
+
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice)
+		{
+			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var device = gdMetro.NativeDevice.NativeDevice;
+			var context = gdMetro.NativeDevice.NativeContext;
+
+			UpdateNativeRasterizerState(device);
+			bound = true;
+
+			context.Rasterizer.State = nativeRasterizerState;
+		}
+		#endregion
+
+		#region Release
+		public void Release()
+		{
+			bound = false;
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			if (nativeRasterizerState != null)
+			{
+				nativeRasterizerState.Dispose();
+				nativeRasterizerState = null;
+			}
+		}
+		#endregion
+
+		#region UpdateNativeRasterizerState
 		private void UpdateNativeRasterizerState(Dx11.Device1 device)
 		{
-			if (this.nativeRasterizerStateDirty == true || this.nativeRasterizerState == null)
+			if (nativeRasterizerStateDirty == true ||
+				nativeRasterizerState == null)
 			{
-				if (this.nativeRasterizerState != null)
+				Dispose();
+
+				try
 				{
-					this.nativeRasterizerState.Dispose();
-					this.nativeRasterizerState = null;
+					nativeRasterizerState = new Dx11.RasterizerState1(device, description);
+					nativeRasterizerStateDirty = false;
 				}
-
-				this.nativeRasterizerState = new Dx11.RasterizerState(device, ref this.description);
-
-				this.nativeRasterizerStateDirty = false;
+				catch
+				{
+				}
 			}
 		}
+		#endregion
+
+		#region SetValueIfDifferentAndMarkDirty
+		private void SetValueIfDifferentAndMarkDirty<T>(ref T oldValue, ref T newValue)
+		{
+			if (oldValue.Equals(newValue) == false)
+			{
+				nativeRasterizerStateDirty = true;
+				oldValue = newValue;
+			}
+		}
+		#endregion
 	}
 }

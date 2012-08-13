@@ -73,28 +73,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Xna.Framework.4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
@@ -110,18 +88,6 @@
     <ProjectReference Include="..\..\..\MediaSystems\ANX.MediaSystem.Windows.OpenAL\ANX.MediaSystem.Windows.OpenAL_WindowsMetro.csproj">
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_WindowsMetro.csproj">
-      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
-      <Name>ANX.PlatformSystem.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_WindowsMetro.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.Framework.Windows.DX10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_WindowsMetro.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.Framework.Windows.GL3</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>

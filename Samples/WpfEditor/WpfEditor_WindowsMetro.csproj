@@ -111,10 +111,6 @@
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_WindowsMetro.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.Windows.GL3</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_WindowsMetro.csproj">
       <Project>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</Project>
       <Name>ANX.SoundSystem.OpenAL</Name>

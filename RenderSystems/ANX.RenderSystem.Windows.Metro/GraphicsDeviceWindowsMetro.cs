@@ -78,8 +78,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			this.vSyncEnabled = true;
 
-			WindowsGameWindow gameWindow = (WindowsGameHost.Instance.Window as WindowsGameWindow);
-			NativeDevice = new NativeDxDevice(gameWindow.Form, presentationParameters);
+			NativeDevice = new NativeDxDevice(presentationParameters);
 			
 			ResizeRenderWindow(presentationParameters);
 

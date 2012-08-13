@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
 using ProjectConverter.Platforms;
@@ -58,7 +59,8 @@ namespace ProjectConverter
 			XName referenceName = XName.Get("Reference", namespaceName);
 			XName projectReferenceName = XName.Get("ProjectReference", namespaceName);
 
-			foreach (var group in project.Root.Elements())
+			var groups = project.Root.Elements().ToList();
+			foreach (var group in groups)
 			{
 				if (group.Name == propertyGroupName)
 				{
@@ -85,10 +87,12 @@ namespace ProjectConverter
 				}
 				else if (group.Name == itemGroupName)
 				{
-					foreach (var reference in group.Elements(referenceName))
+					var allReferences = group.Elements(referenceName).ToList();
+					foreach (var reference in allReferences)
 						ConvertReference(reference);
 
-					foreach (var projectReference in group.Elements(projectReferenceName))
+					var allProjectReferences = group.Elements(projectReferenceName).ToList();
+					foreach (var projectReference in allProjectReferences)
 					{
 						FixProjectReferencePath(projectReference);
 						ConvertProjectReference(projectReference);
