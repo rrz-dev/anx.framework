@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="f191dd44-caad-4a71-b1f4-07eb177508db" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="RenderTarget" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>App1</DisplayName>
+    <DisplayName>RenderTarget</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WindowsGame1.Program">
-      <VisualElements DisplayName="WindowsGame1" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="WindowsGame1" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
+      <VisualElements DisplayName="RenderTarget" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="RenderTarget" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" ShortName="RenderTarget" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>

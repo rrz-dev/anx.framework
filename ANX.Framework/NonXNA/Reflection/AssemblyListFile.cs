@@ -79,7 +79,7 @@ namespace ANX.Framework.NonXNA.Reflection
 			writer.Write("ANX.RenderSystem.Windows.Metro");
 			writer.Write("ANX.InputSystem.Standard");
 			writer.Write("ANX.MediaSystem.Windows.OpenAL");
-			writer.Write("ANX.SoundSystem.OpenAL");
+			writer.Write("ANX.SoundSystem.Windows.XAudio");
 
 			assemblyListStream.Position = 0;
 		}

@@ -111,10 +111,6 @@
       <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
       <Name>ANX.MediaSystem.Windows.OpenAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_WindowsMetro.csproj">
-      <Project>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</Project>
-      <Name>ANX.SoundSystem.OpenAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -129,6 +125,10 @@
     <AppxManifest Include="Manifest.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets/Logo.png" />
+    <Content Include="Assets/SmallLogo.png" />
+    <Content Include="Assets/SplashScreen.png" />
+    <Content Include="Assets/StoreLogo.png" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

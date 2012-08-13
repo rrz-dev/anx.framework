@@ -51,7 +51,8 @@ namespace ProjectConverter.Platforms
 				if (value.Contains("ANX.RenderSystem.Windows.DX10") ||
 					value.Contains("ANX.RenderSystem.Windows.GL3") ||
 					value.Contains("ANX.PlatformSystem.Windows") ||
-					value.Contains("ANX.RenderSystem.Windows.DX11"))
+					value.Contains("ANX.RenderSystem.Windows.DX11") ||
+					value.Contains("ANX.SoundSystem.OpenAL"))
 				{
 					element.Remove();
 				}
@@ -153,7 +154,7 @@ namespace ProjectConverter.Platforms
 		{
 			string namespaceName = currentProject.Root.Name.NamespaceName;
 
-			AddAppManifestAndCertNode(namespaceName);
+			AddMetroResources(namespaceName);
 
 			AddMetroVersionNode(namespaceName);
 			AddCommonPropsNode(namespaceName);
@@ -190,8 +191,8 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
-		#region AddAppManifestAndCertNode
-		private void AddAppManifestAndCertNode(string namespaceName)
+		#region AddMetroResources
+		private void AddMetroResources(string namespaceName)
 		{
 			if(isCurrentProjectExecutable == false)
 				return;
@@ -206,6 +207,9 @@ namespace ProjectConverter.Platforms
 			newItemGroup.Add(noneGroup);
 
 			GenerateAppxManifest(newItemGroup);
+
+			MetroAssets assets = new MetroAssets(currentProject);
+			assets.AddAssetsToProject(newItemGroup);
 		}
 		#endregion
 

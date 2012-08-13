@@ -215,7 +215,8 @@ namespace ProjectConverter
 
 			foreach (var project in solution.Projects)
 			{
-				if (project.IsCsProject)
+				if (project.IsCsProject &&
+					project.RelativePath.Contains("Tools") == false)
 				{
 					result.Add(new ProjectPath(this, project.RelativePath, basePath));
 				}

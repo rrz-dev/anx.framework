@@ -69,6 +69,7 @@
     <Compile Include="Platforms\LinuxConverter.cs" />
     <Compile Include="Platforms\MetroConverter.cs" />
     <Compile Include="Platforms\Metro\AppxManifest.cs" />
+    <Compile Include="Platforms\Metro\MetroAssets.cs" />
     <Compile Include="Platforms\PsVitaConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectData.cs" />

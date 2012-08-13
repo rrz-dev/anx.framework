@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B24A8593-562A-4A25-BB08-46C163F10F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANXStatusComparer", "Tools\ANXStatusComparer\ANXStatusComparer_WindowsMetro.csproj", "{9D8DC781-2E0D-4348-BAD9-745F91428A3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANXStatusComparer", "Tools\ANXStatusComparer\ANXStatusComparer.csproj", "{9D8DC781-2E0D-4348-BAD9-745F91428A3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RenderSystems", "RenderSystems", "{D421509A-9AE3-4D7E-881B-EAFED598B028}"
 EndProject
@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xinput", "Samples\Xinput\Xi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame", "Samples\WindowsGame\WindowsGame_WindowsMetro.csproj", "{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectConverter", "Tools\ProjectConverter\ProjectConverter_WindowsMetro.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectConverter", "Tools\ProjectConverter\ProjectConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect", "Samples\Kinect\Kinect_WindowsMetro.csproj", "{A42413A9-5189-40CB-AACA-D50F24865431}"
 EndProject
@@ -61,7 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95F
 		shader\GL3\SpriteBatch_GLSL.fx = shader\GL3\SpriteBatch_GLSL.fx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", "Tools\StockShaderCodeGenerator\StockShaderCodeGenerator_WindowsMetro.csproj", "{D73E5FF4-AE88-4637-8159-120FBDA564BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", "Tools\StockShaderCodeGenerator\StockShaderCodeGenerator.csproj", "{D73E5FF4-AE88-4637-8159-120FBDA564BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA", "XNA", "{BD648BB8-EF28-453C-B4F5-EE3C93EB4DAF}"
 	ProjectSection(SolutionItems) = preProject

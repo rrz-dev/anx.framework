@@ -4,7 +4,6 @@ using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.PlatformSystem.Metro;
-using SharpDX.D3DCompiler;
 using SharpDX.DXGI;
 using Dx11 = SharpDX.Direct3D11;
 
@@ -19,30 +18,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Constants
 		private const float ColorMultiplier = 1f / 255f;
 		#endregion
-
-		#region Interop
-		[DllImport("user32.dll")]
-		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int width, int height, uint uFlags);
-
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct RECT
-		{
-			public int Left;        // x position of upper-left corner 
-			public int Top;         // y position of upper-left corner 
-			public int Right;       // x position of lower-right corner 
-			public int Bottom;      // y position of lower-right corner 
-		}
-
-		#endregion
-
+		
 		#region Private
 		internal Effect_Metro currentEffect;
 		private VertexBuffer currentVertexBuffer;
@@ -250,6 +226,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		//    passSignature = pass.Description.Signature;
 		//}
 
+		/*
 		private void SetupInputLayout(ShaderBytecode passSignature)
 		{
 			// get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
@@ -258,7 +235,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			var layout = CreateInputLayout(NativeDevice.NativeDevice, passSignature, vertexDeclaration);
 
 			NativeDevice.NativeContext.InputAssembler.InputLayout = layout;
-		}
+		}*/
 
 		private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
 		{
@@ -337,7 +314,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			this.currentViewport = new Dx11.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
 		}
-
+		/*
 		/// <summary>
 		/// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives. The VertexDeclaration of ANX/XNA needs to be mapped
 		/// to the DirectX 10 types. This is what this method is for.
@@ -365,7 +342,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				}
 			}
 			return new Dx11.InputLayout(device, data, inputElements);
-		}
+		}*/
 
 		private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
 		{
@@ -457,16 +434,12 @@ namespace ANX.RenderSystem.Windows.Metro
 
 		private void ResizeRenderWindow(PresentationParameters presentationParameters)
 		{
-			RECT windowRect;
-			RECT clientRect;
-			if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
-					GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
-			{
-				int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
-				int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
-
-				SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
-			}
+			// TODO
+			//WindowsGameWindow gameWindow = (WindowsGameHost.Instance.Window as WindowsGameWindow);
+			//if (gameWindow.Form != null)
+			//{
+				//gameWindow.Form.Bounds
+			//}
 		}
 
 		#region Dispose

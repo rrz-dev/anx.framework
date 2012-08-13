@@ -6,15 +6,20 @@ namespace ProjectConverter.Platforms.Metro
 {
 	public class AppxManifest
 	{
+		#region Private
 		private string filepath;
 		private ProjectPath project;
+		#endregion
 
+		#region Constructor
 		public AppxManifest(ProjectPath setProject)
 		{
 			project = setProject;
 			filepath = Path.Combine(project.FullSourceDirectoryPath, "Manifest.appxmanifest");
 		}
+		#endregion
 
+		#region AddNode
 		public void AddNode(XElement itemGroup)
 		{
 			string namespaceName = itemGroup.Name.NamespaceName;
@@ -27,16 +32,19 @@ namespace ProjectConverter.Platforms.Metro
 
 			itemGroup.Add(appManifestElement);
 		}
+		#endregion
 
+		#region Save
 		public void Save()
 		{
+			string projectName = Path.GetFileNameWithoutExtension(project.FullSourcePath);
 			// TODO: set name etc.
-			File.WriteAllText(filepath, 
+			File.WriteAllText(filepath,
 					@"<?xml version=""1.0"" encoding=""utf-8""?>
 <Package xmlns=""http://schemas.microsoft.com/appx/2010/manifest"">
-  <Identity Name=""f191dd44-caad-4a71-b1f4-07eb177508db"" Publisher=""CN=ANX-Team"" Version=""1.0.0.0"" />
+  <Identity Name=""" + projectName + @""" Publisher=""CN=ANX-Team"" Version=""1.0.0.0"" />
   <Properties>
-    <DisplayName>App1</DisplayName>
+    <DisplayName>" + projectName + @"</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -49,8 +57,8 @@ namespace ProjectConverter.Platforms.Metro
   </Resources>
   <Applications>
     <Application Id=""App"" Executable=""$targetnametoken$.exe"" EntryPoint=""WindowsGame1.Program"">
-      <VisualElements DisplayName=""WindowsGame1"" Logo=""Assets\Logo.png"" SmallLogo=""Assets\SmallLogo.png"" Description=""WindowsGame1"" ForegroundText=""light"" BackgroundColor=""#464646"">
-        <DefaultTile ShowName=""allLogos"" />
+      <VisualElements DisplayName=""" + projectName + @""" Logo=""Assets\Logo.png"" SmallLogo=""Assets\SmallLogo.png"" Description=""" + projectName + @""" ForegroundText=""light"" BackgroundColor=""#464646"">
+        <DefaultTile ShowName=""allLogos"" ShortName=""" + projectName + @""" />
         <SplashScreen Image=""Assets\SplashScreen.png"" />
       </VisualElements>
     </Application>
@@ -60,5 +68,6 @@ namespace ProjectConverter.Platforms.Metro
   </Capabilities>
 </Package>");
 		}
+		#endregion
 	}
 }
