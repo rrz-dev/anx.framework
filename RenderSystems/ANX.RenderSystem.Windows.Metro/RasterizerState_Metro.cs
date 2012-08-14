@@ -9,7 +9,7 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
-	public class RasterizerState_Metro : INativeRasterizerState
+	public class RasterizerState_Metro : BaseStateObject, INativeRasterizerState
 	{
 		#region Constants
 		private const int intMaxOver16 = int.MaxValue / 16;
@@ -18,19 +18,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Private
 		private Dx11.RasterizerDescription1 description;
 		private Dx11.RasterizerState1 nativeRasterizerState;
-		private bool nativeRasterizerStateDirty;
-		private bool bound;
 		#endregion
 
 		#region Public
-		public bool IsBound
-		{
-			get
-			{
-				return bound;
-			}
-		}
-
 		public CullMode CullMode
 		{
 			set
@@ -67,7 +57,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				if (description.MultisampleEnable != value)
 				{
-					nativeRasterizerStateDirty = true;
+					isDirty = true;
 					description.MultisampleEnable = value;
 				}
 			}
@@ -79,7 +69,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				if (description.ScissorEnable != value)
 				{
-					nativeRasterizerStateDirty = true;
+					isDirty = true;
 					description.ScissorEnable = value;
 				}
 			}
@@ -100,7 +90,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			description = new Dx11.RasterizerDescription1();
 			description.AntialiasedLineEnable = false;
 
-			nativeRasterizerStateDirty = true;
+			isDirty = true;
 		}
 		#endregion
 
@@ -118,13 +108,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		#region Release
-		public void Release()
-		{
-			bound = false;
-		}
-		#endregion
-
 		#region Dispose
 		public void Dispose()
 		{
@@ -139,30 +122,20 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region UpdateNativeRasterizerState
 		private void UpdateNativeRasterizerState(Dx11.Device1 device)
 		{
-			if (nativeRasterizerStateDirty == true ||
+			if (isDirty == true ||
 				nativeRasterizerState == null)
 			{
 				Dispose();
 
 				try
 				{
-					nativeRasterizerState = new Dx11.RasterizerState1(device, description);
-					nativeRasterizerStateDirty = false;
+					nativeRasterizerState =
+						new Dx11.RasterizerState1(device, description);
+					isDirty = false;
 				}
 				catch
 				{
 				}
-			}
-		}
-		#endregion
-
-		#region SetValueIfDifferentAndMarkDirty
-		private void SetValueIfDifferentAndMarkDirty<T>(ref T oldValue, ref T newValue)
-		{
-			if (oldValue.Equals(newValue) == false)
-			{
-				nativeRasterizerStateDirty = true;
-				oldValue = newValue;
 			}
 		}
 		#endregion

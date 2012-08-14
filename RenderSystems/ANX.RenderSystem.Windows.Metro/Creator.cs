@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
@@ -12,14 +13,21 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class Creator : IRenderSystemCreator
 	{
+		#region Public
 		public string Name
 		{
-			get { return "Metro"; }
+			get
+			{
+				return "Metro";
+			}
 		}
 
 		public int Priority
 		{
-			get { return 10; }
+			get
+			{
+				return 10;
+			}
 		}
 
 		public bool IsSupported
@@ -29,38 +37,52 @@ namespace ANX.RenderSystem.Windows.Metro
 				return OSInformation.GetName() == PlatformName.Windows8;
 			}
 		}
+		#endregion
 
-		public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
+		#region CreateGraphicsDevice
+		public INativeGraphicsDevice CreateGraphicsDevice(
+			PresentationParameters presentationParameters)
 		{
 			return new GraphicsDeviceWindowsMetro(presentationParameters);
 		}
+		#endregion
 
+		#region CreateIndexBuffer
 		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
-			IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
+			BufferUsage usage)
 		{
 			return new IndexBuffer_Metro(graphics, size, indexCount, usage);
 		}
+		#endregion
 
+		#region CreateVertexBuffer
 		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
+			int vertexCount, BufferUsage usage)
 		{
 			return new VertexBuffer_Metro(graphics, vertexDeclaration, vertexCount, usage);
 		}
+		#endregion
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+		#region CreateEffect
+		public INativeEffect CreateEffect(GraphicsDevice graphics,
+			Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
-			Effect_Metro effect = new Effect_Metro(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
-
-			return effect;
+			return new Effect_Metro(graphics, managedEffect,
+				vertexShaderByteCode, pixelShaderByteCode);
 		}
+		#endregion
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, System.IO.Stream byteCode)
+		#region CreateEffect
+		public INativeEffect CreateEffect(GraphicsDevice graphics,
+			Effect managedEffect, System.IO.Stream byteCode)
 		{
-			Effect_Metro effect = new Effect_Metro(graphics, managedEffect, byteCode);
-
-			return effect;
+			return new Effect_Metro(graphics, managedEffect, byteCode);
 		}
+		#endregion
 
+		#region CreateTexture (TODO)
 		public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
 		{
 			//TODO: implement
@@ -73,27 +95,45 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			//return texture;
 		}
+		#endregion
 
+		#region CreateTexture
+		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
+			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+		{
+			return new Texture2D_Metro(graphics, width, height, surfaceFormat, mipCount);
+		}
+		#endregion
+
+		#region CreateBlendState
 		public INativeBlendState CreateBlendState()
 		{
 			return new BlendState_Metro();
 		}
+		#endregion
 
+		#region CreateRasterizerState
 		public INativeRasterizerState CreateRasterizerState()
 		{
 			return new RasterizerState_Metro();
 		}
+		#endregion
 
+		#region CreateDepthStencilState
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
 			return new DepthStencilState_Metro();
 		}
+		#endregion
 
+		#region CreateSamplerState
 		public INativeSamplerState CreateSamplerState()
 		{
 			return new SamplerState_Metro();
 		}
+		#endregion
 
+		#region GetShaderByteCode
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
 			if (type == PreDefinedShader.SpriteBatch)
@@ -123,22 +163,25 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
 		}
+		#endregion
 
+		#region RegisterCreator
 		public void RegisterCreator(AddInSystemFactory factory)
 		{
 			factory.AddCreator(this);
 		}
+		#endregion
 
-
-		public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+		#region GetAdapterList (TODO)
+		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
-			return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(new GraphicsAdapter[]
-					{
-						new GraphicsAdapter()
-						{
-							IsDefaultAdapter = true
-						}
-					});
+			return new ReadOnlyCollection<GraphicsAdapter>(new GraphicsAdapter[]
+			{
+				new GraphicsAdapter()
+				{
+					IsDefaultAdapter = true
+				}
+			});
 			/*
 				SharpDX.DXGI.Factory factory = new Factory();
 
@@ -189,15 +232,16 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);*/
 		}
+		#endregion
 
-		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+		#region CreateRenderTarget
+		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics,
+			int width, int height, bool mipMap, SurfaceFormat preferredFormat,
+			DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
 		{
-			return new Texture2D_Metro(graphics, width, height, surfaceFormat, mipCount);
+			return new RenderTarget2D_Metro(graphics, width, height, mipMap,
+				preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
 		}
-
-		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-		{
-			return new RenderTarget2D_Metro(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
-		}
+		#endregion
 	}
 }

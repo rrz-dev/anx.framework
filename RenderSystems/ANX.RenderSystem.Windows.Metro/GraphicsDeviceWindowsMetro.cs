@@ -1,9 +1,7 @@
 using System;
-using System.Runtime.InteropServices;
 using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.PlatformSystem.Metro;
 using SharpDX.DXGI;
 using Dx11 = SharpDX.Direct3D11;
 
@@ -237,6 +235,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			NativeDevice.NativeContext.InputAssembler.InputLayout = layout;
 		}*/
 
+		#region CalculateVertexCount
 		private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
 		{
 			if (type == PrimitiveType.TriangleList)
@@ -260,7 +259,9 @@ namespace ANX.RenderSystem.Windows.Metro
 				throw new NotImplementedException("couldn't calculate vertex count for PrimitiveType '" + type.ToString() + "'");
 			}
 		}
+		#endregion
 
+		#region SetIndexBuffer
 		public void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
 			if (indexBuffer == null)
@@ -281,7 +282,9 @@ namespace ANX.RenderSystem.Windows.Metro
 				throw new Exception("couldn't fetch native DirectX10 IndexBuffer");
 			}
 		}
+		#endregion
 
+		#region SetVertexBuffers
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			if (vertexBuffers == null)
@@ -309,11 +312,16 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			NativeDevice.NativeContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 		}
+		#endregion
 
+		#region SetViewport
 		public void SetViewport(Viewport viewport)
 		{
-			this.currentViewport = new Dx11.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
+			this.currentViewport = new Dx11.Viewport(viewport.X, viewport.Y,
+				viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
 		}
+		#endregion
+
 		/*
 		/// <summary>
 		/// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives. The VertexDeclaration of ANX/XNA needs to be mapped
@@ -344,6 +352,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			return new Dx11.InputLayout(device, data, inputElements);
 		}*/
 
+		#region CreateInputElementFromVertexElement
 		private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
 		{
 			string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
@@ -369,7 +378,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			return new Dx11.InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
 		}
+		#endregion
 
+		#region SetRenderTargets (TODO)
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{
 			/*if (renderTargets == null)
@@ -410,7 +421,9 @@ namespace ANX.RenderSystem.Windows.Metro
 				}
 			}*/
 		}
+		#endregion
 
+		#region GetBackBufferData (TODO)
 		public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
 		{
 			throw new NotImplementedException();
@@ -425,13 +438,17 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region ResizeBuffers
 		public void ResizeBuffers(PresentationParameters presentationParameters)
 		{
 			NativeDevice.Resize(presentationParameters);
 			ResizeRenderWindow(presentationParameters);
 		}
+		#endregion
 
+		#region ResizeRenderWindow (TODO)
 		private void ResizeRenderWindow(PresentationParameters presentationParameters)
 		{
 			// TODO
@@ -441,6 +458,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				//gameWindow.Form.Bounds
 			//}
 		}
+		#endregion
 
 		#region Dispose
 		public void Dispose()

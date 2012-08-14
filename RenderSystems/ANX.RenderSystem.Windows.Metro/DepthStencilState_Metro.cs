@@ -8,84 +8,32 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
-	public class DepthStencilState_Metro : INativeDepthStencilState
+	public class DepthStencilState_Metro : BaseStateObject, INativeDepthStencilState
 	{
-		#region Private Members
+		#region Private
 		private Dx11.DepthStencilStateDescription description;
 		private Dx11.DepthStencilState nativeDepthStencilState;
-		private bool nativeDepthStencilStateDirty;
-		private bool bound;
-
 		private int referenceStencil;
+		#endregion
 
-		#endregion // Private Members
-
-		public DepthStencilState_Metro()
-		{
-			this.description = new Dx11.DepthStencilStateDescription();
-
-			this.nativeDepthStencilStateDirty = true;
-		}
-
-		public void Apply(ANX.Framework.Graphics.GraphicsDevice graphicsDevice)
-		{
-			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeDepthStencilState(device);
-			this.bound = true;
-
-			context.OutputMerger.SetDepthStencilState(nativeDepthStencilState, this.referenceStencil);
-		}
-
-		public void Release()
-		{
-			this.bound = false;
-		}
-
-		public void Dispose()
-		{
-			if (this.nativeDepthStencilState != null)
-			{
-				this.nativeDepthStencilState.Dispose();
-				this.nativeDepthStencilState = null;
-			}
-		}
-
-		public bool IsBound
-		{
-			get
-			{
-				return this.bound;
-			}
-		}
-
-		public ANX.Framework.Graphics.StencilOperation CounterClockwiseStencilDepthBufferFail
+		#region Public
+		public StencilOperation CounterClockwiseStencilDepthBufferFail
 		{
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.BackFace.DepthFailOperation != operation)
-				{
-					description.BackFace.DepthFailOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.BackFace.DepthFailOperation, ref operation);
 			}
 		}
 
-		public ANX.Framework.Graphics.StencilOperation CounterClockwiseStencilFail
+		public StencilOperation CounterClockwiseStencilFail
 		{
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.BackFace.FailOperation != operation)
-				{
-					description.BackFace.FailOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.BackFace.FailOperation, ref operation);
 			}
 		}
 
@@ -94,12 +42,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.Comparison comparison = FormatConverter.Translate(value);
-
-				if (description.BackFace.Comparison != comparison)
-				{
-					description.BackFace.Comparison = comparison;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.BackFace.Comparison, ref comparison);
 			}
 		}
 
@@ -108,12 +52,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.BackFace.PassOperation != operation)
-				{
-					description.BackFace.PassOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.BackFace.PassOperation, ref operation);
 			}
 		}
 
@@ -124,7 +64,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				if (description.IsDepthEnabled != value)
 				{
 					description.IsDepthEnabled = value;
-					nativeDepthStencilStateDirty = true;
+					isDirty = true;
 				}
 			}
 		}
@@ -134,12 +74,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.Comparison comparison = FormatConverter.Translate(value);
-
-				if (description.DepthComparison != comparison)
-				{
-					description.DepthComparison = comparison;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.DepthComparison, ref comparison);
 			}
 		}
 
@@ -150,12 +86,8 @@ namespace ANX.RenderSystem.Windows.Metro
 				Dx11.DepthWriteMask writeMask = value ?
 					Dx11.DepthWriteMask.All :
 					Dx11.DepthWriteMask.Zero;
-
-				if (description.DepthWriteMask != writeMask)
-				{
-					description.DepthWriteMask = writeMask;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.DepthWriteMask, ref writeMask);
 			}
 		}
 
@@ -163,11 +95,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (this.referenceStencil != value)
-				{
-					this.referenceStencil = value;
-					this.nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(ref referenceStencil, ref value);
 			}
 		}
 
@@ -176,12 +104,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.FrontFace.DepthFailOperation != operation)
-				{
-					description.FrontFace.DepthFailOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.FrontFace.DepthFailOperation, ref operation);
 			}
 		}
 
@@ -192,36 +116,28 @@ namespace ANX.RenderSystem.Windows.Metro
 				if (description.IsStencilEnabled != value)
 				{
 					description.IsStencilEnabled = value;
-					nativeDepthStencilStateDirty = true;
+					isDirty = true;
 				}
 			}
 		}
 
-		public ANX.Framework.Graphics.StencilOperation StencilFail
+		public StencilOperation StencilFail
 		{
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.FrontFace.FailOperation != operation)
-				{
-					description.FrontFace.FailOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.FrontFace.FailOperation, ref operation);
 			}
 		}
 
-		public ANX.Framework.Graphics.CompareFunction StencilFunction
+		public CompareFunction StencilFunction
 		{
 			set
 			{
 				Dx11.Comparison comparison = FormatConverter.Translate(value);
-
-				if (description.FrontFace.Comparison != comparison)
-				{
-					description.FrontFace.Comparison = comparison;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.FrontFace.Comparison, ref comparison);
 			}
 		}
 
@@ -229,27 +145,20 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				byte stencilMask = (byte)value;         //TODO: check range
-
-				if (description.StencilReadMask != stencilMask)
-				{
-					description.StencilReadMask = stencilMask;
-					nativeDepthStencilStateDirty = true;
-				}
+				byte stencilMask = (byte)value;
+				//TODO: check range
+				SetValueIfDifferentAndMarkDirty(
+					ref description.StencilReadMask, ref stencilMask);
 			}
 		}
 
-		public ANX.Framework.Graphics.StencilOperation StencilPass
+		public StencilOperation StencilPass
 		{
 			set
 			{
 				Dx11.StencilOperation operation = FormatConverter.Translate(value);
-
-				if (description.FrontFace.PassOperation != operation)
-				{
-					description.FrontFace.PassOperation = operation;
-					nativeDepthStencilStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.FrontFace.PassOperation, ref operation);
 			}
 		}
 
@@ -257,13 +166,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				byte stencilWriteMask = (byte)value;        //TODO: check range
-
-				if (description.StencilWriteMask != stencilWriteMask)
-				{
-					description.StencilWriteMask = stencilWriteMask;
-					nativeDepthStencilStateDirty = true;
-				}
+				byte stencilWriteMask = (byte)value;
+				//TODO: check range
+				SetValueIfDifferentAndMarkDirty(
+					ref description.StencilWriteMask, ref stencilWriteMask);
 			}
 		}
 
@@ -274,21 +180,60 @@ namespace ANX.RenderSystem.Windows.Metro
 				//TODO: check if we really need this. in xna this enables only counter clockwise stencil operations
 			}
 		}
+		#endregion
 
-		private void UpdateNativeDepthStencilState(Dx11.Device1 device)
+		#region Constructor
+		public DepthStencilState_Metro()
+			: base()
 		{
-			if (this.nativeDepthStencilStateDirty == true || this.nativeDepthStencilState == null)
+			description = new Dx11.DepthStencilStateDescription();
+		}
+		#endregion
+
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice)
+		{
+			GraphicsDeviceWindowsMetro gdMetro =
+				graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var device = gdMetro.NativeDevice.NativeDevice;
+			var context = gdMetro.NativeDevice.NativeContext;
+
+			UpdateNativeDepthStencilState(device);
+			bound = true;
+
+			context.OutputMerger.SetDepthStencilState(
+				nativeDepthStencilState, referenceStencil);
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			if (nativeDepthStencilState != null)
 			{
-				if (this.nativeDepthStencilState != null)
-				{
-					this.nativeDepthStencilState.Dispose();
-					this.nativeDepthStencilState = null;
-				}
-
-				this.nativeDepthStencilState = new Dx11.DepthStencilState(device, ref this.description);
-
-				this.nativeDepthStencilStateDirty = false;
+				nativeDepthStencilState.Dispose();
+				nativeDepthStencilState = null;
 			}
 		}
+		#endregion
+
+		#region UpdateNativeDepthStencilState
+		private void UpdateNativeDepthStencilState(Dx11.Device1 device)
+		{
+			if (isDirty == true || nativeDepthStencilState == null)
+			{
+				if (nativeDepthStencilState != null)
+				{
+					nativeDepthStencilState.Dispose();
+					nativeDepthStencilState = null;
+				}
+
+				nativeDepthStencilState =
+					new Dx11.DepthStencilState(device, ref description);
+
+				isDirty = false;
+			}
+		}
+		#endregion
 	}
 }

@@ -13,61 +13,13 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class Effect_Metro : INativeEffect
 	{
+		#region Private
 		private Dx11.VertexShader vertexShader;
 		private Dx11.PixelShader pixelShader;
 		private Effect managedEffect;
+		#endregion
 
-		public Effect_Metro(GraphicsDevice device, Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
-		{
-			if (this.managedEffect == null)
-			{
-				throw new ArgumentNullException("managedEffect");
-			}
-			this.managedEffect = managedEffect;
-
-			if (vertexShaderByteCode.CanSeek)
-			{
-				vertexShaderByteCode.Seek(0, SeekOrigin.Begin);
-			}
-
-			int vertexSize = (int)(vertexShaderByteCode.Length - vertexShaderByteCode.Position);
-			byte[] vertexData = new byte[vertexSize];
-			vertexShaderByteCode.Read(vertexData, 0, vertexSize);
-			this.vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
-
-			if (pixelShaderByteCode.CanSeek)
-			{
-				pixelShaderByteCode.Seek(0, SeekOrigin.Begin);
-			}
-
-			int pixelSize = (int)(pixelShaderByteCode.Length - pixelShaderByteCode.Position);
-			byte[] pixelData = new byte[pixelSize];
-			pixelShaderByteCode.Read(pixelData, 0, pixelSize);
-			this.pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
-		}
-
-		public Effect_Metro(GraphicsDevice device, Effect managedEffect, Stream effectByteCode)
-		{
-			if (managedEffect == null)
-			{
-				throw new ArgumentNullException("managedEffect");
-			}
-			this.managedEffect = managedEffect;
-
-			if (effectByteCode.CanSeek)
-			{
-				effectByteCode.Seek(0, SeekOrigin.Begin);
-			}
-			// TODO
-			//this.nativeEffect = new Dx11.Effect(((GraphicsDeviceWindowsDX10)device.NativeDevice).NativeDevice, this.effectByteCode);
-		}
-
-		public void Apply(GraphicsDevice graphicsDevice)
-		{
-			//TODO: dummy
-			((GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice).currentEffect = this;
-		}
-
+		#region Public
 		//internal Dx11.Effect NativeEffect
 		//{
 		//    get
@@ -107,28 +59,6 @@ namespace ANX.RenderSystem.Windows.Metro
 				return this.pixelShader;
 			}
 		}
-
-		public void Dispose()
-		{
-			if (this.pixelShader != null)
-			{
-				this.pixelShader.Dispose();
-				this.pixelShader = null;
-			}
-
-			if (this.vertexShader != null)
-			{
-				this.vertexShader.Dispose();
-				this.vertexShader = null;
-			}
-
-			//if (this.nativeEffect != null)
-			//{
-			//    this.nativeEffect.Dispose();
-			//    this.nativeEffect = null;
-			//}
-		}
-
 
 		public IEnumerable<EffectTechnique> Techniques
 		{
@@ -170,5 +100,79 @@ namespace ANX.RenderSystem.Windows.Metro
 				//}
 			}
 		}
+		#endregion
+
+		#region Constructor
+		public Effect_Metro(GraphicsDevice device, Effect managedEffect,
+			Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+		{
+			this.managedEffect = managedEffect;
+
+			byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
+			vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
+
+			byte[] pixelData = SeekIfPossibleAndReadBytes(pixelShaderByteCode);
+			pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
+		}
+
+		public Effect_Metro(GraphicsDevice device, Effect managedEffect, Stream effectByteCode)
+		{
+			this.managedEffect = managedEffect;
+
+			if (effectByteCode.CanSeek)
+			{
+				effectByteCode.Seek(0, SeekOrigin.Begin);
+			}
+			// TODO
+			/*
+			byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
+			vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
+
+			byte[] pixelData = SeekIfPossibleAndReadBytes(pixelShaderByteCode);
+			pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
+			*/
+		}
+		#endregion
+
+		#region SeekIfPossibleAndReadBytes
+		private byte[] SeekIfPossibleAndReadBytes(Stream stream)
+		{
+			if (stream.CanSeek)
+			{
+				stream.Seek(0, SeekOrigin.Begin);
+			}
+
+			int pixelSize = (int)(stream.Length - stream.Position);
+			byte[] data = new byte[pixelSize];
+			stream.Read(data, 0, pixelSize);
+
+			return data;
+		}
+		#endregion
+
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice)
+		{
+			//TODO: dummy
+			((GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice).currentEffect = this;
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			if (pixelShader != null)
+			{
+				pixelShader.Dispose();
+				pixelShader = null;
+			}
+
+			if (vertexShader != null)
+			{
+				vertexShader.Dispose();
+				vertexShader = null;
+			}
+		}
+		#endregion
 	}
 }

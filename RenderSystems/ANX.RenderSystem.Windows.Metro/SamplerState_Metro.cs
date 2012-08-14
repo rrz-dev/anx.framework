@@ -9,60 +9,21 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
-	public class SamplerState_Metro : INativeSamplerState
+	public class SamplerState_Metro : BaseStateObject, INativeSamplerState
 	{
-		#region Private Members
+		#region Private
 		private Dx11.SamplerStateDescription description;
 		private Dx11.SamplerState nativeSamplerState;
-		private bool nativeSamplerStateDirty;
-		private bool bound;
+		#endregion
 
-		#endregion // Private Members
-
-		public SamplerState_Metro()
-		{
-			this.description = new Dx11.SamplerStateDescription();
-
-			this.nativeSamplerStateDirty = true;
-		}
-
-		public void Apply(GraphicsDevice graphicsDevice, int index)
-		{
-			throw new NotImplementedException();
-
-			//GraphicsDeviceWindowsMetro gdm = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			//Device device = gdm.NativeDevice;
-
-			//UpdateNativeSamplerState(device);
-			//this.bound = true;
-
-			//device.PixelShader.SetSampler(index, this.nativeSamplerState);
-		}
-
-		public void Release()
-		{
-			this.bound = false;
-		}
-
-		public bool IsBound
-		{
-			get
-			{
-				return this.bound;
-			}
-		}
-
+		#region Public
 		public TextureAddressMode AddressU
 		{
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-
-				if (description.AddressU != mode)
-				{
-					description.AddressU = mode;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.AddressU, ref mode);
 			}
 		}
 
@@ -71,12 +32,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-
-				if (description.AddressV != mode)
-				{
-					description.AddressV = mode;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.AddressV, ref mode);
 			}
 		}
 
@@ -85,12 +42,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-
-				if (description.AddressW != mode)
-				{
-					description.AddressW = mode;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.AddressW, ref mode);
 			}
 		}
 
@@ -99,12 +52,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.Filter filter = FormatConverter.Translate(value);
-
-				if (description.Filter != filter)
-				{
-					description.Filter = filter;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.Filter, ref filter);
 			}
 		}
 
@@ -112,11 +61,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.MaximumAnisotropy != value)
-				{
-					description.MaximumAnisotropy = value;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.MaximumAnisotropy, ref value);
 			}
 		}
 
@@ -127,7 +73,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				if (description.MaximumLod != value)
 				{
 					description.MaximumLod = value;
-					nativeSamplerStateDirty = true;
+					isDirty = true;
 				}
 			}
 		}
@@ -136,37 +82,62 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.MipLodBias != value)
-				{
-					description.MipLodBias = value;
-					nativeSamplerStateDirty = true;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref description.MipLodBias, ref value);
 			}
 		}
+		#endregion
 
+		#region Constructor
+		public SamplerState_Metro()
+			: base()
+		{
+			description = new Dx11.SamplerStateDescription();
+		}
+		#endregion
+
+		#region Apply (TODO)
+		public void Apply(GraphicsDevice graphicsDevice, int index)
+		{
+			var gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			Dx11.Device1 device = gdMetro.NativeDevice.NativeDevice;
+
+			UpdateNativeSamplerState(device);
+			bound = true;
+			
+			throw new NotImplementedException();
+			//device.PixelShader.SetSampler(index, this.nativeSamplerState);
+		}
+		#endregion
+
+		#region Dispose
 		public void Dispose()
 		{
-			if (this.nativeSamplerState != null)
+			if (nativeSamplerState != null)
 			{
-				this.nativeSamplerState.Dispose();
-				this.nativeSamplerState = null;
+				nativeSamplerState.Dispose();
+				nativeSamplerState = null;
 			}
 		}
+		#endregion
 
+		#region UpdateNativeSamplerState
 		private void UpdateNativeSamplerState(Dx11.Device1 device)
 		{
-			if (this.nativeSamplerStateDirty == true || this.nativeSamplerState == null)
+			if (isDirty == true || nativeSamplerState == null)
 			{
-				if (this.nativeSamplerState != null)
+				if (nativeSamplerState != null)
 				{
-					this.nativeSamplerState.Dispose();
-					this.nativeSamplerState = null;
+					nativeSamplerState.Dispose();
+					nativeSamplerState = null;
 				}
 
-				this.nativeSamplerState = new Dx11.SamplerState(device, ref this.description);
+				nativeSamplerState =
+					new Dx11.SamplerState(device, ref description);
 
-				this.nativeSamplerStateDirty = false;
+				isDirty = false;
 			}
 		}
+		#endregion
 	}
 }

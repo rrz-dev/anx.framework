@@ -9,65 +9,16 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
-	public class BlendState_Metro : INativeBlendState
+	public class BlendState_Metro : BaseStateObject, INativeBlendState
 	{
-		#region Private Members
+		#region Private
 		private Dx11.BlendStateDescription blendStateDescription;
 		private Dx11.BlendState nativeBlendState;
-		private bool nativeBlendStateDirty;
 		private SharpDX.Color4 blendFactor;
 		private int multiSampleMask;
-		private bool bound;
+		#endregion
 
-
-		#endregion // Private Members
-
-		public BlendState_Metro()
-		{
-			for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
-			{
-				blendStateDescription.RenderTarget[i] = new Dx11.RenderTargetBlendDescription();
-				blendStateDescription.RenderTarget[i].IsBlendEnabled = (i < 4);
-				blendStateDescription.IndependentBlendEnable = true;
-			}
-
-			nativeBlendStateDirty = true;
-		}
-
-		public void Apply(GraphicsDevice graphicsDevice)
-		{
-			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeBlendState(device);
-			this.bound = true;
-
-			context.OutputMerger.SetBlendState(nativeBlendState, this.blendFactor, this.multiSampleMask);
-		}
-
-		public void Release()
-		{
-			this.bound = false;
-		}
-
-		public void Dispose()
-		{
-			if (this.nativeBlendState != null)
-			{
-				this.nativeBlendState.Dispose();
-				this.nativeBlendState = null;
-			}
-		}
-
-		public bool IsBound
-		{
-			get
-			{
-				return this.bound;
-			}
-		}
-
+		#region Public
 		public Color BlendFactor
 		{
 			set
@@ -97,12 +48,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].AlphaBlendOperation != alphaBlendOperation)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].AlphaBlendOperation = alphaBlendOperation;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].AlphaBlendOperation,
+						ref alphaBlendOperation);
 				}
 			}
 		}
@@ -115,12 +63,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].BlendOperation != blendOperation)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].BlendOperation = blendOperation;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].BlendOperation,
+						ref blendOperation);
 				}
 			}
 		}
@@ -133,12 +78,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].DestinationAlphaBlend != destinationAlphaBlend)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].DestinationAlphaBlend = destinationAlphaBlend;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].DestinationAlphaBlend,
+						ref destinationAlphaBlend);
 				}
 			}
 		}
@@ -151,12 +93,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].DestinationBlend != destinationBlend)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].DestinationBlend = destinationBlend;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].DestinationBlend,
+						ref destinationBlend);
 				}
 			}
 		}
@@ -166,14 +105,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
 				//TODO: range check
-
-				if (blendStateDescription.RenderTarget[0].RenderTargetWriteMask != renderTargetWriteMask)
-				{
-					nativeBlendStateDirty = true;
-					blendStateDescription.RenderTarget[0].RenderTargetWriteMask = renderTargetWriteMask;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref blendStateDescription.RenderTarget[0].RenderTargetWriteMask,
+					ref renderTargetWriteMask);
 			}
 		}
 
@@ -182,14 +117,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
 				//TODO: range check
-
-				if (blendStateDescription.RenderTarget[1].RenderTargetWriteMask != renderTargetWriteMask)
-				{
-					nativeBlendStateDirty = true;
-					blendStateDescription.RenderTarget[1].RenderTargetWriteMask = renderTargetWriteMask;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref blendStateDescription.RenderTarget[1].RenderTargetWriteMask,
+					ref renderTargetWriteMask);
 			}
 		}
 
@@ -198,14 +129,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
 				//TODO: range check
-
-				if (blendStateDescription.RenderTarget[2].RenderTargetWriteMask != renderTargetWriteMask)
-				{
-					nativeBlendStateDirty = true;
-					blendStateDescription.RenderTarget[2].RenderTargetWriteMask = renderTargetWriteMask;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref blendStateDescription.RenderTarget[2].RenderTargetWriteMask,
+					ref renderTargetWriteMask);
 			}
 		}
 
@@ -214,14 +141,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
 				//TODO: range check
-
-				if (blendStateDescription.RenderTarget[3].RenderTargetWriteMask != renderTargetWriteMask)
-				{
-					nativeBlendStateDirty = true;
-					blendStateDescription.RenderTarget[3].RenderTargetWriteMask = renderTargetWriteMask;
-				}
+				SetValueIfDifferentAndMarkDirty(
+					ref blendStateDescription.RenderTarget[3].RenderTargetWriteMask,
+					ref renderTargetWriteMask);
 			}
 		}
 
@@ -233,12 +156,9 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].SourceAlphaBlend != sourceAlphaBlend)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].SourceAlphaBlend = sourceAlphaBlend;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].SourceAlphaBlend,
+						ref sourceAlphaBlend);
 				}
 			}
 		}
@@ -251,30 +171,71 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
 				{
-					if (blendStateDescription.RenderTarget[i].SourceBlend != sourceBlend)
-					{
-						nativeBlendStateDirty = true;
-						blendStateDescription.RenderTarget[i].SourceBlend = sourceBlend;
-					}
-
+					SetValueIfDifferentAndMarkDirty(
+						ref blendStateDescription.RenderTarget[i].SourceBlend,
+						ref sourceBlend);
 				}
 			}
 		}
+		#endregion
 
+		#region Constructor
+		public BlendState_Metro()
+			: base()
+		{
+			for (int i = 0; i < blendStateDescription.RenderTarget.Length; i++)
+			{
+				blendStateDescription.RenderTarget[i] = new Dx11.RenderTargetBlendDescription();
+				blendStateDescription.RenderTarget[i].IsBlendEnabled = (i < 4);
+				blendStateDescription.IndependentBlendEnable = true;
+			}
+		}
+		#endregion
+
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice)
+		{
+			GraphicsDeviceWindowsMetro gdMetro =
+				graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var device = gdMetro.NativeDevice.NativeDevice;
+			var context = gdMetro.NativeDevice.NativeContext;
+
+			UpdateNativeBlendState(device);
+			this.bound = true;
+
+			context.OutputMerger.SetBlendState(nativeBlendState,
+				this.blendFactor, this.multiSampleMask);
+		}
+		#endregion
+
+		#region Dispose
+		public void Dispose()
+		{
+			if (this.nativeBlendState != null)
+			{
+				this.nativeBlendState.Dispose();
+				this.nativeBlendState = null;
+			}
+		}
+		#endregion
+
+		#region UpdateNativeBlendState
 		private void UpdateNativeBlendState(Dx11.Device device)
 		{
-			if (this.nativeBlendStateDirty == true || this.nativeBlendState == null)
+			if (isDirty == true || nativeBlendState == null)
 			{
-				if (this.nativeBlendState != null)
+				if (nativeBlendState != null)
 				{
-					this.nativeBlendState.Dispose();
-					this.nativeBlendState = null;
+					nativeBlendState.Dispose();
+					nativeBlendState = null;
 				}
 
-				this.nativeBlendState = new Dx11.BlendState(device, ref this.blendStateDescription);
+				nativeBlendState = new Dx11.BlendState(device,
+					ref blendStateDescription);
 
-				this.nativeBlendStateDirty = false;
+				isDirty = false;
 			}
 		}
+		#endregion
 	}
 }

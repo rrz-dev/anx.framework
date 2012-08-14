@@ -62,25 +62,25 @@ namespace ANX.PlatformSystem.Metro
 		}
 		#endregion
 
-		#region CreateStorageDevice (TODO)
+		#region CreateStorageDevice
 		public INativeStorageDevice CreateStorageDevice(StorageDevice device,
 			PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
-			throw new NotImplementedException();
+			return new MetroStorageDevice();
 		}
 		#endregion
 
-		#region CreateStorageContainer (TODO)
+		#region CreateStorageContainer
 		public INativeStorageContainer CreateStorageContainer(StorageContainer container)
 		{
-			throw new NotImplementedException();
+			return new MetroStorageContainer();
 		}
 		#endregion
 
-		#region CreateTitleContainer (TODO)
+		#region CreateTitleContainer
 		public INativeTitleContainer CreateTitleContainer()
 		{
-			throw new NotImplementedException();
+			return new MetroTitleContainer();
 		}
 		#endregion
 

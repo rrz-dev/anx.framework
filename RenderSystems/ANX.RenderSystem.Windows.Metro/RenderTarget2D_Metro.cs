@@ -11,11 +11,10 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class RenderTarget2D_Metro : Texture2D_Metro, INativeRenderTarget2D, INativeTexture2D
 	{
-		#region Private Members
-
-		#endregion // Private Members
-
-		public RenderTarget2D_Metro(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+		#region Constructor
+		public RenderTarget2D_Metro(GraphicsDevice graphics, int width, int height,
+			bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat,
+			int preferredMultiSampleCount, RenderTargetUsage usage)
 			: base(graphics)
 		{
 			if (mipMap)
@@ -25,7 +24,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			this.surfaceFormat = surfaceFormat;
 
-			GraphicsDeviceWindowsMetro graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
 			Dx11.Device1 device = graphicsMetro.NativeDevice.NativeDevice;
 
 			var description = new Dx11.Texture2DDescription()
@@ -49,6 +48,6 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			this.formatSize = FormatConverter.FormatSize(surfaceFormat);
 		}
-
+		#endregion
 	}
 }

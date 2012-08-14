@@ -3,7 +3,6 @@ using ANX.PlatformSystem.Metro;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-using Windows.UI.Core;
 using PresentationParameters = ANX.Framework.Graphics.PresentationParameters;
 
 // This file is part of the ANX.Framework created by the

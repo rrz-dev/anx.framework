@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -8,22 +7,35 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.PlatformSystem.Metro
 {
-	public class MetroGameTimer : INativeGameTimer
+	public class MetroStorageDevice : INativeStorageDevice
 	{
-		public long Frequency
+		public long FreeSpace
 		{
 			get
 			{
-				return Stopwatch.Frequency;
+				return 0;
 			}
 		}
 
-		public long Timestamp
+		public long TotalSpace
 		{
 			get
 			{
-				return Stopwatch.GetTimestamp();
+				return 0;
 			}
+		}
+
+		public bool IsConnected
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		public void DeleteContainer(string titleName)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

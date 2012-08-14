@@ -67,21 +67,27 @@ namespace ANX.Framework.NonXNA.Reflection
 
 		#region LoadStreamFromMetroAssets
 #if WINDOWSMETRO
-		private async void LoadStreamFromMetroAssets()
+		private void LoadStreamFromMetroAssets()
 		{
 			var library = Windows.ApplicationModel.Package.Current.InstalledLocation;
-			//assemblyListStream = await library.OpenStreamForReadAsync("Assets\\" + Filename);
+			try
+			{
+				var task = library.OpenStreamForReadAsync("Assets\\" + Filename);
+				assemblyListStream = TaskHelper.WaitForAsyncOperation(task);
+			}
+			catch
+			{
+				assemblyListStream = new MemoryStream();
+				BinaryWriter writer = new BinaryWriter(assemblyListStream);
+				writer.Write(5);
+				writer.Write("ANX.PlatformSystem.Metro");
+				writer.Write("ANX.RenderSystem.Windows.Metro");
+				writer.Write("ANX.InputSystem.Standard");
+				writer.Write("ANX.MediaSystem.Windows.OpenAL");
+				writer.Write("ANX.SoundSystem.Windows.XAudio");
 
-			assemblyListStream = new MemoryStream();
-			BinaryWriter writer = new BinaryWriter(assemblyListStream);
-			writer.Write(5);
-			writer.Write("ANX.PlatformSystem.Metro");
-			writer.Write("ANX.RenderSystem.Windows.Metro");
-			writer.Write("ANX.InputSystem.Standard");
-			writer.Write("ANX.MediaSystem.Windows.OpenAL");
-			writer.Write("ANX.SoundSystem.Windows.XAudio");
-
-			assemblyListStream.Position = 0;
+				assemblyListStream.Position = 0;
+			}
 		}
 #endif
 		#endregion

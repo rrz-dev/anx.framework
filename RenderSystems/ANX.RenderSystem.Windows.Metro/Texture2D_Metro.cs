@@ -14,21 +14,92 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class Texture2D_Metro : INativeTexture2D
 	{
-		#region Private Members
+		#region Private
 		protected internal Dx11.Texture2D nativeTexture;
 		protected internal Dx11.ShaderResourceView nativeShaderResourceView;
 		protected internal int formatSize;
 		protected internal SurfaceFormat surfaceFormat;
 		protected internal GraphicsDevice graphicsDevice;
+		#endregion
 
-		#endregion // Private Members
+		#region Public
+		internal Dx11.Texture2D NativeTexture
+		{
+			get
+			{
+				return nativeTexture;
+			}
+			set
+			{
+				if (nativeTexture != value)
+				{
+					if (nativeTexture != null)
+					{
+						nativeTexture.Dispose();
+					}
 
+					nativeTexture = value;
+				}
+			}
+		}
+
+		internal Dx11.ShaderResourceView NativeShaderResourceView
+		{
+			get
+			{
+				return this.nativeShaderResourceView;
+			}
+			set
+			{
+				if (nativeShaderResourceView != value)
+				{
+					if (nativeShaderResourceView != null)
+					{
+						nativeShaderResourceView.Dispose();
+					}
+
+					nativeShaderResourceView = value;
+				}
+			}
+		}
+
+		public int Width
+		{
+			get
+			{
+				return nativeTexture != null ?
+					nativeTexture.Description.Width :
+					0;
+			}
+		}
+
+		public int Height
+		{
+			get
+			{
+				return nativeTexture != null ?
+					nativeTexture.Description.Height :
+					0;
+			}
+		}
+
+		public GraphicsDevice GraphicsDevice
+		{
+			get
+			{
+				return graphicsDevice;
+			}
+		}
+		#endregion
+
+		#region Constructor
 		internal Texture2D_Metro(GraphicsDevice graphicsDevice)
 		{
 			this.graphicsDevice = graphicsDevice;
 		}
 
-		public Texture2D_Metro(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
+		public Texture2D_Metro(GraphicsDevice graphicsDevice, int width, int height,
+			SurfaceFormat surfaceFormat, int mipCount)
 		{
 			if (mipCount > 1)
 			{
@@ -41,7 +112,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			GraphicsDeviceWindowsMetro graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
 			Dx11.Device1 device = graphicsMetro.NativeDevice.NativeDevice;
 
-			Dx11.Texture2DDescription description = new Dx11.Texture2DDescription()
+			var description = new Dx11.Texture2DDescription()
 			{
 				Width = width,
 				Height = height,
@@ -62,69 +133,42 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			this.formatSize = FormatConverter.FormatSize(surfaceFormat);
 		}
+		#endregion
 
+		#region GetHashCode
 		public override int GetHashCode()
 		{
 			return NativeTexture.NativePointer.ToInt32();
 		}
+		#endregion
 
-		internal Dx11.Texture2D NativeTexture
+		#region SetData
+		public void SetData<T>(int level, Rectangle? rect, T[] data,
+			int startIndex, int elementCount) where T : struct
 		{
-			get
-			{
-				return this.nativeTexture;
-			}
-			set
-			{
-				if (this.nativeTexture != value)
-				{
-					if (this.nativeTexture != null)
-					{
-						this.nativeTexture.Dispose();
-					}
-
-					this.nativeTexture = value;
-				}
-			}
+			throw new NotImplementedException();
 		}
 
-		internal Dx11.ShaderResourceView NativeShaderResourceView
-		{
-			get
-			{
-				return this.nativeShaderResourceView;
-			}
-			set
-			{
-				if (this.nativeShaderResourceView != value)
-				{
-					if (this.nativeShaderResourceView != null)
-					{
-						this.nativeShaderResourceView.Dispose();
-					}
-
-					this.nativeShaderResourceView = value;
-				}
-			}
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
+			where T : struct
 		{
 			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
+			int startIndex, int elementCount) where T : struct
 		{
 			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
+			T[] data, int startIndex, int elementCount) where T : struct
 		{
 			//TODO: handle offsetInBytes parameter
 			//TODO: handle startIndex parameter
 			//TODO: handle elementCount parameter
 
-			GraphicsDeviceWindowsMetro metroGraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var metroGraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
 			Dx11.Device1 device = metroGraphicsDevice.NativeDevice.NativeDevice;
 			Dx11.DeviceContext1 context = metroGraphicsDevice.NativeDevice.NativeContext;
 
@@ -216,55 +260,24 @@ namespace ANX.RenderSystem.Windows.Metro
 				throw new Exception(string.Format("creating textures of format {0} not yet implemented...", surfaceFormat.ToString()));
 			}
 		}
+		#endregion
 
-		public int Width
-		{
-			get
-			{
-				if (this.nativeTexture != null)
-				{
-					return this.nativeTexture.Description.Width;
-				}
-
-				return 0;
-			}
-		}
-
-		public int Height
-		{
-			get
-			{
-				if (this.nativeTexture != null)
-				{
-					return this.nativeTexture.Description.Height;
-				}
-
-				return 0;
-			}
-		}
-
-		public GraphicsDevice GraphicsDevice
-		{
-			get
-			{
-				return this.graphicsDevice;
-			}
-		}
-
+		#region Dispose
 		public void Dispose()
 		{
-			if (this.nativeShaderResourceView != null)
+			if (nativeShaderResourceView != null)
 			{
-				this.nativeShaderResourceView.Dispose();
-				this.nativeShaderResourceView = null;
+				nativeShaderResourceView.Dispose();
+				nativeShaderResourceView = null;
 			}
 
-			if (this.nativeTexture != null)
+			if (nativeTexture != null)
 			{
-				this.nativeTexture.Dispose();
-				this.nativeTexture = null;
+				nativeTexture.Dispose();
+				nativeTexture = null;
 			}
 		}
+		#endregion
 
 		#region SaveAsJpeg (TODO)
 		public void SaveAsJpeg(Stream stream, int width, int height)
@@ -280,34 +293,23 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		#region INativeTexture2D Member
-
-
-		public void GetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+		#region GetData (TODO)
+		public void GetData<T>(int level, Rectangle? rect, T[] data,
+			int startIndex, int elementCount) where T : struct
 		{
 			throw new NotImplementedException();
 		}
-
-		public void SetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region INativeBuffer Member
-
 
 		public void GetData<T>(T[] data) where T : struct
 		{
 			throw new NotImplementedException();
 		}
 
-		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+		public void GetData<T>(T[] data, int startIndex, int elementCount)
+			where T : struct
 		{
 			throw new NotImplementedException();
 		}
-
 		#endregion
 	}
 }

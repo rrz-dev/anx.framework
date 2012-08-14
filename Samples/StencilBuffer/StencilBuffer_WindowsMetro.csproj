@@ -123,10 +123,10 @@
     <AppxManifest Include="Manifest.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets/Logo.png" />
-    <Content Include="Assets/SmallLogo.png" />
-    <Content Include="Assets/SplashScreen.png" />
-    <Content Include="Assets/StoreLogo.png" />
+    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\SmallLogo.png" />
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\StoreLogo.png" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
