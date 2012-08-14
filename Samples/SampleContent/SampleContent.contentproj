@@ -32,9 +32,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.csproj">
+    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj">
       <Project>{ECBF60CB-1CF0-4F92-8963-E73115B04B43}</Project>
-      <Name>ANX.Framework.ContentPipeline</Name>
+      <Name>ANX.Framework.ContentPipeline.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
