@@ -9,6 +9,7 @@ using System;
 
 namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 {
+		[AttributeUsage(AttributeTargets.Class)]
     public class ContentTypeWriterAttribute : Attribute
     {
         public ContentTypeWriterAttribute()

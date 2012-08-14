@@ -193,15 +193,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			GraphicsDeviceWindowsMetro gdMetro =
-				graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeDepthStencilState(device);
+			UpdateNativeDepthStencilState();
 			bound = true;
 
-			context.OutputMerger.SetDepthStencilState(
+			NativeDxDevice.Current.OutputMerger.SetDepthStencilState(
 				nativeDepthStencilState, referenceStencil);
 		}
 		#endregion
@@ -218,7 +213,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region UpdateNativeDepthStencilState
-		private void UpdateNativeDepthStencilState(Dx11.Device1 device)
+		private void UpdateNativeDepthStencilState()
 		{
 			if (isDirty == true || nativeDepthStencilState == null)
 			{
@@ -228,8 +223,8 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeDepthStencilState = null;
 				}
 
-				nativeDepthStencilState =
-					new Dx11.DepthStencilState(device, ref description);
+				nativeDepthStencilState = new Dx11.DepthStencilState(
+					NativeDxDevice.Current.NativeDevice, ref description);
 
 				isDirty = false;
 			}

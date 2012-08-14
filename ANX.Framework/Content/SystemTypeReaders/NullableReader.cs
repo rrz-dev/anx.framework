@@ -20,13 +20,11 @@ namespace ANX.Framework.Content
 
         protected internal override T? Read(ContentReader input, T? existingInstance)
         {
-            bool isNull = !input.ReadBoolean();
+            bool hasValue = input.ReadBoolean();
 
-            if (isNull)
-            {
-                return null;
-            }
-            return new T?(input.ReadRawObject<T>(this.baseTypeReader));
+            return hasValue ?
+							new T?(input.ReadRawObject<T>(this.baseTypeReader)) :
+							null;
         }
     }
 }

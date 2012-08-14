@@ -14,50 +14,20 @@ namespace ANX.RenderSystem.Windows.Metro
 	public class Effect_Metro : INativeEffect
 	{
 		#region Private
-		private Dx11.VertexShader vertexShader;
-		private Dx11.PixelShader pixelShader;
 		private Effect managedEffect;
 		#endregion
 
 		#region Public
-		//internal Dx11.Effect NativeEffect
-		//{
-		//    get
-		//    {
-		//        return this.nativeEffect;
-		//    }
-		//}
-
 		internal Dx11.VertexShader NativeVertexShader
 		{
-			get
-			{
-				return this.vertexShader;
-			}
+			get;
+			private set;
 		}
 
 		internal Dx11.PixelShader NativePixelShader
 		{
-			get
-			{
-				return this.pixelShader;
-			}
-		}
-
-		internal Dx11.VertexShader VertexShader
-		{
-			get
-			{
-				return this.vertexShader;
-			}
-		}
-
-		internal Dx11.PixelShader PixelShader
-		{
-			get
-			{
-				return this.pixelShader;
-			}
+			get;
+			private set;
 		}
 
 		public IEnumerable<EffectTechnique> Techniques
@@ -65,7 +35,6 @@ namespace ANX.RenderSystem.Windows.Metro
 			get
 			{
 				throw new NotImplementedException();
-
 				//for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
 				//{
 				//    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
@@ -83,7 +52,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			get
 			{
 				//TODO: implement
-
+				
 				System.Diagnostics.Debugger.Break();
 
 				return null;
@@ -109,10 +78,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			this.managedEffect = managedEffect;
 
 			byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
-			vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
+			NativeVertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
 
 			byte[] pixelData = SeekIfPossibleAndReadBytes(pixelShaderByteCode);
-			pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
+			NativePixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
 		}
 
 		public Effect_Metro(GraphicsDevice device, Effect managedEffect, Stream effectByteCode)
@@ -161,16 +130,16 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Dispose
 		public void Dispose()
 		{
-			if (pixelShader != null)
+			if (NativeVertexShader != null)
 			{
-				pixelShader.Dispose();
-				pixelShader = null;
+				NativeVertexShader.Dispose();
+				NativeVertexShader = null;
 			}
 
-			if (vertexShader != null)
+			if (NativePixelShader != null)
 			{
-				vertexShader.Dispose();
-				vertexShader = null;
+				NativePixelShader.Dispose();
+				NativePixelShader = null;
 			}
 		}
 		#endregion

@@ -99,10 +99,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Apply (TODO)
 		public void Apply(GraphicsDevice graphicsDevice, int index)
 		{
-			var gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			Dx11.Device1 device = gdMetro.NativeDevice.NativeDevice;
-
-			UpdateNativeSamplerState(device);
+			UpdateNativeSamplerState();
 			bound = true;
 			
 			throw new NotImplementedException();
@@ -122,7 +119,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region UpdateNativeSamplerState
-		private void UpdateNativeSamplerState(Dx11.Device1 device)
+		private void UpdateNativeSamplerState()
 		{
 			if (isDirty == true || nativeSamplerState == null)
 			{
@@ -132,8 +129,8 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeSamplerState = null;
 				}
 
-				nativeSamplerState =
-					new Dx11.SamplerState(device, ref description);
+				nativeSamplerState = new Dx11.SamplerState(
+					NativeDxDevice.Current.NativeDevice, ref description);
 
 				isDirty = false;
 			}

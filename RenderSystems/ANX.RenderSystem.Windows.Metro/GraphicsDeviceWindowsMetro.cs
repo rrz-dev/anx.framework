@@ -56,7 +56,9 @@ namespace ANX.RenderSystem.Windows.Metro
 			
 			ResizeRenderWindow(presentationParameters);
 
-			currentViewport = new Dx11.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+			currentViewport = new Dx11.Viewport(0, 0,
+				presentationParameters.BackBufferWidth,
+				presentationParameters.BackBufferHeight);
 		}
 		#endregion
 
@@ -161,9 +163,12 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion // DrawPrimitives & DrawIndexedPrimitives
 
 		#region DrawInstancedPrimitives
-		public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount)
+		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
+			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
+			int primitiveCount, int instanceCount)
 		{
-			NativeDevice.NativeContext.DrawIndexedInstanced(numVertices, instanceCount, startIndex, baseVertex, 0);
+			NativeDevice.NativeContext.DrawIndexedInstanced(numVertices,
+				instanceCount, startIndex, baseVertex, 0);
 		}
 
 		#endregion // DrawInstancedPrimitives

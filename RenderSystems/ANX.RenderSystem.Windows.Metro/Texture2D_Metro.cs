@@ -167,15 +167,11 @@ namespace ANX.RenderSystem.Windows.Metro
 			//TODO: handle offsetInBytes parameter
 			//TODO: handle startIndex parameter
 			//TODO: handle elementCount parameter
-
-			var metroGraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			Dx11.Device1 device = metroGraphicsDevice.NativeDevice.NativeDevice;
-			Dx11.DeviceContext1 context = metroGraphicsDevice.NativeDevice.NativeContext;
-
+			
 			if (this.surfaceFormat == SurfaceFormat.Color)
 			{
 				int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-				SharpDX.DataBox rectangle = context.MapSubresource(this.nativeTexture, subresource, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
+				SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(nativeTexture, subresource);
 				int rowPitch = rectangle.RowPitch;
 
 				unsafe
@@ -203,7 +199,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					handle.Free();
 				}
 
-				context.UnmapSubresource(this.nativeTexture, subresource);
+				NativeDxDevice.Current.UnmapSubresource(nativeTexture, subresource);
 			}
 			else if (surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 || surfaceFormat == SurfaceFormat.Dxt1)
 			{

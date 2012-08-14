@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using ANX.Framework;
 using ANX.Framework.NonXNA.PlatformSystem;
+using ANX.Framework.NonXNA.Windows8;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -33,35 +34,7 @@ namespace ANX.PlatformSystem.Metro
 		#region OpenStream
 		public Stream OpenStream(string filepath)
 		{
-			filepath = filepath.Replace("/", "\\");
-			Stream filestream = LoadStreamFromMetroAssets(filepath);
-
-			// TODO: this copy is really inefficient!!
-			// Find out why reading from the asset stream causes
-			// the position property to go crazy :/
-			MemoryStream stream = new MemoryStream();
-			filestream.CopyTo(stream);
-			filestream.Dispose();
-			filestream = null;
-
-			stream.Position = 0;
-			return stream;
-		}
-		#endregion
-
-		#region LoadStreamFromMetroAssets
-		private Stream LoadStreamFromMetroAssets(string filepath)
-		{
-			try
-			{
-				var task = installLocation.OpenStreamForReadAsync(filepath);
-				return TaskHelper.WaitForAsyncOperation(task);
-			}
-			catch
-			{
-			}
-
-			return null;
+			return AssetsHelper.LoadStreamFromAssets(filepath);
 		}
 		#endregion
 	}

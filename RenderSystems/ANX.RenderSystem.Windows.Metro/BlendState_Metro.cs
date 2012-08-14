@@ -195,16 +195,11 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			GraphicsDeviceWindowsMetro gdMetro =
-				graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeBlendState(device);
+			UpdateNativeBlendState();
 			this.bound = true;
 
-			context.OutputMerger.SetBlendState(nativeBlendState,
-				this.blendFactor, this.multiSampleMask);
+			NativeDxDevice.Current.OutputMerger.SetBlendState(
+				nativeBlendState, this.blendFactor, this.multiSampleMask);
 		}
 		#endregion
 
@@ -220,7 +215,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region UpdateNativeBlendState
-		private void UpdateNativeBlendState(Dx11.Device device)
+		private void UpdateNativeBlendState()
 		{
 			if (isDirty == true || nativeBlendState == null)
 			{
@@ -230,7 +225,8 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeBlendState = null;
 				}
 
-				nativeBlendState = new Dx11.BlendState(device,
+				nativeBlendState = new Dx11.BlendState(
+					NativeDxDevice.Current.NativeDevice,
 					ref blendStateDescription);
 
 				isDirty = false;

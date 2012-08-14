@@ -97,14 +97,11 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			var device = gdMetro.NativeDevice.NativeDevice;
-			var context = gdMetro.NativeDevice.NativeContext;
-
-			UpdateNativeRasterizerState(device);
+			UpdateNativeRasterizerState();
 			bound = true;
 
-			context.Rasterizer.State = nativeRasterizerState;
+			NativeDxDevice.Current.NativeContext.Rasterizer.State =
+				nativeRasterizerState;
 		}
 		#endregion
 
@@ -120,7 +117,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region UpdateNativeRasterizerState
-		private void UpdateNativeRasterizerState(Dx11.Device1 device)
+		private void UpdateNativeRasterizerState()
 		{
 			if (isDirty == true ||
 				nativeRasterizerState == null)
@@ -129,8 +126,8 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				try
 				{
-					nativeRasterizerState =
-						new Dx11.RasterizerState1(device, description);
+					nativeRasterizerState = new Dx11.RasterizerState1(
+						NativeDxDevice.Current.NativeDevice, description);
 					isDirty = false;
 				}
 				catch

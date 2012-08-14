@@ -433,6 +433,7 @@
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyListFile.cs" />
+    <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />
     <Compile Include="NonXNA\MediaSystem\IMediaSystemCreator.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
@@ -475,6 +476,7 @@
     <Compile Include="NonXNA\Windows8\FileAccess.cs" />
     <Compile Include="NonXNA\Windows8\FileShare.cs" />
     <Compile Include="NonXNA\Windows8\ResourceReader.cs" />
+    <Compile Include="NonXNA\Windows8\TaskHelper.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneIntersectionType.cs" />
     <Compile Include="PlayerIndex.cs" />

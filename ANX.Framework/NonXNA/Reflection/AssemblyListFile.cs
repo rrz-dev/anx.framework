@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using ANX.Framework.NonXNA.Windows8;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -23,7 +24,6 @@ namespace ANX.Framework.NonXNA.Reflection
 
 		#region Private
 		private List<string> allAssemblyNames;
-		private Stream assemblyListStream;
 		#endregion
 
 		#region Constructor
@@ -54,8 +54,10 @@ namespace ANX.Framework.NonXNA.Reflection
 		#region Load
 		public void Load()
 		{
+			Stream assemblyListStream = null;
+
 #if WINDOWSMETRO
-			LoadStreamFromMetroAssets();
+			assemblyListStream = LoadStreamFromMetroAssets();
 #endif
 
 			if (assemblyListStream != null)
@@ -67,18 +69,14 @@ namespace ANX.Framework.NonXNA.Reflection
 
 		#region LoadStreamFromMetroAssets
 #if WINDOWSMETRO
-		private void LoadStreamFromMetroAssets()
+		private Stream LoadStreamFromMetroAssets()
 		{
-			var library = Windows.ApplicationModel.Package.Current.InstalledLocation;
-			try
+			Stream result = AssetsHelper.LoadStreamFromAssets("Assets\\" + Filename);
+			
+			if(result == null)
 			{
-				var task = library.OpenStreamForReadAsync("Assets\\" + Filename);
-				assemblyListStream = TaskHelper.WaitForAsyncOperation(task);
-			}
-			catch
-			{
-				assemblyListStream = new MemoryStream();
-				BinaryWriter writer = new BinaryWriter(assemblyListStream);
+				result = new MemoryStream();
+				BinaryWriter writer = new BinaryWriter(result);
 				writer.Write(5);
 				writer.Write("ANX.PlatformSystem.Metro");
 				writer.Write("ANX.RenderSystem.Windows.Metro");
@@ -86,8 +84,10 @@ namespace ANX.Framework.NonXNA.Reflection
 				writer.Write("ANX.MediaSystem.Windows.OpenAL");
 				writer.Write("ANX.SoundSystem.Windows.XAudio");
 
-				assemblyListStream.Position = 0;
+				result.Position = 0;
 			}
+
+			return result;
 		}
 #endif
 		#endregion

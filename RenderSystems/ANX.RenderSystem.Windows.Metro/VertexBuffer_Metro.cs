@@ -74,10 +74,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
 			T[] data, int startIndex, int elementCount) where T : struct
 		{
-			GraphicsDeviceWindowsMetro gdMetro =
-				graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			Dx11.DeviceContext1 context = gdMetro.NativeDevice.NativeContext;
-
 			//TODO: check offsetInBytes parameter for bounds etc.
 
 			GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -95,8 +91,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					}
 
 					SharpDX.DataStream stream;
-					SharpDX.DataBox box = context.MapSubresource(buffer,
-						Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None, out stream);
+					SharpDX.DataBox box = NativeDxDevice.Current.MapSubresource(buffer, out stream);
 					if (startIndex > 0 || elementCount < data.Length)
 					{
 						for (int i = startIndex; i < startIndex + elementCount; i++)
@@ -108,7 +103,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					{
 						vData.CopyTo(stream);
 					}
-					context.UnmapSubresource(buffer, 0);
+					NativeDxDevice.Current.UnmapSubresource(buffer, 0);
 				}
 			}
 

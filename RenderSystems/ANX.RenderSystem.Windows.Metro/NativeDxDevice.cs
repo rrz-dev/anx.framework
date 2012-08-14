@@ -37,6 +37,20 @@ namespace ANX.RenderSystem.Windows.Metro
 				return nativeContext;
 			}
 		}
+
+		internal Dx11.OutputMergerStage OutputMerger
+		{
+			get
+			{
+				return nativeContext.OutputMerger;
+			}
+		}
+
+		internal static NativeDxDevice Current
+		{
+			get;
+			private set;
+		}
 		#endregion
 
 		#region Public
@@ -50,6 +64,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Constructor
 		public NativeDxDevice(PresentationParameters presentationParameters)
 		{
+			Current = this;
+
 			this.presentationParameters = presentationParameters;
 			swapChain = new SwapChainMetro(this, presentationParameters);
 
@@ -102,9 +118,9 @@ namespace ANX.RenderSystem.Windows.Metro
 			var viewport = new Dx11.Viewport((float)RenderTargetBounds.X, (float)RenderTargetBounds.Y,
 					(float)RenderTargetBounds.Width, (float)RenderTargetBounds.Height, 0.0f, 1.0f);
 
-			NativeContext.Rasterizer.SetViewports(viewport);
+			nativeContext.Rasterizer.SetViewports(viewport);
 
-			NativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
+			nativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
 		}
 		#endregion
 
@@ -114,7 +130,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			// TODO: find better solution to lazy init the swapChain from the coreWindow!!
 			EnsureScreenBuffersAvailable();
 
-			NativeContext.ClearDepthStencilView(depthStencilView, flags, depth, stencil);
+			nativeContext.ClearDepthStencilView(depthStencilView, flags, depth, stencil);
 		}
 		#endregion
 		
@@ -124,7 +140,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			// TODO: find better solution to lazy init the swapChain from the coreWindow!!
 			EnsureScreenBuffersAvailable();
 
-			NativeContext.ClearRenderTargetView(renderTargetView, color);
+			nativeContext.ClearRenderTargetView(renderTargetView, color);
 		}
 		#endregion
 		
@@ -142,6 +158,28 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void Present(int interval)
 		{
 			swapChain.Present(interval);
+		}
+		#endregion
+
+		#region MapSubresource
+		public SharpDX.DataBox MapSubresource(Dx11.Buffer resource,
+			out SharpDX.DataStream stream)
+		{
+			return nativeContext.MapSubresource(resource, Dx11.MapMode.WriteDiscard,
+				Dx11.MapFlags.None, out stream);
+		}
+
+		public SharpDX.DataBox MapSubresource(Dx11.Resource resource, int subresource)
+		{
+			return nativeContext.MapSubresource(resource, subresource,
+				Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
+		}
+		#endregion
+
+		#region UnmapSubresource
+		public void UnmapSubresource(Dx11.Resource resource, int subresource)
+		{
+			nativeContext.UnmapSubresource(resource, subresource);
 		}
 		#endregion
 
