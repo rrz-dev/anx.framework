@@ -156,7 +156,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.Framework.Windows.DX10</Name>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_Linux.csproj">
       <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>

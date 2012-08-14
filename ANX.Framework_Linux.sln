@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework", "ANX.Framew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter", "ANX.Framework.TestCenter\ANX.Framework.TestCenter_Linux.csproj", "{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline_Linux.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline.Extensions", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions_Linux.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B24A8593-562A-4A25-BB08-46C163F10F3F}"
 EndProject
@@ -155,6 +155,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.PsVita", "RenderSystems\ANX.RenderSystem.PsVita\ANX.RenderSystem.PsVita_Linux.csproj", "{2B71A7C2-0D18-4E3D-AE5A-320641D1162A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.PsVita", "PlatformSystems\ANX.PlatformSystem.PsVita\ANX.PlatformSystem.PsVita_Linux.csproj", "{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.Content.Pipeline", "ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline_Linux.csproj", "{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -584,6 +586,16 @@ Global
 		{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

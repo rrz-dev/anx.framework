@@ -123,7 +123,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_PSVita.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.Framework.Windows.DX10</Name>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Samples\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
