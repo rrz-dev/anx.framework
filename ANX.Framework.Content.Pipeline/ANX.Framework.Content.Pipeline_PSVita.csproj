@@ -34,6 +34,32 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\BoneWeight.cs" />
+    <Compile Include="ChildCollection.cs" />
+    <Compile Include="ContentBuildLogger.cs" />
+    <Compile Include="ContentIdentity.cs" />
+    <Compile Include="ContentImporter.cs" />
+    <Compile Include="ContentImporterAttribute.cs" />
+    <Compile Include="ContentImporterContext.cs" />
+    <Compile Include="ContentItem.cs" />
+    <Compile Include="ContentProcessor.cs" />
+    <Compile Include="ContentProcessorAttribute.cs" />
+    <Compile Include="ContextProcessorContext.cs" />
+    <Compile Include="EffectImporter.cs" />
+    <Compile Include="ExternalReference.cs" />
+    <Compile Include="FbxImporter.cs" />
+    <Compile Include="Graphics\AnimationChannel.cs" />
+    <Compile Include="Graphics\AnimationChannelDictionary.cs" />
+    <Compile Include="Graphics\AnimationContent.cs" />
+    <Compile Include="Graphics\AnimationContentDictionary.cs" />
+    <Compile Include="Graphics\AnimationKeyframe.cs" />
+    <Compile Include="Graphics\EffectContent.cs" />
+    <Compile Include="Graphics\NodeContent.cs" />
+    <Compile Include="Graphics\NodeContentCollection.cs" />
+    <Compile Include="IContentImporter.cs" />
+    <Compile Include="IContentProcessor.cs" />
+    <Compile Include="NamedValueDictionary.cs" />
+    <Compile Include="OpaqueDataDictionary.cs" />
     <Compile Include="Serialization\Compiler\BuiltInTypeWriter.cs" />
     <Compile Include="Serialization\Compiler\ContentCompiler.cs" />
     <Compile Include="Serialization\Compiler\ContentTypeWriter.cs" />

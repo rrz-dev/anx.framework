@@ -1,5 +1,13 @@
-// This file is part of the ANX.Framework created by the
-// "ANX.Framework developer group" and released under the Ms-PL license.
+﻿using System;
+using System.IO;
+
+namespace HLSLParserTests
+{
+	public static class HlslTestFile
+	{
+		private const string Source =
+@"// This file is part of the ANX.Framework created by the
+// ""ANX.Framework developer group"" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
 uniform extern float4x4 MatrixTransform;
@@ -44,5 +52,15 @@ technique10 SpriteTechnique
 		SetGeometryShader( 0 );
 		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
 		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
+	}
+}
+";
+
+		public static string WriteTestFile()
+		{
+			string testFilepath = Path.GetTempFileName() + ".fx";
+			File.WriteAllText(testFilepath, HlslTestFile.Source);
+			return testFilepath;
+		}
 	}
 }

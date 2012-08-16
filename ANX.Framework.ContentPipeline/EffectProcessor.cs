@@ -39,10 +39,10 @@ namespace ANX.Framework.ContentPipeline
                 case EffectProcessorOutputFormat.XNA_BYTE_CODE:
                     return processor.Process(input, context);
                 case EffectProcessorOutputFormat.DX10_HLSL:
-                    DX10_EffectProcessor dx10EffectProcessor = new DX10_EffectProcessor();
+                    var dx10EffectProcessor = new DX10_EffectProcessor();
                     return dx10EffectProcessor.Process(input, context);
                 case EffectProcessorOutputFormat.OPEN_GL3_GLSL:
-                    GL3_EffectProcessor gl3EffectProcessor = new GL3_EffectProcessor();
+                    var gl3EffectProcessor = new GL3_EffectProcessor();
                     return gl3EffectProcessor.Process(input, context);
                 default:
                     throw new NotSupportedException("Currently it is not possible to create effect with format '" + outputFormat.ToString() + "'");

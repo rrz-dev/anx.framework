@@ -1,10 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-#endregion
+﻿using System;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,40 +6,59 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Graphics
 {
-    public sealed class AnimationKeyframe : IComparable<AnimationKeyframe>
-    {
-        private TimeSpan time;
-        private Matrix transform;
+	public sealed class AnimationKeyframe : IComparable<AnimationKeyframe>
+	{
+		#region Private
+		[ContentSerializer(ElementName = "Time")]
+		private TimeSpan time;
+		[ContentSerializer(ElementName = "Transform")]
+		private Matrix transform;
+		#endregion
 
-        public AnimationKeyframe(TimeSpan time, Matrix transform)
-        {
-            this.time = time;
-            this.transform = transform;
-        }
+		#region Public
+		[ContentSerializerIgnore]
+		public TimeSpan Time
+		{
+			get
+			{
+				return time;
+			}
+		}
 
-        public TimeSpan Time
-        {
-            get
-            {
-                return this.time;
-            }
-        }
+		[ContentSerializerIgnore]
+		public Matrix Transform
+		{
+			get
+			{
+				return transform;
+			}
+			set
+			{
+				transform = value;
+			}
+		}
+		#endregion
 
-        public Matrix Transform
-        {
-            get
-            {
-                return this.transform;
-            }
-            set
-            {
-                this.transform = value;
-            }
-        }
+		#region Constructor
+		/// <summary>
+		/// The default constructor is hidden.
+		/// </summary>
+		private AnimationKeyframe()
+		{
+		}
 
-        public int CompareTo(AnimationKeyframe other)
-        {
-            return time.CompareTo(other.time);
-        }
-    }
+		public AnimationKeyframe(TimeSpan setTime, Matrix setTransform)
+		{
+			time = setTime;
+			transform = setTransform;
+		}
+		#endregion
+
+		#region CompareTo
+		public int CompareTo(AnimationKeyframe other)
+		{
+			return time.CompareTo(other.time);
+		}
+		#endregion
+	}
 }
