@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using HLSLParser;
 using SharpDX.D3DCompiler;
@@ -98,7 +99,7 @@ namespace DX11MetroShaderGenerator
 			byte[] vertexCode = CompileShader(pass.VertexShaderProfile, pass.VertexShader);
 			byte[] pixelCode = CompileShader(pass.PixelShaderProfile, pass.PixelShader);
 
-			return new CompiledPass(vertexCode, pixelCode);
+			return new CompiledPass(pass.Name, vertexCode, pixelCode);
 		}
 		#endregion
 
@@ -108,13 +109,15 @@ namespace DX11MetroShaderGenerator
 			int indexOfOpenParenthesis = entryPoint.IndexOf('(');
 			entryPoint = entryPoint.Substring(0, indexOfOpenParenthesis);
 
-			ShaderBytecode byteCode = ShaderBytecode.Compile(resultSourceCode,
+			/*ShaderBytecode byteCode = ShaderBytecode.Compile(resultSourceCode,
 				entryPoint, profile, ShaderFlags.None, EffectFlags.None,
 				null, new IncludeHandler(""));
 
 			byte[] result = new byte[byteCode.BufferSize];
 			byteCode.Data.Read(result, 0, result.Length);
-			return result;
+			return result;*/
+
+			return Execute(resultSourceCode, profile, entryPoint);
 		}
 		#endregion
 
@@ -175,6 +178,7 @@ namespace DX11MetroShaderGenerator
 				writer.Write(passes.Length);
 				foreach (CompiledPass pass in passes)
 				{
+					writer.Write(pass.Name);
 					writer.Write(pass.VertexShaderCode.Length);
 					writer.Write(pass.VertexShaderCode);
 					writer.Write(pass.PixelShaderCode.Length);
@@ -183,5 +187,50 @@ namespace DX11MetroShaderGenerator
 			}
 		}
 		#endregion
+
+		private byte[] Execute(string source, string profile, string entryPoint)
+		{
+			string tempSourcePath = Path.GetTempFileName() + ".fx";
+			string tempDestPath = Path.GetTempFileName() + ".fxo";
+
+			File.WriteAllText(tempSourcePath, source);
+
+			Process process = new Process();
+			process.StartInfo.FileName = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x86\fxc.exe";
+			process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile + " \"" +
+				tempSourcePath + "\" /Fo" + tempDestPath;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.RedirectStandardOutput = true;
+
+			string output = "";
+			DataReceivedEventHandler handler = delegate(object sender, DataReceivedEventArgs e)
+				{
+					if (String.IsNullOrEmpty(e.Data) == false)
+					{
+						output += e.Data + "\n";
+					}
+				};
+			process.OutputDataReceived += handler;
+			process.ErrorDataReceived += handler;
+
+			process.Start();
+			process.BeginErrorReadLine();
+			process.BeginOutputReadLine();
+			process.WaitForExit();
+
+			if (File.Exists(tempSourcePath))
+			{
+				File.Delete(tempSourcePath);
+			}
+			if (File.Exists(tempDestPath))
+			{
+				byte[] result = File.ReadAllBytes(tempDestPath);
+				File.Delete(tempDestPath);
+				return result;
+			}
+
+			return new byte[0];
+		}
 	}
 }

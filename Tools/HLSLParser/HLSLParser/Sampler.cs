@@ -91,7 +91,10 @@ namespace HLSLParser
 			string text = walker.Text;
 			if (text.StartsWith(":"))
 			{
+				int lengthBeforeCut = text.Length; 
 				text = text.Substring(1).TrimStart(' ', '\t');
+				int cutLength = lengthBeforeCut - text.Length;
+
 				Register = "";
 				int registerParseIndex = 0;
 				while (registerParseIndex < text.Length)
@@ -111,7 +114,7 @@ namespace HLSLParser
 
 				Register = Register.Trim(' ', '\t', '\n', '\r');
 
-				walker.Seek(registerParseIndex);
+				walker.Seek(registerParseIndex + cutLength);
 			}
 		}
 		#endregion
@@ -121,20 +124,10 @@ namespace HLSLParser
 		{
 			string text = walker.Text;
 
-			int searchStatesStartIndex = 0;
-			while (searchStatesStartIndex < text.Length)
-			{
-				char currentChar = text[searchStatesStartIndex];
-				if (currentChar == ';')
-					return;
+			if (text[0] == ';')
+				return;
 
-				if (currentChar == '{')
-					break;
-				
-				searchStatesStartIndex++;
-			}
-
-			walker.Seek(searchStatesStartIndex + 1);
+			walker.Seek(1);
 
 			text = walker.Text;
 

@@ -15,6 +15,11 @@ namespace ANX.RenderSystem.Windows.Metro
 	{
 		#region Private
 		private Effect managedEffect;
+
+		private List<EffectTechnique> techniques;
+		private List<EffectParameter> parameters;
+
+		private ExtendedShader shader;
 		#endregion
 
 		#region Public
@@ -34,16 +39,12 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				throw new NotImplementedException();
-				//for (int i = 0; i < nativeEffect.Description.TechniqueCount; i++)
-				//{
-				//    EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
-				//    teqDx10.NativeTechnique = nativeEffect.GetTechniqueByIndex(i);
+				if (techniques == null)
+				{
+					ParseTechniques();
+				}
 
-				//    Graphics.EffectTechnique teq = new Graphics.EffectTechnique(this.managedEffect, teqDx10);
-
-				//    yield return teq;
-				//}
+				return techniques;
 			}
 		}
 
@@ -51,22 +52,12 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				//TODO: implement
-				
-				System.Diagnostics.Debugger.Break();
+				if (parameters == null)
+				{
+					ParseParameters();
+				}
 
-				return null;
-
-				//for (int i = 0; i < nativeEffect.Description.GlobalVariableCount; i++)
-				//{
-				//    EffectParameter_Metro parDx10 = new EffectParameter_Metro();
-				//    parDx10.NativeParameter = nativeEffect.GetVariableByIndex(i);
-
-				//    Graphics.EffectParameter par = new Graphics.EffectParameter();
-				//    par.NativeParameter = parDx10;
-
-				//    yield return par;
-				//}
+				return parameters;
 			}
 		}
 		#endregion
@@ -77,29 +68,47 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			this.managedEffect = managedEffect;
 
-			byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
+			throw new NotImplementedException();
+
+			/*byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
 			NativeVertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
 
 			byte[] pixelData = SeekIfPossibleAndReadBytes(pixelShaderByteCode);
-			NativePixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
+			NativePixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);*/
 		}
 
 		public Effect_Metro(GraphicsDevice device, Effect managedEffect, Stream effectByteCode)
 		{
 			this.managedEffect = managedEffect;
 
-			if (effectByteCode.CanSeek)
-			{
-				effectByteCode.Seek(0, SeekOrigin.Begin);
-			}
-			// TODO
-			/*
-			byte[] vertexData = SeekIfPossibleAndReadBytes(vertexShaderByteCode);
-			vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexData);
+			shader = new ExtendedShader(effectByteCode);
+		}
+		#endregion
 
-			byte[] pixelData = SeekIfPossibleAndReadBytes(pixelShaderByteCode);
-			pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelData);
-			*/
+		#region ParseTechniques
+		private void ParseTechniques()
+		{
+			techniques = new List<EffectTechnique>();
+
+			foreach (string key in shader.Techniques.Keys)
+			{
+				var nativeTechnique = new EffectTechnique_Metro(key, managedEffect, shader.Techniques[key]);
+				techniques.Add(new EffectTechnique(managedEffect, nativeTechnique));
+			}
+		}
+		#endregion
+
+		#region ParseParameters
+		private void ParseParameters()
+		{
+			parameters = new List<EffectParameter>();
+
+			foreach (ExtendedShaderParameter parameter in shader.Parameters)
+			{
+				EffectParameter newParam = new EffectParameter();
+				newParam.NativeParameter = new EffectParameter_Metro(parameter);
+				parameters.Add(newParam);
+			}
 		}
 		#endregion
 
@@ -143,5 +152,80 @@ namespace ANX.RenderSystem.Windows.Metro
 			}
 		}
 		#endregion
+	}
+
+	public class ExtendedShader
+	{
+		public Dictionary<string, ExtendedShaderPass[]> Techniques;
+		public List<ExtendedShaderParameter> Parameters;
+
+		public ExtendedShader(Stream stream)
+		{
+			Techniques = new Dictionary<string, ExtendedShaderPass[]>();
+			Parameters = new List<ExtendedShaderParameter>();
+
+			BinaryReader reader = new BinaryReader(stream);
+
+			int numberOfVariables = reader.ReadInt32();
+			for (int index = 0; index < numberOfVariables; index++)
+			{
+				Parameters.Add(new ExtendedShaderParameter(reader));
+			}
+
+			int numberOfStructures = reader.ReadInt32();
+			for (int index = 0; index < numberOfStructures; index++)
+			{
+				string name = reader.ReadString();
+				int numberOfStructVariables = reader.ReadInt32();
+				for (int varIndex = 0; varIndex < numberOfStructVariables; varIndex++)
+				{
+					string varType = reader.ReadString();
+					string varName = reader.ReadString();
+					string varSemantic = reader.ReadString();
+				}
+			}
+
+			int numberOfTechniques = reader.ReadInt32();
+			for (int index = 0; index < numberOfTechniques; index++)
+			{
+				string name = reader.ReadString();
+				int numberOfPasses = reader.ReadInt32();
+				ExtendedShaderPass[] passes = new ExtendedShaderPass[numberOfPasses];
+				Techniques.Add(name, passes);
+
+				for (int passIndex = 0; passIndex < numberOfPasses; passIndex++)
+				{
+					passes[passIndex] = new ExtendedShaderPass(reader);
+				}
+			}
+		}
+	}
+
+	public class ExtendedShaderParameter
+	{
+		public string Type;
+		public string Name;
+
+		public ExtendedShaderParameter(BinaryReader reader)
+		{
+			Type = reader.ReadString();
+			Name = reader.ReadString();
+		}
+	}
+
+	public class ExtendedShaderPass
+	{
+		public string Name;
+		public byte[] VertexCode;
+		public byte[] PixelCode;
+
+		public ExtendedShaderPass(BinaryReader reader)
+		{
+			Name = reader.ReadString();
+			int vertexCodeLength = reader.ReadInt32();
+			VertexCode = reader.ReadBytes(vertexCodeLength);
+			int pixelCodeLength = reader.ReadInt32();
+			PixelCode = reader.ReadBytes(pixelCodeLength);
+		}
 	}
 }

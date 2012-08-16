@@ -11,19 +11,20 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class EffectParameter_Metro : INativeEffectParameter
 	{
-		//private EffectVariable nativeEffectVariable;
+		private ExtendedShaderParameter nativeParameter;
 
-		//public EffectVariable NativeParameter
-		//{
-		//    get
-		//    {
-		//        return this.nativeEffectVariable;
-		//    }
-		//    internal set
-		//    {
-		//        this.nativeEffectVariable = value;
-		//    }
-		//}
+		public string Name
+		{
+			get
+			{
+				return nativeParameter.Name;
+			}
+		}
+
+		public EffectParameter_Metro(ExtendedShaderParameter setNativeParameter)
+		{
+			nativeParameter = setNativeParameter;
+		}
 
 		public void SetValue(bool value)
 		{
@@ -164,15 +165,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void SetValue(Matrix[] value, bool transpose)
 		{
 			throw new NotImplementedException();
-		}
-
-		public string Name
-		{
-			get
-			{
-				//return nativeEffectVariable.Description.Name;
-				throw new NotImplementedException();
-			}
 		}
 
 		#region INativeEffectParameter Member

@@ -8,6 +8,12 @@ namespace DX11MetroShaderGenerator
 {
 	public class CompiledPass
 	{
+		public string Name
+		{
+			get;
+			private set;
+		}
+
 		public byte[] VertexShaderCode
 		{
 			get;
@@ -20,8 +26,10 @@ namespace DX11MetroShaderGenerator
 			private set;
 		}
 
-		public CompiledPass(byte[] setVertexShaderCode, byte[] setPixelShaderCode)
+		public CompiledPass(string setName,
+			byte[] setVertexShaderCode, byte[] setPixelShaderCode)
 		{
+			Name = setName;
 			VertexShaderCode = setVertexShaderCode;
 			PixelShaderCode = setPixelShaderCode;
 		}

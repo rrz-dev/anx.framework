@@ -22,8 +22,7 @@ namespace StockShaderCodeGenerator
             {
                 Console.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
 
-                //buildFile = "build.xml";
-								buildFile = @"D:\code\csharp\ANX.Framework\shader\Metro\build.xml";
+								buildFile = "build.xml";
             }
             else
             {

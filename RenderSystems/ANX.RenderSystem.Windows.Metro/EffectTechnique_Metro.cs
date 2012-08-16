@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
@@ -11,59 +10,50 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class EffectTechnique_Metro : INativeEffectTechnique
 	{
-		//private EffectTechnique nativeTechnique;
-		private ANX.Framework.Graphics.Effect parentEffect;
+		#region Private
+		private Effect parentEffect;
+		private List<EffectPass_Metro> passes;
+		#endregion
 
-		//internal EffectTechnique_DX10(ANX.Framework.Graphics.Effect parentEffect)
-		//{
-		//    if (parentEffect == null)
-		//    {
-		//        throw new ArgumentNullException("parentEffect");
-		//    }
-
-		//    this.parentEffect = parentEffect;
-		//}
-
-		//public EffectTechnique NativeTechnique
-		//{
-		//    get
-		//    {
-		//        return this.nativeTechnique;
-		//    }
-		//    internal set
-		//    {
-		//        this.nativeTechnique = value;
-		//    }
-		//}
-
+		#region Public
 		public string Name
 		{
-			get
-			{
-				//return nativeTechnique.Description.Name;
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
-
 
 		public IEnumerable<EffectPass> Passes
 		{
 			get
 			{
-				//TODO: implement
-				System.Diagnostics.Debugger.Break();
-				return null;
-
-				//for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
-				//{
-				//    EffectPass_DX10 passDx10 = new EffectPass_DX10();
-				//    passDx10.NativePass = nativeTechnique.GetPassByIndex(i);
-
-				//    Graphics.EffectPass pass = new Graphics.EffectPass(this.parentEffect);
-
-				//    yield return pass;
-				//}
+				foreach (EffectPass_Metro pass in passes)
+				{
+					yield return pass.Pass;
+				}
 			}
 		}
+		#endregion
+
+		#region Constructor
+		public EffectTechnique_Metro(string setName, Effect setParentEffect,
+			ExtendedShaderPass[] nativePasses)
+		{
+			Name = setName;
+			parentEffect = setParentEffect;
+			ParsePasses(nativePasses);
+		}
+		#endregion
+
+		#region ParsePasses
+		private void ParsePasses(ExtendedShaderPass[] nativePasses)
+		{
+			passes = new List<EffectPass_Metro>();
+
+			foreach (ExtendedShaderPass pass in nativePasses)
+			{
+				passes.Add(new EffectPass_Metro(parentEffect, pass));
+			}
+		}
+		#endregion
 	}
 }

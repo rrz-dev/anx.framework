@@ -213,7 +213,8 @@ namespace ANX.RenderSystem.Windows.Metro
 					formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
 
 					int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-					SharpDX.DataBox rectangle = context.MapSubresource(this.nativeTexture, subresource, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
+					SharpDX.DataBox rectangle =
+						NativeDxDevice.Current.MapSubresource(nativeTexture, subresource);
 					SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
 					int pitch = rectangle.RowPitch;
 					int col = 0;
@@ -248,7 +249,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 					handle.Free();
 
-					context.UnmapSubresource(this.nativeTexture, subresource);
+					NativeDxDevice.Current.UnmapSubresource(nativeTexture, subresource);
 				}
 			}
 			else

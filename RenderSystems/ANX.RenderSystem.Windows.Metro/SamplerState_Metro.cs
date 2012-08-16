@@ -102,7 +102,6 @@ namespace ANX.RenderSystem.Windows.Metro
 			UpdateNativeSamplerState();
 			bound = true;
 			
-			throw new NotImplementedException();
 			//device.PixelShader.SetSampler(index, this.nativeSamplerState);
 		}
 		#endregion
@@ -129,8 +128,8 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeSamplerState = null;
 				}
 
-				nativeSamplerState = new Dx11.SamplerState(
-					NativeDxDevice.Current.NativeDevice, ref description);
+				//nativeSamplerState = new Dx11.SamplerState(
+				//	NativeDxDevice.Current.NativeDevice, ref description);
 
 				isDirty = false;
 			}

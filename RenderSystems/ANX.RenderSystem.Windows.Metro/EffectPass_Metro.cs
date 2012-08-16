@@ -1,5 +1,7 @@
 using System;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,27 +11,64 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class EffectPass_Metro : INativeEffectPass
 	{
-		//private EffectPass nativePass;
+		#region Private
+		private ExtendedShaderPass nativePass;
+		private Effect parentEffect;
+		private Dx11.VertexShader vertexShader;
+		private Dx11.PixelShader pixelShader;
+		#endregion
 
-		//public EffectPass NativePass
-		//{
-		//    get
-		//    {
-		//        return this.nativePass;
-		//    }
-		//    internal set
-		//    {
-		//        this.nativePass = value;
-		//    }
-		//}
-
+		#region Public
 		public string Name
+		{
+			get;
+			private set;
+		}
+
+		public EffectPass Pass
+		{
+			get;
+			private set;
+		}
+
+		public Dx11.VertexShader VertexShader
 		{
 			get
 			{
-				//return nativePass.Description.Name;
-				throw new NotImplementedException();
+				if (vertexShader == null)
+				{
+					vertexShader = new Dx11.VertexShader(
+						NativeDxDevice.Current.NativeDevice, nativePass.VertexCode);
+				}
+
+				return vertexShader;
 			}
 		}
+
+		public Dx11.PixelShader PixelShader
+		{
+			get
+			{
+				if (pixelShader == null)
+				{
+					pixelShader = new Dx11.PixelShader(
+						NativeDxDevice.Current.NativeDevice, nativePass.PixelCode);
+				}
+
+				return pixelShader;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public EffectPass_Metro(Effect setParentEffect, ExtendedShaderPass setNativePass)
+		{
+			Name = setNativePass.Name;
+			nativePass = setNativePass;
+			parentEffect = setParentEffect;
+
+			Pass = new EffectPass(parentEffect);
+		}
+		#endregion
 	}
 }
