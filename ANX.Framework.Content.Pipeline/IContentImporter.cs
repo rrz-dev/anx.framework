@@ -7,14 +7,10 @@ using System;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
+namespace ANX.Framework.Content.Pipeline
 {
-	internal abstract class BuiltinTypeWriter<T> : ContentTypeWriter<T>
-	{
-		public override string GetRuntimeReader(TargetPlatform targetPlatform)
-		{
-			// TODO!
-			return "";
-		}
-	}
+    public interface IContentImporter
+    {
+        Object Import(string filename, ContentImporterContext context);
+    }
 }
