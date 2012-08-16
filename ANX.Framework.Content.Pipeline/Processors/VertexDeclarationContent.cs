@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
+using ANX.Framework.Graphics;
 
 #endregion
 
@@ -12,18 +14,23 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public class CompiledEffectContent : ContentItem
+    public class VertexDeclarationContent : ContentItem
     {
-        private byte[] effectCode;
-
-        public CompiledEffectContent(byte[] effectCode)
+        public VertexDeclarationContent()
         {
-            this.effectCode = effectCode;
+
         }
 
-        public byte[] GetEffectCode()
+        public Collection<VertexElement> VertexElements
         {
-            return effectCode;
+            get;
+            private set;
+        }
+
+        public Nullable<int> VertexStride
+        {
+            get;
+            set;
         }
     }
 }

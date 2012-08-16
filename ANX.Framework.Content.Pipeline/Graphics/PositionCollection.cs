@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 #endregion
 
@@ -10,20 +11,15 @@ using System.Text;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline.Processors
+namespace ANX.Framework.Content.Pipeline.Graphics
 {
-    public class CompiledEffectContent : ContentItem
+    public sealed class PositionCollection : Collection<Vector3>
     {
-        private byte[] effectCode;
-
-        public CompiledEffectContent(byte[] effectCode)
+        public PositionCollection()
         {
-            this.effectCode = effectCode;
+
         }
 
-        public byte[] GetEffectCode()
-        {
-            return effectCode;
-        }
+
     }
 }

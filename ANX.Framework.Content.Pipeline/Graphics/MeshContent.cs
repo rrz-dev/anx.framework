@@ -10,20 +10,24 @@ using System.Text;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline.Processors
+namespace ANX.Framework.Content.Pipeline.Graphics
 {
-    public class CompiledEffectContent : ContentItem
+    public class MeshContent : NodeContent
     {
-        private byte[] effectCode;
-
-        public CompiledEffectContent(byte[] effectCode)
+        public MeshContent()
         {
-            this.effectCode = effectCode;
         }
 
-        public byte[] GetEffectCode()
+        public GeometryContentCollection Geometry
         {
-            return effectCode;
+            get;
+            private set;
+        }
+
+        public PositionCollection Positions
+        {
+            get;
+            private set;
         }
     }
 }
