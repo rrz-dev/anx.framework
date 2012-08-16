@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.Content.Pipeline.Graphics;
 
 #endregion
 
@@ -12,19 +13,15 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    public abstract class ContentImporter<T> : IContentImporter
+    public class EffectImporter : ContentImporter<EffectContent>
     {
-        protected ContentImporter()
+        public EffectImporter()
+        {
+        }
+
+        public override EffectContent Import(string filename, ContentImporterContext context)
         {
             throw new NotImplementedException();
         }
-
-        public abstract T Import(string filename, ContentImporterContext context);
-
-        Object ANX.Framework.Content.Pipeline.IContentImporter.Import(string filename, ContentImporterContext context)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

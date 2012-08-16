@@ -12,19 +12,23 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    public abstract class ContentImporter<T> : IContentImporter
+    public sealed class OpaqueDataDictionary : NamedValueDictionary<Object>
     {
-        protected ContentImporter()
+        public OpaqueDataDictionary()
         {
             throw new NotImplementedException();
         }
 
-        public abstract T Import(string filename, ContentImporterContext context);
-
-        Object ANX.Framework.Content.Pipeline.IContentImporter.Import(string filename, ContentImporterContext context)
+        public string GetContentAsXml()
         {
             throw new NotImplementedException();
         }
+
+        public T GetValue<T>(string key, T defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }
