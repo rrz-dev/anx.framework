@@ -35,7 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\AlphaTestMaterialContent.cs" />
+    <Compile Include="Graphics\BasicMaterialContent.cs" />
     <Compile Include="Graphics\BitmapContent.cs" />
+    <Compile Include="Graphics\BoneContent.cs" />
     <Compile Include="Graphics\BoneWeight.cs" />
     <Compile Include="ChildCollection.cs" />
     <Compile Include="ContentBuildLogger.cs" />
@@ -55,7 +57,14 @@
     <Compile Include="Graphics\AnimationContent.cs" />
     <Compile Include="Graphics\AnimationContentDictionary.cs" />
     <Compile Include="Graphics\AnimationKeyframe.cs" />
+    <Compile Include="Graphics\BoneWeightCollection.cs" />
+    <Compile Include="Graphics\Dxt1BitmapContent.cs" />
+    <Compile Include="Graphics\DxtBitmapContent.cs" />
     <Compile Include="Graphics\EffectContent.cs" />
+    <Compile Include="Graphics\DualTextureMaterialContent.cs" />
+    <Compile Include="Graphics\Dxt3BitmapContent.cs" />
+    <Compile Include="Graphics\Dxt5BitmapContent.cs" />
+    <Compile Include="Graphics\EffectMaterialContent.cs" />
     <Compile Include="Graphics\MaterialContent.cs" />
     <Compile Include="Graphics\MipmapChain.cs" />
     <Compile Include="Graphics\MipmapChainCollection.cs" />
@@ -67,6 +76,7 @@
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
+    <Compile Include="Processors\CompiledEffectContent.cs" />
     <Compile Include="Serialization\Compiler\BuiltInTypeWriter.cs" />
     <Compile Include="Serialization\Compiler\ContentCompiler.cs" />
     <Compile Include="Serialization\Compiler\ContentTypeWriter.cs" />
@@ -109,6 +119,7 @@
       <Name>ANX.Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
