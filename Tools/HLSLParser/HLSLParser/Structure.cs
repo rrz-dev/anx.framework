@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParser
 {
 	public class Structure
@@ -56,5 +60,17 @@ namespace HLSLParser
 			return null;
 		}
 		#endregion
+
+		public override string ToString()
+		{
+			string result = "struct " + Name + "\n{";
+
+			foreach (Variable variable in Variables)
+			{
+				result += "\n\t" + variable.ToString();
+			}
+
+			return result + "\n};";
+		}
 	}
 }

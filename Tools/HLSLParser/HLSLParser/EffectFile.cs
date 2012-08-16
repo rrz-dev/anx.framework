@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParser
 {
 	public class EffectFile
@@ -59,9 +63,8 @@ namespace HLSLParser
 		#endregion
 
 		#region Constructor
-		public EffectFile(string filepath)
+		private EffectFile()
 		{
-			Source = File.ReadAllText(filepath);
 			Variables = new List<Variable>();
 			Structures = new List<Structure>();
 			TypeDefs = new List<TypeDef>();
@@ -71,5 +74,21 @@ namespace HLSLParser
 			Methods = new List<Method>();
 		}
 		#endregion
+
+		public static EffectFile FromFile(string filepath)
+		{
+			return new EffectFile()
+			{
+				Source = File.ReadAllText(filepath)
+			};
+		}
+
+		public static EffectFile FromSource(string sourceCode)
+		{
+			return new EffectFile()
+			{
+				Source = sourceCode
+			};
+		}
 	}
 }

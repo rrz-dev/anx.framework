@@ -3,29 +3,21 @@ using System.IO;
 using HLSLParser;
 using NUnit.Framework;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParserTests
 {
 	public static class ParserTests
-	{
-		#region TestCreation
-		[Test]
-		public static void TestCreation()
-		{
-			Assert.DoesNotThrow(delegate
-			{
-				Parser parser = new Parser();
-			});
-		}
-		#endregion
-		
+	{		
 		#region TestLoadThrowsOnEmptyFilepath
 		[Test]
 		public static void TestLoadThrowsOnEmptyFilepath()
 		{
 			Assert.Throws(typeof(ArgumentException), delegate
 			{
-				Parser parser = new Parser();
-				parser.Load("");
+				Parser.LoadFromFile("");
 			});
 		}
 		#endregion
@@ -36,8 +28,7 @@ namespace HLSLParserTests
 		{
 			Assert.Throws(typeof(FileNotFoundException), delegate
 			{
-				Parser parser = new Parser();
-				parser.Load("testfile.fx");
+				Parser.LoadFromFile("testfile.fx");
 			});
 		}
 		#endregion
@@ -57,9 +48,7 @@ namespace HLSLParserTests
 		public static void TestLoadFile()
 		{
 			string testFilepath = HlslTestFile.WriteTestFile();
-			Parser parser = new Parser();
-
-			parser.Load(testFilepath);
+			Parser parser = Parser.LoadFromFile(testFilepath);
 
 			Assert.NotNull(parser.Effect);
 			Assert.NotNull(parser.Effect.Source);
@@ -75,9 +64,7 @@ namespace HLSLParserTests
 		public static void TestParseFile()
 		{
 			string testFilepath = HlslTestFile.WriteTestFile();
-			Parser parser = new Parser();
-
-			parser.Load(testFilepath);
+			Parser parser = Parser.LoadFromFile(testFilepath);
 
 			parser.Parse();
 

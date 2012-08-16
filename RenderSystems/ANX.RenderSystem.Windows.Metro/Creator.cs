@@ -140,6 +140,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				return ShaderByteCode.SpriteBatchByteCode;
 			}
+			/* TODO
 			else if (type == PreDefinedShader.AlphaTestEffect)
 			{
 				return ShaderByteCode.AlphaTestEffectByteCode;
@@ -160,8 +161,9 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				return ShaderByteCode.SkinnedEffectByteCode;
 			}
-
-			throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
+			*/
+			throw new NotImplementedException("ByteCode for '" + type.ToString() +
+				"' is not yet available");
 		}
 		#endregion
 

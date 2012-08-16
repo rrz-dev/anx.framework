@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParser
 {
 	/// <summary>
@@ -17,12 +21,27 @@ namespace HLSLParser
 		}
 		#endregion
 
-		#region Load
-		public void Load(string filepath)
+		private Parser()
 		{
-			ValidateFilepath(filepath);
+		}
 
-			Effect = new EffectFile(filepath);
+		#region LoadFromFile
+		public static Parser LoadFromFile(string filepath)
+		{
+			Parser result = new Parser();
+			result.ValidateFilepath(filepath);
+
+			result.Effect = EffectFile.FromFile(filepath);
+			return result;
+		}
+		#endregion
+
+		#region LoadFromSource
+		public static Parser LoadFromSource(string sourceCode)
+		{
+			Parser result = new Parser();
+			result.Effect = EffectFile.FromSource(sourceCode);
+			return result;
 		}
 		#endregion
 

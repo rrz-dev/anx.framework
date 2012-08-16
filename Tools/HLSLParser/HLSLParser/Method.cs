@@ -1,5 +1,9 @@
 ﻿using System;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParser
 {
 	public class Method
@@ -143,6 +147,28 @@ namespace HLSLParser
 				StringSplitOptions.RemoveEmptyEntries);
 
 			return parts.Length == 2;
+		}
+		#endregion
+
+		#region ToString
+		public override string ToString()
+		{
+			string result = "";
+			if (String.IsNullOrEmpty(StorageClass) == false)
+			{
+				result += StorageClass + " ";
+			}
+
+			result += ReturnType + " " + Name + "(" + Arguments + ")";
+
+			if (String.IsNullOrEmpty(Semantic) == false)
+			{
+				result += " : " + Semantic;
+			}
+
+			result += "\n{\n" + Body + "\n}";
+
+			return result;
 		}
 		#endregion
 	}

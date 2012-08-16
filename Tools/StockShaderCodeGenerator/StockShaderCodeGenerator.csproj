@@ -55,11 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +82,10 @@
     <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11.csproj">
       <Project>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</Project>
       <Name>ANX.RenderSystem.Windows.DX11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DX11MetroShaderGenerator\DX11MetroShaderGenerator.csproj">
+      <Project>{47B802CC-069D-431E-BF15-E574EDD3BA5D}</Project>
+      <Name>DX11MetroShaderGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,5 @@
 #region Private Members
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 #endregion // Private Members
@@ -25,7 +22,8 @@ namespace StockShaderCodeGenerator
             {
                 Console.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
 
-                buildFile = "build.xml";
+                //buildFile = "build.xml";
+								buildFile = @"D:\code\csharp\ANX.Framework\shader\Metro\build.xml";
             }
             else
             {

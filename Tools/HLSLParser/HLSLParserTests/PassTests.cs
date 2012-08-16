@@ -2,6 +2,10 @@
 using NUnit.Framework;
 using HLSLParser;
 
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
 namespace HLSLParserTests
 {
 	public static class PassTests
@@ -32,8 +36,10 @@ namespace HLSLParserTests
 
 			Assert.NotNull(result);
 			Assert.AreEqual("P0", result.Name);
-			Assert.AreEqual("CompileShader(vs_4_0, VS())", result.VertexShader);
-			Assert.AreEqual("CompileShader(ps_4_0, PS())", result.PixelShader);
+			Assert.AreEqual("VS()", result.VertexShader);
+			Assert.AreEqual("vs_4_0", result.VertexShaderProfile);
+			Assert.AreEqual("PS()", result.PixelShader);
+			Assert.AreEqual("ps_4_0", result.PixelShaderProfile);
 		}
 		#endregion
 
@@ -46,9 +52,10 @@ namespace HLSLParserTests
 
 			Assert.NotNull(result);
 			Assert.AreEqual("P0", result.Name);
-			Assert.AreEqual("compile vs_2_0 RenderSceneVS(1, true, true)",
-				result.VertexShader);
-			Assert.AreEqual("compile ps_2_0 RenderScenePS(true)", result.PixelShader);
+			Assert.AreEqual("RenderSceneVS(1, true, true)", result.VertexShader);
+			Assert.AreEqual("vs_2_0", result.VertexShaderProfile);
+			Assert.AreEqual("RenderScenePS(true)", result.PixelShader);
+			Assert.AreEqual("ps_2_0", result.PixelShaderProfile);
 		}
 		#endregion
 

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Build License="../doc/license.txt"
        Target="../RenderSystems/ANX.Framework.Windows.DX10/ShaderByteCode.cs" 
-       Namespace="ANX.Framework.Windows.DX10">
+       Namespace="ANX.RenderSystem.Windows.DX10">
   <Shader Type="SpriteBatch"
           Source="../Shader/DX10/SpriteBatch.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
   <Shader Type="AlphaTestEffect"
           Source="../Shader/DX10/AlphaTest.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
   <Shader Type="BasicEffect"
           Source="../Shader/DX10/BasicEffect.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
   <Shader Type="DualTextureEffect"
           Source="../Shader/DX10/DualTexture.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
   <Shader Type="EnvironmentMapEffect"
           Source="../Shader/DX10/EnvironmentMap.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
   <Shader Type="SkinnedEffect"
           Source="../Shader/DX10/Skinned.fx"
-          RenderSystem="ANX.Framework.Windows.DX10"
+          RenderSystem="ANX.RenderSystem.Windows.DX10"
           />
 </Build>

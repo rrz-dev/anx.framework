@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Build License="../doc/license.txt"
+       Target="../RenderSystems/ANX.RenderSystem.Windows.Metro/ShaderByteCode.cs" 
+       Namespace="ANX.RenderSystem.Windows.Metro">
+  <Shader Type="SpriteBatch"
+          Source="../Shader/Metro/SpriteBatch.fx"
+          RenderSystem="ANX.RenderSystem.Windows.Metro"
+          />
+</Build>

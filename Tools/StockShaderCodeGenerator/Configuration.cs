@@ -1,8 +1,8 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 #endregion // Using Statements
@@ -26,7 +26,7 @@ namespace StockShaderCodeGenerator
         {
             buildFileName = file;
 
-            if (!System.IO.File.Exists(file))
+            if (File.Exists(file) == false)
             {
                 Console.WriteLine("Could not find build file...");
                 return;
@@ -43,7 +43,7 @@ namespace StockShaderCodeGenerator
                 if (doc.Root.HasAttributes)
                 {
                     licenseFile = doc.Root.Attribute("License").Value;
-                    if (System.IO.File.Exists(licenseFile))
+                    if (File.Exists(licenseFile))
                     {
                         Console.WriteLine("using license file '{0}' to include", licenseFile);
                     }
