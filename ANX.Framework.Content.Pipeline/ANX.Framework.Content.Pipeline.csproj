@@ -34,6 +34,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\AlphaTestMaterialContent.cs" />
+    <Compile Include="Graphics\BitmapContent.cs" />
     <Compile Include="Graphics\BoneWeight.cs" />
     <Compile Include="ChildCollection.cs" />
     <Compile Include="ContentBuildLogger.cs" />
@@ -54,8 +56,13 @@
     <Compile Include="Graphics\AnimationContentDictionary.cs" />
     <Compile Include="Graphics\AnimationKeyframe.cs" />
     <Compile Include="Graphics\EffectContent.cs" />
+    <Compile Include="Graphics\MaterialContent.cs" />
+    <Compile Include="Graphics\MipmapChain.cs" />
+    <Compile Include="Graphics\MipmapChainCollection.cs" />
     <Compile Include="Graphics\NodeContent.cs" />
     <Compile Include="Graphics\NodeContentCollection.cs" />
+    <Compile Include="Graphics\TextureContent.cs" />
+    <Compile Include="Graphics\TextureReferenceDictionary.cs" />
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="NamedValueDictionary.cs" />
