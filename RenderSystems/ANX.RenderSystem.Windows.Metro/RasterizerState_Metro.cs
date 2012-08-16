@@ -16,8 +16,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region Private
-		private Dx11.RasterizerDescription1 description;
-		private Dx11.RasterizerState1 nativeRasterizerState;
+		private Dx11.RasterizerStateDescription description;
+		private Dx11.RasterizerState nativeRasterizerState;
 		#endregion
 
 		#region Public
@@ -55,10 +55,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.MultisampleEnable != value)
+                if (description.IsMultisampleEnabled != value)
 				{
 					isDirty = true;
-					description.MultisampleEnable = value;
+					description.IsMultisampleEnabled = value;
 				}
 			}
 		}
@@ -67,10 +67,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				if (description.ScissorEnable != value)
+				if (description.IsScissorEnabled != value)
 				{
 					isDirty = true;
-					description.ScissorEnable = value;
+                    description.IsScissorEnabled = value;
 				}
 			}
 		}
@@ -87,8 +87,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Constructor
 		public RasterizerState_Metro()
 		{
-			description = new Dx11.RasterizerDescription1();
-			description.AntialiasedLineEnable = false;
+			description = new Dx11.RasterizerStateDescription();
+			description.IsAntialiasedLineEnabled = false;
 
 			isDirty = true;
 		}
@@ -126,7 +126,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				try
 				{
-					nativeRasterizerState = new Dx11.RasterizerState1(
+					nativeRasterizerState = new Dx11.RasterizerState(
 						NativeDxDevice.Current.NativeDevice, description);
 					isDirty = false;
 				}

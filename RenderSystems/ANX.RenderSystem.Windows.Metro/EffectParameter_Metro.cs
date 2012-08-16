@@ -2,6 +2,8 @@ using System;
 using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.RenderSystem.Windows.Metro.Shader;
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -66,9 +68,9 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				anxMatrix = value[i];
 				m[i] = new SharpDX.Matrix(anxMatrix.M11, anxMatrix.M12, anxMatrix.M13, anxMatrix.M14,
-																	anxMatrix.M21, anxMatrix.M22, anxMatrix.M23, anxMatrix.M24,
-																	anxMatrix.M31, anxMatrix.M32, anxMatrix.M33, anxMatrix.M34,
-																	anxMatrix.M41, anxMatrix.M42, anxMatrix.M43, anxMatrix.M44);
+                    anxMatrix.M21, anxMatrix.M22, anxMatrix.M23, anxMatrix.M24,
+                    anxMatrix.M31, anxMatrix.M32, anxMatrix.M33, anxMatrix.M34,
+                    anxMatrix.M41, anxMatrix.M42, anxMatrix.M43, anxMatrix.M44);
 			}
 
 			//nativeEffectVariable.AsMatrix().SetMatrix(m);
@@ -149,18 +151,32 @@ namespace ANX.RenderSystem.Windows.Metro
 			throw new NotImplementedException();
 		}
 
+		#region SetValue (Texture) (TODO)
 		public void SetValue(Texture value)
 		{
 			Texture2D_Metro tex = value.NativeTexture as Texture2D_Metro;
+			var context = NativeDxDevice.Current.NativeContext;
 
-			//nativeEffectVariable.AsShaderResource().SetResource(tex.NativeShaderResourceView);
-			throw new NotImplementedException();
+            // TODO: slot
+			context.PixelShader.SetShaderResource(0, tex.NativeShaderResourceView);
 		}
+		#endregion
 
+		#region SetValue (Matrix) (TODO)
 		public void SetValue(Matrix value, bool transpose)
 		{
-			throw new NotImplementedException();
+			var context = NativeDxDevice.Current.NativeContext;
+			var device = NativeDxDevice.Current.NativeDevice;
+
+			var constantBuffer = new Dx11.Buffer(device,
+				SharpDX.Utilities.SizeOf<Matrix>(), Dx11.ResourceUsage.Default,
+				Dx11.BindFlags.ConstantBuffer, Dx11.CpuAccessFlags.None, Dx11.ResourceOptionFlags.None, 0);
+
+			context.VertexShader.SetConstantBuffer(0, constantBuffer);
+            value = Matrix.Transpose(value);
+			context.UpdateSubresource(ref value, constantBuffer);
 		}
+		#endregion
 
 		public void SetValue(Matrix[] value, bool transpose)
 		{

@@ -19,10 +19,11 @@ namespace ANX.RenderSystem.Windows.Metro
 		private Dx11.RenderTargetView renderTargetView;
 		private Dx11.DepthStencilView depthStencilView;
 		private SwapChainMetro swapChain;
-		private Dx11.Device1 nativeDevice;
-		private Dx11.DeviceContext1 nativeContext;
+		private Dx11.Device nativeDevice;
+		private Dx11.DeviceContext nativeContext;
+        private Dx11.Viewport viewport;
 
-		internal Dx11.Device1 NativeDevice
+		internal Dx11.Device NativeDevice
 		{
 			get
 			{
@@ -30,7 +31,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			}
 		}
 
-		internal Dx11.DeviceContext1 NativeContext
+		internal Dx11.DeviceContext NativeContext
 		{
 			get
 			{
@@ -75,11 +76,11 @@ namespace ANX.RenderSystem.Windows.Metro
 #endif
 			using (var defaultDevice = new Dx11.Device(DriverType.Hardware, creationFlags))
 			{
-				nativeDevice = defaultDevice.QueryInterface<Dx11.Device1>();
+				nativeDevice = defaultDevice.QueryInterface<Dx11.Device>();
 			}
 			featureLevel = NativeDevice.FeatureLevel;
 
-			nativeContext = NativeDevice.ImmediateContext.QueryInterface<Dx11.DeviceContext1>();
+			nativeContext = NativeDevice.ImmediateContext.QueryInterface<Dx11.DeviceContext>();
 		}
 		#endregion
 
@@ -114,13 +115,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					Dimension = Dx11.DepthStencilViewDimension.Texture2D
 				});
 			}
-
-			var viewport = new Dx11.Viewport((float)RenderTargetBounds.X, (float)RenderTargetBounds.Y,
+            
+			viewport = new Dx11.Viewport((float)RenderTargetBounds.X, (float)RenderTargetBounds.Y,
 					(float)RenderTargetBounds.Width, (float)RenderTargetBounds.Height, 0.0f, 1.0f);
 
-			nativeContext.Rasterizer.SetViewports(viewport);
-
-			nativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
+            SetDefaultTargets();
 		}
 		#endregion
 
@@ -133,6 +132,12 @@ namespace ANX.RenderSystem.Windows.Metro
 			nativeContext.ClearDepthStencilView(depthStencilView, flags, depth, stencil);
 		}
 		#endregion
+
+        public void SetDefaultTargets()
+        {
+            nativeContext.Rasterizer.SetViewports(viewport);
+            nativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
+        }
 		
 		#region Clear
 		public void Clear(Color4 color)

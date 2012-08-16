@@ -40,7 +40,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 			GraphicsDeviceWindowsMetro gdMetro =
 				graphics.NativeDevice as GraphicsDeviceWindowsMetro;
-			Dx11.Device1 device = gdMetro.NativeDevice.NativeDevice;
+			var device = gdMetro.NativeDevice.NativeDevice;
 
 			InitializeBuffer(device, indexCount, usage);
 		}

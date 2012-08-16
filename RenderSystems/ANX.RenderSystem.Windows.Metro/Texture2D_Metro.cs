@@ -110,7 +110,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			this.surfaceFormat = surfaceFormat;
 
 			GraphicsDeviceWindowsMetro graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
-			Dx11.Device1 device = graphicsMetro.NativeDevice.NativeDevice;
+			var device = graphicsMetro.NativeDevice.NativeDevice;
 
 			var description = new Dx11.Texture2DDescription()
 			{

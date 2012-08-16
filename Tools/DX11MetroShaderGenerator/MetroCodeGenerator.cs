@@ -191,13 +191,13 @@ namespace DX11MetroShaderGenerator
 		private byte[] Execute(string source, string profile, string entryPoint)
 		{
 			string tempSourcePath = Path.GetTempFileName() + ".fx";
-			string tempDestPath = Path.GetTempFileName() + ".fxo";
+			string tempDestPath = Path.GetTempFileName() + "_" + profile + ".fxo";
 
 			File.WriteAllText(tempSourcePath, source);
 
 			Process process = new Process();
 			process.StartInfo.FileName = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x86\fxc.exe";
-			process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile + " \"" +
+            process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile + "_level_9_1 \"" +
 				tempSourcePath + "\" /Fo" + tempDestPath;
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.RedirectStandardError = true;

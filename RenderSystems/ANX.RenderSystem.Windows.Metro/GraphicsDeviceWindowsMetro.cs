@@ -120,23 +120,48 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion // Present
 
 		#region DrawPrimitives & DrawIndexedPrimitives
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
+			int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
 		{
-			//Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
-			//SetupEffectForDraw(out pass, out technique, out passSignature);
+			var d3dContext = NativeDevice.NativeContext;
+			var d3dDevice = NativeDevice.NativeDevice;
 
-			//SetupInputLayout(passSignature);
+            NativeDevice.SetDefaultTargets();
 
-			//// Prepare All the stages
-			//deviceContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-			//deviceContext.Rasterizer.SetViewports(currentViewport);
+			var nativeVertexBuffer = currentVertexBuffer.NativeVertexBuffer as VertexBuffer_Metro;
 
-			//deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+			VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
+			VertexElement[] vertexElements = vertexDeclaration.GetVertexElements();
+			int elementCount = vertexElements.Length;
+			var inputElements = new Dx11.InputElement[elementCount];
+
+			for (int i = 0; i < elementCount; i++)
+			{
+				inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
+			}
+
+			var technique = currentEffect.ManagedEffect.CurrentTechnique;
+			var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
+			EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
+
+			var inputLayout = nativePass.BuildLayout(d3dDevice, inputElements);
+			var vertexBufferBinding = new Dx11.VertexBufferBinding(
+				nativeVertexBuffer.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+			d3dContext.InputAssembler.SetVertexBuffers(0, vertexBufferBinding);
+			d3dContext.InputAssembler.InputLayout = inputLayout;
+			d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+			
+			d3dContext.VertexShader.Set(nativePass.VertexShader);
+			d3dContext.PixelShader.Set(nativePass.PixelShader);
+
+			//d3dContext.PixelShader.SetSampler(0, sampler);
 
 			//for (int i = 0; i < technique.Description.PassCount; ++i)
 			//{
 			//    pass.Apply();
-			//    deviceContext.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
+					d3dContext.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount),
+						startIndex, baseVertex);
 			//}
 		}
 
@@ -174,7 +199,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion // DrawInstancedPrimitives
 
 		#region DrawUserIndexedPrimitives<T>
-		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
+		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData,
+			int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount,
+			VertexDeclaration vertexDeclaration, IndexElementSize indexFormat)
+			where T : struct, IVertexType
 		{
 			int vertexCount = vertexData.Length;
 			int indexCount = indexData.Length;
@@ -201,13 +229,16 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion // DrawUserIndexedPrimitives<T>
 
 		#region DrawUserPrimitives<T>
-		public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+		public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset,
+			int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
 		{
 			int vertexCount = vertexData.Length;
-			VertexBuffer_Metro vbMetro = new VertexBuffer_Metro(NativeDevice.NativeDevice, vertexDeclaration, vertexCount, BufferUsage.None);
+			VertexBuffer_Metro vbMetro = new VertexBuffer_Metro(NativeDevice.NativeDevice,
+				vertexDeclaration, vertexCount, BufferUsage.None);
 			vbMetro.SetData<T>(null, vertexData);
 
-			Dx11.VertexBufferBinding nativeVertexBufferBindings = new Dx11.VertexBufferBinding(vbMetro.NativeBuffer, vertexDeclaration.VertexStride, 0);
+			Dx11.VertexBufferBinding nativeVertexBufferBindings = new Dx11.VertexBufferBinding(
+				vbMetro.NativeBuffer, vertexDeclaration.VertexStride, 0);
 
 			NativeDevice.NativeContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
@@ -215,31 +246,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 
 		#endregion // DrawUserPrimitives<T>
-
-		//private void SetupEffectForDraw(out Dx11.EffectPass pass, out Dx11.EffectTechnique technique, out ShaderBytecode passSignature)
-		//{
-		//    // get the current effect
-		//    //TODO: check for null and throw exception
-		//    Effect_Metro effect = this.currentEffect;
-
-		//    // get the input semantic of the current effect / technique that is used
-		//    //TODO: check for null's and throw exceptions
-		//    technique = effect.NativeEffect.GetTechniqueByIndex(0);
-		//    pass = technique.GetPassByIndex(0);
-		//    passSignature = pass.Description.Signature;
-		//}
-
-		/*
-		private void SetupInputLayout(ShaderBytecode passSignature)
-		{
-			// get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
-			//TODO: check for null and throw exception
-			VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
-			var layout = CreateInputLayout(NativeDevice.NativeDevice, passSignature, vertexDeclaration);
-
-			NativeDevice.NativeContext.InputAssembler.InputLayout = layout;
-		}*/
-
+		
 		#region CalculateVertexCount
 		private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
 		{
@@ -326,37 +333,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
 		}
 		#endregion
-
-		/*
-		/// <summary>
-		/// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives. The VertexDeclaration of ANX/XNA needs to be mapped
-		/// to the DirectX 10 types. This is what this method is for.
-		/// </summary>
-		private Dx11.InputLayout CreateInputLayout(Dx11.Device1 device, ShaderBytecode passSignature, VertexDeclaration vertexDeclaration)
-		{
-			VertexElement[] vertexElements = vertexDeclaration.GetVertexElements();
-			int elementCount = vertexElements.Length;
-			var inputElements = new Dx11.InputElement[elementCount];
-
-			for (int i = 0; i < elementCount; i++)
-			{
-				inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
-			}
-
-			// Layout from VertexShader input signature
-			byte[] data = new byte[passSignature.BufferSize];
-			unsafe
-			{
-				byte* ptr = (byte*)passSignature.BufferPointer;
-				for (int index = 0; index < data.Length; index++)
-				{
-					data[index] = *ptr;
-					ptr++;
-				}
-			}
-			return new Dx11.InputLayout(device, data, inputElements);
-		}*/
-
+		
 		#region CreateInputElementFromVertexElement
 		private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
 		{

@@ -102,7 +102,8 @@ namespace ANX.RenderSystem.Windows.Metro
 			UpdateNativeSamplerState();
 			bound = true;
 			
-			//device.PixelShader.SetSampler(index, this.nativeSamplerState);
+			NativeDxDevice.Current.NativeContext.PixelShader.SetSampler(
+                index, this.nativeSamplerState);
 		}
 		#endregion
 
@@ -128,8 +129,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeSamplerState = null;
 				}
 
-				//nativeSamplerState = new Dx11.SamplerState(
-				//	NativeDxDevice.Current.NativeDevice, ref description);
+                // TODO: otherwise crashes for now
+                description.MaximumLod = float.MaxValue;
+
+				nativeSamplerState = new Dx11.SamplerState(
+					NativeDxDevice.Current.NativeDevice, ref description);
 
 				isDirty = false;
 			}

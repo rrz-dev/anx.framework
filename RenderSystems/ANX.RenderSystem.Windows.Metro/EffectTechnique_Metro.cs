@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using Dx11 = SharpDX.Direct3D11;
+using ANX.RenderSystem.Windows.Metro.Shader;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -55,5 +57,10 @@ namespace ANX.RenderSystem.Windows.Metro
 			}
 		}
 		#endregion
+
+		public EffectPass_Metro GetPass(int index)
+		{
+			return passes[index];
+		}
 	}
 }

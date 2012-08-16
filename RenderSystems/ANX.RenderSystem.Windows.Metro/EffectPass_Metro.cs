@@ -2,6 +2,7 @@ using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using Dx11 = SharpDX.Direct3D11;
+using ANX.RenderSystem.Windows.Metro.Shader;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -38,7 +39,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				if (vertexShader == null)
 				{
 					vertexShader = new Dx11.VertexShader(
-						NativeDxDevice.Current.NativeDevice, nativePass.VertexCode);
+					    NativeDxDevice.Current.NativeDevice, nativePass.VertexCode);
 				}
 
 				return vertexShader;
@@ -70,5 +71,11 @@ namespace ANX.RenderSystem.Windows.Metro
 			Pass = new EffectPass(parentEffect);
 		}
 		#endregion
+
+		public Dx11.InputLayout BuildLayout(Dx11.Device d3dDevice,
+			Dx11.InputElement[] elements)
+		{
+			return new Dx11.InputLayout(d3dDevice, nativePass.VertexCode, elements);
+		}
 	}
 }
