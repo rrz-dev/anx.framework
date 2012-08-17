@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using HLSLParser;
-using SharpDX.D3DCompiler;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -108,16 +107,8 @@ namespace DX11MetroShaderGenerator
 		{
 			int indexOfOpenParenthesis = entryPoint.IndexOf('(');
 			entryPoint = entryPoint.Substring(0, indexOfOpenParenthesis);
-
-			/*ShaderBytecode byteCode = ShaderBytecode.Compile(resultSourceCode,
-				entryPoint, profile, ShaderFlags.None, EffectFlags.None,
-				null, new IncludeHandler(""));
-
-			byte[] result = new byte[byteCode.BufferSize];
-			byteCode.Data.Read(result, 0, result.Length);
-			return result;*/
-
-			return Execute(resultSourceCode, profile, entryPoint);
+			
+			return ExecuteCompiler(resultSourceCode, profile, entryPoint);
 		}
 		#endregion
 
@@ -188,31 +179,35 @@ namespace DX11MetroShaderGenerator
 		}
 		#endregion
 
-		private byte[] Execute(string source, string profile, string entryPoint)
+		#region ExecuteCompiler
+		private byte[] ExecuteCompiler(string source, string profile, string entryPoint)
 		{
 			string tempSourcePath = Path.GetTempFileName() + ".fx";
 			string tempDestPath = Path.GetTempFileName() + "_" + profile + ".fxo";
 
 			File.WriteAllText(tempSourcePath, source);
-
+			
 			Process process = new Process();
-			process.StartInfo.FileName = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x86\fxc.exe";
-            process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile + "_level_9_1 \"" +
-				tempSourcePath + "\" /Fo" + tempDestPath;
+			process.StartInfo.FileName = GetCompilerFilepath();
+      process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile +
+				"_level_9_1 \"" + tempSourcePath + "\" /Fo" + tempDestPath;
+
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.RedirectStandardError = true;
 			process.StartInfo.RedirectStandardOutput = true;
 
 			string output = "";
-			DataReceivedEventHandler handler = delegate(object sender, DataReceivedEventArgs e)
+			DataReceivedEventHandler logHandler =
+				delegate(object sender, DataReceivedEventArgs e)
 				{
 					if (String.IsNullOrEmpty(e.Data) == false)
 					{
 						output += e.Data + "\n";
 					}
 				};
-			process.OutputDataReceived += handler;
-			process.ErrorDataReceived += handler;
+
+			process.OutputDataReceived += logHandler;
+			process.ErrorDataReceived += logHandler;
 
 			process.Start();
 			process.BeginErrorReadLine();
@@ -232,5 +227,67 @@ namespace DX11MetroShaderGenerator
 
 			return new byte[0];
 		}
+		#endregion
+
+		#region GetCompilerFilepath
+		private string GetCompilerFilepath()
+		{
+			string fxcToolPath = "";
+
+			string subDir = Environment.Is64BitOperatingSystem ? "x64" : "x86";
+
+			string sdkPath = Environment.GetEnvironmentVariable("DXSDK_DIR");
+			if (String.IsNullOrEmpty(sdkPath) == false)
+			{
+				fxcToolPath = Path.Combine(sdkPath, subDir);
+			}
+			else
+			{
+				fxcToolPath = GetExistingPathFrom(new string[]
+				{
+					// Win8 paths
+					@"C:\Program Files (x86)\Windows Kits\8.0\bin\" + subDir + "\\",
+					@"C:\Program Files\Windows Kits\8.0\bin\" + subDir + "\\",
+
+					// Win7 paths
+					@"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Utilities\bin\" +
+					 subDir + "\\",
+					@"C:\Program Files\Microsoft DirectX SDK (June 2010)\Utilities\bin\" +
+					subDir + "\\",
+				});
+
+				if (String.IsNullOrEmpty(fxcToolPath))
+				{
+					throw new Exception(
+						"Unable to find the DirectX SDK! Make sure to install it.");
+				}
+			}
+
+			fxcToolPath = Path.Combine(fxcToolPath, "fxc.exe");
+
+			if (File.Exists(fxcToolPath) == false)
+			{
+				throw new Exception(
+					"Unable to compile shaders, cause the fxc.exe doesn't exist!");
+			}
+
+			return fxcToolPath;
+		}
+		#endregion
+
+		#region GetExistingPathFrom
+		private string GetExistingPathFrom(string[] possiblePaths)
+		{
+			foreach (string path in possiblePaths)
+			{
+				if (Directory.Exists(path))
+				{
+					return path;
+				}
+			}
+
+			return null;
+		}
+		#endregion
 	}
 }

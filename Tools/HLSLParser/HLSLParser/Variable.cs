@@ -151,6 +151,7 @@ namespace HLSLParser
 
 			int nextSpaceIndex = FindInitialTypeEndSpace(currentText);
 			string variableType = currentText.Substring(0, nextSpaceIndex);
+			variableType = variableType.Replace(" ", "");
 			walker.Seek(nextSpaceIndex + 1);
 
 			variableType = ResolveMatrixAndArraySyntax(variableType);
@@ -167,6 +168,18 @@ namespace HLSLParser
 			{
 				searchScope = text.IndexOf('>');
 			}
+			else if (text.StartsWith("Texture") ||
+				text.StartsWith("texture"))
+			{
+				string textureGeneric = text;
+				textureGeneric = textureGeneric.Substring(textureGeneric.IndexOf(' '));
+				textureGeneric = textureGeneric.Trim();
+				if (textureGeneric.StartsWith("<"))
+				{
+					searchScope = text.IndexOf('>');
+				}
+			}
+
 			return text.IndexOf(' ', searchScope);
 		}
 		#endregion

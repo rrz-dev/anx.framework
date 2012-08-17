@@ -114,14 +114,14 @@ Texture2D<float4> Texture : register(t0);";
 		[Test]
 		public static void TestParseIfVariableWithGenericTexture2D()
 		{
-			string variableSource = "Texture2D<float4> Texture : register(t0);";
+			string variableSource = "Texture2D <float4> Texture : register(t0);";
 			var text = new ParseTextWalker(variableSource);
 			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("Texture2D<float4>", result.Type);
 			Assert.AreEqual("Texture", result.Name);
 			Assert.AreEqual("register(t0)", result.Register);
-			Assert.AreEqual(variableSource, result.ToString());
+			Assert.AreEqual("Texture2D<float4> Texture : register(t0);", result.ToString());
 		}
 		#endregion
 		
