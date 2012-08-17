@@ -10,12 +10,14 @@ using System.Text;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline
+namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public interface IContentProcessor
+    [ContentProcessor]
+    public class PassThroughProcessor : ContentProcessor<Object, Object>
     {
-        Type InputType { get; }
-        Type OutputType { get; }
-        Object Process(Object input, ContentProcessorContext context);
+        public override object Process(object input, ContentProcessorContext context)
+        {
+            return input;
+        }
     }
 }

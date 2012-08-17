@@ -10,12 +10,10 @@ using System.Text;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline
+namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public interface IContentProcessor
+    public sealed class SpriteFontContent
     {
-        Type InputType { get; }
-        Type OutputType { get; }
-        Object Process(Object input, ContentProcessorContext context);
+
     }
 }

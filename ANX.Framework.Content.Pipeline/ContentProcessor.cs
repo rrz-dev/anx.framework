@@ -19,7 +19,7 @@ namespace ANX.Framework.Content.Pipeline
             throw new NotImplementedException();
         }
 
-        public abstract TOutput Process(TInput input, ContextProcessorContext context);
+        public abstract TOutput Process(TInput input, ContentProcessorContext context);
 
         Type IContentProcessor.InputType
         {
@@ -31,7 +31,7 @@ namespace ANX.Framework.Content.Pipeline
             get { throw new NotImplementedException(); }
         }
 
-        object IContentProcessor.Process(object input, ContextProcessorContext context)
+        object IContentProcessor.Process(object input, ContentProcessorContext context)
         {
             throw new NotImplementedException();
         }

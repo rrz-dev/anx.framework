@@ -13,9 +13,9 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    public abstract class ContextProcessorContext
+    public abstract class ContentProcessorContext
     {
-        public ContextProcessorContext()
+        public ContentProcessorContext()
         {
             throw new NotImplementedException();
         }
