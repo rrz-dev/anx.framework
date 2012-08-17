@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HLSLParser
 {
-	public class Technique
+	public class Technique : IShaderElement
 	{
 		#region Public
 		public string Name
@@ -39,7 +39,7 @@ namespace HLSLParser
 			walker.Seek(indexOfNameEnd + 1);
 
 			Pass newPass = null;
-			while ((newPass = Pass.ParseIfPass(walker)) != null)
+			while ((newPass = Pass.TryParse(walker)) != null)
 			{
 				Passes.Add(newPass);
 			}
@@ -48,8 +48,8 @@ namespace HLSLParser
 		}
 		#endregion
 
-		#region ParseIfTechnique
-		public static Technique ParseIfTechnique(ParseTextWalker walker)
+		#region TryParse
+		public static Technique TryParse(ParseTextWalker walker)
 		{
 			if (walker.Text.StartsWith("technique"))
 			{

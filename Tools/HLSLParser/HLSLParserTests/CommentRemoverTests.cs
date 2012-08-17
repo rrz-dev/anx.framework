@@ -50,6 +50,15 @@ namespace HLSLParserTests
 		}
 		#endregion
 
+		#region TestCommentedOutMultilineComment
+		[Test]
+		public static void TestCommentedOutMultilineComment()
+		{
+			string source = "//*comment\n*/";
+			Assert.AreEqual(CommentRemover.Remove(source), "*/");
+		}
+		#endregion
+
 		#region TestMultipleMultilineComments
 		[Test]
 		public static void TestMultipleMultilineComments()

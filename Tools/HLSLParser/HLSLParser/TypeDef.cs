@@ -6,7 +6,7 @@
 
 namespace HLSLParser
 {
-	public class TypeDef
+	public class TypeDef : IShaderElement
 	{
 		#region Constants
 		private const string TypedefKeyword = "typedef ";
@@ -23,18 +23,17 @@ namespace HLSLParser
 		#region Constructor
 		public TypeDef(ParseTextWalker walker)
 		{
-			string text = walker.Text;
-			int indexOfTypedefEnd = text.IndexOf(';');
-			Value = text.Substring(0, indexOfTypedefEnd);
+			int indexOfTypedefEnd = walker.Text.IndexOf(';');
+			Value = walker.Text.Substring(0, indexOfTypedefEnd);
 
 			walker.Seek(indexOfTypedefEnd + 1);
 		}
 		#endregion
-		
-		#region ParseIfTypeDef
-		public static TypeDef ParseIfTypeDef(ParseTextWalker walker)
+
+		#region TryParse
+		public static TypeDef TryParse(ParseTextWalker walker)
 		{
-			if (walker.Text.StartsWith("typedef "))
+			if (walker.Text.StartsWith(TypedefKeyword))
 			{
 				walker.Seek(TypedefKeyword.Length);
 				return new TypeDef(walker);
@@ -47,7 +46,7 @@ namespace HLSLParser
 		#region ToString
 		public override string ToString()
 		{
-			return "typedef " + Value + ";";
+			return TypedefKeyword + Value + ";";
 		}
 		#endregion
 	}

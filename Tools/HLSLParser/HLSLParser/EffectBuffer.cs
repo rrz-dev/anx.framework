@@ -6,7 +6,7 @@
 
 namespace HLSLParser
 {
-	public class EffectBuffer
+	public class EffectBuffer : IShaderElement
 	{
 		#region Public
 		public string Name
@@ -40,15 +40,12 @@ namespace HLSLParser
 		}
 		#endregion
 
-		#region ParseIfBuffer
-		public static EffectBuffer ParseIfBuffer(ParseTextWalker walker)
+		#region TryParse
+		public static EffectBuffer TryParse(ParseTextWalker walker)
 		{
-			if (walker.Text.StartsWith("Buffer"))
-			{
-				return new EffectBuffer(walker);
-			}
-
-			return null;
+			return walker.Text.StartsWith("Buffer") ?
+				new EffectBuffer(walker) :
+				null;
 		}
 		#endregion
 

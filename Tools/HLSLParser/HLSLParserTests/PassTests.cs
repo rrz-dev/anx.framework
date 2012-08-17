@@ -32,7 +32,7 @@ namespace HLSLParserTests
 		public static void ParseIfPass()
 		{
 			var text = new ParseTextWalker(TestPass);
-			var result = Pass.ParseIfPass(text);
+			var result = Pass.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("P0", result.Name);
@@ -48,7 +48,7 @@ namespace HLSLParserTests
 		public static void ParseIfPassDx9()
 		{
 			var text = new ParseTextWalker(TestPassDx9);
-			var result = Pass.ParseIfPass(text);
+			var result = Pass.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("P0", result.Name);
@@ -64,7 +64,7 @@ namespace HLSLParserTests
 		public static void TestParseIfTypeDefWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = Pass.ParseIfPass(text);
+			var result = Pass.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -75,7 +75,7 @@ namespace HLSLParserTests
 		public static void TestToString()
 		{
 			var text = new ParseTextWalker(TestPass);
-			var result = Pass.ParseIfPass(text);
+			var result = Pass.TryParse(text);
 
 			string expected =
 				@"pass P0

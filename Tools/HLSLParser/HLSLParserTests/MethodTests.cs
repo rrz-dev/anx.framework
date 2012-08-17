@@ -42,7 +42,7 @@ namespace HLSLParserTests
 		public static void TestParseIfMethod()
 		{
 			var text = new ParseTextWalker(TestMethod);
-			var result = Method.ParseIfMethod(text);
+			var result = Method.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("PSPointSprite", result.Name);
@@ -60,7 +60,7 @@ namespace HLSLParserTests
 		public static void TestParseIfMethodWithBodyBraces()
 		{
 			var text = new ParseTextWalker(TestMethodWithBodyBraces);
-			var result = Method.ParseIfMethod(text);
+			var result = Method.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("PSPointSprite", result.Name);
@@ -85,7 +85,7 @@ namespace HLSLParserTests
 		public static void TestParseIfMethodInline()
 		{
 			var text = new ParseTextWalker(TestMethodInline);
-			var result = Method.ParseIfMethod(text);
+			var result = Method.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("PSPointSprite", result.Name);
@@ -99,7 +99,7 @@ namespace HLSLParserTests
 		public static void TestParseIfMethodWithVariable()
 		{
 			var text = new ParseTextWalker("float4 value;");
-			var result = Method.ParseIfMethod(text);
+			var result = Method.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -110,22 +110,32 @@ namespace HLSLParserTests
 		public static void TestParseIfMethodWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = Method.ParseIfMethod(text);
+			var result = Method.TryParse(text);
 
 			Assert.Null(result);
 		}
 		#endregion
 
-		//#region TestToString
-		//[Test]
-		//public static void TestToString()
-		//{
-		//  string text = "typedef matrix <bool, 1, 1> bool1x1;";
-		//  var walker = new ParseTextWalker(text);
-		//  var result = TypeDef.ParseIfTypeDef(walker);
+		#region TestToString
+		[Test]
+		public static void TestToString()
+		{
+			var text = new ParseTextWalker(TestMethod);
+			var result = Method.TryParse(text);
 
-		//  Assert.AreEqual(text, result.ToString());
-		//}
-		//#endregion
+			Assert.AreEqual(TestMethod.Replace("\r", ""), result.ToString());
+		}
+		#endregion
+
+		#region TestToStringWithInline
+		[Test]
+		public static void TestToStringWithInline()
+		{
+			var text = new ParseTextWalker("inline " + TestMethod);
+			var result = Method.TryParse(text);
+
+			Assert.AreEqual("inline " + TestMethod.Replace("\r", ""), result.ToString());
+		}
+		#endregion
 	}
 }

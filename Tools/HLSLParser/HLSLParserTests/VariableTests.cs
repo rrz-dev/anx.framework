@@ -76,19 +76,19 @@ namespace HLSLParserTests
 		public static void TestParseIfVariable()
 		{
 			var text = new ParseTextWalker("int value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 
 			text = new ParseTextWalker("uniform const int value;");
-			result = Variable.ParseIfVariable(text);
+			result = Variable.TryParse(text);
 			Assert.NotNull(result);
 
 			text = new ParseTextWalker("uniform extern float4x4 MatrixTransform;");
-			result = Variable.ParseIfVariable(text);
+			result = Variable.TryParse(text);
 			Assert.NotNull(result);
 
 			text = new ParseTextWalker("PS_IN VS(VS_IN in) { }");
-			result = Variable.ParseIfVariable(text);
+			result = Variable.TryParse(text);
 			Assert.Null(result);
 		}
 		#endregion
@@ -103,7 +103,7 @@ namespace HLSLParserTests
 Texture2D<float4> Texture : register(t0);";
 
 			var text = new ParseTextWalker(source);
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("uniform extern float4x4 MatrixTransform;", result.ToString());
@@ -116,7 +116,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableSource = "Texture2D<float4> Texture : register(t0);";
 			var text = new ParseTextWalker(variableSource);
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("Texture2D<float4>", result.Type);
 			Assert.AreEqual("Texture", result.Name);
@@ -130,7 +130,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestfloatVariableParsing()
 		{
 			var text = new ParseTextWalker("uniform const float value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual(2, result.TypeModifiers.Length);
 			Assert.AreEqual("float", result.Type);
@@ -142,14 +142,14 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestVectorVariableParsing()
 		{
 			var text = new ParseTextWalker("vector<float, 1> value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("float", result.Type);
 			Assert.AreEqual(1, result.Dimensions.Length);
 			Assert.AreEqual(1, result.Dimensions[0]);
 
 			text = new ParseTextWalker("float4 value;");
-			result = Variable.ParseIfVariable(text);
+			result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("float", result.Type);
 			Assert.AreEqual(1, result.Dimensions.Length);
@@ -162,7 +162,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestMatrixVariableParsing()
 		{
 			var text = new ParseTextWalker("matrix<float, 1, 3> value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("float", result.Type);
 			Assert.AreEqual(2, result.Dimensions.Length);
@@ -170,7 +170,7 @@ Texture2D<float4> Texture : register(t0);";
 			Assert.AreEqual(3, result.Dimensions[1]);
 
 			text = new ParseTextWalker("int4x4 value;");
-			result = Variable.ParseIfVariable(text);
+			result = Variable.TryParse(text);
 			Assert.NotNull(result);
 			Assert.AreEqual("int", result.Type);
 			Assert.AreEqual(2, result.Dimensions.Length);
@@ -184,7 +184,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestNameParsing()
 		{
 			var text = new ParseTextWalker("matrix<float, 1, 3> value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 		}
@@ -195,7 +195,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestArrayParsing()
 		{
 			var text = new ParseTextWalker("int value[15];");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual(15, result.ArraySize);
@@ -207,7 +207,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestInitialValueParsing()
 		{
 			var text = new ParseTextWalker("int value = 4;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("4", result.InitialValue);
@@ -219,7 +219,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestInitialValueParsingWithoutValueText()
 		{
 			var text = new ParseTextWalker("int value;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual(null, result.InitialValue);
@@ -231,7 +231,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestAnnotationsParsing()
 		{
 			var text = new ParseTextWalker("int value<float y=1.3;>;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("float y=1.3;", result.Annotations);
@@ -243,7 +243,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestAnnotationsParsingWithInitialValue()
 		{
 			var text = new ParseTextWalker("int value<float y=1.3;> = 4;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("float y=1.3;", result.Annotations);
@@ -256,7 +256,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestSemanticParsing()
 		{
 			var text = new ParseTextWalker("int value : COLOR;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 			
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("COLOR", result.Semantic);
@@ -268,7 +268,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestSemanticParsingWithAnnotations()
 		{
 			var text = new ParseTextWalker("int value : COLOR<float y=1.3;>;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("COLOR", result.Semantic);
@@ -281,7 +281,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestSemanticParsingWithInitialValue()
 		{
 			var text = new ParseTextWalker("int value : COLOR = 5;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("COLOR", result.Semantic);
@@ -294,7 +294,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestSemanticParsingWithoutSpaces()
 		{
 			var text = new ParseTextWalker("int value:COLOR;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("COLOR", result.Semantic);
@@ -306,7 +306,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestPackoffsetParsing()
 		{
 			var text = new ParseTextWalker("int value : packoffset(c0);");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("packoffset(c0)", result.Packoffset);
@@ -318,7 +318,7 @@ Texture2D<float4> Texture : register(t0);";
 		public static void TestRegisterParsing()
 		{
 			var text = new ParseTextWalker("int value : register( ps_5_0, s );");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("register( ps_5_0, s )", result.Register);
@@ -331,7 +331,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			var text = new ParseTextWalker(
 				"int value : register( ps_5_0, s ) <float y=1.3;>;");
-			var result = Variable.ParseIfVariable(text);
+			var result = Variable.TryParse(text);
 
 			Assert.AreEqual("value", result.Name);
 			Assert.AreEqual("register( ps_5_0, s )", result.Register);
@@ -345,7 +345,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableText = "uniform const int value : COLOR <float y=1.3;> = 5;";
 			var walker = new ParseTextWalker(variableText);
-			var result = Variable.ParseIfVariable(walker);
+			var result = Variable.TryParse(walker);
 
 			Assert.AreEqual(variableText, result.ToString());
 		}
@@ -357,7 +357,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableText = "uniform const int value[7];";
 			var walker = new ParseTextWalker(variableText);
-			var result = Variable.ParseIfVariable(walker);
+			var result = Variable.TryParse(walker);
 
 			Assert.AreEqual(variableText, result.ToString());
 		}
@@ -369,7 +369,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableText = "uniform const int value : packoffset(c0) = 5;";
 			var walker = new ParseTextWalker(variableText);
-			var result = Variable.ParseIfVariable(walker);
+			var result = Variable.TryParse(walker);
 
 			Assert.AreEqual(variableText, result.ToString());
 		}
@@ -381,7 +381,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableText = "uniform const int value : register( vs, s[8] ) = 5;";
 			var walker = new ParseTextWalker(variableText);
-			var result = Variable.ParseIfVariable(walker);
+			var result = Variable.TryParse(walker);
 
 			Assert.AreEqual(variableText, result.ToString());
 		}
@@ -393,7 +393,7 @@ Texture2D<float4> Texture : register(t0);";
 		{
 			string variableText = "float4x4 matrix;";
 			var walker = new ParseTextWalker(variableText);
-			var result = Variable.ParseIfVariable(walker);
+			var result = Variable.TryParse(walker);
 
 			Assert.AreEqual(variableText, result.ToString());
 		}

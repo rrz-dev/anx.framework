@@ -35,7 +35,7 @@ sampler_state
 		public static void ParseIfPass()
 		{
 			var text = new ParseTextWalker(TestSampler);
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("MeshTextureSampler", result.Name);
@@ -55,7 +55,7 @@ sampler_state
 		public static void ParseIfPassDx9()
 		{
 			var text = new ParseTextWalker(TestSamplerDx9);
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("MeshTextureSampler", result.Name);
@@ -71,7 +71,7 @@ sampler_state
 		public static void ParseIfPassHasRegister()
 		{
 			var text = new ParseTextWalker("sampler TextureSampler : register(s0);");
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("TextureSampler", result.Name);
@@ -85,7 +85,7 @@ sampler_state
 		public static void TestParseIfTypeDefWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -96,7 +96,7 @@ sampler_state
 		public static void TestToString()
 		{
 			var text = new ParseTextWalker(TestSampler);
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			string expected =
 				@"SamplerState MeshTextureSampler
@@ -115,7 +115,7 @@ sampler_state
 		public static void TestToStringWithRegister()
 		{
 			var text = new ParseTextWalker("sampler TextureSampler : register(s0);");
-			var result = Sampler.ParseIfSampler(text);
+			var result = Sampler.TryParse(text);
 
 			string expected = "sampler TextureSampler : register(s0);";
 

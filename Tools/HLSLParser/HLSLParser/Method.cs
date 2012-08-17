@@ -6,7 +6,7 @@
 
 namespace HLSLParser
 {
-	public class Method
+	public class Method : IShaderElement
 	{
 		#region Public
 		public string StorageClass
@@ -117,8 +117,8 @@ namespace HLSLParser
 		}
 		#endregion
 
-		#region ParseIfMethod
-		public static Method ParseIfMethod(ParseTextWalker walker)
+		#region TryParse
+		public static Method TryParse(ParseTextWalker walker)
 		{
 			if(walker.Text.StartsWith("inline ") ||
 				CheckIfMethodHeaderExists(walker))
@@ -166,7 +166,7 @@ namespace HLSLParser
 				result += " : " + Semantic;
 			}
 
-			result += "\n{\n" + Body + "\n}";
+			result += "\n{\n\t" + Body + "\n}";
 
 			return result;
 		}

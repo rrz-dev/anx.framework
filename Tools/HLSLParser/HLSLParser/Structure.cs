@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HLSLParser
 {
-	public class Structure
+	public class Structure : IShaderElement
 	{
 		#region Public
 		public string Name
@@ -37,7 +37,7 @@ namespace HLSLParser
 			Name = Name.Replace("struct ", "").Trim();
 
 			Variable newVariable = null;
-			while ((newVariable = Variable.ParseIfVariable(walker)) != null)
+			while ((newVariable = Variable.TryParse(walker)) != null)
 			{
 				Variables.Add(newVariable);
 			}
@@ -47,9 +47,9 @@ namespace HLSLParser
 			walker.Seek(indexOfStructCloseBrace + 2);
 		}
 		#endregion
-		
-		#region ParseIfStructure
-		public static Structure ParseIfStructure(ParseTextWalker walker)
+
+		#region TryParse
+		public static Structure TryParse(ParseTextWalker walker)
 		{
 			string currentText = walker.Text;
 			if (currentText.StartsWith("struct"))
@@ -61,6 +61,7 @@ namespace HLSLParser
 		}
 		#endregion
 
+		#region ToString
 		public override string ToString()
 		{
 			string result = "struct " + Name + "\n{";
@@ -72,5 +73,6 @@ namespace HLSLParser
 
 			return result + "\n};";
 		}
+		#endregion
 	}
 }

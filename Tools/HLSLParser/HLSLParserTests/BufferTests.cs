@@ -15,7 +15,7 @@ namespace HLSLParserTests
 		public static void TestParseIfBuffer()
 		{
 			var text = new ParseTextWalker("Buffer<float4> g_Buffer;");
-			var result = EffectBuffer.ParseIfBuffer(text);
+			var result = EffectBuffer.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("g_Buffer", result.Name);
@@ -28,7 +28,7 @@ namespace HLSLParserTests
 		public static void TestParseIfBufferWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = EffectBuffer.ParseIfBuffer(text);
+			var result = EffectBuffer.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -40,7 +40,7 @@ namespace HLSLParserTests
 		{
 			string text = "Buffer<float4> g_Buffer;";
 			var walker = new ParseTextWalker(text);
-			var result = EffectBuffer.ParseIfBuffer(walker);
+			var result = EffectBuffer.TryParse(walker);
 
 			Assert.AreEqual(text, result.ToString());
 		}

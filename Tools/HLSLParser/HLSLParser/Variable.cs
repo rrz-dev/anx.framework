@@ -10,7 +10,7 @@ namespace HLSLParser
 	/// <summary>
 	/// http://msdn.microsoft.com/en-us/library/windows/desktop/bb509706%28v=vs.85%29.aspx
 	/// </summary>
-	public class Variable
+	public class Variable : IShaderElement
 	{
 		#region Constants
 		private static char[] SemanticEndChars = new char[]
@@ -322,29 +322,17 @@ namespace HLSLParser
 		#region ReadInitialValue
 		private void ReadInitialValue(ParseTextWalker walker)
 		{
-			string currentText = walker.Text;
+			string text = walker.Text;
 
-			int equalSignSearchIndex = 0;
-			while (equalSignSearchIndex < currentText.Length)
+			if (text[0] == '<' ||
+				text[0] == ';' ||
+				text[0] == ':')
 			{
-				char currentChar = currentText[equalSignSearchIndex];
-				if (currentChar == '<' ||
-					currentChar == ';' ||
-					currentChar == ':')
-				{
-					return;
-				}
-
-				if (currentChar == '=')
-					break;
-
-				equalSignSearchIndex++;
+				return;
 			}
 
-			int afterEqualSignIndex = equalSignSearchIndex + 1;
-			int valueEndIndex = currentText.IndexOf(';', afterEqualSignIndex);
-			InitialValue = currentText.Substring(afterEqualSignIndex,
-				valueEndIndex - afterEqualSignIndex);
+			int valueEndIndex = text.IndexOf(';', 1);
+			InitialValue = text.Substring(1, valueEndIndex - 1);
 			InitialValue = InitialValue.Trim();
 		}
 		#endregion
@@ -405,9 +393,9 @@ namespace HLSLParser
 			return false;
 		}
 		#endregion
-		
-		#region ParseIfVariable
-		public static Variable ParseIfVariable(ParseTextWalker walker)
+
+		#region TryParse
+		public static Variable TryParse(ParseTextWalker walker)
 		{
 			string[] typeModifiersFound = GetTypeModifiers(walker);
 

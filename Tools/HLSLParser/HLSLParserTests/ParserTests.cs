@@ -53,7 +53,6 @@ namespace HLSLParserTests
 			Assert.NotNull(parser.Effect);
 			Assert.NotNull(parser.Effect.Source);
 			Assert.AreNotEqual(parser.Effect.Source, "");
-			Assert.AreEqual(parser.Effect.Result, null);
 
 			File.Delete(testFilepath);
 		}
@@ -68,9 +67,6 @@ namespace HLSLParserTests
 
 			parser.Parse();
 
-			Assert.AreNotEqual("", parser.Effect.Result);
-			Assert.Greater(parser.Effect.Result.Length, 0);
-
 			Assert.AreEqual(2, parser.Effect.Variables.Count);
 			Assert.AreEqual(1, parser.Effect.Techniques.Count);
 			Assert.AreEqual(2, parser.Effect.Methods.Count);
@@ -80,6 +76,48 @@ namespace HLSLParserTests
 			Assert.AreEqual(0, parser.Effect.Buffers.Count);
 
 			File.Delete(testFilepath);
+		}
+		#endregion
+
+		#region TestParseFromSource
+		[Test]
+		public static void TestParseFromSource()
+		{
+			Parser parser = Parser.LoadFromSource(HlslTestFile.Source);
+
+			parser.Parse();
+
+			Assert.AreEqual(2, parser.Effect.Variables.Count);
+			Assert.AreEqual(1, parser.Effect.Techniques.Count);
+			Assert.AreEqual(2, parser.Effect.Methods.Count);
+			Assert.AreEqual(2, parser.Effect.Structures.Count);
+			Assert.AreEqual(1, parser.Effect.Samplers.Count);
+			Assert.AreEqual(0, parser.Effect.TypeDefs.Count);
+			Assert.AreEqual(0, parser.Effect.Buffers.Count);
+		}
+		#endregion
+
+		#region TestParseWithTypeDef
+		[Test]
+		public static void TestParseWithTypeDef()
+		{
+			Parser parser = Parser.LoadFromSource("typedef matrix <bool, 1, 1> bool1x1;");
+
+			parser.Parse();
+
+			Assert.AreEqual(1, parser.Effect.TypeDefs.Count);
+		}
+		#endregion
+
+		#region TestParseWithBuffer
+		[Test]
+		public static void TestParseWithBuffer()
+		{
+			Parser parser = Parser.LoadFromSource("Buffer<float4> g_Buffer;");
+
+			parser.Parse();
+
+			Assert.AreEqual(1, parser.Effect.Buffers.Count);
 		}
 		#endregion
 	}

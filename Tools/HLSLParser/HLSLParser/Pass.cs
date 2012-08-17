@@ -6,8 +6,13 @@
 
 namespace HLSLParser
 {
-	public class Pass
+	public class Pass : IShaderElement
 	{
+		#region Private
+		private string vertexShaderProfile = "";
+		private string pixelShaderProfile = "";
+		#endregion
+
 		#region Public
 		public string Name
 		{
@@ -23,8 +28,10 @@ namespace HLSLParser
 
 		public string VertexShaderProfile
 		{
-			get;
-			private set;
+			get
+			{
+				return vertexShaderProfile;
+			}
 		}
 
 		public string PixelShader
@@ -35,8 +42,10 @@ namespace HLSLParser
 
 		public string PixelShaderProfile
 		{
-			get;
-			private set;
+			get
+			{
+				return pixelShaderProfile;
+			}
 		}
 		#endregion
 
@@ -70,84 +79,69 @@ namespace HLSLParser
 		#region ParseDx10Pass
 		private void ParseDx10Pass(string text)
 		{
+			VertexShader = ParseDx10Shader(text, "SetVertexShader(", ref vertexShaderProfile);
+			PixelShader = ParseDx10Shader(text, "SetPixelShader(", ref pixelShaderProfile);
+		}
+		#endregion
+
+		#region ParseDx10Shader
+		private string ParseDx10Shader(string text, string key, ref string profile)
+		{
+			int indexOfshaderStart = text.IndexOf(key) + key.Length;
+			int indexOfPixelShaderEnd = text.IndexOf(");", indexOfshaderStart);
+			string shader = text.Substring(indexOfshaderStart,
+				indexOfPixelShaderEnd - indexOfshaderStart);
+			shader = shader.Replace(" ", "").Replace("\t", "");
+			shader = shader.Replace("\r", "").Replace("\n", "");
+
 			int subPartStartIndex = "CompileShader(".Length;
+			shader = shader.Substring(subPartStartIndex,
+				shader.Length - subPartStartIndex - 1);
 
-			int indexOfVertexShaderStart = text.IndexOf("SetVertexShader(") +
-				"SetVertexShader(".Length;
-			int indexOfVertexShaderEnd = text.IndexOf(");", indexOfVertexShaderStart);
-			VertexShader = text.Substring(indexOfVertexShaderStart,
-				indexOfVertexShaderEnd - indexOfVertexShaderStart);
-			VertexShader = VertexShader.Replace(" ", "");
-			VertexShader = VertexShader.Replace("\t", "");
-			VertexShader = VertexShader.Replace("\n", "");
-			VertexShader = VertexShader.Replace("\r", "");
-			VertexShader = VertexShader.Substring(subPartStartIndex,
-				VertexShader.Length - subPartStartIndex - 1);
-			int indexOfFirstComma = VertexShader.IndexOf(',');
-			VertexShaderProfile = VertexShader.Substring(0, indexOfFirstComma);
-			VertexShader = VertexShader.Substring(indexOfFirstComma + 1);
-			VertexShader = VertexShader.Replace(",", ", ");
+			int indexOfFirstComma = shader.IndexOf(',');
+			profile = shader.Substring(0, indexOfFirstComma);
+			shader = shader.Substring(indexOfFirstComma + 1);
+			shader = shader.Replace(",", ", ");
 
-			int indexOfPixelShaderStart = text.IndexOf("SetPixelShader(") +
-				"SetPixelShader(".Length;
-			int indexOfPixelShaderEnd = text.IndexOf(");", indexOfPixelShaderStart);
-			PixelShader = text.Substring(indexOfPixelShaderStart,
-				indexOfPixelShaderEnd - indexOfPixelShaderStart);
-			PixelShader = PixelShader.Replace(" ", "");
-			PixelShader = PixelShader.Replace("\t", "");
-			PixelShader = PixelShader.Replace("\n", "");
-			PixelShader = PixelShader.Replace("\r", "");
-			PixelShader = PixelShader.Substring(subPartStartIndex,
-				PixelShader.Length - subPartStartIndex - 1);
-			indexOfFirstComma = PixelShader.IndexOf(',');
-			PixelShaderProfile = PixelShader.Substring(0, indexOfFirstComma);
-			PixelShader = PixelShader.Substring(indexOfFirstComma + 1);
-			PixelShader = PixelShader.Replace(",", ", ");
+			return shader;
 		}
 		#endregion
 		
 		#region ParseDx9Pass
 		private void ParseDx9Pass(string text)
 		{
-			VertexShader = ParseDx9Shader(text, text.IndexOf("VertexShader"));
-			int indexOfSpaceAfterProfile = VertexShader.IndexOf(' ');
-			VertexShaderProfile = VertexShader.Substring(0, indexOfSpaceAfterProfile);
-			VertexShader = VertexShader.Substring(indexOfSpaceAfterProfile).Trim();
-
-			PixelShader = ParseDx9Shader(text, text.IndexOf("PixelShader"));
-			indexOfSpaceAfterProfile = PixelShader.IndexOf(' ');
-			PixelShaderProfile = PixelShader.Substring(0, indexOfSpaceAfterProfile);
-			PixelShader = PixelShader.Substring(indexOfSpaceAfterProfile).Trim();
+			VertexShader = ParseDx9Shader(text, "VertexShader", ref vertexShaderProfile);
+			PixelShader = ParseDx9Shader(text, "PixelShader", ref pixelShaderProfile);
 		}
 		#endregion
 
 		#region ParseDx9Shader
-		private string ParseDx9Shader(string text, int indexOfShaderStart)
+		private string ParseDx9Shader(string text, string key, ref string profile)
 		{
+			int indexOfShaderStart = text.IndexOf(key);
 			string shader = "";
 			indexOfShaderStart = text.IndexOf("compile ", indexOfShaderStart);
 			int indexOfShaderEnd = text.IndexOf(';', indexOfShaderStart);
 			shader = text.Substring(indexOfShaderStart,
 				indexOfShaderEnd - indexOfShaderStart);
-			shader = shader.Replace(" (", "(");
-			shader = shader.Replace("( ", "(");
-			shader = shader.Replace(" )", ")");
-			shader = shader.Replace(") ", ")");
 			shader = shader.Replace("compile", "");
 			shader = shader.Trim();
+
+			int indexOfSpaceAfterProfile = shader.IndexOf(' ');
+			profile = shader.Substring(0, indexOfSpaceAfterProfile);
+
+			shader = shader.Substring(indexOfSpaceAfterProfile).Trim();
+			shader = shader.Replace(" ", "").Replace(",", ", ");
 			return shader;
 		}
 		#endregion
 
-		#region ParseIfPass
-		public static Pass ParseIfPass(ParseTextWalker walker)
+		#region TryParse
+		public static Pass TryParse(ParseTextWalker walker)
 		{
-			if (walker.Text.StartsWith("pass "))
-			{
-				return new Pass(walker);
-			}
-
-			return null;
+			return walker.Text.StartsWith("pass ") ?
+				new Pass(walker) :
+				null;
 		}
 		#endregion
 

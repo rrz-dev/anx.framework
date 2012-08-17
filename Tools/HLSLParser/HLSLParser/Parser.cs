@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 // This file is part of the ANX.Framework created by the
@@ -21,105 +22,88 @@ namespace HLSLParser
 		}
 		#endregion
 
-		private Parser()
+		#region Constructor
+		private Parser(string sourceCode)
 		{
+			Effect = new EffectFile(sourceCode);
 		}
-
+		#endregion
+		
 		#region LoadFromFile
 		public static Parser LoadFromFile(string filepath)
 		{
-			Parser result = new Parser();
-			result.ValidateFilepath(filepath);
-
-			result.Effect = EffectFile.FromFile(filepath);
-			return result;
+			ValidateFilepath(filepath);
+			return new Parser(File.ReadAllText(filepath));
 		}
 		#endregion
 
 		#region LoadFromSource
 		public static Parser LoadFromSource(string sourceCode)
 		{
-			Parser result = new Parser();
-			result.Effect = EffectFile.FromSource(sourceCode);
-			return result;
+			return new Parser(sourceCode);
 		}
 		#endregion
 
 		#region Parse
 		public void Parse()
 		{
-			Effect.Result = CommentRemover.Remove(Effect.Source);
-
-			WalkText();
+			string commentFreeSource = CommentRemover.Remove(Effect.Source);
+			var textWalker = new ParseTextWalker(commentFreeSource);
+			
+			WalkText(textWalker);
 		}
 		#endregion
 
 		#region WalkText
-		private void WalkText()
+		private void WalkText(ParseTextWalker walker)
 		{
-			var textWalker = new ParseTextWalker(Effect.Result);
-
-			while (textWalker.Text.Length > 0)
+			while (walker.Text.Length > 0)
 			{
-				int beforeLength = textWalker.Text.Length;
+				int beforeLength = walker.Text.Length;
 
-				var newMethod = Method.ParseIfMethod(textWalker);
-				if (newMethod != null)
-				{
-					Effect.Methods.Add(newMethod);
+				if (TryParse(Method.TryParse(walker), Effect.Methods))
 					continue;
-				}
 
-				var newStruct = Structure.ParseIfStructure(textWalker);
-				if (newStruct != null)
-				{
-					Effect.Structures.Add(newStruct);
+				if (TryParse(Structure.TryParse(walker), Effect.Structures))
 					continue;
-				}
 
-				var newTypeDef = TypeDef.ParseIfTypeDef(textWalker);
-				if (newTypeDef != null)
-				{
-					Effect.TypeDefs.Add(newTypeDef);
+				if (TryParse(TypeDef.TryParse(walker), Effect.TypeDefs))
 					continue;
-				}
 
-				var result = Sampler.ParseIfSampler(textWalker);
-				if (result != null)
-				{
-					Effect.Samplers.Add(result);
+				if (TryParse(Sampler.TryParse(walker), Effect.Samplers))
 					continue;
-				}
 
-				var newTechnique = Technique.ParseIfTechnique(textWalker);
-				if (newTechnique != null)
-				{
-					Effect.Techniques.Add(newTechnique);
+				if (TryParse(Technique.TryParse(walker), Effect.Techniques))
 					continue;
-				}
 
-				var newBuffer = EffectBuffer.ParseIfBuffer(textWalker);
-				if (newBuffer != null)
-				{
-					Effect.Buffers.Add(newBuffer);
+				if (TryParse(EffectBuffer.TryParse(walker), Effect.Buffers))
 					continue;
-				}
 
-				var newVariable = Variable.ParseIfVariable(textWalker);
-				if (newVariable != null)
-				{
-					Effect.Variables.Add(newVariable);
+				if (TryParse(Variable.TryParse(walker), Effect.Variables))
 					continue;
-				}
 
-				if (textWalker.Text.Length == beforeLength)
-					textWalker.Seek(1);
+				if (walker.Text.Length == beforeLength)
+					walker.Seek(1);
 			}
 		}
 		#endregion
 
+		#region TryParse
+		private bool TryParse<T>(IShaderElement parsedElement, List<T> addList)
+			where T : IShaderElement
+		{
+			if (parsedElement != null)
+			{
+				addList.Add((T)parsedElement);
+				return true;
+			}
+
+			return false;
+		}
+		#endregion
+
 		#region ValidateFilepath
-		private void ValidateFilepath(string filepath)
+		private static void ValidateFilepath(string filepath)
 		{
 			if (String.IsNullOrEmpty(filepath))
 			{

@@ -37,6 +37,7 @@
     <Compile Include="EffectBuffer.cs" />
     <Compile Include="CommentRemover.cs" />
     <Compile Include="EffectFile.cs" />
+    <Compile Include="IShaderElement.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParseTextWalker.cs" />

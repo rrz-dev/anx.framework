@@ -10,6 +10,7 @@ namespace HLSLParserTests
 {
 	public static class StructureTests
 	{
+		#region Constants
 		private const string TestStructure =
 			@"struct PixelShaderInput
 {
@@ -17,13 +18,14 @@ namespace HLSLParserTests
 	float4 col : COLOR;
 	float2 tex : TEXCOORD0;
 };";
+		#endregion
 
 		#region TestParseIfStructure
 		[Test]
 		public static void TestParseIfStructure()
 		{
 			var text = new ParseTextWalker(TestStructure);
-			var result = Structure.ParseIfStructure(text);
+			var result = Structure.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("PixelShaderInput", result.Name);
@@ -37,9 +39,20 @@ namespace HLSLParserTests
 		public static void TestParseIfStructureWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = Structure.ParseIfStructure(text);
+			var result = Structure.TryParse(text);
 			
 			Assert.Null(result);
+		}
+		#endregion
+
+		#region TestToString
+		[Test]
+		public static void TestToString()
+		{
+			var text = new ParseTextWalker(TestStructure);
+			var result = Structure.TryParse(text);
+
+			Assert.AreEqual(TestStructure.Replace("\r", ""), result.ToString());
 		}
 		#endregion
 	}

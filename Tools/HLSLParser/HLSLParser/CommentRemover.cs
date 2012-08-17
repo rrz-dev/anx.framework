@@ -36,10 +36,18 @@ namespace HLSLParser
 					break;
 				}
 
+				if (currentIndex != 0 &&
+					source[currentIndex - 1] == '/')
+				{
+					currentIndex++;
+					continue;
+				}
+				
 				int endIndex = source.IndexOf("*/", currentIndex);
 				source = source.Remove(currentIndex, endIndex - currentIndex + 2);
 				textLength = source.Length;
 			}
+
 			return source;
 		}
 		#endregion

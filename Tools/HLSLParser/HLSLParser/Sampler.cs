@@ -8,7 +8,7 @@ using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace HLSLParser
 {
-	public class Sampler
+	public class Sampler : IShaderElement
 	{
 		#region Public
 		public string Type
@@ -51,9 +51,8 @@ namespace HLSLParser
 		#region ParseType
 		private void ParseType(ParseTextWalker walker)
 		{
-			string text = walker.Text;
-			int indexOfTypeEndSpace = text.IndexOf(' ');
-			Type = text.Substring(0, indexOfTypeEndSpace);
+			int indexOfTypeEndSpace = walker.Text.IndexOf(' ');
+			Type = walker.Text.Substring(0, indexOfTypeEndSpace);
 			walker.Seek(indexOfTypeEndSpace + 1);
 		}
 		#endregion
@@ -127,7 +126,9 @@ namespace HLSLParser
 			if (text[0] == ';')
 				return;
 
-			walker.Seek(1);
+			int indexOfOpenBrace = text.IndexOf('{');
+
+			walker.Seek(indexOfOpenBrace + 1);
 
 			text = walker.Text;
 
@@ -149,8 +150,8 @@ namespace HLSLParser
 		}
 		#endregion
 
-		#region ParseIfSampler
-		public static Sampler ParseIfSampler(ParseTextWalker walker)
+		#region TryParse
+		public static Sampler TryParse(ParseTextWalker walker)
 		{
 			if (walker.Text.StartsWith("sampler") ||
 				walker.Text.StartsWith("SamplerComparisonState") ||

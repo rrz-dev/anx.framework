@@ -15,7 +15,7 @@ namespace HLSLParserTests
 		public static void TestParseIfTypeDef()
 		{
 			var text = new ParseTextWalker("typedef matrix <bool, 1, 1> bool1x1;");
-			var result = TypeDef.ParseIfTypeDef(text);
+			var result = TypeDef.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("matrix <bool, 1, 1> bool1x1", result.Value);
@@ -27,7 +27,7 @@ namespace HLSLParserTests
 		public static void TestParseIfTypeDefWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = TypeDef.ParseIfTypeDef(text);
+			var result = TypeDef.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -39,7 +39,7 @@ namespace HLSLParserTests
 		{
 			string text = "typedef matrix <bool, 1, 1> bool1x1;";
 			var walker = new ParseTextWalker(text);
-			var result = TypeDef.ParseIfTypeDef(walker);
+			var result = TypeDef.TryParse(walker);
 
 			Assert.AreEqual(text, result.ToString());
 		}

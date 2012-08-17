@@ -46,7 +46,7 @@ namespace HLSLParserTests
 		public static void ParseIfTechnique()
 		{
 			var text = new ParseTextWalker(TestTechnique);
-			var result = Technique.ParseIfTechnique(text);
+			var result = Technique.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("Render", result.Name);
@@ -59,7 +59,7 @@ namespace HLSLParserTests
 		public static void TestParseIfTypeDefWithoutCode()
 		{
 			var text = new ParseTextWalker("testtest");
-			var result = Technique.ParseIfTechnique(text);
+			var result = Technique.TryParse(text);
 
 			Assert.Null(result);
 		}
@@ -70,7 +70,7 @@ namespace HLSLParserTests
 		public static void ParseTechniqueWithMultiplePasses()
 		{
 			var text = new ParseTextWalker(TestTechniqueMultipass);
-			var result = Technique.ParseIfTechnique(text);
+			var result = Technique.TryParse(text);
 
 			Assert.NotNull(result);
 			Assert.AreEqual("Render", result.Name);
@@ -83,7 +83,7 @@ namespace HLSLParserTests
 		public static void TestToString()
 		{
 			var text = new ParseTextWalker(TestTechnique);
-			var result = Technique.ParseIfTechnique(text);
+			var result = Technique.TryParse(text);
 
 			string expected =
 				@"technique10 Render
