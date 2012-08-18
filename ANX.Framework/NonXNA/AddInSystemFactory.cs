@@ -153,10 +153,13 @@ namespace ANX.Framework.NonXNA
 			foreach (ICreator creator in creators.Values)
 			{
 				Type[] interfaces = TypeHelper.GetInterfacesFrom(creator.GetType());
-				if(interfaces[0] is T)
-				{
-					yield return creator as T;
-				}
+                foreach (Type t in interfaces)
+                {
+                    if (t.Name.Equals( typeof(T).Name ))
+                    {
+                        yield return creator as T;
+                    }
+                }
 			}
 		}
 		#endregion
