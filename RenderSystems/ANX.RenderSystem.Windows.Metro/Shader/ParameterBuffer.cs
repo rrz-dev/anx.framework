@@ -181,12 +181,28 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			MemoryStream stream = new MemoryStream();
 			BinaryWriter writer = new BinaryWriter(stream);
 
-			foreach (byte[] data in setData)
-			{
-				if (data != null)
-				{
-					writer.Write(data);
-				}
+            for(int index = 0; index < setData.Length; index++)
+            {
+                byte[] data = (byte[])setData[index];
+                if (data != null)
+                {
+                    writer.Write(data);
+                }
+                else
+                {
+                    var parameter = parentEffect.shader.Parameters[index];
+                    if (parameter.Type.ToLower().Contains("texture"))
+                        continue;
+
+                    int size = GetParameterTypeSize(parameter.Type);
+                    foreach (int dimension in parameter.TypeDimensions)
+                    {
+                        size *= dimension;
+                    }
+
+                    size *= parameter.ArraySize;
+                    writer.Write(new byte[size]);
+                }
 			}
 
 			byte[] streamBytes = stream.ToArray();
@@ -207,6 +223,23 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			return new SharpDX.DataBox(dataPtr);
 		}
 		#endregion
+
+        private int GetParameterTypeSize(string type)
+        {
+            if (type == "float" ||
+                type == "int" ||
+                type == "uint" ||
+                type == "dword")
+                return 4;
+            if (type == "double")
+                return 8;
+            if (type == "bool")
+                return 1;
+            if (type == "half")
+                return 2;
+
+            throw new NotImplementedException("Parameter type " + type + " has no size value!");
+        }
 
 		#region Dispose
 		public void Dispose()
