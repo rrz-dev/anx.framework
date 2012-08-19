@@ -191,17 +191,10 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
                 else
                 {
                     var parameter = parentEffect.shader.Parameters[index];
-                    if (parameter.Type.ToLower().Contains("texture"))
+                    if (parameter.IsTexture)
                         continue;
 
-                    int size = GetParameterTypeSize(parameter.Type);
-                    foreach (int dimension in parameter.TypeDimensions)
-                    {
-                        size *= dimension;
-                    }
-
-                    size *= parameter.ArraySize;
-                    writer.Write(new byte[size]);
+                    writer.Write(new byte[parameter.SizeInBytes]);
                 }
 			}
 
@@ -223,23 +216,6 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			return new SharpDX.DataBox(dataPtr);
 		}
 		#endregion
-
-        private int GetParameterTypeSize(string type)
-        {
-            if (type == "float" ||
-                type == "int" ||
-                type == "uint" ||
-                type == "dword")
-                return 4;
-            if (type == "double")
-                return 8;
-            if (type == "bool")
-                return 1;
-            if (type == "half")
-                return 2;
-
-            throw new NotImplementedException("Parameter type " + type + " has no size value!");
-        }
 
 		#region Dispose
 		public void Dispose()
