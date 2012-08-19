@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using Dx11 = SharpDX.Direct3D11;
 using ANX.RenderSystem.Windows.Metro.Shader;
 
 // This file is part of the ANX.Framework created by the
@@ -13,8 +12,7 @@ namespace ANX.RenderSystem.Windows.Metro
 	public class EffectTechnique_Metro : INativeEffectTechnique
 	{
 		#region Private
-		private Effect parentEffect;
-		private List<EffectPass_Metro> passes;
+		private EffectPass_Metro[] passes;
 		#endregion
 
 		#region Public
@@ -23,6 +21,14 @@ namespace ANX.RenderSystem.Windows.Metro
 			get;
 			private set;
 		}
+
+        public int PassCount
+        {
+            get
+            {
+                return passes.Length;
+            }
+        }
 
 		public IEnumerable<EffectPass> Passes
 		{
@@ -34,33 +40,28 @@ namespace ANX.RenderSystem.Windows.Metro
 				}
 			}
 		}
+
+        public EffectPass_Metro this[int index]
+        {
+            get
+            {
+                return passes[index];
+            }
+        }
 		#endregion
 
 		#region Constructor
-		public EffectTechnique_Metro(string setName, Effect setParentEffect,
+		public EffectTechnique_Metro(string setName, Effect parentEffect,
 			ExtendedShaderPass[] nativePasses)
 		{
-			Name = setName;
-			parentEffect = setParentEffect;
-			ParsePasses(nativePasses);
+            Name = setName;
+
+            passes = new EffectPass_Metro[nativePasses.Length];
+            for (int index = 0; index < nativePasses.Length; index++)
+            {
+                passes[index] = new EffectPass_Metro(parentEffect, nativePasses[index]);
+            }
 		}
 		#endregion
-
-		#region ParsePasses
-		private void ParsePasses(ExtendedShaderPass[] nativePasses)
-		{
-			passes = new List<EffectPass_Metro>();
-
-			foreach (ExtendedShaderPass pass in nativePasses)
-			{
-				passes.Add(new EffectPass_Metro(parentEffect, pass));
-			}
-		}
-		#endregion
-
-		public EffectPass_Metro GetPass(int index)
-		{
-			return passes[index];
-		}
 	}
 }

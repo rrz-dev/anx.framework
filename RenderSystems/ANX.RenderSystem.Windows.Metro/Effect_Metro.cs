@@ -87,10 +87,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			techniques = new List<EffectTechnique>();
 
-			foreach (string key in shader.Techniques.Keys)
+            foreach (string key in shader.TechniqueNames)
 			{
-				var nativeTechnique = new EffectTechnique_Metro(key, ManagedEffect,
-					shader.Techniques[key]);
+				var nativeTechnique = new EffectTechnique_Metro(key, ManagedEffect, shader[key]);
 				techniques.Add(new EffectTechnique(ManagedEffect, nativeTechnique));
 			}
 		}
@@ -131,7 +130,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			((GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice).currentEffect = this;
+            var metroDevice = (GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice;
+			metroDevice.currentTechnique =
+                ManagedEffect.CurrentTechnique.NativeTechnique as EffectTechnique_Metro;
             paramBuffer.Apply();
 		}
 		#endregion

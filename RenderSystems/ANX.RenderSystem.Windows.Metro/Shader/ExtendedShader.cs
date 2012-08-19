@@ -9,21 +9,47 @@ using System.IO;
 namespace ANX.RenderSystem.Windows.Metro.Shader
 {
 	public class ExtendedShader
-	{
-		public Dictionary<string, ExtendedShaderPass[]> Techniques;
-		public List<ExtendedShaderParameter> Parameters;
+    {
+        #region Private
+        private Dictionary<string, ExtendedShaderPass[]> techniques;
+        #endregion
 
-		public ExtendedShader(Stream stream)
+        #region Public
+        public ExtendedShaderPass[] this[string name]
+        {
+            get
+            {
+                return techniques[name];
+            }
+        }
+
+        public string[] TechniqueNames
+        {
+            get
+            {
+                return new List<string>(techniques.Keys).ToArray();
+            }
+        }
+
+        public ExtendedShaderParameter[] Parameters
+        {
+            get;
+            private set;
+        }
+        #endregion
+
+        #region Constructor
+        public ExtendedShader(Stream stream)
 		{
-			Techniques = new Dictionary<string, ExtendedShaderPass[]>();
-			Parameters = new List<ExtendedShaderParameter>();
+			techniques = new Dictionary<string, ExtendedShaderPass[]>();
 
 			BinaryReader reader = new BinaryReader(stream);
 
 			int numberOfVariables = reader.ReadInt32();
+            Parameters = new ExtendedShaderParameter[numberOfVariables];
 			for (int index = 0; index < numberOfVariables; index++)
 			{
-				Parameters.Add(new ExtendedShaderParameter(reader));
+				Parameters[index] = new ExtendedShaderParameter(reader);
 			}
 
 			int numberOfStructures = reader.ReadInt32();
@@ -45,13 +71,14 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 				string name = reader.ReadString();
 				int numberOfPasses = reader.ReadInt32();
 				ExtendedShaderPass[] passes = new ExtendedShaderPass[numberOfPasses];
-				Techniques.Add(name, passes);
+				techniques.Add(name, passes);
 
 				for (int passIndex = 0; passIndex < numberOfPasses; passIndex++)
 				{
 					passes[passIndex] = new ExtendedShaderPass(reader);
 				}
 			}
-		}
+        }
+        #endregion
 	}
 }

@@ -18,7 +18,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 		
 		#region Private
-		internal Effect_Metro currentEffect;
+		internal EffectTechnique_Metro currentTechnique;
 		private VertexBuffer currentVertexBuffer;
 		private Dx11.Viewport currentViewport;
 		private uint lastClearColor;
@@ -121,52 +121,34 @@ namespace ANX.RenderSystem.Windows.Metro
         #region DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
 			int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
-		{
-            var technique = currentEffect.ManagedEffect.CurrentTechnique;
-            var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
-            EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
-
-            SetInputLayout(currentVertexBuffer.VertexDeclaration, nativePass);
-
-            var d3dContext = NativeDevice.NativeContext;
-        	d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-			d3dContext.VertexShader.Set(nativePass.VertexShader);
-			d3dContext.PixelShader.Set(nativePass.PixelShader);
-
-			//d3dContext.PixelShader.SetSampler(0, sampler);
-
+        {
+            SetInputLayout();
+            ApplyPrimitiveType(primitiveType);
             NativeDevice.SetDefaultTargets();
+            //d3dContext.PixelShader.SetSampler(0, sampler);
 
-			//for (int i = 0; i < technique.Description.PassCount; ++i)
-			//{
-			//    pass.Apply();
             int indexCount = CalculateVertexCount(primitiveType, primitiveCount);
-            d3dContext.DrawIndexed(indexCount, startIndex, baseVertex);
-			//}
+            for (int passIndex = 0; passIndex < currentTechnique.PassCount; passIndex++)
+            {
+                currentTechnique[passIndex].Apply(NativeDevice);
+                NativeDevice.NativeContext.DrawIndexed(indexCount, startIndex, baseVertex);
+            }
         }
         #endregion
 
         #region DrawPrimitives
         public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
         {
-            var technique = currentEffect.ManagedEffect.CurrentTechnique;
-            var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
-            EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
-
-            SetInputLayout(currentVertexBuffer.VertexDeclaration, nativePass);
-
-            var d3dContext = NativeDevice.NativeContext;
-            d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-            d3dContext.VertexShader.Set(nativePass.VertexShader);
-            d3dContext.PixelShader.Set(nativePass.PixelShader);
-
+            SetInputLayout();
+            ApplyPrimitiveType(primitiveType);
             NativeDevice.SetDefaultTargets();
+            //d3dContext.PixelShader.SetSampler(0, sampler);
 
-			//for (int i = 0; i < technique.Description.PassCount; ++i)
-			//{
-			//    pass.Apply();
-            d3dContext.Draw(primitiveCount, vertexOffset);
-			//}
+            for (int passIndex = 0; passIndex < currentTechnique.PassCount; passIndex++)
+            {
+                currentTechnique[passIndex].Apply(NativeDevice);
+                NativeDevice.NativeContext.Draw(primitiveCount, vertexOffset);
+			}
 		}
 		#endregion
 
@@ -229,6 +211,14 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 
 		#endregion // DrawUserPrimitives<T>
+
+        #region ApplyPrimitiveType
+        private void ApplyPrimitiveType(PrimitiveType primitiveType)
+        {
+            var d3dContext = NativeDevice.NativeContext;
+            d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+        }
+        #endregion
 		
 		#region CalculateVertexCount
 		private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
@@ -306,9 +296,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
         #region SetInputLayout
-        private void SetInputLayout(VertexDeclaration vertexDeclaration, EffectPass_Metro nativePass)
+        private void SetInputLayout()
         {
-            VertexElement[] vertexElements = vertexDeclaration.GetVertexElements();
+            VertexElement[] vertexElements = currentVertexBuffer.VertexDeclaration.GetVertexElements();
             int elementCount = vertexElements.Length;
             var inputElements = new Dx11.InputElement[elementCount];
 
@@ -317,6 +307,7 @@ namespace ANX.RenderSystem.Windows.Metro
                 inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
             }
 
+            var nativePass = currentTechnique[0];
             NativeDevice.NativeContext.InputAssembler.InputLayout =
                 nativePass.BuildLayout(NativeDevice.NativeDevice, inputElements);
         }

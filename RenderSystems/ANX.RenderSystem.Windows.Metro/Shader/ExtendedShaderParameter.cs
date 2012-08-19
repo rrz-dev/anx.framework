@@ -55,7 +55,9 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
             ArraySize = reader.ReadInt32();
 
             IsTexture = Type.ToLower().Contains("texture");
-            SizeInBytes = GetParameterTypeSize() * ArraySize;
+            SizeInBytes = GetParameterTypeSize();
+            if (ArraySize > 0)
+                SizeInBytes *= ArraySize;
 
             int numberOfDimensions = reader.ReadByte();
             TypeDimensions = new int[numberOfDimensions];

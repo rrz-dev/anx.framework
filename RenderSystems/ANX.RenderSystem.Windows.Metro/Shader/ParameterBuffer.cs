@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using Dx11 = SharpDX.Direct3D11;
 
@@ -16,8 +15,8 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 		private NativeDxDevice graphicsDevice;
 		private Effect_Metro parentEffect;
 
-		private Array[] setData;
-
+        private int[] parameterOffsets;
+		private byte[] setData;
 		private int dataSize;
 		#endregion
 
@@ -27,7 +26,20 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 		{
 			graphicsDevice = setGraphicsDevice;
 			parentEffect = setParentEffect;
-			setData = new Array[parentEffect.shader.Parameters.Count];
+            dataSize = 0;
+
+            var offsets = new System.Collections.Generic.List<int>();
+            foreach(var parameter in parentEffect.shader.Parameters)
+            {
+                if (parameter.IsTexture == false)
+                {
+                    offsets.Add(dataSize);
+                    dataSize += parameter.SizeInBytes;
+                }
+            }
+
+            parameterOffsets = offsets.ToArray();
+            setData = new byte[dataSize];
 		}
 		#endregion
 
@@ -38,7 +50,8 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			if (indexOfParameter == -1)
 				return;
 
-			setData[indexOfParameter] = StructureToBytes(value);
+            byte[] dataToAdd = StructureToBytes(value);
+            Array.Copy(dataToAdd, 0, setData, parameterOffsets[indexOfParameter], dataToAdd.Length);
 		}
         #endregion
 
@@ -52,18 +65,15 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
             value = FillArrayIfNeeded(value, indexOfParameter);
 
             int sizePerItem = Marshal.SizeOf(typeof(T));
-            byte[] result = new byte[sizePerItem * value.Length];
             int offset = 0;
             IntPtr ptr = Marshal.AllocHGlobal(sizePerItem);
             for (int index = 0; index < value.Length; index++)
             {
                 Marshal.StructureToPtr(value[index], ptr, true);
-                Marshal.Copy(ptr, result, offset, sizePerItem);
+                Marshal.Copy(ptr, setData, parameterOffsets[indexOfParameter] + offset, sizePerItem);
                 offset += sizePerItem;
             }
             Marshal.FreeHGlobal(ptr);
-
-            setData[indexOfParameter] = result;
         }
         #endregion
 
@@ -76,12 +86,8 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 
 			value = FillArrayIfNeeded(value, indexOfParameter);
 			
-            byte[] convertData = null;
-			byte[] result = UnionArraySerializer.Unify(value);
-			convertData = new byte[result.Length];
-			Array.Copy(result, convertData, result.Length);
-
-			setData[indexOfParameter] = convertData;
+            byte[] result = UnionArraySerializer.Unify(value);
+            Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
 		}
 		#endregion
 
@@ -94,12 +100,8 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 
 			value = FillArrayIfNeeded(value, indexOfParameter);
 
-			byte[] convertData = null;
-			byte[] result = UnionArraySerializer.Unify(value);
-			convertData = new byte[result.Length];
-			Array.Copy(result, convertData, result.Length);
-
-			setData[indexOfParameter] = convertData;
+            byte[] result = UnionArraySerializer.Unify(value);
+            Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
 		}
 		#endregion
 
@@ -110,7 +112,7 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			if (indexOfParameter == -1)
 				return;
 
-			setData[indexOfParameter] = value;
+            Array.Copy(value, 0, setData, parameterOffsets[indexOfParameter], value.Length);
 		}
 		#endregion
 
@@ -178,41 +180,17 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 		#region CreateBufferData
 		private SharpDX.DataBox CreateBufferData()
 		{
-			MemoryStream stream = new MemoryStream();
-			BinaryWriter writer = new BinaryWriter(stream);
-
-            for(int index = 0; index < setData.Length; index++)
-            {
-                byte[] data = (byte[])setData[index];
-                if (data != null)
-                {
-                    writer.Write(data);
-                }
-                else
-                {
-                    var parameter = parentEffect.shader.Parameters[index];
-                    if (parameter.IsTexture)
-                        continue;
-
-                    writer.Write(new byte[parameter.SizeInBytes]);
-                }
-			}
-
-			byte[] streamBytes = stream.ToArray();
-			stream.Dispose();
-
 			IntPtr dataPtr;
 			unsafe
 			{
-				fixed (byte* ptr = &streamBytes[0])
+				fixed (byte* ptr = &setData[0])
 				{
 					dataPtr = (IntPtr)ptr;
 				}
 			}
 
-			dataSize = streamBytes.Length;
-
-			setData = new Array[parentEffect.shader.Parameters.Count];
+            // Reset really needed? evaluate
+            setData = new byte[dataSize];
 			return new SharpDX.DataBox(dataPtr);
 		}
 		#endregion

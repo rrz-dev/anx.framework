@@ -1,8 +1,7 @@
-using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using Dx11 = SharpDX.Direct3D11;
 using ANX.RenderSystem.Windows.Metro.Shader;
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -31,34 +30,6 @@ namespace ANX.RenderSystem.Windows.Metro
 			get;
 			private set;
 		}
-
-		public Dx11.VertexShader VertexShader
-		{
-			get
-			{
-				if (vertexShader == null)
-				{
-					vertexShader = new Dx11.VertexShader(
-					    NativeDxDevice.Current.NativeDevice, nativePass.VertexCode);
-				}
-
-				return vertexShader;
-			}
-		}
-
-		public Dx11.PixelShader PixelShader
-		{
-			get
-			{
-				if (pixelShader == null)
-				{
-					pixelShader = new Dx11.PixelShader(
-						NativeDxDevice.Current.NativeDevice, nativePass.PixelCode);
-				}
-
-				return pixelShader;
-			}
-		}
 		#endregion
 
 		#region Constructor
@@ -72,10 +43,25 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		public Dx11.InputLayout BuildLayout(Dx11.Device d3dDevice,
-			Dx11.InputElement[] elements)
+        #region BuildLayout
+        public Dx11.InputLayout BuildLayout(Dx11.Device d3dDevice, Dx11.InputElement[] elements)
 		{
 			return new Dx11.InputLayout(d3dDevice, nativePass.VertexCode, elements);
-		}
+        }
+        #endregion
+
+        #region Apply
+        public void Apply(NativeDxDevice device)
+        {
+            if (vertexShader == null)
+                vertexShader = new Dx11.VertexShader(device.NativeDevice, nativePass.VertexCode);
+
+            if (pixelShader == null)
+                pixelShader = new Dx11.PixelShader(device.NativeDevice, nativePass.PixelCode);
+
+            device.NativeContext.VertexShader.Set(vertexShader);
+            device.NativeContext.PixelShader.Set(pixelShader);
+        }
+		#endregion
 	}
 }
