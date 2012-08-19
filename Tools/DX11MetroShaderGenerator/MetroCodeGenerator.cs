@@ -135,7 +135,13 @@ namespace DX11MetroShaderGenerator
 			foreach (Variable variable in sourceEffect.Variables)
 			{
 				writer.Write(variable.Type);
-				writer.Write(variable.Name);
+                writer.Write(variable.Name);
+                writer.Write(variable.ArraySize);
+                writer.Write((byte)variable.Dimensions.Length);
+                for (int dimIndex = 0; dimIndex < variable.Dimensions.Length; dimIndex++)
+                {
+                    writer.Write((byte)variable.Dimensions[dimIndex]);
+                }
 			}
 		}
 		#endregion

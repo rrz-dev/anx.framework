@@ -15,60 +15,20 @@ namespace ANX.RenderSystem.Windows.Metro
 	public class Texture2D_Metro : INativeTexture2D
 	{
 		#region Private
-		protected internal Dx11.Texture2D nativeTexture;
-		protected internal Dx11.ShaderResourceView nativeShaderResourceView;
-		protected internal int formatSize;
-		protected internal SurfaceFormat surfaceFormat;
-		protected internal GraphicsDevice graphicsDevice;
+		protected internal Dx11.Texture2D NativeTexture;
+        protected internal Dx11.ShaderResourceView NativeShaderResourceView;
+		protected int formatSize;
+		protected SurfaceFormat surfaceFormat;
+		protected GraphicsDevice graphicsDevice;
 		#endregion
 
 		#region Public
-		internal Dx11.Texture2D NativeTexture
-		{
-			get
-			{
-				return nativeTexture;
-			}
-			set
-			{
-				if (nativeTexture != value)
-				{
-					if (nativeTexture != null)
-					{
-						nativeTexture.Dispose();
-					}
-
-					nativeTexture = value;
-				}
-			}
-		}
-
-		internal Dx11.ShaderResourceView NativeShaderResourceView
-		{
-			get
-			{
-				return this.nativeShaderResourceView;
-			}
-			set
-			{
-				if (nativeShaderResourceView != value)
-				{
-					if (nativeShaderResourceView != null)
-					{
-						nativeShaderResourceView.Dispose();
-					}
-
-					nativeShaderResourceView = value;
-				}
-			}
-		}
-
 		public int Width
 		{
 			get
 			{
-				return nativeTexture != null ?
-					nativeTexture.Description.Width :
+				return NativeTexture != null ?
+					NativeTexture.Description.Width :
 					0;
 			}
 		}
@@ -77,23 +37,15 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				return nativeTexture != null ?
-					nativeTexture.Description.Height :
+				return NativeTexture != null ?
+					NativeTexture.Description.Height :
 					0;
-			}
-		}
-
-		public GraphicsDevice GraphicsDevice
-		{
-			get
-			{
-				return graphicsDevice;
 			}
 		}
 		#endregion
 
 		#region Constructor
-		internal Texture2D_Metro(GraphicsDevice graphicsDevice)
+		protected Texture2D_Metro(GraphicsDevice graphicsDevice)
 		{
 			this.graphicsDevice = graphicsDevice;
 		}
@@ -125,8 +77,8 @@ namespace ANX.RenderSystem.Windows.Metro
 				CpuAccessFlags = Dx11.CpuAccessFlags.Write,
 				OptionFlags = Dx11.ResourceOptionFlags.None,
 			};
-			this.nativeTexture = new Dx11.Texture2D(device, description);
-			this.nativeShaderResourceView = new Dx11.ShaderResourceView(device, this.nativeTexture);
+			this.NativeTexture = new Dx11.Texture2D(device, description);
+			this.NativeShaderResourceView = new Dx11.ShaderResourceView(device, this.NativeTexture);
 
 			// description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
 			// more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
@@ -171,7 +123,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			if (this.surfaceFormat == SurfaceFormat.Color)
 			{
 				int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-				SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(nativeTexture, subresource);
+				SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(NativeTexture, subresource);
 				int rowPitch = rectangle.RowPitch;
 
 				unsafe
@@ -199,7 +151,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					handle.Free();
 				}
 
-				NativeDxDevice.Current.UnmapSubresource(nativeTexture, subresource);
+				NativeDxDevice.Current.UnmapSubresource(NativeTexture, subresource);
 			}
 			else if (surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 || surfaceFormat == SurfaceFormat.Dxt1)
 			{
@@ -214,7 +166,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 					int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
 					SharpDX.DataBox rectangle =
-						NativeDxDevice.Current.MapSubresource(nativeTexture, subresource);
+						NativeDxDevice.Current.MapSubresource(NativeTexture, subresource);
 					SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
 					int pitch = rectangle.RowPitch;
 					int col = 0;
@@ -249,7 +201,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
 					handle.Free();
 
-					NativeDxDevice.Current.UnmapSubresource(nativeTexture, subresource);
+					NativeDxDevice.Current.UnmapSubresource(NativeTexture, subresource);
 				}
 			}
 			else
@@ -262,16 +214,16 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Dispose
 		public void Dispose()
 		{
-			if (nativeShaderResourceView != null)
+			if (NativeShaderResourceView != null)
 			{
-				nativeShaderResourceView.Dispose();
-				nativeShaderResourceView = null;
+				NativeShaderResourceView.Dispose();
+				NativeShaderResourceView = null;
 			}
 
-			if (nativeTexture != null)
+			if (NativeTexture != null)
 			{
-				nativeTexture.Dispose();
-				nativeTexture = null;
+				NativeTexture.Dispose();
+				NativeTexture = null;
 			}
 		}
 		#endregion

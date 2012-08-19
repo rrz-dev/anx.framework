@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using Dx11 = SharpDX.Direct3D11;
 using ANX.RenderSystem.Windows.Metro.Shader;
 
 // This file is part of the ANX.Framework created by the
@@ -17,8 +16,13 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Private
 		private List<EffectTechnique> techniques;
 		private List<EffectParameter> parameters;
+        internal ParameterBuffer paramBuffer;
 
-		private ExtendedShader shader;
+        internal ExtendedShader shader
+        {
+            get;
+            private set;
+        }
 		#endregion
 
 		#region Public
@@ -100,9 +104,11 @@ namespace ANX.RenderSystem.Windows.Metro
 			foreach (ExtendedShaderParameter parameter in shader.Parameters)
 			{
 				EffectParameter newParam = new EffectParameter();
-				newParam.NativeParameter = new EffectParameter_Metro(parameter);
+				newParam.NativeParameter = new EffectParameter_Metro(this, parameter);
 				parameters.Add(newParam);
 			}
+
+            paramBuffer = new ParameterBuffer(this, NativeDxDevice.Current);
 		}
 		#endregion
 
@@ -126,6 +132,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
 			((GraphicsDeviceWindowsMetro)graphicsDevice.NativeDevice).currentEffect = this;
+            paramBuffer.Apply();
 		}
 		#endregion
 

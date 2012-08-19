@@ -71,7 +71,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				var comWindow = new ComObject(gameWindow.Form);
 
 				swapChain = dxgiFactory2.CreateSwapChainForCoreWindow(graphicsDevice.NativeDevice,
-						comWindow, ref desc, null);
+				    comWindow, ref desc, null);
 				dxgiDevice2.MaximumFrameLatency = 1;
 			}
 		}

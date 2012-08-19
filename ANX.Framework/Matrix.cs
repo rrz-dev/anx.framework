@@ -1231,56 +1231,23 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					var culture = CultureInfo.CurrentCulture;
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{ " +
-						"{M11:" + M11.ToString(culture) + " M12:" + M12.ToString(culture) +
-						" M13:" + M13.ToString(culture) + " M14:" + M14.ToString(culture) +
+        {
+            var culture = CultureInfo.CurrentCulture;
+            // This may look a bit more ugly, but String.Format should
+            // be avoided cause of it's bad performance!
+            return "{ " +
+                "{M11:" + M11.ToString(culture) + " M12:" + M12.ToString(culture) +
+                " M13:" + M13.ToString(culture) + " M14:" + M14.ToString(culture) +
 
-						"} {M21:" + M21.ToString(culture) + " M22:" + M22.ToString(culture) +
-						" M23:" + M23.ToString(culture) + " M24:" + M24.ToString(culture) +
+                "} {M21:" + M21.ToString(culture) + " M22:" + M22.ToString(culture) +
+                " M23:" + M23.ToString(culture) + " M24:" + M24.ToString(culture) +
 
-						"} {M31:" + M31.ToString(culture) + " M32:" + M32.ToString(culture) +
-						" M33:" + M33.ToString(culture) + " M34:" + M34.ToString(culture) +
+                "} {M31:" + M31.ToString(culture) + " M32:" + M32.ToString(culture) +
+                " M33:" + M33.ToString(culture) + " M34:" + M34.ToString(culture) +
 
-						"} {M41:" + M41.ToString(culture) + " M42:" + M42.ToString(culture) +
-						" M43:" + M43.ToString(culture) + " M44:" + M44.ToString(culture) +
-						"} }";
-
-						//var parts = new string[6];
-						//parts[0] = "{ ";
-						//parts[1] = string.Format(culture, "{{M11:{0} M12:{1} M13:{2} M14:{3}}} ", new object[]
-						//{
-						//    M11.ToString(culture), 
-						//    M12.ToString(culture), 
-						//    M13.ToString(culture), 
-						//    M14.ToString(culture)
-						//});
-						//parts[2] = string.Format(culture, "{{M21:{0} M22:{1} M23:{2} M24:{3}}} ", new object[]
-						//{
-						//    M21.ToString(culture), 
-						//    M22.ToString(culture), 
-						//    M23.ToString(culture), 
-						//    M24.ToString(culture)
-						//});
-						//parts[3] = string.Format(culture, "{{M31:{0} M32:{1} M33:{2} M34:{3}}} ", new object[]
-						//{
-						//    M31.ToString(culture), 
-						//    M32.ToString(culture), 
-						//    M33.ToString(culture), 
-						//    M34.ToString(culture)
-						//});
-						//parts[4] = string.Format(culture, "{{M41:{0} M42:{1} M43:{2} M44:{3}}} ", new object[]
-						//{
-						//    M41.ToString(culture), 
-						//    M42.ToString(culture), 
-						//    M43.ToString(culture), 
-						//    M44.ToString(culture)
-						//});
-						//parts[5] = "}";
-						//return string.Concat(parts);
+                "} {M41:" + M41.ToString(culture) + " M42:" + M42.ToString(culture) +
+                " M43:" + M43.ToString(culture) + " M44:" + M44.ToString(culture) +
+                "} }";
         }
 
         #endregion

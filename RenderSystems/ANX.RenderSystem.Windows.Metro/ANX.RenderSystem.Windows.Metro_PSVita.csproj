@@ -59,6 +59,8 @@
     <Compile Include="Shader\ExtendedShader.cs" />
     <Compile Include="Shader\ExtendedShaderParameter.cs" />
     <Compile Include="Shader\ExtendedShaderPass.cs" />
+    <Compile Include="Shader\UnionArraySerializer.cs" />
+    <Compile Include="Shader\ParameterBuffer.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="SwapChainMetro.cs" />
     <Compile Include="Texture2D_Metro.cs" />

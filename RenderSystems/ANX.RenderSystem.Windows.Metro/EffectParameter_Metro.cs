@@ -3,7 +3,6 @@ using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.RenderSystem.Windows.Metro.Shader;
-using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -13,8 +12,12 @@ namespace ANX.RenderSystem.Windows.Metro
 {
 	public class EffectParameter_Metro : INativeEffectParameter
 	{
+		#region Private
+		private Effect_Metro parentEffect;
 		private ExtendedShaderParameter nativeParameter;
+		#endregion
 
+		#region Public
 		public string Name
 		{
 			get
@@ -22,134 +25,122 @@ namespace ANX.RenderSystem.Windows.Metro
 				return nativeParameter.Name;
 			}
 		}
+		#endregion
 
-		public EffectParameter_Metro(ExtendedShaderParameter setNativeParameter)
+		#region Constructor
+		public EffectParameter_Metro(Effect_Metro setParentEffect,
+				ExtendedShaderParameter setNativeParameter)
 		{
+			parentEffect = setParentEffect;
 			nativeParameter = setNativeParameter;
 		}
+		#endregion
 
-		public void SetValue(bool value)
-		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
-		}
-
-		public void SetValue(bool[] value)
-		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
-		}
-
+		#region SetValue (int)
 		public void SetValue(int value)
 		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
+			var bytes = BitConverter.GetBytes(value);
+			parentEffect.paramBuffer.SetParameter(Name, bytes);
 		}
+		#endregion
 
+		#region SetValue (int[])
 		public void SetValue(int[] value)
 		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Matrix)
 		public void SetValue(Matrix value)
 		{
-			//SharpDX.Matrix m = new SharpDX.Matrix(value.M11, value.M12, value.M13, value.M14, value.M21, value.M22, value.M23, value.M24, value.M31, value.M32, value.M33, value.M34, value.M41, value.M42, value.M43, value.M44);
-			//nativeEffectVariable.AsMatrix().SetMatrix(m);
-			throw new NotImplementedException();
+			value = Matrix.Transpose(value);
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Matrix[])
 		public void SetValue(Matrix[] value)
 		{
-			int count = value.Length;
-			SharpDX.Matrix[] m = new SharpDX.Matrix[count];
-			Matrix anxMatrix;
-			for (int i = 0; i < count; i++)
+			Matrix[] transposedMatrices = new Matrix[value.Length];
+			for (int index = 0; index < value.Length; index++)
 			{
-				anxMatrix = value[i];
-				m[i] = new SharpDX.Matrix(anxMatrix.M11, anxMatrix.M12, anxMatrix.M13, anxMatrix.M14,
-                    anxMatrix.M21, anxMatrix.M22, anxMatrix.M23, anxMatrix.M24,
-                    anxMatrix.M31, anxMatrix.M32, anxMatrix.M33, anxMatrix.M34,
-                    anxMatrix.M41, anxMatrix.M42, anxMatrix.M43, anxMatrix.M44);
+				transposedMatrices[index] = Matrix.Transpose(value[index]);
 			}
-
-			//nativeEffectVariable.AsMatrix().SetMatrix(m);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, transposedMatrices);
 		}
+		#endregion
 
+		#region SetValue (Quaternion)
 		public void SetValue(Quaternion value)
 		{
-			SharpDX.Vector4 q = new SharpDX.Vector4(value.X, value.Y, value.Z, value.W);
-			//nativeEffectVariable.AsVector().Set(q);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Quaternion[])
 		public void SetValue(Quaternion[] value)
 		{
-			int count = value.Length;
-			SharpDX.Vector4[] q = new SharpDX.Vector4[count];
-			for (int i = 0; i < count; i++)
-			{
-				q[i] = new SharpDX.Vector4(value[i].X, value[i].Y, value[i].Z, value[i].W);
-			}
-			//nativeEffectVariable.AsVector().Set(q);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (float)
 		public void SetValue(float value)
 		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
+			var bytes = BitConverter.GetBytes(value);
+			parentEffect.paramBuffer.SetParameter(Name, bytes);
 		}
+		#endregion
 
+		#region SetValue (float[])
 		public void SetValue(float[] value)
 		{
-			//nativeEffectVariable.AsScalar().Set(value);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector2)
 		public void SetValue(Vector2 value)
 		{
-			SharpDX.Vector2 v = new SharpDX.Vector2(value.X, value.Y);
-			//nativeEffectVariable.AsVector().Set(v);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector2[])
 		public void SetValue(Vector2[] value)
 		{
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector3)
 		public void SetValue(Vector3 value)
 		{
-			SharpDX.Vector3 v = new SharpDX.Vector3(value.X, value.Y, value.Z);
-			//nativeEffectVariable.AsVector().Set(v);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector3[])
 		public void SetValue(Vector3[] value)
 		{
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector4)
 		public void SetValue(Vector4 value)
 		{
-			SharpDX.Vector4 v = new SharpDX.Vector4(value.X, value.Y, value.Z, value.W);
-			//nativeEffectVariable.AsVector().Set(v);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
+		#region SetValue (Vector4[])
 		public void SetValue(Vector4[] value)
 		{
-			int count = value.Length;
-			SharpDX.Vector4[] q = new SharpDX.Vector4[count];
-			for (int i = 0; i < count; i++)
-			{
-				q[i] = new SharpDX.Vector4(value[i].X, value[i].Y, value[i].Z, value[i].W);
-			}
-			//nativeEffectVariable.AsVector().Set(q);
-			throw new NotImplementedException();
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
+		#endregion
 
 		#region SetValue (Texture) (TODO)
 		public void SetValue(Texture value)
@@ -157,35 +148,58 @@ namespace ANX.RenderSystem.Windows.Metro
 			Texture2D_Metro tex = value.NativeTexture as Texture2D_Metro;
 			var context = NativeDxDevice.Current.NativeContext;
 
-            // TODO: slot
+			// TODO: slot
 			context.PixelShader.SetShaderResource(0, tex.NativeShaderResourceView);
 		}
 		#endregion
 
-		#region SetValue (Matrix) (TODO)
+		#region SetValue (Matrix, transpose)
 		public void SetValue(Matrix value, bool transpose)
 		{
-			var context = NativeDxDevice.Current.NativeContext;
-			var device = NativeDxDevice.Current.NativeDevice;
+			if (transpose == false)
+				value = Matrix.Transpose(value);
 
-			var constantBuffer = new Dx11.Buffer(device,
-				SharpDX.Utilities.SizeOf<Matrix>(), Dx11.ResourceUsage.Default,
-				Dx11.BindFlags.ConstantBuffer, Dx11.CpuAccessFlags.None, Dx11.ResourceOptionFlags.None, 0);
-
-			context.VertexShader.SetConstantBuffer(0, constantBuffer);
-            value = Matrix.Transpose(value);
-			context.UpdateSubresource(ref value, constantBuffer);
+			parentEffect.paramBuffer.SetParameter(Name, value);
 		}
 		#endregion
 
+		#region SetValue (Matrix[], transpose)
 		public void SetValue(Matrix[] value, bool transpose)
+		{
+			if (transpose)
+			{
+				parentEffect.paramBuffer.SetParameter(Name, value);
+			}
+			else
+			{
+				Matrix[] transposedMatrices = new Matrix[value.Length];
+				for (int index = 0; index < value.Length; index++)
+				{
+					transposedMatrices[index] = Matrix.Transpose(value[index]);
+				}
+				parentEffect.paramBuffer.SetParameter(Name, transposedMatrices);
+			}
+		}
+		#endregion
+
+		#region SetValue (TODO)
+		public void SetValue(bool value)
 		{
 			throw new NotImplementedException();
 		}
 
-		#region INativeEffectParameter Member
+		public void SetValue(bool[] value)
+		{
+			throw new NotImplementedException();
+		}
 
+		public void SetValue(string value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
+		#region GetValue (TODO)
 		public bool GetValueBoolean()
 		{
 			throw new NotImplementedException();
@@ -292,11 +306,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 
 		public Vector4[] GetValueVector4Array(int count)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetValue(string value)
 		{
 			throw new NotImplementedException();
 		}

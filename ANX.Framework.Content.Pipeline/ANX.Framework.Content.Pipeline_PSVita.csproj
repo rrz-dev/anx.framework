@@ -34,6 +34,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioContent.cs" />
+    <Compile Include="Audio\AudioFileType.cs" />
+    <Compile Include="Audio\AudioFormat.cs" />
+    <Compile Include="Audio\ConversionFormat.cs" />
+    <Compile Include="Audio\ConversionQuality.cs" />
     <Compile Include="Graphics\AlphaTestMaterialContent.cs" />
     <Compile Include="Graphics\BasicMaterialContent.cs" />
     <Compile Include="Graphics\BitmapContent.cs" />
@@ -48,7 +53,7 @@
     <Compile Include="ContentItem.cs" />
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="ContentProcessorAttribute.cs" />
-    <Compile Include="ContextProcessorContext.cs" />
+    <Compile Include="ContentProcessorContext.cs" />
     <Compile Include="EffectImporter.cs" />
     <Compile Include="ExternalReference.cs" />
     <Compile Include="FbxImporter.cs" />
@@ -72,6 +77,9 @@
     <Compile Include="Graphics\GeometryContentCollection.cs" />
     <Compile Include="Graphics\IndexCollection.cs" />
     <Compile Include="Graphics\IndirectPositionCollection.cs" />
+    <Compile Include="Graphics\TextureCubeContent.cs" />
+    <Compile Include="Graphics\Texture3DContent.cs" />
+    <Compile Include="Graphics\SkinnedMaterialContent.cs" />
     <Compile Include="Graphics\MaterialContent.cs" />
     <Compile Include="Graphics\MeshBuilder.cs" />
     <Compile Include="Graphics\MeshContent.cs" />
@@ -82,18 +90,46 @@
     <Compile Include="Graphics\NodeContentCollection.cs" />
     <Compile Include="Graphics\PixelBitmapContent.cs" />
     <Compile Include="Graphics\PositionCollection.cs" />
+    <Compile Include="Graphics\Texture2DContent.cs" />
     <Compile Include="Graphics\TextureContent.cs" />
     <Compile Include="Graphics\TextureReferenceDictionary.cs" />
+    <Compile Include="Graphics\VectorConverter.cs" />
     <Compile Include="Graphics\VertexChannel.cs" />
     <Compile Include="Graphics\VertexChannelCollection.cs" />
+    <Compile Include="Graphics\VertexChannelNames.cs" />
     <Compile Include="Graphics\VertexContent.cs" />
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
     <Compile Include="Processors\CompiledEffectContent.cs" />
+    <Compile Include="Processors\EffectProcessor.cs" />
+    <Compile Include="Processors\EffectProcessorDebugMode.cs" />
+    <Compile Include="Processors\FontDescriptionProcessor.cs" />
+    <Compile Include="Processors\FontTextureProcessor.cs" />
+    <Compile Include="Processors\MaterialProcessor.cs" />
+    <Compile Include="Processors\MaterialProcessorDefaultEffect.cs" />
+    <Compile Include="Processors\ModelBoneContent.cs" />
+    <Compile Include="Processors\ModelBoneContentCollection.cs" />
+    <Compile Include="Processors\ModelContent.cs" />
+    <Compile Include="Processors\ModelMeshContent.cs" />
+    <Compile Include="Processors\ModelMeshContentCollection.cs" />
+    <Compile Include="Processors\ModelMeshPartContent.cs" />
+    <Compile Include="Processors\ModelMeshPartContentCollection.cs" />
+    <Compile Include="Processors\ModelProcessor.cs" />
+    <Compile Include="Processors\ModelTextureProcessor.cs" />
+    <Compile Include="Processors\PassThroughProcessor.cs" />
+    <Compile Include="Processors\SongContent.cs" />
+    <Compile Include="Processors\SongProcessor.cs" />
+    <Compile Include="Processors\SoundEffectContent.cs" />
+    <Compile Include="Processors\SoundEffectProcessor.cs" />
+    <Compile Include="Processors\SpriteFontContent.cs" />
+    <Compile Include="Processors\SpriteTextureProcessor.cs" />
+    <Compile Include="Processors\TextureProcessor.cs" />
+    <Compile Include="Processors\TextureProcessorOutputFormat.cs" />
     <Compile Include="Processors\VertexBufferContent.cs" />
     <Compile Include="Processors\VertexDeclarationContent.cs" />
+    <Compile Include="Processors\VideoProcessor.cs" />
     <Compile Include="Serialization\Compiler\BuiltInTypeWriter.cs" />
     <Compile Include="Serialization\Compiler\ContentCompiler.cs" />
     <Compile Include="Serialization\Compiler\ContentTypeWriter.cs" />
@@ -129,6 +165,7 @@
     <Compile Include="Serialization\Compiler\SystemTypeWriters\NullableWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\TimeSpanWriter.cs" />
     <Compile Include="TargetPlatform.cs" />
+    <Compile Include="VideoContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_PSVita.csproj">

@@ -269,9 +269,12 @@ namespace ANX.RenderSystem.Windows.DX11
         #endregion // Present
 
         #region DrawPrimitives & DrawIndexedPrimitives
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex,
+					int numVertices, int startIndex, int primitiveCount)
         {
-            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+            SharpDX.Direct3D11.EffectPass pass;
+						SharpDX.Direct3D11.EffectTechnique technique;
+						ShaderBytecode passSignature;
             SetupEffectForDraw(out pass, out technique, out passSignature);
 
             SetupInputLayout(passSignature);

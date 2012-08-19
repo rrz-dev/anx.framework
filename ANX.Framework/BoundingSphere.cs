@@ -410,22 +410,18 @@ namespace ANX.Framework
             result.Center.Y += matrix.M42;
             result.Center.Z += matrix.M43;
         }
+				#endregion
 
-        public override string ToString()
+				#region ToString
+				public override string ToString()
 				{
 					var culture = CultureInfo.CurrentCulture;
 					// This may look a bit more ugly, but String.Format should
 					// be avoided cause of it's bad performance!
 					return "{Center:" + Center.ToString() +
 						" Radius:" + Radius.ToString(culture) + "}";
-
-					//return string.Format(culture, "{{Center:{0} Radius:{1}}}", new object[]
-					//{
-					//  this.Center.ToString(), 
-					//      this.Radius.ToString(culture)
-					//});
-        }
-        #endregion
+				}
+				#endregion
 
         #region IEquatable implementation
         public override bool Equals(Object obj)

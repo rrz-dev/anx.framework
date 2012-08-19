@@ -144,7 +144,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			// TODO: find better solution to lazy init the swapChain from the coreWindow!!
 			EnsureScreenBuffersAvailable();
-
+            
 			nativeContext.ClearRenderTargetView(renderTargetView, color);
 		}
 		#endregion

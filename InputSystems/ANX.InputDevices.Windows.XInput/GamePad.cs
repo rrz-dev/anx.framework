@@ -1,13 +1,8 @@
 #region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Input;
 using ANX.Framework;
+using ANX.Framework.Input;
+using ANX.Framework.NonXNA;
 using SharpDX.XInput;
 
 #endregion // Using Statements

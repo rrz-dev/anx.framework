@@ -20,7 +20,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Private
 		internal Effect_Metro currentEffect;
 		private VertexBuffer currentVertexBuffer;
-		private IndexBuffer currentIndexBuffer;
 		private Dx11.Viewport currentViewport;
 		private uint lastClearColor;
 		private SharpDX.Color4 clearColor;
@@ -119,73 +118,57 @@ namespace ANX.RenderSystem.Windows.Metro
 
 		#endregion // Present
 
-		#region DrawPrimitives & DrawIndexedPrimitives
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
+        #region DrawIndexedPrimitives
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
 			int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
 		{
-			var d3dContext = NativeDevice.NativeContext;
-			var d3dDevice = NativeDevice.NativeDevice;
+            var technique = currentEffect.ManagedEffect.CurrentTechnique;
+            var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
+            EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
 
-            NativeDevice.SetDefaultTargets();
+            SetInputLayout(currentVertexBuffer.VertexDeclaration, nativePass);
 
-			var nativeVertexBuffer = currentVertexBuffer.NativeVertexBuffer as VertexBuffer_Metro;
-
-			VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
-			VertexElement[] vertexElements = vertexDeclaration.GetVertexElements();
-			int elementCount = vertexElements.Length;
-			var inputElements = new Dx11.InputElement[elementCount];
-
-			for (int i = 0; i < elementCount; i++)
-			{
-				inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
-			}
-
-			var technique = currentEffect.ManagedEffect.CurrentTechnique;
-			var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
-			EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
-
-			var inputLayout = nativePass.BuildLayout(d3dDevice, inputElements);
-			var vertexBufferBinding = new Dx11.VertexBufferBinding(
-				nativeVertexBuffer.NativeBuffer, vertexDeclaration.VertexStride, 0);
-
-			d3dContext.InputAssembler.SetVertexBuffers(0, vertexBufferBinding);
-			d3dContext.InputAssembler.InputLayout = inputLayout;
-			d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-			
+            var d3dContext = NativeDevice.NativeContext;
+        	d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
 			d3dContext.VertexShader.Set(nativePass.VertexShader);
 			d3dContext.PixelShader.Set(nativePass.PixelShader);
 
 			//d3dContext.PixelShader.SetSampler(0, sampler);
 
-			//for (int i = 0; i < technique.Description.PassCount; ++i)
-			//{
-			//    pass.Apply();
-					d3dContext.DrawIndexed(CalculateVertexCount(primitiveType, primitiveCount),
-						startIndex, baseVertex);
-			//}
-		}
-
-		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
-		{
-			//Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
-			//SetupEffectForDraw(out pass, out technique, out passSignature);
-
-			//SetupInputLayout(passSignature);
-
-			//// Prepare All the stages
-			//deviceContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
-			//deviceContext.Rasterizer.SetViewports(currentViewport);
-
-			//deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+            NativeDevice.SetDefaultTargets();
 
 			//for (int i = 0; i < technique.Description.PassCount; ++i)
 			//{
 			//    pass.Apply();
-			//    deviceContext.Draw(primitiveCount, vertexOffset);
+            int indexCount = CalculateVertexCount(primitiveType, primitiveCount);
+            d3dContext.DrawIndexed(indexCount, startIndex, baseVertex);
+			//}
+        }
+        #endregion
+
+        #region DrawPrimitives
+        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
+        {
+            var technique = currentEffect.ManagedEffect.CurrentTechnique;
+            var nativeTechnique = technique.NativeTechnique as EffectTechnique_Metro;
+            EffectPass_Metro nativePass = nativeTechnique.GetPass(0);
+
+            SetInputLayout(currentVertexBuffer.VertexDeclaration, nativePass);
+
+            var d3dContext = NativeDevice.NativeContext;
+            d3dContext.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+            d3dContext.VertexShader.Set(nativePass.VertexShader);
+            d3dContext.PixelShader.Set(nativePass.PixelShader);
+
+            NativeDevice.SetDefaultTargets();
+
+			//for (int i = 0; i < technique.Description.PassCount; ++i)
+			//{
+			//    pass.Apply();
+            d3dContext.Draw(primitiveCount, vertexOffset);
 			//}
 		}
-
-		#endregion // DrawPrimitives & DrawIndexedPrimitives
+		#endregion
 
 		#region DrawInstancedPrimitives
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
@@ -251,25 +234,15 @@ namespace ANX.RenderSystem.Windows.Metro
 		private int CalculateVertexCount(PrimitiveType type, int primitiveCount)
 		{
 			if (type == PrimitiveType.TriangleList)
-			{
 				return primitiveCount * 3;
-			}
 			else if (type == PrimitiveType.LineList)
-			{
 				return primitiveCount * 2;
-			}
 			else if (type == PrimitiveType.LineStrip)
-			{
 				return primitiveCount + 1;
-			}
 			else if (type == PrimitiveType.TriangleStrip)
-			{
 				return primitiveCount + 2;
-			}
 			else
-			{
-				throw new NotImplementedException("couldn't calculate vertex count for PrimitiveType '" + type.ToString() + "'");
-			}
+				throw new NotImplementedException("couldn't calculate vertex count for PrimitiveType '" + type + "'");
 		}
 		#endregion
 
@@ -277,17 +250,14 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
 			if (indexBuffer == null)
-			{
 				throw new ArgumentNullException("indexBuffer");
-			}
-
-			this.currentIndexBuffer = indexBuffer;
 
 			IndexBuffer_Metro nativeIndexBuffer = indexBuffer.NativeIndexBuffer as IndexBuffer_Metro;
 
 			if (nativeIndexBuffer != null)
 			{
-				NativeDevice.NativeContext.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, FormatConverter.Translate(indexBuffer.IndexElementSize), 0);
+				NativeDevice.NativeContext.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer,
+                    FormatConverter.Translate(indexBuffer.IndexElementSize), 0);
 			}
 			else
 			{
@@ -300,21 +270,22 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			if (vertexBuffers == null)
-			{
 				throw new ArgumentNullException("vertexBuffers");
-			}
 
 			this.currentVertexBuffer = vertexBuffers[0].VertexBuffer;   //TODO: hmmmmm, not nice :-)
 
-			Dx11.VertexBufferBinding[] nativeVertexBufferBindings = new Dx11.VertexBufferBinding[vertexBuffers.Length];
+			var nativeVertexBufferBindings = new Dx11.VertexBufferBinding[vertexBuffers.Length];
 			for (int i = 0; i < vertexBuffers.Length; i++)
 			{
-				ANX.Framework.Graphics.VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
-				VertexBuffer_Metro nativeVertexBuffer = anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_Metro;
+				VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
+				VertexBuffer_Metro nativeVertexBuffer =
+                    anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_Metro;
 
 				if (nativeVertexBuffer != null)
 				{
-					nativeVertexBufferBindings[i] = new Dx11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
+					nativeVertexBufferBindings[i] = new Dx11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer,
+                        anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride,
+                        anxVertexBufferBinding.VertexOffset);
 				}
 				else
 				{
@@ -333,9 +304,26 @@ namespace ANX.RenderSystem.Windows.Metro
 				viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
 		}
 		#endregion
-		
-		#region CreateInputElementFromVertexElement
-		private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
+
+        #region SetInputLayout
+        private void SetInputLayout(VertexDeclaration vertexDeclaration, EffectPass_Metro nativePass)
+        {
+            VertexElement[] vertexElements = vertexDeclaration.GetVertexElements();
+            int elementCount = vertexElements.Length;
+            var inputElements = new Dx11.InputElement[elementCount];
+
+            for (int i = 0; i < elementCount; i++)
+            {
+                inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
+            }
+
+            NativeDevice.NativeContext.InputAssembler.InputLayout =
+                nativePass.BuildLayout(NativeDevice.NativeDevice, inputElements);
+        }
+        #endregion
+
+        #region CreateInputElementFromVertexElement
+        private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
 		{
 			string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
 

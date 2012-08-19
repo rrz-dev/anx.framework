@@ -1,8 +1,7 @@
 #region Using Statements
 using System;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
@@ -47,16 +46,16 @@ namespace ANX.Framework.Graphics
 
         #endregion // Private Members
 
+        #region Constructor
         public SpriteBatch(GraphicsDevice graphicsDevice)
         {
             if (graphicsDevice == null)
-            {
                 throw new ArgumentNullException("graphicsDevice");
-            }
 
             base.GraphicsDevice = graphicsDevice;
 
-            this.spriteBatchEffect = new Effect(graphicsDevice, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch));
+            var renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+            this.spriteBatchEffect = new Effect(graphicsDevice, renderSystemCreator.GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch));
 
             this.spriteInfos = new SpriteInfo[InitialBatchSize];
 
@@ -64,6 +63,7 @@ namespace ANX.Framework.Graphics
 
             this.InitializeVertexBuffer();
         }
+        #endregion
 
         #region Begin-Method
         public void Begin()
@@ -241,6 +241,7 @@ namespace ANX.Framework.Graphics
 
         #endregion // DrawString-Method
 
+        #region End
         public void End()
         {
             if (hasBegun == false)
@@ -284,10 +285,11 @@ namespace ANX.Framework.Graphics
 
             Flush();
         }
+        #endregion
 
         private void Draw(Texture2D texture, Vector2 topLeft, Vector2 destinationSize, Rectangle? sourceRectangle, Color tint, Vector2 origin, float layerDepth, float rotation, Vector2 scale, SpriteEffects effects)
         {
-            if (!hasBegun)
+            if (hasBegun == false)
             {
                 throw new InvalidOperationException("Begin() must be called before Draw()");
             }
@@ -385,35 +387,25 @@ namespace ANX.Framework.Graphics
             {
                 SpriteInfo currentSprite = this.spriteInfos[i];
 
-                this.vertices[vertexPos + 0] = new VertexPositionColorTexture() 
-                { 
-                    Position = new Vector3(currentSprite.Corners[0], currentSprite.layerDepth), 
-                    Color = currentSprite.Tint, 
-                    TextureCoordinate = currentSprite.topLeftUV 
-                };
+                vertices[vertexPos].Position = new Vector3(currentSprite.Corners[0], currentSprite.layerDepth);
+                vertices[vertexPos].Color = currentSprite.Tint;
+                vertices[vertexPos].TextureCoordinate = currentSprite.topLeftUV;
+                vertexPos++;
 
-                this.vertices[vertexPos + 1] = new VertexPositionColorTexture() 
-                {
-                    Position = new Vector3(currentSprite.Corners[1], currentSprite.layerDepth), 
-                    Color = currentSprite.Tint, 
-                    TextureCoordinate = new Vector2(currentSprite.bottomRightUV.X, currentSprite.topLeftUV.Y) 
-                };
+                vertices[vertexPos].Position = new Vector3(currentSprite.Corners[1], currentSprite.layerDepth);
+                vertices[vertexPos].Color = currentSprite.Tint;
+                vertices[vertexPos].TextureCoordinate = new Vector2(currentSprite.bottomRightUV.X, currentSprite.topLeftUV.Y);
+                vertexPos++;
 
-                this.vertices[vertexPos + 2] = new VertexPositionColorTexture() 
-                {
-                    Position = new Vector3(currentSprite.Corners[2], currentSprite.layerDepth), 
-                    Color = currentSprite.Tint, 
-                    TextureCoordinate = currentSprite.bottomRightUV
-                };
+                vertices[vertexPos].Position = new Vector3(currentSprite.Corners[2], currentSprite.layerDepth);
+                vertices[vertexPos].Color = currentSprite.Tint;
+                vertices[vertexPos].TextureCoordinate = currentSprite.bottomRightUV;
+                vertexPos++;
 
-                this.vertices[vertexPos + 3] = new VertexPositionColorTexture() 
-                {
-                    Position = new Vector3(currentSprite.Corners[3], currentSprite.layerDepth), 
-                    Color = currentSprite.Tint, 
-                    TextureCoordinate = new Vector2(currentSprite.topLeftUV.X, currentSprite.bottomRightUV.Y) 
-                };
-
-                vertexPos += 4;
+                vertices[vertexPos].Position = new Vector3(currentSprite.Corners[3], currentSprite.layerDepth);
+                vertices[vertexPos].Color = currentSprite.Tint;
+                vertices[vertexPos].TextureCoordinate = new Vector2(currentSprite.topLeftUV.X, currentSprite.bottomRightUV.Y);
+                vertexPos++;
             }
 
             this.vertexBuffer.SetData<VertexPositionColorTexture>(this.vertices, 0, vertexCount);
@@ -466,10 +458,10 @@ namespace ANX.Framework.Graphics
                 baseIndex = i * 4;
                 baseArrayIndex = baseIndex + i + i;
 
-                indices[baseArrayIndex + 0] = (short)(baseIndex + 0);
+                indices[baseArrayIndex] = (short)baseIndex;
                 indices[baseArrayIndex + 1] = (short)(baseIndex + 1);
                 indices[baseArrayIndex + 2] = (short)(baseIndex + 2);
-                indices[baseArrayIndex + 3] = (short)(baseIndex + 0);
+                indices[baseArrayIndex + 3] = (short)baseIndex;
                 indices[baseArrayIndex + 4] = (short)(baseIndex + 2);
                 indices[baseArrayIndex + 5] = (short)(baseIndex + 3);
             }

@@ -1,12 +1,8 @@
 #region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.InputDevices;
 using ANX.Framework.NonXNA;
 using SharpDX.DirectInput;
-using DXKeyboard=SharpDX.DirectInput.Keyboard;
+using DXKeyboard = SharpDX.DirectInput.Keyboard;
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the

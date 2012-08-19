@@ -40,8 +40,8 @@ namespace ANX.RenderSystem.Windows.Metro
 				CpuAccessFlags = Dx11.CpuAccessFlags.None,
 				OptionFlags = Dx11.ResourceOptionFlags.None,
 			};
-			this.nativeTexture = new Dx11.Texture2D(device, description);
-			this.nativeShaderResourceView = new Dx11.ShaderResourceView(device, this.nativeTexture);
+			this.NativeTexture = new Dx11.Texture2D(device, description);
+			this.NativeShaderResourceView = new Dx11.ShaderResourceView(device, this.NativeTexture);
 
 			// description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
 			// more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
