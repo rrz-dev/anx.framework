@@ -116,7 +116,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			NativeDevice.Present(this.vSyncEnabled ? 1 : 0);
 		}
 
-		#endregion // Present
+		#endregion
 
         #region DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
@@ -125,7 +125,6 @@ namespace ANX.RenderSystem.Windows.Metro
             SetInputLayout();
             ApplyPrimitiveType(primitiveType);
             NativeDevice.SetDefaultTargets();
-            //d3dContext.PixelShader.SetSampler(0, sampler);
 
             int indexCount = CalculateVertexCount(primitiveType, primitiveCount);
             for (int passIndex = 0; passIndex < currentTechnique.PassCount; passIndex++)
@@ -142,7 +141,6 @@ namespace ANX.RenderSystem.Windows.Metro
             SetInputLayout();
             ApplyPrimitiveType(primitiveType);
             NativeDevice.SetDefaultTargets();
-            //d3dContext.PixelShader.SetSampler(0, sampler);
 
             for (int passIndex = 0; passIndex < currentTechnique.PassCount; passIndex++)
             {
@@ -317,27 +315,10 @@ namespace ANX.RenderSystem.Windows.Metro
         private Dx11.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
 		{
 			string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
+			Format elementFormat = FormatConverter.Translate(vertexElement.VertexElementFormat);
 
-			Format elementFormat;
-			switch (vertexElement.VertexElementFormat)
-			{
-				case VertexElementFormat.Vector2:
-					elementFormat = Format.R32G32_Float;
-					break;
-				case VertexElementFormat.Vector3:
-					elementFormat = Format.R32G32B32_Float;
-					break;
-				case VertexElementFormat.Vector4:
-					elementFormat = Format.R32G32B32A32_Float;
-					break;
-				case VertexElementFormat.Color:
-					elementFormat = Format.R8G8B8A8_UNorm;
-					break;
-				default:
-					throw new Exception("can't map '" + vertexElement.VertexElementFormat.ToString() + "' to DXGI.Format in DirectX10 RenderSystem CreateInputElementFromVertexElement");
-			}
-
-			return new Dx11.InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
+			return new Dx11.InputElement(elementName, vertexElement.UsageIndex, elementFormat,
+				vertexElement.Offset, 0);
 		}
 		#endregion
 

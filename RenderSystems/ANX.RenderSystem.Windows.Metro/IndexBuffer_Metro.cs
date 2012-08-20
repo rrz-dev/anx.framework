@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
 using Dx11 = SharpDX.Direct3D11;
@@ -14,18 +12,14 @@ namespace ANX.RenderSystem.Windows.Metro
 	public class IndexBuffer_Metro : INativeIndexBuffer, IDisposable
 	{
 		#region Private
-		private Dx11.Buffer buffer;
-		private IndexElementSize size;
 		private int indexSizeInBytes;
 		#endregion
 
 		#region Public
 		public Dx11.Buffer NativeBuffer
 		{
-			get
-			{
-				return this.buffer;
-			}
+			get;
+			private set;
 		}
 		#endregion
 
@@ -33,13 +27,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		public IndexBuffer_Metro(GraphicsDevice graphics, IndexElementSize size,
 			int indexCount, BufferUsage usage)
 		{
-			this.size = size;
 			indexSizeInBytes = size == IndexElementSize.SixteenBits ? 2 : 4;
-
-			//TODO: translate and use usage
-
-			GraphicsDeviceWindowsMetro gdMetro =
-				graphics.NativeDevice as GraphicsDeviceWindowsMetro;
+			
+			GraphicsDeviceWindowsMetro gdMetro = graphics.NativeDevice as GraphicsDeviceWindowsMetro;
 			var device = gdMetro.NativeDevice.NativeDevice;
 
 			InitializeBuffer(device, indexCount, usage);
@@ -48,8 +38,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		internal IndexBuffer_Metro(Dx11.Device device, IndexElementSize size,
 			int indexCount, BufferUsage usage)
 		{
-			this.size = size;
-
+			indexSizeInBytes = size == IndexElementSize.SixteenBits ? 2 : 4;
 			InitializeBuffer(device, indexCount, usage);
 		}
 		#endregion
@@ -60,14 +49,14 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			var description = new Dx11.BufferDescription()
 			{
-				Usage = Dx11.ResourceUsage.Dynamic,
+				Usage = FormatConverter.Translate(usage),
 				SizeInBytes = indexSizeInBytes * indexCount,
 				BindFlags = Dx11.BindFlags.IndexBuffer,
 				CpuAccessFlags = Dx11.CpuAccessFlags.Write,
 				OptionFlags = Dx11.ResourceOptionFlags.None
 			};
 
-			this.buffer = new Dx11.Buffer(device, description);
+			NativeBuffer = new Dx11.Buffer(device, description);
 		}
 		#endregion
 
@@ -77,49 +66,36 @@ namespace ANX.RenderSystem.Windows.Metro
 			SetData<T>(graphicsDevice, data, 0, data.Length);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
-			T[] data, int startIndex, int elementCount) where T : struct
-		{
-			//TODO: check offsetInBytes parameter for bounds etc.
-
-			GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-			IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
-
-			int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
-
-			unsafe
-			{
-				using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
-				{
-					if (offsetInBytes > 0)
-					{
-						vData.Seek(offsetInBytes / indexSizeInBytes, SeekOrigin.Begin);
-					}
-
-					SharpDX.DataStream stream;
-					SharpDX.DataBox box = NativeDxDevice.Current.MapSubresource(buffer, out stream);
-					if (startIndex > 0 || elementCount < data.Length)
-					{
-						for (int i = startIndex; i < startIndex + elementCount; i++)
-						{
-							vData.Write<T>(data[i]);
-						}
-					}
-					else
-					{
-						vData.CopyTo(stream);
-					}
-					NativeDxDevice.Current.UnmapSubresource(buffer, 0);
-				}
-			}
-
-			pinnedArray.Free();
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
-			int startIndex, int elementCount) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex,
+			int elementCount) where T : struct
 		{
 			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data,
+			int startIndex, int elementCount) where T : struct
+		{
+			GraphicsDeviceWindowsMetro gdMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
+			var device = gdMetro.NativeDevice;
+
+			//TODO: check offsetInBytes parameter for bounds etc.
+
+			SharpDX.DataStream stream = device.MapSubresource(NativeBuffer);
+			if (startIndex > 0 || elementCount < data.Length)
+			{
+				for (int i = startIndex; i < startIndex + elementCount; i++)
+				{
+					stream.Write<T>(data[i]);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < data.Length; i++)
+				{
+					stream.Write<T>(data[i]);
+				}
+			}
+			device.UnmapSubresource(NativeBuffer, 0);
 		}
 		#endregion
 		
@@ -145,10 +121,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Dispose
 		public void Dispose()
 		{
-			if (buffer != null)
+			if (NativeBuffer != null)
 			{
-				buffer.Dispose();
-				buffer = null;
+				NativeBuffer.Dispose();
+				NativeBuffer = null;
 			}
 		}
 		#endregion

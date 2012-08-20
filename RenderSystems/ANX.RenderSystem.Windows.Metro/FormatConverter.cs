@@ -10,10 +10,12 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
-	internal class FormatConverter
+	internal static class FormatConverter
 	{
-		#region FormatSize
-		public static int FormatSize(SurfaceFormat format)
+		private const string InvalidEnumText = "Can't translate ";
+
+		#region GetSurfaceFormatSize
+		public static int GetSurfaceFormatSize(SurfaceFormat format)
 		{
 			switch (format)
 			{
@@ -36,13 +38,13 @@ namespace ANX.RenderSystem.Windows.Metro
 				case SurfaceFormat.Dxt5:
 				case SurfaceFormat.Alpha8:
 					return 1;
-				default:
-					throw new ArgumentException("Invalid format");
 			}
+
+			throw new ArgumentException("Invalid SurfaceFormat: " + format);
 		}
 		#endregion
 
-		#region Translate
+		#region Translate (SurfaceFormat)
 		public static SharpDX.DXGI.Format Translate(SurfaceFormat surfaceFormat)
 		{
 			switch (surfaceFormat)
@@ -55,11 +57,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return SharpDX.DXGI.Format.BC3_UNorm;
 			}
 
-			throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
+			throw new ArgumentException(InvalidEnumText + "SurfaceFormat: " + surfaceFormat);
 		}
 		#endregion
 
-		#region Translate
+		#region Translate (DepthFormat)
 		public static Format Translate(DepthFormat depthFormat)
 		{
 			switch (depthFormat)
@@ -74,28 +76,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Format.Unknown;
 			}
 
-			throw new Exception("can't translate DepthFormat: " + depthFormat.ToString());
+			throw new ArgumentException(InvalidEnumText + "DepthFormat: " + depthFormat);
 		}
 		#endregion
 
-		#region Translate
-		public static SurfaceFormat Translate(SharpDX.DXGI.Format format)
-		{
-			switch (format)
-			{
-				case SharpDX.DXGI.Format.R8G8B8A8_UNorm:
-					return SurfaceFormat.Color;
-				case SharpDX.DXGI.Format.BC2_UNorm:
-					return SurfaceFormat.Dxt3;
-				case SharpDX.DXGI.Format.BC3_UNorm:
-					return SurfaceFormat.Dxt5;
-			}
-
-			throw new Exception("can't translate Format: " + format.ToString());
-		}
-		#endregion
-
-		#region Translate
+		#region Translate (TextureFilter)
 		public static Dx11.Filter Translate(TextureFilter filter)
 		{
 			switch (filter)
@@ -120,11 +105,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.Filter.MinMagPointMipLinear;
 			}
 
-			throw new NotImplementedException();
+			throw new ArgumentException(InvalidEnumText + "TextureFilter: " + filter);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (TextureAddressMode)
 		public static Dx11.TextureAddressMode Translate(TextureAddressMode addressMode)
 		{
 			switch (addressMode)
@@ -137,11 +122,26 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.TextureAddressMode.Wrap;
 			}
 
-			return Dx11.TextureAddressMode.Clamp;
+			throw new ArgumentException(InvalidEnumText + "TextureAddressMode: " + addressMode);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (BufferUsage)
+		public static Dx11.ResourceUsage Translate(BufferUsage usage)
+		{
+			switch (usage)
+			{
+				case BufferUsage.None:
+					return Dx11.ResourceUsage.Default;
+				case BufferUsage.WriteOnly:
+					return Dx11.ResourceUsage.Dynamic;
+			}
+
+			throw new ArgumentException(InvalidEnumText + "BufferUsage: " + usage);
+		}
+		#endregion
+
+		#region Translate (PrimitiveType)
 		public static PrimitiveTopology Translate(PrimitiveType primitiveType)
 		{
 			switch (primitiveType)
@@ -154,13 +154,13 @@ namespace ANX.RenderSystem.Windows.Metro
 					return PrimitiveTopology.TriangleList;
 				case PrimitiveType.TriangleStrip:
 					return PrimitiveTopology.TriangleStrip;
-				default:
-					throw new InvalidOperationException("unknown PrimitiveType: " + primitiveType.ToString());
 			}
+
+			throw new ArgumentException(InvalidEnumText + "PrimitiveType: " + primitiveType);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (IndexElementSize)
 		public static SharpDX.DXGI.Format Translate(IndexElementSize indexElementSize)
 		{
 			switch (indexElementSize)
@@ -169,13 +169,13 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Format.R16_UInt;
 				case IndexElementSize.ThirtyTwoBits:
 					return Format.R32_UInt;
-				default:
-					throw new InvalidOperationException("unknown IndexElementSize: " + indexElementSize.ToString());
 			}
+
+			throw new ArgumentException(InvalidEnumText + "IndexElementSize: " + indexElementSize);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (VertexElementUsage) (TODO)
 		public static string Translate(VertexElementUsage usage)
 		{
 			//TODO: map the other Usages
@@ -183,14 +183,12 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				return "TEXCOORD";
 			}
-			else
-			{
-				return usage.ToString().ToUpperInvariant();
-			}
+
+			return usage.ToString().ToUpperInvariant();
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (BlendFunction)
 		public static Dx11.BlendOperation Translate(BlendFunction blendFunction)
 		{
 			switch (blendFunction)
@@ -207,11 +205,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.BlendOperation.Subtract;
 			}
 
-			throw new NotImplementedException();
+			throw new ArgumentException(InvalidEnumText + "BlendFunction: " + blendFunction);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (Blend)
 		public static Dx11.BlendOption Translate(Blend blend)
 		{
 			switch (blend)
@@ -244,45 +242,35 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.BlendOption.Zero;
 			}
 
-			throw new NotImplementedException();
+			throw new ArgumentException(InvalidEnumText + "Blend: " + blend);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (ColorWriteChannels)
 		public static Dx11.ColorWriteMaskFlags Translate(ColorWriteChannels colorWriteChannels)
 		{
 			Dx11.ColorWriteMaskFlags mask = 0;
 
 			if ((colorWriteChannels & ColorWriteChannels.All) > 0)
-			{
 				mask |= Dx11.ColorWriteMaskFlags.All;
-			}
 
 			if ((colorWriteChannels & ColorWriteChannels.Alpha) > 0)
-			{
 				mask |= Dx11.ColorWriteMaskFlags.Alpha;
-			}
 
 			if ((colorWriteChannels & ColorWriteChannels.Blue) > 0)
-			{
 				mask |= Dx11.ColorWriteMaskFlags.Blue;
-			}
 
 			if ((colorWriteChannels & ColorWriteChannels.Green) > 0)
-			{
 				mask |= Dx11.ColorWriteMaskFlags.Green;
-			}
 
 			if ((colorWriteChannels & ColorWriteChannels.Red) > 0)
-			{
 				mask |= Dx11.ColorWriteMaskFlags.Red;
-			}
 
 			return mask;
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (StencilOperation)
 		public static Dx11.StencilOperation Translate(StencilOperation stencilOperation)
 		{
 			switch (stencilOperation)
@@ -305,11 +293,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.StencilOperation.Zero;
 			}
 
-			throw new NotImplementedException("unknown StencilOperation");
+			throw new ArgumentException(InvalidEnumText + "StencilOperation: " + stencilOperation);
 		}
 		#endregion
-		
-		#region Translate
+
+		#region Translate (CompareFunction)
 		public static Dx11.Comparison Translate(CompareFunction compareFunction)
 		{
 			switch (compareFunction)
@@ -332,39 +320,58 @@ namespace ANX.RenderSystem.Windows.Metro
 					return Dx11.Comparison.NotEqual;
 			}
 
-			throw new NotImplementedException("unknown CompareFunction");
-		}
-		#endregion
-		
-		#region Translate
-		public static Dx11.CullMode Translate(CullMode cullMode)
-		{
-			if (cullMode == CullMode.CullClockwiseFace)
-			{
-				return Dx11.CullMode.Front;
-			}
-			else if (cullMode == CullMode.CullCounterClockwiseFace)
-			{
-				return Dx11.CullMode.Back;
-			}
-			else
-			{
-				return Dx11.CullMode.None;
-			}
+			throw new ArgumentException(InvalidEnumText + "CompareFunction: " + compareFunction);
 		}
 		#endregion
 
-		#region Translate
+		#region Translate (CullMode)
+		public static Dx11.CullMode Translate(CullMode cullMode)
+		{
+			switch (cullMode)
+			{
+				case CullMode.CullClockwiseFace:
+					return Dx11.CullMode.Front;
+				case CullMode.CullCounterClockwiseFace:
+					return Dx11.CullMode.Back;
+				case CullMode.None:
+					return Dx11.CullMode.None;
+			}
+
+			throw new ArgumentException(InvalidEnumText + "CullMode: " + cullMode);
+		}
+		#endregion
+
+		#region Translate (FillMode)
 		public static Dx11.FillMode Translate(FillMode fillMode)
 		{
-			if (fillMode == FillMode.WireFrame)
+			switch (fillMode)
 			{
-				return Dx11.FillMode.Wireframe;
+				case FillMode.WireFrame:
+					return Dx11.FillMode.Wireframe;
+				case FillMode.Solid:
+					return Dx11.FillMode.Solid;
 			}
-			else
+
+			throw new ArgumentException(InvalidEnumText + "FillMode: " + fillMode);
+		}
+		#endregion
+
+		#region Translate (VertexElementFormat)
+		public static Format Translate(VertexElementFormat elementFormat)
+		{
+			switch (elementFormat)
 			{
-				return Dx11.FillMode.Solid;
+				case VertexElementFormat.Vector2:
+					return Format.R32G32_Float;
+				case VertexElementFormat.Vector3:
+					return Format.R32G32B32_Float;
+				case VertexElementFormat.Vector4:
+					return Format.R32G32B32A32_Float;
+				case VertexElementFormat.Color:
+					return Format.R8G8B8A8_UNorm;
 			}
+
+			throw new ArgumentException(InvalidEnumText + "VertexElementFormat: " + elementFormat);
 		}
 		#endregion
 	}

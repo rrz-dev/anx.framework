@@ -22,8 +22,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-				SetValueIfDifferentAndMarkDirty(
-					ref description.AddressU, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressU, ref mode);
 			}
 		}
 
@@ -32,8 +31,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-				SetValueIfDifferentAndMarkDirty(
-					ref description.AddressV, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressV, ref mode);
 			}
 		}
 
@@ -42,8 +40,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
-				SetValueIfDifferentAndMarkDirty(
-					ref description.AddressW, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressW, ref mode);
 			}
 		}
 
@@ -52,8 +49,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			set
 			{
 				Dx11.Filter filter = FormatConverter.Translate(value);
-				SetValueIfDifferentAndMarkDirty(
-					ref description.Filter, ref filter);
+				SetValueIfDifferentAndMarkDirty(ref description.Filter, ref filter);
 			}
 		}
 
@@ -61,8 +57,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				SetValueIfDifferentAndMarkDirty(
-					ref description.MaximumAnisotropy, ref value);
+				SetValueIfDifferentAndMarkDirty(ref description.MaximumAnisotropy, ref value);
 			}
 		}
 
@@ -82,8 +77,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			set
 			{
-				SetValueIfDifferentAndMarkDirty(
-					ref description.MipLodBias, ref value);
+				SetValueIfDifferentAndMarkDirty(ref description.MipLodBias, ref value);
 			}
 		}
 		#endregion
@@ -101,9 +95,9 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			UpdateNativeSamplerState();
 			bound = true;
-			
+
 			NativeDxDevice.Current.NativeContext.PixelShader.SetSampler(
-                index, this.nativeSamplerState);
+				index, this.nativeSamplerState);
 		}
 		#endregion
 
@@ -123,14 +117,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			if (isDirty == true || nativeSamplerState == null)
 			{
-				if (nativeSamplerState != null)
-				{
-					nativeSamplerState.Dispose();
-					nativeSamplerState = null;
-				}
+				Dispose();
 
-                // TODO: otherwise crashes for now
-                description.MaximumLod = float.MaxValue;
+				// TODO: otherwise crashes for now
+				description.MaximumLod = float.MaxValue;
 
 				nativeSamplerState = new Dx11.SamplerState(
 					NativeDxDevice.Current.NativeDevice, ref description);

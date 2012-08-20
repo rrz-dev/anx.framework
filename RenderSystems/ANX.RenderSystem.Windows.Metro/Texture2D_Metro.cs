@@ -83,7 +83,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			// description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
 			// more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
 
-			this.formatSize = FormatConverter.FormatSize(surfaceFormat);
+			this.formatSize = FormatConverter.GetSurfaceFormatSize(surfaceFormat);
 		}
 		#endregion
 

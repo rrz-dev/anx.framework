@@ -17,6 +17,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		private SwapChain1 swapChain;
 		private NativeDxDevice graphicsDevice;
 		private PresentationParameters presentationParameters;
+		private PresentParameters presentParameters;
 		#endregion
 
 		#region Constructor
@@ -25,6 +26,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			graphicsDevice = setGraphicsDevice;
 			this.presentationParameters = presentationParameters;
+
+			presentParameters = new PresentParameters();
 		}
 		#endregion
 
@@ -71,7 +74,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				var comWindow = new ComObject(gameWindow.Form);
 
 				swapChain = dxgiFactory2.CreateSwapChainForCoreWindow(graphicsDevice.NativeDevice,
-				    comWindow, ref desc, null);
+					comWindow, ref desc, null);
 				dxgiDevice2.MaximumFrameLatency = 1;
 			}
 		}
@@ -98,12 +101,10 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Present
 		public void Present(int interval)
 		{
-			var parameters = new PresentParameters();
 			if (swapChain == null)
-			{
 				ResizeOrCreate(presentationParameters);
-			}
-			swapChain.Present(interval, PresentFlags.None, parameters);
+
+			swapChain.Present(interval, PresentFlags.None, presentParameters);
 		}
 		#endregion
 

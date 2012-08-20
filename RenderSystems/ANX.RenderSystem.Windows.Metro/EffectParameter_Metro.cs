@@ -55,7 +55,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		public void SetValue(Matrix value)
 		{
 			value = Matrix.Transpose(value);
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 
@@ -74,7 +74,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetValue (Quaternion)
 		public void SetValue(Quaternion value)
 		{
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 
@@ -103,7 +103,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetValue (Vector2)
 		public void SetValue(Vector2 value)
 		{
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 
@@ -117,7 +117,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetValue (Vector3)
 		public void SetValue(Vector3 value)
 		{
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 
@@ -131,7 +131,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetValue (Vector4)
 		public void SetValue(Vector4 value)
 		{
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 
@@ -142,14 +142,26 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		#region SetValue (Texture) (TODO)
+		#region SetValue (Texture)
 		public void SetValue(Texture value)
 		{
 			Texture2D_Metro tex = value.NativeTexture as Texture2D_Metro;
 			var context = NativeDxDevice.Current.NativeContext;
 
-			// TODO: slot
-			context.PixelShader.SetShaderResource(0, tex.NativeShaderResourceView);
+			int textureIndex = -1;
+			foreach (var parameter in parentEffect.shader.Parameters)
+			{
+				if (parameter.IsTexture)
+				{
+					textureIndex++;
+
+					if (parameter.Name == Name)
+					{
+						context.PixelShader.SetShaderResource(textureIndex, tex.NativeShaderResourceView);
+						break;
+					}
+				}
+			}
 		}
 		#endregion
 
@@ -159,7 +171,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			if (transpose == false)
 				value = Matrix.Transpose(value);
 
-			parentEffect.paramBuffer.SetParameter(Name, value);
+			parentEffect.paramBuffer.SetParameter(Name, ref value);
 		}
 		#endregion
 

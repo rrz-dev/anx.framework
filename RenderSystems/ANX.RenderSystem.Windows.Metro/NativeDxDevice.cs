@@ -1,9 +1,9 @@
 ﻿using System;
+using ANX.Framework.Graphics;
 using SharpDX;
 using SharpDX.Direct3D;
 using Windows.Foundation;
 using Dx11 = SharpDX.Direct3D11;
-using PresentationParameters = ANX.Framework.Graphics.PresentationParameters;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -133,11 +133,13 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-        public void SetDefaultTargets()
+		#region SetDefaultTargets
+		public void SetDefaultTargets()
         {
             nativeContext.Rasterizer.SetViewports(viewport);
             nativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
         }
+		#endregion
 		
 		#region Clear
 		public void Clear(Color4 color)
@@ -167,11 +169,12 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region MapSubresource
-		public SharpDX.DataBox MapSubresource(Dx11.Buffer resource,
-			out SharpDX.DataStream stream)
+		public SharpDX.DataStream MapSubresource(Dx11.Buffer resource)
 		{
-			return nativeContext.MapSubresource(resource, Dx11.MapMode.WriteDiscard,
-				Dx11.MapFlags.None, out stream);
+			SharpDX.DataStream result;
+			nativeContext.MapSubresource(resource, Dx11.MapMode.WriteDiscard,
+				Dx11.MapFlags.None, out result);
+			return result;
 		}
 
 		public SharpDX.DataBox MapSubresource(Dx11.Resource resource, int subresource)

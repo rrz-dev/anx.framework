@@ -40,18 +40,27 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 
             parameterOffsets = offsets.ToArray();
             setData = new byte[dataSize];
+
+            nativeBuffer = new Dx11.Buffer(graphicsDevice.NativeDevice, dataSize,
+                Dx11.ResourceUsage.Default, Dx11.BindFlags.ConstantBuffer,
+                Dx11.CpuAccessFlags.None, Dx11.ResourceOptionFlags.None, 0);
 		}
 		#endregion
 
 		#region SetParameter (T)
-		public void SetParameter<T>(string parameterName, T value) where T : struct
+		public void SetParameter<T>(string parameterName, ref T value) where T : struct
 		{
 			int indexOfParameter = FindParameterIndex(parameterName);
 			if (indexOfParameter == -1)
 				return;
 
-            byte[] dataToAdd = StructureToBytes(value);
-            Array.Copy(dataToAdd, 0, setData, parameterOffsets[indexOfParameter], dataToAdd.Length);
+            int size = Marshal.SizeOf(typeof(T));
+            byte[] dataToAdd = new byte[size];
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+
+            Marshal.StructureToPtr(value, ptr, true);
+            Marshal.Copy(ptr, setData, parameterOffsets[indexOfParameter], size);
+            Marshal.FreeHGlobal(ptr);
 		}
         #endregion
 
@@ -61,9 +70,7 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
             int indexOfParameter = FindParameterIndex(parameterName);
             if (indexOfParameter == -1)
                 return;
-
-            value = FillArrayIfNeeded(value, indexOfParameter);
-
+            
             int sizePerItem = Marshal.SizeOf(typeof(T));
             int offset = 0;
             IntPtr ptr = Marshal.AllocHGlobal(sizePerItem);
@@ -83,9 +90,7 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			int indexOfParameter = FindParameterIndex(parameterName);
 			if (indexOfParameter == -1)
 				return;
-
-			value = FillArrayIfNeeded(value, indexOfParameter);
-			
+            			
             byte[] result = UnionArraySerializer.Unify(value);
             Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
 		}
@@ -97,9 +102,7 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			int indexOfParameter = FindParameterIndex(parameterName);
 			if (indexOfParameter == -1)
 				return;
-
-			value = FillArrayIfNeeded(value, indexOfParameter);
-
+            
             byte[] result = UnionArraySerializer.Unify(value);
             Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
 		}
@@ -116,21 +119,6 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 		}
 		#endregion
 
-		#region StructureToBytes
-		private byte[] StructureToBytes<T>(T value) where T : struct
-		{
-			int size = Marshal.SizeOf(value);
-			byte[] result = new byte[size];
-			IntPtr ptr = Marshal.AllocHGlobal(size);
-
-			Marshal.StructureToPtr(value, ptr, true);
-			Marshal.Copy(ptr, result, 0, size);
-			Marshal.FreeHGlobal(ptr);
-
-			return result;
-		}
-		#endregion
-
 		#region FindParameterIndex
 		private int FindParameterIndex(string parameterName)
 		{
@@ -138,9 +126,7 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			foreach (var parameter in parentEffect.shader.Parameters)
 			{
 				if (parameter.Name == parameterName)
-				{
 					return searchIndex;
-				}
 
 				searchIndex++;
 			}
@@ -148,50 +134,23 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
 			return -1;
 		}
 		#endregion
-
-		#region FillArrayIfNeeded
-		private T[] FillArrayIfNeeded<T>(T[] original, int parameterIndex) where T : struct
-        {
-            int paramArraySize = parentEffect.shader.Parameters[parameterIndex].ArraySize;
-            if (paramArraySize > 0)
-			{
-                T[] filledArray = new T[paramArraySize];
-				Array.Copy(original, filledArray, original.Length);
-				return filledArray;
-			}
-
-			return original;
-		}
-		#endregion
-
+        
 		#region Apply
 		public void Apply()
 		{
-			var data = CreateBufferData();
+            graphicsDevice.NativeContext.VertexShader.SetConstantBuffer(0, nativeBuffer);
 
-			nativeBuffer = new Dx11.Buffer(graphicsDevice.NativeDevice, dataSize,
-					Dx11.ResourceUsage.Default, Dx11.BindFlags.ConstantBuffer,
-					Dx11.CpuAccessFlags.None, Dx11.ResourceOptionFlags.None, 0);
-			graphicsDevice.NativeContext.VertexShader.SetConstantBuffer(0, nativeBuffer);
-			graphicsDevice.NativeContext.UpdateSubresource(data, nativeBuffer);
-		}
-		#endregion
-
-		#region CreateBufferData
-		private SharpDX.DataBox CreateBufferData()
-		{
-			IntPtr dataPtr;
-			unsafe
-			{
-				fixed (byte* ptr = &setData[0])
-				{
-					dataPtr = (IntPtr)ptr;
-				}
-			}
+            IntPtr dataPtr;
+            unsafe
+            {
+                fixed (byte* ptr = &setData[0])
+                    dataPtr = (IntPtr)ptr;
+            }
 
             // Reset really needed? evaluate
             setData = new byte[dataSize];
-			return new SharpDX.DataBox(dataPtr);
+            var dataBox = new SharpDX.DataBox(dataPtr);
+            graphicsDevice.NativeContext.UpdateSubresource(dataBox, nativeBuffer);
 		}
 		#endregion
 
