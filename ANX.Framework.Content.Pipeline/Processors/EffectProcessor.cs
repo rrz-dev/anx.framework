@@ -30,7 +30,14 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
         public override CompiledEffectContent Process(EffectContent input, ContentProcessorContext context)
         {
-            throw new NotImplementedException();
+            byte[] effectCompiledCode = new byte[1];    //TODO: compile effect!!!
+
+            return new CompiledEffectContent(effectCompiledCode)
+            {
+                Identity = input.Identity,
+                Name = input.Name,
+                OpaqueData = input.OpaqueData
+            };
         }
     }
 }

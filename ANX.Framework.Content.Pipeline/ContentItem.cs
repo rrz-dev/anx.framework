@@ -34,7 +34,7 @@ namespace ANX.Framework.Content.Pipeline
         public OpaqueDataDictionary OpaqueData
         {
             get;
-            private set;
+            set;
         }
 
 

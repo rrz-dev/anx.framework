@@ -14,26 +14,27 @@ namespace ANX.Framework.Content.Pipeline
 {
     public abstract class ContentProcessor<TInput, TOutput> : IContentProcessor
     {
-        protected ContentProcessor()
-        {
-            throw new NotImplementedException();
-        }
-
         public abstract TOutput Process(TInput input, ContentProcessorContext context);
 
         Type IContentProcessor.InputType
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return typeof(TInput); 
+            }
         }
 
         Type IContentProcessor.OutputType
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return typeof(TOutput); 
+            }
         }
 
         object IContentProcessor.Process(object input, ContentProcessorContext context)
         {
-            throw new NotImplementedException();
+            return Process((TInput)input, context);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace ContentBuilder
                     BuildItem buildItem = new BuildItem();
                     buildItem.BuildRequest = new BuildRequest();
                     buildItem.BuildRequest.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
+                    //TODO: set configured processor name
                     buildItem.BuildRequest.SourceFilename = arg;
                     buildItem.BuildRequest.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
 

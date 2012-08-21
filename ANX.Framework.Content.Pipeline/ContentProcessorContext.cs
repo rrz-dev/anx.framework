@@ -17,7 +17,6 @@ namespace ANX.Framework.Content.Pipeline
     {
         public ContentProcessorContext()
         {
-            throw new NotImplementedException();
         }
 
         public abstract string BuildConfiguration { get; }

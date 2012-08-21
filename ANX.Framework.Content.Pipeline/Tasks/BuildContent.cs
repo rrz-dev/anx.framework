@@ -15,6 +15,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
     public class BuildContent
     {
         private ImporterManager importerManager;
+        private ProcessorManager processorManager;
 
         public ImporterManager ImporterManager
         {
@@ -24,7 +25,21 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 {
                     this.importerManager = new ImporterManager();
                 }
+
                 return this.importerManager;
+            }
+        }
+
+        public ProcessorManager ProcessorManager
+        {
+            get
+            {
+                if (this.processorManager == null)
+                {
+                    this.processorManager = new ProcessorManager();
+                }
+
+                return this.processorManager;
             }
         }
 
@@ -33,6 +48,13 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             foreach (BuildItem buildItem in itemsToBuild)
             {
                 var importedObject = ImportAsset(buildItem);
+
+                if (String.IsNullOrEmpty(buildItem.BuildRequest.ProcessorName))
+                {
+                    buildItem.BuildRequest.ProcessorName = ProcessorManager.GetProcessorForType(importedObject.GetType());
+                }
+
+                var buildedItem = Process(buildItem, importedObject);
             }
         }
 
@@ -46,6 +68,20 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             //    instance.GetType()
             //});
             return instance.Import(item.BuildRequest.SourceFilename, context);
+        }
+
+        private object Process(BuildItem item, object importedObject)
+        {
+            if (String.IsNullOrEmpty(item.BuildRequest.ProcessorName) == false)
+            {
+                IContentProcessor instance = this.ProcessorManager.GetInstance(item.BuildRequest.ProcessorName);
+                ContentProcessorContext context = new AnxContentProcessorContext();
+                return instance.Process(importedObject, context);
+            }
+            else
+            {
+                return importedObject;
+            }
         }
     }
 }
