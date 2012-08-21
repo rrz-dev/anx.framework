@@ -13,6 +13,7 @@ using ANX.Framework.Content.Pipeline.Graphics;
 
 namespace ANX.Framework.Content.Pipeline
 {
+    [ContentImporter]
     public class FbxImporter : ContentImporter<NodeContent>
     {
         public FbxImporter()

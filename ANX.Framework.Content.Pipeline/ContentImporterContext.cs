@@ -16,7 +16,7 @@ namespace ANX.Framework.Content.Pipeline
     {
         public ContentImporterContext()
         {
-            throw new NotImplementedException();
+            //TODO: implement
         }
 
         public abstract string IntermediateDirectory { get; }

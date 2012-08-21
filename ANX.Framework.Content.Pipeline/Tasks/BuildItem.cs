@@ -10,33 +10,15 @@ using System.Text;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.Content.Pipeline
+namespace ANX.Framework.Content.Pipeline.Tasks
 {
-    public class ContentItem
+    public class BuildItem
     {
-        public ContentItem()
-        {
-            // nothing to do here
-        }
-
-        public ContentIdentity Identity
+        public BuildRequest BuildRequest
         {
             get;
             set;
         }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public OpaqueDataDictionary OpaqueData
-        {
-            get;
-            private set;
-        }
-
 
     }
 }

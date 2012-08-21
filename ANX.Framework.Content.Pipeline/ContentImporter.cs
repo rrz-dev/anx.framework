@@ -16,15 +16,14 @@ namespace ANX.Framework.Content.Pipeline
     {
         protected ContentImporter()
         {
-            throw new NotImplementedException();
+            // nothing to do here
         }
 
         public abstract T Import(string filename, ContentImporterContext context);
 
-        Object ANX.Framework.Content.Pipeline.IContentImporter.Import(string filename, ContentImporterContext context)
+        object IContentImporter.Import(string filename, ContentImporterContext context)
         {
-            throw new NotImplementedException();
+            return this.Import(filename, context);
         }
-
     }
 }

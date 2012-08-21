@@ -13,6 +13,7 @@ using ANX.Framework.Content.Pipeline.Graphics;
 
 namespace ANX.Framework.Content.Pipeline
 {
+    [ContentImporter(".fx")]
     public class EffectImporter : ContentImporter<EffectContent>
     {
         public EffectImporter()
@@ -21,7 +22,13 @@ namespace ANX.Framework.Content.Pipeline
 
         public override EffectContent Import(string filename, ContentImporterContext context)
         {
-            throw new NotImplementedException();
+            EffectContent content = new EffectContent()
+            {
+                EffectCode = System.IO.File.ReadAllText(filename),
+                Identity = new ContentIdentity(filename, null, null),
+            };
+
+            return content;
         }
     }
 }
