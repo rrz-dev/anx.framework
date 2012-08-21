@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Samples>
+  <Sample>
+    <Name>KeyboardSample</Name>
+    <Description>Shows ANX keyboard input.</Description>
+    <ExecPath>KeyboardSample\bin\x86\Debug\KeyboardSample.exe</ExecPath>
+    <Categorie>Input</Categorie>
+    <Tags>
+      <Tag>Input</Tag>
+      <Tag>Keyboard</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>Kinect</Name>
+    <Description>This sample allows you to connect with your Kinect and show the raw stream.</Description>
+    <ExecPath>Kinect\bin\x86\Debug\Kinect.exe</ExecPath>
+    <Categorie>Input</Categorie>
+    <Tags>
+      <Tag>Input</Tag>
+      <Tag>Kinect</Tag>
+      <Tag>ANXExt</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>ModelSample</Name>
+    <Description>A simple sample, which loads and shows a cube model.</Description>
+    <ExecPath>ModelSample\ModelSample\bin\x86\Debug\ModelSample.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>3D</Tag>
+      <Tag>Model</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>MultiRenderTarget</Name>
+    <Description>A sample showing ANX capabilities with multiple render targets.</Description>
+    <ExecPath>MultiRenderTarget\bin\x86\Debug\MultiRenderTarget.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>2D</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>Primitives</Name>
+    <Description>Sample which shows the rendering of a handcrafted primitive</Description>
+    <ExecPath>Primitives\bin\x86\Debug\Primitives.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>3D</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>RecordingSample</Name>
+    <Description>A  sample showing the internal input recording system.</Description>
+    <ExecPath>RecordingSample\bin\x86\Debug\RecordingSample.exe</ExecPath>
+    <Categorie>Input</Categorie>
+    <Tags>
+      <Tag>Input</Tag>
+      <Tag>Recording</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>RenderTarget</Name>
+    <Description>A sample of the usage of render targets.</Description>
+    <ExecPath>RenderTarget\bin\x86\Debug\RenderTarget.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>2D</Tag>
+      <Tag>Render target</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>SpriteSample</Name>
+    <Description>A simple sample showing the rendering of a bunch of sprites.</Description>
+    <ExecPath>SimpleSprite\bin\x86\Debug\SimpleSprite.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>2D</Tag>
+      <Tag>Sprite</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>StencilBuffer</Name>
+    <Description>A simple sample showing the stencil buffer.</Description>
+    <ExecPath>StencilBuffer\bin\x86\Debug\StencilBuffer.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>2D</Tag>
+      <Tag>Stencil buffer</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>TextRendering</Name>
+    <Description>Renders some text to your screen.</Description>
+    <ExecPath>TextRendering\bin\x86\Debug\TextRendering.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>2D</Tag>
+      <Tag>Text</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>VertexIndexBuffer</Name>
+    <Description>Shows the usage of a vertex- and index buffer</Description>
+    <ExecPath>VertexIndexBuffer\bin\x86\Debug\VertexIndexBuffer.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>3D</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>WindowsFormsEditor</Name>
+    <Description>A sample showing ANX in a winform control</Description>
+    <ExecPath>WindowsFormsEditor\bin\Debug\WindowsFormsEditor.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>Forms</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>WindowsGame</Name>
+    <Description>The ANX convert of the XNA WindowsGame</Description>
+    <ExecPath>WindowsGame\bin\x86\Debug\WindowsGame1.exe</ExecPath>
+    <Categorie>Game</Categorie>
+    <Tags>
+     
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>WpfEditor</Name>
+    <Description>A sample showing ANX in a WPF control</Description>
+    <ExecPath>WpfEditor\bin\Debug\WpfEditor.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>Forms</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
+    <Name>Xinput</Name>
+    <Description>A simple sample showing ANX using Xinput</Description>
+    <ExecPath>Xinput\bin\Debug\Xinput.exe</ExecPath>
+    <Categorie>Input</Categorie>
+    <Tags>
+      <Tag>Xinput</Tag>
+    </Tags>
+  </Sample>
+
+
+
+
+</Samples>
