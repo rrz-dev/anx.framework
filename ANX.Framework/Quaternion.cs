@@ -38,6 +38,7 @@ namespace ANX.Framework
             this.Z = z;
             this.W = w;
         }
+
         public Quaternion(Vector3 vectorPart, float scalarPart)
         {
             this.X = vectorPart.X;
@@ -51,11 +52,9 @@ namespace ANX.Framework
         #region public methods
         public static Quaternion Add(Quaternion quaternion1, Quaternion quaternion2)
         {
-
             Quaternion result;
             Quaternion.Add(ref quaternion1, ref quaternion2, out result);
             return result;
-
         }
 
         public static void Add(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
@@ -71,7 +70,6 @@ namespace ANX.Framework
             Quaternion result;
             Quaternion.Concatenate(ref value1, ref value2, out result);
             return result;
-
         }
 
         public static void Concatenate(ref Quaternion value1, ref Quaternion value2, out Quaternion result)
@@ -81,10 +79,9 @@ namespace ANX.Framework
 
         public void Conjugate()
         {
-            this.X = -this.X; //should be =this.X;
+            this.X = -this.X;
             this.Y = -this.Y;
             this.Z = -this.Z;
-
         }
 
         public static Quaternion Conjugate(Quaternion value)
@@ -372,11 +369,9 @@ namespace ANX.Framework
 
         public static Quaternion Slerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
         {
-
             Quaternion result;
             Quaternion.Slerp(ref quaternion1, ref quaternion2, amount, out result);
             return result; throw new NotImplementedException();
-
         }
 
         public static void Slerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
@@ -412,22 +407,12 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					var culture = CultureInfo.CurrentCulture;
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{X:" + X.ToString(culture) +
-						" Y:" + Y.ToString(culture) +
-						" Z:" + Z.ToString(culture) +
-						" W:" + W.ToString(culture) + "}";
-
-					//return string.Format(culture, "{{X:{0} Y:{1} Z:{2} W:{3}}}", new object[]
-					//{
-					//  this.X.ToString(culture), 
-					//  this.Y.ToString(culture), 
-					//  this.Z.ToString(culture), 
-					//  this.W.ToString(culture)
-					//});
+        {
+            var culture = CultureInfo.CurrentCulture;
+            return "{X:" + X.ToString(culture) +
+                " Y:" + Y.ToString(culture) +
+                " Z:" + Z.ToString(culture) +
+                " W:" + W.ToString(culture) + "}";
         }
         #endregion
 

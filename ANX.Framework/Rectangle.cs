@@ -11,9 +11,9 @@ namespace ANX.Framework
     {
         #region fields
         public int X;
-				public int Y;
-				public int Width;
-				public int Height;
+        public int Y;
+        public int Width;
+        public int Height;
         #endregion
 
         #region properties
@@ -57,13 +57,13 @@ namespace ANX.Framework
             }
         }
 
-				public int Left
-				{
-					get
-					{
-						return this.X;
-					}
-				}
+        public int Left
+        {
+            get
+            {
+                return this.X;
+            }
+        }
 
         public int Right
         {
@@ -81,13 +81,13 @@ namespace ANX.Framework
             }
         }
 
-				public int Bottom
-				{
-					get
-					{
-						return this.Y + Height;
-					}
-				}
+        public int Bottom
+        {
+            get
+            {
+                return this.Y + Height;
+            }
+        }
         #endregion
 
         #region constructors
@@ -123,9 +123,9 @@ namespace ANX.Framework
         private void Contains(ref int x, ref int y, out bool result)
         {
             result = x > this.X &&
-								x < this.Right &&
-								y > this.Y &&
-								y < this.Bottom;
+                     x < this.Right &&
+                     y > this.Y &&
+                     y < this.Bottom;
         }
 
         public bool Contains(Rectangle value)
@@ -148,15 +148,12 @@ namespace ANX.Framework
             return this.X + this.Y + this.Width + this.Height;
         }
 
-
-
         public void Inflate(int horizontalAmount, int verticalAmount)
         {
             this.X -= horizontalAmount;
             this.Y -= verticalAmount;
             this.Width += horizontalAmount * 2;
             this.Height += verticalAmount * 2;
-
         }
 
         public bool Intersects(Rectangle value)
@@ -172,9 +169,9 @@ namespace ANX.Framework
 
             //outer
             if (value.X > this.Right ||
-            value.Y > this.Bottom ||
-            value.X + value.Width < this.X ||
-            value.Y + value.Height < this.Y)
+                value.Y > this.Bottom ||
+                value.X + value.Width < this.X ||
+                value.Y + value.Height < this.Y)
             {
                 result = false;
                 return;
@@ -186,7 +183,6 @@ namespace ANX.Framework
                 return;
             }
             result = true;
-
         }
 
         public void Offset(int offsetX, int offsetY)
@@ -203,22 +199,14 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					var culture = CultureInfo.CurrentCulture;
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{X:" + X.ToString(culture) +
-						" Y:" + Y.ToString(culture) +
-						" Width:" + Width.ToString(culture) +
-						" Height:" + Height.ToString(culture) + "}";
-
-					//return string.Format(culture, "{{X:{0} Y:{1} Width:{2} Height:{3}}}", new object[]
-					//{
-					//  this.X.ToString(culture), 
-					//      this.Y.ToString(culture),
-					//      this.Width.ToString(culture),
-					//      this.Height.ToString(culture)
-					//});
+        {
+            var culture = CultureInfo.CurrentCulture;
+            // This may look a bit more ugly, but String.Format should
+            // be avoided cause of it's bad performance!
+            return "{X:" + X.ToString(culture) +
+                " Y:" + Y.ToString(culture) +
+                " Width:" + Width.ToString(culture) +
+                " Height:" + Height.ToString(culture) + "}";
         }
 
         #endregion
@@ -370,20 +358,20 @@ namespace ANX.Framework
 
         #region operator overloading
         public static bool operator ==(Rectangle a, Rectangle b)
-				{
-					// NOTE: Duplicated code is better than copying 4 floats around!
-					return a.Height == b.Height &&
-						a.Width == b.Width &&
-						a.X == b.X &&
-						a.Y == b.Y;
+        {
+            // NOTE: Duplicated code is better than copying 4 floats around!
+            return a.Height == b.Height &&
+                a.Width == b.Width &&
+                a.X == b.X &&
+                a.Y == b.Y;
         }
         public static bool operator !=(Rectangle a, Rectangle b)
-				{
-					// NOTE: Duplicated code is better than copying 4 floats around!
-					return a.Height != b.Height ||
-						a.Width != b.Width ||
-						a.X != b.X ||
-						a.Y != b.Y;
+        {
+            // NOTE: Duplicated code is better than copying 4 floats around!
+            return a.Height != b.Height ||
+                a.Width != b.Width ||
+                a.X != b.X ||
+                a.Y != b.Y;
         }
         #endregion
     }

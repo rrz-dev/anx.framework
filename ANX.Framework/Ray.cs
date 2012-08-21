@@ -172,17 +172,10 @@ namespace ANX.Framework
         /// </returns>
         public override string ToString()
         {
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{Position:" + Position.ToString() +
-						" Direction:" + Direction.ToString() + "}";
-
-					//var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
-					//return string.Format(currentCulture, "{{Position:{0} Direction:{1}}}", new object[]
-					//{
-					//  this.Position.ToString(), 
-					//  this.Direction.ToString()
-					//});
+            // This may look a bit more ugly, but String.Format should
+            // be avoided cause of it's bad performance!
+            return "{Position:" + Position.ToString() +
+                " Direction:" + Direction.ToString() + "}";
         }
         #endregion
 

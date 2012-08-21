@@ -689,7 +689,43 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("twentyfourFloats")]
-        public void TransformStaticQuaternion(
+        public void TransformStaticQuaternionVector2(
+            float x, float y, float z, float w,
+            float xQ, float yQ, float zQ, float wQ,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            XNAVector2 xnaVector = new XNAVector2(x, y);
+            XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
+
+            ANXVector2 anxVector = new ANXVector2(x, y);
+            ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaQuaternion);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxQuaternion);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternion");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticQuaternionVector3(
+            float x, float y, float z, float w,
+            float xQ, float yQ, float zQ, float wQ,
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)
+        {
+            XNAVector3 xnaVector = new XNAVector3(x, y, z);
+            XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
+
+            ANXVector3 anxVector = new ANXVector3(x, y, z);
+            ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
+
+            XNAVector4 xna = XNAVector4.Transform(xnaVector, xnaQuaternion);
+            ANXVector4 anx = ANXVector4.Transform(anxVector, anxQuaternion);
+
+            AssertHelper.ConvertEquals(xna, anx, "TransformStaticQuaternion");
+        }
+
+        [Test, TestCaseSource("twentyfourFloats")]
+        public void TransformStaticQuaternionVector4(
             float x, float y, float z, float w,
             float xQ, float yQ, float zQ, float wQ,
             float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14, float nop15)

@@ -53,7 +53,7 @@ namespace ANX.Framework
                 result = ContainmentType.Contains;
                 return;
             }
-                
+
             result = ContainmentType.Intersects;
         }
 
@@ -312,17 +312,9 @@ namespace ANX.Framework
 
         public void Intersects(ref BoundingBox box, out bool result)
         {
-            if ((this.Max.X < box.Min.X || this.Min.X > box.Max.X) ||
-                (this.Max.Y < box.Min.Y || this.Min.Y > box.Max.Y) ||
-                (this.Max.Z < box.Min.Z || this.Min.Z > box.Max.Z)
-               )
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = (this.Max.X >= box.Min.X && this.Min.X <= box.Max.X) &&
+                     (this.Max.Y >= box.Min.Y && this.Min.Y <= box.Max.Y) &&
+                     (this.Max.Z >= box.Min.Z && this.Min.Z <= box.Max.Z);
         }
 
         public bool Intersects(BoundingFrustum frustum)
@@ -456,7 +448,7 @@ namespace ANX.Framework
                 result = null;
                 return;
             }
-            
+
             t1 = (this.Min.Z - ray.Position.Z) - ray.Direction.Z;
             t2 = (this.Max.Z - ray.Position.Z) - ray.Direction.Z;
 
@@ -483,17 +475,11 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{Min:" + Min.ToString() +
-						" Max:" + Max.ToString() + "}";
-
-					//  return string.Format(System.Globalization.CultureInfo.CurrentCulture, "{{Min:{0} Max:{1}}}", new object[]
-					//{
-					//  this.Min.ToString(), 
-					//      this.Max.ToString()
-					//});
+        {
+            // This may look a bit more ugly, but String.Format should
+            // be avoided cause of it's bad performance!
+            return "{Min:" + Min.ToString() +
+                    " Max:" + Max.ToString() + "}";
         }
         #endregion
 

@@ -608,6 +608,21 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xnaR, anxR, "EqualsOperator");
         }
 
+        [Test]
+        public void EqualsOperatorNaN()
+        {
+            XNAVector2 xna1 = new XNAVector2(float.NaN, float.NaN);
+            XNAVector2 xna2 = new XNAVector2(float.NaN, float.NaN);
+
+            ANXVector2 anx1 = new ANXVector2(float.NaN, float.NaN);
+            ANXVector2 anx2 = new ANXVector2(float.NaN, float.NaN);
+
+            bool xnaR = (xna1 == xna2);
+            bool anxR = (anx1 == anx2);
+
+            AssertHelper.ConvertEquals(xnaR, anxR, "EqualsOperator");
+        }
+
         [Test, TestCaseSource("ninefloats")]
         public void UnequalsOperator(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float nop1)
         {

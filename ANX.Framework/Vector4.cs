@@ -433,7 +433,26 @@ namespace ANX.Framework
 
         public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector4 result)
         {
-            throw new NotImplementedException();
+            float twoX = rotation.X + rotation.X;
+            float twoY = rotation.Y + rotation.Y;
+            float twoZ = rotation.Z + rotation.Z;
+
+            float twoXX = twoX * rotation.X;
+            float twoXY = twoX * rotation.Y;
+            float twoXZ = twoX * rotation.Z;
+            float twoXW = twoX * rotation.W;
+
+            float twoYY = twoY * rotation.Y;
+            float twoYZ = twoY * rotation.Z;
+            float twoYW = twoY * rotation.W;
+
+            float twoZZ = twoZ * rotation.Z;
+            float twoZW = twoZ * rotation.W;
+
+            result.X = value.X * (1.0f - twoYY - twoZZ) + value.Y * (twoXY - twoZW);
+            result.Y = value.X * (twoXY + twoZW) + value.Y * (1.0f - twoXX - twoZZ);
+            result.Z = value.X * (twoXZ - twoYW) + value.Y * (twoYZ + twoXW);
+            result.W = 1.0f;
         }
 
         public static Vector4 Transform(Vector3 position, Matrix matrix)
@@ -460,7 +479,26 @@ namespace ANX.Framework
 
         public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector4 result)
         {
-            throw new NotImplementedException();
+            float twoX = rotation.X + rotation.X;
+            float twoY = rotation.Y + rotation.Y;
+            float twoZ = rotation.Z + rotation.Z;
+
+            float twoXX = twoX * rotation.X;
+            float twoXY = twoX * rotation.Y;
+            float twoXZ = twoX * rotation.Z;
+            float twoXW = twoX * rotation.W;
+
+            float twoYY = twoY * rotation.Y;
+            float twoYZ = twoY * rotation.Z;
+            float twoYW = twoY * rotation.W;
+
+            float twoZZ = twoZ * rotation.Z;
+            float twoZW = twoZ * rotation.W;
+
+            result.X = value.X * (1.0f - twoYY - twoZZ) + value.Y * (twoXY - twoZW) + value.Z * (twoXZ + twoYW);
+            result.Y = value.X * (twoXY + twoZW) + value.Y * (1.0f - twoXX - twoZZ) + value.Z * (twoYZ - twoXW);
+            result.Z = value.X * (twoXZ - twoYW) + value.Y * (twoYZ + twoXW) + value.Z * (1.0f - twoXX - twoYY);
+            result.W = 1.0f;
         }
 
         public static Vector4 Transform(Vector4 vector, Matrix matrix)
@@ -487,13 +525,25 @@ namespace ANX.Framework
 
         public static void Transform(ref Vector4 value, ref Quaternion rotation, out Vector4 result)
         {
-            float x = 2 * (rotation.Y * value.Z - rotation.Z * value.Y);
-            float y = 2 * (rotation.Z * value.X - rotation.X * value.Z);
-            float z = 2 * (rotation.X * value.Y - rotation.Y * value.X);
+            float twoX = rotation.X + rotation.X;
+            float twoY = rotation.Y + rotation.Y;
+            float twoZ = rotation.Z + rotation.Z;
 
-            result.X = value.X + x * rotation.W + (rotation.Y * z - rotation.Z * y);
-            result.Y = value.Y + y * rotation.W + (rotation.Z * x - rotation.X * z);
-            result.Z = value.Z + z * rotation.W + (rotation.X * y - rotation.Y * x);
+            float twoXX = twoX * rotation.X;
+            float twoXY = twoX * rotation.Y;
+            float twoXZ = twoX * rotation.Z;
+            float twoXW = twoX * rotation.W;
+
+            float twoYY = twoY * rotation.Y;
+            float twoYZ = twoY * rotation.Z;
+            float twoYW = twoY * rotation.W;
+
+            float twoZZ = twoZ * rotation.Z;
+            float twoZW = twoZ * rotation.W;
+
+            result.X = value.X * (1.0f - twoYY - twoZZ) + value.Y * (twoXY - twoZW) + value.Z * (twoXZ + twoYW);
+            result.Y = value.X * (twoXY + twoZW) + value.Y * (1.0f - twoXX - twoZZ) + value.Z * (twoYZ - twoXW);
+            result.Z = value.X * (twoXZ - twoYW) + value.Y * (twoYZ + twoXW) + value.Z * (1.0f - twoXX - twoYY);
             result.W = value.W;
         }
 
@@ -541,22 +591,22 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					var culture = CultureInfo.CurrentCulture;
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{X:" + X.ToString(culture) +
-						" Y:" + Y.ToString(culture) +
-						" Z:" + Z.ToString(culture) +
-						" W:" + W.ToString(culture) + "}";
+        {
+            var culture = CultureInfo.CurrentCulture;
+            // This may look a bit more ugly, but String.Format should
+            // be avoided cause of it's bad performance!
+            return "{X:" + X.ToString(culture) +
+                " Y:" + Y.ToString(culture) +
+                " Z:" + Z.ToString(culture) +
+                " W:" + W.ToString(culture) + "}";
 
-					//return string.Format(culture, "{{X:{0} Y:{1} Z:{2} W:{3}}}", new object[]
-					//{
-					//  this.X.ToString(culture), 
-					//      this.Y.ToString(culture),
-					//      this.Z.ToString(culture),
-					//      this.W.ToString(culture)
-					//});
+            //return string.Format(culture, "{{X:{0} Y:{1} Z:{2} W:{3}}}", new object[]
+            //{
+            //  this.X.ToString(culture), 
+            //      this.Y.ToString(culture),
+            //      this.Z.ToString(culture),
+            //      this.W.ToString(culture)
+            //});
         }
 
         public float Length()
