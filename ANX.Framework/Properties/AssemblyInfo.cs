@@ -47,3 +47,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Linux")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Metro")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.PsVita")]
+[assembly: InternalsVisibleTo("ANX.Tools.XNBInspector")]
