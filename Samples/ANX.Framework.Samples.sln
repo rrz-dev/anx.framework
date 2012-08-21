@@ -27,6 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTarget", "RenderTarge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StencilBuffer", "StencilBuffer\StencilBuffer.csproj", "{41E6C2CF-51EA-4D8E-96AE-739CA3951766}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A7D3D4E-6D4E-41D7-97E2-4F7860AA37FE}"
+	ProjectSection(SolutionItems) = preProject
+		SampleCatalog.xml = SampleCatalog.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

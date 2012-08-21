@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShaderCodeGenerator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectConverter", "ProjectConverter\ProjectConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnxSampleBrowser", "AnxSampleBrowser\AnxSampleBrowser.csproj", "{938D5F88-B888-4B04-BEEE-EE701FBA51EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -22,9 +24,12 @@ Global
 		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.ActiveCfg = Release|x86
 		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.Build.0 = Release|x86
 		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|x86.ActiveCfg = Debug|x86
-		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Debug|x86.Build.0 = Debug|x86
 		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|x86.ActiveCfg = Release|x86
 		{B5209A04-B2F8-4033-A5E7-545BE771214C}.Release|x86.Build.0 = Release|x86
+		{938D5F88-B888-4B04-BEEE-EE701FBA51EF}.Debug|x86.ActiveCfg = Debug|x86
+		{938D5F88-B888-4B04-BEEE-EE701FBA51EF}.Debug|x86.Build.0 = Debug|x86
+		{938D5F88-B888-4B04-BEEE-EE701FBA51EF}.Release|x86.ActiveCfg = Release|x86
+		{938D5F88-B888-4B04-BEEE-EE701FBA51EF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
