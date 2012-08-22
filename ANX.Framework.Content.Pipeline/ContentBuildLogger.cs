@@ -14,9 +14,10 @@ namespace ANX.Framework.Content.Pipeline
 {
     public abstract class ContentBuildLogger
     {
+        private Stack<string> files = new Stack<string>();
+
         protected ContentBuildLogger()
         {
-            throw new NotImplementedException();
         }
 
         public abstract void LogImportantMessage(string message, params Object[] messageArgs);
@@ -25,12 +26,12 @@ namespace ANX.Framework.Content.Pipeline
 
         public void PopFile()
         {
-            throw new NotImplementedException();
+            files.Pop();
         }
 
         public void PushFile(string filename)
         {
-            throw new NotImplementedException();
+            files.Push(filename);
         }
 
         protected string GetCurrentFilename(ContentIdentity contentIdentity)

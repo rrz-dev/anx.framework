@@ -9,10 +9,10 @@ using System;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    public enum TargetPlatform
+    public enum TargetPlatform : byte
     {
-        Windows,
-        WindowsPhone,
-        XBox360,
+        Windows = (byte)119,
+        WindowsPhone = (byte)109,
+        XBox360 = (byte)120,
     }
 }

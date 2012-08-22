@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Content.Pipeline.Graphics;
+using System.IO;
+using System.ComponentModel;
 
 #endregion
 
@@ -16,6 +18,9 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [ContentProcessor]
     public class EffectProcessor : ContentProcessor<EffectContent, CompiledEffectContent>
     {
+        HLSLCompilerFactory hlslCompilerFactory = new HLSLCompilerFactory();
+        private string targetProfile = "fx_4_0";
+
         public virtual EffectProcessorDebugMode DebugMode
         {
             get;
@@ -28,9 +33,24 @@ namespace ANX.Framework.Content.Pipeline.Processors
             set;
         }
 
+        [DefaultValue("fx_4_0")]
+        public virtual string TargetProfile
+        {
+            get
+            {
+                return targetProfile;
+            }
+            set
+            {
+                targetProfile = value;
+            }
+        }
+
         public override CompiledEffectContent Process(EffectContent input, ContentProcessorContext context)
         {
-            byte[] effectCompiledCode = new byte[1];    //TODO: compile effect!!!
+            HLSLCompiler compiler = hlslCompilerFactory.Compilers.Last<HLSLCompiler>();
+
+            byte[] effectCompiledCode = compiler.Compile(input.EffectCode, DebugMode, TargetProfile);
 
             return new CompiledEffectContent(effectCompiledCode)
             {
@@ -39,5 +59,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                 OpaqueData = input.OpaqueData
             };
         }
+
+
     }
 }

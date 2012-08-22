@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using ANX.Framework.Content.Pipeline.Serialization.Compiler;
+using ANX.Framework.Graphics;
 
 #endregion
 
@@ -16,6 +19,15 @@ namespace ANX.Framework.Content.Pipeline.Tasks
     {
         private ImporterManager importerManager;
         private ProcessorManager processorManager;
+        private ContentCompiler contentCompiler;
+
+        public BuildContent()
+        {
+            OutputDirectory = Environment.CurrentDirectory;
+            TargetPlatform = TargetPlatform.Windows;
+            CompressContent = false;
+            TargetProfile = GraphicsProfile.HiDef;
+        }
 
         public ImporterManager ImporterManager
         {
@@ -43,6 +55,49 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             }
         }
 
+        public ContentCompiler ContentCompiler
+        {
+            get
+            {
+                if (this.contentCompiler == null)
+                {
+                    this.contentCompiler = new ContentCompiler();
+                }
+
+                return this.contentCompiler;
+            }
+        }
+
+        public string OutputDirectory
+        {
+            get;
+            set;
+        }
+
+        public TargetPlatform TargetPlatform
+        {
+            get;
+            set;
+        }
+
+        public bool CompressContent
+        {
+            get;
+            set;
+        }
+
+        public GraphicsProfile TargetProfile
+        {
+            get;
+            set;
+        }
+
+        public ContentBuildLogger BuildLogger
+        {
+            get;
+            set;
+        }
+
         public void Execute(IEnumerable<BuildItem> itemsToBuild)
         {
             foreach (BuildItem buildItem in itemsToBuild)
@@ -55,18 +110,20 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 }
 
                 var buildedItem = Process(buildItem, importedObject);
+
+                SerializeAsset(buildItem, buildedItem);
             }
         }
 
         private object ImportAsset(BuildItem item)
         {
             IContentImporter instance = this.ImporterManager.GetInstance(item.BuildRequest.ImporterName);
-            ContentImporterContext context = new AnxContentImporterContext(this, item, null); //this.buildLogger);
-            //this.buildLogger.LogMessage(Resources.BuildLogImporting, new object[]
-            //{
-            //    item.BuildRequest.SourceFilename,
-            //    instance.GetType()
-            //});
+            ContentImporterContext context = new AnxContentImporterContext(this, item, BuildLogger);
+            BuildLogger.LogMessage("building {0} of type {1}", new object[]
+            {
+                item.BuildRequest.SourceFilename,
+                instance.GetType()
+            });
             return instance.Import(item.BuildRequest.SourceFilename, context);
         }
 
@@ -75,7 +132,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             if (String.IsNullOrEmpty(item.BuildRequest.ProcessorName) == false)
             {
                 IContentProcessor instance = this.ProcessorManager.GetInstance(item.BuildRequest.ProcessorName);
-                ContentProcessorContext context = new AnxContentProcessorContext();
+                ContentProcessorContext context = new AnxContentProcessorContext(item, BuildLogger, TargetPlatform, TargetProfile, "");
+                context.OutputDirectory = OutputDirectory;
+                context.OutputFilename = item.OutputFilename;
                 return instance.Process(importedObject, context);
             }
             else
@@ -83,5 +142,18 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 return importedObject;
             }
         }
+
+        private void SerializeAsset(BuildItem item, object assetData)
+        {
+            string outputFilename = Path.Combine(OutputDirectory, item.OutputFilename);
+
+            BuildLogger.LogMessage("serializing {0}", new object[] { item.OutputFilename });
+            using (Stream stream = new FileStream(outputFilename, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                this.ContentCompiler.Compile(stream, assetData, TargetPlatform, TargetProfile, CompressContent, OutputDirectory, outputFilename);
+            }
+            //this.rebuiltFiles.Add(outputFilename);
+        }
+
     }
 }

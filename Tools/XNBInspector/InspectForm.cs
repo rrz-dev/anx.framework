@@ -69,6 +69,11 @@ namespace ANX.Tools.XNBInspector
                 }
             }
         }
+
+        private void InspectForm_Load(object sender, EventArgs e)
+        {
+            this.Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
        
     }
 }

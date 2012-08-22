@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
+using ANX.Framework.Content.Pipeline.Tasks;
+using System.IO;
 
 #endregion
 
@@ -23,6 +25,23 @@ namespace ANX.Framework.Content.Pipeline
         private OpaqueDataDictionary parameters;
         private TargetPlatform targetPlatform;
         private GraphicsProfile targetProfile;
+
+        //public AnxContentProcessorContext(BuildCoordinator buildCoordinator, BuildItem buildItem, ContentBuildLogger logger, TargetPlatform targetPlatform, GraphicsProfile targetProfile, string buildConfiguration)
+        public AnxContentProcessorContext(BuildItem buildItem, ContentBuildLogger logger, TargetPlatform targetPlatform, GraphicsProfile targetProfile, string buildConfiguration)
+        {
+            BuildItem = buildItem;
+            this.contentBuildLogger = logger;
+            this.targetPlatform = targetPlatform;
+            this.targetProfile = targetProfile;
+            this.buildConfiguration = buildConfiguration;
+            this.intermediateDirectory = Path.GetTempPath();
+        }
+
+        public BuildItem BuildItem
+        {
+            get;
+            set;
+        }
 
         public override string BuildConfiguration
         {
@@ -50,9 +69,13 @@ namespace ANX.Framework.Content.Pipeline
 
         public override string OutputDirectory
         {
-            get 
-            { 
-                return outputDirectory; 
+            get
+            {
+                return outputDirectory;
+            }
+            internal set
+            {
+                outputDirectory = value;
             }
         }
 
@@ -61,6 +84,10 @@ namespace ANX.Framework.Content.Pipeline
             get 
             { 
                 return outputFilename; 
+            }
+            internal set
+            {
+                outputFilename = value;
             }
         }
 

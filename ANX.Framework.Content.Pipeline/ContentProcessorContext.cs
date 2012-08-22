@@ -22,8 +22,8 @@ namespace ANX.Framework.Content.Pipeline
         public abstract string BuildConfiguration { get; }
         public abstract string IntermediateDirectory { get; }
         public abstract ContentBuildLogger Logger { get; }
-        public abstract string OutputDirectory { get; }
-        public abstract string OutputFilename { get; }
+        public abstract string OutputDirectory { get; internal set; }
+        public abstract string OutputFilename { get; internal set; }
         public abstract OpaqueDataDictionary Parameters { get; }
         public abstract TargetPlatform TargetPlatform { get; }
         public abstract GraphicsProfile TargetProfile { get; }

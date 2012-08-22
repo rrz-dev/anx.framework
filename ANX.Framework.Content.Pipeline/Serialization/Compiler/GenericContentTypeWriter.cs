@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Globalization;
 
 #endregion
 
@@ -18,9 +19,28 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         protected internal override void Write(ContentWriter output, object value)
         {
-            throw new NotImplementedException();
+            this.Write(output, ContentTypeWriter<T>.CastType(value));
         }
 
         protected internal abstract void Write(ContentWriter output, T value);
+
+        private static T CastType(object value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (!(value is T))
+            {
+                System.Diagnostics.Debugger.Break();
+                //throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.WrongArgumentType, new object[]
+                //{
+                //    typeof(T),
+                //    value.GetType()
+                //}));
+            }
+            return (T)((object)value);
+        }
+
     }
 }

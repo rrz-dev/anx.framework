@@ -21,6 +21,8 @@ namespace ContentBuilder
             // Generate a list of items to build and set build parameters
             //
             List<BuildItem> itemsToBuild = new List<BuildItem>();
+            BuildContent buildContentTask = new BuildContent();
+            buildContentTask.BuildLogger = new ConsoleLogger();
 
             foreach (string arg in args)
             {
@@ -32,15 +34,27 @@ namespace ContentBuilder
                     //TODO: set configured processor name
                     buildItem.BuildRequest.SourceFilename = arg;
                     buildItem.BuildRequest.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
+                    buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.BuildRequest.AssetName);
 
                     itemsToBuild.Add(buildItem);
+                }
+                else
+                {
+                    // parse argument
+                    string parameterChar1 = arg.Substring(1,1).ToLowerInvariant();
+                    string parameterChar2 = arg.Substring(2,1).ToLowerInvariant();
+
+                    if (parameterChar1 == "o" && parameterChar2 == "d")
+                    {
+                        // output dir
+                        buildContentTask.OutputDirectory = arg.Substring(3);
+                    }
                 }
             }
 
             //
             // Build the content
             //
-            BuildContent buildContentTask = new BuildContent();
             buildContentTask.Execute(itemsToBuild);
         }
     }

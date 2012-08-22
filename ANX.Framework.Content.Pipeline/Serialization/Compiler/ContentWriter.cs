@@ -18,6 +18,27 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
     {
         private TargetPlatform targetPlatform;
         private GraphicsProfile targetProfile;
+        private ContentCompiler compiler;
+        private MemoryStream headerData;
+        private MemoryStream contentData;
+        private Stream finalOutput;
+        private Boolean compressContent;
+        private string rootDirectory;
+        private string referenceRelocationPath;
+
+        internal ContentWriter(ContentCompiler compiler, Stream output, TargetPlatform targetPlatform, GraphicsProfile targetProfile, bool compressContent, string rootDirectory, string referenceRelocationPath)
+        {
+            this.compiler = compiler;
+            this.targetPlatform = targetPlatform;
+            this.targetProfile = targetProfile;
+            this.compressContent = compressContent;
+            this.rootDirectory = rootDirectory;
+            this.referenceRelocationPath = referenceRelocationPath;
+            this.finalOutput = output;
+            this.headerData = new MemoryStream();
+            this.contentData = new MemoryStream();
+            this.OutStream = this.contentData;
+        }
 
         public void Write(Color value)
         {
@@ -73,15 +94,43 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             base.Write(value.W);
         }
 
-        //TODO: implement -> ExternalReference<T> needed first
-        //public void WriteExternalReference<T>(ExternalReference<T> reference)
-        //{
-
-        //}
+        public void WriteExternalReference<T>(ExternalReference<T> reference)
+        {
+            throw new NotImplementedException();
+        }
 
         public void WriteObject<T>(T value)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                base.Write7BitEncodedInt(0);
+                return;
+            }
+
+            ContentTypeWriter typeWriter = this.compiler.GetTypeWriter(value.GetType());
+
+            base.Write7BitEncodedInt(1);
+            //if (this.recurseDetector.ContainsKey(value))
+            //{
+            //    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.FoundCyclicReference, new object[]
+            //    {
+            //        value
+            //    }));
+            //}
+            //this.recurseDetector.Add(value, true);
+            this.InvokeWriter<T>(value, typeWriter);
+            //this.recurseDetector.Remove(value);
+        }
+
+        private void InvokeWriter<T>(T value, ContentTypeWriter writer)
+        {
+            ContentTypeWriter<T> contentTypeWriter = writer as ContentTypeWriter<T>;
+            if (contentTypeWriter != null)
+            {
+                contentTypeWriter.Write(this, value);
+                return;
+            }
+            writer.Write(this, value);
         }
 
         public void WriteObject<T>(T value, ContentTypeWriter typeWriter)
@@ -102,6 +151,79 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         public void WriteSharedResource<T>(T value)
         {
             throw new NotImplementedException();
+        }
+
+        internal void FlushOutput()
+        {
+            //TODO: implement
+
+            //this.WriteSharedResources();
+            this.WriteHeader();
+            this.WriteFinalOutput();
+        }
+
+        private void WriteHeader()
+        {
+            this.OutStream = this.headerData;
+            //TODO: implement
+            //base.Write7BitEncodedInt(this.typeWriters.Count);
+            //foreach (ContentTypeWriter current in this.typeWriters)
+            //{
+            //    this.Write(current.GetRuntimeReader(this.targetPlatform));
+            //    this.Write(current.TypeVersion);
+            //}
+            //base.Write7BitEncodedInt(this.sharedResourceNames.Count);
+        }
+
+        private void WriteFinalOutput()
+        {
+            this.OutStream = this.finalOutput;
+            this.Write('X');
+            this.Write('N');
+            this.Write('B');
+            this.Write((byte)this.targetPlatform);
+            //if (this.targetPlatform == TargetPlatform.Windows)
+            //{
+            //    this.Write((byte)119);
+            //}
+            //else
+            //{
+            //    if (this.targetPlatform == TargetPlatform.XBox360)
+            //    {
+            //        this.Write((byte)120);
+            //    }
+            //    else
+            //    {
+            //        if (this.targetPlatform != TargetPlatform.WindowsPhone)
+            //        {
+            //            throw new NotSupportedException();
+            //        }
+            //        this.Write((byte)109);
+            //    }
+            //}
+            if (this.compressContent)
+            {
+                throw new NotImplementedException();
+                //this.WriteCompressedOutput();
+                return;
+            }
+            this.WriteUncompressedOutput();
+        }
+
+        private void WriteUncompressedOutput()
+        {
+            this.WriteVersionNumber(5);
+            int num = (int)this.headerData.Length;
+            int num2 = (int)this.contentData.Length;
+            this.Write(10 + num + num2);
+            this.OutStream.Write(this.headerData.GetBuffer(), 0, num);
+            this.OutStream.Write(this.contentData.GetBuffer(), 0, num2);
+        }
+
+        private void WriteVersionNumber(ushort version)
+        {
+            version |= (ushort)((int)this.targetProfile << 8);
+            this.Write(version);
         }
 
         public TargetPlatform TargetPlatform

@@ -20,5 +20,10 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             set;
         }
 
+        public string OutputFilename
+        {
+            get;
+            set;
+        }
     }
 }

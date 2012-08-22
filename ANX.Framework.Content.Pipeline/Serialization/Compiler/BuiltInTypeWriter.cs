@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Reflection;
 
 #endregion
 
@@ -13,8 +14,23 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 	{
 		public override string GetRuntimeReader(TargetPlatform targetPlatform)
 		{
-			// TODO!
-			return "";
-		}
+            string @namespace = typeof(ContentTypeReader).Namespace;
+            string text = base.GetType().Name.Replace("Writer", "Reader");
+            text += base.GetGenericArgumentRuntimeTypes(targetPlatform);
+            Assembly runtimeAssembly = this.RuntimeAssembly;
+            if (runtimeAssembly != null)
+            {
+                text = text + ", " + ContentTypeWriter.GetAssemblyFullName(runtimeAssembly, targetPlatform);
+            }
+            return @namespace + '.' + text;
+        }
+
+        protected virtual Assembly RuntimeAssembly
+        {
+            get
+            {
+                return null;
+            }
+        }
 	}
 }

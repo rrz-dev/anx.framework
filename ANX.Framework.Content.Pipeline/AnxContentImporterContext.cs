@@ -21,8 +21,21 @@ namespace ANX.Framework.Content.Pipeline
 
         public AnxContentImporterContext(BuildContent buildContent, BuildItem buildItem, ContentBuildLogger logger)
         {
-
+            BuildContent = buildContent;
+            BuildItem = buildItem;
             this.logger = logger;
+        }
+
+        public BuildContent BuildContent
+        {
+            get;
+            set;
+        }
+
+        public BuildItem BuildItem
+        {
+            get;
+            set;
         }
 
         public override string IntermediateDirectory
