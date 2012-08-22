@@ -124,11 +124,11 @@ namespace ANX.Tools.XNBInspector
             int sizeOfdata = reader.ReadInt32();
             reader.BaseStream.Seek(position, SeekOrigin.Begin);
 
-            result.AppendFormat("Uncompressed     : {0,10} ({1,10} bytes)", ToHumanSize(sizeOfdata), sizeOfdata);
-            result.AppendLine();
-
             if (isCompressed)
             {
+                result.AppendFormat("Uncompressed     : {0,10} ({1,10} bytes)", ToHumanSize(sizeOfdata), sizeOfdata);
+                result.AppendLine();
+
                 input = ANX.Framework.Content.Decompressor.DecompressStream(reader, input, sizeOnDisk);
                 reader = new InspectReader(input);
             }
