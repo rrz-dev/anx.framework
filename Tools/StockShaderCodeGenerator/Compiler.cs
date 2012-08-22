@@ -5,6 +5,7 @@ using ANX.RenderSystem.Windows.DX10;
 using ANX.RenderSystem.Windows.DX11;
 using ANX.RenderSystem.Windows.GL3;
 using DX11MetroShaderGenerator;
+using System.Diagnostics;
 
 #endregion // Using Statements
 
@@ -19,37 +20,37 @@ namespace StockShaderCodeGenerator
 		#region GenerateShaders
 		public static bool GenerateShaders()
 		{
-			Console.WriteLine("generating shaders...");
+			Program.TraceListener.WriteLine("generating shaders...");
 
 			for (int i = 0; i < Configuration.Shaders.Count; i++)
 			{
 				Shader s = Configuration.Shaders[i];
 
-				Console.WriteLine("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source);
+				Program.TraceListener.WriteLine(String.Format("-> loading shader for type '{0}' (file: '{1}')", s.Type, s.Source));
 				String source = String.Empty;
 				if (File.Exists(s.Source))
 				{
 					source = File.ReadAllText(s.Source);
 				}
 
-				Console.Write("--> compiling shader... ");
+				Program.TraceListener.Write("--> compiling shader... ");
 				try
 				{
 					s.ByteCode = CompileShader(s.RenderSystem, source, Path.GetDirectoryName(s.Source));
-					Console.WriteLine("{0} bytes compiled size", s.ByteCode.Length);
+					Program.TraceListener.WriteLine(String.Format("{0} bytes compiled size", s.ByteCode.Length));
 					s.ShaderCompiled = true;
 				}
 				catch (Exception ex)
 				{
 					s.ShaderCompiled = false;
-					Console.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
+					Program.TraceListener.WriteLine("--> error occured while compiling shader: {0}", ex.Message);
 					return false;
 				}
 
 				Configuration.Shaders[i] = s;
 			}
 
-			Console.WriteLine("finished generating shaders...");
+			Program.TraceListener.WriteLine("finished generating shaders...");
 			return true;
 		}
 		#endregion

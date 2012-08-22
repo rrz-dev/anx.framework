@@ -73,8 +73,10 @@
   <Fragment>
     <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
       <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
-        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/ProjectConverter.exe' />
         <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../bin/asc.exe' />
+        <File Id='ContentBuilder' Name='ContentBuilder.exe' DiskId='1' Source='../bin/ContentBuilder.exe' />
+        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/ProjectConverter.exe' />
+        <File Id='XNBInspector' Name='XNBInspector.exe' DiskId='1' Source='../bin/XNBInspector.exe' />
       </Component>
     </ComponentGroup>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">

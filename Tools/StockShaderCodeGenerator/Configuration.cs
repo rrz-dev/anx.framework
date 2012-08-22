@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 #endregion // Using Statements
 
@@ -28,14 +29,14 @@ namespace StockShaderCodeGenerator
 
             if (File.Exists(file) == false)
             {
-                Console.WriteLine("Could not find build file...");
+                Program.TraceListener.WriteLine("Could not find build file...");
                 return;
             }
 
             XDocument doc = XDocument.Load(buildFileName);
             if (doc.Root.Name.LocalName != "Build")
             {
-                Console.WriteLine("Failed to load configuration because the build file has no Build-Node as the root element!");
+                Program.TraceListener.WriteLine("Failed to load configuration because the build file has no Build-Node as the root element!");
                 return;
             }
             else
@@ -45,19 +46,19 @@ namespace StockShaderCodeGenerator
                     licenseFile = doc.Root.Attribute("License").Value;
                     if (File.Exists(licenseFile))
                     {
-                        Console.WriteLine("using license file '{0}' to include", licenseFile);
+                        Program.TraceListener.WriteLine("using license file '{0}' to include", licenseFile);
                     }
                     else
                     {
-                        Console.WriteLine("license file '{0}' does not exist", licenseFile);
+                        Program.TraceListener.WriteLine("license file '{0}' does not exist", licenseFile);
                         return;
                     }
 
                     target = doc.Root.Attribute("Target").Value;
-                    Console.WriteLine("writing output to '{0}'", target);
+                    Program.TraceListener.WriteLine("writing output to '{0}'", target);
 
                     outputNamespace = doc.Root.Attribute("Namespace").Value;
-                    Console.WriteLine("using namespace '{0}'", outputNamespace);
+                    Program.TraceListener.WriteLine("using namespace '{0}'", outputNamespace);
                 }
 
                 if (doc.Root.HasElements)
@@ -78,7 +79,7 @@ namespace StockShaderCodeGenerator
                     }
                     else
                     {
-                        Console.WriteLine("no shader tags found in configuration file...");
+                        Program.TraceListener.WriteLine("no shader tags found in configuration file...");
                         return;
                     }
                 }

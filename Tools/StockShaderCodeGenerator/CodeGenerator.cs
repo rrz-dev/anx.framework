@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,7 +12,7 @@ namespace StockShaderCodeGenerator
 	{
 		public static void Generate()
 		{
-			Console.WriteLine("generating output...");
+			Program.TraceListener.WriteLine("generating output...");
 
 			using (StreamWriter target = new StreamWriter(Configuration.Target, false))
 			{
@@ -68,7 +69,7 @@ namespace StockShaderCodeGenerator
 				target.WriteLine("}");
 			}
 
-			Console.WriteLine("finished generating output...");
+			Program.TraceListener.WriteLine("finished generating output...");
 		}
 	}
 }

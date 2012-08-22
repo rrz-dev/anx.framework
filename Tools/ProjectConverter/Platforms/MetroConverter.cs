@@ -156,7 +156,7 @@ namespace ProjectConverter.Platforms
 		#region Convert
 		protected override void PostConvert()
 		{
-			string namespaceName = currentProject.Root.Name.NamespaceName;
+			string namespaceName = CurrentProject.Root.Name.NamespaceName;
 
 			AddMetroResources(namespaceName);
 
@@ -177,7 +177,7 @@ namespace ProjectConverter.Platforms
 			commonPropsNode.Add(new XAttribute("Condition",
 				@"Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\" +
 				"Microsoft.Common.props')"));
-			currentProject.Root.Add(commonPropsNode);
+			CurrentProject.Root.Add(commonPropsNode);
 		}
 		#endregion
 
@@ -191,7 +191,7 @@ namespace ProjectConverter.Platforms
 			metroVersionElement.Add(new XAttribute("Condition",
 				" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' < '11.0' "));
 			metroVersionElement.Add(new XElement(vsVersionName, "11.0"));
-			currentProject.Root.Add(metroVersionElement);
+			CurrentProject.Root.Add(metroVersionElement);
 		}
 		#endregion
 
@@ -203,7 +203,7 @@ namespace ProjectConverter.Platforms
 
 			XName itemGroupName = XName.Get("ItemGroup", namespaceName);
 			XElement newItemGroup = new XElement(itemGroupName);
-			currentProject.Root.Add(newItemGroup);
+			CurrentProject.Root.Add(newItemGroup);
 
 			XName noneName = XName.Get("None", namespaceName);
 			XElement noneGroup = new XElement(noneName);
@@ -212,7 +212,7 @@ namespace ProjectConverter.Platforms
 
 			GenerateAppxManifest(newItemGroup);
 
-			MetroAssets assets = new MetroAssets(currentProject);
+			MetroAssets assets = new MetroAssets(CurrentProject);
 			assets.AddAssetsToProject(newItemGroup);
 		}
 		#endregion
@@ -220,7 +220,7 @@ namespace ProjectConverter.Platforms
 		#region GenerateAppxManifest
 		private void GenerateAppxManifest(XElement itemGroup)
 		{
-			AppxManifest manifest = new AppxManifest(currentProject);
+			AppxManifest manifest = new AppxManifest(CurrentProject);
 			manifest.AddNode(itemGroup);
 			manifest.Save();
 		}
@@ -234,7 +234,7 @@ namespace ProjectConverter.Platforms
 			//string tempFilepath = Path.GetTempFileName() + ".pem";
 			string tempKeyFilepath = "C:\\test.key";
 			string tempFilepath = "C:\\test.pem";
-			string pfxFilepath = Path.Combine(currentProject.FullSourceDirectoryPath,
+			string pfxFilepath = Path.Combine(CurrentProject.FullSourceDirectoryPath,
 				"Test_TemporaryKey.pfx");
 			string dir = Directory.GetCurrentDirectory();
 			string toolPath = Path.Combine(dir, OpenSSLToolPath);

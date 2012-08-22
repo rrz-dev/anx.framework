@@ -7,7 +7,6 @@ using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.DXGI;
 using ANX.Framework;
-using ANX.Framework.Windows.DX10;
 
 #endregion // Using Statements
 

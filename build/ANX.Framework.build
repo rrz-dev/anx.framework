@@ -9,60 +9,14 @@
   <property name="project.anx.build_env" value="VS2010" />
   <property name="project.anx.win8" value="false" />
   
+  <property name="project.anx.psvita" value="false" />
+  <property name="project.anx.metro" value="false" />
+  
   <property name="project.anx.extended" value="false" unless="${property::exists('project.anx.extended')}" />
   <property name="project.anx.directives" value="" unless="${property::exists('project.anx.directives')}" />
 
-  <property name="project.anx.path.inputsystem.standard" value="../InputSystems/ANX.InputSystem.Standard" />
-  <property name="project.anx.name.inputsystem.standard" value="ANX.InputSystem.Standard" />
-  <property name="project.anx.path.inputsystem.recording" value="../InputSystems/ANX.InputSystem.Recording" />
-  <property name="project.anx.name.inputsystem.recording" value="ANX.InputSystem.Recording" />
-
-  <property name="project.anx.path.inputdevices.xinput" value="../InputSystems/ANX.InputDevices.Windows.XInput" />
-  <property name="project.anx.name.inputdevices.xinput" value="ANX.InputDevices.Windows.XInput" />
-  <property name="project.anx.path.inputdevices.kinect" value="../InputSystems/ANX.InputDevices.Windows.Kinect" />
-  <property name="project.anx.name.inputdevices.kinect" value="ANX.InputDevices.Windows.Kinect" />
-  <property name="project.anx.path.inputdevices.opentk" value="../InputSystems/ANX.InputDevices.OpenTK" />
-  <property name="project.anx.name.inputdevices.opentk" value="ANX.InputDevices.OpenTK" />
-
-  <property name="project.anx.path.soundsystem.xaudio" value="../SoundSystems/ANX.SoundSystem.Windows.XAudio" />
-  <property name="project.anx.name.soundsystem.xaudio" value="ANX.SoundSystem.Windows.XAudio" />
-  <property name="project.anx.path.soundsystem.openal" value="../SoundSystems/ANX.SoundSystem.OpenAL" />
-  <property name="project.anx.name.soundsystem.openal" value="ANX.SoundSystem.OpenAL" />
-
-  <property name="project.anx.path.rendersystem.dx10" value="../RenderSystems/ANX.Framework.Windows.DX10" />
-  <property name="project.anx.name.rendersystem.dx10" value="ANX.RenderSystem.Windows.DX10" />
-  <property name="project.anx.path.rendersystem.dx11" value="../RenderSystems/ANX.RenderSystem.Windows.DX11" />
-  <property name="project.anx.name.rendersystem.dx11" value="ANX.RenderSystem.Windows.DX11" />
-  <property name="project.anx.path.rendersystem.metro" value="../RenderSystems/ANX.RenderSystem.Windows.Metro" />
-  <property name="project.anx.name.rendersystem.metro" value="ANX.RenderSystem.Windows.Metro" />
-  <property name="project.anx.path.rendersystem.gl3" value="../RenderSystems/ANX.Framework.Windows.GL3" />
-  <property name="project.anx.name.rendersystem.gl3" value="ANX.RenderSystem.Windows.GL3" />
-
-  <property name="project.anx.path.mediasystem.openal" value="../MediaSystems/ANX.MediaSystem.Windows.OpenAL" />
-  <property name="project.anx.name.mediasystem.openal" value="ANX.MediaSystem.Windows.OpenAL" />
-
-  <property name="project.anx.path.platformsystem.linux" value="../PlatformSystems/ANX.PlatformSystem.Linux" />
-  <property name="project.anx.name.platformsystem.linux" value="ANX.PlatformSystem.Linux" />
-
-  <property name="project.anx.path.platformsystem.metro" value="../PlatformSystems/ANX.PlatformSystem.metro" />
-  <property name="project.anx.name.platformsystem.metro" value="ANX.PlatformSystem.metro" />
-
-  <property name="project.anx.path.platformsystem.windows" value="../PlatformSystems/ANX.PlatformSystem.windows" />
-  <property name="project.anx.name.platformsystem.windows" value="ANX.PlatformSystem.windows" />
-
   <property name="project.anxcontent.path" value="../ANX.Framework.ContentPipeline" />
   <property name="project.anxcontent.name" value="ANX.Framework.ContentPipeline" />
-
-  <property name="project.anx.tools.path.ANXStatusComparer" value="../Tools/ANXStatusComparer" />
-  <property name="project.anx.tools.name.ANXStatusComparer" value="ANXStatusComparer" />
-  <property name="project.anx.tools.path.StockShaderCodeGenerator" value="../Tools/StockShaderCodeGenerator" />
-  <property name="project.anx.tools.name.StockShaderCodeGenerator" value="StockShaderCodeGenerator" />
-  <property name="project.anx.tools.path.ProjectConverter" value="../Tools/ProjectConverter" />
-  <property name="project.anx.tools.name.ProjectConverter" value="ProjectConverter" />
-  <property name="project.anx.tools.path.ContentBuilder" value="../Tools/ContentBuilder" />
-  <property name="project.anx.tools.name.ContentBuilder" value="ContentBuilder" />
-  <property name="project.anx.tools.path.XNBInspector" value="../Tools/XNBInspector" />
-  <property name="project.anx.tools.name.XNBInspector" value="XNBInspector" />
 
   <target name="clean" description="Cleans all targets.">
     <delete>
@@ -111,23 +65,22 @@
 
     <echo message="Compiler directives: ${project.anx.directives}" />
 
-    <call target="build_tools" />
-
+    <call target="tools" />
+    
     <call target="generate_stock_shaders" />
     
-    <call target="build_anx" />
-    <call target="build_anx_inputsystems" />
-    <call target="build_anx_soundsystems" />
-    <call target="build_anx_rendersystems" />
-    <call target="build_anx_mediasystems" />
-    <call target="build_anx_platformsystems" />
-    <call target="build_anx_content_pipeline" />
+    <call target="anx" />
+    <call target="content_pipeline" />
+
+    <call target="inputsystem" />
+    <call target="soundsystem" />
+    <call target="rendersystem" />
+    <call target="mediasystem" />
+    <call target="platformsystem" />
   </target>
 
-  <target name="build_anx" description="Build ANX.Framework core">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework core assembly" />
-    <echo message="===================================================" />
+  <target name="anx" description="Build ANX.Framework core">
+    <echo message="building: ANX.Framework" />
 
     <exec program="msbuild.exe" >
       <arg value="/t:Build"/>
@@ -138,82 +91,184 @@
       <arg value="/p:SolutionDir=${build.solution_dir}" />
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/clp:ErrorsOnly" />
+      <arg value="/nologo" />
       <arg value="${project.anx.path}/${project.anx.name}.csproj" />
     </exec>
   </target>
 
-  <target name="build_anx_rendersystems" description="Build ANX.Framework RenderSystems">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework RenderSystem DirectX10" />
-    <echo message="===================================================" />
+  <target name="rendersystem" description="Build ANX.Framework InputSystems">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../RenderSystems/">
+          <include name="**/*.csproj" />
+          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
+          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
 
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.rendersystem.dx10}/${project.anx.name.rendersystem.dx10}.csproj" />
-    </exec>
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
 
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework RenderSystem DirectX11" />
-    <echo message="===================================================" />
+  <target name="inputsystem" description="Build ANX.Framework InputSystems">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../InputSystems/">
+          <include name="**/*.csproj" />
+          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
+          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
+          <exclude name="**/*Kinect*.csproj" unless="${project.anx.extended}" />
+          <exclude name="**/ANX.InputDevices.Test*.csproj" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
 
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.rendersystem.dx11}/${project.anx.name.rendersystem.dx11}.csproj" />
-    </exec>
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
 
-    <if test="${project.anx.win8}">
-      <echo message="===================================================" />
-      <echo message="Now building: ANX.Framework RenderSystem Metro" />
-      <echo message="===================================================" />
+  <target name="soundsystem" description="Build ANX.Framework SoundSystems">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../SoundSystems/">
+          <include name="**/*.csproj" />
+          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
+          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
 
-      <exec program="msbuild.exe" >
-        <arg value="/t:Build"/>
-        <arg value="/p:Configuration=${build.configuration}"/>
-        <arg value='/p:Platform="${build.platform}"'/>
-        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-        <arg value="/p:SolutionDir=${build.solution_dir}" />
-        <arg value='/p:DefineConstants="${project.anx.directives}"' />
-        <arg value="/clp:ErrorsOnly" />
-        <arg value="${project.anx.path.rendersystem.metro}/${project.anx.name.rendersystem.metro}.csproj" />
-      </exec>
-    </if>
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
 
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework RenderSystem OpenGL3" />
-    <echo message="===================================================" />
+  <target name="mediasystem" description="Build ANX.Framework MediaSystems">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../MediaSystems/">
+          <include name="**/*.csproj" />
+          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
+          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
 
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.rendersystem.gl3}/${project.anx.name.rendersystem.gl3}.csproj" />
-    </exec>
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+
+  <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../PlatformSystems/">
+          <include name="**/*.csproj" />
+          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
+          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+
+  <target name="tools" description="Build ANX.Framework tools" unless="${target::has-executed('tools')}">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../Tools/">
+          <include name="**/*.csproj" />
+          <exclude name="**/HLSLParser*.csproj" />
+          <exclude name="**/DX11MetroShaderGenerator.csproj" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
 
   </target>
 
-  <target name="build_anx_content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework ContentPipeline extensions" />
-    <echo message="===================================================" />
+  <target name="content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
+    <echo message="building: Content.Pipeline.Extensions" />
 
     <exec program="msbuild.exe" >
       <arg value="/t:Build"/>
@@ -224,296 +279,28 @@
       <arg value='/p:DefineConstants="${project.anx.directives}"' />
       <arg value="/p:AllowUnsafeBlocks=true" />
       <arg value="/clp:ErrorsOnly" />
+      <arg value="/nologo" />
       <arg value="${project.anxcontent.path}/${project.anxcontent.name}.csproj" />
     </exec>
   </target>
 
-  <target name="build_anx_inputsystems" description="Build ANX.Framework InputSystems">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework InputSystem Standard" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.inputsystem.standard}/${project.anx.name.inputsystem.standard}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework InputSystem Recording" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.inputsystem.recording}/${project.anx.name.inputsystem.recording}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework InputDevices XInput" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.inputdevices.xinput}/${project.anx.name.inputdevices.xinput}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework InputDevices OpenTK" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.inputdevices.opentk}/${project.anx.name.inputdevices.opentk}.csproj" />
-    </exec>
-
-    <if test="${project.anx.extended}">
-      <echo message="===================================================" />
-      <echo message="Now building: ANX.Framework InputDevices Kinect" />
-      <echo message="===================================================" />
-
-      <exec program="msbuild.exe" >
-        <arg value="/t:Build"/>
-        <arg value="/p:Configuration=${build.configuration}"/>
-        <arg value='/p:Platform="${build.platform}"'/>
-        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-        <arg value="/p:SolutionDir=${build.solution_dir}" />
-        <arg value='/p:DefineConstants="${project.anx.directives}"' />
-        <arg value="/clp:ErrorsOnly" />
-        <arg value="${project.anx.path.inputdevices.kinect}/${project.anx.name.inputdevices.kinect}.csproj" />
-      </exec>
-    </if>
-  </target>
-
-  <target name="build_anx_soundsystems" description="Build ANX.Framework SoundSystems">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework SoundSystem XAudio" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.soundsystem.xaudio}/${project.anx.name.soundsystem.xaudio}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework SoundSystem OpenAL" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.soundsystem.openal}/${project.anx.name.soundsystem.openal}.csproj" />
-    </exec>
-  </target>
-
-  <target name="build_anx_mediasystems" description="Build ANX.Framework MediaSystems">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework MediaSystem OpenAL" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.mediasystem.openal}/${project.anx.name.mediasystem.openal}.csproj" />
-    </exec>
-  </target>
-
-  <target name="build_anx_platformsystems" description="Build ANX.Framework PlatformSystems">
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework PlatformSystem Linux" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.platformsystem.linux}/${project.anx.name.platformsystem.linux}.csproj" />
-    </exec>
-
-    <if test="${project.anx.win8}">
-      <echo message="===================================================" />
-      <echo message="Now building: ANX.Framework PlatformSystem Metro" />
-      <echo message="===================================================" />
-
-      <exec program="msbuild.exe" >
-        <arg value="/t:Build"/>
-        <arg value="/p:Configuration=${build.configuration}"/>
-        <arg value='/p:Platform="${build.platform}"'/>
-        <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-        <arg value="/p:SolutionDir=${build.solution_dir}" />
-        <arg value='/p:DefineConstants="${project.anx.directives}"' />
-        <arg value="/p:AllowUnsafeBlocks=true" />
-        <arg value="/clp:ErrorsOnly" />
-        <arg value="${project.anx.path.platformsystem.metro}/${project.anx.name.platformsystem.metro}.csproj" />
-      </exec>
-    </if>
-    
-    <echo message="===================================================" />
-    <echo message="Now building: ANX.Framework PlatformSystem Windows" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=${build.configuration}"/>
-      <arg value='/p:Platform="${build.platform}"'/>
-      <arg value="/p:OutputPath=../${build.dir}/${build.configuration}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value='/p:DefineConstants="${project.anx.directives}"' />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.path.platformsystem.windows}/${project.anx.name.platformsystem.windows}.csproj" />
-    </exec>
-  </target>
-  
-  <target name="build_tools" description="Build ANX.Framework tools">
-    <echo message="===================================================" />
-    <echo message="Now building: ANXStatusComparer tool (asc.exe)" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=Release"/>
-      <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=${build.dir}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.ANXStatusComparer}/${project.anx.tools.name.ANXStatusComparer}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ProjectConverter tool (ProjectConverter.exe)" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=Release"/>
-      <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=${build.dir}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.ProjectConverter}/${project.anx.tools.name.ProjectConverter}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: StockShaderCodeGenerator tool (sscg.exe)" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=Release"/>
-      <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=${build.dir}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.StockShaderCodeGenerator}/${project.anx.tools.name.StockShaderCodeGenerator}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: ContentBuilder tool" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=Release"/>
-      <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=${build.dir}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.ContentBuilder}/${project.anx.tools.name.ContentBuilder}.csproj" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now building: XNB Inspector" />
-    <echo message="===================================================" />
-
-    <exec program="msbuild.exe" >
-      <arg value="/t:Build"/>
-      <arg value="/p:Configuration=Release"/>
-      <arg value='/p:Platform="Any CPU"'/>
-      <arg value="/p:OutputPath=${build.dir}" />
-      <arg value="/p:SolutionDir=${build.solution_dir}" />
-      <arg value="/p:AllowUnsafeBlocks=true" />
-      <arg value="/clp:ErrorsOnly" />
-      <arg value="${project.anx.tools.path.XNBInspector}/${project.anx.tools.name.XNBInspector}.csproj" />
-    </exec>
-  </target>
-
-  <target name="build_stock_shaders" description="Build the stock shaders for the render systems.">
-    <call target="build_tools" />
-    <call target="generate_stock_shaders" />
-  </target>
-  
-  <target name="generate_stock_shaders" description="Generate code for stock shaders">
-    <echo message="===================================================" />
-    <echo message="Now generating code for DirectX 10 stock shaders" />
-    <echo message="===================================================" />
-
-    <exec program="../bin/sscg.exe" >
-      <arg value="../shader/DX10/build.xml" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now generating code for DirectX 11 stock shaders" />
-    <echo message="===================================================" />
-
-    <exec program="../bin/sscg.exe" >
-      <arg value="../shader/DX11/build.xml" />
-    </exec>
-
-    <echo message="===================================================" />
-    <echo message="Now generating code for OpenGL 3 stock shaders" />
-    <echo message="===================================================" />
-
-    <exec program="../bin/sscg.exe" >
-      <arg value="../shader/GL3/build.xml" />
-    </exec>
+  <target name="generate_stock_shaders" description="Generate code for stock shaders" depends="tools">
+    <foreach item="File" property="buildFile">
+      <in>
+        <items basedir="../shader/">
+          <include name="**/build.xml" />
+          <exclude name="**/*Metro*/build.xml" unless="${project.anx.metro}" />
+        </items>
+      </in>
+      <do>
+        <echo message="generating: ${path::get-file-name(path::get-directory-name(buildFile))}" />
+        
+        <exec program="../bin/sscg.exe" >
+          <arg value="${buildFile}" />
+          <arg value="/silent" />
+        </exec>
+      </do>
+    </foreach>    
   </target>
 
   <target name="create_packages" description="generates all type of packages">

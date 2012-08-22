@@ -19,7 +19,7 @@ namespace ProjectConverter
 		protected const string XnaPipelineExtensionTarget =
 			"Microsoft.Xna.GameStudio.ContentPipelineExtensions.targets";
 
-		protected ProjectPath currentProject
+		protected ProjectPath CurrentProject
 		{
 			get;
 			private set;
@@ -47,7 +47,7 @@ namespace ProjectConverter
 		#region ConvertProject
 		public void ConvertProject(ProjectPath project)
 		{
-			currentProject = project;
+			CurrentProject = project;
 
 			string namespaceName = project.Root.Name.NamespaceName;
 			XName importName = XName.Get("Import", namespaceName);
@@ -194,7 +194,7 @@ namespace ProjectConverter
 				if (referencePath.EndsWith(".csproj"))
 				{
 					referencePath = referencePath.Replace(".csproj", "_" + Postfix + ".csproj");
-					string basePath = Path.GetDirectoryName(currentProject.FullSourcePath);
+					string basePath = Path.GetDirectoryName(CurrentProject.FullSourcePath);
 					string fullReferencePath = Path.Combine(basePath, referencePath);
 					if (File.Exists(fullReferencePath))
 					{

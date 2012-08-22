@@ -1,6 +1,7 @@
 #region Private Members
 using System;
 using System.Reflection;
+using System.Diagnostics;
 
 #endregion // Private Members
 
@@ -12,24 +13,33 @@ namespace StockShaderCodeGenerator
 {
     class Program
     {
+        internal static ConsoleTraceListener TraceListener = new ConsoleTraceListener();
+
         static void Main(string[] args)
         {
-            Console.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " + Assembly.GetExecutingAssembly().GetName().Version);
+            foreach (string arg in args)
+            {
+                if (String.Equals(arg, "/silent", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ConsoleTraceListener.Silence = true;
+                }
+            }
+
+            Program.TraceListener.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " + Assembly.GetExecutingAssembly().GetName().Version);
 
             string buildFile;
 
             if (args.Length < 1)
             {
-                Console.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
-
-								buildFile = "build.xml";
+                Program.TraceListener.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
+                buildFile = "build.xml";
             }
             else
             {
                 buildFile = args[0];
             }
 
-            Console.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
+            Program.TraceListener.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
 
             Configuration.LoadConfiguration(buildFile);
 
@@ -41,14 +51,9 @@ namespace StockShaderCodeGenerator
                 }
                 else
                 {
-                    Console.WriteLine("error while compiling shaders. Code generation skipped...");
+                    Program.TraceListener.WriteLine("error while compiling shaders. Code generation skipped...");
                 }
             }
-
-//#if DEBUG
-//            Console.WriteLine("Press enter to exit.");
-//            Console.ReadLine();
-//#endif
         }
     }
 }
