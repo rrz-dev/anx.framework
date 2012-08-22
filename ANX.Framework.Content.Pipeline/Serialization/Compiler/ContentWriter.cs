@@ -26,6 +26,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         private string rootDirectory;
         private string referenceRelocationPath;
 
+        const byte xnbFormatVersion = (byte)5;
+        char[] xnbMagicWord = new char[] { 'X', 'N', 'B' };
+
         internal ContentWriter(ContentCompiler compiler, Stream output, TargetPlatform targetPlatform, GraphicsProfile targetProfile, bool compressContent, string rootDirectory, string referenceRelocationPath)
         {
             this.compiler = compiler;
@@ -178,52 +181,33 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         private void WriteFinalOutput()
         {
             this.OutStream = this.finalOutput;
-            this.Write('X');
-            this.Write('N');
-            this.Write('B');
+            this.Write(xnbMagicWord);
             this.Write((byte)this.targetPlatform);
-            //if (this.targetPlatform == TargetPlatform.Windows)
-            //{
-            //    this.Write((byte)119);
-            //}
-            //else
-            //{
-            //    if (this.targetPlatform == TargetPlatform.XBox360)
-            //    {
-            //        this.Write((byte)120);
-            //    }
-            //    else
-            //    {
-            //        if (this.targetPlatform != TargetPlatform.WindowsPhone)
-            //        {
-            //            throw new NotSupportedException();
-            //        }
-            //        this.Write((byte)109);
-            //    }
-            //}
             if (this.compressContent)
             {
                 throw new NotImplementedException();
                 //this.WriteCompressedOutput();
-                return;
             }
-            this.WriteUncompressedOutput();
+            else
+            {
+                this.WriteUncompressedOutput();
+            }
         }
 
         private void WriteUncompressedOutput()
         {
-            this.WriteVersionNumber(5);
-            int num = (int)this.headerData.Length;
-            int num2 = (int)this.contentData.Length;
-            this.Write(10 + num + num2);
-            this.OutStream.Write(this.headerData.GetBuffer(), 0, num);
-            this.OutStream.Write(this.contentData.GetBuffer(), 0, num2);
-        }
+            this.Write(xnbFormatVersion);    // Version
 
-        private void WriteVersionNumber(ushort version)
-        {
-            version |= (ushort)((int)this.targetProfile << 8);
-            this.Write(version);
+            byte flags = 0;
+            if (TargetProfile == GraphicsProfile.HiDef)
+            {
+                flags |= 0x01;
+            }
+            this.Write(flags);
+
+            this.Write(10 + this.headerData.Length + this.contentData.Length);
+            this.OutStream.Write(this.headerData.GetBuffer(), 0, (int)this.headerData.Length);
+            this.OutStream.Write(this.contentData.GetBuffer(), 0, (int)this.contentData.Length);
         }
 
         public TargetPlatform TargetPlatform
@@ -238,7 +222,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         {
             get
             {
-                return TargetProfile;
+                return targetProfile;
             }
         }
     }
