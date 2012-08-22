@@ -149,15 +149,6 @@
     </Tags>
   </Sample>
 
-  <Sample>
-    <Name>Xinput</Name>
-    <Description>A simple sample showing ANX using Xinput</Description>
-    <ExecPath>Xinput\bin\Debug\Xinput.exe</ExecPath>
-    <Categorie>Input</Categorie>
-    <Tags>
-      <Tag>Xinput</Tag>
-    </Tags>
-  </Sample>
 
 
 
