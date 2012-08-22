@@ -35,7 +35,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.textBox = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -88,25 +88,25 @@
             this.openFileDialog.Filter = "XNB files |*.xnb";
             this.openFileDialog.Title = "Choose XNB File";
             // 
-            // richTextBox1
+            // textBox
             // 
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(0, 24);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(784, 316);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
+            this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox.Location = new System.Drawing.Point(0, 24);
+            this.textBox.Name = "textBox";
+            this.textBox.ReadOnly = true;
+            this.textBox.Size = new System.Drawing.Size(784, 316);
+            this.textBox.TabIndex = 2;
+            this.textBox.Text = "";
+            this.textBox.WordWrap = false;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = global::ANX.Tools.XNBInspector.Properties.Resources.ANX_Framework_Logo_220x58;
-            this.pictureBox1.Location = new System.Drawing.Point(552, 266);
+            this.pictureBox1.Location = new System.Drawing.Point(547, 265);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(220, 58);
             this.pictureBox1.TabIndex = 3;
@@ -120,7 +120,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(784, 362);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.textBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -146,7 +146,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox textBox;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

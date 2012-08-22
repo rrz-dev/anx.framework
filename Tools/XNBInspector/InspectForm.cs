@@ -10,7 +10,23 @@ using System.Windows.Forms;
 
 namespace ANX.Tools.XNBInspector
 {
-    public partial class InspectForm : Form
+    public enum Severity
+    {
+        None,
+        Success,
+        Warning,
+        Error
+    }
+
+    public interface IInspectLogger
+    {
+        void AppendFormat(Severity severity, string message, params object[] arg);
+        void Append(Severity severity, string message);
+        void AppendLine(Severity severity, string message);
+        void AppendLine();
+    }
+
+    public partial class InspectForm : Form, IInspectLogger
     {
         StringBuilder result = new StringBuilder();
 
@@ -30,10 +46,11 @@ namespace ANX.Tools.XNBInspector
         private void InspectFile(string filePath)
         {
             result.Clear();
+            textBox.Text = String.Empty;
 
             using (Stream input = File.OpenRead(filePath))
             {
-                richTextBox1.Text = InspectReader.TryInspectXNB(input);
+                InspectReader.TryInspectXNB(input, this);
             }
         }
 
@@ -74,6 +91,65 @@ namespace ANX.Tools.XNBInspector
         {
             this.Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-       
+
+        void AppendText(RichTextBox box, Color color, string text)
+        {
+            int start = box.TextLength;
+            box.AppendText(text);
+            int end = box.TextLength;
+
+            // Textbox may transform chars, so (end-start) != text.Length
+            box.Select(start, end - start);
+            {
+                box.SelectionColor = color;
+                // could set box.SelectionBackColor, box.SelectionFont too.
+            }
+            box.SelectionLength = 0; // clear
+        }
+
+        public void AppendFormat(Severity severity, string message, params object[] arg)
+        {
+            Append(severity, String.Format(message, arg));
+        }
+
+        public void Append(Severity severity, string message)
+        {
+            Color color = Color.Black;
+            switch (severity)
+            {
+                case Severity.Success:
+                    color = Color.Green;
+                    break;
+                case Severity.Warning:
+                    color = Color.Orange;
+                    break;
+                case Severity.Error:
+                    color = Color.Red;
+                    break;
+                case Severity.None:
+                default:
+                    break;
+            }
+
+            int start = textBox.TextLength;
+            textBox.AppendText(message);
+            int end = textBox.TextLength;
+
+            textBox.Select(start, end - start);
+            {
+                textBox.SelectionColor = color;
+            }
+            textBox.SelectionLength = 0;
+        }
+
+        public void AppendLine(Severity severity, string message)
+        {
+            Append(severity, message + "\n");
+        }
+
+        public void AppendLine()
+        {
+            Append(Severity.None, "\n");
+        }
     }
 }

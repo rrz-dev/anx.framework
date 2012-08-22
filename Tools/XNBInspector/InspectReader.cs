@@ -13,9 +13,8 @@ namespace ANX.Tools.XNBInspector
         {
         }
 
-        public static string TryInspectXNB(Stream input)
+        public static string TryInspectXNB(Stream input, IInspectLogger result)
         {
-            StringBuilder result = new StringBuilder();
             try
             {
                 InspectXNB(input, result);
@@ -23,13 +22,13 @@ namespace ANX.Tools.XNBInspector
             catch (Exception e)
             {
                 result.AppendLine();
-                result.AppendLine(e.Message);
-                result.AppendLine(e.StackTrace);
+                result.AppendLine(Severity.Error, e.Message);
+                result.AppendLine(Severity.Error, e.StackTrace);
             }
             return result.ToString();
         }
 
-        public static void InspectXNB(Stream input, StringBuilder result)
+        public static void InspectXNB(Stream input, IInspectLogger result)
         {
             // read the XNB file information
             //
@@ -58,75 +57,108 @@ namespace ANX.Tools.XNBInspector
             byte magicX = reader.ReadByte(); // X
             byte magicN = reader.ReadByte(); // N
             byte magicB = reader.ReadByte(); // B
+            byte[] magicBytes = new byte[] { magicX, magicN, magicB };
+            byte[] magicWants = new byte[] { 88, 78, 66 };
 
-            result.AppendFormat("Format identifier: {0}\n", (char)magicX);
-            result.AppendFormat("Format identifier: {0}\n", (char)magicN);
-            result.AppendFormat("Format identifier: {0}\n", (char)magicB);
-
+            for (int i = 0; i < magicBytes.Length; i++)
+            {
+                result.Append(Severity.None, "Format identifier: ");
+                if (magicBytes[i] != magicWants[i])
+                {
+                    result.AppendFormat(Severity.Error, "{0} (should be {1}[{2}])", magicBytes[i], magicWants[i], (char)magicWants[i]);
+                }
+                else
+                {
+                    result.AppendFormat(Severity.Success, "{0}[{1}]", magicWants[i], (char)magicWants[i]);
+                }
+                result.AppendLine();
+            }
+            
             byte targetPlattform = reader.ReadByte();
             // w = Microsoft Windows
             // m = Windows Phone 7
             // x = Xbox 360
-            result.AppendFormat("Target platform  : {0} ", (char)targetPlattform);
+            result.Append(Severity.None, "Target platform  : ");
             switch ((char)targetPlattform)
             {
                 case 'w':
-                    result.Append("(Microsoft Windows)");
+                    result.AppendFormat(Severity.Success, "{0}[w] (Microsoft Windows)", targetPlattform);
                     break;
                 case 'm':
-                    result.Append("(Windows Phone 7)");
+                    result.AppendFormat(Severity.Success, "{0}[m] (Windows Phone 7)", targetPlattform);
                     break;
                 case 'x':
-                    result.Append("(Xbox 360)");
+                    result.AppendFormat(Severity.Success, "{0}[x] (Xbox 360)", targetPlattform);
                     break;
                 default:
-                    result.Append("(Unknown)");
+                    result.AppendFormat(Severity.Error, "{0} (Unknown or non XNA platform)", targetPlattform);
                     break;
             }
             result.AppendLine();
 
             byte formatVersion = reader.ReadByte();
             // 5 = XNA Game Studio 4.0
-            result.AppendFormat("Format version   : {0} ", formatVersion);
+            result.Append(Severity.None, "Format version   : ");
             switch (formatVersion)
             {
+                case 1:
+                    result.Append(Severity.Success, "1 (XNA Game Studio 1.0)");
+                    break;
+                case 2:
+                    result.Append(Severity.Success, "2 (XNA Game Studio 2.0)");
+                    break;
+                case 3:
+                    result.Append(Severity.Success, "3 (XNA Game Studio 3.0)");
+                    break;
+                case 4:
+                    result.Append(Severity.Success, "4 (XNA Game Studio 3.1)");
+                    break;
                 case 5:
-                    result.Append("(XNA Game Studio 4.0)");
+                    result.Append(Severity.Success, "5 (XNA Game Studio 4.0)");
                     break;
                 default:
-                    result.Append("(Unknown)");
+                    result.AppendFormat(Severity.Warning, "{0} (Unknown or non XNA content)", formatVersion);
                     break;
             }
             result.AppendLine();
 
             byte flags = reader.ReadByte();
-            result.AppendFormat("Flags            : 0x{0:X4}\n", flags);
+            result.AppendFormat(Severity.None, "Flags            : 0x{0:X4}\n", flags);
             if ((flags & 0x01) == 0x01)
             {
                 // HiDef Profile
-                result.AppendLine(" - HiDef Profile");
+                result.AppendLine(Severity.None, " - HiDef Profile");
             }
             else
             {
                 // Reach Profile
-                result.AppendLine(" - Reach Profile");
+                result.AppendLine(Severity.None, " - Reach Profile");
             }
 
             bool isCompressed = (flags & 0x80) != 0;
-            result.AppendFormat(" - Compressed {0}", isCompressed);
+            result.AppendFormat(Severity.None, " - Compressed {0}", isCompressed);
             result.AppendLine();
 
             int sizeOnDisk = reader.ReadInt32();
-            result.AppendFormat("Size on disk     : {0,10} ({1,10} bytes)", ToHumanSize(sizeOnDisk), sizeOnDisk);
+            result.Append(Severity.None, "Size on disk     : ");
+            if (sizeOnDisk != input.Length)
+            {
+                result.AppendFormat(Severity.Error, "{0} bytes [{1}]", sizeOnDisk, ToHumanSize(sizeOnDisk));
+                result.AppendFormat(Severity.Error, " (Should be {0} bytes [{1}])", input.Length, ToHumanSize(input.Length));
+            }
+            else
+            {
+                result.AppendFormat(Severity.Success, "{0} bytes [{1}]", sizeOnDisk, ToHumanSize(sizeOnDisk));
+            }
             result.AppendLine();
-
-            long position = reader.BaseStream.Position;
-            int sizeOfdata = reader.ReadInt32();
-            reader.BaseStream.Seek(position, SeekOrigin.Begin);
 
             if (isCompressed)
             {
-                result.AppendFormat("Uncompressed     : {0,10} ({1,10} bytes)", ToHumanSize(sizeOfdata), sizeOfdata);
+                long position = reader.BaseStream.Position;
+                int sizeOfdata = reader.ReadInt32();
+                reader.BaseStream.Seek(position, SeekOrigin.Begin);
+
+                result.AppendFormat(Severity.None, "Uncompressed     : {0} bytes [{1}]", sizeOfdata, ToHumanSize(sizeOfdata));
                 result.AppendLine();
 
                 input = ANX.Framework.Content.Decompressor.DecompressStream(reader, input, sizeOnDisk);
@@ -134,19 +166,19 @@ namespace ANX.Tools.XNBInspector
             }
 
             int numTypes = reader.Read7BitEncodedInt();
-            result.AppendFormat("Type readers     : {0}", numTypes);
+            result.AppendFormat(Severity.None, "Type readers     : {0}", numTypes);
             result.AppendLine();
 
             for (int i = 0; i < numTypes; i++)
             {
                 string readerTypeName = reader.ReadString();
                 int readerVersionNumber = reader.ReadInt32();
-                result.AppendFormat(" - Version: {1}    Type: {2}", i, readerVersionNumber, readerTypeName);
+                result.AppendFormat(Severity.None, " - Version: {1}    Type: {2}", i, readerVersionNumber, readerTypeName);
                 result.AppendLine();
             }
 
             int numSharedResources = reader.Read7BitEncodedInt();
-            result.AppendFormat("Shared resources : {0}", numSharedResources);
+            result.AppendFormat(Severity.None, "Shared resources : {0}", numSharedResources);
             result.AppendLine();
         }
 
