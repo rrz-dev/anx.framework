@@ -1,6 +1,7 @@
 using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
+using System.Collections.ObjectModel;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -45,5 +46,11 @@ namespace ANX.Framework.NonXNA
 			int loopLength);
 
 		ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect);
+
+		IMicrophone CreateMicrophone(Microphone managedMicrophone);
+
+		ReadOnlyCollection<Microphone> GetAllMicrophones();
+
+		int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones);
 	}
 }

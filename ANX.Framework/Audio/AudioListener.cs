@@ -66,14 +66,8 @@ namespace ANX.Framework.Audio
 		#region Constructor
 		public AudioListener()
 		{
-			nativeListener = GetCreator().CreateAudioListener();
-		}
-		#endregion
-
-		#region GetCreator
-		private static ISoundSystemCreator GetCreator()
-		{
-			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			nativeListener = creator.CreateAudioListener();
 		}
 		#endregion
 	}

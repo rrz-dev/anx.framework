@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA;
@@ -149,6 +150,27 @@ namespace ANX.SoundSystem.OpenAL
 		public IAudioEmitter CreateAudioEmitter()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region CreateMicrophone
+		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetAllMicrophones
+		public ReadOnlyCollection<Microphone> GetAllMicrophones()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region GetDefaultMicrophone
+		public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
+		{
 			throw new NotImplementedException();
 		}
 		#endregion

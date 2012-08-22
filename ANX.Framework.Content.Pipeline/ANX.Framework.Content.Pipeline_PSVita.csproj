@@ -109,6 +109,8 @@
     <Compile Include="Processors\EffectProcessorDebugMode.cs" />
     <Compile Include="Processors\FontDescriptionProcessor.cs" />
     <Compile Include="Processors\FontTextureProcessor.cs" />
+    <Compile Include="Processors\HLSLCompiler.cs" />
+    <Compile Include="Processors\HLSLCompilerFactory.cs" />
     <Compile Include="Processors\MaterialProcessor.cs" />
     <Compile Include="Processors\MaterialProcessorDefaultEffect.cs" />
     <Compile Include="Processors\ModelBoneContent.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Serialization\Compiler\ContentWriter.cs" />
     <Compile Include="Serialization\Compiler\GenericContentTypeWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\EffectWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\BoundingBoxWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\BoundingSphereWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\BoundingFrustumWriter.cs" />

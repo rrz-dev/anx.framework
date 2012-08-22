@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA.SoundSystem;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,32 +11,45 @@ namespace ANX.Framework.Audio
 {
 	public sealed class Microphone
 	{
+		#region Private
+		private static int defaultMicrophone;
+		private static ReadOnlyCollection<Microphone> allMicrophones;
+
+		private IMicrophone nativeMicrophone;
+		#endregion
+
 		#region Events
 		public event EventHandler<EventArgs> BufferReady;
 		#endregion
 
 		#region Public
-		public readonly string Name;
-
 		public static ReadOnlyCollection<Microphone> All
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return allMicrophones;
 			}
-		}
-
-		public TimeSpan BufferDuration
-		{
-			get;
-			set;
 		}
 
 		public static Microphone Default
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return allMicrophones[defaultMicrophone];
+			}
+		}
+
+		public readonly string Name;
+
+		public TimeSpan BufferDuration
+		{
+			get
+			{
+				return nativeMicrophone.BufferDuration;
+			}
+			set
+			{
+				nativeMicrophone.BufferDuration = value;
 			}
 		}
 
@@ -42,7 +57,7 @@ namespace ANX.Framework.Audio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeMicrophone.IsHeadset;
 			}
 		}
 
@@ -50,7 +65,7 @@ namespace ANX.Framework.Audio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeMicrophone.SampleRate;
 			}
 		}
 
@@ -58,57 +73,75 @@ namespace ANX.Framework.Audio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeMicrophone.State;
 			}
 		}
 		#endregion
 
 		#region Constructor
+		static Microphone()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			allMicrophones = creator.GetAllMicrophones();
+			defaultMicrophone = creator.GetDefaultMicrophone(allMicrophones);
+		}
+
+		internal Microphone(string setName)
+		{
+			Name = setName;
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			nativeMicrophone = creator.CreateMicrophone(this);
+		}
+
 		~Microphone()
 		{
-			throw new NotImplementedException();
+			if (nativeMicrophone != null)
+			{
+				nativeMicrophone.Dispose();
+				nativeMicrophone = null;
+			}
 		}
 		#endregion
 
 		#region Stop
 		public void Stop()
 		{
-			throw new NotImplementedException();
+			nativeMicrophone.Stop();
 		}
 		#endregion
 
 		#region Start
 		public void Start()
 		{
-			throw new NotImplementedException();
+			nativeMicrophone.Start();
 		}
 		#endregion
 
 		#region GetSampleSizeInBytes
 		public int GetSampleSizeInBytes(TimeSpan duration)
 		{
-			throw new NotImplementedException();
+			return nativeMicrophone.GetSampleSizeInBytes(ref duration);
 		}
 		#endregion
 
 		#region GetSampleDuration
 		public TimeSpan GetSampleDuration(int sizeInBytes)
 		{
-			throw new NotImplementedException();
+			return nativeMicrophone.GetSampleDuration(sizeInBytes);
 		}
 		#endregion
 
 		#region GetData
 		public int GetData(byte[] buffer)
 		{
-			throw new NotImplementedException();
+			return nativeMicrophone.GetData(buffer);
 		}
 		#endregion
 
 		#region GetData
 		public int GetData(byte[] buffer, int offset, int count)
 		{
-			throw new NotImplementedException();
+			return nativeMicrophone.GetData(buffer, offset, count);
 		}
 		#endregion
 	}

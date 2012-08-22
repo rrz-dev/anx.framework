@@ -78,14 +78,8 @@ namespace ANX.Framework.Audio
 		#region Constructor
 		public AudioEmitter()
 		{
-			nativeEmitter = GetCreator().CreateAudioEmitter();
-		}
-		#endregion
-
-		#region GetCreator
-		private static ISoundSystemCreator GetCreator()
-		{
-			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+			nativeEmitter = creator.CreateAudioEmitter();
 		}
 		#endregion
 	}

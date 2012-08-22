@@ -122,5 +122,25 @@ namespace ANX.SoundSystem.Windows.XAudio
 		}
 
 		#endregion
+
+		#region ISoundSystemCreator Member
+
+
+		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
+		{
+			throw new NotImplementedException();
+		}
+
+		public System.Collections.ObjectModel.ReadOnlyCollection<Microphone> GetAllMicrophones()
+		{
+			throw new NotImplementedException();
+		}
+
+		public int GetDefaultMicrophone(System.Collections.ObjectModel.ReadOnlyCollection<Microphone> allMicrophones)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }
