@@ -238,8 +238,10 @@ namespace AnxSampleBrowser
             this.BeginInvoke((MethodInvoker)delegate { filter(); });
         }
 
-   
-
+        private void AnxSampleBrowser_Load(object sender, EventArgs e)
+        {
+            this.Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
     }
 
     static class StringExtender

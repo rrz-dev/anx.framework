@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnxSampleBrowser));
             this._pSamples = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -72,7 +73,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BackgroundImage = global::AnxSampleBrowser.Properties.Resources.ANX_Framework;
-            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panel2.Location = new System.Drawing.Point(13, 4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(119, 43);
@@ -180,8 +181,10 @@
             this.Controls.Add(this._pSamples);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AnxSampleBrowser";
-            this.Text = "Form1";
+            this.Text = "ANX.Framework Sample Browser";
+            this.Load += new System.EventHandler(this.AnxSampleBrowser_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);

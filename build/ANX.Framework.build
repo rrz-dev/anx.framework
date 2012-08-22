@@ -59,6 +59,10 @@
   <property name="project.anx.tools.name.StockShaderCodeGenerator" value="StockShaderCodeGenerator" />
   <property name="project.anx.tools.path.ProjectConverter" value="../Tools/ProjectConverter" />
   <property name="project.anx.tools.name.ProjectConverter" value="ProjectConverter" />
+  <property name="project.anx.tools.path.ContentBuilder" value="../Tools/ContentBuilder" />
+  <property name="project.anx.tools.name.ContentBuilder" value="ContentBuilder" />
+  <property name="project.anx.tools.path.XNBInspector" value="../Tools/XNBInspector" />
+  <property name="project.anx.tools.name.XNBInspector" value="XNBInspector" />
 
   <target name="clean" description="Cleans all targets.">
     <delete>
@@ -450,6 +454,35 @@
       <arg value="${project.anx.tools.path.StockShaderCodeGenerator}/${project.anx.tools.name.StockShaderCodeGenerator}.csproj" />
     </exec>
 
+    <echo message="===================================================" />
+    <echo message="Now building: ContentBuilder tool" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=Release"/>
+      <arg value='/p:Platform="Any CPU"'/>
+      <arg value="/p:OutputPath=${build.dir}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.tools.path.ContentBuilder}/${project.anx.tools.name.ContentBuilder}.csproj" />
+    </exec>
+
+    <echo message="===================================================" />
+    <echo message="Now building: XNB Inspector" />
+    <echo message="===================================================" />
+
+    <exec program="msbuild.exe" >
+      <arg value="/t:Build"/>
+      <arg value="/p:Configuration=Release"/>
+      <arg value='/p:Platform="Any CPU"'/>
+      <arg value="/p:OutputPath=${build.dir}" />
+      <arg value="/p:SolutionDir=${build.solution_dir}" />
+      <arg value="/p:AllowUnsafeBlocks=true" />
+      <arg value="/clp:ErrorsOnly" />
+      <arg value="${project.anx.tools.path.XNBInspector}/${project.anx.tools.name.XNBInspector}.csproj" />
+    </exec>
   </target>
 
   <target name="build_stock_shaders" description="Build the stock shaders for the render systems.">
