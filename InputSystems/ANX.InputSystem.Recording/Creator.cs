@@ -1,11 +1,5 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ANX.Framework.NonXNA;
-
-#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -23,12 +17,20 @@ namespace ANX.InputSystem.Recording
         RecordingMotionSensingDevice msd;
 #endif
 
+		public ITouchPanel TouchPanel
+		{
+			get
+			{
+				AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
+				throw new NotImplementedException();
+			}
+		}
+
         public IGamePad GamePad
         {
             get
             {
-                AddInSystemFactory.Instance.PreventSystemChange(
-                    AddInType.InputSystem);
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
                 if (gamePad == null)
                     gamePad = new RecordingGamePad();
                 return gamePad;
@@ -39,8 +41,7 @@ namespace ANX.InputSystem.Recording
         {
             get
             {
-                AddInSystemFactory.Instance.PreventSystemChange(
-                    AddInType.InputSystem);
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
                 if (mouse == null)
                     mouse = new RecordingMouse();
                 return mouse;
@@ -51,8 +52,7 @@ namespace ANX.InputSystem.Recording
         {
             get
             {
-                AddInSystemFactory.Instance.PreventSystemChange(
-                    AddInType.InputSystem);
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
                 if (keyboard == null)
                     keyboard = new RecordingKeyboard();
                 return keyboard;
@@ -64,8 +64,7 @@ namespace ANX.InputSystem.Recording
         {
             get
             {
-                AddInSystemFactory.Instance.PreventSystemChange(
-                    AddInType.InputSystem);
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
                 if (msd == null)
                     msd = new RecordingMotionSensingDevice();
                 return msd;
@@ -73,25 +72,34 @@ namespace ANX.InputSystem.Recording
         }
 #endif
 
+		public string Name
+		{
+			get
+			{
+				return "Recording";
+			}
+		}
+
+		public int Priority
+		{
+			get
+			{
+				return int.MaxValue;
+			}
+		}
+
+		public bool IsSupported
+		{
+			get
+			{
+				// This is just a proxy, so it runs on all plattforms
+				return true;
+			}
+		}
+
         public void RegisterCreator(AddInSystemFactory factory)
         {
             factory.AddCreator(this);
         }
-
-        public string Name
-        {
-            get { return "Recording"; }
-        }
-
-        public int Priority
-        {
-            get { return int.MaxValue; }
-        }
-
-        public bool IsSupported
-        {
-            get { return true; } //This is just a proxy, so it runs on all plattforms
-        }
-
     }
 }

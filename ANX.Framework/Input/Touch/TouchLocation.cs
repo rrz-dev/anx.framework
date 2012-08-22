@@ -11,16 +11,42 @@ namespace ANX.Framework.Input.Touch
 {
     public struct TouchLocation : IEquatable<TouchLocation>
     {
-        #region Private members
+        #region Private
         private int id;
         private TouchLocationState prevState;
         private Vector2 prevPos;
         private TouchLocationState state;
         private Vector2 pos;
+		#endregion
 
-        #endregion // Private members
+		#region Public
+		public int Id
+		{
+			get
+			{
+				return this.id;
+			}
+		}
 
-        public TouchLocation(int id, TouchLocationState state, Vector2 position)
+		public Vector2 Position
+		{
+			get
+			{
+				return this.pos;
+			}
+		}
+
+		public TouchLocationState State
+		{
+			get
+			{
+				return this.state;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public TouchLocation(int id, TouchLocationState state, Vector2 position)
         {
             this.id = id;
             this.state = state;
@@ -29,7 +55,8 @@ namespace ANX.Framework.Input.Touch
             this.prevPos = Vector2.Zero;
         }
 
-        public TouchLocation(int id, TouchLocationState state, Vector2 position, TouchLocationState previousState, Vector2 previousPosition)
+        public TouchLocation(int id, TouchLocationState state, Vector2 position, TouchLocationState previousState,
+			Vector2 previousPosition)
         {
             this.id = id;
             this.state = state;
@@ -37,8 +64,10 @@ namespace ANX.Framework.Input.Touch
             this.prevState = previousState;
             this.prevPos = previousPosition;
         }
+		#endregion
 
-        public bool TryGetPreviousLocation(out TouchLocation previousLocation)
+		#region TryGetPreviousLocation
+		public bool TryGetPreviousLocation(out TouchLocation previousLocation)
         {
             if (this.prevState == TouchLocationState.Invalid)
             {
@@ -59,20 +88,26 @@ namespace ANX.Framework.Input.Touch
             
             return true;
         }
-
+		#endregion
+		
+		#region ToString
         public override string ToString()
         {
             return string.Format("{{Position:{0}}}", this.pos);
         }
-
+		#endregion
+		
+		#region GetHashCode
         public override int GetHashCode()
         {
             return this.id.GetHashCode() + this.pos.X.GetHashCode() + this.pos.Y.GetHashCode();
         }
-
+		#endregion
+		
+		#region Equals
         public override bool Equals(Object other)
         {
-            if (other != null && other.GetType() == this.GetType())
+            if (other != null && other is TouchLocation)
             {
                 return this == (TouchLocation)other;
             }
@@ -84,7 +119,9 @@ namespace ANX.Framework.Input.Touch
         {
             return this.id == other.id && this.pos == other.pos && this.prevPos == other.prevPos;
         }
+		#endregion
 
+		#region Operators
         public static bool operator ==(TouchLocation lhs, TouchLocation rhs)
         {
             return lhs.id == rhs.id && lhs.pos == rhs.pos && lhs.prevPos == rhs.prevPos;
@@ -94,29 +131,6 @@ namespace ANX.Framework.Input.Touch
         {
             return lhs.id != rhs.id || lhs.pos != rhs.pos || lhs.prevPos != rhs.prevPos;
         }
-
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-        }
-
-        public Vector2 Position
-        {
-            get
-            {
-                return this.pos;
-            }
-        }
-
-        public TouchLocationState State
-        {
-            get
-            {
-                return this.state;
-            }
-        }
+		#endregion
     }
 }

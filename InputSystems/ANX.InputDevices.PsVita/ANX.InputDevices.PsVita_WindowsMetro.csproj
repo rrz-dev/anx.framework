@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</ProjectGuid>
+    <ProjectGuid>{566293A4-1187-4289-A28C-C74B499D46AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ANX.SoundSystem.OpenAL</RootNamespace>
-    <AssemblyName>ANX.SoundSystem.OpenAL</AssemblyName>
+    <RootNamespace>ANX.InputDevices.PsVita</RootNamespace>
+    <AssemblyName>ANX.InputDevices.PsVita</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -19,57 +19,34 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin8|AnyCPU'">
-    <OutputPath>bin\DebugWin8\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin8|AnyCPU'">
-    <OutputPath>bin\ReleaseWin8\</OutputPath>
-    <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>..\..\bin\Release\ANX.SoundSystem.OpenAL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.Compatibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OpenTK\OpenTK.Compatibility.dll</HintPath>
+    <Reference Include="Sce.PlayStation.Core">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\Psm\v1.0\Sce.PlayStation.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Creator.cs" />
-    <Compile Include="OpenALAudioListener.cs" />
-    <Compile Include="OpenALSoundEffect.cs" />
-    <Compile Include="OpenALSoundEffectInstance.cs" />
+    <Compile Include="GamePad.cs" />
+    <Compile Include="GamePadCreator.cs" />
+    <Compile Include="KeyboardCreator.cs" />
+    <Compile Include="TouchPanel.cs" />
+    <Compile Include="TouchPanelCreator.cs" />
+    <Compile Include="MouseCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>

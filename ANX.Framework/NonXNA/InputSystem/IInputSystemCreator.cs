@@ -19,7 +19,9 @@ namespace ANX.Framework.NonXNA
 
         IMouse Mouse { get; }
 
-        IKeyboard Keyboard { get; }
+		IKeyboard Keyboard { get; }
+
+		ITouchPanel TouchPanel { get; }
 
 #if XNAEXT
         IMotionSensingDevice MotionSensingDevice { get; }

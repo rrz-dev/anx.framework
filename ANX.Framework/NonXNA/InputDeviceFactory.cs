@@ -69,19 +69,21 @@ namespace ANX.Framework.NonXNA
 		#region Constructor
 		private InputDeviceFactory()
 		{
-			deviceCreators =
-				new Dictionary<Type, Dictionary<string, IInputDeviceCreator>>();
-
-			deviceCreators.Add(typeof(IGamePadCreator),
-				new Dictionary<string, IInputDeviceCreator>());
-			deviceCreators.Add(typeof(IKeyboardCreator),
-				new Dictionary<string, IInputDeviceCreator>());
-			deviceCreators.Add(typeof(IMouseCreator),
-				new Dictionary<string, IInputDeviceCreator>());
+			deviceCreators = new Dictionary<Type, Dictionary<string, IInputDeviceCreator>>();
+			RegisterCreatorType<IGamePadCreator>();
+			RegisterCreatorType<IKeyboardCreator>();
+			RegisterCreatorType<IMouseCreator>();
+			RegisterCreatorType<ITouchPanelCreator>();
 #if XNAEXT
-			deviceCreators.Add(typeof(IMotionSensingDeviceCreator),
-				new Dictionary<string, IInputDeviceCreator>());
+			RegisterCreatorType<IMotionSensingDeviceCreator>();
 #endif
+		}
+		#endregion
+
+		#region RegisterCreatorType
+		private void RegisterCreatorType<T>()
+		{
+			deviceCreators.Add(typeof(T), new Dictionary<string, IInputDeviceCreator>());
 		}
 		#endregion
 
@@ -93,9 +95,8 @@ namespace ANX.Framework.NonXNA
 			Type deviceInterface = TypeHelper.GetInterfacesFrom(deviceType)[0];
 			if (deviceCreators[deviceInterface].ContainsKey(creatorName))
 			{
-				throw new Exception("Duplicate " + deviceType.Name +
-					" found. A GamePadCreator with the name '" + creator.Name +
-					"' was already registered.");
+				throw new Exception("Duplicate " + deviceType.Name + " found. A " + deviceType.Name +
+					" with the name '" + creator.Name + "' was already registered.");
 			}
 
 			deviceCreators[deviceInterface].Add(creatorName, creator);
@@ -106,68 +107,43 @@ namespace ANX.Framework.NonXNA
 		}
 		#endregion
 
+		#region GetDefaultTouchPanel
+		public ITouchPanel GetDefaultTouchPanel()
+		{
+			ValidateWindowHandle();
+
+			var touchPanel = GetDefaultCreator<ITouchPanelCreator>().CreateTouchPanelInstance();
+			touchPanel.WindowHandle = this.windowHandle;
+			return touchPanel;
+		}
+		#endregion
+
 		#region GetDefaultGamePad
 		public IGamePad GetDefaultGamePad()
 		{
-			//TODO: this is a very basic implementation only which needs some more work
-
-			if (this.deviceCreators[typeof(IGamePadCreator)].Count > 0)
-			{
-				IInputDeviceCreator creator = deviceCreators[
-					typeof(IGamePadCreator)].Values.First<IInputDeviceCreator>();
-				return ((IGamePadCreator)creator).CreateGamePadInstance();
-			}
-
-			throw new Exception("Unable to create instance of GamePad because no GamePadCreator was registered.");
+			return GetDefaultCreator<IGamePadCreator>().CreateGamePadInstance();
 		}
 		#endregion
 
 		#region GetDefaultMouse
 		public IMouse GetDefaultMouse()
 		{
-			//TODO: this is a very basic implementation only which needs some more work
+			ValidateWindowHandle();
 
-			if (this.WindowHandle == null ||
-					this.WindowHandle == IntPtr.Zero)
-			{
-				throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
-			}
-
-			if (this.deviceCreators[typeof(IMouseCreator)].Count > 0)
-			{
-				IInputDeviceCreator creator = deviceCreators[
-					typeof(IMouseCreator)].Values.First<IInputDeviceCreator>();
-				IMouse mouse = ((IMouseCreator)creator).CreateMouseInstance();
-				mouse.WindowHandle = this.windowHandle;
-				return mouse;
-			}
-
-			throw new Exception("Unable to create instance of Mouse because no MouseCreator was registered.");
+			var mouse = GetDefaultCreator<IMouseCreator>().CreateMouseInstance();
+			mouse.WindowHandle = this.windowHandle;
+			return mouse;
 		}
 		#endregion
 
 		#region GetDefaultKeyboard
 		public IKeyboard GetDefaultKeyboard()
 		{
-			//TODO: this is a very basic implementation only which needs some more work
+			ValidateWindowHandle();
 
-			if (this.WindowHandle == null ||
-					this.WindowHandle == IntPtr.Zero)
-			{
-				throw new Exception("Unable to create a keyboard instance because the WindowHandle was not set.");
-			}
-
-			if (this.deviceCreators[typeof(IKeyboardCreator)].Count > 0)
-			{
-				IInputDeviceCreator creator = deviceCreators[
-					typeof(IKeyboardCreator)].Values.First<IInputDeviceCreator>();
-				IKeyboard keyboard =
-					((IKeyboardCreator)creator).CreateKeyboardInstance();
-				keyboard.WindowHandle = this.windowHandle;
-				return keyboard;
-			}
-
-			throw new Exception("Unable to create instance of Keyboard because no KeyboardCreator was registered.");
+			var keyboard = GetDefaultCreator<IKeyboardCreator>().CreateKeyboardInstance();
+			keyboard.WindowHandle = this.windowHandle;
+			return keyboard;
 		}
 		#endregion
 
@@ -175,20 +151,34 @@ namespace ANX.Framework.NonXNA
 #if XNAEXT
 		public IMotionSensingDevice GetDefaultMotionSensingDevice()
 		{
-			//TODO: this is a very basic implementation only which needs some more work
-
-			if (this.deviceCreators[typeof(IMotionSensingDeviceCreator)].Count > 0)
-			{
-				IInputDeviceCreator creator = deviceCreators[
-					typeof(IMotionSensingDeviceCreator)].Values
-					.First<IInputDeviceCreator>();
-				return ((IMotionSensingDeviceCreator)creator)
-					.CreateMotionSensingDeviceInstance();
-			}
-
-			throw new Exception("Unable to create instance of MotionSensingDevice because no MotionSensingDeviceCreator was registered.");
+			return GetDefaultCreator<IMotionSensingDeviceCreator>().CreateMotionSensingDeviceInstance();
 		}
 #endif
+		#endregion
+
+		#region GetDefaultCreator
+		private T GetDefaultCreator<T>() where T : IInputDeviceCreator
+		{
+			Type creatorType = typeof(T);
+			if (deviceCreators.ContainsKey(creatorType))
+			{
+				var creators = deviceCreators[creatorType];
+				if (creators.Count > 0)
+				{
+					return (T)creators.Values.First<IInputDeviceCreator>();
+				}
+			}
+
+			throw new Exception("Unable to find a default creator for type " + creatorType);
+		}
+		#endregion
+
+		#region ValidateWindowHandle
+		private void ValidateWindowHandle()
+		{
+			if (windowHandle == IntPtr.Zero)
+				throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
+		}
 		#endregion
 	}
 }

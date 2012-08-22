@@ -5,7 +5,7 @@ using ANX.Framework.NonXNA;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.InputSystem.Standard
+namespace ANX.InputDevices.PsVita
 {
 	public class SupportedPlatformsImpl : ISupportedPlatforms
 	{
@@ -15,15 +15,7 @@ namespace ANX.InputSystem.Standard
 			{
 				return new PlatformName[]
 				{
-					PlatformName.Android,
-					PlatformName.IOS,
-					PlatformName.PSVita,
-					PlatformName.Linux,
-					PlatformName.MacOSX,
-					PlatformName.WindowsXP,
-					PlatformName.WindowsVista,
-					PlatformName.Windows7,
-					PlatformName.Windows8
+					PlatformName.PSVita
 				};
 			}
 		}

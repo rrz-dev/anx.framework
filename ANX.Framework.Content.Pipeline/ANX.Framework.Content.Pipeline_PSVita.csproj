@@ -34,6 +34,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnxContentImporterContext.cs" />
+    <Compile Include="AnxContentProcessorContext.cs" />
     <Compile Include="Audio\AudioContent.cs" />
     <Compile Include="Audio\AudioFileType.cs" />
     <Compile Include="Audio\AudioFormat.cs" />
@@ -165,6 +167,11 @@
     <Compile Include="Serialization\Compiler\SystemTypeWriters\NullableWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\TimeSpanWriter.cs" />
     <Compile Include="TargetPlatform.cs" />
+    <Compile Include="Tasks\BuildContent.cs" />
+    <Compile Include="Tasks\BuildItem.cs" />
+    <Compile Include="Tasks\BuildRequest.cs" />
+    <Compile Include="Tasks\ImporterManager.cs" />
+    <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="VideoContent.cs" />
   </ItemGroup>
   <ItemGroup>

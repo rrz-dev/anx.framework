@@ -419,6 +419,8 @@
     <Compile Include="NonXNA\InputSystem\IKeyboardCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMouseCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
+    <Compile Include="NonXNA\InputSystem\ITouchPanel.cs" />
+    <Compile Include="NonXNA\InputSystem\ITouchPanelCreator.cs" />
     <Compile Include="NonXNA\ISupportedPlatforms.cs" />
     <Compile Include="NonXNA\Logger.cs" />
     <Compile Include="NonXNA\ManifestHelper.cs" />

@@ -1,9 +1,6 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
 using System.Collections;
-
-#endregion // Using Statements
+using System.Collections.Generic;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,148 +8,195 @@ using System.Collections;
 
 namespace ANX.Framework.Input.Touch
 {
-    public struct TouchCollection : IList<TouchLocation>, ICollection<TouchLocation>, IEnumerable<TouchLocation>, IEnumerable
-    {
-        public TouchCollection(TouchLocation[] touches)
-        {
-            throw new NotImplementedException();
-        }
+	public struct TouchCollection : IList<TouchLocation>, ICollection<TouchLocation>, IEnumerable<TouchLocation>, IEnumerable
+	{
+		#region Enumerator (helper struct)
+		public struct Enumerator : IEnumerator<TouchLocation>, IDisposable, IEnumerator
+		{
+			private TouchCollection collection;
+			private int position;
 
-        public int IndexOf(TouchLocation item)
-        {
-            throw new NotImplementedException();
-        }
+			public TouchLocation Current
+			{
+				get
+				{
+					return this.collection[this.position];
+				}
+			}
 
-        public void Insert(int index, TouchLocation item)
-        {
-            throw new NotImplementedException();
-        }
+			object IEnumerator.Current
+			{
+				get
+				{
+					return this.Current;
+				}
+			}
 
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
+			internal Enumerator(TouchCollection collection)
+			{
+				this.collection = collection;
+				this.position = -1;
+			}
 
-        public TouchLocation this[int index]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+			public bool MoveNext()
+			{
+				this.position++;
+				if (this.position >= this.collection.Count)
+				{
+					this.position = this.collection.Count;
+					return false;
+				}
+				return true;
+			}
 
-        public void Add(TouchLocation item)
-        {
-            throw new NotImplementedException();
-        }
+			void IEnumerator.Reset()
+			{
+				this.position = -1;
+			}
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+			public void Dispose()
+			{
+			}
+		}
+		#endregion
 
-        public bool Contains(TouchLocation item)
-        {
-            throw new NotImplementedException();
-        }
+		#region Private
+		private List<TouchLocation> locations;
+		#endregion
 
-        public void CopyTo(TouchLocation[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
+		#region Public (TODO)
+		public TouchLocation this[int index]
+		{
+			get
+			{
+				return locations[index];
+			}
+			set
+			{
+				locations[index] = value;
+			}
+		}
 
-        public bool FindById(int id, out TouchLocation touchLocation)
-        {
-            throw new NotImplementedException();
-        }
+		public int Count
+		{
+			get
+			{
+				return locations.Count;
+			}
+		}
 
-        public int Count
-        {
-            get { throw new NotImplementedException(); }
-        }
+		public bool IsConnected
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public bool IsConnected 
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public bool IsReadOnly
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
 
-        public bool IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
+		#region Constructor
+		public TouchCollection(TouchLocation[] touches)
+		{
+			locations = new List<TouchLocation>(touches);
+		}
+		#endregion
 
-        public bool Remove(TouchLocation item)
-        {
-            throw new NotImplementedException();
-        }
+		#region IndexOf
+		public int IndexOf(TouchLocation item)
+		{
+			return locations.IndexOf(item);
+		}
+		#endregion
 
-        public Enumerator GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
+		#region Insert
+		public void Insert(int index, TouchLocation item)
+		{
+			locations.Insert(index, item);
+		}
+		#endregion
 
-        IEnumerator<TouchLocation> IEnumerable<TouchLocation>.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+		#region RemoveAt
+		public void RemoveAt(int index)
+		{
+			locations.RemoveAt(index);
+		}
+		#endregion
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+		#region Add
+		public void Add(TouchLocation item)
+		{
+			locations.Add(item);
+		}
+		#endregion
 
-        public struct Enumerator : IEnumerator<TouchLocation>, IDisposable, IEnumerator
-        {
-            private TouchCollection collection;
-            private int position;
-            internal Enumerator(TouchCollection collection)
-            {
-                this.collection = collection;
-                this.position = -1;
-            }
+		#region Clear
+		public void Clear()
+		{
+			locations.Clear();
+		}
+		#endregion
 
-            public TouchLocation Current
-            {
-                get
-                {
-                    return this.collection[this.position];
-                }
-            }
-            public bool MoveNext()
-            {
-                this.position++;
-                if (this.position >= this.collection.Count)
-                {
-                    this.position = this.collection.Count;
-                    return false;
-                }
-                return true;
-            }
+		#region Contains
+		public bool Contains(TouchLocation item)
+		{
+			return locations.Contains(item);
+		}
+		#endregion
 
-            void IEnumerator.Reset()
-            {
-                this.position = -1;
-            }
+		#region CopyTo
+		public void CopyTo(TouchLocation[] array, int arrayIndex)
+		{
+			locations.CopyTo(array, arrayIndex);
+		}
+		#endregion
 
-            public void Dispose()
-            {
-            }
+		#region FindById
+		public bool FindById(int id, out TouchLocation touchLocation)
+		{
+			foreach (var location in locations)
+			{
+				if (location.Id == id)
+				{
+					touchLocation = location;
+					return true;
+				}
+			}
 
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return this.Current;
-                }
-            }
-        }
+			touchLocation = default(TouchLocation);
+			return false;
+		}
+		#endregion
 
-    }
+		#region Remove
+		public bool Remove(TouchLocation item)
+		{
+			return locations.Remove(item);
+		}
+		#endregion
+
+		#region GetEnumerator
+		public Enumerator GetEnumerator()
+		{
+			return new Enumerator(this);
+		}
+
+		IEnumerator<TouchLocation> IEnumerable<TouchLocation>.GetEnumerator()
+		{
+			return new Enumerator(this);
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return new Enumerator(this);
+		}
+		#endregion
+	}
 }

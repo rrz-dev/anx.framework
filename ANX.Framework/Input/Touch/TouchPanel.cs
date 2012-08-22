@@ -1,4 +1,6 @@
 using System;
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.InputSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,15 +10,20 @@ namespace ANX.Framework.Input.Touch
 {
 	public static class TouchPanel
 	{
+		#region Private
+		private static ITouchPanel nativeTouchPanel;
+		#endregion
+
+		#region Public
 		public static GestureType EnabledGestures
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.EnabledGestures;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				nativeTouchPanel.EnabledGestures = value;
 			}
 		}
 
@@ -24,7 +31,7 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.IsGestureAvailable;
 			}
 		}
 
@@ -32,11 +39,11 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.WindowHandle;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				nativeTouchPanel.WindowHandle = value;
 			}
 		}
 
@@ -44,11 +51,11 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.DisplayOrientation;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				nativeTouchPanel.DisplayOrientation = value;
 			}
 		}
 
@@ -56,11 +63,11 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.DisplayWidth;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				nativeTouchPanel.DisplayWidth = value;
 			}
 		}
 
@@ -68,27 +75,41 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeTouchPanel.DisplayHeight;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				nativeTouchPanel.DisplayHeight = value;
 			}
 		}
+		#endregion
 
+		#region Constructor
+		static TouchPanel()
+		{
+			nativeTouchPanel = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().TouchPanel;
+		}
+		#endregion
+
+		#region GetCapabilities
 		public static TouchPanelCapabilities GetCapabilities()
 		{
-			throw new NotImplementedException();
+			return nativeTouchPanel.GetCapabilities();
 		}
+		#endregion
 
+		#region ReadGesture
 		public static GestureSample ReadGesture()
 		{
-			throw new NotImplementedException();
+			return nativeTouchPanel.ReadGesture();
 		}
+		#endregion
 
+		#region GetState
 		public static TouchCollection GetState()
 		{
-			throw new NotImplementedException();
+			return nativeTouchPanel.GetState();
 		}
+		#endregion
 	}
 }

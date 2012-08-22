@@ -137,11 +137,11 @@ namespace ANX.SoundSystem.OpenAL
 		}
 		#endregion
 
-		#region CreateAudioListener (TODO)
+		#region CreateAudioListener
 		public IAudioListener CreateAudioListener()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
-			throw new NotImplementedException();
+			return new OpenALAudioListener();
 		}
 		#endregion
 

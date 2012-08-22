@@ -11,7 +11,6 @@ namespace ANX.Framework.Input.Touch
 {
     public struct TouchPanelCapabilities
     {
-
         public bool IsConnected 
         { 
             get; 
@@ -23,6 +22,5 @@ namespace ANX.Framework.Input.Touch
             get; 
             set; 
         }
-
     }
 }
