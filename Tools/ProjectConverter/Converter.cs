@@ -45,6 +45,12 @@ namespace ProjectConverter
 		#endregion
 
 		#region ConvertProject
+        public void ConvertProject(string projectFilePath)
+        {
+            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".");
+            ConvertProject(projectPath);
+        }
+
 		public void ConvertProject(ProjectPath project)
 		{
 			CurrentProject = project;

@@ -65,6 +65,9 @@ namespace ProjectConverter
                             case ".sln":
                                 converter.ConvertAllProjects(file);
                                 break;
+                            case ".csproj":
+                                converter.ConvertProject(file);
+                                break;
                             default:
                                 throw new NotImplementedException("unsupported file type '" + fileExt + "'");
                         }
