@@ -16,33 +16,35 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 {
     public sealed class ContentWriter : BinaryWriter
     {
-        private TargetPlatform targetPlatform;
-        private GraphicsProfile targetProfile;
+        #region Private Members
         private ContentCompiler compiler;
-        private MemoryStream headerData;
-        private MemoryStream contentData;
-        private Stream finalOutput;
         private Boolean compressContent;
         private string rootDirectory;
         private string referenceRelocationPath;
+        private Dictionary<Type, int> typeTable = new Dictionary<Type, int>();
+        private List<ContentTypeWriter> typeWriters = new List<ContentTypeWriter>();
+
+        private Stream outputStream;
+        private MemoryStream header = new MemoryStream();
+        private MemoryStream content = new MemoryStream();
+
+        #endregion
 
         const byte xnbFormatVersion = (byte)5;
         char[] xnbMagicWord = new char[] { 'X', 'N', 'B' };
 
-        internal ContentWriter(ContentCompiler compiler, Stream output, TargetPlatform targetPlatform, GraphicsProfile targetProfile, bool compressContent, string rootDirectory, string referenceRelocationPath)
+        internal ContentWriter(ContentCompiler compiler, Stream output, bool compressContent, string rootDirectory, string referenceRelocationPath)
         {
             this.compiler = compiler;
-            this.targetPlatform = targetPlatform;
-            this.targetProfile = targetProfile;
             this.compressContent = compressContent;
             this.rootDirectory = rootDirectory;
             this.referenceRelocationPath = referenceRelocationPath;
-            this.finalOutput = output;
-            this.headerData = new MemoryStream();
-            this.contentData = new MemoryStream();
-            this.OutStream = this.contentData;
+
+            this.outputStream = output;
+            this.OutStream = content;
         }
 
+        #region Write value types
         public void Write(Color value)
         {
             base.Write(value.PackedValue);
@@ -97,9 +99,17 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             base.Write(value.W);
         }
 
+        #endregion
+
         public void WriteExternalReference<T>(ExternalReference<T> reference)
         {
-            throw new NotImplementedException();
+            if (reference == null || String.IsNullOrEmpty(reference.Filename))
+            {
+                Write(String.Empty);
+                return;
+            }
+
+            Write(Path.GetFileNameWithoutExtension(reference.Filename));
         }
 
         public void WriteObject<T>(T value)
@@ -110,19 +120,107 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                 return;
             }
 
-            ContentTypeWriter typeWriter = this.compiler.GetTypeWriter(value.GetType());
+            int typeIndex;
+            ContentTypeWriter typeWriter = this.GetTypeWriter(value.GetType(), out typeIndex);
+            base.Write7BitEncodedInt(typeIndex + 1);
 
-            base.Write7BitEncodedInt(1);
-            //if (this.recurseDetector.ContainsKey(value))
-            //{
-            //    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.FoundCyclicReference, new object[]
-            //    {
-            //        value
-            //    }));
-            //}
-            //this.recurseDetector.Add(value, true);
+            //TODO: test for recursive cyclic calls
             this.InvokeWriter<T>(value, typeWriter);
-            //this.recurseDetector.Remove(value);
+        }
+
+        public void WriteObject<T>(T value, ContentTypeWriter typeWriter)
+        {
+            if (value == null)
+            {
+                base.Write7BitEncodedInt(0);
+                return;
+            }
+
+            if (typeWriter.TargetIsValueType)
+            {
+                this.InvokeWriter<T>(value, typeWriter);
+                return;
+            }
+
+            this.WriteObject<T>(value);            
+        }
+
+        public void WriteRawObject<T>(T value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            int typeIndex;
+            ContentTypeWriter typeWriter = this.GetTypeWriter(typeof(T), out typeIndex);
+            this.InvokeWriter<T>(value, typeWriter);
+        }
+
+        public void WriteRawObject<T>(T value, ContentTypeWriter typeWriter)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (typeWriter == null)
+            {
+                throw new ArgumentNullException("typeWriter");
+            }
+            this.InvokeWriter<T>(value, typeWriter);
+        }
+
+        public void WriteSharedResource<T>(T value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TargetPlatform TargetPlatform
+        {
+            get;
+            set;
+        }
+
+        public GraphicsProfile TargetProfile
+        {
+            get;
+            set;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            WriteData();
+
+            base.Dispose(disposing);
+        }
+
+        private void WriteData()
+        {
+            OutStream = header;
+            Write7BitEncodedInt(this.typeWriters.Count);
+            foreach (ContentTypeWriter current in this.typeWriters)
+            {
+                Write(current.GetRuntimeReader(TargetPlatform));
+                Write(current.TypeVersion);
+            }
+            Write7BitEncodedInt((int)0); // number of shared resources
+            //TODO: write shared resources
+
+
+            OutStream = outputStream;
+
+            Write(xnbMagicWord);                                                       // magic bytes for file recognition     -   03 bytes
+            Write((byte)TargetPlatform);                                               // target platform of content file      -   01 byte
+            Write((byte)xnbFormatVersion);                                             // version of this file                 -   01 byte
+            Write((byte)(TargetProfile == GraphicsProfile.HiDef ? 0x01 : 0x00));       // flags                                -   01 byte
+            Write((int)header.Length + (int)content.Length + 10);                      // size of file                         -   04 byte
+            if (compressContent)
+            {
+                //TODO: write compressed size
+            }
+
+            OutStream.Write(header.GetBuffer(), 0, (int)header.Length);
+            OutStream.Write(content.GetBuffer(), 0, (int)content.Length);   //TODO: write compressed stream if compressedContent is true
         }
 
         private void InvokeWriter<T>(T value, ContentTypeWriter writer)
@@ -136,94 +234,30 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             writer.Write(this, value);
         }
 
-        public void WriteObject<T>(T value, ContentTypeWriter typeWriter)
+        private ContentTypeWriter GetTypeWriter(Type type, out int typeIndex)
         {
-            throw new NotImplementedException();
-        }
+            if (this.typeTable.TryGetValue(type, out typeIndex))
+            {
+                return this.typeWriters[typeIndex];
+            }
 
-        public void WriteRawObject<T>(T value)
-        {
-            throw new NotImplementedException();
-        }
+            IEnumerable<Type> enumerable = null;
+            ContentTypeWriter typeWriter = this.compiler.GetTypeWriter(type); //TODO:, out enumerable);
+            typeIndex = this.typeWriters.Count;
+            this.typeWriters.Add(typeWriter);
+            this.typeTable.Add(type, typeIndex);
 
-        public void WriteRawObject<T>(T value, ContentTypeWriter typeWriter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteSharedResource<T>(T value)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void FlushOutput()
-        {
-            //TODO: implement
-
-            //this.WriteSharedResources();
-            this.WriteHeader();
-            this.WriteFinalOutput();
-        }
-
-        private void WriteHeader()
-        {
-            this.OutStream = this.headerData;
-            //TODO: implement
-            //base.Write7BitEncodedInt(this.typeWriters.Count);
-            //foreach (ContentTypeWriter current in this.typeWriters)
+            //TODO: what is this for?
+            //foreach (Type current in enumerable)
             //{
-            //    this.Write(current.GetRuntimeReader(this.targetPlatform));
-            //    this.Write(current.TypeVersion);
+            //    if (!(current == typeof(object)))
+            //    {
+            //        int num;
+            //        this.GetTypeWriter(current, out num);
+            //    }
             //}
-            //base.Write7BitEncodedInt(this.sharedResourceNames.Count);
-        }
 
-        private void WriteFinalOutput()
-        {
-            this.OutStream = this.finalOutput;
-            this.Write(xnbMagicWord);
-            this.Write((byte)this.targetPlatform);
-            if (this.compressContent)
-            {
-                throw new NotImplementedException();
-                //this.WriteCompressedOutput();
-            }
-            else
-            {
-                this.WriteUncompressedOutput();
-            }
-        }
-
-        private void WriteUncompressedOutput()
-        {
-            this.Write(xnbFormatVersion);    // Version
-
-            byte flags = 0;
-            if (TargetProfile == GraphicsProfile.HiDef)
-            {
-                flags |= 0x01;
-            }
-            this.Write(flags);
-
-            this.Write(10 + this.headerData.Length + this.contentData.Length);
-            this.OutStream.Write(this.headerData.GetBuffer(), 0, (int)this.headerData.Length);
-            this.OutStream.Write(this.contentData.GetBuffer(), 0, (int)this.contentData.Length);
-        }
-
-        public TargetPlatform TargetPlatform
-        {
-            get
-            {
-                return targetPlatform;
-            }
-        }
-
-        public GraphicsProfile TargetProfile
-        {
-            get
-            {
-                return targetProfile;
-            }
+            return typeWriter;
         }
     }
 }

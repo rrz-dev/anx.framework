@@ -11,8 +11,17 @@ namespace ANX.Framework.Content.Pipeline
 {
     public enum TargetPlatform : byte
     {
-        Windows = (byte)119,
-        WindowsPhone = (byte)109,
-        XBox360 = (byte)120,
+        Windows =       (byte)'w',
+        WindowsPhone =  (byte)'m',
+        XBox360 =       (byte)'x',
+
+        // ANX-Extensions
+        Android =       (byte)'a',
+        IOS =           (byte)'i',
+        Linux =         (byte)'l',
+        MacOs =         (byte)'o',
+        PsVita =        (byte)'p',
+        WindowsMetro =  (byte)'8',
+
     }
 }

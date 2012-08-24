@@ -14,6 +14,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
     {
         private bool canDeserializeIntoExistingObject;
         private Type targetType;
+        internal readonly bool TargetIsValueType;
 
         protected ContentTypeWriter(Type targetType)
         {
@@ -140,7 +141,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         {
             get
             {
-                throw new NotImplementedException();
+                return 0;
             }
         }
     }

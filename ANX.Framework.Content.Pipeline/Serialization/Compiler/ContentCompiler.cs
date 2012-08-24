@@ -71,10 +71,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             {
                 compressContent = this.ShouldCompressContent(targetPlatform, value);
             }
-            using (ContentWriter contentWriter = new ContentWriter(this, output, targetPlatform, targetProfile, compressContent, rootDirectory, referenceRelocationPath))
+            using (ContentWriter contentWriter = new ContentWriter(this, output, compressContent, rootDirectory, referenceRelocationPath) { TargetPlatform = targetPlatform, TargetProfile = targetProfile })
             {
                 contentWriter.WriteObject<object>(value);
-                contentWriter.FlushOutput();
             }
         }
 

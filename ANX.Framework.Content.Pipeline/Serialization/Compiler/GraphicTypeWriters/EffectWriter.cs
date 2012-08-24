@@ -28,11 +28,11 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         protected internal override void Write(ContentWriter output, CompiledEffectContent value)
         {
-            //TODO: implement
-            //if (output.TargetPlatform == TargetPlatform.WindowsPhone)
-            //{
-            //    throw new InvalidContentException(Resources.MobileNoEffects);
-            //}
+            if (output.TargetPlatform != TargetPlatform.Windows)
+            {
+                throw new InvalidOperationException("currently only HLSL windows effects are supported by EffectWriter");
+            }
+
             byte[] effectCode = value.GetEffectCode();
             output.Write(effectCode.Length);
             output.Write(effectCode);

@@ -19,28 +19,16 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         protected internal override void Write(ContentWriter output, object value)
         {
-            this.Write(output, ContentTypeWriter<T>.CastType(value));
+            if (value is T)
+            {
+                this.Write(output, (T)value);
+            }
+            else
+            {
+                throw new FormatException("The type of the value-object does not match the generic T-parameter");
+            }
         }
 
         protected internal abstract void Write(ContentWriter output, T value);
-
-        private static T CastType(object value)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (!(value is T))
-            {
-                System.Diagnostics.Debugger.Break();
-                //throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.WrongArgumentType, new object[]
-                //{
-                //    typeof(T),
-                //    value.GetType()
-                //}));
-            }
-            return (T)((object)value);
-        }
-
     }
 }

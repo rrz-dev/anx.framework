@@ -78,6 +78,13 @@ namespace ANX.Tools.XNBInspector
             // w = Microsoft Windows
             // m = Windows Phone 7
             // x = Xbox 360
+            // ANX-EXTENSIONS:
+            // a = Android
+            // i = iOS
+            // l = Linux
+            // o = MacOs
+            // p = PS Vita / Mobile
+            // 8 = Windows 8 Metro
             result.Append(Severity.None, "Target platform  : ");
             switch ((char)targetPlattform)
             {
@@ -90,8 +97,26 @@ namespace ANX.Tools.XNBInspector
                 case 'x':
                     result.AppendFormat(Severity.Success, "{0}[x] (Xbox 360)", targetPlattform);
                     break;
+                case 'a':
+                    result.AppendFormat(Severity.Success, "{0}[a] (Android) | ANX extension", targetPlattform);
+                    break;
+                case 'i':
+                    result.AppendFormat(Severity.Success, "{0}[i] (iOS) | ANX extension", targetPlattform);
+                    break;
+                case 'l':
+                    result.AppendFormat(Severity.Success, "{0}[l] (Linux) | ANX extension", targetPlattform);
+                    break;
+                case 'o':
+                    result.AppendFormat(Severity.Success, "{0}[o] (MacOS) | ANX extension", targetPlattform);
+                    break;
+                case 'p':
+                    result.AppendFormat(Severity.Success, "{0}[p] (PS Vita / mobile) | ANX extension", targetPlattform);
+                    break;
+                case '8':
+                    result.AppendFormat(Severity.Success, "{0}[8] (Windows 8 metro) | ANX extension", targetPlattform);
+                    break;
                 default:
-                    result.AppendFormat(Severity.Error, "{0} (Unknown or non XNA platform)", targetPlattform);
+                    result.AppendFormat(Severity.Error, "{0} (Unknown or non XNA/ANX platform)", targetPlattform);
                     break;
             }
             result.AppendLine();
