@@ -55,7 +55,6 @@ namespace ProjectConverter
             foreach (string file in files)
             {
                 string fileExt = Path.GetExtension(file).ToLowerInvariant();
-
                 foreach (Converter converter in converters)
                 {
                     if (switches.Contains(converter.Postfix.ToLowerInvariant()))

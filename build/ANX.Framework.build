@@ -2,13 +2,16 @@
   <property name="build.configuration" value="Release" />
   <property name="build.platform" value="Any CPU" />
   <property name="build.dir" value="../../bin" />
+  <property name="build.dir.tools" value="../bin" />
   <property name="build.solution_dir" value="../" />  
 
   <property name="project.anx.path" value="../ANX.Framework" />
   <property name="project.anx.name" value="ANX.Framework" />
   <property name="project.anx.build_env" value="VS2010" />
-  <property name="project.anx.win8" value="false" />
-  
+
+  <property name="project.anx.platform" value="Windows" />
+  <property name="project.anx.windows" value="true" />
+  <property name="project.anx.linux" value="false" />
   <property name="project.anx.psvita" value="false" />
   <property name="project.anx.metro" value="false" />
   
@@ -49,14 +52,40 @@
     <property name="project.anx.build_env" value="VS2011" />
   </target>
 
+  <target name="windows">
+    <property name="project.anx.windows" value="true" />
+    <property name="project.anx.platform" value="Windows" />
+  </target>
+
+  <target name="linux">
+    <property name="project.anx.linux" value="true" />
+    <property name="project.anx.platform" value="Linux" />
+
+    <call target="generate_project_files" />
+  </target>
+
+  <target name="psvita">
+    <property name="project.anx.psvita" value="true" />
+    <property name="project.anx.platform" value="PS Vita" />
+
+    <call target="generate_project_files" />
+  </target>
+
+  <target name="metro">
+    <property name="project.anx.metro" value="false" />
+    <property name="project.anx.platform" value="Windows 8 / Metro" />
+
+    <call target="generate_project_files" />
+  </target>
+  
   <target name="build">
     <echo message="===================================================" />
     <echo message="ANX.Framework build script" />
     <echo message="===================================================" />
     <echo message="" />
-    <echo message="Build environment: ${project.anx.build_env}" />
+    <echo message="Build environment  : ${project.anx.build_env}" />
     <echo message="Build configuration: ${build.configuration}" />
-    <echo message="Win8 / Metro build: ${project.anx.win8}" />
+    <echo message="Target platform    : ${project.anx.platform}" />
     <echo message="" />
 
     <if test="${project.anx.extended}">
@@ -358,4 +387,26 @@
 
   </target>
 
+  <target name="generate_project_files" depends="tools">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../">
+          <include name="**/${project.anx.name}/*.csproj" />
+          <exclude name="*/*_Linux.csproj" />
+          <exclude name="*/*_PSVita.csproj" />
+          <exclude name="*/*_WindowsMetro.csproj" />
+        </items>
+      </in>
+      <do>
+        <echo message="create project file: ${projectFile}" />
+
+        <exec program="${build.dir.tools}/${build.configuration}/ProjectConverter.exe" >
+          <arg value="&quot;${projectFile}&quot;" />
+          <arg value="/linux" if="${project.anx.linux}" />
+          <arg value="/psvita" if="${project.anx.psvita}" />
+          <arg value="/windowsmetro" if="${project.anx.metro}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
 </project>
