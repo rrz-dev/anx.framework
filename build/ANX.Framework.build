@@ -1,5 +1,4 @@
 <project name="ANX.Framework Build" default="build">
-  <property name="build.configuration" value="Release" />
   <property name="build.platform" value="Any CPU" />
   <property name="build.dir" value="../../bin" />
   <property name="build.dir.tools" value="../bin" />
@@ -7,20 +6,22 @@
 
   <property name="project.anx.path" value="../ANX.Framework" />
   <property name="project.anx.name" value="ANX.Framework" />
-  <property name="project.anx.build_env" value="VS2010" />
 
-  <property name="project.anx.platform" value="Windows" />
-  <property name="project.anx.windows" value="true" />
-  <property name="project.anx.linux" value="false" />
-  <property name="project.anx.psvita" value="false" />
-  <property name="project.anx.metro" value="false" />
-  
   <property name="project.anx.extended" value="false" unless="${property::exists('project.anx.extended')}" />
   <property name="project.anx.directives" value="" unless="${property::exists('project.anx.directives')}" />
 
   <property name="project.anxcontent.path" value="../ANX.Framework.ContentPipeline" />
   <property name="project.anxcontent.name" value="ANX.Framework.ContentPipeline" />
 
+  <!-- dont change the following flags... set 'em by calling the appropriate target -->
+  <property name="build.configuration" value="Release" />
+  <property name="project.anx.build_env" value="VS2010" />
+  <property name="project.anx.platform" value="Windows" />
+  <property name="project.anx.windows" value="true" />
+  <property name="project.anx.linux" value="false" />
+  <property name="project.anx.psvita" value="false" />
+  <property name="project.anx.metro" value="false" />
+  
   <target name="clean" description="Cleans all targets.">
     <delete>
       <fileset>
@@ -72,7 +73,7 @@
   </target>
 
   <target name="metro">
-    <property name="project.anx.metro" value="false" />
+    <property name="project.anx.metro" value="true" />
     <property name="project.anx.platform" value="Windows 8 / Metro" />
 
     <call target="generate_project_files" />
@@ -126,13 +127,35 @@
   </target>
 
   <target name="rendersystem" description="Build ANX.Framework InputSystems">
+    <!-- default windows fileset -->
+    <fileset id="rendersystem_files" basedir="../RenderSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*GL*_Linux.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*.PSVITA*_PSVITA.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*.Metro*_WindowsMetro.csproj" />
+      </fileset>
+    </if>
+    
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../RenderSystems/">
-          <include name="**/*.csproj" />
-          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
-          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
-        </items>
+        <items refid="rendersystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
@@ -154,15 +177,52 @@
   </target>
 
   <target name="inputsystem" description="Build ANX.Framework InputSystems">
+    <!-- default windows fileset -->
+    <fileset id="inputsystem_files" basedir="../InputSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Kinect*.csproj" />
+      <exclude name="**/*_Linux.csproj" />
+      <exclude name="**/ANX.InputDevices.Test*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*_Linux.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*PSVITA*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*_PSVITA.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*_WindowsMetro.csproj" />
+        <exclude name="**/*PsVita*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenTK*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+    
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../InputSystems/">
-          <include name="**/*.csproj" />
-          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
-          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
-          <exclude name="**/*Kinect*.csproj" unless="${project.anx.extended}" />
-          <exclude name="**/ANX.InputDevices.Test*.csproj" />
-        </items>
+        <items refid="inputsystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
@@ -182,15 +242,46 @@
       </do>
     </foreach>
   </target>
-
+ 
   <target name="soundsystem" description="Build ANX.Framework SoundSystems">
+    <!-- default windows fileset -->
+    <fileset id="soundsystem_files" basedir="../SoundSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_Linux.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*PSVITA*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_PsVita.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_WindowsMetro.csproj" />
+        <exclude name="**/*PSVita*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenAL*.csproj" />
+      </fileset>
+    </if>
+
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../SoundSystems/">
-          <include name="**/*.csproj" />
-          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
-          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
-        </items>
+        <items refid="soundsystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
@@ -212,13 +303,35 @@
   </target>
 
   <target name="mediasystem" description="Build ANX.Framework MediaSystems">
+    <!-- default windows fileset -->
+    <fileset id="mediasystem_files" basedir="../MediaSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="mediasystem_files" basedir="../MediaSystems/">
+        <!-- TODO: no mediasystems for linux currently -->
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="mediasystem_files" basedir="../MediaSystems/">
+        <!-- TODO: no mediasystems for linux currently -->
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="mediasystem_files" basedir="../MediaSystems/">
+        <!-- TODO: no mediasystems for linux currently -->
+      </fileset>
+    </if>
+    
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../MediaSystems/">
-          <include name="**/*.csproj" />
-          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
-          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
-        </items>
+        <items refid="mediasystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
@@ -240,13 +353,35 @@
   </target>
 
   <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
+    <!-- default windows fileset -->
+    <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*Linux*_Linux.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*PsVita*_PsVita.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*Metro*_WindowsMetro.csproj" />
+      </fileset>
+    </if>
+    
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../PlatformSystems/">
-          <include name="**/*.csproj" />
-          <exclude name="**/*PSVita*.csproj" unless="${project.anx.psvita}" />
-          <exclude name="**/*Metro*.csproj" unless="${project.anx.metro}" />
-        </items>
+        <items refid="platformsystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
@@ -388,17 +523,24 @@
   </target>
 
   <target name="generate_project_files" depends="tools">
+    <fileset id="project_files" basedir="../">
+      <include name="**/${project.anx.name}/*.csproj" />
+      <include name="RenderSystems/**/*.csproj" />
+      <include name="InputSystems/**/*.csproj" />
+      <include name="MediaSystems/**/*.csproj" />
+      <include name="PlatformSystems/**/*.csproj" />
+      <include name="SoundSystems/**/*.csproj" />
+      <exclude name="**/*_Linux.csproj" />
+      <exclude name="**/*_PSVita.csproj" />
+      <exclude name="**/*_WindowsMetro.csproj" />
+    </fileset>
+
     <foreach item="File" property="projectFile">
       <in>
-        <items basedir="../">
-          <include name="**/${project.anx.name}/*.csproj" />
-          <exclude name="*/*_Linux.csproj" />
-          <exclude name="*/*_PSVita.csproj" />
-          <exclude name="*/*_WindowsMetro.csproj" />
-        </items>
+        <items refid="project_files" />
       </in>
       <do>
-        <echo message="create project file: ${projectFile}" />
+        <echo message="create project file: ${path::get-file-name-without-extension(projectFile)}" />
 
         <exec program="${build.dir.tools}/${build.configuration}/ProjectConverter.exe" >
           <arg value="&quot;${projectFile}&quot;" />
