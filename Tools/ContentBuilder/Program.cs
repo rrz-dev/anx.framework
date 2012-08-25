@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Content.Pipeline.Tasks;
+using ANX.Framework.Content.Pipeline;
 
 #endregion
 
@@ -48,6 +49,17 @@ namespace ContentBuilder
                     {
                         // output dir
                         buildContentTask.OutputDirectory = arg.Substring(3);
+                    }
+                    else if (parameterChar1 == "t")
+                    {
+                        string[] argParts = arg.Split(new char[] { '=', ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        TargetPlatform targetPlatform = TargetPlatform.Windows;
+                        if (Enum.TryParse<TargetPlatform>(argParts[1], true, out targetPlatform))
+                        {
+                            buildContentTask.TargetPlatform = targetPlatform;
+                        } else {
+                            throw new InvalidOperationException("couldn't set target platform '" + argParts[1] + "'");
+                        }
                     }
                 }
             }
