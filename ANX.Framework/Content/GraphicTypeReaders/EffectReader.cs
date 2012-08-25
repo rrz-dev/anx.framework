@@ -42,6 +42,7 @@ namespace ANX.Framework.Content
             // Otherwise fallback on the original effect loading code.
             if (magicA != 'A' || magicN != 'N' || magicX != 'X')
             {
+                input.BaseStream.Seek(-3, SeekOrigin.Current);
                 byte[] effectCode = input.ReadBytes(totalLength);
                 var memStream = new MemoryStream(effectCode);
 

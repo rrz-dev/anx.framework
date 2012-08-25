@@ -65,7 +65,7 @@ namespace ANX.RenderSystem.Windows.DX10
                 effectByteCode.Seek(0, SeekOrigin.Begin);
             }
             this.effectByteCode = ShaderBytecode.FromStream(effectByteCode);
-            this.nativeEffect = new SharpDX.Direct3D10.Effect(((GraphicsDeviceWindowsDX10)device.NativeDevice).NativeDevice, this.effectByteCode);
+            this.nativeEffect = new SharpDX.Direct3D10.Effect(((GraphicsDeviceWindowsDX10)device.NativeDevice).NativeDevice, this.effectByteCode, EffectFlags.None);
         }
 
         public void Apply(GraphicsDevice graphicsDevice)
