@@ -10,7 +10,6 @@ namespace ANX.Framework.NonXNA
 		RenderSystem,
 		InputSystem,
 		SoundSystem,
-		MediaSystem,
 		PlatformSystem,
 	}
 }

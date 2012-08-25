@@ -62,7 +62,6 @@ namespace ANX.Framework
 
 			AddSystemCreator<IInputSystemCreator>();
 			AddSystemCreator<ISoundSystemCreator>();
-			AddSystemCreator<IMediaSystemCreator>();
 			AddSystemCreator<IPlatformSystemCreator>();
 			AddSystemCreator<IRenderSystemCreator>();
 
@@ -116,9 +115,8 @@ namespace ANX.Framework
 		{
 			T creator = AddInSystemFactory.Instance.GetDefaultCreator<T>();
 			if (creator != null)
-			{
 				this.gameServices.AddService(typeof(T), creator);
-			}
+
 			return creator;
 		}
 		#endregion

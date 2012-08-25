@@ -85,5 +85,15 @@ namespace ANX.PlatformSystem.Windows
 			return new WindowsContentManager();
 		}
 		#endregion
+
+		#region IPlatformSystemCreator Member
+
+
+		public INativeMediaLibrary CreateMediaPlayer()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		#endregion
 	}
 }

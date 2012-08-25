@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,12 +11,20 @@ namespace ANX.Framework.Media
 {
 	public sealed class MediaLibrary : IDisposable
 	{
+		private INativeMediaLibrary nativeLibrary;
+
 		#region Public
+		public MediaSource MediaSource
+		{
+			get;
+			private set;
+		}
+
 		public PictureCollection Pictures
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetPictures();
 			}
 		}
 		
@@ -22,7 +32,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetRootPictureAlbum();
 			}
 		}
 		
@@ -30,15 +40,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
-			}
-		}
-		
-		public MediaSource MediaSource
-		{
-			get
-			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetSavedPictures();
 			}
 		}
 		
@@ -46,7 +48,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetSongs();
 			}
 		}
 		
@@ -54,7 +56,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetArtists();
 			}
 		}
 		
@@ -62,7 +64,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetAlbums();
 			}
 		}
 		
@@ -70,7 +72,7 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetPlaylists();
 			}
 		}
 		
@@ -78,28 +80,29 @@ namespace ANX.Framework.Media
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return nativeLibrary.GetGenres();
 			}
 		}
-		
+
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		#endregion
 
 		#region Constructor
 		public MediaLibrary()
 		{
-			throw new NotImplementedException();
+			nativeLibrary = AddInSystemFactory.DefaultPlatformCreator.CreateMediaPlayer();
+			// TODO: create usefull mediasource...something like internal mediasource.default or so
+			MediaSource = new MediaSource();
 		}
 
 		public MediaLibrary(MediaSource setSource)
 		{
-			throw new NotImplementedException();
+			nativeLibrary = AddInSystemFactory.DefaultPlatformCreator.CreateMediaPlayer();
+			MediaSource = setSource;
 		}
 
 		~MediaLibrary()
@@ -111,26 +114,32 @@ namespace ANX.Framework.Media
 		#region Dispose
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+
+				nativeLibrary.Dispose();
+				nativeLibrary = null;
+			}
 		}
 		#endregion
 
 		#region SavePicture
 		public Picture SavePicture(string file, byte[] data)
 		{
-			throw new NotImplementedException();
+			return nativeLibrary.SavePicture(file, data);
 		}
 
 		public Picture SavePicture(string file, Stream data)
 		{
-			throw new NotImplementedException();
+			return nativeLibrary.SavePicture(file, data);
 		}
 		#endregion
 
 		#region GetPictureFromToken
 		public Picture GetPictureFromToken(string file)
 		{
-			throw new NotImplementedException();
+			return nativeLibrary.GetPictureFromToken(file);
 		}
 		#endregion
 	}

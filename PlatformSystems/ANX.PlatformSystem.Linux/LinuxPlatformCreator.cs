@@ -86,5 +86,15 @@ namespace ANX.PlatformSystem.Linux
 			return new LinuxContentManager();
 		}
 		#endregion
+
+		#region IPlatformSystemCreator Member
+
+
+		public INativeMediaLibrary CreateMediaPlayer()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		#endregion
 	}
 }

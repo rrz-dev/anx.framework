@@ -88,5 +88,15 @@ namespace ANX.PlatformSystem.PsVita
 			return new PsVitaContentManager();
 		}
 		#endregion
+
+		#region IPlatformSystemCreator Member
+
+
+		public INativeMediaLibrary CreateMediaPlayer()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		#endregion
 	}
 }

@@ -10,16 +10,12 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 	public interface IPlatformSystemCreator : ICreator
 	{
 		GameHost CreateGameHost(Game game);
-
 		INativeStorageDevice CreateStorageDevice(StorageDevice device,
 			PlayerIndex player, int sizeInBytes, int directoryCount);
-
 		INativeStorageContainer CreateStorageContainer(StorageContainer container);
-
 		INativeTitleContainer CreateTitleContainer();
-
 		INativeGameTimer CreateGameTimer();
-
 		INativeContentManager CreateContentManager();
+		INativeMediaLibrary CreateMediaPlayer();
 	}
 }

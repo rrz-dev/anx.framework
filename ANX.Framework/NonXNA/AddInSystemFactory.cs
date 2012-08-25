@@ -18,7 +18,6 @@ namespace ANX.Framework.NonXNA
 				typeof(IInputSystemCreator),
 				typeof(IRenderSystemCreator),
 				typeof(ISoundSystemCreator),
-				typeof(IMediaSystemCreator),
 				typeof(IPlatformSystemCreator),
 			};
 		#endregion

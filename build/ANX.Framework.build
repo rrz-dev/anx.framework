@@ -39,7 +39,6 @@
         <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
         <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
         <include name="${project.anx.path.rendersystem.metro}/obj/**" />
-        <include name="${project.anx.path.mediasystem.openal}/obj/**" />
         <include name="${project.anxcontent.path}/obj/**" />
       </fileset>
     </delete>
@@ -105,7 +104,6 @@
     <call target="inputsystem" />
     <call target="soundsystem" />
     <call target="rendersystem" />
-    <call target="mediasystem" />
     <call target="platformsystem" />
   </target>
 
@@ -304,57 +302,6 @@
     </foreach>
   </target>
 
-  <target name="mediasystem" description="Build ANX.Framework MediaSystems">
-    <!-- default windows fileset -->
-    <fileset id="mediasystem_files" basedir="../MediaSystems/">
-      <include name="**/*.csproj" />
-      <exclude name="**/*PSVita*.csproj" />
-      <exclude name="**/*Metro*.csproj" />
-      <exclude name="**/*Linux*.csproj" />
-    </fileset>
-
-    <if test="${project.anx.linux}">
-      <fileset id="mediasystem_files" basedir="../MediaSystems/">
-        <!-- TODO: no mediasystems for linux currently -->
-      </fileset>
-    </if>
-
-    <if test="${project.anx.psvita}">
-      <fileset id="mediasystem_files" basedir="../MediaSystems/">
-        <include name="**/*_PsVita.csproj" />
-        <exclude name="**/*OpenAL*.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.metro}">
-      <fileset id="mediasystem_files" basedir="../MediaSystems/">
-        <!-- TODO: no mediasystems for linux currently -->
-      </fileset>
-    </if>
-    
-    <foreach item="File" property="projectFile">
-      <in>
-        <items refid="mediasystem_files" />
-      </in>
-      <do>
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
-
-        <exec program="msbuild.exe" >
-          <arg value="/t:Build"/>
-          <arg value="/p:Configuration=${build.configuration}"/>
-          <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
-          <arg value="/p:AllowUnsafeBlocks=true" />
-          <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives}"' />
-          <arg value="/clp:ErrorsOnly" />
-          <arg value="/nologo" />
-          <arg value="${projectFile}" />
-        </exec>
-      </do>
-    </foreach>
-  </target>
-
   <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
     <!-- default windows fileset -->
     <fileset id="platformsystem_files" basedir="../PlatformSystems/">
@@ -530,7 +477,6 @@
       <include name="**/${project.anx.name}/*.csproj" />
       <include name="RenderSystems/**/*.csproj" />
       <include name="InputSystems/**/*.csproj" />
-      <include name="MediaSystems/**/*.csproj" />
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
       <exclude name="**/*_Linux.csproj" />
