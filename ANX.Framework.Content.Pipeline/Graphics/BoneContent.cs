@@ -17,7 +17,5 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         public BoneContent()
         {
         }
-
-
     }
 }

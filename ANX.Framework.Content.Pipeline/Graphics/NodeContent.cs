@@ -14,14 +14,16 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class NodeContent : ContentItem
     {
-        public NodeContent()
-        {
-        }
-
         public Matrix AbsolutTransform
         {
-            get;
-            private set;
+            get
+            {
+                if (Parent != null)
+                {
+                    return this.Transform * Parent.AbsolutTransform;
+                }
+                return this.Transform;
+            }
         }
 
         public AnimationContentDictionary Animation
@@ -46,6 +48,13 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         {
             get;
             set;
+        }
+
+        public NodeContent()
+        {
+            Transform = Matrix.Identity;
+            Animation = new AnimationContentDictionary();
+            Children = new NodeContentCollection(this);
         }
     }
 }

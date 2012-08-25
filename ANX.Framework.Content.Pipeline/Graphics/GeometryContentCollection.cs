@@ -9,10 +9,9 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 	public sealed class GeometryContentCollection
 		: ChildCollection<MeshContent, GeometryContent>
 	{
-		protected GeometryContentCollection(MeshContent parent)
+		public GeometryContentCollection(MeshContent parent)
 			: base(parent)
 		{
-			throw new NotImplementedException();
 		}
 
 		protected override MeshContent GetParent(GeometryContent child)

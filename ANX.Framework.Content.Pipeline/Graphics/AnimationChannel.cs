@@ -15,80 +15,80 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public sealed class AnimationChannel : ICollection<AnimationKeyframe>, IEnumerable<AnimationKeyframe>, IEnumerable
     {
+        List<AnimationKeyframe> frames = new List<AnimationKeyframe>();
+
         public AnimationChannel()
         {
-            throw new NotImplementedException();
+            
         }
 
         public int Count
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return frames.Count; }
         }
 
         public AnimationKeyframe this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return frames[index]; }
         }
 
         public void Add(AnimationKeyframe item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+            frames.Add(item);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            frames.Clear();
         }
 
         public bool Contains(AnimationKeyframe item)
         {
-            throw new NotImplementedException();
+            return frames.Contains(item);
         }
 
         public IEnumerator<AnimationKeyframe> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return frames.GetEnumerator();
         }
 
         public int IndexOf(AnimationKeyframe item)
         {
-            throw new NotImplementedException();
+            return frames.IndexOf(item);
         }
 
         public bool Remove(AnimationKeyframe item)
         {
-            throw new NotImplementedException();
+            return frames.Remove(item);
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            frames.RemoveAt(index);
         }
 
         bool ICollection<AnimationKeyframe>.IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         void ICollection<AnimationKeyframe>.Add(AnimationKeyframe item)
         {
-            throw new NotImplementedException();
+            frames.Add(item);
         }
 
         void ICollection<AnimationKeyframe>.CopyTo(AnimationKeyframe[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            frames.CopyTo(array, arrayIndex);
         }
 
         IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return frames.GetEnumerator();
         }
     }
 }

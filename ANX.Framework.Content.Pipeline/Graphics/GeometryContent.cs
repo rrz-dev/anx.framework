@@ -14,9 +14,6 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class GeometryContent : ContentItem
     {
-        public GeometryContent()
-        {
-        }
 
         public IndexCollection Indices
         {
@@ -40,6 +37,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         {
             get;
             private set;
+        }
+
+        public GeometryContent()
+        {
+            Indices = new IndexCollection();
+            Vertices = new VertexContent();
         }
     }
 }

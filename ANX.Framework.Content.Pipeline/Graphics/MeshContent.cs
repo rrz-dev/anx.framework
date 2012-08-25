@@ -14,10 +14,6 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class MeshContent : NodeContent
     {
-        public MeshContent()
-        {
-        }
-
         public GeometryContentCollection Geometry
         {
             get;
@@ -29,5 +25,13 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             get;
             private set;
         }
+
+        public MeshContent()
+        {
+            Geometry = new GeometryContentCollection(this);
+            Positions = new PositionCollection();
+        }
+
+        
     }
 }

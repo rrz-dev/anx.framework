@@ -21,12 +21,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         protected override NodeContent GetParent(NodeContent child)
         {
-            throw new NotImplementedException();
+            return child.Parent;
         }
 
         protected override void SetParent(NodeContent child, NodeContent parent)
         {
-            throw new NotImplementedException();
+            child.Parent = parent;
         }
     }
 }
