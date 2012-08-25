@@ -168,6 +168,13 @@ namespace ProjectConverter
 		}
 		#endregion
 
+		#region GetXName
+		protected XName GetXName(string nodeName)
+		{
+			return XName.Get(nodeName, CurrentProject.Document.Root.Name.NamespaceName);
+		}
+		#endregion
+
 		#region GetOrCreateNode
 		protected XElement GetOrCreateNode(XElement group, string nodeName)
 		{

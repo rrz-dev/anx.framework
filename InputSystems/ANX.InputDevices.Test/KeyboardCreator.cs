@@ -9,7 +9,7 @@ namespace ANX.InputDevices.Test
 {
 	public class KeyboardCreator : IKeyboardCreator
 	{
-		public IKeyboard CreateKeyboardInstance()
+		public IKeyboard CreateDevice()
 		{
 			return new Keyboard();
 		}
@@ -20,11 +20,6 @@ namespace ANX.InputDevices.Test
 			{
 				return "Test.Keyboard";
 			}
-		}
-
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(KeyboardCreator), this);
 		}
 
 		public int Priority

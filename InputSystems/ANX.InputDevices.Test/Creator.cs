@@ -86,10 +86,5 @@ namespace ANX.InputDevices.Test
 				return true;
 			}
 		}
-
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
 	}
 }

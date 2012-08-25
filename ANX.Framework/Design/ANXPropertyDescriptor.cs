@@ -1,15 +1,6 @@
-#region Using Statements
 using System;
-using System.Collections;
 using System.ComponentModel;
-#if !WINDOWSMETRO
-using System.ComponentModel.Design.Serialization;
-#endif
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -18,18 +9,40 @@ using System.Reflection;
 namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO
-
     public class ANXPropertyDescriptor : PropertyDescriptor
     {
-        private PropertyInfo property;
+		private PropertyInfo property;
+
+		public override Type ComponentType
+		{
+			get
+			{
+				return property.DeclaringType;
+			}
+		}
+
+		public override bool IsReadOnly
+		{
+			get
+			{
+				return false;
+			}
+		}
+
+		public override Type PropertyType
+		{
+			get
+			{
+				return property.PropertyType;
+			}
+		}
 
         public ANXPropertyDescriptor(PropertyInfo property)
             : base(property.Name, (Attribute[])property.GetCustomAttributes(typeof(Attribute), true))
         {
             if (property == null)
-            {
                 throw new ArgumentNullException("property");
-            }
+
             this.property = property;
         }
 
@@ -38,29 +51,13 @@ namespace ANX.Framework.Design
             return false;
         }
 
-        public override Type ComponentType
-        {
-            get { return property.DeclaringType; }
-        }
-
         public override object GetValue(object component)
         {
             return property.GetValue(component, null);
         }
 
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public override Type PropertyType
-        {
-            get { return property.PropertyType; }
-        }
-
         public override void ResetValue(object component)
         {
-            
         }
 
         public override void SetValue(object component, object value)
@@ -74,6 +71,5 @@ namespace ANX.Framework.Design
             return true;
         }
     }
-
 #endif
 }

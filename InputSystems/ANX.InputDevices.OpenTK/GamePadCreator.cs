@@ -17,11 +17,6 @@ namespace ANX.InputDevices.OpenTK
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(GamePadCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -30,7 +25,7 @@ namespace ANX.InputDevices.OpenTK
 			}
 		}
 
-		public IGamePad CreateGamePadInstance()
+		public IGamePad CreateDevice()
 		{
 			return new GamePad();
 		}

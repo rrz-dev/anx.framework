@@ -39,13 +39,6 @@ namespace ANX.RenderSystem.PsVita
 		}
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region CreateGraphicsDevice
 		public INativeGraphicsDevice CreateGraphicsDevice(
 			PresentationParameters presentationParameters)

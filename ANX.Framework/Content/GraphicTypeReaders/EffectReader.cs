@@ -1,8 +1,8 @@
 ﻿#region Using Statements
 using System;
 using System.IO;
-using ANX.Framework.Graphics;
 using ANX.Framework.ContentPipeline;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 
 #endregion // Using Statements

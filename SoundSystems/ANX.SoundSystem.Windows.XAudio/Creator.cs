@@ -39,13 +39,6 @@ namespace ANX.SoundSystem.Windows.XAudio
 		#endregion
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region ISoundSystemCreator Member
 
 		public float DistanceScale

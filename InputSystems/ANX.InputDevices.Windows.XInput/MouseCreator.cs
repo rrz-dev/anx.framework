@@ -17,11 +17,6 @@ namespace ANX.InputDevices.Windows.XInput
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(MouseCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -30,7 +25,7 @@ namespace ANX.InputDevices.Windows.XInput
 			}
 		}
 
-		public IMouse CreateMouseInstance()
+		public IMouse CreateDevice()
 		{
 			return new Mouse();
 		}

@@ -6,9 +6,6 @@ namespace ANX.Framework.NonXNA
 {
 	public interface ISupportedPlatforms
 	{
-		PlatformName[] Names
-		{
-			get;
-		}
+		PlatformName[] Names { get; }
 	}
 }

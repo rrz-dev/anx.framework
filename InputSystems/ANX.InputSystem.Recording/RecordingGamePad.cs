@@ -83,7 +83,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(GamePadRecordInfo info)
         {
-            this.Initialize(info, new MemoryStream(), InputDeviceFactory.Instance.GetDefaultGamePad());
+            this.Initialize(info, new MemoryStream(), InputDeviceFactory.Instance.CreateDefaultGamePad());
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(GamePadRecordInfo info, Stream bufferStream)
         {
-            this.Initialize(info, bufferStream, InputDeviceFactory.Instance.GetDefaultGamePad());
+            this.Initialize(info, bufferStream, InputDeviceFactory.Instance.CreateDefaultGamePad());
         }
 
         /// <summary>

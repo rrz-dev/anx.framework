@@ -4,12 +4,14 @@ using ANX.Framework.NonXNA;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.InputDevices.Standard
+namespace ANX.InputSystem.Standard
 {
 	public class Creator : IInputSystemCreator
 	{
 		private IKeyboard keyboard;
 		private IMouse mouse;
+		private IGamePad gamePad;
+		private ITouchPanel touchPanel;
 
 		public string Name
 		{
@@ -39,9 +41,14 @@ namespace ANX.InputDevices.Standard
 		{
 			get
 			{
-				Logger.Info("Creating a new TouchPanel device.");
-				AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
-				return InputDeviceFactory.Instance.GetDefaultTouchPanel();
+				if (touchPanel == null)
+				{
+					Logger.Info("Creating a new TouchPanel device.");
+					PreventSystemChange();
+					touchPanel = InputDeviceFactory.Instance.GetDefaultTouchPanel();
+				}
+
+				return touchPanel;
 			}
 		}
 
@@ -49,9 +56,14 @@ namespace ANX.InputDevices.Standard
 		{
 			get
 			{
-				Logger.Info("Creating a new GamePad device.");
-				AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
-				return InputDeviceFactory.Instance.GetDefaultGamePad();
+				if (gamePad == null)
+				{
+					Logger.Info("Creating a new GamePad device.");
+					PreventSystemChange();
+					gamePad = InputDeviceFactory.Instance.CreateDefaultGamePad();
+				}
+
+				return gamePad;
 			}
 		}
 
@@ -59,15 +71,14 @@ namespace ANX.InputDevices.Standard
 		{
 			get
 			{
-				if (this.mouse == null)
+				if (mouse == null)
 				{
-					this.mouse = InputDeviceFactory.Instance.GetDefaultMouse();
-					if (this.mouse == null)
-					{
-						throw new NoInputDeviceException("couldn't find a default mouse device creator. Unable to create a mouse instance.");
-					}
+					mouse = InputDeviceFactory.Instance.CreateDefaultMouse();
+					if (mouse == null)
+						throw new NoInputDeviceException("Couldn't find a default mouse device creator. Unable to create a mouse instance.");
+
 					Logger.Info("created a new Mouse device");
-					AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
+					PreventSystemChange();
 				}
 
 				return this.mouse;
@@ -78,15 +89,14 @@ namespace ANX.InputDevices.Standard
 		{
 			get
 			{
-				if (this.keyboard == null)
+				if (keyboard == null)
 				{
-					this.keyboard = InputDeviceFactory.Instance.GetDefaultKeyboard();
-					if (this.keyboard == null)
-					{
-						throw new NoInputDeviceException("couldn't find a default keyboard device creator. Unable to create a keyboard instance.");
-					}
+					keyboard = InputDeviceFactory.Instance.CreateDefaultKeyboard();
+					if (keyboard == null)
+						throw new NoInputDeviceException("Couldn't find a default keyboard device creator. Unable to create a keyboard instance.");
+
 					Logger.Info("created a new Keyboard device");
-					AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
+					PreventSystemChange();
 				}
 
 				return this.keyboard;
@@ -99,16 +109,15 @@ namespace ANX.InputDevices.Standard
 			get
 			{
 				Logger.Info("Creating a new MotionSensingDevice device.");
-				AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
-				return InputDeviceFactory.Instance.GetDefaultMotionSensingDevice();
+				PreventSystemChange();
+				return InputDeviceFactory.Instance.CreateDefaultMotionSensingDevice();
 			}
 		}
 #endif
 
-		public void RegisterCreator(AddInSystemFactory factory)
+		private void PreventSystemChange()
 		{
-			Logger.Info("adding Standard InputSystem creator to creator collection of AddInSystemFactory");
-			factory.AddCreator(this);
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
 		}
 	}
 }

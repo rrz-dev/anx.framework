@@ -96,10 +96,5 @@ namespace ANX.InputSystem.Recording
 				return true;
 			}
 		}
-
-        public void RegisterCreator(AddInSystemFactory factory)
-        {
-            factory.AddCreator(this);
-        }
     }
 }

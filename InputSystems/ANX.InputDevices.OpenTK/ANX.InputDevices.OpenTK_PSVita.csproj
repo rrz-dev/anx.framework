@@ -59,6 +59,7 @@
       <HintPath>..\..\lib\OpenTK\OpenTK.Compatibility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamePad.cs" />

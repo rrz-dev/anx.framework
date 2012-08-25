@@ -104,13 +104,6 @@ namespace ANX.SoundSystem.OpenAL
 		#endregion
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region CreateSoundEffectInstance
 		public ISoundEffectInstance CreateSoundEffectInstance(
 			ISoundEffect nativeSoundEffect)

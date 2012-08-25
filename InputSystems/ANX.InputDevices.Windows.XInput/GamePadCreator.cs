@@ -17,11 +17,6 @@ namespace ANX.InputDevices.Windows.XInput
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(GamePadCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -30,7 +25,7 @@ namespace ANX.InputDevices.Windows.XInput
 			}
 		}
 
-		public IGamePad CreateGamePadInstance()
+		public IGamePad CreateDevice()
 		{
 			return new GamePad();
 		}

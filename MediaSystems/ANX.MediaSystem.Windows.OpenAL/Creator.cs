@@ -44,12 +44,5 @@ namespace ANX.MediaSystem.Windows.OpenAL
 		}
 		#endregion
 		#endregion
-
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			factory.AddCreator(this);
-		}
-		#endregion
 	}
 }

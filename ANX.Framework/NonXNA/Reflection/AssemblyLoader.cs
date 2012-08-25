@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.Framework.NonXNA.Reflection
 {
@@ -11,19 +12,40 @@ namespace ANX.Framework.NonXNA.Reflection
 		private static List<Assembly> allAssemblies;
 		#endregion
 
+		#region Public
+		public static List<Type> CreatorTypes
+		{
+			get;
+			private set;
+		}
+
+		public static List<Type> SupportedPlatformsTypes
+		{
+			get;
+			private set;
+		}
+		#endregion
+
 		#region Constructor
 		static AssemblyLoader()
 		{
 			allAssemblies = new List<Assembly>();
-			LoadAssembliesFromFile();
-			LoadAssembliesFromTypeList();
+			CreatorTypes = new List<Type>();
+			SupportedPlatformsTypes = new List<Type>();
+
+			LoadAllAssemblies();
+			SearchForValidAddInTypes();
 		}
 		#endregion
 
-		#region GetAllAssemblies
-		public static Assembly[] GetAllAssemblies()
+		#region LoadAllAssemblies
+		private static void LoadAllAssemblies()
 		{
-			return allAssemblies.ToArray();
+			LoadAssembliesFromFile();
+			LoadAssembliesFromNames();
+
+			// Also load the current assembly. This is needed when we run on android or win8 with merged assemblies.
+			allAssemblies.Add(Assembly.GetEntryAssembly());
 		}
 		#endregion
 
@@ -34,48 +56,122 @@ namespace ANX.Framework.NonXNA.Reflection
 			string executingAssemblyFilepath = Assembly.GetExecutingAssembly().Location;
 			string basePath = Path.GetDirectoryName(executingAssemblyFilepath);
 
-			string[] allAssembliesFiles = Directory.GetFiles(basePath, "*.dll",
-				SearchOption.TopDirectoryOnly);
+			List<string> assembliesInPath = new List<string>();
+			assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.dll", SearchOption.TopDirectoryOnly));
+			assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.exe", SearchOption.TopDirectoryOnly));
 
-			foreach (string file in allAssembliesFiles)
+			foreach (string file in assembliesInPath)
 			{
-				if (file.Equals(executingAssemblyFilepath) == false)
+				if (file.EndsWith("OpenTK.dll") ||
+					file.EndsWith("SharpDX.dll") ||
+					file.EndsWith("SharpDX.Direct3D11.dll") ||
+					file.EndsWith("SharpDX.Direct3D10.dll") ||
+					file.EndsWith("SharpDX.D3DCompiler.dll") ||
+					file.EndsWith("SharpDX.DXGI.dll") ||
+					file.EndsWith("SharpDX.XInput.dll") ||
+					file.EndsWith("SharpDX.DirectInput.dll"))
 				{
-					Logger.Info("[ANX] trying to load '" + file + "'...");
-					try
-					{
-						Assembly assembly = Assembly.LoadFrom(file);
-						allAssemblies.Add(assembly);
-					}
-					catch
-					{
-					}
+					continue;
+				}
+
+				Logger.Info("[ANX] trying to load '" + file + "'...");
+				try
+				{
+					Assembly assembly = Assembly.LoadFrom(file);
+					allAssemblies.Add(assembly);
+				}
+				catch
+				{
 				}
 			}
 #endif
 		}
 		#endregion
 
-		#region LoadAssembliesFromTypeList
-		private static void LoadAssembliesFromTypeList()
+		#region LoadAssembliesFromNames
+		private static void LoadAssembliesFromNames()
 		{
-			AssemblyListFile typeListFile = new AssemblyListFile();
-			typeListFile.Load();
+			List<string> allAssemblyNames = new List<string>();
 
-			string[] allAssemblyNames = typeListFile.GetAllAssemblyNames();
+#if WINDOWSMETRO
+			allAssemblyNames.Add("ANX.PlatformSystem.Metro");
+			allAssemblyNames.Add("ANX.RenderSystem.Windows.Metro");
+			allAssemblyNames.Add("ANX.InputSystem.Standard");
+			allAssemblyNames.Add("ANX.InputDevices.Windows.XInput");
+			allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
+
+			// TODO: replace with metro media system
+			allAssemblyNames.Add("ANX.MediaSystem.Windows.OpenAL");
+#endif
+
 			foreach (string assemblyName in allAssemblyNames)
 			{
-				try
-				{
+				Assembly loadedAssembly = LoadAssemblyByName(assemblyName);
+				if (loadedAssembly != null)
+					allAssemblies.Add(loadedAssembly);
+			}
+		}
+		#endregion
+
+		#region LoadAssemblyByName
+		private static Assembly LoadAssemblyByName(string assemblyName)
+		{
+			try
+			{
 #if WINDOWSMETRO
-					Assembly assembly = Assembly.Load(new AssemblyName(assemblyName));
+				return Assembly.Load(new AssemblyName(assemblyName));
 #else
-					Assembly assembly = Assembly.Load(assemblyName);
+				return Assembly.Load(assemblyName);
 #endif
-					allAssemblies.Add(assembly);
-				}
-				catch
+			}
+			catch
+			{
+				return null;
+			}
+		}
+		#endregion
+
+		#region SearchForValidAddInTypes
+		private static void SearchForValidAddInTypes()
+		{
+			foreach (Assembly assembly in allAssemblies)
+			{
+				SearchForValidAddInTypesInAssembly(assembly);
+			}
+		}
+		#endregion
+
+		#region SearchForValidAddInTypesInAssembly
+		private static void SearchForValidAddInTypesInAssembly(Assembly assembly)
+		{
+			Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
+
+			foreach (Type type in allTypes)
+			{
+				if (type == null)
+					continue;
+
+				bool isTypeCreatable = TypeHelper.IsAbstract(type) == false && TypeHelper.IsInterface(type) == false;
+
+				bool isSupportedPlatformsImpl = TypeHelper.IsTypeAssignableFrom(typeof(ISupportedPlatforms), type);
+				if (isSupportedPlatformsImpl && isTypeCreatable)
 				{
+					SupportedPlatformsTypes.Add(type);
+					continue;
+				}
+
+				bool isTypeValidCreator = TypeHelper.IsAnyTypeAssignableFrom(AddInSystemFactory.ValidAddInCreators, type);
+				if (isTypeValidCreator && isTypeCreatable)
+				{
+					CreatorTypes.Add(type);
+					continue;
+				}
+
+				bool isTypeValidInputDevice = TypeHelper.IsAnyTypeAssignableFrom(InputDeviceFactory.ValidInputDeviceCreators, type);
+				if (isTypeValidInputDevice && isTypeCreatable)
+				{
+					var inputCreator = Activator.CreateInstance(type) as IInputDeviceCreator;
+					InputDeviceFactory.Instance.AddCreator(type, inputCreator);
 				}
 			}
 		}

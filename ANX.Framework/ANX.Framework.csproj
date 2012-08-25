@@ -431,7 +431,6 @@
     <Compile Include="NonXNA\PlatformSystem\INativeGameTimer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
-    <Compile Include="NonXNA\Reflection\AssemblyListFile.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />

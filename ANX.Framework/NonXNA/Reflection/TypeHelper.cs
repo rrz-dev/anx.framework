@@ -28,6 +28,40 @@ namespace ANX.Framework.NonXNA.Reflection
 		}
 		#endregion
 
+		#region GetConstructor
+		public static ConstructorInfo GetConstructor(Type objectType, Type[] parameterTypes)
+		{
+#if WINDOWSMETRO
+			var constructors = objectType.GetTypeInfo().DeclaredConstructors;
+			var enumerator = constructors.GetEnumerator();
+
+			while (enumerator.MoveNext())
+			{
+				var parameters = enumerator.Current.GetParameters();
+				if (parameters.Length != parameterTypes.Length)
+					continue;
+
+				bool parametersAreMatching = true;
+				for (int index = 0; index < parameters.Length; index++)
+				{
+					if (parameters[index].ParameterType != parameterTypes[index])
+					{
+						parametersAreMatching = false;
+						break;
+					}
+				}
+
+				if (parametersAreMatching)
+					return enumerator.Current;
+			}
+
+			return null;
+#else
+			return objectType.GetConstructor(parameterTypes);
+#endif
+		}
+		#endregion
+
 		#region IsTypeAssignableFrom
 		public static bool IsTypeAssignableFrom(Type baseType, Type typeToCheck)
 		{
@@ -43,12 +77,8 @@ namespace ANX.Framework.NonXNA.Reflection
 		public static bool IsAnyTypeAssignableFrom(Type[] baseTypes, Type typeToCheck)
 		{
 			foreach (Type baseType in baseTypes)
-			{
 				if (IsTypeAssignableFrom(baseType, typeToCheck))
-				{
 					return true;
-				}
-			}
 
 			return false;
 		}
@@ -77,6 +107,9 @@ namespace ANX.Framework.NonXNA.Reflection
 			{
 				result = ex.Types;
 			}
+			catch
+			{
+			}
 
 			return result;
 		}
@@ -100,6 +133,17 @@ namespace ANX.Framework.NonXNA.Reflection
 			return type.GetTypeInfo().IsAbstract;
 #else
 			return type.IsAbstract;
+#endif
+		}
+		#endregion
+
+		#region IsInterface
+		public static bool IsInterface(Type type)
+		{
+#if WINDOWSMETRO
+			return type.GetTypeInfo().IsInterface;
+#else
+			return type.IsInterface;
 #endif
 		}
 		#endregion

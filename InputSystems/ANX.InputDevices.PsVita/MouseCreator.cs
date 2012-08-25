@@ -18,11 +18,6 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(MouseCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -31,7 +26,7 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public IMouse CreateMouseInstance()
+		public IMouse CreateDevice()
 		{
 			throw new NotImplementedException();
 		}

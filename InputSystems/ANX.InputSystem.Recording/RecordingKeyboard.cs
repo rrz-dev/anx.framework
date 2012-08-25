@@ -147,7 +147,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(params Keys[] keys)
         {
-            Initialize(new MemoryStream(), InputDeviceFactory.Instance.GetDefaultKeyboard(), keys);
+            Initialize(new MemoryStream(), InputDeviceFactory.Instance.CreateDefaultKeyboard(), keys);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(Stream bufferStream, params Keys[] keys)
         {
-            Initialize(bufferStream, InputDeviceFactory.Instance.GetDefaultKeyboard(), keys);
+            Initialize(bufferStream, InputDeviceFactory.Instance.CreateDefaultKeyboard(), keys);
         }
 
         /// <summary>

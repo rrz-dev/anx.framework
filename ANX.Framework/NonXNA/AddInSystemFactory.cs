@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework.NonXNA.Reflection;
 
@@ -25,10 +24,9 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region Private
-		private Dictionary<String, ICreator> creators;
+		private Dictionary<string, ICreator> creators;
 		private static AddInSystemFactory instance;
 		private bool initialized;
-		private Dictionary<Type, ICreator> defaultCreators;
 		private Dictionary<AddInType, AddInTypeCollection> addinSystems;
 		#endregion
 
@@ -59,67 +57,80 @@ namespace ANX.Framework.NonXNA
 		#region Constructor
 		private AddInSystemFactory()
 		{
-			defaultCreators = new Dictionary<Type, ICreator>();
 			creators = new Dictionary<string, ICreator>();
 			addinSystems = new Dictionary<AddInType, AddInTypeCollection>();
 
-			addinSystems.Add(AddInType.InputSystem, new AddInTypeCollection());
-			addinSystems.Add(AddInType.MediaSystem, new AddInTypeCollection());
-			addinSystems.Add(AddInType.RenderSystem, new AddInTypeCollection());
-			addinSystems.Add(AddInType.SoundSystem, new AddInTypeCollection());
-			addinSystems.Add(AddInType.PlatformSystem, new AddInTypeCollection());
+			foreach (AddInType type in Enum.GetValues(typeof(AddInType)))
+				addinSystems.Add(type, new AddInTypeCollection());
 
-			Logger.Info("Operating System: {0} ({1})", OSInformation.GetVersionString(),
-				OSInformation.GetVersion().ToString());
+			Logger.Info("Operating System: {0} ({1})", OSInformation.GetVersionString(), OSInformation.GetVersion().ToString());
 		}
 		#endregion
 
 		#region Initialize
 		public void Initialize()
 		{
-			if (initialized == false)
-			{
-				initialized = true;
+			if (initialized)
+				return;
 
-				Logger.Info("[ANX] Initializing ANX.Framework AddInSystemFactory...");
-
-				CreateAllAddIns();
-				SortAddIns();
-			}
+			initialized = true;
+			Logger.Info("[ANX] Initializing ANX.Framework AddInSystemFactory...");
+			CreateAllAddIns();
+			SortAddIns();
 		}
 		#endregion
 
 		#region CreateAllAddIns
 		private void CreateAllAddIns()
 		{
-			Assembly[] allAssemblies = AssemblyLoader.GetAllAssemblies();
-
-			foreach (Assembly assembly in allAssemblies)
+			foreach (Type creatorType in AssemblyLoader.CreatorTypes)
 			{
-				AddIn addin = new AddIn(assembly);
+				Type matchingSupportedPlatformsType = FindSupportedPlatformsTypeByNamespace(creatorType);
+				if (matchingSupportedPlatformsType == null)
+					matchingSupportedPlatformsType = FindSupportedPlatformsTypeByAssembly(creatorType);
+
+				AddIn addin = new AddIn(creatorType, matchingSupportedPlatformsType);
 				if (addin.IsValid && addin.IsSupported)
 				{
-					addinSystems[addin.Type].AvailableSystems.Add(addin);
-					Logger.Info("[ANX] successfully loaded addin...");
+				    addinSystems[addin.Type].Add(addin);
+				    Logger.Info("[ANX] successfully loaded addin...");
 				}
 				else
-				{
-					Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
-				}
+				    Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
 			}
 		}
 		#endregion
 
+		#region FindSupportedPlatformsTypeByNamespace
+		private Type FindSupportedPlatformsTypeByNamespace(Type creatorType)
+		{
+			foreach (Type spType in AssemblyLoader.SupportedPlatformsTypes)
+				if (spType.Namespace == creatorType.Namespace)
+					return spType;
+			
+			return null;
+		}
+		#endregion
+
+		#region FindSupportedPlatformsTypeByAssembly
+		private Type FindSupportedPlatformsTypeByAssembly(Type creatorType)
+		{
+			foreach (Type spType in AssemblyLoader.SupportedPlatformsTypes)
+				if (spType.Assembly == creatorType.Assembly)
+					return spType;
+
+			return null;
+		}
+		#endregion
+
 		#region AddCreator
-		public void AddCreator(ICreator creator)
+		internal void AddCreator(ICreator creator)
 		{
 			string creatorName = creator.Name.ToLowerInvariant();
 
 			if (creators.ContainsKey(creatorName))
-			{
-				throw new Exception("Duplicate creator found. A creator with the name '" +
-					creator.Name + "' was already registered.");
-			}
+				throw new Exception("Duplicate creator found. A creator with the name '" + creator.Name +
+					"' was already registered.");
 
 			creators.Add(creatorName, creator);
 
@@ -128,20 +139,21 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region HasFramework
-		public bool HasFramework(String name)
+		public bool HasFramework(string name)
 		{
 			return creators.ContainsKey(name.ToLowerInvariant());
 		}
 		#endregion
 
 		#region GetCreator
-		public T GetCreator<T>(String name) where T : class, ICreator
+		public T GetCreator<T>(string name) where T : class, ICreator
 		{
 			Initialize();
 
-			ICreator creator = null;
-			creators.TryGetValue(name.ToLowerInvariant(), out creator);
-			return creator as T;
+			if (creators.ContainsKey(name.ToLowerInvariant()))
+				return creators[name.ToLowerInvariant()] as T;
+
+			return null;
 		}
 		#endregion
 
@@ -153,13 +165,13 @@ namespace ANX.Framework.NonXNA
 			foreach (ICreator creator in creators.Values)
 			{
 				Type[] interfaces = TypeHelper.GetInterfacesFrom(creator.GetType());
-                foreach (Type t in interfaces)
-                {
-                    if (t.Name.Equals( typeof(T).Name ))
-                    {
-                        yield return creator as T;
-                    }
-                }
+				foreach (Type t in interfaces)
+				{
+					if (t.Name.Equals(typeof(T).Name))
+					{
+						yield return creator as T;
+					}
+				}
 			}
 		}
 		#endregion
@@ -170,38 +182,7 @@ namespace ANX.Framework.NonXNA
 			Initialize();
 
 			AddInType addInType = GetAddInType(typeof(T));
-
-			AddInTypeCollection info = addinSystems[addInType];
-			if (String.IsNullOrEmpty(info.PreferredName))
-			{
-				if (info.AvailableSystems.Count > 0)
-				{
-					return info.AvailableSystems[0].Instance as T;
-				}
-
-				throw new AddInLoadingException(String.Format(
-					"Couldn't get default {0} because there are no " +
-					"registered {0}s available! Make sure you referenced a {0} library " +
-					"in your project or one is laying in your output folder!", addInType));
-			}
-			else
-			{
-				foreach (AddIn addin in info.AvailableSystems)
-				{
-					if (addin.Name.Equals(info.PreferredName,
-						StringComparison.CurrentCultureIgnoreCase))
-					{
-						return addin.Instance as T;
-					}
-				}
-
-				throw new AddInLoadingException(String.Format(
-					"Couldn't get default {0} '{1}' because it was not found in the " +
-					"list of registered creators!", addInType, info.PreferredName));
-			}
-
-			throw new AddInLoadingException(String.Format(
-				"Couldn't find a DefaultCreator of type '{0}'!", typeof(T).FullName));
+			return addinSystems[addInType].GetDefaultCreator<T>(addInType);
 		}
 		#endregion
 
@@ -209,12 +190,9 @@ namespace ANX.Framework.NonXNA
 		public void SortAddIns()
 		{
 			foreach (AddInTypeCollection info in addinSystems.Values)
-			{
-				info.AvailableSystems.Sort();
-			}
+				info.Sort();
 
-			creators = creators.OrderBy(x => x.Value.Priority).ToDictionary(
-				x => x.Key, x => x.Value);
+			creators = creators.OrderBy(x => x.Value.Priority).ToDictionary(x => x.Key, x => x.Value);
 		}
 		#endregion
 
@@ -229,10 +207,7 @@ namespace ANX.Framework.NonXNA
 		public void SetPreferredSystem(AddInType addInType, string preferredName)
 		{
 			if (addinSystems[addInType].PreferredLocked)
-			{
-				throw new AddInLoadingException(String.Format(
-					"Can't set preferred {0} because a {0} is alread in use.", addInType));
-			}
+				throw new AddInLoadingException(String.Format("Can't set preferred {0} because a {0} is alread in use.", addInType));
 
 			addinSystems[addInType].PreferredName = preferredName;
 		}
@@ -241,7 +216,7 @@ namespace ANX.Framework.NonXNA
 		#region PreventSystemChange
 		public void PreventSystemChange(AddInType addInType)
 		{
-			addinSystems[addInType].PreferredLocked = true;
+			addinSystems[addInType].Lock();
 		}
 		#endregion
 
@@ -252,8 +227,8 @@ namespace ANX.Framework.NonXNA
 			{
 				if (TypeHelper.IsTypeAssignableFrom(creatorType, t))
 				{
-					return (AddInType)Enum.Parse(typeof(AddInType),
-						creatorType.Name.Substring(1, creatorType.Name.Length - 8));
+					string addInTypeName = creatorType.Name.Substring(1, creatorType.Name.Length - 8);
+					return (AddInType)Enum.Parse(typeof(AddInType), addInTypeName);
 				}
 			}
 

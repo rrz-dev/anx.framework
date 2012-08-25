@@ -1,15 +1,7 @@
-#region Using Statements
 using System;
 using System.Collections;
 using System.ComponentModel;
-#if !WINDOWSMETRO
-using System.ComponentModel.Design.Serialization;
-#endif
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Reflection;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -34,29 +26,23 @@ namespace ANX.Framework.Design
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == null)
-            {
                 throw new ArgumentNullException("destinationType");
-            }
-            if (value is Matrix)
-            {
-                Matrix instance = (Matrix)value;
 
-                if (destinationType == typeof(InstanceDescriptor))
-                {
-                    var constructor = typeof(Matrix).GetConstructor(new Type[] { 
-                        typeof(float), typeof(float), typeof(float), typeof(float),
-                        typeof(float), typeof(float), typeof(float), typeof(float),
-                        typeof(float), typeof(float), typeof(float), typeof(float),
-                        typeof(float), typeof(float), typeof(float), typeof(float)
-                    });
-                    return new InstanceDescriptor(constructor, new object[] { 
-                        instance.M11, instance.M12, instance.M13, instance.M14, 
+			if (value is Matrix)
+			{
+				Matrix instance = (Matrix)value;
+
+				if (IsTypeInstanceDescriptor(destinationType))
+				{
+					return CreateInstanceDescriptor<Matrix>(new object[]
+					{
+						instance.M11, instance.M12, instance.M13, instance.M14, 
                         instance.M21, instance.M22, instance.M23, instance.M24,
                         instance.M31, instance.M32, instance.M33, instance.M34,
                         instance.M41, instance.M42, instance.M43, instance.M44
-                    });
-                }
-            }
+					});
+				}
+			}
 
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -64,9 +50,8 @@ namespace ANX.Framework.Design
         public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
         {
             if (propertyValues == null)
-            {
                 throw new ArgumentNullException("propertyValues");
-            }
+
             return new Matrix(
                 (float)propertyValues["M11"], (float)propertyValues["M12"], (float)propertyValues["M13"], (float)propertyValues["M14"],
                 (float)propertyValues["M21"], (float)propertyValues["M22"], (float)propertyValues["M23"], (float)propertyValues["M24"],

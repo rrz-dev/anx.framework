@@ -18,11 +18,6 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(GamePadCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -31,7 +26,7 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public IGamePad CreateGamePadInstance()
+		public IGamePad CreateDevice()
 		{
 			return new GamePad();
 		}

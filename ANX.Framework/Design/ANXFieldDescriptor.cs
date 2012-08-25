@@ -13,31 +13,12 @@ namespace ANX.Framework.Design
 	{
 		private FieldInfo field;
 
-		public ANXFieldDescriptor(FieldInfo field)
-			: base(field.Name, (Attribute[])field.GetCustomAttributes(typeof(Attribute), true))
-		{
-			if (field == null)
-				throw new ArgumentNullException("field");
-
-			this.field = field;
-		}
-
-		public override bool CanResetValue(object component)
-		{
-			return false;
-		}
-
 		public override Type ComponentType
 		{
 			get
 			{
 				return field.DeclaringType;
 			}
-		}
-
-		public override object GetValue(object component)
-		{
-			return field.GetValue(component);
 		}
 
 		public override bool IsReadOnly
@@ -54,6 +35,25 @@ namespace ANX.Framework.Design
 			{
 				return field.FieldType;
 			}
+		}
+
+		public ANXFieldDescriptor(FieldInfo field)
+			: base(field.Name, (Attribute[])field.GetCustomAttributes(typeof(Attribute), true))
+		{
+			if (field == null)
+				throw new ArgumentNullException("field");
+
+			this.field = field;
+		}
+
+		public override bool CanResetValue(object component)
+		{
+			return false;
+		}
+
+		public override object GetValue(object component)
+		{
+			return field.GetValue(component);
 		}
 
 		public override void ResetValue(object component)

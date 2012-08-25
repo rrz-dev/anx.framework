@@ -1,7 +1,5 @@
 using System;
 using System.Reflection;
-using ANX.Framework.NonXNA.InputSystem;
-using ANX.Framework.NonXNA.Reflection;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,10 +9,6 @@ namespace ANX.Framework.NonXNA
 {
 	public class AddIn : IComparable<AddIn>
 	{
-		#region Constants
-		private const string PlatformsResourceEntryKey = "SupportedPlatforms";
-		#endregion
-
 		#region Private
 		private Assembly assembly;
 		private Type creatorType;
@@ -53,27 +47,15 @@ namespace ANX.Framework.NonXNA
 
 		public Version Version
 		{
-			get
-			{
-				if (assembly != null)
-				{
-					return assembly.GetName().Version;
-				}
-
-				return null;
-			}
+			get;
+			private set;
 		}
 
 		public string Name
 		{
 			get
 			{
-				if (assembly != null)
-				{
-					return Instance.Name;
-				}
-
-				return String.Empty;
+				return Instance.Name;
 			}
 		}
 
@@ -81,12 +63,7 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-				if (assembly != null)
-				{
-					return Instance.Priority;
-				}
-
-				return int.MaxValue;
+				return Instance.Priority;
 			}
 		}
 
@@ -114,10 +91,13 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region Constructor
-		public AddIn(Assembly assembly)
+		public AddIn(Type creatorType, Type supportedPlatformsType)
 		{
-			this.assembly = assembly;
-			SearchForValidAddInTypes();
+			this.assembly = creatorType.Assembly;
+			this.creatorType = creatorType;
+			Type = AddInSystemFactory.GetAddInType(creatorType);
+			this.supportedPlatforms = (ISupportedPlatforms)Activator.CreateInstance(supportedPlatformsType);
+			Version = assembly.GetName().Version;
 		}
 		#endregion
 
@@ -127,62 +107,22 @@ namespace ANX.Framework.NonXNA
 			return this.Priority.CompareTo(other.Priority);
 		}
 		#endregion
-		
-		#region SearchForValidAddInTypes
-		private void SearchForValidAddInTypes()
-		{
-			Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
-
-			bool foundCreator = false;
-			foreach (Type type in allTypes)
-			{
-				bool isSupportedPlatformsImpl =
-					TypeHelper.IsTypeAssignableFrom(typeof(ISupportedPlatforms), type);
-				if (isSupportedPlatformsImpl && TypeHelper.IsAbstract(type) == false)
-				{
-					try
-					{
-						supportedPlatforms = (ISupportedPlatforms)Activator.CreateInstance(type);
-					}
-					catch
-					{
-					}
-				}
-
-				if (foundCreator == false)
-				{
-					bool isTypeValidCreator = TypeHelper.IsAnyTypeAssignableFrom(
-						AddInSystemFactory.ValidAddInCreators, type);
-					if (isTypeValidCreator)
-					{
-						creatorType = type;
-						Type = AddInSystemFactory.GetAddInType(type);
-						foundCreator = true;
-						continue;
-					}
-				}
-
-				bool isTypeValidInputDevice = TypeHelper.IsAnyTypeAssignableFrom(
-					InputDeviceFactory.ValidInputDeviceCreators, type);
-				if (isTypeValidInputDevice)
-				{
-					var inputCreator = Activator.CreateInstance(type) as IInputDeviceCreator;
-					InputDeviceFactory.Instance.AddCreator(type, inputCreator);
-				}
-			}
-		}
-		#endregion
 
 		#region CreateInstanceIfPossible
 		private void CreateInstanceIfPossible()
 		{
 			if (instance == null && IsSupported)
 			{
-                instance = Activator.CreateInstance(creatorType) as ICreator;
-				if (instance != null)
+				try
 				{
-					instance.RegisterCreator(AddInSystemFactory.Instance);
+					instance = Activator.CreateInstance(creatorType) as ICreator;
 				}
+				catch
+				{
+				}
+
+				if (instance != null)
+					AddInSystemFactory.Instance.AddCreator(instance);
 			}
 		}
 		#endregion

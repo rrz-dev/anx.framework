@@ -10,26 +10,21 @@ using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.InputDevices.Test
 {
-    public class MouseCreator:IMouseCreator
-    {
-        public IMouse CreateMouseInstance()
-        {
-            return new Mouse();
-        }
+	public class MouseCreator : IMouseCreator
+	{
+		public IMouse CreateDevice()
+		{
+			return new Mouse();
+		}
 
-        public string Name
-        {
-            get { return "Test.Mouse"; }
-        }
+		public string Name
+		{
+			get { return "Test.Mouse"; }
+		}
 
-        public void RegisterCreator(InputDeviceFactory factory)
-        {
-					factory.AddCreator(typeof(MouseCreator), this);
-        }
-
-        public int Priority
-        {
-            get { return 99; }
-        }
-    }
+		public int Priority
+		{
+			get { return 99; }
+		}
+	}
 }

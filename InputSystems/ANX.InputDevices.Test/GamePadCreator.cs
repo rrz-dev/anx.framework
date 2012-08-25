@@ -9,7 +9,7 @@ namespace ANX.InputDevices.Test
 {
 	public class GamePadCreator : IGamePadCreator
 	{
-		public IGamePad CreateGamePadInstance()
+		public IGamePad CreateDevice()
 		{
 			return new GamePad();
 		}
@@ -20,11 +20,6 @@ namespace ANX.InputDevices.Test
 			{
 				return "Test.GamePad";
 			}
-		}
-
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(GamePadCreator), this);
 		}
 
 		public int Priority

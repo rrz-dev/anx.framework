@@ -38,14 +38,6 @@ namespace ANX.PlatformSystem.PsVita
 		}
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			Logger.Info("adding PsVita PlatformSystem creator to collection of AddInSystemFactory");
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region Constructor
 		public PsVitaPlatformCreator()
 		{

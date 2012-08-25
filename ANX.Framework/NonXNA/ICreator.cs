@@ -6,8 +6,6 @@ namespace ANX.Framework.NonXNA
 {
 	public interface ICreator
 	{
-		void RegisterCreator(AddInSystemFactory factory);
-
 		string Name { get; }
 
 		int Priority { get; }

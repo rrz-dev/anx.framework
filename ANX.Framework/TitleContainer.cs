@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;

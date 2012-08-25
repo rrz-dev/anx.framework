@@ -18,6 +18,7 @@ namespace ANX.Framework.NonXNA
 			typeof(IGamePadCreator),
 			typeof(IKeyboardCreator),
 			typeof(IMouseCreator),
+			typeof(ITouchPanelCreator),
 #if XNAEXT
 			typeof(IMotionSensingDeviceCreator),
 #endif
@@ -26,16 +27,10 @@ namespace ANX.Framework.NonXNA
 
 		#region Private
 		private static InputDeviceFactory instance;
-
-		private Dictionary<Type,
-			Dictionary<string, IInputDeviceCreator>> deviceCreators;
-
-		private IntPtr windowHandle;
-
+		private Dictionary<Type, Dictionary<string, IInputDeviceCreator>> deviceCreators;
 		#endregion
 
 		#region Public
-		#region Instance
 		public static InputDeviceFactory Instance
 		{
 			get
@@ -49,61 +44,37 @@ namespace ANX.Framework.NonXNA
 				return instance;
 			}
 		}
-		#endregion
 
-		#region WindowHandle
 		public IntPtr WindowHandle
 		{
-			get
-			{
-				return this.windowHandle;
-			}
-			internal set
-			{
-				this.windowHandle = value;
-			}
+			get;
+			internal set;
 		}
-		#endregion
 		#endregion
 
 		#region Constructor
 		private InputDeviceFactory()
 		{
 			deviceCreators = new Dictionary<Type, Dictionary<string, IInputDeviceCreator>>();
-			RegisterCreatorType<IGamePadCreator>();
-			RegisterCreatorType<IKeyboardCreator>();
-			RegisterCreatorType<IMouseCreator>();
-			RegisterCreatorType<ITouchPanelCreator>();
-#if XNAEXT
-			RegisterCreatorType<IMotionSensingDeviceCreator>();
-#endif
-		}
-		#endregion
-
-		#region RegisterCreatorType
-		private void RegisterCreatorType<T>()
-		{
-			deviceCreators.Add(typeof(T), new Dictionary<string, IInputDeviceCreator>());
+			foreach (Type creatorType in ValidInputDeviceCreators)
+				deviceCreators.Add(creatorType, new Dictionary<string, IInputDeviceCreator>());
 		}
 		#endregion
 
 		#region AddCreator
-		public void AddCreator(Type deviceType, IInputDeviceCreator creator)
+		internal void AddCreator(Type deviceType, IInputDeviceCreator creator)
 		{
 			string creatorName = creator.Name.ToLowerInvariant();
-
 			Type deviceInterface = TypeHelper.GetInterfacesFrom(deviceType)[0];
+
 			if (deviceCreators[deviceInterface].ContainsKey(creatorName))
-			{
 				throw new Exception("Duplicate " + deviceType.Name + " found. A " + deviceType.Name +
 					" with the name '" + creator.Name + "' was already registered.");
-			}
 
 			deviceCreators[deviceInterface].Add(creatorName, creator);
 
-			Logger.Info("Added GamePadCreator '{0}'. Total count of registered " +
-				"GamePadCreators is now {1}.",
-				creatorName, deviceCreators[deviceInterface].Count);
+			Logger.Info("Added InputDeviceCreator '{0}'. Registered creators: {1}.", creatorName,
+				deviceCreators[deviceInterface].Count);
 		}
 		#endregion
 
@@ -112,61 +83,59 @@ namespace ANX.Framework.NonXNA
 		{
 			ValidateWindowHandle();
 
-			var touchPanel = GetDefaultCreator<ITouchPanelCreator>().CreateTouchPanelInstance();
-			touchPanel.WindowHandle = this.windowHandle;
+			var touchPanel = GetDefaultCreator<ITouchPanelCreator>().CreateDevice();
+			touchPanel.WindowHandle = WindowHandle;
 			return touchPanel;
 		}
 		#endregion
 
-		#region GetDefaultGamePad
-		public IGamePad GetDefaultGamePad()
+		#region CreateDefaultGamePad
+		public IGamePad CreateDefaultGamePad()
 		{
-			return GetDefaultCreator<IGamePadCreator>().CreateGamePadInstance();
+			return GetDefaultCreator<IGamePadCreator>().CreateDevice();
 		}
 		#endregion
 
-		#region GetDefaultMouse
-		public IMouse GetDefaultMouse()
+		#region CreateDefaultMouse
+		public IMouse CreateDefaultMouse()
 		{
 			ValidateWindowHandle();
 
-			var mouse = GetDefaultCreator<IMouseCreator>().CreateMouseInstance();
-			mouse.WindowHandle = this.windowHandle;
+			var mouse = GetDefaultCreator<IMouseCreator>().CreateDevice();
+			mouse.WindowHandle = WindowHandle;
 			return mouse;
 		}
 		#endregion
 
-		#region GetDefaultKeyboard
-		public IKeyboard GetDefaultKeyboard()
+		#region CreateDefaultKeyboard
+		public IKeyboard CreateDefaultKeyboard()
 		{
 			ValidateWindowHandle();
 
-			var keyboard = GetDefaultCreator<IKeyboardCreator>().CreateKeyboardInstance();
-			keyboard.WindowHandle = this.windowHandle;
+			var keyboard = GetDefaultCreator<IKeyboardCreator>().CreateDevice();
+			keyboard.WindowHandle = WindowHandle;
 			return keyboard;
 		}
 		#endregion
 
-		#region GetDefaultMotionSensingDevice
+		#region CreateDefaultMotionSensingDevice
 #if XNAEXT
-		public IMotionSensingDevice GetDefaultMotionSensingDevice()
+		public IMotionSensingDevice CreateDefaultMotionSensingDevice()
 		{
-			return GetDefaultCreator<IMotionSensingDeviceCreator>().CreateMotionSensingDeviceInstance();
+			return GetDefaultCreator<IMotionSensingDeviceCreator>().CreateDevice();
 		}
 #endif
 		#endregion
 
 		#region GetDefaultCreator
-		private T GetDefaultCreator<T>() where T : IInputDeviceCreator
+		private T GetDefaultCreator<T>()
 		{
 			Type creatorType = typeof(T);
 			if (deviceCreators.ContainsKey(creatorType))
 			{
 				var creators = deviceCreators[creatorType];
 				if (creators.Count > 0)
-				{
 					return (T)creators.Values.First<IInputDeviceCreator>();
-				}
 			}
 
 			throw new Exception("Unable to find a default creator for type " + creatorType);
@@ -176,7 +145,7 @@ namespace ANX.Framework.NonXNA
 		#region ValidateWindowHandle
 		private void ValidateWindowHandle()
 		{
-			if (windowHandle == IntPtr.Zero)
+			if (WindowHandle == IntPtr.Zero)
 				throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
 		}
 		#endregion

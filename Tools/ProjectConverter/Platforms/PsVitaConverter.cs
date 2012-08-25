@@ -36,6 +36,18 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
+		#region ConvertItemGroup
+		protected override void ConvertItemGroup(XElement element)
+		{
+			if (element.Element(GetXName("Reference")) != null)
+			{
+				var systemCoreReference = new XElement(GetXName("Reference"));
+				systemCoreReference.Add(new XAttribute("Include", "System.Core"));
+				element.Add(systemCoreReference);
+			}
+		}
+		#endregion
+
 		#region ConvertMainPropertyGroup
 		protected override void ConvertMainPropertyGroup(XElement element)
 		{

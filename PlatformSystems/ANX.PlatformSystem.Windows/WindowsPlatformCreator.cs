@@ -37,14 +37,6 @@ namespace ANX.PlatformSystem.Windows
 		}
 		#endregion
 
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			Logger.Info("adding Windows PlatformSystem creator to collection of AddInSystemFactory");
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		public WindowsPlatformCreator()
 		{
 		}

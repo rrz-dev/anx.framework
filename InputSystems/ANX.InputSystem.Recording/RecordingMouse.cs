@@ -190,7 +190,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(MouseRecordInfo info)
         {
-            this.Initialize(info, new MemoryStream(), InputDeviceFactory.Instance.GetDefaultMouse());
+            this.Initialize(info, new MemoryStream(), InputDeviceFactory.Instance.CreateDefaultMouse());
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace ANX.InputSystem.Recording
         /// </summary>
         public void Initialize(MouseRecordInfo info, Stream bufferStream)
         {
-            this.Initialize(info, bufferStream, InputDeviceFactory.Instance.GetDefaultMouse());
+            this.Initialize(info, bufferStream, InputDeviceFactory.Instance.CreateDefaultMouse());
         }
 
         /// <summary>

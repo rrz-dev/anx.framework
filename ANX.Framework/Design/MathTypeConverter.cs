@@ -1,14 +1,12 @@
 #region Using Statements
 using System;
-using System.Collections;
 using System.ComponentModel;
 #if !WINDOWSMETRO
 using System.ComponentModel.Design.Serialization;
 #endif
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Reflection;
 using System.Text;
+using ANX.Framework.NonXNA.Reflection;
 
 #endregion // Using Statements
 
@@ -29,18 +27,16 @@ namespace ANX.Framework.Design
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             if (this.supportStringConvert && sourceType == typeof(String))
-            {
                 return true;
-            }
+
             return base.CanConvertFrom(context, sourceType);
         }
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof(InstanceDescriptor))
-            {
+            if (IsTypeInstanceDescriptor(destinationType))
                 return true;
-            }
+
             return base.CanConvertTo(context, destinationType);
         }
 
@@ -54,7 +50,8 @@ namespace ANX.Framework.Design
             return true;
         }
 
-        public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
+        public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value,
+			Attribute[] attributes)
         {
             return propertyDescriptions;
         }
@@ -100,13 +97,11 @@ namespace ANX.Framework.Design
         protected static T[] ConvertFromString<T>(ITypeDescriptorContext context, CultureInfo culture, string value)
         {
             if (value == null)
-            {
                 return null;
-            }
+
             if (culture == null)
-            {
                 throw new ArgumentNullException("culture");
-            }
+
             value = value.Trim();
 
             string[] values = value.Split(';');
@@ -118,6 +113,21 @@ namespace ANX.Framework.Design
             }
             return result;
         }
+
+		protected InstanceDescriptor CreateInstanceDescriptor<T>(object[] parameters)
+		{
+			Type[] paramTypes = new Type[parameters.Length];
+			for (int index = 0; index < parameters.Length; index++)
+				paramTypes[index] = parameters[index].GetType();
+
+			var constructor = TypeHelper.GetConstructor(typeof(T), paramTypes);
+			return new InstanceDescriptor(constructor, parameters);
+		}
+
+		protected bool IsTypeInstanceDescriptor(Type type)
+		{
+			return type == typeof(InstanceDescriptor);
+		}
     }
 
 #endif

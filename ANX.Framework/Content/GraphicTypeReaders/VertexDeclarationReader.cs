@@ -1,8 +1,6 @@
 ﻿#region Using Statements
-using System;
-using System.Collections.Generic;
 using ANX.Framework.Graphics;
-using ANX.Framework.ContentPipeline;
+
 
 #endregion // Using Statements
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace ANX.Framework.NonXNA
 {
@@ -10,9 +9,9 @@ namespace ANX.Framework.NonXNA
 		{
 			Type gameType = game.GetType();
 #if WINDOWSMETRO
-				return gameType.GetTypeInfo().Assembly.GetManifestResourceStream(name);
+			return gameType.GetTypeInfo().Assembly.GetManifestResourceStream(name);
 #else
-				return gameType.Assembly.GetManifestResourceStream(name);
+			return gameType.Assembly.GetManifestResourceStream(name);
 #endif
 		}
 	}

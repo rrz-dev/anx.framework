@@ -17,11 +17,6 @@ namespace ANX.InputDevices.Windows.Kinect
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(MotionSensingDeviceCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -30,7 +25,7 @@ namespace ANX.InputDevices.Windows.Kinect
 			}
 		}
 
-		public IMotionSensingDevice CreateMotionSensingDeviceInstance()
+		public IMotionSensingDevice CreateDevice()
 		{
 			return new Kinect();
 		}

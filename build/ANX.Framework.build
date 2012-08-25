@@ -205,6 +205,7 @@
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*Windows*.csproj" />
         <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenTK*.csproj" />
         <exclude name="**/ANX.InputDevices.Test*.csproj" />
       </fileset>
     </if>
@@ -266,6 +267,7 @@
         <include name="**/*_PsVita.csproj" />
         <exclude name="**/*Metro*.csproj" />
         <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenAL*.csproj" />
         <exclude name="**/*Windows*.csproj" />
       </fileset>
     </if>
@@ -319,7 +321,8 @@
 
     <if test="${project.anx.psvita}">
       <fileset id="mediasystem_files" basedir="../MediaSystems/">
-        <!-- TODO: no mediasystems for linux currently -->
+        <include name="**/*_PsVita.csproj" />
+        <exclude name="**/*OpenAL*.csproj" />
       </fileset>
     </if>
 

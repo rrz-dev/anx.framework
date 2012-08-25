@@ -18,11 +18,6 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(TouchPanelCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -31,7 +26,7 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public ITouchPanel CreateTouchPanelInstance()
+		public ITouchPanel CreateDevice()
 		{
 			return new TouchPanel();
 		}

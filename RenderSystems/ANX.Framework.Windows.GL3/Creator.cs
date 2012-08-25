@@ -56,14 +56,6 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
-		#region RegisterRenderSystemCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			Logger.Info("adding OpenGL3 RenderSystem creator to creator collection of AddInSystemFactory");
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region CreateEffect
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream byteCode)

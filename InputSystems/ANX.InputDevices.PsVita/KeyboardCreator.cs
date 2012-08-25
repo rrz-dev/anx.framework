@@ -18,11 +18,6 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public void RegisterCreator(InputDeviceFactory factory)
-		{
-			factory.AddCreator(typeof(KeyboardCreator), this);
-		}
-
 		public int Priority
 		{
 			get
@@ -31,7 +26,7 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public IKeyboard CreateKeyboardInstance()
+		public IKeyboard CreateDevice()
 		{
 			throw new NotImplementedException();
 		}

@@ -183,9 +183,7 @@ namespace ANX.Framework.Audio
 		public bool Play(float volume, float pitch, float pan)
 		{
 			if (IsDisposed)
-			{
 				return false;
-			}
 
 			try
 			{
@@ -218,9 +216,7 @@ namespace ANX.Framework.Audio
 		public void Dispose()
 		{
 			if (IsDisposed)
-			{
 				return;
-			}
 
 			IsDisposed = true;
 			nativeSoundEffect.Dispose();

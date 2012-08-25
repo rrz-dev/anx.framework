@@ -1,5 +1,4 @@
 #region Using Statements
-using System;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 
@@ -11,60 +10,60 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA
 {
-    public class GraphicsResourceTracker
-    {
-        #region Private members
-        private static GraphicsResourceTracker instance;
-        private static List<GraphicsResource> trackedGraphicsResources;
+	public class GraphicsResourceTracker
+	{
+		#region Private members
+		private static GraphicsResourceTracker instance;
+		private static List<GraphicsResource> trackedGraphicsResources;
 
-        #endregion // Private members
+		#endregion // Private members
 
-        static GraphicsResourceTracker()
-        {
-            trackedGraphicsResources = new List<GraphicsResource>();
-        }
+		static GraphicsResourceTracker()
+		{
+			trackedGraphicsResources = new List<GraphicsResource>();
+		}
 
-        //~GraphicsResourceTracker()
-        //{
-        //    if (trackedGraphicsResources.Count > 0)
-        //    {
-        //        throw new Exception("The GraphicsResourceTracker is going to be destroyed but is still tracking some objects.");
-        //    }
-        //}
+		//~GraphicsResourceTracker()
+		//{
+		//    if (trackedGraphicsResources.Count > 0)
+		//    {
+		//        throw new Exception("The GraphicsResourceTracker is going to be destroyed but is still tracking some objects.");
+		//    }
+		//}
 
-        public static GraphicsResourceTracker Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new GraphicsResourceTracker();
-                }
+		public static GraphicsResourceTracker Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new GraphicsResourceTracker();
+				}
 
-                return instance;
-            }
-        }
+				return instance;
+			}
+		}
 
-        public void UpdateGraphicsDeviceReference(GraphicsDevice newGraphicsDevice)
-        {
-            foreach (GraphicsResource resource in trackedGraphicsResources)
-            {
-                resource.GraphicsDevice = newGraphicsDevice;
-                resource.GraphicsDevice.NativeDevice = newGraphicsDevice.NativeDevice;
-            }
-        }
+		public void UpdateGraphicsDeviceReference(GraphicsDevice newGraphicsDevice)
+		{
+			foreach (GraphicsResource resource in trackedGraphicsResources)
+			{
+				resource.GraphicsDevice = newGraphicsDevice;
+				resource.GraphicsDevice.NativeDevice = newGraphicsDevice.NativeDevice;
+			}
+		}
 
-        public void RegisterTrackedObject(GraphicsResource graphicsResource)
-        {
-            if (trackedGraphicsResources.Contains(graphicsResource) == false)
-            {
-                trackedGraphicsResources.Add(graphicsResource);
-            }
-        }
+		public void RegisterTrackedObject(GraphicsResource graphicsResource)
+		{
+			if (trackedGraphicsResources.Contains(graphicsResource) == false)
+			{
+				trackedGraphicsResources.Add(graphicsResource);
+			}
+		}
 
-        public void UnregisterTrackedObject(GraphicsResource graphicsResource)
-        {
-            trackedGraphicsResources.Remove(graphicsResource);
-        }
-    }
+		public void UnregisterTrackedObject(GraphicsResource graphicsResource)
+		{
+			trackedGraphicsResources.Remove(graphicsResource);
+		}
+	}
 }
