@@ -1,6 +1,11 @@
 ﻿using System;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
+using OpenTK.Audio;
+
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.SoundSystem.OpenAL
 {
@@ -8,18 +13,22 @@ namespace ANX.SoundSystem.OpenAL
 	{
 		#region Private
 		private OpenALSoundEffect parent;
+
+		private int handle;
 		#endregion
 
-		#region Public (TODO)
+		#region Public
 		public bool IsLooped
 		{
 			get
 			{
-				throw new NotImplementedException();
+				bool result;
+				AL.GetSource(handle, ALSourceb.Looping, out result);
+				return result;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				AL.Source(handle, ALSourceb.Looping, value);
 			}
 		}
 
@@ -39,31 +48,33 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				throw new NotImplementedException();
+				float result;
+				AL.GetSource(handle, ALSourcef.Pitch, out result);
+				return result;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				AL.Source(handle, ALSourcef.Pitch, value);
 			}
 		}
 
 		public SoundState State
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public float Volume
 		{
 			get
 			{
-				throw new NotImplementedException();
+				float result;
+				AL.GetSource(handle, ALSourcef.Gain, out result);
+				return result;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				AL.Source(handle, ALSourcef.Gain, value);
 			}
 		}
 		#endregion
@@ -72,38 +83,77 @@ namespace ANX.SoundSystem.OpenAL
 		internal OpenALSoundEffectInstance(OpenALSoundEffect setParent)
 		{
 			parent = setParent;
+
+			State = SoundState.Stopped;
+
+			handle = AL.GenSource();
+			AL.Source(handle, ALSourcei.Buffer, parent.bufferHandle);
+			IsLooped = false;
+			Pitch = 1f;
+			Volume = 1f;
+			// TODO: Pan = 0f;
 		}
 		#endregion
 
+		#region Play
 		public void Play()
 		{
-			throw new NotImplementedException();
+			if (State != SoundState.Playing)
+			{
+				State = SoundState.Playing;
+				AL.SourcePlay(handle);
+			}
 		}
+		#endregion
 
+		#region Pause
 		public void Pause()
 		{
-			throw new NotImplementedException();
+			if (State != SoundState.Paused)
+			{
+				State = SoundState.Paused;
+				AL.SourcePause(handle);
+			}
 		}
+		#endregion
 
+		#region Stop
 		public void Stop(bool immediate)
 		{
-			throw new NotImplementedException();
-		}
+			if (State == SoundState.Stopped)
+				return;
 
+			if (immediate)
+			{
+				State = SoundState.Stopped;
+				AL.SourceStop(handle);
+			}
+		}
+		#endregion
+
+		#region Resume
 		public void Resume()
 		{
-			throw new NotImplementedException();
+			if (State != SoundState.Playing)
+			{
+				State = SoundState.Playing;
+				AL.SourcePlay(handle);
+			}
 		}
+		#endregion
 
-		public void Apply3D(Framework.Audio.AudioListener[] listeners, Framework.Audio.AudioEmitter emitter)
+		#region Apply3D (TODO)
+		public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)
 		{
 			throw new NotImplementedException();
 		}
+		#endregion
 
-		#region Dispose (TODO)
+		#region Dispose
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			AL.DeleteSource(handle);
+			handle = -1;
 		}
 		#endregion
 	}

@@ -20,10 +20,8 @@ namespace ANX.Framework.Audio
 		#region Public
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public ReadOnlyCollection<RendererDetail> RendererDetails
@@ -41,8 +39,7 @@ namespace ANX.Framework.Audio
 			throw new NotImplementedException();
 		}
 
-		public AudioEngine(string settingsFile, TimeSpan lookAheadTime,
-			string rendererId)
+		public AudioEngine(string settingsFile, TimeSpan lookAheadTime, string rendererId)
 		{
 			throw new NotImplementedException();
 		}
@@ -84,12 +81,17 @@ namespace ANX.Framework.Audio
 		#region Dispose
 		protected virtual void Dispose(bool disposing)
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 		#endregion
 	}

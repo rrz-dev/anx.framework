@@ -56,7 +56,7 @@ namespace ANX.Framework.Audio
 		#region ToString
 		public override string ToString()
 		{
-			throw new NotImplementedException();
+			return Name;
 		}
 		#endregion
 

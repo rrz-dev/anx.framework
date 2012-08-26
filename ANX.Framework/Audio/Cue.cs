@@ -23,10 +23,8 @@ namespace ANX.Framework.Audio
 
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public bool IsPaused
@@ -87,6 +85,10 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Constructor
+		internal Cue()
+		{
+		}
+
 		~Cue()
 		{
 			Dispose();
@@ -145,7 +147,11 @@ namespace ANX.Framework.Audio
 		#region Dispose
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 		#endregion
 	}

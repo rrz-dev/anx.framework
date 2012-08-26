@@ -12,14 +12,6 @@ namespace ANX.Framework
 {
     public abstract class GameHost
     {
-        //private EventHandler<EventArgs> Activated;
-        //private EventHandler<EventArgs> Deactivated;
-        //private EventHandler<EventArgs> Exiting;
-        //private EventHandler<EventArgs> Idle;
-        //private EventHandler<EventArgs> Resume;
-        //private EventHandler<EventArgs> Suspend;
-
-        // Events
         internal event EventHandler<EventArgs> Activated;
         internal event EventHandler<EventArgs> Deactivated;
         internal event EventHandler<EventArgs> Exiting;

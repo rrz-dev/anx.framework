@@ -41,8 +41,7 @@ namespace ANX.Framework.Audio
 		{
 
 		}
-		public WaveBank(AudioEngine audioEngine, string streamingWaveBankFilename,
-			int offset, short packetsize)
+		public WaveBank(AudioEngine audioEngine, string streamingWaveBankFilename, int offset, short packetsize)
 		{
 
 		}
@@ -62,9 +61,7 @@ namespace ANX.Framework.Audio
 		protected virtual void Dispose(bool disposing)
 		{
 			if (IsDisposed)
-			{
 				return;
-			}
 
 			IsDisposed = true;
 

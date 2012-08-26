@@ -8,44 +8,47 @@ namespace ANX.Framework.Media
 {
 	public sealed class Video
 	{
+		#region Public
 		public TimeSpan Duration
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		
 		public int Width
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		
 		public int Height
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		
 		public float FramesPerSecond
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		
 		public VideoSoundtrackType VideoSoundtrackType
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
+		#endregion
+
+		#region Constructor
+		internal Video(int duration, int width, int height, float framesPerSecond, VideoSoundtrackType soundtrackType)
+		{
+			Duration = new TimeSpan(0, 0, 0, 0, duration);
+			Width = width;
+			Height = height;
+			FramesPerSecond = framesPerSecond;
+			VideoSoundtrackType = soundtrackType;
+		}
+		#endregion
 	}
 }

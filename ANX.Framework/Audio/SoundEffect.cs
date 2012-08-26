@@ -71,11 +71,9 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Private
-		internal ISoundEffect nativeSoundEffect;
-
 		private static List<SoundEffectInstance> fireAndForgetInstances;
-
-		private List<WeakReference> children = new List<WeakReference>();
+		private List<WeakReference> children;
+		internal ISoundEffect nativeSoundEffect;
 		#endregion
 
 		#region Public
@@ -103,13 +101,22 @@ namespace ANX.Framework.Audio
 		#region Constructor
 		static SoundEffect()
 		{
+			fireAndForgetInstances = new List<SoundEffectInstance>();
+
 			MasterVolume = 1f;
 			SpeedOfSound = 343.5f;
 			DopplerScale = 1f;
 			DistanceScale = 1f;
 		}
 
+		private SoundEffect()
+		{
+			children = new List<WeakReference>();
+			IsDisposed = false;
+		}
+
 		private SoundEffect(Stream stream)
+			: this()
 		{
 			nativeSoundEffect = GetCreator().CreateSoundEffect(this, stream);
 		}
@@ -121,6 +128,7 @@ namespace ANX.Framework.Audio
 
 		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
+			: this()
 		{
 			nativeSoundEffect = GetCreator().CreateSoundEffect(this, buffer, offset,
 				count, sampleRate, channels, loopStart, loopLength);
@@ -154,12 +162,10 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region GetSampleDuration
-		public static TimeSpan GetSampleDuration(int sizeInBytes, int sampleRate,
-			AudioChannels channels)
+		public static TimeSpan GetSampleDuration(int sizeInBytes, int sampleRate, AudioChannels channels)
 		{
 			float sizeMulBlockAlign = sizeInBytes / ((int)channels * 2);
-			return TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f /
-				(float)sampleRate));
+			return TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)sampleRate));
 		}
 		#endregion
 
@@ -167,10 +173,8 @@ namespace ANX.Framework.Audio
 		public static int GetSampleSizeInBytes(TimeSpan duration, int sampleRate,
 			AudioChannels channels)
 		{
-			int timeMulSamples = (int)(duration.TotalMilliseconds *
-				(double)((float)sampleRate / 1000f));
-			return (timeMulSamples + timeMulSamples % (int)channels) *
-				((int)channels * 2);
+			int timeMulSamples = (int)(duration.TotalMilliseconds * (double)((float)sampleRate / 1000f));
+			return (timeMulSamples + timeMulSamples % (int)channels) * ((int)channels * 2);
 		}
 		#endregion
 

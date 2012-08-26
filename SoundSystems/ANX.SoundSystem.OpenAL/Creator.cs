@@ -4,6 +4,7 @@ using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
+using OpenTK.Audio.OpenAL;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,7 +15,6 @@ namespace ANX.SoundSystem.OpenAL
 	public class Creator : ISoundSystemCreator
 	{
 		#region Public
-		#region Name
 		public string Name
 		{
 			get
@@ -22,9 +22,7 @@ namespace ANX.SoundSystem.OpenAL
 				return "Sound.OpenAL";
 			}
 		}
-		#endregion
 
-		#region Priority
 		public int Priority
 		{
 			get
@@ -32,9 +30,7 @@ namespace ANX.SoundSystem.OpenAL
 				return 100;
 			}
 		}
-		#endregion
 
-		#region IsSupported
 		public bool IsSupported
 		{
 			get
@@ -45,9 +41,7 @@ namespace ANX.SoundSystem.OpenAL
 					os == PlatformName.MacOSX;
 			}
 		}
-		#endregion
 
-		#region DistanceScale
 		public float DistanceScale
 		{
 			get
@@ -59,23 +53,19 @@ namespace ANX.SoundSystem.OpenAL
 				throw new NotImplementedException();
 			}
 		}
-		#endregion
 
-		#region DopplerScale
 		public float DopplerScale
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return AL.Get(ALGetFloat.DopplerFactor);
 			}
 			set
 			{
-				throw new NotImplementedException();
+				AL.DopplerFactor(value);
 			}
 		}
-		#endregion
 
-		#region MasterVolume
 		public float MasterVolume
 		{
 			get
@@ -87,46 +77,41 @@ namespace ANX.SoundSystem.OpenAL
 				throw new NotImplementedException();
 			}
 		}
-		#endregion
 
-		#region SpeedOfSound
 		public float SpeedOfSound
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return AL.Get(ALGetFloat.SpeedOfSound);
 			}
 			set
 			{
-				throw new NotImplementedException();
+				AL.SpeedOfSound(value);
 			}
 		}
 		#endregion
-		#endregion
 
 		#region CreateSoundEffectInstance
-		public ISoundEffectInstance CreateSoundEffectInstance(
-			ISoundEffect nativeSoundEffect)
+		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
-			return new OpenALSoundEffectInstance((OpenALSoundEffect)nativeSoundEffect);
+			PreventSystemChange();
+			return new OpenALSoundEffectInstance(nativeSoundEffect as OpenALSoundEffect);
 		}
 		#endregion
 
 		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+			PreventSystemChange();
 			return new OpenALSoundEffect(parent, stream);
 		}
 		#endregion
 
 		#region CreateSoundEffect (TODO)
-		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer,
-			int offset, int count, int sampleRate, AudioChannels channels,
-			int loopStart, int loopLength)
+		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
+			AudioChannels channels, int loopStart, int loopLength)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -134,7 +119,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateAudioListener
 		public IAudioListener CreateAudioListener()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+			PreventSystemChange();
 			return new OpenALAudioListener();
 		}
 		#endregion
@@ -142,7 +127,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateAudioEmitter (TODO)
 		public IAudioEmitter CreateAudioEmitter()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -150,6 +135,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region CreateMicrophone
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -157,6 +143,7 @@ namespace ANX.SoundSystem.OpenAL
 		#region GetAllMicrophones
 		public ReadOnlyCollection<Microphone> GetAllMicrophones()
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -164,8 +151,14 @@ namespace ANX.SoundSystem.OpenAL
 		#region GetDefaultMicrophone
 		public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
+
+		private void PreventSystemChange()
+		{
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+		}
 	}
 }

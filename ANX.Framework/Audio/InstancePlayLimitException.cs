@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace ANX.Framework.Audio
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-    [SerializableAttribute]
+    [Serializable]
 #endif
     public sealed class InstancePlayLimitException : ExternalException
 	{

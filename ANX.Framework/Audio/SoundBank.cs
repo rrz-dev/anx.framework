@@ -70,9 +70,7 @@ namespace ANX.Framework.Audio
 		protected virtual void Dispose(bool disposing)
 		{
 			if (IsDisposed)
-			{
 				return;
-			}
 
 			IsDisposed = true;
 			throw new NotImplementedException();

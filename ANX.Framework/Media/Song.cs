@@ -16,17 +16,15 @@ namespace ANX.Framework.Media
 
 		public string Name
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public bool IsRated
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return Rating > 0;
 			}
 		}
 
@@ -95,8 +93,9 @@ namespace ANX.Framework.Media
 		}
 
 		#region Constructor
-		private Song()
+		internal Song(string setName)
 		{
+			Name = setName;
 			IsDisposed = false;
 		}
 
