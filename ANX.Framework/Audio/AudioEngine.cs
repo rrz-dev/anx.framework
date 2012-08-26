@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using ANX.Framework.Audio.XactParser;
+using System.Collections.Generic;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -13,10 +17,14 @@ namespace ANX.Framework.Audio
 		public const int ContentVersion = 0x27;
 		#endregion
 
+		#region Private
+		private XactGeneralSettings generalSettings;
+		#endregion
+
 		#region Events
 		public event EventHandler<EventArgs> Disposing;
 		#endregion
-
+		
 		#region Public
 		public bool IsDisposed
 		{
@@ -26,22 +34,32 @@ namespace ANX.Framework.Audio
 
 		public ReadOnlyCollection<RendererDetail> RendererDetails
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 		#endregion
 
-		#region Constructor
+		#region Constructor (TODO)
 		public AudioEngine(string settingsFile)
 		{
-			throw new NotImplementedException();
+			// TODO: get renderer details
+			RendererDetails = new ReadOnlyCollection<RendererDetail>(new List<RendererDetail>());
+
+			Stream loadingStream = AddInSystemFactory.DefaultPlatformCreator.OpenReadFilestream(settingsFile);
+			generalSettings = new XactGeneralSettings(loadingStream);
+			loadingStream.Dispose();
 		}
 
 		public AudioEngine(string settingsFile, TimeSpan lookAheadTime, string rendererId)
 		{
-			throw new NotImplementedException();
+			// TODO: get renderer details
+			RendererDetails = new ReadOnlyCollection<RendererDetail>(new List<RendererDetail>());
+
+			// TODO: lookAheadTime and rendererId
+
+			Stream loadingStream = AddInSystemFactory.DefaultPlatformCreator.OpenReadFilestream(settingsFile);
+			generalSettings = new XactGeneralSettings(loadingStream);
+			loadingStream.Dispose();
 		}
 
 		~AudioEngine()
@@ -53,25 +71,35 @@ namespace ANX.Framework.Audio
 		#region GetCategory
 		public AudioCategory GetCategory(string name)
 		{
-			throw new NotImplementedException();
+			for (int index = 0; index < generalSettings.Categories.Length; index++)
+				if (generalSettings.Categories[index].Name == name)
+					return generalSettings.Categories[index];
+
+			return new AudioCategory(name);
 		}
 		#endregion
 
 		#region GetGlobalVariable
 		public float GetGlobalVariable(string name)
 		{
-			throw new NotImplementedException();
+			foreach (var variable in generalSettings.Variables)
+				if (variable.Name == name)
+					return variable.StartingValue;
+
+			return 0f;
 		}
 		#endregion
 
 		#region SetGlobalVariable
 		public void SetGlobalVariable(string name, float value)
 		{
-			throw new NotImplementedException();
+			foreach (var variable in generalSettings.Variables)
+				if (variable.Name == name)
+					variable.StartingValue = MathHelper.Clamp(value, variable.MinValue, variable.MaxValue);
 		}
 		#endregion
 
-		#region Update
+		#region Update (TODO)
 		public void Update()
 		{
 			throw new NotImplementedException();
@@ -83,8 +111,11 @@ namespace ANX.Framework.Audio
 		{
 			if (IsDisposed == false)
 			{
+				if (Disposing != null)
+					Disposing(this, EventArgs.Empty);
+
 				IsDisposed = true;
-				throw new NotImplementedException();
+				generalSettings = null;
 			}
 		}
 

@@ -14,8 +14,7 @@ namespace ANX.Framework
 
 		static TitleContainer()
 		{
-			nativeImplementation =
-				AddInSystemFactory.DefaultPlatformCreator.CreateTitleContainer();
+			nativeImplementation = AddInSystemFactory.DefaultPlatformCreator.CreateTitleContainer();
 		}
 		
 		public static Stream OpenStream(string name)

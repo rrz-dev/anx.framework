@@ -3,6 +3,9 @@ using ANX.Framework;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework.Storage;
+using System.IO;
+using ANX.Framework.Media;
+using System.Collections.Generic;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -95,6 +98,23 @@ namespace ANX.PlatformSystem.Metro
 		public INativeContentManager CreateContentManager()
 		{
 			return new MetroContentManager();
+		}
+		#endregion
+
+		#region IPlatformSystemCreator Member
+		public Stream OpenReadFilestream(string filepath)
+		{
+			throw new NotImplementedException();
+		}
+
+		public INativeMediaLibrary CreateMediaPlayer()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IList<MediaSource> GetAvailableMediaSources()
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 	}

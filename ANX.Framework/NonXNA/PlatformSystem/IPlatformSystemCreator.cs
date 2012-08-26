@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.IO;
 using ANX.Framework.Media;
 using ANX.Framework.Storage;
 
@@ -12,12 +12,13 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 	public interface IPlatformSystemCreator : ICreator
 	{
 		GameHost CreateGameHost(Game game);
-		INativeStorageDevice CreateStorageDevice(StorageDevice device,
-			PlayerIndex player, int sizeInBytes, int directoryCount);
+		INativeStorageDevice CreateStorageDevice(StorageDevice device, PlayerIndex player, int sizeInBytes, int directoryCount);
 		INativeStorageContainer CreateStorageContainer(StorageContainer container);
 		INativeTitleContainer CreateTitleContainer();
 		INativeGameTimer CreateGameTimer();
 		INativeContentManager CreateContentManager();
+
+		Stream OpenReadFilestream(string filepath);
 
 		INativeMediaLibrary CreateMediaPlayer();
 		IList<MediaSource> GetAvailableMediaSources();

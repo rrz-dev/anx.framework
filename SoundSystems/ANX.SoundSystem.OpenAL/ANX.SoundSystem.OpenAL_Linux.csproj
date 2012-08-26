@@ -70,6 +70,12 @@
     <Compile Include="OpenALSoundEffectInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
+    <Compile Include="Wave\ALaw.cs" />
+    <Compile Include="Wave\MsAdpcm.cs" />
+    <Compile Include="Wave\MuLaw.cs" />
+    <Compile Include="Wave\WaveFile.cs" />
+    <Compile Include="Wave\WaveFormat.cs" />
+    <Compile Include="Wave\WaveInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">

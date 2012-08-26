@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using ANX.Framework;
 using ANX.Framework.Media;
 using ANX.Framework.NonXNA;
@@ -100,6 +101,13 @@ namespace ANX.PlatformSystem.Linux
 		public IList<MediaSource> GetAvailableMediaSources()
 		{
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region OpenReadFilestream
+		public Stream OpenReadFilestream(string filepath)
+		{
+			return File.OpenRead(filepath);
 		}
 		#endregion
 	}
