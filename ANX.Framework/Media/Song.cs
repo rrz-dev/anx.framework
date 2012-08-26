@@ -10,10 +10,8 @@ namespace ANX.Framework.Media
 	{
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public string Name
@@ -96,10 +94,17 @@ namespace ANX.Framework.Media
 			}
 		}
 
+		#region Constructor
+		private Song()
+		{
+			IsDisposed = false;
+		}
+
 		~Song()
 		{
 			Dispose();
 		}
+		#endregion
 
 		public Song FromUri(string name, Uri uri)
 		{
@@ -113,32 +118,45 @@ namespace ANX.Framework.Media
 
 		public override bool Equals(object obj)
 		{
-			throw new NotImplementedException();
+			if (obj is Song)
+				return Equals(obj as Song);
+
+			return base.Equals(obj);
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 
+		#region ToString
 		public override string ToString()
 		{
-			throw new NotImplementedException();
+			return Name;
 		}
+		#endregion
 
+		#region GetHashCode
 		public override int GetHashCode()
 		{
-			throw new NotImplementedException();
+			return Name.GetHashCode();
 		}
+		#endregion
 
+		#region Operator overloading
 		public static bool operator ==(Song first, Song second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second);
 		}
 
 		public static bool operator !=(Song first, Song second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second) == false;
 		}
+		#endregion
 	}
 }

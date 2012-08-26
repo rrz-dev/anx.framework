@@ -10,10 +10,8 @@ namespace ANX.Framework.Media
 	{
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public string Name
@@ -48,10 +46,17 @@ namespace ANX.Framework.Media
 			}
 		}
 
+		#region Constructor
+		private PictureAlbum()
+		{
+			IsDisposed = false;
+		}
+
 		~PictureAlbum()
 		{
 			Dispose();
 		}
+		#endregion
 
 		public bool Equals(PictureAlbum other)
 		{
@@ -60,32 +65,45 @@ namespace ANX.Framework.Media
 
 		public override bool Equals(object obj)
 		{
-			throw new NotImplementedException();
+			if (obj is PictureAlbum)
+				return Equals(obj as PictureAlbum);
+
+			return base.Equals(obj);
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 
+		#region ToString
 		public override string ToString()
 		{
-			throw new NotImplementedException();
+			return Name;
 		}
+		#endregion
 
+		#region GetHashCode
 		public override int GetHashCode()
 		{
-			throw new NotImplementedException();
+			return Name.GetHashCode();
 		}
+		#endregion
 
+		#region Operator overloading
 		public static bool operator ==(PictureAlbum first, PictureAlbum second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second);
 		}
 
 		public static bool operator !=(PictureAlbum first, PictureAlbum second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second) == false;
 		}
+		#endregion
 	}
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using ANX.Framework.Media;
 using ANX.Framework.Storage;
 
 // This file is part of the ANX.Framework created by the
@@ -16,6 +18,8 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 		INativeTitleContainer CreateTitleContainer();
 		INativeGameTimer CreateGameTimer();
 		INativeContentManager CreateContentManager();
+
 		INativeMediaLibrary CreateMediaPlayer();
+		IList<MediaSource> GetAvailableMediaSources();
 	}
 }

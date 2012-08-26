@@ -433,11 +433,11 @@
     <Compile Include="NonXNA\PlatformSystem\INativeTitleContainer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeGameTimer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
+    <Compile Include="NonXNA\PlatformSystem\INativeMediaLibrary.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />
-    <Compile Include="NonXNA\MediaSystem\IMediaSystemCreator.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
     <Compile Include="NonXNA\OSInformation.cs" />
     <Compile Include="NonXNA\PlatformSystem\IPlatformSystemCreator.cs" />

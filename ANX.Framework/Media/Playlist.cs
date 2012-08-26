@@ -38,14 +38,17 @@ namespace ANX.Framework.Media
 			}
 		}
 
-		internal Playlist()
+		#region Constructor
+		private Playlist()
 		{
+			IsDisposed = false;
 		}
 
 		~Playlist()
 		{
 			Dispose();
 		}
+		#endregion
 
 		public bool Equals(Playlist other)
 		{
@@ -69,16 +72,21 @@ namespace ANX.Framework.Media
 			}
 		}
 
+		#region ToString
 		public override string ToString()
 		{
 			return Name;
 		}
+		#endregion
 
+		#region GetHashCode
 		public override int GetHashCode()
 		{
 			return Name.GetHashCode();
 		}
-
+		#endregion
+		
+		#region Operator overloading
 		public static bool operator ==(Playlist first, Playlist second)
 		{
 			return first.Equals(second);
@@ -88,5 +96,6 @@ namespace ANX.Framework.Media
 		{
 			return first.Equals(second) == false;
 		}
+		#endregion
 	}
 }

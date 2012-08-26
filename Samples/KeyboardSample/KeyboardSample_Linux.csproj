@@ -109,10 +109,6 @@
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MediaSystems\ANX.MediaSystem.Windows.OpenAL\ANX.MediaSystem.Windows.OpenAL_Linux.csproj">
-      <Project>{97185A92-077D-4498-8B6A-8BFF04079044}</Project>
-      <Name>ANX.MediaSystem.Windows.OpenAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_Linux.csproj">
       <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>

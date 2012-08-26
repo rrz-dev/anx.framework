@@ -11,10 +11,8 @@ namespace ANX.Framework.Media
 	{
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public string Name
@@ -65,10 +63,17 @@ namespace ANX.Framework.Media
 			}
 		}
 
+		#region Constructor
+		private Album()
+		{
+			IsDisposed = false;
+		}
+
 		~Album()
 		{
 			Dispose();
 		}
+		#endregion
 
 		public Stream GetAlbumArt()
 		{
@@ -82,7 +87,11 @@ namespace ANX.Framework.Media
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 
 		public bool Equals(Album other)
@@ -90,29 +99,38 @@ namespace ANX.Framework.Media
 			throw new NotImplementedException();
 		}
 
-		public override bool Equals(object other)
+		public override bool Equals(object obj)
 		{
-			throw new NotImplementedException();
+			if (obj is Album)
+				return Equals(obj as Album);
+
+			return base.Equals(obj);
 		}
 
+		#region ToString
+		public override string ToString()
+		{
+			return Name;
+		}
+		#endregion
+
+		#region GetHashCode
+		public override int GetHashCode()
+		{
+			return Name.GetHashCode();
+		}
+		#endregion
+
+		#region Operator overloading
 		public static bool operator ==(Album first, Album second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second);
 		}
 
 		public static bool operator !=(Album first, Album second)
 		{
-			throw new NotImplementedException();
+			return first.Equals(second) == false;
 		}
-
-		public override string ToString()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override int GetHashCode()
-		{
-			throw new NotImplementedException();
-		}
+		#endregion
 	}
 }

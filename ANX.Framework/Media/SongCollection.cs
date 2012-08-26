@@ -35,7 +35,7 @@ namespace ANX.Framework.Media
 			}
 		}
 
-		public SongCollection()
+		internal SongCollection()
 		{
 			songs = new List<Song>();
 			IsDisposed = false;

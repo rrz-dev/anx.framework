@@ -11,10 +11,8 @@ namespace ANX.Framework.Media
 	{
 		public bool IsDisposed
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		public TimeSpan PlayPosition
@@ -65,6 +63,11 @@ namespace ANX.Framework.Media
 			}
 		}
 
+		public VideoPlayer()
+		{
+			IsDisposed = false;
+		}
+
 		~VideoPlayer()
 		{
 			Dispose();
@@ -72,7 +75,11 @@ namespace ANX.Framework.Media
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (IsDisposed == false)
+			{
+				IsDisposed = true;
+				throw new NotImplementedException();
+			}
 		}
 
 		public void Play(Video video)

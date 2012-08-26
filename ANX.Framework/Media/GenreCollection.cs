@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
-	public sealed class GenreCollection
-		: IEnumerable<Genre>, IEnumerable, IDisposable
+	public sealed class GenreCollection : IEnumerable<Genre>, IEnumerable, IDisposable
 	{
 		private List<Genre> genres;
 
@@ -35,7 +34,7 @@ namespace ANX.Framework.Media
 			}
 		}
 
-		public GenreCollection()
+		internal GenreCollection()
 		{
 			genres = new List<Genre>();
 			IsDisposed = false;

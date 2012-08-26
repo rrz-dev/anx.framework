@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
-	public sealed class PictureCollection
-		: IEnumerable<Picture>, IEnumerable, IDisposable
+	public sealed class PictureCollection : IEnumerable<Picture>, IEnumerable, IDisposable
 	{
 		private List<Picture> pictures;
 
@@ -35,7 +34,7 @@ namespace ANX.Framework.Media
 			}
 		}
 
-		public PictureCollection()
+		internal PictureCollection()
 		{
 			pictures = new List<Picture>();
 			IsDisposed = false;

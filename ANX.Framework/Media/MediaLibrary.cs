@@ -95,8 +95,7 @@ namespace ANX.Framework.Media
 		public MediaLibrary()
 		{
 			nativeLibrary = AddInSystemFactory.DefaultPlatformCreator.CreateMediaPlayer();
-			// TODO: create usefull mediasource...something like internal mediasource.default or so
-			MediaSource = new MediaSource();
+			MediaSource = MediaSource.GetAvailableMediaSources()[0];
 		}
 
 		public MediaLibrary(MediaSource setSource)

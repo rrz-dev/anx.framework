@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
-	public sealed class ArtistCollection
-		: IEnumerable<Artist>, IEnumerable, IDisposable
+	public sealed class ArtistCollection : IEnumerable<Artist>, IEnumerable, IDisposable
 	{
 		private List<Artist> artists;
 
@@ -35,7 +34,7 @@ namespace ANX.Framework.Media
 			}
 		}
 
-		public ArtistCollection()
+		internal ArtistCollection()
 		{
 			artists = new List<Artist>();
 			IsDisposed = false;

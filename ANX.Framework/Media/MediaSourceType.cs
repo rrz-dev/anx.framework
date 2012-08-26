@@ -1,7 +1,4 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,10 +6,10 @@ using System;
 
 namespace ANX.Framework.Media
 {
-    [Flags]
-    public enum MediaSourceType
-    {
-        LocalDevice = 0,
-        WindowsMediaConnect = 4,
-    }
+	[Flags]
+	public enum MediaSourceType
+	{
+		LocalDevice = 0,
+		WindowsMediaConnect = 4,
+	}
 }

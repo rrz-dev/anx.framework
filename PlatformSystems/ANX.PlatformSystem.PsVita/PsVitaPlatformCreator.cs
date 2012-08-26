@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using ANX.Framework;
+using ANX.Framework.Media;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework.Storage;
@@ -89,14 +92,18 @@ namespace ANX.PlatformSystem.PsVita
 		}
 		#endregion
 
-		#region IPlatformSystemCreator Member
-
-
+		#region CreateMediaPlayer (TODO)
 		public INativeMediaLibrary CreateMediaPlayer()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region GetAvailableMediaSources (TODO)
+		public IList<MediaSource> GetAvailableMediaSources()
+		{
+			throw new NotImplementedException();
+		}
 		#endregion
 	}
 }

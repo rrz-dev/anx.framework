@@ -84,15 +84,11 @@ namespace ANX.Framework.Media
 		}
 		#endregion
 
-		#region Queue (TODO)
 		public static MediaQueue Queue
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get;
+			private set;
 		}
-		#endregion
 
 		#region State (TODO)
 		public static MediaState State
@@ -128,20 +124,21 @@ namespace ANX.Framework.Media
 		#region Constructor
 		static MediaPlayer()
 		{
+			Queue = new MediaQueue();
 		}
 		#endregion
 
-		#region Play (TODO)
+		#region Play
 		public static void Play(Song song)
 		{
-			throw new NotImplementedException();
+			Queue.Play(song);
 		}
 		#endregion
 
-		#region Play (TODO)
+		#region Play
 		public static void Play(SongCollection songCollection)
 		{
-			throw new NotImplementedException();
+			Queue.Play(songCollection);
 		}
 		#endregion
 
@@ -173,17 +170,17 @@ namespace ANX.Framework.Media
 		}
 		#endregion
 
-		#region MoveNext (TODO)
+		#region MoveNext
 		public static void MoveNext()
 		{
-			throw new NotImplementedException();
+			Queue.MoveNext();
 		}
 		#endregion
 
-		#region MovePrevious (TODO)
+		#region MovePrevious
 		public static void MovePrevious()
 		{
-			throw new NotImplementedException();
+			Queue.MovePrevious();
 		}
 		#endregion
 
