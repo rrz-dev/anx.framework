@@ -30,41 +30,62 @@
         {
             this.labelText = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelText
             // 
-            this.labelText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelText.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelText.Location = new System.Drawing.Point(82, -1);
+            this.labelText.Location = new System.Drawing.Point(0, 0);
             this.labelText.Name = "labelText";
-            this.labelText.Size = new System.Drawing.Size(252, 90);
+            this.labelText.Size = new System.Drawing.Size(259, 48);
             this.labelText.TabIndex = 0;
             this.labelText.Text = "Test Text";
             this.labelText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelText.Click += new System.EventHandler(this.labelText_Click);
-            this.labelText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseDown);
-            this.labelText.MouseEnter += new System.EventHandler(this.ArrowButton_MouseEnter);
-            this.labelText.MouseLeave += new System.EventHandler(this.ArrowButton_MouseLeave);
-            this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseUp);
+            this.labelText.Click += new System.EventHandler(this.LabelTextClick);
+            this.labelText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseDown);
+            this.labelText.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
+            this.labelText.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
+            this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.arrow;
-            this.pictureBox1.Location = new System.Drawing.Point(17, 16);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(55, 61);
+            this.pictureBox1.Size = new System.Drawing.Size(47, 48);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseDown);
-            this.pictureBox1.MouseEnter += new System.EventHandler(this.ArrowButton_MouseEnter);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.ArrowButton_MouseLeave);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseUp);
+            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1Click);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseDown);
+            this.pictureBox1.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
+            // 
+            // splitContainer
+            // 
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.IsSplitterFixed = true;
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Name = "splitContainer";
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.pictureBox1);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.labelText);
+            this.splitContainer.Size = new System.Drawing.Size(310, 48);
+            this.splitContainer.SplitterDistance = 47;
+            this.splitContainer.TabIndex = 2;
             // 
             // ArrowButton
             // 
@@ -72,17 +93,21 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.labelText);
+            this.Controls.Add(this.splitContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "ArrowButton";
-            this.Size = new System.Drawing.Size(337, 93);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseDown);
-            this.MouseEnter += new System.EventHandler(this.ArrowButton_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.ArrowButton_MouseLeave);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButton_MouseUp);
+            this.Size = new System.Drawing.Size(310, 48);
+            this.Load += new System.EventHandler(this.ArrowButtonLoad);
+            this.FontChanged += new System.EventHandler(this.ArrowButtonFontChanged);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseDown);
+            this.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
+            this.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -91,5 +116,6 @@
 
         private System.Windows.Forms.Label labelText;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.SplitContainer splitContainer;
     }
 }

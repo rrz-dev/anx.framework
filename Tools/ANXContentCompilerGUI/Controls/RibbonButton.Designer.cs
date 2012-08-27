@@ -40,11 +40,11 @@
             this.pictureBox.Size = new System.Drawing.Size(60, 60);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
-            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseDown);
-            this.pictureBox.MouseEnter += new System.EventHandler(this.RibbonButton_MouseEnter);
-            this.pictureBox.MouseLeave += new System.EventHandler(this.RibbonButton_MouseLeave);
-            this.pictureBox.MouseHover += new System.EventHandler(this.RibbonButton_MouseHover);
-            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseUp);
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseDown);
+            this.pictureBox.MouseEnter += new System.EventHandler(this.RibbonButtonMouseEnter);
+            this.pictureBox.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
+            this.pictureBox.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
             // 
             // labelText
             // 
@@ -56,11 +56,11 @@
             this.labelText.TabIndex = 1;
             this.labelText.Text = "Button";
             this.labelText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseDown);
-            this.labelText.MouseEnter += new System.EventHandler(this.RibbonButton_MouseEnter);
-            this.labelText.MouseLeave += new System.EventHandler(this.RibbonButton_MouseLeave);
-            this.labelText.MouseHover += new System.EventHandler(this.RibbonButton_MouseHover);
-            this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseUp);
+            this.labelText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseDown);
+            this.labelText.MouseEnter += new System.EventHandler(this.RibbonButtonMouseEnter);
+            this.labelText.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
+            this.labelText.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
+            this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
             // 
             // RibbonButton
             // 
@@ -72,11 +72,12 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "RibbonButton";
             this.Size = new System.Drawing.Size(60, 79);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseDown);
-            this.MouseEnter += new System.EventHandler(this.RibbonButton_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.RibbonButton_MouseLeave);
-            this.MouseHover += new System.EventHandler(this.RibbonButton_MouseHover);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButton_MouseUp);
+            this.Load += new System.EventHandler(this.RibbonButtonLoad);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseDown);
+            this.MouseEnter += new System.EventHandler(this.RibbonButtonMouseEnter);
+            this.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
+            this.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
 

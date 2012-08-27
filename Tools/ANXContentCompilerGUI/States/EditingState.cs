@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ANX.ContentCompiler.GUI.States
@@ -15,5 +9,12 @@ namespace ANX.ContentCompiler.GUI.States
         {
             InitializeComponent();
         }
+
+        private void EditingStateLoad(object sender, EventArgs e)
+        {
+            ForeColor = Settings.ForeColor;
+            BackColor = Settings.MainColor;
+        }
+
     }
 }

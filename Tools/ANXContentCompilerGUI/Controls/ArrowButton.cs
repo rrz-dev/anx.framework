@@ -19,34 +19,45 @@ namespace ANX.ContentCompiler.GUI.Controls
             set { labelText.Text = value; }
         }
 
-        private void ArrowButton_MouseEnter(object sender, EventArgs e)
+        private void ArrowButtonMouseEnter(object sender, EventArgs e)
         {
             BorderStyle = BorderStyle.FixedSingle;
         }
 
-        private void ArrowButton_MouseLeave(object sender, EventArgs e)
+        private void ArrowButtonMouseLeave(object sender, EventArgs e)
         {
             BorderStyle = BorderStyle.None;
         }
 
-        private void ArrowButton_MouseDown(object sender, MouseEventArgs e)
+        private void ArrowButtonMouseDown(object sender, MouseEventArgs e)
         {
-            BackColor = Color.Green;
+            BackColor = Settings.AccentColor3;
         }
 
-        private void ArrowButton_MouseUp(object sender, MouseEventArgs e)
+        private void ArrowButtonMouseUp(object sender, MouseEventArgs e)
         {
-            BackColor = Color.Transparent;
+            BackColor = Settings.MainColor;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void PictureBox1Click(object sender, EventArgs e)
         {
             OnClick(e);
         }
 
-        private void labelText_Click(object sender, EventArgs e)
+        private void LabelTextClick(object sender, EventArgs e)
         {
             OnClick(e);
+        }
+
+        private void ArrowButtonFontChanged(object sender, EventArgs e)
+        {
+            labelText.Font = Font;
+        }
+
+        private void ArrowButtonLoad(object sender, EventArgs e)
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
         }
     }
 }

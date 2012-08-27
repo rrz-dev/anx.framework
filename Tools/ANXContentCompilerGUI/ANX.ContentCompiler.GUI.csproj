@@ -90,11 +90,18 @@
     <Compile Include="Dialogues\FirstStartScreen.Designer.cs">
       <DependentUpon>FirstStartScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="States\EditingState.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="States\EditingState.Designer.cs">
       <DependentUpon>EditingState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="States\MenuState.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="States\MenuState.Designer.cs">
+      <DependentUpon>MenuState.cs</DependentUpon>
     </Compile>
     <Compile Include="States\StartState.cs">
       <SubType>UserControl</SubType>
@@ -133,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="States\EditingState.resx">
       <DependentUpon>EditingState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="States\MenuState.resx">
+      <DependentUpon>MenuState.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="States\StartState.resx">
       <DependentUpon>StartState.cs</DependentUpon>

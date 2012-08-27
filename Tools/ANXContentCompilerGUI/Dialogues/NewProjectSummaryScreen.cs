@@ -8,6 +8,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         public NewProjectSummaryScreen(String projectName, String projectDir, String outputDir, bool customImporters, String customImportersDir, int customImportersFound, int customProcessorsFound)
         {
             InitializeComponent();
+            SetUpColors();
             textBox.Text =
                 "Summary for new project " + projectName + Environment.NewLine +
                 "=========================================" + Environment.NewLine +
@@ -24,6 +25,20 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                     "Processors: " + customProcessorsFound;
             }
 
+        }
+
+        private void SetUpColors()
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+            buttonClose.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonNext.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonClose.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonClose.FlatAppearance.BorderColor = Settings.LightMainColor;
+            textBox.BackColor = Settings.DarkMainColor;
+            textBox.ForeColor = Settings.ForeColor;
         }
 
         private void ButtonNextClick(object sender, EventArgs e)

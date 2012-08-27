@@ -52,10 +52,8 @@
             this.arrowButtonAddFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonAddFiles.AutoSize = true;
-            this.arrowButtonAddFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonAddFiles.Content = "Add Files";
             this.arrowButtonAddFiles.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonAddFiles.ForeColor = System.Drawing.Color.White;
             this.arrowButtonAddFiles.Location = new System.Drawing.Point(16, 73);
             this.arrowButtonAddFiles.Name = "arrowButtonAddFiles";
             this.arrowButtonAddFiles.Size = new System.Drawing.Size(348, 64);
@@ -66,10 +64,8 @@
             this.arrowButtonCreateFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonCreateFolder.AutoSize = true;
-            this.arrowButtonCreateFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonCreateFolder.Content = "Create Folder";
             this.arrowButtonCreateFolder.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonCreateFolder.ForeColor = System.Drawing.Color.White;
             this.arrowButtonCreateFolder.Location = new System.Drawing.Point(16, 141);
             this.arrowButtonCreateFolder.Name = "arrowButtonCreateFolder";
             this.arrowButtonCreateFolder.Size = new System.Drawing.Size(348, 64);
@@ -80,10 +76,8 @@
             this.arrowButtonPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonPreview.AutoSize = true;
-            this.arrowButtonPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonPreview.Content = "Preview File";
             this.arrowButtonPreview.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonPreview.ForeColor = System.Drawing.Color.White;
             this.arrowButtonPreview.Location = new System.Drawing.Point(16, 206);
             this.arrowButtonPreview.Name = "arrowButtonPreview";
             this.arrowButtonPreview.Size = new System.Drawing.Size(348, 64);
@@ -94,10 +88,8 @@
             this.arrowButtonBuild.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonBuild.AutoSize = true;
-            this.arrowButtonBuild.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonBuild.Content = "Build Project";
             this.arrowButtonBuild.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonBuild.ForeColor = System.Drawing.Color.White;
             this.arrowButtonBuild.Location = new System.Drawing.Point(16, 273);
             this.arrowButtonBuild.Name = "arrowButtonBuild";
             this.arrowButtonBuild.Size = new System.Drawing.Size(348, 64);
@@ -117,6 +109,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "EditingState";
             this.Size = new System.Drawing.Size(380, 384);
+            this.Load += new System.EventHandler(this.EditingStateLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 

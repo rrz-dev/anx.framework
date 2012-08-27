@@ -51,10 +51,8 @@
             this.arrowButtonLoad.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonLoad.AutoSize = true;
-            this.arrowButtonLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonLoad.Content = "Load Project";
             this.arrowButtonLoad.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonLoad.ForeColor = System.Drawing.Color.White;
             this.arrowButtonLoad.Location = new System.Drawing.Point(20, 158);
             this.arrowButtonLoad.Name = "arrowButtonLoad";
             this.arrowButtonLoad.Size = new System.Drawing.Size(348, 64);
@@ -65,10 +63,8 @@
             this.arrowButtonImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonImport.AutoSize = true;
-            this.arrowButtonImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonImport.Content = "Import Project";
             this.arrowButtonImport.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonImport.ForeColor = System.Drawing.Color.White;
             this.arrowButtonImport.Location = new System.Drawing.Point(20, 228);
             this.arrowButtonImport.Name = "arrowButtonImport";
             this.arrowButtonImport.Size = new System.Drawing.Size(348, 64);
@@ -79,10 +75,8 @@
             this.arrowButtonNew.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.arrowButtonNew.AutoSize = true;
-            this.arrowButtonNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.arrowButtonNew.Content = "Create Project";
             this.arrowButtonNew.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arrowButtonNew.ForeColor = System.Drawing.Color.White;
             this.arrowButtonNew.Location = new System.Drawing.Point(20, 88);
             this.arrowButtonNew.Name = "arrowButtonNew";
             this.arrowButtonNew.Size = new System.Drawing.Size(348, 64);
@@ -101,6 +95,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "StartState";
             this.Size = new System.Drawing.Size(386, 323);
+            this.Load += new System.EventHandler(this.StartState_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

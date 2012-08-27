@@ -9,11 +9,13 @@ namespace ANX.ContentCompiler.GUI
     public partial class MainWindow : Form
     {
         #region Fields
-        public static String DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ANX Content Compiler\\4.0\\");
         public static String DefaultOutputPath = "bin";
+        public static String SettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ANX Content Compiler" + Path.PathSeparator + "settings.ees");
 
-        private Point lastPos;
-        private bool mouseDown;
+        private Point _lastPos;
+        private bool _mouseDown;
+        private bool _menuMode;
+        private readonly bool _firstStart = true;
         #endregion
 
         #region Properties
@@ -26,16 +28,28 @@ namespace ANX.ContentCompiler.GUI
         public String ProjectImportersDir { get; set; }
         #endregion
 
-        #region Constructor
+        #region Init
         public MainWindow()
         {
             InitializeComponent();
             Instance = this;
+            _firstStart = !File.Exists(SettingsFile);
+            if (_firstStart)
+                Settings.Defaults();
+            else
+                Settings.Load(SettingsFile);
             treeViewItemAddFolder.MouseEnter += TreeViewItemMouseEnter;
             treeViewItemAddFolder.MouseLeave += TreeViewItemeLeave;
             treeViewItemDelete.MouseEnter += TreeViewItemMouseEnter;
             treeViewItemRename.MouseEnter += TreeViewItemMouseEnter;
-            
+            SetUpColors();
+        }
+
+        private void MainWindowShown(object sender, EventArgs e)
+        {
+            if (_firstStart)
+                ShowFirstStartStuff();
+            ChangeEnvironmentStartState();
         }
         #endregion
 
@@ -47,7 +61,7 @@ namespace ANX.ContentCompiler.GUI
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     ProjectName = dlg.textBoxName.Text;
-                    ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text) ? dlg.textBoxLocation.Text : Path.Combine(DefaultProjectPath, ProjectName);
+                    ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text) ? dlg.textBoxLocation.Text : Path.Combine(Settings.DefaultProjectPath, ProjectName);
                 }
                 else
                 {
@@ -83,7 +97,7 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region EnvironmentStates
-        private void ChangeEnvironmentStartState()
+        public void ChangeEnvironmentStartState()
         {
             editingState.Visible = false;
             startState.Visible = true;
@@ -91,7 +105,7 @@ namespace ANX.ContentCompiler.GUI
             labelTitle.Text = "ANX Content Compiler 4";
         }
 
-        private void ChangeEnvironmentOpenProject()
+        public void ChangeEnvironmentOpenProject()
         {
             startState.Visible = false;
             editingState.Visible = true;
@@ -105,28 +119,32 @@ namespace ANX.ContentCompiler.GUI
         {
             Application.Exit();
         }
+        private void ButtonMenuClick(object sender, EventArgs e)
+        {
+            ToggleMenuMode();
+        }
         #endregion
 
         #region WindowMoveMethods
         private void LabelTitleMouseMove(object sender, MouseEventArgs e)
         {
-            if (!mouseDown) return;
-            var xoffset = MousePosition.X - lastPos.X;
-            var yoffset = MousePosition.Y - lastPos.Y;
+            if (!_mouseDown) return;
+            var xoffset = MousePosition.X - _lastPos.X;
+            var yoffset = MousePosition.Y - _lastPos.Y;
             Left += xoffset;
             Top += yoffset;
-            lastPos = MousePosition;
+            _lastPos = MousePosition;
         }
 
         private void LabelTitleMouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
-            lastPos = MousePosition;
+            _mouseDown = true;
+            _lastPos = MousePosition;
         }
 
         private void LabelTitleMouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
+            _mouseDown = false;
         }
         #endregion
 
@@ -139,6 +157,60 @@ namespace ANX.ContentCompiler.GUI
         void TreeViewItemMouseEnter(object sender, EventArgs e)
         {
             ((ToolStripItem)sender).BackColor = Color.Green;
+        }
+        #endregion
+
+        #region MenuMethods
+        public void ToggleMenuMode()
+        {
+            _menuMode = !_menuMode;
+            if (_menuMode)
+            {
+                buttonMenu.BackColor = Settings.AccentColor3;
+                menuState.Visible = true;
+            }
+            else
+            {
+                menuState.Visible = false;
+                buttonMenu.BackColor = Settings.AccentColor;
+            }
+        }
+
+        #endregion
+
+        #region ShowFirstStartStuff
+        private void ShowFirstStartStuff()
+        {
+            using (var dlg = new FirstStartScreen())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    
+                }
+            }
+        }
+        #endregion
+
+        #region SetUpColors
+        private void SetUpColors()
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+            buttonQuit.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonQuit.FlatAppearance.MouseDownBackColor = Settings.AccentColor;
+            buttonMenu.BackColor = Settings.AccentColor;
+            buttonMenu.FlatAppearance.MouseOverBackColor = Settings.AccentColor2;
+            buttonMenu.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            labelTitle.ForeColor = Settings.ForeColor;
+            labelProperties.ForeColor = Settings.ForeColor;
+            labelFileTree.ForeColor = Settings.ForeColor;
+            treeView.BackColor = Settings.DarkMainColor;
+            propertyGrid.BackColor = Settings.DarkMainColor;
+            propertyGrid.ForeColor = Settings.ForeColor;
+            propertyGrid.HelpBackColor = Settings.MainColor;
+            propertyGrid.LineColor = Settings.MainColor;
+            propertyGrid.ViewBackColor = Settings.DarkMainColor;
+            propertyGrid.ViewForeColor = Settings.ForeColor;
         }
         #endregion
     }

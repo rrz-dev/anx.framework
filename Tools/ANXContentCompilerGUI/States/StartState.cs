@@ -8,5 +8,16 @@ namespace ANX.ContentCompiler.GUI.States
         {
             InitializeComponent();
         }
+
+        private void SetUpColor()
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+        }
+
+        private void StartState_Load(object sender, System.EventArgs e)
+        {
+            SetUpColor();
+        }
     }
 }

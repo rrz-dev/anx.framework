@@ -8,6 +8,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         public NewProjectOutputScreen()
         {
             InitializeComponent();
+            SetUpColors();
         }
 
         private void ArrowButtonYesClick(object sender, EventArgs e)
@@ -17,6 +18,26 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             buttonBrowse.Visible = true;
             buttonNext.Enabled = true;
             arrowButtonNo.Enabled = false;
+        }
+
+        private void SetUpColors()
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+            buttonClose.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonBrowse.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonCancel.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonNext.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonClose.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonBrowse.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonCancel.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonClose.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonBrowse.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonCancel.FlatAppearance.BorderColor = Settings.LightMainColor;
+            textBoxLocation.BackColor = Settings.DarkMainColor;
+            textBoxLocation.ForeColor = Settings.ForeColor;
         }
 
         private void ArrowButtonNoClick(object sender, EventArgs e)

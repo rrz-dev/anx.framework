@@ -9,7 +9,30 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         public NewProjectScreen()
         {
             InitializeComponent();
-            textBoxLocation.Text = MainWindow.DefaultProjectPath;
+            textBoxLocation.Text = Settings.DefaultProjectPath;
+            SetUpColors();
+        }
+
+        private void SetUpColors()
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+            button3.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonBrowse.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonCancel.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            buttonNext.FlatAppearance.MouseOverBackColor = Settings.LightMainColor;
+            button3.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonBrowse.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonCancel.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.MouseDownBackColor = Settings.AccentColor3;
+            buttonNext.FlatAppearance.BorderColor = Settings.LightMainColor;
+            button3.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonBrowse.FlatAppearance.BorderColor = Settings.LightMainColor;
+            buttonCancel.FlatAppearance.BorderColor = Settings.LightMainColor;
+            textBoxName.BackColor = Settings.DarkMainColor;
+            textBoxLocation.BackColor = Settings.DarkMainColor;
+            textBoxName.ForeColor = Settings.ForeColor;
+            textBoxLocation.ForeColor = Settings.ForeColor;
         }
 
         private void ButtonBrowseClick(object sender, EventArgs e)
@@ -29,7 +52,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
 
         private void TextBoxNameTextChanged(object sender, EventArgs e)
         {
-            textBoxLocation.Text = Path.Combine(MainWindow.DefaultProjectPath, textBoxName.Text);
+            textBoxLocation.Text = Path.Combine(Settings.DefaultProjectPath, textBoxName.Text);
         }
 
         private void ButtonNextClick(object sender, EventArgs e)

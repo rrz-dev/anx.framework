@@ -26,30 +26,37 @@ namespace ANX.ContentCompiler.GUI.Controls
             set { pictureBox.Image = value; }
         }
 
-        private void RibbonButton_MouseEnter(object sender, EventArgs e)
+        private void RibbonButtonMouseEnter(object sender, EventArgs e)
         {
-            BackColor = Color.LightGray;
+            BackColor = Settings.LightMainColor;
         }
 
-        private void RibbonButton_MouseDown(object sender, MouseEventArgs e)
+        private void RibbonButtonMouseDown(object sender, MouseEventArgs e)
         {
-            BackColor = Color.LimeGreen;
+            BackColor = Settings.AccentColor;
             OnClick(new EventArgs());
         }
 
-        private void RibbonButton_MouseUp(object sender, MouseEventArgs e)
+        private void RibbonButtonMouseUp(object sender, MouseEventArgs e)
         {
-            BackColor = Color.LightGray;
+            BackColor = Settings.LightMainColor;
         }
 
-        private void RibbonButton_MouseLeave(object sender, EventArgs e)
+        private void RibbonButtonMouseLeave(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(0, 64, 64, 64);
+            BackColor = Settings.MainColor;
         }
 
-        private void RibbonButton_MouseHover(object sender, EventArgs e)
+        private void RibbonButtonMouseHover(object sender, EventArgs e)
         {
-            //BackColor = Color.LightGray;
+            BackColor = Settings.LightMainColor;
+        }
+
+        private void RibbonButtonLoad(object sender, EventArgs e)
+        {
+            BackColor = Settings.MainColor;
+            ForeColor = Settings.ForeColor;
+            Refresh();
         }
     }
 }
