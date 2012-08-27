@@ -132,6 +132,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             if (String.IsNullOrEmpty(item.ProcessorName) == false)
             {
                 IContentProcessor instance = this.ProcessorManager.GetInstance(item.ProcessorName);
+                SetProcessorParameters(instance, item.ProcessorParameters);
                 ContentProcessorContext context = new AnxContentProcessorContext(item, BuildLogger, TargetPlatform, TargetProfile, "");
                 context.OutputDirectory = OutputDirectory;
                 context.OutputFilename = item.OutputFilename;
@@ -155,5 +156,24 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             //this.rebuiltFiles.Add(outputFilename);
         }
 
+        private void SetProcessorParameters(IContentProcessor instance, OpaqueDataDictionary parameters)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance");
+            }
+
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+
+            if (parameters.Count == 0)
+            {
+                return;
+            }
+
+            throw new NotImplementedException();
+        }
     }
 }

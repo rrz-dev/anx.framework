@@ -27,7 +27,9 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
         public override TextureContent Process(TextureContent input, ContentProcessorContext context)
         {
-            throw new NotImplementedException();
+            //TODO: implement
+            System.Diagnostics.Debugger.Break();
+            return input;
         }
     }
 }
