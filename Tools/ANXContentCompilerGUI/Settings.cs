@@ -20,6 +20,7 @@ namespace ANX.ContentCompiler.GUI
 
         public static void Defaults()
         {
+
             DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                          "ANX Content Compiler" + Path.DirectorySeparatorChar + "4.0" + Path.DirectorySeparatorChar);
             MainColor = Color.FromArgb(64, 64, 64);
