@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.Content.Pipeline.Graphics;
 using System.IO;
 using System.ComponentModel;
+using ANX.RenderSystem.Windows.GL3;
 
 #endregion
 
@@ -48,15 +49,31 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
         public override CompiledEffectContent Process(EffectContent input, ContentProcessorContext context)
         {
-            HLSLCompiler compiler = hlslCompilerFactory.Compilers.Last<HLSLCompiler>();
+            byte[] effectCompiledCode = null;
 
-            byte[] effectCompiledCode = compiler.Compile(input.EffectCode, DebugMode, TargetProfile);
+            if (input.SourceLanguage == NonXNA.EffectSourceLanguage.HLSL_FX)
+            {
+                HLSLCompiler compiler = hlslCompilerFactory.Compilers.Last<HLSLCompiler>();
+                effectCompiledCode = compiler.Compile(input.EffectCode, DebugMode, TargetProfile);
+            }
+            else if (input.SourceLanguage == NonXNA.EffectSourceLanguage.GLSL_FX)
+            {
+                //TODO: parse and split the effect code and save two effect globs
+                // if we do it this way, we don't need to parse the glsl source at runtime when loading it.
+
+                effectCompiledCode = ShaderHelper.SaveShaderCode(input.EffectCode);
+            }
+            else
+            {
+                throw new InvalidContentException("EffectProcessor is unable to process content with format '" + input.SourceLanguage.ToString() + "'");
+            }
 
             return new CompiledEffectContent(effectCompiledCode)
             {
                 Identity = input.Identity,
                 Name = input.Name,
-                OpaqueData = input.OpaqueData
+                OpaqueData = input.OpaqueData,
+                SourceLanguage = input.SourceLanguage,
             };
         }
 

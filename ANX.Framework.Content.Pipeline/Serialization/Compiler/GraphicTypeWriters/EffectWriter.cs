@@ -34,6 +34,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             }
 
             byte[] effectCode = value.GetEffectCode();
+            output.Write((byte)value.SourceLanguage);       // ANX Extensions !!!
             output.Write(effectCode.Length);
             output.Write(effectCode);
         }

@@ -18,6 +18,7 @@ namespace ANX.Framework.Content
 		protected internal override Effect Read(ContentReader input, Effect existingInstance)
 		{
             IServiceProvider service = input.ContentManager.ServiceProvider;
+            EffectSourceLanguage sourceLanguageFormat = EffectSourceLanguage.HLSL_FX;
 
             var rfc = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
             if (rfc == null)
@@ -29,6 +30,11 @@ namespace ANX.Framework.Content
             if (gds == null)
             {
                 throw new ContentLoadException("Service not found IGraphicsDeviceService");
+            }
+
+            if (input.AnxExtensions)
+            {
+                sourceLanguageFormat = (EffectSourceLanguage)input.ReadByte();
             }
 
             int totalLength = input.ReadInt32();
@@ -47,7 +53,7 @@ namespace ANX.Framework.Content
                 var memStream = new MemoryStream(effectCode);
 
                 // the XNA Way
-                return new Effect(gds.GraphicsDevice, effectCode);
+                return new Effect(gds.GraphicsDevice, effectCode, sourceLanguageFormat);
 
                 // the ANX Way
                 //return rfc.CreateEffect(gds.GraphicsDevice, memStream);
@@ -72,7 +78,7 @@ namespace ANX.Framework.Content
                 case EffectProcessorOutputFormat.OPEN_GL3_GLSL:
                     //return rfc.CreateEffect(gds.GraphicsDevice, new MemoryStream(vertexShaderByteCode, false), new MemoryStream(pixelShaderByteCode, false));
                     //return rfc.CreateEffect(gds.GraphicsDevice, new MemoryStream(effectByteCode, false));
-                    return new Effect(gds.GraphicsDevice, effectByteCode);
+                    return new Effect(gds.GraphicsDevice, effectByteCode, sourceLanguageFormat);
                 default:
                     throw new NotImplementedException("loading of ANX-Effect format with type '" + format.ToString() + "' not yet implemented.");
             }

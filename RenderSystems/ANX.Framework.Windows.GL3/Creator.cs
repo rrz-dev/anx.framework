@@ -302,5 +302,11 @@ namespace ANX.RenderSystem.Windows.GL3
 				preferredDepthFormat, preferredMultiSampleCount, usage);
 		}
 		#endregion
-	}
+
+        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+        {
+            return sourceLanguage == EffectSourceLanguage.GLSL_FX || sourceLanguage == EffectSourceLanguage.GLSL;
+        }
+
+    }
 }

@@ -222,5 +222,10 @@ namespace ANX.RenderSystem.Windows.DX10
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 		}
 		#endregion
-	}
+
+        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+        {
+            return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
+        }
+    }
 }

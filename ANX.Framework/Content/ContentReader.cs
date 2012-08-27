@@ -124,7 +124,7 @@ namespace ANX.Framework.Content
 
                 if (magicVA != 'A' || magicVN != 'N' || magicVX != 'X')
                 {
-                    throw new ContentLoadException("Not an ANX.Framework version 1.0 XNB file.");
+                    throw new ContentLoadException("Not an ANX.Framework version 1.0 XNB file or this is an unsupported past XNA 4.0 XNB file.");
                 }
 
                 anxExtensions = true;

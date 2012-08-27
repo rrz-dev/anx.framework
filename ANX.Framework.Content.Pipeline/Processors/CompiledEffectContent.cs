@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.NonXNA;
 
 #endregion
 
@@ -24,6 +25,12 @@ namespace ANX.Framework.Content.Pipeline.Processors
         public byte[] GetEffectCode()
         {
             return effectCode;
+        }
+
+        public EffectSourceLanguage SourceLanguage
+        {
+            get;
+            set;
         }
     }
 }

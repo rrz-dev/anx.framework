@@ -136,5 +136,12 @@ namespace ANX.RenderSystem.PsVita
 		{
 			throw new NotImplementedException();
 		}
+
+        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+        {
+            //TODO: implement supported sourceLanguages
+            return false;
+        }
+
 	}
 }

@@ -23,6 +23,7 @@ namespace ANX.Framework.Graphics
         private EffectTechnique currentTechnique;
         private EffectParameterCollection parameterCollection;
         private byte[] byteCode;
+        private EffectSourceLanguage sourceLanguage;
 
         #endregion // Private Members
 
@@ -32,6 +33,11 @@ namespace ANX.Framework.Graphics
         }
 
         public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
+            : this(graphicsDevice, byteCode, EffectSourceLanguage.HLSL_FX)
+        {
+        }
+
+        public Effect(GraphicsDevice graphicsDevice, byte[] byteCode, EffectSourceLanguage sourceLanguage)
             : base(graphicsDevice)
         {
             this.byteCode = new byte[byteCode.Length];
@@ -40,9 +46,11 @@ namespace ANX.Framework.Graphics
             base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
             base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
-            CreateNativeEffect();
+            CreateNativeEffect(sourceLanguage);
 
             this.currentTechnique = this.techniqueCollection[0];
+
+            this.sourceLanguage = sourceLanguage;
         }
 
         ~Effect()
@@ -60,7 +68,7 @@ namespace ANX.Framework.Graphics
                 nativeEffect = null;
             }
 
-            CreateNativeEffect();
+            CreateNativeEffect(this.sourceLanguage);
         }
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
@@ -83,7 +91,7 @@ namespace ANX.Framework.Graphics
             {
                 if (nativeEffect == null)
                 {
-                    CreateNativeEffect();
+                    CreateNativeEffect(this.sourceLanguage);
                 }
 
                 return this.nativeEffect;
@@ -132,12 +140,21 @@ namespace ANX.Framework.Graphics
             throw new NotImplementedException();
         }
 
-        private void CreateNativeEffect()
+        private void CreateNativeEffect(EffectSourceLanguage sourceLanguage)
         {
-            this.nativeEffect = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
+            IRenderSystemCreator creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
 
-            this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
-            this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
+            if (creator.IsLanguageSupported(sourceLanguage))
+            {
+                this.nativeEffect = creator.CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
+
+                this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
+                this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
+            }
+            else
+            {
+                throw new InvalidOperationException("couldn't create " + sourceLanguage.ToString() + " native effect using RenderSystem " + creator.Name);
+            }
         }
     }
 }

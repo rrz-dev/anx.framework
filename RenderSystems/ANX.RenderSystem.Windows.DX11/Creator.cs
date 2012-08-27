@@ -218,5 +218,11 @@ namespace ANX.RenderSystem.Windows.DX11
 
 			return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
 		}
+
+        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+        {
+            return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
+        }
+
 	}
 }

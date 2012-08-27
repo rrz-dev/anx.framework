@@ -35,6 +35,8 @@ namespace ANX.Framework.NonXNA
 		INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream vertexShaderByteCode, Stream pixelShaderByteCode);
 
+        bool IsLanguageSupported(EffectSourceLanguage sourceLanguage);
+
 		INativeBlendState CreateBlendState();
 		INativeRasterizerState CreateRasterizerState();
 		INativeDepthStencilState CreateDepthStencilState();

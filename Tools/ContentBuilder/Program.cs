@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.Content.Pipeline;
+using System.IO;
 
 #endregion
 
@@ -29,14 +30,21 @@ namespace ContentBuilder
             {
                 if (!arg.StartsWith("/") && !arg.StartsWith("-"))
                 {
-                    BuildItem buildItem = new BuildItem();
-                    buildItem.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
-                    //TODO: set configured processor name
-                    buildItem.SourceFilename = arg;
-                    buildItem.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
-                    buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.AssetName);
+                    if (File.Exists(arg))
+                    {
+                        BuildItem buildItem = new BuildItem();
+                        buildItem.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
+                        //TODO: set configured processor name
+                        buildItem.SourceFilename = arg;
+                        buildItem.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
+                        buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.AssetName);
 
-                    itemsToBuild.Add(buildItem);
+                        itemsToBuild.Add(buildItem);
+                    }
+                    else
+                    {
+                        buildContentTask.BuildLogger.LogMessage("could not find file '{0}' to import. skipping.", arg);
+                    }
                 }
                 else
                 {
