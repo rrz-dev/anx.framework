@@ -180,6 +180,7 @@
       <include name="**/*.csproj" />
       <exclude name="**/*PSVita*.csproj" />
       <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*ModernUI*.csproj" />
       <exclude name="**/*Kinect*.csproj" />
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/ANX.InputDevices.Test*.csproj" />
@@ -189,6 +190,7 @@
       <fileset id="inputsystem_files" basedir="../InputSystems/">
         <include name="**/*_Linux.csproj" />
         <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*ModernUI*.csproj" />
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*PSVITA*.csproj" />
         <exclude name="**/*Windows*.csproj" />
@@ -200,6 +202,7 @@
       <fileset id="inputsystem_files" basedir="../InputSystems/">
         <include name="**/*_PSVITA.csproj" />
         <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*ModernUI*.csproj" />
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*Windows*.csproj" />
         <exclude name="**/*Linux*.csproj" />
@@ -211,6 +214,7 @@
     <if test="${project.anx.metro}">
       <fileset id="inputsystem_files" basedir="../InputSystems/">
         <include name="**/*_WindowsMetro.csproj" />
+        <include name="**/*ModernUI*.csproj" />
         <exclude name="**/*PsVita*.csproj" />
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*Linux*.csproj" />

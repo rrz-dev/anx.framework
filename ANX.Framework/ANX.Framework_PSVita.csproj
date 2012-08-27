@@ -56,6 +56,10 @@
     <Compile Include="Audio\SoundEffectInstance.cs" />
     <Compile Include="Audio\SoundState.cs" />
     <Compile Include="Audio\WaveBank.cs" />
+    <Compile Include="Audio\XactParser\XactGeneralSettings.cs" />
+    <Compile Include="Audio\XactParser\XactGeneralSettingsRpcCurve.cs" />
+    <Compile Include="Audio\XactParser\XactGeneralSettingsRpcCurvePoint.cs" />
+    <Compile Include="Audio\XactParser\XactGeneralSettingsVariable.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="BoundingFrustum.cs" />
     <Compile Include="BoundingSphere.cs" />
