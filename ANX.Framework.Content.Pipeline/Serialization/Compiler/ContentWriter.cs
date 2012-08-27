@@ -30,7 +30,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         #endregion
 
-        const byte xnbFormatVersion = (byte)5;
+        const byte xnbFormatVersion = (byte)6;
         char[] xnbMagicWord = new char[] { 'X', 'N', 'B' };
 
         internal ContentWriter(ContentCompiler compiler, Stream output, bool compressContent, string rootDirectory, string referenceRelocationPath)
@@ -212,8 +212,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             Write(xnbMagicWord);                                                       // magic bytes for file recognition     -   03 bytes
             Write((byte)TargetPlatform);                                               // target platform of content file      -   01 byte
             Write((byte)xnbFormatVersion);                                             // version of this file                 -   01 byte
+            Write(new byte[] { (byte)'A', (byte)'N', (byte)'X' });                                       // ANX magic word                       -   03 byte
             Write((byte)(TargetProfile == GraphicsProfile.HiDef ? 0x01 : 0x00));       // flags                                -   01 byte
-            Write((int)header.Length + (int)content.Length + 10);                      // size of file                         -   04 byte
+            Write((int)header.Length + (int)content.Length + 13);                      // size of file                         -   04 byte
             if (compressContent)
             {
                 //TODO: write compressed size

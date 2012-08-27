@@ -45,6 +45,8 @@ namespace ANX.Tools.XNBInspector
             // |        |                      | x = Xbox 360
             // |--------|----------------------|--------------------------------
             // | Byte   | XNB format version   | 5 = XNA Game Studio 4.0
+            // |        |                      | 6 = future XNA version 
+            // |        |                      |     OR anx version if the next three bytes are ANX
             // |--------|----------------------|--------------------------------
             // | Byte   | Flag bits            | Bit 0x01 = content is for HiDef profile (otherwise Reach)
             // |        |                      | Bit 0x80 = asset data is compressed
@@ -141,8 +143,24 @@ namespace ANX.Tools.XNBInspector
                 case 5:
                     result.Append(Severity.Success, "5 (XNA Game Studio 4.0)");
                     break;
+                case 6:
+                    byte magicVA = reader.ReadByte(); // A
+                    byte magicVN = reader.ReadByte(); // N
+                    byte magicVX = reader.ReadByte(); // X
+
+                    if (magicVA == 'A' && magicVN == 'N' && magicVX == 'X')
+                    {
+                        result.Append(Severity.Success, "6 with additional magic bytes (ANX.Framework 1.0)");
+                    }
+                    else
+                    {
+                        reader.BaseStream.Seek(-3, SeekOrigin.Current);
+                        result.AppendFormat(Severity.Warning, "{0} (Unknown or non XNA/ANX content)", formatVersion);
+
+                    }
+                    break;
                 default:
-                    result.AppendFormat(Severity.Warning, "{0} (Unknown or non XNA content)", formatVersion);
+                    result.AppendFormat(Severity.Warning, "{0} (Unknown or non XNA/ANX content)", formatVersion);
                     break;
             }
             result.AppendLine();

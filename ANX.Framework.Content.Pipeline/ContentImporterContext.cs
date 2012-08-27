@@ -14,14 +14,24 @@ namespace ANX.Framework.Content.Pipeline
 {
     public abstract class ContentImporterContext
     {
-        public ContentImporterContext()
+        public ContentImporterContext(ContentBuildLogger logger)
         {
-            //TODO: implement
+            if (logger == null)
+            {
+                throw new ArgumentNullException("logger");
+            }
+
+            this.Logger = logger;
         }
 
         public abstract string IntermediateDirectory { get; }
-        public abstract ContentBuildLogger Logger { get; }
         public abstract string OutputDirectory { get; }
         public abstract void AddDependency(string filename);
+
+        public ContentBuildLogger Logger
+        {
+            get;
+            protected set;
+        }
     }
 }

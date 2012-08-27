@@ -121,7 +121,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
         {
             if ((debugMode == EffectProcessorDebugMode.Auto && System.Diagnostics.Debugger.IsAttached) || debugMode == EffectProcessorDebugMode.Debug)
             {
-                return "/Od /Op /Zi";
+                return "/Od /Op";
             }
             else
             {

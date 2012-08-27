@@ -15,7 +15,7 @@ namespace ANX.Framework.Content
 {
     public sealed class ContentReader : BinaryReader
     {
-        private int graphicsProfile;
+        private GraphicsProfile graphicsProfile;
 
         private List<Action<object>>[] sharedResourceFixups;
 
@@ -23,13 +23,14 @@ namespace ANX.Framework.Content
 
         public ContentManager ContentManager { get; private set; }
 
+        public bool AnxExtensions { get; private set; }
         public string AssetName { get; private set; }
         private string assetDirectory;
 
-        private ContentReader(
-            ContentManager contentManager, Stream input, string assetName, int graphicsProfile)
+        private ContentReader(ContentManager contentManager, Stream input, string assetName, GraphicsProfile graphicsProfile, bool anxExtensions)
             : base(input)
         {
+            this.AnxExtensions = anxExtensions;
             this.ContentManager = contentManager;
             this.AssetName = assetName;
             this.graphicsProfile = graphicsProfile;
@@ -45,20 +46,23 @@ namespace ANX.Framework.Content
         public static ContentReader Create(
             ContentManager contentManager, Stream input, string assetName)
         {
-            int num;
-            input = ContentReader.ReadXnbHeader(input, assetName, out num);
-            return new ContentReader(contentManager, input, assetName, num);
+            GraphicsProfile profile;
+            bool anxExtensions;
+
+            input = ContentReader.ReadXnbHeader(input, assetName, out profile, out anxExtensions);
+            return new ContentReader(contentManager, input, assetName, profile, anxExtensions);
         }
 
-        public static T ReadAsset<T>(
-            ContentManager contentManager, Stream input, string assetName)
+        public static T ReadAsset<T>(ContentManager contentManager, Stream input, string assetName)
         {
-            int num;
-            input = ContentReader.ReadXnbHeader(input, assetName, out num);
-            return new ContentReader(contentManager, input, assetName, num).ReadAsset<T>();
+            GraphicsProfile profile;
+            bool anxExtensions;
+
+            input = ContentReader.ReadXnbHeader(input, assetName, out profile, out anxExtensions);
+            return new ContentReader(contentManager, input, assetName, profile, anxExtensions).ReadAsset<T>();
         }
 
-        private static Stream ReadXnbHeader(Stream input, string assetName, out int graphicsProfile)
+        private static Stream ReadXnbHeader(Stream input, string assetName, out GraphicsProfile graphicsProfile, out bool anxExtensions)
         {
             // read the XNB file information
             //
@@ -75,6 +79,8 @@ namespace ANX.Framework.Content
             // |        |                      | x = Xbox 360
             // |--------|----------------------|--------------------------------
             // | Byte   | XNB format version   | 5 = XNA Game Studio 4.0
+            // |        |                      | 6 = future XNA version 
+            // |        |                      |     OR anx version if the next three bytes are ANX
             // |--------|----------------------|--------------------------------
             // | Byte   | Flag bits            | Bit 0x01 = content is for HiDef profile (otherwise Reach)
             // |        |                      | Bit 0x80 = asset data is compressed
@@ -83,6 +89,7 @@ namespace ANX.Framework.Content
             // |        |                      | .xnb file as stored on disk (including this header block)
 
             BinaryReader reader = new BinaryReader(input);
+            anxExtensions = false;
 
             byte magicX = reader.ReadByte();
             byte magicN = reader.ReadByte();
@@ -109,29 +116,33 @@ namespace ANX.Framework.Content
 
             byte formatVersion = reader.ReadByte();
 
-            if (formatVersion != 5)
+            if (formatVersion == 6)
+            {
+                byte magicVA = reader.ReadByte(); // A
+                byte magicVN = reader.ReadByte(); // N
+                byte magicVX = reader.ReadByte(); // X
+
+                if (magicVA != 'A' || magicVN != 'N' || magicVX != 'X')
+                {
+                    throw new ContentLoadException("Not an ANX.Framework version 1.0 XNB file.");
+                }
+
+                anxExtensions = true;
+            }
+            else if (formatVersion != 5)
             {
                 throw new ContentLoadException("Not an XNA Game Studio version 4.0 XNB file.");
             }
 
             byte flags = reader.ReadByte();
 
-            if ((flags & 0x01) == 0x01)
-            {
-                // HiDef Profile
-                graphicsProfile = 1;
-            }
-            else
-            {
-                // Reach Profile
-                graphicsProfile = 0;
-            }
+            graphicsProfile = ((flags & 0x01) == 0x01 ? GraphicsProfile.HiDef : GraphicsProfile.Reach);
 
             bool isCompressed = (flags & 0x80) != 0;
 
             int sizeOnDisk = reader.ReadInt32();
 
-            if (input.CanSeek && ((sizeOnDisk - 10) > (input.Length - input.Position)))
+            if (input.CanSeek && ((sizeOnDisk - (anxExtensions ? 13 : 10)) > (input.Length - input.Position)))
             {
                 throw new ContentLoadException("Bad XNB file size.");
             }

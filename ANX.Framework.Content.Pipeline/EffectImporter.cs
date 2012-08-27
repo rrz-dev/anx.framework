@@ -13,7 +13,7 @@ using ANX.Framework.Content.Pipeline.Graphics;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    [ContentImporter(".fx")]
+    [ContentImporter(new string[] { ".fx", ".fxg" })]
     public class EffectImporter : ContentImporter<EffectContent>
     {
         public EffectImporter()

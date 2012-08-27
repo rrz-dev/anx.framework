@@ -16,14 +16,13 @@ namespace ANX.Framework.Content.Pipeline
     public class AnxContentImporterContext : ContentImporterContext
     {
         private string intermediateDirectory;
-        private ContentBuildLogger logger;
         private string outputDirectory;
 
         public AnxContentImporterContext(BuildContent buildContent, BuildItem buildItem, ContentBuildLogger logger)
+            : base(logger)
         {
             BuildContent = buildContent;
             BuildItem = buildItem;
-            this.logger = logger;
         }
 
         public BuildContent BuildContent
@@ -43,14 +42,6 @@ namespace ANX.Framework.Content.Pipeline
             get
             {
                 return intermediateDirectory;
-            }
-        }
-
-        public override ContentBuildLogger Logger
-        {
-            get
-            {
-                return Logger;
             }
         }
 
