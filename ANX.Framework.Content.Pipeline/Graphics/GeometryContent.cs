@@ -42,7 +42,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         public GeometryContent()
         {
             Indices = new IndexCollection();
-            Vertices = new VertexContent();
+            Vertices = new VertexContent(this);
         }
     }
 }

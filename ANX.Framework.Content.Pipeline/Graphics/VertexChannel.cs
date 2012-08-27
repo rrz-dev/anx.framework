@@ -15,163 +15,176 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public abstract class VertexChannel : IList, ICollection, IEnumerable
     {
-
-        int IList.Add(object value)
+        #region Properties
+        public string Name
         {
-            throw new NotImplementedException();
+            get;
+            private set;
         }
 
-        void IList.Clear()
-        {
-            throw new NotImplementedException();
+        protected IList Source 
+        { 
+            get; set; 
         }
 
-        bool IList.Contains(object value)
+        public int Count
         {
-            throw new NotImplementedException();
-        }
-
-        int IList.IndexOf(object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IList.Insert(int index, object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IList.IsFixedSize
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        bool IList.IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        void IList.Remove(object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IList.RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        object IList.this[int index]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        void ICollection.CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        int ICollection.Count
-        {
-            get { throw new NotImplementedException(); }
+            get { return Source.Count; }
         }
 
         bool ICollection.IsSynchronized
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         object ICollection.SyncRoot
         {
-            get { throw new NotImplementedException(); }
+            get { return Source.SyncRoot; }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        bool IList.IsFixedSize
         {
-            throw new NotImplementedException();
+            get { return true; }
         }
+
+        bool IList.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public object this[int index]
+        {
+            get { return Source[index]; }
+            set { Source[index] = value; }
+        }
+        #endregion
+
+        #region Constructor
+        public VertexChannel(string name)
+        {
+            this.Name = name;
+        }
+        #endregion
+
+        #region Methods
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void IList.Clear()
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        public bool Contains(object value)
+        {
+            return Source.Contains(value);
+        }
+
+        public int IndexOf(object value)
+        {
+            return Source.IndexOf(value);
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            Source.CopyTo(array, index);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Source.GetEnumerator();
+        }
+        #endregion
     }
 
     public sealed class VertexChannel<T> : VertexChannel, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable
     {
+        private List<T> source;
 
-        int IList<T>.IndexOf(T item)
+        #region Properties
+        public new T this[int index]
         {
-            throw new NotImplementedException();
-        }
-
-        void IList<T>.Insert(int index, T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IList<T>.RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        T IList<T>.this[int index]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        void ICollection<T>.Add(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<T>.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool ICollection<T>.Contains(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        int ICollection<T>.Count
-        {
-            get { throw new NotImplementedException(); }
+            get { return source[index]; }
+            set { source[index] = value; }
         }
 
         bool ICollection<T>.IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
+        }
+        #endregion
+
+        #region Constructor
+        public VertexChannel(string name)
+            : base(name)
+        {
+            source = new List<T>();
+            Source = source;
+        }
+        #endregion
+
+        #region Methods
+        void IList<T>.Insert(int index, T item)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void IList<T>.RemoveAt(int index)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void ICollection<T>.Add(T item)
+        {
+            throw new NotSupportedException("Size is fixed");
+        }
+
+        void ICollection<T>.Clear()
+        {
+            throw new NotSupportedException("Size is fixed");
         }
 
         bool ICollection<T>.Remove(T item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Size is fixed");
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            return source.IndexOf(item);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return source.Contains(item);
         }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            source.CopyTo(array, arrayIndex);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return source.GetEnumerator();
+        }
+        #endregion
     }
 }

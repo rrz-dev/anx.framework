@@ -15,77 +15,114 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public sealed class IndirectPositionCollection : IList<Vector3>, ICollection<Vector3>, IEnumerable<Vector3>, IEnumerable
     {
+        private GeometryContent geometry;
+        private VertexChannel<int> indices;
 
-        int IList<Vector3>.IndexOf(Vector3 item)
+        #region Properties
+        public int Count
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
+
+        public Vector3 this[int index]
+        {
+            get
+            {
+                if (geometry.Parent == null)
+                {
+                    throw new InvalidOperationException("Geometry must have a mesh parent.");
+                }
+                int vIndex = this.indices[index];
+                return geometry.Parent.Positions[vIndex];
+            }
+            set
+            {
+                throw new NotSupportedException();
+            }
+        }
+        #endregion
+
+        #region Constructor
+        public IndirectPositionCollection(GeometryContent geometry, VertexChannel<int> positionIndices)
+        {
+            this.geometry = geometry;
+            this.indices = positionIndices;
+        }
+        #endregion
+
+        #region Methods
+        public int IndexOf(Vector3 item)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (this[i] == item)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public bool Contains(Vector3 item)
+        {
+            return this.IndexOf(item) >= 0;
+        }
+
+        public void CopyTo(Vector3[] array, int arrayIndex)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                array[arrayIndex++] = this[i];
+            }
         }
 
         void IList<Vector3>.Insert(int index, Vector3 item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Collection is fixed size");
         }
 
         void IList<Vector3>.RemoveAt(int index)
         {
-            throw new NotImplementedException();
-        }
-
-        Vector3 IList<Vector3>.this[int index]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotSupportedException("Collection is fixed size");
         }
 
         void ICollection<Vector3>.Add(Vector3 item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Collection is fixed size");
         }
 
         void ICollection<Vector3>.Clear()
         {
-            throw new NotImplementedException();
-        }
-
-        bool ICollection<Vector3>.Contains(Vector3 item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<Vector3>.CopyTo(Vector3[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        int ICollection<Vector3>.Count
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        bool ICollection<Vector3>.IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
+            throw new NotSupportedException("Collection is fixed size");
         }
 
         bool ICollection<Vector3>.Remove(Vector3 item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Collection is fixed size");
         }
 
         IEnumerator<Vector3> IEnumerable<Vector3>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Count; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Count; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
         }
+        #endregion
     }
 }

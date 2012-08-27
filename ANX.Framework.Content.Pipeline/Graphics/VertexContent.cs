@@ -35,12 +35,19 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public int VertexCount
         {
-            get;
-            private set;
+            get { return PositionIndices.Count; }
+        }
+
+        public VertexContent(GeometryContent content)
+        {
+            Channels = new VertexChannelCollection();
+            PositionIndices = new VertexChannel<int>("PositionIndices");
+            Positions = new IndirectPositionCollection(content, PositionIndices);
         }
 
         public int Add(int positionIndex)
         {
+            
             throw new NotImplementedException();
         }
 
