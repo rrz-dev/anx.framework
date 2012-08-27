@@ -30,12 +30,11 @@ namespace ContentBuilder
                 if (!arg.StartsWith("/") && !arg.StartsWith("-"))
                 {
                     BuildItem buildItem = new BuildItem();
-                    buildItem.BuildRequest = new BuildRequest();
-                    buildItem.BuildRequest.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
+                    buildItem.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
                     //TODO: set configured processor name
-                    buildItem.BuildRequest.SourceFilename = arg;
-                    buildItem.BuildRequest.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
-                    buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.BuildRequest.AssetName);
+                    buildItem.SourceFilename = arg;
+                    buildItem.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
+                    buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.AssetName);
 
                     itemsToBuild.Add(buildItem);
                 }

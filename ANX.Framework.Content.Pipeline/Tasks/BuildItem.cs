@@ -14,7 +14,27 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 {
     public class BuildItem
     {
-        public BuildRequest BuildRequest
+        public readonly OpaqueDataDictionary ProcessorParameters = new OpaqueDataDictionary();
+
+        public String SourceFilename
+        {
+            get;
+            set;
+        }
+
+        public String AssetName
+        {
+            get;
+            set;
+        }
+
+        public string ImporterName
+        {
+            get;
+            set;
+        }
+
+        public string ProcessorName
         {
             get;
             set;

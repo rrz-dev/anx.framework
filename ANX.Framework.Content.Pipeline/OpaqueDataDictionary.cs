@@ -16,19 +16,21 @@ namespace ANX.Framework.Content.Pipeline
     {
         public OpaqueDataDictionary()
         {
-            throw new NotImplementedException();
-        }
-
-        public string GetContentAsXml()
-        {
-            throw new NotImplementedException();
+            // nothing to do
         }
 
         public T GetValue<T>(string key, T defaultValue)
         {
-            throw new NotImplementedException();
+            object retValue = null;
+            if (base.TryGetValue(key, out retValue))
+            {
+                if (retValue is T)
+                {
+                    return (T)retValue;
+                }
+            }
+
+            return defaultValue;
         }
-
-
     }
 }

@@ -15,26 +15,30 @@ namespace ANX.Framework.Content.Pipeline
 {
     public class NamedValueDictionary<T> : IDictionary<string, T>, ICollection<KeyValuePair<string, T>>, IEnumerable<KeyValuePair<string, T>>, IEnumerable
     {
+        private Dictionary<string, T> keyValues = new Dictionary<string, T>();
+
         public NamedValueDictionary()
         {
-            throw new NotImplementedException();
+            // nothing to do
         }
 
         public int Count
         {
-            get;
-            private set;
+            get
+            {
+                return this.keyValues.Count;
+            }
         }
 
         public T this[string key]
         {
             get
             {
-                throw new NotImplementedException();
+                return this.keyValues[key];
             }
             set
             {
-                throw new NotImplementedException();
+                this.keyValues[key] = value;
             }
         }
 
@@ -42,7 +46,7 @@ namespace ANX.Framework.Content.Pipeline
         {
             get
             {
-                throw new NotImplementedException();
+                return this.keyValues.Keys;
             }
         }
 
@@ -50,7 +54,7 @@ namespace ANX.Framework.Content.Pipeline
         {
             get
             {
-                throw new NotImplementedException();
+                return this.keyValues.Values;
             }
         }
 
@@ -58,88 +62,91 @@ namespace ANX.Framework.Content.Pipeline
         {
             get
             {
-                throw new NotImplementedException();
+                return typeof(T);
             }
         }
 
         public void Add(string key, T value)
         {
-            throw new NotImplementedException();
+            this.keyValues.Add(key, value);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.keyValues.Clear();
         }
 
         public bool ContainsKey(string key)
         {
-            throw new NotImplementedException();
+            return this.keyValues.ContainsKey(key);
         }
 
         public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.keyValues.GetEnumerator();
         }
 
         public bool Remove(string key)
         {
-            throw new NotImplementedException();
+            return this.keyValues.Remove(key);
         }
 
         public bool TryGetValue(string key, out T value)
         {
-            throw new NotImplementedException();
+            return this.keyValues.TryGetValue(key, out value);
         }
 
         protected virtual void AddItem(string key, T value)
         {
-            throw new NotImplementedException();
+            this.keyValues.Add(key, value);
         }
 
         protected virtual void ClearItems()
         {
-            throw new NotImplementedException();
+            this.keyValues.Clear();
         }
 
         protected virtual bool RemoveItem(string key)
         {
-            throw new NotImplementedException();
+            return this.keyValues.Remove(key);
         }
 
         protected virtual void SetItem(string key, T value)
         {
-            throw new NotImplementedException();
+            this.keyValues[key] = value;
         }
 
         bool ICollection<KeyValuePair<string, T>>.IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get 
+            { 
+                return false; 
+            }
         }
 
         void ICollection<KeyValuePair<string, T>>.Add(KeyValuePair<string, T> item)
         {
-            throw new NotImplementedException();
+            this.keyValues.Add(item.Key, item.Value);
         }
 
         bool ICollection<KeyValuePair<string, T>>.Contains(KeyValuePair<string, T> item)
         {
-            throw new NotImplementedException();
+            return this.keyValues.ContainsKey(item.Key);
         }
 
         void ICollection<KeyValuePair<string, T>>.CopyTo(KeyValuePair<string, T>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            ((ICollection<KeyValuePair<string, T>>)this.keyValues).CopyTo(array, arrayIndex);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.keyValues.GetEnumerator();
         }
 
         bool ICollection<KeyValuePair<string, T>>.Remove(KeyValuePair<string, T> item)
         {
-            throw new NotImplementedException();
+            return this.keyValues.Remove(item.Key);
         }
     }
 }

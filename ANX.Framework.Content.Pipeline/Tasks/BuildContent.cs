@@ -104,9 +104,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             {
                 var importedObject = ImportAsset(buildItem);
 
-                if (String.IsNullOrEmpty(buildItem.BuildRequest.ProcessorName))
+                if (String.IsNullOrEmpty(buildItem.ProcessorName))
                 {
-                    buildItem.BuildRequest.ProcessorName = ProcessorManager.GetProcessorForType(importedObject.GetType());
+                    buildItem.ProcessorName = ProcessorManager.GetProcessorForType(importedObject.GetType());
                 }
 
                 var buildedItem = Process(buildItem, importedObject);
@@ -117,21 +117,21 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         private object ImportAsset(BuildItem item)
         {
-            IContentImporter instance = this.ImporterManager.GetInstance(item.BuildRequest.ImporterName);
+            IContentImporter instance = this.ImporterManager.GetInstance(item.ImporterName);
             ContentImporterContext context = new AnxContentImporterContext(this, item, BuildLogger);
             BuildLogger.LogMessage("building {0} of type {1}", new object[]
             {
-                item.BuildRequest.SourceFilename,
+                item.SourceFilename,
                 instance.GetType()
             });
-            return instance.Import(item.BuildRequest.SourceFilename, context);
+            return instance.Import(item.SourceFilename, context);
         }
 
         private object Process(BuildItem item, object importedObject)
         {
-            if (String.IsNullOrEmpty(item.BuildRequest.ProcessorName) == false)
+            if (String.IsNullOrEmpty(item.ProcessorName) == false)
             {
-                IContentProcessor instance = this.ProcessorManager.GetInstance(item.BuildRequest.ProcessorName);
+                IContentProcessor instance = this.ProcessorManager.GetInstance(item.ProcessorName);
                 ContentProcessorContext context = new AnxContentProcessorContext(item, BuildLogger, TargetPlatform, TargetProfile, "");
                 context.OutputDirectory = OutputDirectory;
                 context.OutputFilename = item.OutputFilename;

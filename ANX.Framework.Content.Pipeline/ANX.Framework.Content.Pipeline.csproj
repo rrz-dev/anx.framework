@@ -172,7 +172,7 @@
     <Compile Include="TargetPlatform.cs" />
     <Compile Include="Tasks\BuildContent.cs" />
     <Compile Include="Tasks\BuildItem.cs" />
-    <Compile Include="Tasks\BuildRequest.cs" />
+    <None Include="Tasks\BuildRequest.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="VideoContent.cs" />
