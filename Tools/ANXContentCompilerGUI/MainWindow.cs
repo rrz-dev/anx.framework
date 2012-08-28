@@ -10,7 +10,7 @@ namespace ANX.ContentCompiler.GUI
     {
         #region Fields
         public static String DefaultOutputPath = "bin";
-        public static String SettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ANX Content Compiler" + Path.PathSeparator + "settings.ees");
+        public static String SettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ANX Content Compiler" + Path.DirectorySeparatorChar + "settings.ees");
 
         private Point _lastPos;
         private bool _mouseDown;
@@ -35,7 +35,10 @@ namespace ANX.ContentCompiler.GUI
             Instance = this;
             _firstStart = !File.Exists(SettingsFile);
             if (_firstStart)
+            {
                 Settings.Defaults();
+                Settings.Save(SettingsFile);
+            }
             else
                 Settings.Load(SettingsFile);
             treeViewItemAddFolder.MouseEnter += TreeViewItemMouseEnter;
@@ -93,6 +96,19 @@ namespace ANX.ContentCompiler.GUI
                 dlg4.ShowDialog();
             }
             ChangeEnvironmentOpenProject();
+        }
+        #endregion
+
+        #region OpenProject
+        private void RibbonButtonLoadClick(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenProjectScreen())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    
+                }
+            }
         }
         #endregion
 

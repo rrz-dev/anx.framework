@@ -97,10 +97,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // ribbonButtonHelp
             // 
-            this.ribbonButtonHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonHelp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonHelp.Content = "Help";
-            this.ribbonButtonHelp.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonHelp.Image = null;
             this.ribbonButtonHelp.Location = new System.Drawing.Point(299, 26);
             this.ribbonButtonHelp.Name = "ribbonButtonHelp";
@@ -109,10 +107,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // ribbonButtonWeb
             // 
-            this.ribbonButtonWeb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonWeb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonWeb.Content = "Website";
-            this.ribbonButtonWeb.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonWeb.Image = null;
             this.ribbonButtonWeb.Location = new System.Drawing.Point(237, 26);
             this.ribbonButtonWeb.Name = "ribbonButtonWeb";
@@ -121,10 +117,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // ribbonButtonClean
             // 
-            this.ribbonButtonClean.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonClean.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonClean.Content = "Clean";
-            this.ribbonButtonClean.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonClean.Image = null;
             this.ribbonButtonClean.Location = new System.Drawing.Point(186, 26);
             this.ribbonButtonClean.Name = "ribbonButtonClean";
@@ -133,10 +127,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // ribbonButtonSave
             // 
-            this.ribbonButtonSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonSave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonSave.Content = "Save";
-            this.ribbonButtonSave.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonSave.Image = null;
             this.ribbonButtonSave.Location = new System.Drawing.Point(105, 26);
             this.ribbonButtonSave.Name = "ribbonButtonSave";
@@ -145,22 +137,19 @@ namespace ANX.ContentCompiler.GUI
             // 
             // ribbonButtonLoad
             // 
-            this.ribbonButtonLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonLoad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonLoad.Content = "Open";
-            this.ribbonButtonLoad.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonLoad.Image = null;
             this.ribbonButtonLoad.Location = new System.Drawing.Point(54, 26);
             this.ribbonButtonLoad.Name = "ribbonButtonLoad";
             this.ribbonButtonLoad.Size = new System.Drawing.Size(52, 68);
             this.ribbonButtonLoad.TabIndex = 4;
+            this.ribbonButtonLoad.Click += new System.EventHandler(this.RibbonButtonLoadClick);
             // 
             // ribbonButtonNew
             // 
-            this.ribbonButtonNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ribbonButtonNew.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ribbonButtonNew.Content = "New";
-            this.ribbonButtonNew.ForeColor = System.Drawing.Color.White;
             this.ribbonButtonNew.Image = null;
             this.ribbonButtonNew.Location = new System.Drawing.Point(3, 26);
             this.ribbonButtonNew.Name = "ribbonButtonNew";
@@ -330,10 +319,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // editingState
             // 
-            this.editingState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.editingState.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editingState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editingState.ForeColor = System.Drawing.Color.White;
             this.editingState.Location = new System.Drawing.Point(0, 0);
             this.editingState.Name = "editingState";
             this.editingState.Size = new System.Drawing.Size(407, 547);
@@ -342,10 +329,8 @@ namespace ANX.ContentCompiler.GUI
             // 
             // startState
             // 
-            this.startState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.startState.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startState.ForeColor = System.Drawing.Color.White;
             this.startState.Location = new System.Drawing.Point(0, 0);
             this.startState.Name = "startState";
             this.startState.Size = new System.Drawing.Size(407, 547);
@@ -391,10 +376,8 @@ namespace ANX.ContentCompiler.GUI
             this.menuState.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.menuState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.menuState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuState.ForeColor = System.Drawing.Color.White;
             this.menuState.Location = new System.Drawing.Point(-2, 23);
             this.menuState.Name = "menuState";
             this.menuState.Size = new System.Drawing.Size(865, 630);
