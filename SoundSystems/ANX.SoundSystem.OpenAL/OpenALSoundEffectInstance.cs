@@ -36,11 +36,12 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 0f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -92,6 +93,10 @@ namespace ANX.SoundSystem.OpenAL
 			Pitch = 1f;
 			Volume = 1f;
 			// TODO: Pan = 0f;
+
+			ALError error = AL.GetError();
+			if (error != ALError.NoError)
+				throw new Exception("OpenAL error " + error + ": " + AL.GetErrorString(error));
 		}
 		#endregion
 

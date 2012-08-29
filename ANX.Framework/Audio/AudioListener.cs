@@ -1,5 +1,6 @@
 ﻿using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,6 +8,7 @@ using ANX.Framework.NonXNA.SoundSystem;
 
 namespace ANX.Framework.Audio
 {
+	[PercentageComplete(100)]
 	public class AudioListener
 	{
 		#region Private

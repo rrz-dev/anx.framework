@@ -149,6 +149,16 @@
     </Tags>
   </Sample>
 
+	<Sample>
+		<Name>AudioSample</Name>
+		<Description>A sample playing a SoundEffect over and over again</Description>
+		<ExecPath>AudioSample\bin\x86\Debug\AudioSample.exe</ExecPath>
+		<Categorie>Rendering</Categorie>
+		<Tags>
+			<Tag>Forms</Tag>
+		</Tags>
+	</Sample>
+
 
 
 

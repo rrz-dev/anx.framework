@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,6 +8,7 @@ using System.IO;
 
 namespace ANX.Framework.Audio
 {
+	[PercentageComplete(30)]
 	public struct AudioCategory : IEquatable<AudioCategory>
 	{
 		#region Internal helper enums

@@ -40,16 +40,15 @@ namespace ANX.Framework.Audio.XactParser
 		{
 			BinaryReader reader = new BinaryReader(stream);
 			ValidateMagic(reader);
-			ValidateVersion(reader);
+			ValidateToolVersion(reader);
+			ValidateFormatVersion(reader);
 
-			// unknown, but seems to be 0x002A across all files
-			reader.ReadUInt16();
 			// unknown, maybe something to do with the last modified values
 			reader.ReadUInt16();
 
 			DateTime lastModifiedDate = DateTime.FromFileTime(reader.ReadInt64());
 
-			// unknown, seems to stay 0x03
+			// seems to stay 0x03, probably platform
 			reader.ReadByte();
 
 			Categories = new AudioCategory[reader.ReadUInt16()];
@@ -112,11 +111,20 @@ namespace ANX.Framework.Audio.XactParser
 		}
 		#endregion
 
-		#region ValidateVersion
-		private static void ValidateVersion(BinaryReader reader)
+		#region ValidateToolVersion
+		private static void ValidateToolVersion(BinaryReader reader)
 		{
 			ushort version = reader.ReadUInt16();
 			if (version != 47 && version != 46 && version != 45)
+				throw new InvalidVersionException();
+		}
+		#endregion
+
+		#region ValidateFormatVersion
+		private static void ValidateFormatVersion(BinaryReader reader)
+		{
+			ushort version = reader.ReadUInt16();
+			if (version != 42)
 				throw new InvalidVersionException();
 		}
 		#endregion

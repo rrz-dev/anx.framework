@@ -1,8 +1,6 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -13,6 +11,7 @@ namespace ANX.Framework.Audio
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [Serializable]
 #endif
+	[PercentageComplete(100)]
     public sealed class InstancePlayLimitException : ExternalException
 	{
 		#region Constructor

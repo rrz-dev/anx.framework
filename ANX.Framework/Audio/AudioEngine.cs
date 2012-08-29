@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio.XactParser;
-using System.Collections.Generic;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,6 +12,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Audio
 {
+	[PercentageComplete(50)]
 	public class AudioEngine : IDisposable
 	{
 		#region Constants

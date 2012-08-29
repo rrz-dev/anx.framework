@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,6 +11,7 @@ using ANX.Framework.NonXNA.SoundSystem;
 
 namespace ANX.Framework.Audio
 {
+	[PercentageComplete(100)]
 	public sealed class SoundEffect : IDisposable
 	{
 		#region Static
@@ -118,7 +120,8 @@ namespace ANX.Framework.Audio
 		private SoundEffect(Stream stream)
 			: this()
 		{
-			nativeSoundEffect = GetCreator().CreateSoundEffect(this, stream);
+			var creator = GetCreator();
+			nativeSoundEffect = creator.CreateSoundEffect(this, stream);
 		}
 
 		public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels)
@@ -126,12 +129,11 @@ namespace ANX.Framework.Audio
 		{
 		}
 
-		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate,
-			AudioChannels channels, int loopStart, int loopLength)
+		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
 			: this()
 		{
-			nativeSoundEffect = GetCreator().CreateSoundEffect(this, buffer, offset,
-				count, sampleRate, channels, loopStart, loopLength);
+			var creator = GetCreator();
+			nativeSoundEffect = creator.CreateSoundEffect(this, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 
 		~SoundEffect()
@@ -181,7 +183,7 @@ namespace ANX.Framework.Audio
 		#region Play
 		public bool Play()
 		{
-			return Play(1f, 0f, 0f);
+			return Play(1f, 1f, 0f);
 		}
 
 		public bool Play(float volume, float pitch, float pan)
@@ -207,8 +209,9 @@ namespace ANX.Framework.Audio
 
 				newInstance.Play();
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.Warning("Failed to play sound effect cause of: " + ex);
 				return false;
 			}
 

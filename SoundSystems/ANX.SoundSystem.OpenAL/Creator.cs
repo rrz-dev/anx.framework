@@ -4,6 +4,7 @@ using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
+using OpenTK;
 using OpenTK.Audio.OpenAL;
 
 // This file is part of the ANX.Framework created by the
@@ -46,11 +47,12 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -70,11 +72,12 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -90,6 +93,28 @@ namespace ANX.SoundSystem.OpenAL
 			}
 		}
 		#endregion
+
+		public Creator()
+		{
+			Init();
+		}
+
+		private void Init()
+		{
+			IntPtr deviceHandle;
+			ContextHandle context = Alc.GetCurrentContext();
+			if (context.Handle != IntPtr.Zero)
+			{
+				deviceHandle = Alc.GetContextsDevice(context);
+			}
+			else
+			{
+				deviceHandle = Alc.OpenDevice(Alc.GetString(IntPtr.Zero, AlcGetString.DefaultDeviceSpecifier));
+				context = Alc.CreateContext(deviceHandle, new int[0]);
+			}
+
+			bool isNowCurrent = Alc.MakeContextCurrent(context);
+		}
 
 		#region CreateSoundEffectInstance
 		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
@@ -107,12 +132,12 @@ namespace ANX.SoundSystem.OpenAL
 		}
 		#endregion
 
-		#region CreateSoundEffect (TODO)
+		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
 			PreventSystemChange();
-			throw new NotImplementedException();
+			return new OpenALSoundEffect(parent, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 		#endregion
 

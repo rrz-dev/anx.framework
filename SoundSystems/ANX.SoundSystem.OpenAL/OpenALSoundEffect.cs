@@ -45,6 +45,29 @@ namespace ANX.SoundSystem.OpenAL
 			bufferHandle = AL.GenBuffer();
 			AL.BufferData(bufferHandle, waveInfo.OpenALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
 		}
+
+		internal OpenALSoundEffect(SoundEffect setParent, byte[] buffer, int offset, int count, int sampleRate,
+			AudioChannels channels, int loopStart, int loopLength)
+		{
+			parent = setParent;
+
+			MemoryStream stream = new MemoryStream();
+			BinaryWriter writer = new BinaryWriter(stream);
+			writer.Write(buffer, offset, count);
+			stream.Position = 0;
+
+			waveInfo = WaveFile.LoadData(stream);
+
+			float sizeMulBlockAlign = waveInfo.Data.Length / ((int)waveInfo.Channels * 2);
+			duration = TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)waveInfo.SampleRate));
+
+			bufferHandle = AL.GenBuffer();
+			AL.BufferData(bufferHandle, waveInfo.OpenALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
+
+			ALError error = AL.GetError();
+			if (error != ALError.NoError)
+				throw new Exception("OpenAL error " + error + ": " + AL.GetErrorString(error));
+		}
 		#endregion
 
 		#region Dispose
