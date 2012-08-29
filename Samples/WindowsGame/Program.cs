@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace WindowsGame1
 {
-#if WINDOWS || XBOX
     static class Program
     {
         /// <summary>
@@ -35,6 +34,5 @@ namespace WindowsGame1
             }
         }
     }
-#endif
 }
 

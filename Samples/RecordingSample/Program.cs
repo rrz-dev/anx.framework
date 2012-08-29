@@ -3,7 +3,6 @@ using ANX.Framework.NonXNA;
 
 namespace RecordingSample
 {
-#if WINDOWS || XBOX
     static class Program
     {
         static void Main(string[] args)
@@ -17,6 +16,5 @@ namespace RecordingSample
             }
         }
     }
-#endif
 }
 

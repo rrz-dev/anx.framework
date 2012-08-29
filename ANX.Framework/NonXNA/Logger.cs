@@ -84,6 +84,11 @@ namespace ANX.Framework.NonXNA
 		#endregion
 
 		#region Error
+        public static void Error(string message, Exception ex)
+        {
+            Error(String.Format("{0} - Exception: {1}", message, ex.Message));
+        }
+
 		public static void Error(string message)
 		{
 			string text = CurrentTimeStamp + "| Error: " + message + BuildStackTrace();

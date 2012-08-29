@@ -3,7 +3,6 @@ using ANX.Framework.NonXNA;
 
 namespace TextRendering
 {
-#if WINDOWS || XBOX
     static class Program
     {
         /// <summary>
@@ -22,6 +21,5 @@ namespace TextRendering
             }
         }
     }
-#endif
 }
 

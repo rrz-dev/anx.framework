@@ -105,6 +105,8 @@
     <call target="soundsystem" />
     <call target="rendersystem" />
     <call target="platformsystem" />
+
+    <call target="samples" />
   </target>
 
   <target name="anx" description="Build ANX.Framework core">
@@ -306,6 +308,42 @@
     </foreach>
   </target>
 
+  <target name="samples" description="Build ANX.Framework samples">
+    <!-- default windows fileset -->
+    <fileset id="sample_files" basedir="../Samples/">
+      <include name="**/*.csproj" />
+
+      <exclude name="**/*Kinect*.csproj" />
+      
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="sample_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/samples/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+    
+  </target>
+  
   <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
     <!-- default windows fileset -->
     <fileset id="platformsystem_files" basedir="../PlatformSystems/">

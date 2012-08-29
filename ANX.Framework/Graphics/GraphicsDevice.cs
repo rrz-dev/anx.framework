@@ -120,8 +120,7 @@ namespace ANX.Framework.Graphics
             nativeDevice.Present();
         }
 
-        public void Present(Nullable<Rectangle> sourceRectangle,
-					Nullable<Rectangle> destinationRectangle, IntPtr overrideWindowHandle)
+        public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle, IntPtr overrideWindowHandle)
         {
             //TODO: implement
             throw new NotImplementedException();

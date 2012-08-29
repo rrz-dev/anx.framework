@@ -63,7 +63,14 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-				return Instance.Priority;
+                if (Instance != null)
+                {
+                    return Instance.Priority;
+                }
+                else
+                {
+                    return int.MaxValue;
+                }
 			}
 		}
 
@@ -113,16 +120,19 @@ namespace ANX.Framework.NonXNA
 		{
 			if (instance == null && IsSupported)
 			{
-				try
-				{
+                try
+                {
 					instance = Activator.CreateInstance(creatorType) as ICreator;
-				}
-				catch
-				{
-				}
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("couldn't create instance of creator '" + creatorType.FullName + "'.", ex.InnerException);
+                }
 
-				if (instance != null)
-					AddInSystemFactory.Instance.AddCreator(instance);
+                if (instance != null)
+                {
+                    AddInSystemFactory.Instance.AddCreator(instance);
+                }
 			}
 		}
 		#endregion
