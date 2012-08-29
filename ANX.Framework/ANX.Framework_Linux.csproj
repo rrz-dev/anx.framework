@@ -98,6 +98,7 @@
     <Compile Include="Content\MathTypeReaders\RectangleReader.cs" />
     <Compile Include="Content\MathTypeReaders\Vector2Reader.cs" />
     <Compile Include="Content\MathTypeReaders\Vector3Reader.cs" />
+    <Compile Include="Content\MediaTypeReaders\SoundEffectReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\BooleanReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\ByteReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\CharReader.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="GameWindow.cs" />
     <Compile Include="GraphicsDeviceInformation.cs" />
     <Compile Include="Graphics\BasicEffect.cs" />
+    <Compile Include="Graphics\ConstantBuffer.cs" />
     <Compile Include="Graphics\DeviceLostException.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
     <Compile Include="Graphics\DisplayModeCollection.cs" />
@@ -412,8 +414,10 @@
     <Compile Include="NonXNA\AddInLoadingException.cs" />
     <Compile Include="NonXNA\AddInTypeCollection.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\Development\DeveloperAttribute.cs" />
     <Compile Include="NonXNA\Development\TestStateAttribute.cs" />
     <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
+    <Compile Include="NonXNA\EffectSourceLanguage.cs" />
     <Compile Include="NonXNA\InputDeviceFactory.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePadCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IKeyboard.cs" />
@@ -436,6 +440,7 @@
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeMediaLibrary.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeConstantBuffer.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />
@@ -499,9 +504,7 @@
     <Compile Include="Vector3.cs" />
     <Compile Include="Vector4.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\MediaTypeReaders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
