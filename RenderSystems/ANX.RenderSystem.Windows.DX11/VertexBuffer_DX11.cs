@@ -1,15 +1,7 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
-using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA.RenderSystem;
-
-#endregion // Using Statements
+using SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -17,140 +9,129 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class VertexBuffer_DX11 : INativeVertexBuffer, IDisposable
-    {
-        SharpDX.Direct3D11.Buffer buffer;
-        int vertexStride;
+	public class VertexBuffer_DX11 : INativeVertexBuffer, IDisposable
+	{
+		SharpDX.Direct3D11.Buffer buffer;
+		int vertexStride;
 
-        public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
-        {
-            GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-            SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
+		public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+		{
+			GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
+			SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
 
-            InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
-        }
-
-        internal VertexBuffer_DX11(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
-        {
-            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
-        }
-
-        private void InitializeBuffer(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
-        {
-            this.vertexStride = vertexDeclaration.VertexStride;
-
-            //TODO: translate and use usage
-
-            if (device != null)
-            {
-                BufferDescription description = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = BindFlags.VertexBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None
-                };
-
-                this.buffer = new SharpDX.Direct3D11.Buffer(device, description);
-            }
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-            DeviceContext context = dx11GraphicsDevice.NativeDevice;
-
-            //TODO: check offsetInBytes parameter for bounds etc.
-
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
-
-            int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
-
-            unsafe
-            {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
-                {
-                    if (offsetInBytes > 0)
-                    {
-                        vData.Seek(offsetInBytes / vertexStride, System.IO.SeekOrigin.Begin);
-                    }
-
-                    SharpDX.DataStream stream;
-                    SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-                    if (startIndex > 0 || elementCount < data.Length)
-                    {
-                        for (int i = startIndex; i < startIndex + elementCount; i++)
-                        {
-                            vData.Write<T>(data[i]);
-                        }
-                    }
-                    else
-                    {
-                        vData.CopyTo(stream);
-                    }
-                    context.UnmapSubresource(this.buffer, 0);
-                }
-            }
-
-            pinnedArray.Free();
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-        {
-            SetData<T>(graphicsDevice, data, 0, data.Length);
-        }
-
-        public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
-        {
-            SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
-        }
-
-        public SharpDX.Direct3D11.Buffer NativeBuffer
-        {
-            get
-            {
-                return this.buffer;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (this.buffer != null)
-            {
-                buffer.Dispose();
-                buffer = null;
-            }
-        }
-
-				#region INativeVertexBuffer Member
-
-				public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-				{
-					throw new NotImplementedException();
-				}
-
-				public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-				{
-					throw new NotImplementedException();
-				}
-
-				#endregion
-
-				#region INativeBuffer Member
-
-
-				public void GetData<T>(T[] data) where T : struct
-				{
-					throw new NotImplementedException();
-				}
-
-				public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-				{
-					throw new NotImplementedException();
-				}
-
-				#endregion
+			InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
 		}
+
+		internal VertexBuffer_DX11(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount,
+			BufferUsage usage)
+		{
+			InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+		}
+
+		private void InitializeBuffer(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount,
+			BufferUsage usage)
+		{
+			this.vertexStride = vertexDeclaration.VertexStride;
+
+			//TODO: translate and use usage
+
+			if (device != null)
+			{
+				BufferDescription description = new BufferDescription()
+				{
+					Usage = ResourceUsage.Dynamic,
+					SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
+					BindFlags = BindFlags.VertexBuffer,
+					CpuAccessFlags = CpuAccessFlags.Write,
+					OptionFlags = ResourceOptionFlags.None
+				};
+
+				this.buffer = new SharpDX.Direct3D11.Buffer(device, description);
+			}
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
+			where T : struct
+		{
+			GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
+			DeviceContext context = dx11GraphicsDevice.NativeDevice;
+
+			//TODO: check offsetInBytes parameter for bounds etc.
+
+			SharpDX.DataStream stream;
+			context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
+			if (startIndex > 0 || elementCount < data.Length)
+			{
+				for (int i = startIndex; i < startIndex + elementCount; i++)
+				{
+					stream.Write<T>(data[i]);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < data.Length; i++)
+				{
+					stream.Write<T>(data[i]);
+				}
+			}
+
+			context.UnmapSubresource(this.buffer, 0);
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
+		{
+			SetData<T>(graphicsDevice, data, 0, data.Length);
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
+		{
+			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
+		}
+
+		public SharpDX.Direct3D11.Buffer NativeBuffer
+		{
+			get
+			{
+				return this.buffer;
+			}
+		}
+
+		public void Dispose()
+		{
+			if (this.buffer != null)
+			{
+				buffer.Dispose();
+				buffer = null;
+			}
+		}
+
+		#region INativeVertexBuffer Member
+
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region INativeBuffer Member
+
+
+		public void GetData<T>(T[] data) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+	}
 }
