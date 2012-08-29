@@ -57,7 +57,7 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region NewProject
-        private void RibbonButtonNewClick(object sender, EventArgs e)
+        public void NewProject(object sender, EventArgs e)
         {
             using (var dlg = new NewProjectScreen())
             {
@@ -100,7 +100,7 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region OpenProject
-        private void RibbonButtonLoadClick(object sender, EventArgs e)
+        public void OpenProject(object sender, EventArgs e)
         {
             using (var dlg = new OpenProjectScreen())
             {
@@ -227,6 +227,18 @@ namespace ANX.ContentCompiler.GUI
             propertyGrid.LineColor = Settings.MainColor;
             propertyGrid.ViewBackColor = Settings.DarkMainColor;
             propertyGrid.ViewForeColor = Settings.ForeColor;
+        }
+        #endregion
+
+        #region Exit
+        private void MainWindowFormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Save(SettingsFile);
+        }
+
+        private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
         #endregion
     }

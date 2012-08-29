@@ -52,31 +52,31 @@ namespace ANX.ContentCompiler.GUI
                 {
                     case "MainColor":
                         if (reader.NodeType == XmlNodeType.Element)
-                            MainColor = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            MainColor = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "DarkMainColor":
                         if (reader.NodeType == XmlNodeType.Element)
-                            DarkMainColor = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            DarkMainColor = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "LightMainColor":
                         if (reader.NodeType == XmlNodeType.Element)
-                            LightMainColor = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            LightMainColor = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "ForeColor":
                         if (reader.NodeType == XmlNodeType.Element)
-                            ForeColor = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            ForeColor = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "AccentColor":
                         if (reader.NodeType == XmlNodeType.Element)
-                            AccentColor = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            AccentColor = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "AccentColor2":
                         if (reader.NodeType == XmlNodeType.Element)
-                            AccentColor2 = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            AccentColor2 = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "AccentColor3":
                         if (reader.NodeType == XmlNodeType.Element)
-                            AccentColor3 = GetColorFromXmlCompatible(reader.ReadElementContentAsString());
+                            AccentColor3 = GetColorFromString(reader.ReadElementContentAsString());
                         break;
                     case "Path":
                         if (reader.NodeType == XmlNodeType.Element)
@@ -99,25 +99,25 @@ namespace ANX.ContentCompiler.GUI
             writer.WriteStartDocument();
             writer.WriteStartElement("CCompiler4Settings");
             writer.WriteStartElement("MainColor");
-            writer.WriteValue(GetXmlCompatibleColor(MainColor));
+            writer.WriteValue(GetStringFromColor(MainColor));
             writer.WriteFullEndElement();
             writer.WriteStartElement("DarkMainColor");
-            writer.WriteValue(GetXmlCompatibleColor(DarkMainColor));
+            writer.WriteValue(GetStringFromColor(DarkMainColor));
             writer.WriteFullEndElement();
             writer.WriteStartElement("LightMainColor");
-            writer.WriteValue(GetXmlCompatibleColor(LightMainColor));
+            writer.WriteValue(GetStringFromColor(LightMainColor));
             writer.WriteFullEndElement();
             writer.WriteStartElement("ForeColor");
-            writer.WriteValue(GetXmlCompatibleColor(ForeColor));
+            writer.WriteValue(GetStringFromColor(ForeColor));
             writer.WriteFullEndElement();
             writer.WriteStartElement("AccentColor");
-            writer.WriteValue(GetXmlCompatibleColor(AccentColor));
+            writer.WriteValue(GetStringFromColor(AccentColor));
             writer.WriteFullEndElement();
             writer.WriteStartElement("AccentColor2");
-            writer.WriteValue(GetXmlCompatibleColor(AccentColor2));
+            writer.WriteValue(GetStringFromColor(AccentColor2));
             writer.WriteFullEndElement();
             writer.WriteStartElement("AccentColor3");
-            writer.WriteValue(GetXmlCompatibleColor(AccentColor3));
+            writer.WriteValue(GetStringFromColor(AccentColor3));
             writer.WriteFullEndElement();
             writer.WriteStartElement("RecentProjects");
             foreach (var recentProject in RecentProjects)
@@ -133,12 +133,12 @@ namespace ANX.ContentCompiler.GUI
             writer.Close();
         }
 
-        private static string GetXmlCompatibleColor(Color color)
+        private static string GetStringFromColor(Color color)
         {
             return color.R + "," + color.G + "," + color.B;
         }
 
-        private static Color GetColorFromXmlCompatible(string xml)
+        private static Color GetColorFromString(string xml)
         {
             var s = xml.Split(new[] {','}, 3);
             return Color.FromArgb(Convert.ToInt32(s[0]), Convert.ToInt32(s[1]), Convert.ToInt32(s[2]));

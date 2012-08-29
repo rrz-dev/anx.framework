@@ -57,6 +57,7 @@
             this.arrowButtonLoad.Name = "arrowButtonLoad";
             this.arrowButtonLoad.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonLoad.TabIndex = 2;
+            this.arrowButtonLoad.Click += new System.EventHandler(this.ArrowButtonLoadClick);
             // 
             // arrowButtonImport
             // 
@@ -81,6 +82,7 @@
             this.arrowButtonNew.Name = "arrowButtonNew";
             this.arrowButtonNew.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonNew.TabIndex = 0;
+            this.arrowButtonNew.Click += new System.EventHandler(this.ArrowButtonNewClick);
             // 
             // StartState
             // 
@@ -95,7 +97,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "StartState";
             this.Size = new System.Drawing.Size(386, 323);
-            this.Load += new System.EventHandler(this.StartState_Load);
+            this.Load += new System.EventHandler(this.StartStateLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 

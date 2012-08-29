@@ -144,7 +144,7 @@ namespace ANX.ContentCompiler.GUI
             this.ribbonButtonLoad.Name = "ribbonButtonLoad";
             this.ribbonButtonLoad.Size = new System.Drawing.Size(52, 68);
             this.ribbonButtonLoad.TabIndex = 4;
-            this.ribbonButtonLoad.Click += new System.EventHandler(this.RibbonButtonLoadClick);
+            this.ribbonButtonLoad.Click += new System.EventHandler(this.OpenProject);
             // 
             // ribbonButtonNew
             // 
@@ -155,7 +155,7 @@ namespace ANX.ContentCompiler.GUI
             this.ribbonButtonNew.Name = "ribbonButtonNew";
             this.ribbonButtonNew.Size = new System.Drawing.Size(52, 68);
             this.ribbonButtonNew.TabIndex = 3;
-            this.ribbonButtonNew.Click += new System.EventHandler(this.RibbonButtonNewClick);
+            this.ribbonButtonNew.Click += new System.EventHandler(this.NewProject);
             // 
             // buttonQuit
             // 
@@ -398,6 +398,8 @@ namespace ANX.ContentCompiler.GUI
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ANX Content Compiler";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindowFormClosed);
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.splitContainerMenuLayout.Panel1.ResumeLayout(false);
             this.splitContainerMenuLayout.Panel2.ResumeLayout(false);
