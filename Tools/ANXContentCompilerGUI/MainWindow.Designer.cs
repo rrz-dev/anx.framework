@@ -54,13 +54,16 @@ namespace ANX.ContentCompiler.GUI
             this.labelProperties = new System.Windows.Forms.Label();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.menuState = new ANX.ContentCompiler.GUI.States.MenuState();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             this.splitContainerMenuLayout.Panel1.SuspendLayout();
             this.splitContainerMenuLayout.Panel2.SuspendLayout();
             this.splitContainerMenuLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).BeginInit();
             this.splitContainerFileTree.Panel1.SuspendLayout();
             this.splitContainerFileTree.Panel2.SuspendLayout();
             this.splitContainerFileTree.SuspendLayout();
             this.treeViewContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).BeginInit();
             this.splitContainerProperties.Panel1.SuspendLayout();
             this.splitContainerProperties.Panel2.SuspendLayout();
             this.splitContainerProperties.SuspendLayout();
@@ -134,6 +137,7 @@ namespace ANX.ContentCompiler.GUI
             this.ribbonButtonSave.Name = "ribbonButtonSave";
             this.ribbonButtonSave.Size = new System.Drawing.Size(52, 68);
             this.ribbonButtonSave.TabIndex = 5;
+            this.ribbonButtonSave.Click += new System.EventHandler(this.SaveProject);
             // 
             // ribbonButtonLoad
             // 
@@ -403,13 +407,16 @@ namespace ANX.ContentCompiler.GUI
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.splitContainerMenuLayout.Panel1.ResumeLayout(false);
             this.splitContainerMenuLayout.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).EndInit();
             this.splitContainerMenuLayout.ResumeLayout(false);
             this.splitContainerFileTree.Panel1.ResumeLayout(false);
             this.splitContainerFileTree.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).EndInit();
             this.splitContainerFileTree.ResumeLayout(false);
             this.treeViewContextMenu.ResumeLayout(false);
             this.splitContainerProperties.Panel1.ResumeLayout(false);
             this.splitContainerProperties.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).EndInit();
             this.splitContainerProperties.ResumeLayout(false);
             this.ResumeLayout(false);
 

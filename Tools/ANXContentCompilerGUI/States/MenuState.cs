@@ -77,7 +77,7 @@ namespace ANX.ContentCompiler.GUI.States
 
         private void ButtonSaveClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.SaveProject(sender, e);
         }
 
         private void ButtonSaveAsClick(object sender, EventArgs e)
@@ -141,12 +141,12 @@ namespace ANX.ContentCompiler.GUI.States
         #region MenuSave
         private void ArrowButtonSaveAsCprojClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.SaveProjectAs(sender, e);
         }
 
         private void ArrowButtonSaveAsCcProjClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.SaveProjectAs(sender, e);
         }
         #endregion
 

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
+using ANX.Framework.Content.Pipeline;
+using ANX.Framework.Content.Pipeline.Tasks;
 
 namespace ANX.ContentCompiler.GUI
 {
@@ -16,6 +18,8 @@ namespace ANX.ContentCompiler.GUI
         private bool _mouseDown;
         private bool _menuMode;
         private readonly bool _firstStart = true;
+
+        private ContentProject _contentProject;
         #endregion
 
         #region Properties
@@ -65,6 +69,7 @@ namespace ANX.ContentCompiler.GUI
                 {
                     ProjectName = dlg.textBoxName.Text;
                     ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text) ? dlg.textBoxLocation.Text : Path.Combine(Settings.DefaultProjectPath, ProjectName);
+                    ProjectPath = Path.Combine(ProjectFolder, ProjectName + ".cproj");
                 }
                 else
                 {
@@ -95,6 +100,14 @@ namespace ANX.ContentCompiler.GUI
             {
                 dlg4.ShowDialog();
             }
+            _contentProject = new ContentProject(ProjectName)
+                                  {
+                                      OutputDirectory = ProjectOutputDir,
+                                      Configuration = "Release",
+                                      Creator = "ANX Content Compiler (4.0)",
+                                      ContentRoot = "Content",
+                                      Platform = TargetPlatform.Windows
+                                  };
             ChangeEnvironmentOpenProject();
         }
         #endregion
@@ -107,6 +120,33 @@ namespace ANX.ContentCompiler.GUI
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     
+                }
+            }
+        }
+        #endregion
+
+        #region SaveProject
+        public void SaveProject(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(ProjectPath))
+                SaveProjectAs(sender, e);
+
+            _contentProject.Save(ProjectPath);
+        }
+        #endregion
+
+        #region SaveProjectAs
+        public void SaveProjectAs(object sender, EventArgs e)
+        {
+            using (var dlg = new SaveFileDialog())
+            {
+                dlg.Title = "Save project as";
+                dlg.AddExtension = true;
+                dlg.Filter = "ANX Content Project (*.cproj)|*.cproj|Compressed Content Project (*.ccproj)|*.ccproj";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    ProjectPath = dlg.FileName;
+                    SaveProject(sender, e);
                 }
             }
         }
