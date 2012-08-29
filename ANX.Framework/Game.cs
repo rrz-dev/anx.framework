@@ -521,6 +521,8 @@ namespace ANX.Framework
             {
                 drawableGameComponents.Add(e.GameComponent);
             }
+
+            e.GameComponent.Initialize();
         }
 
 	}
