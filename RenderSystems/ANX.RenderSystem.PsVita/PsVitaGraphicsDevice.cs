@@ -138,6 +138,13 @@ namespace ANX.RenderSystem.PsVita
 			throw new NotImplementedException();
 		}
 
+#if XNAEXT
+        public void SetConstantBuffer(int slot, ConstantBuffer constantBuffer)
+        {
+            throw new NotImplementedException();
+        }
+#endif
+
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			throw new NotImplementedException();

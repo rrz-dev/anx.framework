@@ -65,8 +65,17 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		#region CreateEffect
-		public INativeEffect CreateEffect(GraphicsDevice graphics,
+#if XNAEXT
+        #region CreateConstantBuffer
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+#endif
+
+        #region CreateEffect
+        public INativeEffect CreateEffect(GraphicsDevice graphics,
 			Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
 			return new Effect_Metro(graphics, managedEffect,

@@ -142,6 +142,18 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
+#if XNAEXT
+        #region CreateConstantBuffer
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            
+            throw new NotImplementedException();
+        }
+        #endregion
+#endif
+
+
 		#region CreateBlendState
 		/// <summary>
 		/// Create a new native blend state.

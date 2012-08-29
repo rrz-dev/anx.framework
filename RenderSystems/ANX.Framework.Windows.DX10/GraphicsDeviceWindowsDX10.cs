@@ -455,6 +455,18 @@ namespace ANX.RenderSystem.Windows.DX10
             }
         }
 
+#if XNAEXT
+        public void SetConstantBuffer(int slot, ANX.Framework.Graphics.ConstantBuffer constantBuffer)
+        {
+            if (constantBuffer == null)
+            {
+                throw new ArgumentNullException("constantBuffer");
+            }
+
+            throw new NotImplementedException();
+        }
+#endif
+
         public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
         {
             if (vertexBuffers == null)

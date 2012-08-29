@@ -30,6 +30,10 @@ namespace ANX.Framework.NonXNA
 			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
 			int vertexCount, BufferUsage usage);
 
+#if XNAEXT
+        INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage);
+#endif
+
 		INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,
 			Stream byteCode);
 		INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect,

@@ -211,6 +211,7 @@
     <Compile Include="GameWindow.cs" />
     <Compile Include="GraphicsDeviceInformation.cs" />
     <Compile Include="Graphics\BasicEffect.cs" />
+    <Compile Include="Graphics\ConstantBuffer.cs" />
     <Compile Include="Graphics\DeviceLostException.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
     <Compile Include="Graphics\DisplayModeCollection.cs" />
@@ -437,6 +438,7 @@
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeMediaLibrary.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeConstantBuffer.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />

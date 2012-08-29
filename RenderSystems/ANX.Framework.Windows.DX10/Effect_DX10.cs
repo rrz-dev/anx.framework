@@ -21,6 +21,7 @@ namespace ANX.RenderSystem.Windows.DX10
 {
     public class Effect_DX10 : INativeEffect
     {
+        #region Private Members
         private ShaderBytecode pixelShaderByteCode;
         private ShaderBytecode vertexShaderByteCode;
         private VertexShader vertexShader;
@@ -28,6 +29,8 @@ namespace ANX.RenderSystem.Windows.DX10
         private ANX.Framework.Graphics.Effect managedEffect;
         private ShaderBytecode effectByteCode;
         private SharpDX.Direct3D10.Effect nativeEffect;
+
+        #endregion
 
         public Effect_DX10(GraphicsDevice device, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
         {

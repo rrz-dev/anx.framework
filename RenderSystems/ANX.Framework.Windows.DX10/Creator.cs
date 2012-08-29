@@ -55,10 +55,22 @@ namespace ANX.RenderSystem.Windows.DX10
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
+
+            return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
 		}
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
+#if XNAEXT
+        #region CreateConstantBuffer
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        {
+            PreventSystemChange();
+
+            throw new NotImplementedException();
+        }
+        #endregion
+#endif
+
+        public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
 			Stream pixelShaderByteCode)
 		{
 			PreventSystemChange();

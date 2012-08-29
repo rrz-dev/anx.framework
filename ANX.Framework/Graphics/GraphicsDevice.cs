@@ -198,6 +198,34 @@ namespace ANX.Framework.Graphics
 
         #endregion // DrawUserPrimitives<T>
 
+#if XNAEXT
+        #region SetConstantBuffer
+        /// <summary>
+        /// Binds a ConstantBuffer to the current GraphicsDevice
+        /// </summary>
+        /// <param name="slot">The index of the constant buffer used in the shader</param>
+        /// <param name="constantBuffer">The managed constant buffer object to bind.</param>
+        public void SetConstantBuffer(int slot, ConstantBuffer constantBuffer)
+        {
+            this.nativeDevice.SetConstantBuffer(slot, constantBuffer);
+        }
+
+        /// <summary>
+        /// Binds ConstantBuffer objects to the current GraphicsDevice.
+        /// </summary>
+        /// <param name="constantBuffers">The array of managed constant buffer objects to bind.</param>
+        /// <remarks>The constant buffer objects are bound in the order found in the passed array.</remarks>
+        public void SetConstantBuffers(params ConstantBuffer[] constantBuffers)
+        {
+            for (int slot = 0; slot < constantBuffers.Length; slot++)
+            {
+                this.nativeDevice.SetConstantBuffer(slot, constantBuffers[slot]);
+            }
+        }
+
+        #endregion
+#endif
+
         #region SetVertexBuffer
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
         {

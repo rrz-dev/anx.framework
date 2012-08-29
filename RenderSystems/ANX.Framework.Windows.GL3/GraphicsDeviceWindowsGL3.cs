@@ -371,6 +371,18 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
+#if XNAEXT
+        public void SetConstantBuffer(int slot, ANX.Framework.Graphics.ConstantBuffer constantBuffer)
+        {
+            if (constantBuffer == null)
+            {
+                throw new ArgumentNullException("constantBuffer");
+            }
+
+            throw new NotImplementedException();
+        }
+#endif
+
 		#region SetVertexBuffers
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{

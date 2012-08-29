@@ -27,6 +27,10 @@ namespace ANX.Framework.NonXNA
 
         void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount);
 
+#if XNAEXT
+        void SetConstantBuffer(int slot, ConstantBuffer constantBuffer);
+#endif
+
         void SetVertexBuffers(VertexBufferBinding[] vertexBuffers);
 
         void SetIndexBuffer(IndexBuffer indexBuffer);

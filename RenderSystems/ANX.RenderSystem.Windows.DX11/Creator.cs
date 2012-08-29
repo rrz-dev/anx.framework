@@ -62,6 +62,17 @@ namespace ANX.RenderSystem.Windows.DX11
 			return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
 		}
 
+#if XNAEXT
+        #region CreateConstantBuffer
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+
+            throw new NotImplementedException();
+        }
+        #endregion
+#endif
+
 		public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);

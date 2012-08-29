@@ -66,8 +66,17 @@ namespace ANX.RenderSystem.PsVita
 		}
 		#endregion
 
-		#region CreateTexture
-		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
+#if XNAEXT
+        #region CreateConstantBuffer
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+#endif
+
+        #region CreateTexture
+        public INativeTexture2D CreateTexture(GraphicsDevice graphics,
 			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
 		{
 			return new PsVitaTexture2D(surfaceFormat, width, height, mipCount);
