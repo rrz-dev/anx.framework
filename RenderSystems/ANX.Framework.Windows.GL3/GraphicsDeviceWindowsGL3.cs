@@ -90,28 +90,16 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region ResetDevice
-		/// <summary>
-		/// Reset the graphics device with the given presentation paramters.
-		/// If a device is currently set, then we dispose the old one.
-		/// </summary>
-		/// <param name="presentationParameters">Parameters for the
-		/// graphics device.</param>
 		private void ResetDevice(PresentationParameters presentationParameters)
 		{
-			#region Validation
 			if (nativeContext != null)
-			{
 				Dispose();
-			}
-			#endregion
 
-			// Reset the previous set buffers, effects and targets.
 			boundVertexBuffers = new VertexBufferGL3[0];
 			boundRenderTargets = new RenderTarget2DGL3[0];
 			boundIndexBuffer = null;
 			activeEffect = null;
 
-			// OpenGL Depth Buffer Size: 0/16/24/32
 			int depth = 0;
 			int stencil = 0;
 			switch (presentationParameters.DepthStencilFormat)
@@ -133,49 +121,25 @@ namespace ANX.RenderSystem.Windows.GL3
 					break;
 			}
 
-			graphicsMode = new GraphicsMode(
-				DatatypesMapping.SurfaceToColorFormat(
-				presentationParameters.BackBufferFormat),
-				depth,
-				stencil,
-				// AntiAlias Samples: 2/4/8/16/32
-				presentationParameters.MultiSampleCount);
+			ResizeRenderWindow(presentationParameters);
 
-			CreateWindowInfo(presentationParameters.DeviceWindowHandle,
-				graphicsMode.Index.Value);
+			var colorFormat = DatatypesMapping.SurfaceToColorFormat(presentationParameters.BackBufferFormat);
+			graphicsMode = new GraphicsMode(colorFormat, depth, stencil, presentationParameters.MultiSampleCount);
 
-			GetOpenGLVersion();
+			CreateWindowInfo(presentationParameters.DeviceWindowHandle, graphicsMode.Index.Value);
 
-			//ResizeRenderWindow(presentationParameters);
-
-			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo,
-				cachedVersionMajor, cachedVersionMinor, GraphicsContextFlags.Default);
+			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
 			nativeContext.LoadAll();
 
+			string version = GL.GetString(StringName.Version);
+			string[] parts = version.Split(new char[] { '.', ' ' });
+			cachedVersionMajor = int.Parse(parts[0]);
+			cachedVersionMinor = int.Parse(parts[1]);
+
+			GL.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
 			GraphicsResourceManager.RecreateAllResources();
-		}
-		#endregion
-
-		#region GetOpenGLVersion
-		private void GetOpenGLVersion()
-		{
-			if (cachedVersionMinor == -1 &&
-				cachedVersionMajor == -1)
-			{
-				GraphicsContext context = new GraphicsContext(
-					graphicsMode, nativeWindowInfo);
-				context.MakeCurrent(nativeWindowInfo);
-				context.LoadAll();
-
-				string version = GL.GetString(StringName.Version);
-				string[] parts = version.Split(new char[] { '.', ' ' });
-				cachedVersionMajor = int.Parse(parts[0]);
-				cachedVersionMinor = int.Parse(parts[1]);
-
-				context.Dispose();
-				context = null;
-			}
 		}
 		#endregion
 
@@ -288,10 +252,10 @@ namespace ANX.RenderSystem.Windows.GL3
 		/// </summary>
 		public void Present()
 		{
-            if (nativeContext != null)
-            {
-                nativeContext.SwapBuffers();
-            }
+			if (nativeContext != null)
+			{
+				nativeContext.SwapBuffers();
+			}
 		}
 		#endregion
 
@@ -375,17 +339,17 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
+		#region SetConstantBuffer (TODO)
 #if XNAEXT
-        public void SetConstantBuffer(int slot, ANX.Framework.Graphics.ConstantBuffer constantBuffer)
-        {
-            if (constantBuffer == null)
-            {
-                throw new ArgumentNullException("constantBuffer");
-            }
+		public void SetConstantBuffer(int slot, ConstantBuffer constantBuffer)
+		{
+			if (constantBuffer == null)
+				throw new ArgumentNullException("constantBuffer");
 
-            throw new NotImplementedException();
-        }
+			throw new NotImplementedException();
+		}
 #endif
+		#endregion
 
 		#region SetVertexBuffers
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
@@ -432,7 +396,7 @@ namespace ANX.RenderSystem.Windows.GL3
 			}
 		}
 		#endregion
-		
+
 		#region SetRenderTargets
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{

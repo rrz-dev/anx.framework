@@ -36,7 +36,7 @@ namespace ANX.Framework.Content
 			int loopStart = input.ReadInt32();
 			int loopLength = input.ReadInt32();
 
-			int num = input.ReadInt32();
+			int duration = input.ReadInt32();
 
 			byte[] soundData = null;
 			using (MemoryStream mStream = new MemoryStream(20 + header.Length + 8 + data.Length))

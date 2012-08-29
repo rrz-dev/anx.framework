@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -104,6 +106,7 @@
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="Importer\TextureImporter.cs" />
+    <Compile Include="Importer\WavImporter.cs" />
     <Compile Include="InvalidContentException.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Serialization\Compiler\MathTypeWriters\RayWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\PointWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\MatrixWriter.cs" />
+    <Compile Include="Serialization\Compiler\MediaTypeWriters\SoundEffectWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\ByteWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\CharWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\BooleanWriter.cs" />
@@ -188,6 +192,10 @@
     <ProjectReference Include="..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3.csproj">
       <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
       <Name>ANX.RenderSystem.Windows.GL3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\WaveUtils\WaveUtils.csproj">
+      <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>
+      <Name>WaveUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -4,7 +4,7 @@
 // the AC.AL OpenAL library, released under the MIT License.
 // For details see: http://acal.codeplex.com/license
 
-namespace ANX.SoundSystem.OpenAL
+namespace WaveUtils
 {
 	public enum WaveFormat
 	{

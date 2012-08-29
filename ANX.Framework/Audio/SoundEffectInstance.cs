@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.SoundSystem;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.SoundSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,6 +10,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Audio
 {
 	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.InProgress)]
+	[Developer("AstrorEnales")]
 	public class SoundEffectInstance : IDisposable
 	{
 		#region Private

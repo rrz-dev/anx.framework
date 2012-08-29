@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.NonXNA;
-using OpenTK.Audio;
 
 // This file is part of the ANX.Framework and originally taken from
 // the AC.AL OpenAL library, released under the MIT License.
 // For details see: http://acal.codeplex.com/license
 
-namespace ANX.SoundSystem.OpenAL
+namespace WaveUtils
 {
 	/// <summary>
 	/// This class contains all the loading process of a wave file.
@@ -28,11 +28,7 @@ namespace ANX.SoundSystem.OpenAL
 	public static class WaveFile
 	{
 		#region LoadData
-		/// <summary>
-		/// Load all information from a wave file.
-		/// </summary>
-		/// <param name="stream">The stream containing the wave file data.</param>
-		public static WaveInfo LoadData(Stream stream)
+		public static WaveInfo LoadData(Stream stream, bool rememberUnloadedChunks = false)
 		{
 			WaveInfo result = new WaveInfo();
 
@@ -85,7 +81,7 @@ namespace ANX.SoundSystem.OpenAL
 									}
 								}
 
-								result.OpenALFormat = (result.Channels == 1 ?
+								result.ALFormat = (result.Channels == 1 ?
 									(result.BitsPerSample == 8 ?
 									ALFormat.Mono8 :
 									ALFormat.Mono16) :
@@ -109,6 +105,14 @@ namespace ANX.SoundSystem.OpenAL
 						case "data":
 							result.Data = reader.ReadBytes(chunkLength);
 							break;
+
+						default:
+							if (rememberUnloadedChunks)
+							{
+								var value = new KeyValuePair<string, byte[]>(identifier, reader.ReadBytes(chunkLength));
+								result.UnloadedChunks.Add(value);
+							}
+							break;
 					}
 
 					// If some chunks are incorrect in data length, we ensure that we
@@ -128,8 +132,6 @@ namespace ANX.SoundSystem.OpenAL
 				Logger.Error("There was no data chunk available. Unable to load!");
 				return null;
 			}
-
-			ConvertFormat(result);
 
 			return result;
 		}
@@ -154,81 +156,6 @@ namespace ANX.SoundSystem.OpenAL
 			}
 
 			return true;
-		}
-		#endregion
-
-		#region ConvertFormat
-		private static void ConvertFormat(WaveInfo info)
-		{
-			switch (info.WaveFormat)
-			{
-				case WaveFormat.PCM:
-					#region Convert 32 to 16 bps (TODO)
-					//if (info.BitsPerSample == 32)
-					//{
-					//  BinaryReader sourceReader =
-					//    new BinaryReader(new MemoryStream(info.Data));
-					//  MemoryStream destStream = new MemoryStream();
-					//  BinaryWriter destWriter = new BinaryWriter(destStream);
-
-					//  int length = info.Data.Length / 4;
-					//  for (int index = 0; index < length; index++)
-					//  {
-					//    int value = sourceReader.ReadInt32();
-					//    destWriter.Write((short)(value / 2));
-					//  }
-					//  sourceReader.Close();
-					//  destWriter.Close();
-					//  info.Data = destStream.ToArray();
-					//  destStream.Dispose();
-					//}
-					#endregion
-					break;
-
-				case WaveFormat.ALAW:
-					ALaw.ConvertToPcm(info);
-					break;
-
-				case WaveFormat.MULAW:
-					MuLaw.ConvertToPcm(info);
-					break;
-
-				case WaveFormat.IEEE_FLOAT:
-					{
-						#region Convert float to pcm
-						bool is64BitFloat = info.BitsPerSample == 64;
-
-						BinaryReader sourceReader =
-							new BinaryReader(new MemoryStream(info.Data));
-						MemoryStream destStream = new MemoryStream();
-						BinaryWriter destWriter = new BinaryWriter(destStream);
-
-						int length = info.Data.Length / (is64BitFloat ? 8 : 4);
-						for (int index = 0; index < length; index++)
-						{
-							double value = is64BitFloat ?
-								sourceReader.ReadDouble() :
-								sourceReader.ReadSingle();
-
-							destWriter.Write((short)(value * 32767));
-						}
-
-						sourceReader.Close();
-						destWriter.Close();
-						info.Data = destStream.ToArray();
-						destStream.Dispose();
-						#endregion
-					}
-					break;
-
-				case WaveFormat.MS_ADPCM:
-					MsAdpcm.ConvertToPcm(info);
-					break;
-
-				default:
-					throw new NotSupportedException("The WAVE format " +
-						info.WaveFormat + " is not supported yet. Unable to load!");
-			}
 		}
 		#endregion
 	}

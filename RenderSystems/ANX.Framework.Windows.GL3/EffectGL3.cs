@@ -14,46 +14,27 @@ namespace ANX.RenderSystem.Windows.GL3
 {
 	/// <summary>
 	/// Native OpenGL Effect implementation.
-	/// 
 	/// http://wiki.delphigl.com/index.php/Tutorial_glsl
 	/// </summary>
 	public class EffectGL3 : INativeEffect
 	{
 		#region Private
-		/// <summary>
-		/// The managed effect instance of this shader.
-		/// </summary>
 		private Effect managedEffect;
-
-		/// <summary>
-		/// The loaded shader data from the shader file.
-		/// </summary>
 		private ShaderData shaderData;
-
-		/// <summary>
-		/// The available techniques of this shader.
-		/// </summary>
+		private List<EffectParameter> parameters;
 		private List<EffectTechnique> techniques;
+		internal bool IsDisposed;
 
-		/// <summary>
-		/// The current native technique.
-		/// </summary>
 		internal EffectTechniqueGL3 CurrentTechnique
 		{
 			get
 			{
 				if (managedEffect.CurrentTechnique == null)
-				{
 					return null;
-				}
 
 				return managedEffect.CurrentTechnique.NativeTechnique as EffectTechniqueGL3;
 			}
 		}
-
-		private List<EffectParameter> parameters;
-
-		internal bool IsDisposed;
 		#endregion
 
 		#region Public
@@ -92,7 +73,6 @@ namespace ANX.RenderSystem.Windows.GL3
 		/// <summary>
 		/// Private helper constructor for the basic initialization.
 		/// </summary>
-		/// <param name="setManagedEffect"></param>
 		private EffectGL3(Effect setManagedEffect)
 		{
 			GraphicsResourceManager.UpdateResource(this, true);
@@ -112,8 +92,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		/// </summary>
 		/// <param name="vertexShaderByteCode">The vertex shader code.</param>
 		/// <param name="pixelShaderByteCode">The fragment shader code.</param>
-		public EffectGL3(Effect setManagedEffect, Stream vertexShaderByteCode,
-			Stream pixelShaderByteCode)
+		public EffectGL3(Effect setManagedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
 			: this(setManagedEffect)
 		{
 // TODO: this is probably not right!
@@ -153,16 +132,13 @@ namespace ANX.RenderSystem.Windows.GL3
 			#region Compile vertex shaders
 			foreach (string vertexName in shaderData.VertexShaderCodes.Keys)
 			{
-				string vertexSource = shaderData.VertexGlobalCode +
-					shaderData.VertexShaderCodes[vertexName];
+				string vertexSource = shaderData.VertexGlobalCode + shaderData.VertexShaderCodes[vertexName];
 
 				int vertexShader = GL.CreateShader(ShaderType.VertexShader);
 				string vertexError = CompileShader(vertexShader, vertexSource);
 				if (String.IsNullOrEmpty(vertexError) == false)
-				{
-					throw new InvalidDataException("Failed to compile the vertex " +
-						"shader '" + vertexName + "' because of: " + vertexError);
-				}
+					throw new InvalidDataException("Failed to compile the vertex shader '" + vertexName + "' cause of: " +
+						vertexError);
 
 				vertexShaders.Add(vertexName, vertexShader);
 			}
@@ -171,16 +147,13 @@ namespace ANX.RenderSystem.Windows.GL3
 			#region Compile fragment shaders
 			foreach (string fragmentName in shaderData.FragmentShaderCodes.Keys)
 			{
-				string fragmentSource = shaderData.FragmentGlobalCode +
-					shaderData.FragmentShaderCodes[fragmentName];
+				string fragmentSource = shaderData.FragmentGlobalCode + shaderData.FragmentShaderCodes[fragmentName];
 
 				int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-				string vertexError = CompileShader(fragmentShader, fragmentSource);
-				if (String.IsNullOrEmpty(vertexError) == false)
-				{
-					throw new InvalidDataException("Failed to compile the fragment " +
-						"shader '" + fragmentName + "' because of: " + vertexError);
-				}
+				string fragmentError = CompileShader(fragmentShader, fragmentSource);
+				if (String.IsNullOrEmpty(fragmentError) == false)
+					throw new InvalidDataException("Failed to compile the fragment shader '" + fragmentName + "' cause of: " +
+						fragmentError);
 
 				fragmentShaders.Add(fragmentName, fragmentShader);
 			}
@@ -210,8 +183,7 @@ namespace ANX.RenderSystem.Windows.GL3
 						programName + "' because of: " + programError);
 				}
 
-				EffectTechniqueGL3 technique =
-					new EffectTechniqueGL3(managedEffect, programName, programHandle);
+				EffectTechniqueGL3 technique = new EffectTechniqueGL3(managedEffect, programName, programHandle);
 				techniques.Add(new EffectTechnique(managedEffect, technique));
 				AddParametersFrom(programHandle, parameterNames, technique);
 			}

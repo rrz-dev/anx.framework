@@ -3,6 +3,8 @@ using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
 using OpenTK.Audio;
+using WaveUtils;
+using ALFormat = OpenTK.Audio.ALFormat;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,11 +16,8 @@ namespace ANX.SoundSystem.OpenAL
 	{
 		#region Private
 		internal SoundEffect parent;
-
 		private WaveInfo waveInfo;
-
 		private TimeSpan duration;
-
 		internal int bufferHandle;
 		#endregion
 
@@ -36,14 +35,7 @@ namespace ANX.SoundSystem.OpenAL
 		internal OpenALSoundEffect(SoundEffect setParent, Stream stream)
 		{
 			parent = setParent;
-
-			waveInfo = WaveFile.LoadData(stream);
-
-			float sizeMulBlockAlign = waveInfo.Data.Length / ((int)waveInfo.Channels * 2);
-			duration = TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)waveInfo.SampleRate));
-
-			bufferHandle = AL.GenBuffer();
-			AL.BufferData(bufferHandle, waveInfo.OpenALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
+			CreateFromStream(stream);
 		}
 
 		internal OpenALSoundEffect(SoundEffect setParent, byte[] buffer, int offset, int count, int sampleRate,
@@ -51,18 +43,31 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			parent = setParent;
 
-			MemoryStream stream = new MemoryStream();
-			BinaryWriter writer = new BinaryWriter(stream);
-			writer.Write(buffer, offset, count);
-			stream.Position = 0;
+			using (MemoryStream stream = new MemoryStream())
+			{
+				BinaryWriter writer = new BinaryWriter(stream);
+				writer.Write(buffer, offset, count);
+				stream.Position = 0;
 
+				CreateFromStream(stream);
+			}
+		}
+		#endregion
+
+		#region CreateFromStream
+		private void CreateFromStream(Stream stream)
+		{
 			waveInfo = WaveFile.LoadData(stream);
+			if (waveInfo.WaveFormat != WaveFormat.PCM)
+			{
+				WaveConverter converter = new WaveConverter(waveInfo);
+				converter.ConvertToPcm();
+			}
 
-			float sizeMulBlockAlign = waveInfo.Data.Length / ((int)waveInfo.Channels * 2);
-			duration = TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)waveInfo.SampleRate));
+			duration = waveInfo.CalculateDuration();
 
 			bufferHandle = AL.GenBuffer();
-			AL.BufferData(bufferHandle, waveInfo.OpenALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
+			AL.BufferData(bufferHandle, (ALFormat)waveInfo.ALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
 
 			ALError error = AL.GetError();
 			if (error != ALError.NoError)

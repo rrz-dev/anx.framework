@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
-using OpenTK.Audio;
 
 // This file is part of the ANX.Framework and originally taken from
 // the AC.AL OpenAL library, released under the MIT License.
 // For details see: http://acal.codeplex.com/license
 
-namespace ANX.SoundSystem.OpenAL
+namespace WaveUtils
 {
 	/// <summary>
 	/// http://www.threejacks.com/?q=node/176
@@ -91,20 +90,24 @@ namespace ANX.SoundSystem.OpenAL
 		#endregion
 
 		#region ConvertToPcm
-		public static void ConvertToPcm(WaveInfo info)
+		public static void ConvertToPcm(WaveInfo info, int resultChannelCount)
 		{
-			info.OpenALFormat = info.Channels == 1 ?
-				ALFormat.Mono16 :
-				ALFormat.Stereo16;
-			MemoryStream destStream = new MemoryStream();
-			BinaryWriter destWriter = new BinaryWriter(destStream);
-			for (int index = 0; index < info.Data.Length; index++)
+			using (MemoryStream destStream = new MemoryStream())
 			{
-				destWriter.Write(DecodeTable[info.Data[index]]);
+				BinaryWriter destWriter = new BinaryWriter(destStream);
+
+				int increment = 1;
+				if (info.Channels == 2 && resultChannelCount == 1)
+					increment = 2;
+
+				info.Channels = resultChannelCount;
+				info.ALFormat = info.Channels == 1 ? ALFormat.Mono16 : ALFormat.Stereo16;
+
+				for (int index = 0; index < info.Data.Length; index += increment)
+					destWriter.Write(DecodeTable[info.Data[index]]);
+
+				info.Data = destStream.ToArray();
 			}
-			destWriter.Close();
-			info.Data = destStream.ToArray();
-			destStream.Dispose();
 		}
 		#endregion
 	}

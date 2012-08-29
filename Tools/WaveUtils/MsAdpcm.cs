@@ -5,7 +5,7 @@ using System.IO;
 // the AC.AL OpenAL library, released under the MIT License.
 // For details see: http://acal.codeplex.com/license
 
-namespace ANX.SoundSystem.OpenAL
+namespace WaveUtils
 {
 	/// <summary>
 	/// http://wiki.multimedia.cx/index.php?title=Microsoft_ADPCM

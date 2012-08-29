@@ -1,10 +1,6 @@
 ﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.Content.Pipeline.Graphics;
 using System.IO;
+using ANX.Framework.Content.Pipeline.Graphics;
 using ANX.Framework.NonXNA;
 
 #endregion

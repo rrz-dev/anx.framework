@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using ANX.Framework.NonXNA.Reflection;
 
 #endregion
 
@@ -21,9 +22,10 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+
+				foreach (Type type in TypeHelper.SafelyExtractTypesFrom(assembly))
                 {
-                    ContentImporterAttribute[] value = (ContentImporterAttribute[]) type.GetCustomAttributes(typeof(ContentImporterAttribute), true);
+                    ContentImporterAttribute[] value = (ContentImporterAttribute[])type.GetCustomAttributes(typeof(ContentImporterAttribute), true);
                     if (value.Length > 0)
                     {
                         importerTypes[type.Name] = type;
