@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 
 #endregion // Using Statements
@@ -10,6 +11,8 @@ using System;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class GameComponent : IGameComponent, IUpdateable, IDisposable
     {
         private bool enabled = true;

@@ -6,6 +6,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -15,6 +16,8 @@ using System.Collections.Generic;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(30)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class Game : IDisposable
 	{
 		private IGraphicsDeviceManager graphicsDeviceManager;

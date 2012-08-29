@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,8 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GameComponentCollection : Collection<IGameComponent>
     {
         #region Events

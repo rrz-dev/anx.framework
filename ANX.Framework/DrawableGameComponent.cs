@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,10 +11,28 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class DrawableGameComponent : GameComponent, IDrawable
     {
+        #region Private Members
         private bool isInitialized;
         private IGraphicsDeviceService device;
+        private int drawOrder;
+        private bool visible = true;
+
+        #endregion
+
+        #region Events
+        public event EventHandler<EventArgs> DrawOrderChanged;
+        public event EventHandler<EventArgs> VisibleChanged;
+
+        #endregion
+
+        public DrawableGameComponent(Game game)
+            : base(game)
+        {
+        }
 
         public GraphicsDevice GraphicsDevice
         {
@@ -26,8 +45,6 @@ namespace ANX.Framework
                 return this.device.GraphicsDevice;
             }
         }
-
-        private int drawOrder;
 
         public int DrawOrder
         {
@@ -42,8 +59,6 @@ namespace ANX.Framework
             }
         }
 
-        private bool visible = true;
-
         public bool Visible
         {
             get { return visible; }
@@ -57,15 +72,6 @@ namespace ANX.Framework
             }
         }
         
-        public event EventHandler<EventArgs> DrawOrderChanged;
-
-        public event EventHandler<EventArgs> VisibleChanged;
-
-        public DrawableGameComponent(Game game)
-            : base(game)
-        {
-        }
-
         protected virtual void OnDrawOrderChanged(object sender, EventArgs arg)
         {
             if (DrawOrderChanged != null)
