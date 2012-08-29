@@ -8,6 +8,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
 	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
 	public class GameTime
 	{
 		#region Public

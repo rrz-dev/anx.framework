@@ -19,6 +19,7 @@ namespace ANX.Framework.Graphics
 
     [PercentageComplete(10)]
     [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public class ConstantBuffer : GraphicsResource, IGraphicsResource
     {
         #region Private

@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,9 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
     public interface IEffectMatrices
     {
         Matrix Projection { get; set; }

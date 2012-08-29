@@ -18,6 +18,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(30)]
     [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
 	public class Game : IDisposable
 	{
 		private IGraphicsDeviceManager graphicsDeviceManager;

@@ -13,6 +13,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public sealed class GameComponentCollection : Collection<IGameComponent>
     {
         #region Events

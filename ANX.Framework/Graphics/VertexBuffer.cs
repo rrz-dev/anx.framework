@@ -12,6 +12,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
 	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
 	public class VertexBuffer : GraphicsResource, IGraphicsResource
 	{
 		#region Private

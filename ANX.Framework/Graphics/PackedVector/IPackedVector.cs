@@ -2,9 +2,12 @@
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics.PackedVector
 {
-	[ANX.Framework.NonXNA.Development.PercentageComplete(100)]
+	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
 	public interface IPackedVector
 	{
 		void PackFromVector4(Vector4 vector);
@@ -12,7 +15,9 @@ namespace ANX.Framework.Graphics.PackedVector
 		Vector4 ToVector4();
 	}
 
-	[ANX.Framework.NonXNA.Development.PercentageComplete(100)]
+	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
 	public interface IPackedVector<TPacked> : IPackedVector
 	{
 		TPacked PackedValue

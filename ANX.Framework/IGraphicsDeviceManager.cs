@@ -2,9 +2,12 @@
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
-	[ANX.Framework.NonXNA.Development.PercentageComplete(100)]
+	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
 	public interface IGraphicsDeviceManager
 	{
 		bool BeginDraw();

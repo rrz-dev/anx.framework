@@ -12,6 +12,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
 	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
 	public class IndexBuffer : GraphicsResource, IGraphicsResource
 	{
 		#region Private

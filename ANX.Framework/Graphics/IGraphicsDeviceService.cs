@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -13,6 +14,9 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
     public interface IGraphicsDeviceService
     {
         // Events

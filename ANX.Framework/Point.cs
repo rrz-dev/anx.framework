@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,8 +8,10 @@ using System.Globalization;
 
 namespace ANX.Framework
 {
-	[ANX.Framework.NonXNA.Development.PercentageComplete(100)]
-	public struct Point : IEquatable<Point>
+	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("???")]
+    public struct Point : IEquatable<Point>
 	{
 		#region Constants
 		public static Point Zero

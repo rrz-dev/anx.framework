@@ -414,6 +414,7 @@
     <Compile Include="NonXNA\AddInLoadingException.cs" />
     <Compile Include="NonXNA\AddInTypeCollection.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\Development\DeveloperAttribute.cs" />
     <Compile Include="NonXNA\Development\TestStateAttribute.cs" />
     <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
     <Compile Include="NonXNA\EffectSourceLanguage.cs" />

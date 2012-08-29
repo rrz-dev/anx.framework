@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework
 {
-		[ANX.Framework.NonXNA.Development.PercentageComplete(100)]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public class GameServiceContainer : IServiceProvider
     {
         private Dictionary<Type, Object> services;

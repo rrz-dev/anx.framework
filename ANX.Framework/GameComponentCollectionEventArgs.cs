@@ -13,6 +13,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public class GameComponentCollectionEventArgs : EventArgs
     {
         public GameComponentCollectionEventArgs(IGameComponent gameComponent)
