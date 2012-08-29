@@ -13,6 +13,12 @@ namespace ANX.Framework
     public class GameComponent : IGameComponent, IUpdateable, IDisposable
     {
         private bool enabled = true;
+        private int updateOrder;
+        private Game game;
+
+        public event EventHandler<EventArgs> EnabledChanged;
+        public event EventHandler<EventArgs> UpdateOrderChanged;
+        public event EventHandler<EventArgs> Disposed;
 
         public bool Enabled
         {
@@ -27,8 +33,6 @@ namespace ANX.Framework
             }
         }
 
-        private int updateOrder;
-
         public int UpdateOrder
         {
             get { return updateOrder; }
@@ -42,18 +46,10 @@ namespace ANX.Framework
             }
         }
 
-        private Game game;
-
         public Game Game
         {
             get { return game; }
         }
-
-        public event EventHandler<EventArgs> EnabledChanged;
-
-        public event EventHandler<EventArgs> UpdateOrderChanged;
-
-        public event EventHandler<EventArgs> Disposed;
 
         public GameComponent(Game game)
         {

@@ -5,6 +5,7 @@ using ANX.Framework.Content;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
+using System.Collections.Generic;
 
 #endregion // Using Statements
 
@@ -35,6 +36,9 @@ namespace ANX.Framework
 		private TimeSpan inactiveSleepTime;
 
 		private ContentManager content;
+
+        private GameComponentCollection components;
+        private List<IGameComponent> drawableGameComponents;
 
 		// Events
 		public event EventHandler<EventArgs> Activated;
@@ -77,11 +81,20 @@ namespace ANX.Framework
 			this.inactiveSleepTime = TimeSpan.Zero;
 			this.targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
 
+            //TODO: implement draw- and update-order handling of GameComponents
+            this.components = new GameComponentCollection();
+            this.components.ComponentAdded += new EventHandler<GameComponentCollectionEventArgs>(components_ComponentAdded);
+            this.components.ComponentRemoved += new EventHandler<GameComponentCollectionEventArgs>(components_ComponentRemoved);
+            this.drawableGameComponents = new List<IGameComponent>();
+
 			Logger.Info("finished initializing new Game class");
 		}
 
 		~Game()
 		{
+            this.components.ComponentAdded -= components_ComponentAdded;
+            this.components.ComponentRemoved -= components_ComponentRemoved;
+
 			//TODO: implement
 		}
 
@@ -130,12 +143,24 @@ namespace ANX.Framework
 
 		protected virtual void Update(GameTime gameTime)
 		{
-
+            foreach (IUpdateable updateable in this.components)
+            {
+                if (updateable.Enabled)
+                {
+                    updateable.Update(gameTime);
+                }
+            }
 		}
 
 		protected virtual void Draw(GameTime gameTime)
 		{
-
+            foreach (IDrawable drawable in this.drawableGameComponents)
+            {
+                if (drawable.Visible)
+                {
+                    drawable.Draw(gameTime);
+                }
+            }
 		}
 
 		protected virtual void LoadContent()
@@ -446,13 +471,11 @@ namespace ANX.Framework
 			}
 		}
 
-		public GameComponentCollection Components
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public GameComponentCollection Components
+        {
+            get;
+            private set;
+        }
 
 		public void Dispose()
 		{
@@ -483,5 +506,22 @@ namespace ANX.Framework
 		{
 			throw new NotImplementedException();
 		}
+
+        private void components_ComponentRemoved(object sender, GameComponentCollectionEventArgs e)
+        {
+            if (e.GameComponent is IDrawable)
+            {
+                drawableGameComponents.Remove(e.GameComponent);
+            }
+        }
+
+        private void components_ComponentAdded(object sender, GameComponentCollectionEventArgs e)
+        {
+            if (e.GameComponent is IDrawable)
+            {
+                drawableGameComponents.Add(e.GameComponent);
+            }
+        }
+
 	}
 }

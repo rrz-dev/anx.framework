@@ -12,43 +12,65 @@ namespace ANX.Framework
 {
     public sealed class GameComponentCollection : Collection<IGameComponent>
     {
+        #region Events
         public event EventHandler<GameComponentCollectionEventArgs> ComponentAdded;
         public event EventHandler<GameComponentCollectionEventArgs> ComponentRemoved;
 
+        #endregion
+
         public GameComponentCollection()
         {
-            throw new NotImplementedException();
+            // nothing to do here
         }
 
         protected override void ClearItems()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < base.Count; i++)
+            {
+                OnComponentRemoved(base[i]);
+            }
+
+            base.Clear();
         }
 
         protected override void InsertItem(int index, IGameComponent item)
         {
-            throw new NotImplementedException();
-        }
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
 
-        private void OnComponentAdded(GameComponentCollectionEventArgs eventArgs)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnComponentRemoved(GameComponentCollectionEventArgs eventArgs)
-        {
-            throw new NotImplementedException();
+            base.Insert(index, item);
+            OnComponentAdded(item);
         }
 
         protected override void RemoveItem(int index)
         {
-            throw new NotImplementedException();
+            IGameComponent component = base[index];
+            base.Remove(component);
+            OnComponentRemoved(component);
         }
 
         protected override void SetItem(int index, IGameComponent item)
         {
-            throw new NotImplementedException();
+            base[index] = item;
+            OnComponentAdded(item);
+        }
+
+        private void OnComponentAdded(IGameComponent component)
+        {
+            if (ComponentAdded != null)
+            {
+                ComponentAdded(this, new GameComponentCollectionEventArgs(component));
+            }
+        }
+
+        private void OnComponentRemoved(IGameComponent component)
+        {
+            if (ComponentRemoved != null)
+            {
+                ComponentRemoved(this, new GameComponentCollectionEventArgs(component));
+            }
         }
     }
-
 }
