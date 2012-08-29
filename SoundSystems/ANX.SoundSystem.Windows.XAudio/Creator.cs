@@ -1,8 +1,10 @@
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
+using SharpDX.XAudio2;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,6 +14,9 @@ namespace ANX.SoundSystem.Windows.XAudio
 {
 	public class Creator : ISoundSystemCreator
 	{
+		private XAudio2 device;
+		private MasteringVoice masteringVoice;
+
 		#region Public
 		#region Name
 		public string Name
@@ -37,19 +42,17 @@ namespace ANX.SoundSystem.Windows.XAudio
 			}
 		}
 		#endregion
-		#endregion
-
-		#region ISoundSystemCreator Member
 
 		public float DistanceScale
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -57,11 +60,12 @@ namespace ANX.SoundSystem.Windows.XAudio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -69,11 +73,13 @@ namespace ANX.SoundSystem.Windows.XAudio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return masteringVoice.Volume;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				masteringVoice.SetVolume(value, 0);
+				//throw new NotImplementedException();
 			}
 		}
 
@@ -81,13 +87,38 @@ namespace ANX.SoundSystem.Windows.XAudio
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1f;
+				//throw new NotImplementedException();
 			}
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
+		#endregion
+
+		#region Constructor
+		public Creator()
+		{
+			device = new XAudio2();
+			masteringVoice = new MasteringVoice(device);
+		}
+
+		~Creator()
+		{
+			if (masteringVoice != null)
+			{
+				masteringVoice.Dispose();
+				masteringVoice = null;
+			}
+
+			if (device != null)
+			{
+				device.Dispose();
+				device = null;
+			}
+		}
+		#endregion
 
 		public IAudioListener CreateAudioListener()
 		{
@@ -99,41 +130,47 @@ namespace ANX.SoundSystem.Windows.XAudio
 			throw new NotImplementedException();
 		}
 
+		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
-			throw new NotImplementedException();
+			PreventSystemChange();
+			return new XAudioSoundEffect(parent, stream);
 		}
 
-		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
+		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
+			AudioChannels channels, int loopStart, int loopLength)
 		{
-			throw new NotImplementedException();
+			PreventSystemChange();
+			return new XAudioSoundEffect(parent, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
-
-		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
-		{
-			throw new NotImplementedException();
-		}
-
 		#endregion
 
-		#region ISoundSystemCreator Member
-
+		#region CreateSoundEffectInstance
+		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
+		{
+			PreventSystemChange();
+			return new XAudioSoundEffectInstance(device, nativeSoundEffect as XAudioSoundEffect);
+		}
+		#endregion
 
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
 		{
 			throw new NotImplementedException();
 		}
 
-		public System.Collections.ObjectModel.ReadOnlyCollection<Microphone> GetAllMicrophones()
+		public ReadOnlyCollection<Microphone> GetAllMicrophones()
 		{
 			throw new NotImplementedException();
 		}
 
-		public int GetDefaultMicrophone(System.Collections.ObjectModel.ReadOnlyCollection<Microphone> allMicrophones)
+		public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
 		{
 			throw new NotImplementedException();
 		}
 
-		#endregion
+		private void PreventSystemChange()
+		{
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+		}
 	}
 }
