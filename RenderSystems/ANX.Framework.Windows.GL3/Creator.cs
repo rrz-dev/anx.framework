@@ -241,6 +241,14 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
+        public EffectSourceLanguage GetStockShaderSourceLanguage
+        {
+            get
+            {
+                return EffectSourceLanguage.GLSL_FX;
+            }
+        }
+
 		#region GetAdapterList (TODO)
 		/// <summary>
 		/// Get a list of available graphics adapter information.

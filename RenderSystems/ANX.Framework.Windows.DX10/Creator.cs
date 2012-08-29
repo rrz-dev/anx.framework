@@ -156,6 +156,14 @@ namespace ANX.RenderSystem.Windows.DX10
 			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
 		}
 
+        public EffectSourceLanguage GetStockShaderSourceLanguage
+        {
+            get
+            {
+                return EffectSourceLanguage.HLSL_FX;
+            }
+        }
+
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			PreventSystemChange();

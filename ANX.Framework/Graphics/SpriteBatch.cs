@@ -55,7 +55,7 @@ namespace ANX.Framework.Graphics
             base.GraphicsDevice = graphicsDevice;
 
             var renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-            this.spriteBatchEffect = new Effect(graphicsDevice, renderSystemCreator.GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch));
+            this.spriteBatchEffect = new Effect(graphicsDevice, renderSystemCreator.GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch), renderSystemCreator.GetStockShaderSourceLanguage);
 
             this.spriteInfos = new SpriteInfo[InitialBatchSize];
 

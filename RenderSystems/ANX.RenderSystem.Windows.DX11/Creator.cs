@@ -162,6 +162,14 @@ namespace ANX.RenderSystem.Windows.DX11
 			throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
 		}
 
+        public EffectSourceLanguage GetStockShaderSourceLanguage
+        {
+            get
+            {
+                return EffectSourceLanguage.HLSL_FX;
+            }
+        }
+
 		public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);

@@ -54,5 +54,12 @@ namespace ANX.Framework
             }
         }
 
+        protected void OnExiting()
+        {
+            if (this.Exiting != null)
+            {
+                this.Exiting(this, EventArgs.Empty);
+            }
+        }
     }
 }

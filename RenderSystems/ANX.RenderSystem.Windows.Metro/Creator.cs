@@ -176,6 +176,14 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
+        public EffectSourceLanguage GetStockShaderSourceLanguage
+        {
+            get
+            {
+                return EffectSourceLanguage.HLSL_FX;
+            }
+        }
+
 		#region RegisterCreator
 		public void RegisterCreator(AddInSystemFactory factory)
 		{

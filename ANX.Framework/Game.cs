@@ -204,6 +204,11 @@ namespace ANX.Framework
 
 		public void Tick()
 		{
+            if (this.ShouldExit)
+            {
+                return;
+            }
+
 			//TODO: calculation of times is wrong
 			//TODO: encapsulate timing stuff in GameTimer class
 			TimeSpan elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - lastUpdate);
@@ -308,6 +313,8 @@ namespace ANX.Framework
 
 		private void HostExiting(object sender, EventArgs e)
 		{
+            ShouldExit = true;
+
 			//TODO: implement
 			//this.OnExiting(this, EventArgs.Empty);
 		}

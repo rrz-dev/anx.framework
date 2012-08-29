@@ -47,6 +47,7 @@ namespace ANX.Framework.NonXNA
 		INativeSamplerState CreateSamplerState();
 
 		byte[] GetShaderByteCode(PreDefinedShader type);
+        EffectSourceLanguage GetStockShaderSourceLanguage { get; }
 
 		ReadOnlyCollection<GraphicsAdapter> GetAdapterList();
 	}

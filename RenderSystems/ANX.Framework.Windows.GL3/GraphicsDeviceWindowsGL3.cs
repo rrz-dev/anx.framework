@@ -200,6 +200,7 @@ namespace ANX.RenderSystem.Windows.GL3
 			{
 				throw new NotImplementedException();
 			}
+
 		}
 		#endregion
 
@@ -287,7 +288,10 @@ namespace ANX.RenderSystem.Windows.GL3
 		/// </summary>
 		public void Present()
 		{
-			nativeContext.SwapBuffers();
+            if (nativeContext != null)
+            {
+                nativeContext.SwapBuffers();
+            }
 		}
 		#endregion
 

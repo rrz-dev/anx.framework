@@ -50,6 +50,7 @@ namespace ANX.PlatformSystem.Windows
 			WindowsGameWindow.Form.FormClosing += delegate
 			{
 				isQuitting = true;
+                OnExiting();
 			};
 		}
 		#endregion
@@ -71,6 +72,7 @@ namespace ANX.PlatformSystem.Windows
 		public override void Exit()
 		{
 			isQuitting = true;
+            OnExiting();
 		}
 		#endregion
 	}

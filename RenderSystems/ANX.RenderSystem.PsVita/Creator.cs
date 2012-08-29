@@ -141,6 +141,14 @@ namespace ANX.RenderSystem.PsVita
 			throw new NotImplementedException();
 		}
 
+        public EffectSourceLanguage GetStockShaderSourceLanguage
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			throw new NotImplementedException();
