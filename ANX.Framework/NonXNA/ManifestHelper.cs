@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ANX.Framework.NonXNA.Reflection;
 
 namespace ANX.Framework.NonXNA
 {
@@ -7,12 +8,7 @@ namespace ANX.Framework.NonXNA
 	{
 		public static Stream GetManifestResourceStream(Game game, string name)
 		{
-			Type gameType = game.GetType();
-#if WINDOWSMETRO
-			return gameType.GetTypeInfo().Assembly.GetManifestResourceStream(name);
-#else
-			return gameType.Assembly.GetManifestResourceStream(name);
-#endif
+			return TypeHelper.GetAssemblyFrom(game.GetType()).GetManifestResourceStream(name);
 		}
 	}
 }

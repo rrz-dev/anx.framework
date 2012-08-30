@@ -1,4 +1,3 @@
-#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,10 +7,8 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
-using OpenTK;
 using ANX.Framework.Windows.GL3;
-
-#endregion
+using OpenTK;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -19,9 +16,6 @@ using ANX.Framework.Windows.GL3;
 
 namespace ANX.RenderSystem.Windows.GL3
 {
-	/// <summary>
-	/// OpenGL graphics creator.
-	/// </summary>
 	[PercentageComplete(90)]
 	[TestState(TestStateAttribute.TestState.Untested)]
 	public class Creator : IRenderSystemCreator
@@ -52,6 +46,14 @@ namespace ANX.RenderSystem.Windows.GL3
 				return OSInformation.IsWindows ||
 					os == PlatformName.Linux ||
 					os == PlatformName.MacOSX;
+			}
+		}
+
+		public EffectSourceLanguage GetStockShaderSourceLanguage
+		{
+			get
+			{
+				return EffectSourceLanguage.GLSL_FX;
 			}
 		}
 		#endregion
@@ -153,7 +155,6 @@ namespace ANX.RenderSystem.Windows.GL3
         #endregion
 #endif
 
-
 		#region CreateBlendState
 		/// <summary>
 		/// Create a new native blend state.
@@ -241,14 +242,6 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
-        public EffectSourceLanguage GetStockShaderSourceLanguage
-        {
-            get
-            {
-                return EffectSourceLanguage.GLSL_FX;
-            }
-        }
-
 		#region GetAdapterList (TODO)
 		/// <summary>
 		/// Get a list of available graphics adapter information.
@@ -327,6 +320,5 @@ namespace ANX.RenderSystem.Windows.GL3
         {
             return sourceLanguage == EffectSourceLanguage.GLSL_FX || sourceLanguage == EffectSourceLanguage.GLSL;
         }
-
     }
 }

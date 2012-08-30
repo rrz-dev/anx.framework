@@ -51,13 +51,19 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\..\lib\SharpDX\Bin\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
+    <Compile Include="XAudioSoundEffectInstance.cs" />
+    <Compile Include="XAudioSoundEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>

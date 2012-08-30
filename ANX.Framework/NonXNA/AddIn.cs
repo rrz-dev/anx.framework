@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using ANX.Framework.NonXNA.Reflection;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -100,7 +101,7 @@ namespace ANX.Framework.NonXNA
 		#region Constructor
 		public AddIn(Type creatorType, Type supportedPlatformsType)
 		{
-			this.assembly = creatorType.Assembly;
+			this.assembly = TypeHelper.GetAssemblyFrom(creatorType);
 			this.creatorType = creatorType;
 			Type = AddInSystemFactory.GetAddInType(creatorType);
 			this.supportedPlatforms = (ISupportedPlatforms)Activator.CreateInstance(supportedPlatformsType);

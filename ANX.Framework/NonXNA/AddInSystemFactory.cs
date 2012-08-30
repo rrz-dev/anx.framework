@@ -61,8 +61,6 @@ namespace ANX.Framework.NonXNA
 
 			foreach (AddInType type in Enum.GetValues(typeof(AddInType)))
 				addinSystems.Add(type, new AddInTypeCollection());
-
-			Logger.Info("Operating System: {0} ({1})", OSInformation.GetVersionString(), OSInformation.GetVersion().ToString());
 		}
 		#endregion
 
@@ -92,10 +90,10 @@ namespace ANX.Framework.NonXNA
 				if (addin.IsValid && addin.IsSupported)
 				{
 				    addinSystems[addin.Type].Add(addin);
-				    Logger.Info("[ANX] successfully loaded addin...");
+					Logger.Info("[ANX] successfully loaded addin " + addin.Name + ".");
 				}
 				else
-				    Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn");
+				    Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn.");
 			}
 		}
 		#endregion
@@ -115,7 +113,7 @@ namespace ANX.Framework.NonXNA
 		private Type FindSupportedPlatformsTypeByAssembly(Type creatorType)
 		{
 			foreach (Type spType in AssemblyLoader.SupportedPlatformsTypes)
-				if (spType.Assembly == creatorType.Assembly)
+				if (TypeHelper.GetAssemblyFrom(spType) == TypeHelper.GetAssemblyFrom(creatorType))
 					return spType;
 
 			return null;

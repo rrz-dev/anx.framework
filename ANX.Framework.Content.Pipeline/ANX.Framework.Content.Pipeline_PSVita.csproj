@@ -21,6 +21,7 @@
     <DefineConstants>TRACE;DEBUG;PSVITA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,10 +30,12 @@
     <DefineConstants>TRACE;PSVITA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +61,9 @@
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="ContentProcessorAttribute.cs" />
     <Compile Include="ContentProcessorContext.cs" />
-    <Compile Include="EffectImporter.cs" />
+    <Compile Include="Importer\EffectImporter.cs" />
     <Compile Include="ExternalReference.cs" />
-    <Compile Include="FbxImporter.cs" />
+    <Compile Include="Importer\FbxImporter.cs" />
     <Compile Include="Graphics\AnimationChannel.cs" />
     <Compile Include="Graphics\AnimationChannelDictionary.cs" />
     <Compile Include="Graphics\AnimationContent.cs" />
@@ -105,6 +108,8 @@
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="Importer\TextureImporter.cs" />
+    <Compile Include="Importer\WavImporter.cs" />
+    <Compile Include="InvalidContentException.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
     <Compile Include="Processors\CompiledEffectContent.cs" />
@@ -158,6 +163,7 @@
     <Compile Include="Serialization\Compiler\MathTypeWriters\RayWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\PointWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\MatrixWriter.cs" />
+    <Compile Include="Serialization\Compiler\MediaTypeWriters\SoundEffectWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\ByteWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\CharWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\BooleanWriter.cs" />
@@ -176,6 +182,7 @@
     <Compile Include="TargetPlatform.cs" />
     <Compile Include="Tasks\BuildContent.cs" />
     <Compile Include="Tasks\BuildItem.cs" />
+    <Compile Include="Tasks\ContentProject.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="VideoContent.cs" />
@@ -184,6 +191,14 @@
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_PSVita.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_PSVita.csproj">
+      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
+      <Name>ANX.RenderSystem.Windows.GL3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\WaveUtils\WaveUtils.csproj">
+      <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>
+      <Name>WaveUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

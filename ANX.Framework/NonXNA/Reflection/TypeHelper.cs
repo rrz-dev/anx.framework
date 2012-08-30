@@ -115,6 +115,17 @@ namespace ANX.Framework.NonXNA.Reflection
 		}
 		#endregion
 
+		#region GetAssemblyFrom
+		public static Assembly GetAssemblyFrom(Type type)
+		{
+#if WINDOWSMETRO
+			return type.GetTypeInfo().Assembly;
+#else
+			return type.Assembly;
+#endif
+		}
+		#endregion
+
 		#region IsValueType
 		public static bool IsValueType(Type type)
 		{

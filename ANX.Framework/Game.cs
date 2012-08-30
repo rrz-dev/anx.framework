@@ -59,7 +59,6 @@ namespace ANX.Framework
 
 			try
 			{
-				Logger.Info("initializing AddInSystemFactory");
 				AddInSystemFactory.Instance.Initialize();
 			}
 			catch (Exception ex)

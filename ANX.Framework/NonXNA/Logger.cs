@@ -48,13 +48,13 @@ namespace ANX.Framework.NonXNA
 			IsWritingToConsole = true;
 
 #if !WINDOWSMETRO
-			outputStream = File.Open(Filename, FileMode.Create,
-				FileAccess.Write, FileShare.ReadWrite);
+			outputStream = File.Open(Filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 			writer = new StreamWriter(outputStream);
 			writer.AutoFlush = true;
 #endif
 
-            WriteToFile("OS: " + OSInformation.GetName() + " - " + OSInformation.GetVersion());
+			WriteToFile("OS: " + OSInformation.GetName() + " - " + OSInformation.GetVersionString() + "(" +
+				OSInformation.GetVersion() + ")");
 			WriteToFile("StartTime: " + CurrentDateTimeStamp);
 			WriteToFile("----------");
 		}

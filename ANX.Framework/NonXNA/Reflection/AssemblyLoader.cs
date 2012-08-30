@@ -44,8 +44,10 @@ namespace ANX.Framework.NonXNA.Reflection
 			LoadAssembliesFromFile();
 			LoadAssembliesFromNames();
 
+#if !WINDOWSMETRO // TODO: find way for metro
 			// Also load the current assembly. This is needed when we run on android or win8 with merged assemblies.
 			allAssemblies.Add(Assembly.GetEntryAssembly());
+#endif
 		}
 		#endregion
 
@@ -99,9 +101,6 @@ namespace ANX.Framework.NonXNA.Reflection
 			allAssemblyNames.Add("ANX.InputSystem.Standard");
 			allAssemblyNames.Add("ANX.InputDevices.Windows.XInput");
 			allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
-
-			// TODO: replace with metro media system
-			allAssemblyNames.Add("ANX.MediaSystem.Windows.OpenAL");
 #endif
 
 			foreach (string assemblyName in allAssemblyNames)

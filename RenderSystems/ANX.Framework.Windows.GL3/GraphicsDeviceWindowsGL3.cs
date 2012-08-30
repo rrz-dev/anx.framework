@@ -13,9 +13,6 @@ using OpenTK.Platform;
 
 namespace ANX.RenderSystem.Windows.GL3
 {
-	/// <summary>
-	/// Native OpenGL implementation for a graphics device.
-	/// </summary>
 	public class GraphicsDeviceWindowsGL3 : INativeGraphicsDevice
 	{
 		#region Constants
@@ -76,16 +73,15 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region Constructor
-		/// <summary>
-		/// Create a new OpenGL graphics context.
-		/// </summary>
-		/// <param name="presentationParameters">Parameters for the window
-		/// and graphics context.</param>
-		internal GraphicsDeviceWindowsGL3(
-				PresentationParameters presentationParameters)
+		internal GraphicsDeviceWindowsGL3(PresentationParameters presentationParameters)
 		{
 			Current = this;
 			ResetDevice(presentationParameters);
+		}
+
+		~GraphicsDeviceWindowsGL3()
+		{
+			Dispose();
 		}
 		#endregion
 
@@ -131,15 +127,24 @@ namespace ANX.RenderSystem.Windows.GL3
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
 			nativeContext.LoadAll();
+			nativeContext.ErrorChecking = false;
 
-			string version = GL.GetString(StringName.Version);
-			string[] parts = version.Split(new char[] { '.', ' ' });
-			cachedVersionMajor = int.Parse(parts[0]);
-			cachedVersionMinor = int.Parse(parts[1]);
+			GetOpenGLVersion();
 
 			GL.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
 			GraphicsResourceManager.RecreateAllResources();
+		}
+		#endregion
+
+		#region GetOpenGLVersion
+		private void GetOpenGLVersion()
+		{
+			string version = GL.GetString(StringName.Version);
+			Logger.Info("OpenGL version: " + version);
+			string[] parts = version.Split(new char[] { '.', ' ' });
+			cachedVersionMajor = int.Parse(parts[0]);
+			cachedVersionMinor = int.Parse(parts[1]);
 		}
 		#endregion
 
@@ -169,10 +174,6 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region SetViewport
-		/// <summary>
-		/// Set the OpenGL viewport.
-		/// </summary>
-		/// <param name="viewport">Viewport data to set natively.</param>
 		public void SetViewport(Viewport viewport)
 		{
 			GL.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
@@ -379,8 +380,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region ResizeRenderWindow
-		private void ResizeRenderWindow(
-			PresentationParameters presentationParameters)
+		private void ResizeRenderWindow(PresentationParameters presentationParameters)
 		{
 			if (OpenTK.Configuration.RunningOnWindows)
 			{
@@ -471,10 +471,16 @@ namespace ANX.RenderSystem.Windows.GL3
 			activeEffect = null;
 			boundRenderTargets = null;
 
-			nativeContext.Dispose();
-			nativeContext = null;
-			nativeWindowInfo.Dispose();
-			nativeWindowInfo = null;
+			if (nativeContext != null)
+			{
+				nativeContext.Dispose();
+				nativeContext = null;
+			}
+			if (nativeWindowInfo != null)
+			{
+				nativeWindowInfo.Dispose();
+				nativeWindowInfo = null;
+			}
 		}
 		#endregion
 	}

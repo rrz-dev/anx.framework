@@ -23,7 +23,9 @@ namespace ProjectConverter
             //
             // To restore "old" behaviour use:
             //   ProjectConverter /linux /psvita /windowsmetro ../../ANX.Framework.sln
-            //
+			//
+			// For testing only
+			//args = new string[] { "/linux", "/psvita", "/windowsmetro", "../../ANX.Framework.sln" };
 
             List<string> switches = new List<string>();
             Dictionary<string, string> keyValueParameters = new Dictionary<string,string>();
