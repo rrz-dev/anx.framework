@@ -1,4 +1,4 @@
-#define USE_GL3
+//#define USE_GL3
 
 using System;
 using ANX.Framework.NonXNA;

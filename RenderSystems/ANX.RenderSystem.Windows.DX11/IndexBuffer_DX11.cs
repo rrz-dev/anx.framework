@@ -60,7 +60,8 @@ namespace ANX.RenderSystem.Windows.DX11
             SetData<T>(graphicsDevice, data, 0, data.Length);
         }
 
-        public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
+        public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
+			where T : struct
         {
             GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
             DeviceContext context = dx11GraphicsDevice.NativeDevice;

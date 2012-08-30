@@ -90,7 +90,7 @@ namespace ANX.Framework.NonXNA
 				if (addin.IsValid && addin.IsSupported)
 				{
 				    addinSystems[addin.Type].Add(addin);
-					Logger.Info("[ANX] successfully loaded addin " + addin.Name + ".");
+					Logger.Info("[ANX] successfully loaded AddIn (" + addin.Type + ") " + creatorType.FullName + ".");
 				}
 				else
 				    Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn.");
