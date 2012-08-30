@@ -56,7 +56,14 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-				return Instance.Name;
+                if (instance != null)
+                {
+                    return instance.Name;
+                }
+                else
+                {
+                    return "*** no instance of AddIn *** (" + creatorType.FullName + ")";
+                }
 			}
 		}
 
@@ -64,9 +71,9 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-                if (Instance != null)
+                if (instance != null)
                 {
-                    return Instance.Priority;
+                    return instance.Priority;
                 }
                 else
                 {
@@ -93,6 +100,7 @@ namespace ANX.Framework.NonXNA
 			get
 			{
 				CreateInstanceIfPossible();
+
 				return instance;
 			}
 		}
