@@ -43,7 +43,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                 dlg.Title = "Select project to open";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    textBoxLocation.Text = dlg.SafeFileName;
+                    textBoxLocation.Text = dlg.FileName;
                 }
             }
             DialogResult = DialogResult.None;
@@ -51,7 +51,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
 
         private void ButtonNextClick(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(textBoxLocation.Text) || listBoxRecentProjects.SelectedItem == null)
+            if (String.IsNullOrEmpty(textBoxLocation.Text) && listBoxRecentProjects.SelectedItem == null)
                 MessageBox.Show("You need to select a project!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
                 DialogResult = DialogResult.OK;

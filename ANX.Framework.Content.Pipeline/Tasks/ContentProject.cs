@@ -13,9 +13,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
-    //comment by author: if you find any mistakes in my language, go fix it ;-)
+    //comment by author: if you find any mistakes in my language, go fix them ;-)
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(70)]
+    [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public class ContentProject
     {
@@ -34,12 +34,17 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// Minor version of the project format.
         /// Used to keep backwards compatibility
         /// </summary>
-        public int VersionMinor { get { return 0; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
+        public int VersionMinor { get { return 1; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
 
         /// <summary>
         /// The directory where the compiled output will be placed
         /// </summary>
         public String OutputDirectory { get; set; }
+
+        /// <summary>
+        /// The Source root directory where the majority of files is located in.
+        /// </summary>
+        public String InputDirectory { get; set; }
 
         /// <summary>
         /// The Content Root Directory. Default value is "Content".
@@ -50,6 +55,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// A list containing all build items of this project
         /// </summary>
         public List<BuildItem> BuildItems { get; private set; }
+
+        /// <summary>
+        /// A custom directory to look for custom importers/processors
+        /// </summary>
+        public String ReferenceIncludeDirectory { get; set; }
 
         /// <summary>
         /// List which holds Assemblies that contain custom importers/processors
@@ -126,15 +136,23 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             writer.WriteValue(OutputDirectory);
             writer.WriteEndElement();
 
+            //<InputPath>A:\Somewhere</InputPath>
+            writer.WriteStartElement("InputPath");
+            writer.WriteValue(InputDirectory);
+            writer.WriteEndElement();
+
             //<ContentRoot>Content</ContentRoot>
             writer.WriteStartElement("ContentRoot");
             writer.WriteValue(ContentRoot);
             writer.WriteEndElement();
 
-            //<References>
+            //<References IncludeDir="B:\Pipeline">
             //  <Reference>ANX.Framework.Content.Pipeline.SomewhatImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=blah, ProcessorArch=MSIL</Reference>
             //</References>
             writer.WriteStartElement("References");
+            writer.WriteStartAttribute("IncludeDir");
+            writer.WriteString(ReferenceIncludeDirectory);
+            writer.WriteEndAttribute();
             foreach (var reference in References)
             {
                 writer.WriteStartElement("Reference");
@@ -190,10 +208,159 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         #endregion
 
         #region Load
+        private static BuildItem lastBuildItem = null;
         public static ContentProject Load(string path)
         {
-            var project = new ContentProject("Blubb");
-            //TODO: Implement loading mechanism
+            if (!File.Exists(path))
+                throw new FileNotFoundException("The content project you tried to load does not exist: ", path);
+
+            var reader = XmlTextReader.Create(path);
+            ContentProject project = null;
+            String creator = null;
+            int versionMajor = 0;
+            int versionMinor = 0;
+            while (!reader.EOF)
+            {
+                var readerName = reader.Name;
+                switch (readerName)
+                {
+                    case "ProjectName":
+                        project = new ContentProject(reader.ReadElementContentAsString());
+                        break;
+                    case "ContentProject":
+                        reader.MoveToAttribute("Version");
+                        if (reader.NodeType == XmlNodeType.Attribute)
+                        {
+                            versionMajor = Convert.ToInt32(reader.ReadContentAsString().Split('.')[0]);
+                            versionMinor = Convert.ToInt32(reader.ReadContentAsString().Split('.')[1]);
+                        }
+                        break;
+                    case "Creator":
+                        if (reader.NodeType == XmlNodeType.Attribute)
+                            creator = reader.ReadContentAsString();
+                        break;
+                    case "Configuration":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 0)
+                                project.Configuration = reader.ReadElementContentAsString();
+                        break;
+                    case "Platform":
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            if (versionMajor == 1 && versionMinor >= 0)
+                            {
+                                switch (reader.ReadElementContentAsString())
+                                {
+                                    case "Windows":
+                                        project.Platform = TargetPlatform.Windows;
+                                        break;
+                                    case "WindowsPhone":
+                                        project.Platform = TargetPlatform.WindowsPhone;
+                                        break;
+                                    case "Linux":
+                                        project.Platform = TargetPlatform.Linux;
+                                        break;
+                                    case "Android":
+                                        project.Platform = TargetPlatform.Android;
+                                        break;
+                                    case "IOS":
+                                        project.Platform = TargetPlatform.IOS;
+                                        break;
+                                    case "PsVita":
+                                        project.Platform = TargetPlatform.PsVita;
+                                        break;
+                                    case "MacOs":
+                                        project.Platform = TargetPlatform.MacOs;
+                                        break;
+                                    case "WindowsMetro":
+                                        project.Platform = TargetPlatform.WindowsMetro;
+                                        break;
+                                    case "XBox360":
+                                        project.Platform = TargetPlatform.XBox360;
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case "OutputPath":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 0)
+                                project.OutputDirectory = reader.ReadElementContentAsString();
+                        break;
+                    case "InputPath":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 0)
+                                project.InputDirectory = reader.ReadElementContentAsString();
+                        break;
+                    case "ContentRoot":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 0)
+                                project.ContentRoot = reader.ReadElementContentAsString();
+                        break;
+                    case "IncludeDir":
+                        if (reader.NodeType == XmlNodeType.Attribute)
+                            project.ReferenceIncludeDirectory = reader.ReadContentAsString();
+                        break;
+                    case "Reference":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 0)
+                                project.References.Add(reader.ReadElementContentAsString());
+                        break;
+                    case "BuildItem":
+                        if (versionMajor == 1 && versionMinor >= 0)
+                        {
+                            var buildItem = new BuildItem();
+                            lastBuildItem = buildItem;
+                            if (reader.NodeType == XmlNodeType.Attribute)
+                            {
+                                switch (reader.Name)
+                                {
+                                    case "AssetName":
+                                        buildItem.AssetName = reader.ReadContentAsString();
+                                        break;
+                                    case "OutputFilename":
+                                        buildItem.OutputFilename = reader.ReadContentAsString();
+                                        break;
+                                    case "Importer":
+                                        buildItem.ImporterName = reader.ReadContentAsString();
+                                        break;
+                                    case "Processor":
+                                        buildItem.ProcessorName = reader.ReadContentAsString();
+                                        break;
+                                }
+                            }
+                            project.BuildItems.Add(buildItem);
+                        }
+                        break;
+                    case "SourceFile":
+                        if (versionMajor == 1 && versionMinor >= 0)
+                        {
+                            if (reader.NodeType == XmlNodeType.Element)
+                                lastBuildItem.SourceFilename = reader.ReadElementContentAsString();
+                        }
+                        break;
+                    case "ProcessorParameter":
+                        if (versionMajor == 1 && versionMinor >= 0)
+                        {
+                            string key;
+                            object value;
+                            reader.MoveToNextAttribute();
+                            key = reader.ReadContentAsString();
+                            reader.MoveToContent();
+                            value = reader.ReadElementContentAsObject();
+                            lastBuildItem.ProcessorParameters.Add(key, value);
+                        }
+                        break;
+                }
+                reader.Read();
+            }
+            reader.Close();
+            //Check for features that were added in format version 1.1
+            if (project.InputDirectory == null)
+                project.InputDirectory = "";
+            if (project.ReferenceIncludeDirectory == null)
+                project.ReferenceIncludeDirectory = "";
+            
             return project;
         }
         #endregion

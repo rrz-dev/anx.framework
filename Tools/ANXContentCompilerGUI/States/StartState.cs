@@ -27,7 +27,7 @@ namespace ANX.ContentCompiler.GUI.States
 
         private void ArrowButtonLoadClick(object sender, System.EventArgs e)
         {
-            MainWindow.Instance.OpenProject(sender, e);
+            MainWindow.Instance.OpenProjectDialog(sender, e);
         }
     }
 }

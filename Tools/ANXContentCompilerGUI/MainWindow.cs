@@ -113,15 +113,29 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region OpenProject
-        public void OpenProject(object sender, EventArgs e)
+        public void OpenProjectDialog(object sender, EventArgs e)
         {
             using (var dlg = new OpenProjectScreen())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    
+                    OpenProject(dlg.textBoxLocation.Text);
                 }
             }
+        }
+        public void OpenProject(string path)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException("No file found at the given location:", path);
+            _contentProject = ContentProject.Load(path);
+            ProjectName = _contentProject.Name;
+            ProjectOutputDir = _contentProject.OutputDirectory;
+            ProjectFolder = _contentProject.InputDirectory;
+            ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
+            ProjectPath = path;
+            if (string.IsNullOrEmpty(_contentProject.Creator))
+                _contentProject.Creator = "ANX Content Compiler (4.0)";
+            ChangeEnvironmentOpenProject();
         }
         #endregion
 

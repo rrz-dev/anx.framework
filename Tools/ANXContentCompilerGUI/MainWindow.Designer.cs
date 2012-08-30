@@ -148,7 +148,7 @@ namespace ANX.ContentCompiler.GUI
             this.ribbonButtonLoad.Name = "ribbonButtonLoad";
             this.ribbonButtonLoad.Size = new System.Drawing.Size(52, 68);
             this.ribbonButtonLoad.TabIndex = 4;
-            this.ribbonButtonLoad.Click += new System.EventHandler(this.OpenProject);
+            this.ribbonButtonLoad.Click += new System.EventHandler(this.OpenProjectDialog);
             // 
             // ribbonButtonNew
             // 
