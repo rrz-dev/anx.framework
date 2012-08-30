@@ -65,13 +65,17 @@ namespace ANX.Framework.NonXNA.Reflection
 			foreach (string file in assembliesInPath)
 			{
 				if (file.EndsWith("OpenTK.dll") ||
+					file.EndsWith("OpenTK.GLControl.dll") ||
+					file.EndsWith("OpenTK.Compatibility.dll") ||
 					file.EndsWith("SharpDX.dll") ||
 					file.EndsWith("SharpDX.Direct3D11.dll") ||
 					file.EndsWith("SharpDX.Direct3D10.dll") ||
 					file.EndsWith("SharpDX.D3DCompiler.dll") ||
 					file.EndsWith("SharpDX.DXGI.dll") ||
 					file.EndsWith("SharpDX.XInput.dll") ||
-					file.EndsWith("SharpDX.DirectInput.dll"))
+					file.EndsWith("SharpDX.DirectInput.dll") ||
+					file.EndsWith("WaveUtils.dll") ||
+					file.EndsWith("SharpDX.XAudio2.dll"))
 				{
 					continue;
 				}
@@ -166,10 +170,11 @@ namespace ANX.Framework.NonXNA.Reflection
 					continue;
 				}
 
-				bool isTypeValidInputDevice = TypeHelper.IsAnyTypeAssignableFrom(InputDeviceFactory.ValidInputDeviceCreators, type);
+				bool isTypeValidInputDevice = TypeHelper.IsAnyTypeAssignableFrom(InputDeviceFactory.ValidInputDeviceCreators,
+					type);
 				if (isTypeValidInputDevice && isTypeCreatable)
 				{
-					var inputCreator = Activator.CreateInstance(type) as IInputDeviceCreator;
+					var inputCreator = TypeHelper.Create<IInputDeviceCreator>(type);
 					InputDeviceFactory.Instance.AddCreator(type, inputCreator);
 				}
 			}

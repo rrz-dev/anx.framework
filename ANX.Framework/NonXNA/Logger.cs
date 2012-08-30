@@ -97,6 +97,17 @@ namespace ANX.Framework.NonXNA
 		}
 		#endregion
 
+		#region ErrorAndThrow
+		public static void ErrorAndThrow<T>(string message) where T : Exception, new ()
+		{
+			string text = CurrentTimeStamp + "| Error: " + message + BuildStackTrace();
+			WriteToConsole(text);
+			WriteToFile(text);
+
+			throw (T)Activator.CreateInstance(typeof(T), message);
+		}
+		#endregion
+
 		#region BuildStackTrace
 		private static string BuildStackTrace()
 		{

@@ -18,6 +18,7 @@ namespace ANX.RenderSystem.Windows.GL3
 {
 	[PercentageComplete(90)]
 	[TestState(TestStateAttribute.TestState.Untested)]
+	[Developer("AstrorEnales")]
 	public class Creator : IRenderSystemCreator
 	{
 		#region Public
@@ -79,8 +80,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region CreateGraphicsDevice
-		INativeGraphicsDevice IRenderSystemCreator.CreateGraphicsDevice(
-			PresentationParameters presentationParameters)
+		INativeGraphicsDevice IRenderSystemCreator.CreateGraphicsDevice(PresentationParameters presentationParameters)
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new GraphicsDeviceWindowsGL3(presentationParameters);
@@ -145,8 +145,9 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 #if XNAEXT
-        #region CreateConstantBuffer
-        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
+        #region CreateConstantBuffer (TODO)
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer,
+			BufferUsage usage)
         {
             AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
             
@@ -250,7 +251,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
+			
 			var result = new List<GraphicsAdapter>();
 			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
 			{
@@ -316,9 +317,11 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
-        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+		#region IsLanguageSupported
+		public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
         {
             return sourceLanguage == EffectSourceLanguage.GLSL_FX || sourceLanguage == EffectSourceLanguage.GLSL;
-        }
-    }
+		}
+		#endregion
+	}
 }

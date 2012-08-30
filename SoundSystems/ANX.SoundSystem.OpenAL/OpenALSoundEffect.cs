@@ -2,9 +2,9 @@
 using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
-using OpenTK.Audio;
+using OpenTK.Audio.OpenAL;
 using WaveUtils;
-using ALFormat = OpenTK.Audio.ALFormat;
+using ALFormat = OpenTK.Audio.OpenAL.ALFormat;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

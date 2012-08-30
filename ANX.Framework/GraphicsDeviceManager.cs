@@ -172,12 +172,27 @@ namespace ANX.Framework
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		protected virtual void Dispose(bool disposing)
 		{
-			throw new NotImplementedException();
+			if (disposing)
+			{
+				if (game != null)
+					if (game.Services.GetService(typeof(IGraphicsDeviceService)) == this)
+						game.Services.RemoveService(typeof(IGraphicsDeviceService));
+
+				if (graphicsDevice != null)
+				{
+					graphicsDevice.Dispose();
+					graphicsDevice = null;
+				}
+
+				if (Disposed != null)
+					Disposed(this, EventArgs.Empty);
+			}
 		}
 
 		protected GraphicsDeviceInformation FindBestDevice(bool anySuitableDevice)

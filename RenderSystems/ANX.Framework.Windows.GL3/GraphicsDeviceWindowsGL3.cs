@@ -51,6 +51,8 @@ namespace ANX.RenderSystem.Windows.GL3
 		{
 			get
 			{
+				if (Current == null || Current.nativeContext == null)
+					return false;
 				return Current.nativeContext.IsCurrent;
 			}
 		}
@@ -77,11 +79,6 @@ namespace ANX.RenderSystem.Windows.GL3
 		{
 			Current = this;
 			ResetDevice(presentationParameters);
-		}
-
-		~GraphicsDeviceWindowsGL3()
-		{
-			Dispose();
 		}
 		#endregion
 
@@ -471,15 +468,15 @@ namespace ANX.RenderSystem.Windows.GL3
 			activeEffect = null;
 			boundRenderTargets = null;
 
-			if (nativeContext != null)
-			{
-				nativeContext.Dispose();
-				nativeContext = null;
-			}
 			if (nativeWindowInfo != null)
 			{
 				nativeWindowInfo.Dispose();
 				nativeWindowInfo = null;
+			}
+			if (nativeContext != null)
+			{
+				nativeContext.Dispose();
+				nativeContext = null;
 			}
 		}
 		#endregion

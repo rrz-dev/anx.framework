@@ -158,5 +158,12 @@ namespace ANX.Framework.NonXNA.Reflection
 #endif
 		}
 		#endregion
+
+		#region Create
+		public static T Create<T>(Type type)
+		{
+			return (T)Activator.CreateInstance(type);
+		}
+		#endregion
 	}
 }

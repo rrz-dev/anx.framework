@@ -86,8 +86,8 @@ namespace ANX.Framework
 
             //TODO: implement draw- and update-order handling of GameComponents
             this.components = new GameComponentCollection();
-            this.components.ComponentAdded += new EventHandler<GameComponentCollectionEventArgs>(components_ComponentAdded);
-            this.components.ComponentRemoved += new EventHandler<GameComponentCollectionEventArgs>(components_ComponentRemoved);
+            this.components.ComponentAdded += components_ComponentAdded;
+            this.components.ComponentRemoved += components_ComponentRemoved;
             this.drawableGameComponents = new List<IGameComponent>();
 
 			Logger.Info("finished initializing new Game class");
@@ -98,31 +98,25 @@ namespace ANX.Framework
             this.components.ComponentAdded -= components_ComponentAdded;
             this.components.ComponentRemoved -= components_ComponentRemoved;
 
-			//TODO: implement
+			Dispose(false);
 		}
 
 		#region CreateGameHost
 		private void CreateGameHost()
 		{
 			Logger.Info("creating GameHost");
-			var creator =
-				AddInSystemFactory.Instance.GetDefaultCreator<IPlatformSystemCreator>();
-			if (creator != null)
-			{
-				host = creator.CreateGameHost(this);
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IPlatformSystemCreator>();
+			if (creator == null)
+				Logger.ErrorAndThrow<NullReferenceException>("Could not fetch PlatformSystem creator to create a game host.");
 
-				host.Activated += HostActivated;
-				host.Deactivated += HostDeactivated;
-				host.Suspend += HostSuspend;
-				host.Resume += HostResume;
-				host.Idle += HostIdle;
-				host.Exiting += HostExiting;
-			}
-			else
-			{
-				Logger.Error("could not fetch PlatformSystem creator to create a game host...");
-				throw new NullReferenceException("could not fetch PlatformSystem creator");
-			}
+			host = creator.CreateGameHost(this);
+
+			host.Activated += HostActivated;
+			host.Deactivated += HostDeactivated;
+			host.Suspend += HostSuspend;
+			host.Resume += HostResume;
+			host.Idle += HostIdle;
+			host.Exiting += HostExiting;
 		}
 		#endregion
 
@@ -233,9 +227,7 @@ namespace ANX.Framework
 		public void Tick()
 		{
             if (this.ShouldExit)
-            {
                 return;
-            }
 
 			//TODO: calculation of times is wrong
 			//TODO: encapsulate timing stuff in GameTimer class
@@ -244,10 +236,7 @@ namespace ANX.Framework
 			{
 				while (elapsedUpdate < targetElapsedTime)
 				{
-					// TODO: search replacement
-#if !WINDOWSMETRO
-					Thread.Sleep(TargetElapsedTime.Milliseconds - elapsedUpdate.Milliseconds);
-#endif
+					ThreadHelper.Sleep(TargetElapsedTime.Milliseconds - elapsedUpdate.Milliseconds);
 					elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - elapsedUpdate.Ticks);
 				}
 
@@ -281,9 +270,8 @@ namespace ANX.Framework
 		{
 			this.graphicsDeviceManager = this.Services.GetService(typeof(IGraphicsDeviceManager)) as IGraphicsDeviceManager;
 			if (this.graphicsDeviceManager != null)
-			{
 				this.graphicsDeviceManager.CreateDevice();
-			}
+
 			this.Initialize();
 			this.inRun = true;
 			this.BeginRun();
@@ -406,11 +394,7 @@ namespace ANX.Framework
 		{
 			get
 			{
-				if (this.host != null)
-				{
-					return this.host.Window;
-				}
-				return null;
+				return (host != null) ? host.Window : null;
 			}
 		}
 
@@ -482,12 +466,31 @@ namespace ANX.Framework
 
 		public void Dispose()
 		{
-			//TODO: dispose everything to dispose :-)
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		protected virtual void Dispose(bool disposing)
 		{
-			//TODO: dispose everything to dispose :-)
+			if (disposing)
+			{
+				IDisposable disposable;
+				var array = new IGameComponent[components.Count];
+				components.CopyTo(array, 0);
+				for (int i = 0; i < array.Length; i++)
+				{
+					disposable = (IDisposable)array[i];
+					if (disposable != null)
+						disposable.Dispose();
+				}
+
+				disposable = (IDisposable)graphicsDeviceManager;
+				if (disposable != null)
+					disposable.Dispose();
+
+				if (Disposed != null)
+					Disposed(this, EventArgs.Empty);
+			}
 		}
 
 		protected virtual void OnActivated(Object sender, EventArgs args)

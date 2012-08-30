@@ -104,7 +104,7 @@ namespace ANX.Framework.NonXNA
 			this.assembly = TypeHelper.GetAssemblyFrom(creatorType);
 			this.creatorType = creatorType;
 			Type = AddInSystemFactory.GetAddInType(creatorType);
-			this.supportedPlatforms = (ISupportedPlatforms)Activator.CreateInstance(supportedPlatformsType);
+			this.supportedPlatforms = TypeHelper.Create<ISupportedPlatforms>(supportedPlatformsType);
 			Version = assembly.GetName().Version;
 		}
 		#endregion
@@ -122,8 +122,8 @@ namespace ANX.Framework.NonXNA
 			if (instance == null && IsSupported)
 			{
                 try
-                {
-					instance = Activator.CreateInstance(creatorType) as ICreator;
+				{
+					instance = TypeHelper.Create<ICreator>(creatorType); ;
                 }
                 catch (Exception ex)
                 {
@@ -131,9 +131,7 @@ namespace ANX.Framework.NonXNA
                 }
 
                 if (instance != null)
-                {
                     AddInSystemFactory.Instance.AddCreator(instance);
-                }
 			}
 		}
 		#endregion
