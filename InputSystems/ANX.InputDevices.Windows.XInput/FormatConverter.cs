@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using ANX.Framework.Input;
+using ANX.Framework.NonXNA.Development;
 using SharpDX.XInput;
 using Key = SharpDX.DirectInput.Key;
 
@@ -10,6 +10,9 @@ using Key = SharpDX.DirectInput.Key;
 
 namespace ANX.InputDevices.Windows.XInput
 {
+	[PercentageComplete(80)]
+	[TestState(TestStateAttribute.TestState.InProgress)]
+	[Developer("AstrorEnales")]
 	internal static class FormatConverter
 	{
 		private static Dictionary<GamepadButtonFlags, Buttons> gamePadButtonsMap;
@@ -243,19 +246,6 @@ namespace ANX.InputDevices.Windows.XInput
 		}
 		#endregion
 
-		#region Translate (KeyboardState)
-		public static KeyboardState Translate(SharpDX.DirectInput.KeyboardState keyboardState)
-		{
-			int keyCount = keyboardState.PressedKeys.Count;
-			Keys[] keys = new Keys[keyCount];
-
-			for (int i = 0; i < keyCount; i++)
-				keys[i] = Translate(keyboardState.PressedKeys[i]);
-
-			return new KeyboardState(keys);
-		}
-		#endregion
-
 		#region Translate (GamepadButtonFlags)
 		public static Buttons Translate(SharpDX.XInput.GamepadButtonFlags buttons)
 		{
@@ -264,6 +254,31 @@ namespace ANX.InputDevices.Windows.XInput
 				tb |= (buttons & key) == key ? gamePadButtonsMap[key] : 0;
 
 			return tb;
+		}
+		#endregion
+
+		#region Translate (DeviceSubType)
+		public static GamePadType Translate(SharpDX.XInput.DeviceSubType type)
+		{
+			switch (type)
+			{
+				case DeviceSubType.ArcadeStick:
+					return GamePadType.ArcadeStick;
+				case DeviceSubType.DancePad:
+					return GamePadType.DancePad;
+				case DeviceSubType.DrumKit:
+					return GamePadType.DrumKit;
+				case DeviceSubType.FlightSick:
+					return GamePadType.FlightStick;
+				case DeviceSubType.Gamepad:
+					return GamePadType.GamePad;
+				case DeviceSubType.Guitar:
+					return GamePadType.Guitar;
+				case DeviceSubType.Wheel:
+					return GamePadType.Wheel;
+			}
+
+			return GamePadType.Unknown;
 		}
 		#endregion
 	}
