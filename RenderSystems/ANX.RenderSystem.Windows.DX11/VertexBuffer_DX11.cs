@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.Direct3D11;
@@ -11,13 +12,21 @@ namespace ANX.RenderSystem.Windows.DX11
 {
 	public class VertexBuffer_DX11 : INativeVertexBuffer, IDisposable
 	{
-		SharpDX.Direct3D11.Buffer buffer;
 		int vertexStride;
 
+		public SharpDX.Direct3D11.Buffer NativeBuffer
+		{
+			get;
+			private set;
+		}
+
+		#region Constructor
 		public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-			SharpDX.Direct3D11.DeviceContext context = gd11 != null ? gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext : null;
+			SharpDX.Direct3D11.DeviceContext context = gd11 != null ?
+				gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext :
+				null;
 
 			InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
 		}
@@ -27,7 +36,9 @@ namespace ANX.RenderSystem.Windows.DX11
 		{
 			InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
 		}
+		#endregion
 
+		#region InitializeBuffer (TODO)
 		private void InitializeBuffer(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount,
 			BufferUsage usage)
 		{
@@ -46,10 +57,12 @@ namespace ANX.RenderSystem.Windows.DX11
 					OptionFlags = ResourceOptionFlags.None
 				};
 
-				this.buffer = new SharpDX.Direct3D11.Buffer(device, description);
+				NativeBuffer = new SharpDX.Direct3D11.Buffer(device, description);
 			}
 		}
+		#endregion
 
+		#region SetData (TODO)
 		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
 			where T : struct
 		{
@@ -59,23 +72,19 @@ namespace ANX.RenderSystem.Windows.DX11
 			//TODO: check offsetInBytes parameter for bounds etc.
 
 			SharpDX.DataStream stream;
-			context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-			if (startIndex > 0 || elementCount < data.Length)
-			{
-				for (int i = startIndex; i < startIndex + elementCount; i++)
-				{
-					stream.Write<T>(data[i]);
-				}
-			}
-			else
-			{
-				for (int i = 0; i < data.Length; i++)
-				{
-					stream.Write<T>(data[i]);
-				}
-			}
+			context.MapSubresource(NativeBuffer, MapMode.WriteDiscard, MapFlags.None, out stream);
 
-			context.UnmapSubresource(this.buffer, 0);
+			if (offsetInBytes > 0)
+				stream.Seek(offsetInBytes, SeekOrigin.Current);
+
+			if (startIndex > 0 || elementCount < data.Length)
+				for (int i = startIndex; i < startIndex + elementCount; i++)
+					stream.Write<T>(data[i]);
+			else
+				for (int i = 0; i < data.Length; i++)
+					stream.Write<T>(data[i]);
+
+			context.UnmapSubresource(NativeBuffer, 0);
 		}
 
 		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
@@ -88,39 +97,29 @@ namespace ANX.RenderSystem.Windows.DX11
 			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
 		}
 
-		public SharpDX.Direct3D11.Buffer NativeBuffer
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount,
+			int vertexStride) where T : struct
 		{
-			get
-			{
-				return this.buffer;
-			}
+			throw new NotImplementedException();
 		}
+		#endregion
 
+		#region Dispose
 		public void Dispose()
 		{
-			if (this.buffer != null)
+			if (NativeBuffer != null)
 			{
-				buffer.Dispose();
-				buffer = null;
+				NativeBuffer.Dispose();
+				NativeBuffer = null;
 			}
 		}
+		#endregion
 
-		#region INativeVertexBuffer Member
-
+		#region GetData (TODO)
 		public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
 			throw new NotImplementedException();
 		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region INativeBuffer Member
-
 
 		public void GetData<T>(T[] data) where T : struct
 		{
@@ -131,7 +130,6 @@ namespace ANX.RenderSystem.Windows.DX11
 		{
 			throw new NotImplementedException();
 		}
-
 		#endregion
 	}
 }

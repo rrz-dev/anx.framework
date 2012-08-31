@@ -8,6 +8,7 @@ using SharpDX.Direct3D11;
 using ANX.Framework.Graphics;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA.RenderSystem;
+using System.IO;
 
 #endregion // Using Statements
 
@@ -68,38 +69,20 @@ namespace ANX.RenderSystem.Windows.DX11
 
             //TODO: check offsetInBytes parameter for bounds etc.
 
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr dataPointer = pinnedArray.AddrOfPinnedObject();
+			SharpDX.DataStream stream;
+			context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
 
-            int dataLength = Marshal.SizeOf(typeof(T)) * data.Length;
+			if (offsetInBytes > 0)
+				stream.Seek(offsetInBytes, SeekOrigin.Current);
 
-            unsafe
-            {
-                using (var vData = new SharpDX.DataStream(dataPointer, dataLength, true, true))
-                {
-                    if (offsetInBytes > 0)
-                    {
-                        vData.Seek(offsetInBytes / (size == IndexElementSize.SixteenBits ? 2 : 4), System.IO.SeekOrigin.Begin);
-                    }
+			if (startIndex > 0 || elementCount < data.Length)
+				for (int i = startIndex; i < startIndex + elementCount; i++)
+					stream.Write<T>(data[i]);
+			else
+				for (int i = 0; i < data.Length; i++)
+					stream.Write<T>(data[i]);
 
-                    SharpDX.DataStream stream;
-                    SharpDX.DataBox box = context.MapSubresource(this.buffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-                    if (startIndex > 0 || elementCount < data.Length)
-                    {
-                        for (int i = startIndex; i < startIndex + elementCount; i++)
-                        {
-                            vData.Write<T>(data[i]);
-                        }
-                    }
-                    else
-                    {
-                        vData.CopyTo(stream);
-                    } 
-                    context.UnmapSubresource(this.buffer, 0);
-                }
-            }
-
-            pinnedArray.Free();
+			context.UnmapSubresource(this.buffer, 0);
         }
 
         public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct

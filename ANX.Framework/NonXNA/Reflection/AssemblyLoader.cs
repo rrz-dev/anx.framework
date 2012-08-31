@@ -8,6 +8,32 @@ namespace ANX.Framework.NonXNA.Reflection
 {
 	internal static class AssemblyLoader
 	{
+		#region Constants
+		private static readonly string[] IgnoreAssemblies =
+		{
+			"OpenTK.dll",
+			"OpenTK.GLControl.dll",
+			"OpenTK.Compatibility.dll",
+			"sharpdx_direct3d11_effects_x86.dll",
+			"sharpdx_direct3d11_effects_x64.dll",
+			"SharpDX.dll",
+			"SharpDX.Direct3D11.dll",
+			"SharpDX.Direct3D10.dll",
+			"SharpDX.D3DCompiler.dll",
+			"SharpDX.DXGI.dll",
+			"SharpDX.XInput.dll",
+			"SharpDX.DirectInput.dll",
+			"WaveUtils.dll",
+			"SharpDX.XAudio2.dll",
+			"System.dll",
+			"System.Core.dll",
+			"System.Xml.dll",
+			"System.Xml.Linq.dll",
+			"mscorlib.dll",
+			"Sce.PlayStation.Core.dll",
+		};
+		#endregion
+
 		#region Private
 		private static List<Assembly> allAssemblies;
 		#endregion
@@ -64,21 +90,18 @@ namespace ANX.Framework.NonXNA.Reflection
 
 			foreach (string file in assembliesInPath)
 			{
-				if (file.EndsWith("OpenTK.dll") ||
-					file.EndsWith("OpenTK.GLControl.dll") ||
-					file.EndsWith("OpenTK.Compatibility.dll") ||
-					file.EndsWith("SharpDX.dll") ||
-					file.EndsWith("SharpDX.Direct3D11.dll") ||
-					file.EndsWith("SharpDX.Direct3D10.dll") ||
-					file.EndsWith("SharpDX.D3DCompiler.dll") ||
-					file.EndsWith("SharpDX.DXGI.dll") ||
-					file.EndsWith("SharpDX.XInput.dll") ||
-					file.EndsWith("SharpDX.DirectInput.dll") ||
-					file.EndsWith("WaveUtils.dll") ||
-					file.EndsWith("SharpDX.XAudio2.dll"))
+				bool ignore = false;
+				foreach (string ignoreName in IgnoreAssemblies)
 				{
-					continue;
+					if (file.EndsWith(ignoreName))
+					{
+						ignore = true;
+						break;
+					}
 				}
+
+				if (ignore)
+					continue;
 
 				Logger.Info("[ANX] trying to load '" + file + "'...");
 				try

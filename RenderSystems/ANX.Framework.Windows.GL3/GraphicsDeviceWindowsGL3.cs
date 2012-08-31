@@ -120,13 +120,12 @@ namespace ANX.RenderSystem.Windows.GL3
 			graphicsMode = new GraphicsMode(colorFormat, depth, stencil, presentationParameters.MultiSampleCount);
 
 			CreateWindowInfo(presentationParameters.DeviceWindowHandle, graphicsMode.Index.Value);
-
+			
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
 			nativeContext.LoadAll();
-			nativeContext.ErrorChecking = false;
 
-			GetOpenGLVersion();
+			LogOpenGLInformation();
 
 			GL.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
@@ -134,11 +133,15 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
-		#region GetOpenGLVersion
-		private void GetOpenGLVersion()
+		#region LogOpenGLInformation
+		private void LogOpenGLInformation()
 		{
 			string version = GL.GetString(StringName.Version);
-			Logger.Info("OpenGL version: " + version);
+			string vendor = GL.GetString(StringName.Vendor);
+			string renderer = GL.GetString(StringName.Renderer);
+			string shadingLanguageVersion = GL.GetString(StringName.ShadingLanguageVersion);
+			Logger.Info("OpenGL version: " + version + " (" + vendor + " - " + renderer + ")");
+			Logger.Info("GLSL version: " + shadingLanguageVersion);
 			string[] parts = version.Split(new char[] { '.', ' ' });
 			cachedVersionMajor = int.Parse(parts[0]);
 			cachedVersionMinor = int.Parse(parts[1]);
@@ -149,23 +152,13 @@ namespace ANX.RenderSystem.Windows.GL3
 		private void CreateWindowInfo(IntPtr windowHandle, IntPtr graphicsModeHandle)
 		{
 			if (OpenTK.Configuration.RunningOnWindows)
-			{
 				nativeWindowInfo = Utilities.CreateWindowsWindowInfo(windowHandle);
-			}
 			else if (OpenTK.Configuration.RunningOnX11)
-			{
-				nativeWindowInfo = LinuxInterop.CreateX11WindowInfo(windowHandle,
-					graphicsModeHandle);
-			}
+				nativeWindowInfo = LinuxInterop.CreateX11WindowInfo(windowHandle, graphicsModeHandle);
 			else if (OpenTK.Configuration.RunningOnMacOS)
-			{
-				nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(windowHandle,
-					false, true);
-			}
+				nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(windowHandle, false, true);
 			else
-			{
 				throw new NotImplementedException();
-			}
 
 		}
 		#endregion

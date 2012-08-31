@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
 using Dx11 = SharpDX.Direct3D11;
@@ -89,20 +90,17 @@ namespace ANX.RenderSystem.Windows.Metro
 			//TODO: check offsetInBytes parameter for bounds etc.
 
 			SharpDX.DataStream stream = device.MapSubresource(NativeBuffer);
+
+			if (offsetInBytes > 0)
+				stream.Seek(offsetInBytes, SeekOrigin.Current);
+
 			if (startIndex > 0 || elementCount < data.Length)
-			{
 				for (int i = startIndex; i < startIndex + elementCount; i++)
-				{
 					stream.Write<T>(data[i]);
-				}
-			}
 			else
-			{
 				for (int i = 0; i < data.Length; i++)
-				{
 					stream.Write<T>(data[i]);
-				}
-			}
+			
 			device.UnmapSubresource(NativeBuffer, 0);
 		}
 		#endregion

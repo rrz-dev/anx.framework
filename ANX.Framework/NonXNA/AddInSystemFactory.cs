@@ -87,7 +87,7 @@ namespace ANX.Framework.NonXNA
 					matchingSupportedPlatformsType = FindSupportedPlatformsTypeByAssembly(creatorType);
 
 				AddIn addin = new AddIn(creatorType, matchingSupportedPlatformsType);
-				if (addin.IsValid && addin.IsSupported)
+				if (addin.IsSupported)
 				{
 				    addinSystems[addin.Type].Add(addin);
 					Logger.Info("[ANX] successfully loaded AddIn (" + addin.Type + ") " + creatorType.FullName + ".");

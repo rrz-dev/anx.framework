@@ -11,35 +11,22 @@ namespace ANX.Framework.NonXNA
 	public class AddIn : IComparable<AddIn>
 	{
 		#region Private
-		private Assembly assembly;
 		private Type creatorType;
 		private ICreator instance;
 		private ISupportedPlatforms supportedPlatforms;
 		#endregion
 
 		#region Public
-		public bool IsValid
-		{
-			get
-			{
-				return assembly != null && creatorType != null;
-			}
-		}
-
 		public bool IsSupported
 		{
 			get
 			{
-				if (IsValid && supportedPlatforms != null)
+				if (supportedPlatforms != null)
 				{
 					PlatformName platformName = OSInformation.GetName();
 					foreach (var platform in supportedPlatforms.Names)
-					{
 						if (platformName == platform)
-						{
 							return true;
-						}
-					}
 				}
 
 				return false;
@@ -56,14 +43,16 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-                if (instance != null)
-                {
-                    return instance.Name;
-                }
-                else
-                {
-                    return "*** no instance of AddIn *** (" + creatorType.FullName + ")";
-                }
+				try
+				{
+					if (Instance != null)
+						return Instance.Name;
+				}
+				catch
+				{
+				}
+
+				return "*** no instance of AddIn *** (" + creatorType.FullName + ")";
 			}
 		}
 
@@ -72,13 +61,9 @@ namespace ANX.Framework.NonXNA
 			get
 			{
                 if (instance != null)
-                {
                     return instance.Priority;
-                }
                 else
-                {
                     return int.MaxValue;
-                }
 			}
 		}
 
@@ -109,10 +94,11 @@ namespace ANX.Framework.NonXNA
 		#region Constructor
 		public AddIn(Type creatorType, Type supportedPlatformsType)
 		{
-			this.assembly = TypeHelper.GetAssemblyFrom(creatorType);
 			this.creatorType = creatorType;
 			Type = AddInSystemFactory.GetAddInType(creatorType);
 			this.supportedPlatforms = TypeHelper.Create<ISupportedPlatforms>(supportedPlatformsType);
+
+			var assembly = TypeHelper.GetAssemblyFrom(creatorType);
 			Version = assembly.GetName().Version;
 		}
 		#endregion
@@ -131,16 +117,39 @@ namespace ANX.Framework.NonXNA
 			{
                 try
 				{
-					instance = TypeHelper.Create<ICreator>(creatorType); ;
+					instance = TypeHelper.Create<ICreator>(creatorType);
                 }
                 catch (Exception ex)
-                {
-                    Logger.Error("couldn't create instance of creator '" + creatorType.FullName + "'.", ex.InnerException);
+				{
+					HandleCreateException(ex);
                 }
 
                 if (instance != null)
                     AddInSystemFactory.Instance.AddCreator(instance);
 			}
+		}
+		#endregion
+
+		#region HandleCreateException
+		private void HandleCreateException(Exception ex)
+		{
+			if (ex.InnerException == null)
+			{
+				Logger.Error("couldn't create instance of creator '" + creatorType.FullName + "'.", ex);
+				return;
+			}
+
+			string innerMessage = ex.InnerException.Message;
+			if (innerMessage.Contains("openal32.dll"))
+			{
+				Logger.Error("Couldn't create instance of creator '" + creatorType.FullName +
+					"' cause OpenAL is not installed and the dll's couldn't be found in the output path, too! " +
+					"Make sure the OpenAL32.dll and the wrap_oal.dll files are in the output folder. You can " +
+					"find them in the lib folder of the ANX.Framework or download and run the installer from " +
+					"http://connect.creativelabs.com/openal/Downloads/oalinst.zip");
+			}
+			else
+				Logger.Error("couldn't create instance of creator '" + creatorType.FullName + "'.", ex.InnerException);
 		}
 		#endregion
 	}
