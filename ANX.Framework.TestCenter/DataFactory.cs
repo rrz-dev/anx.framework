@@ -15,8 +15,51 @@ namespace ANX.Framework.TestCenter
     class DataFactory
     {
         static Random r=new Random();
+        /// <summary>
+        /// Create a test-dataset with a permutation of extreme value
+        /// </summary>
+        /// <param name="maxValue">max. extreme</param>
+        /// <param name="minValue">min. extreme</param>
+        /// <param name="numberOfElements">how many elements are used in test</param>
+        /// <returns>test bundle with numberOfElements*numberOfElements test sets</returns>
+        public static object[] createPermutation(object maxValue, object minValue, int numberOfElements)
+        {
+            object[] valuePair = { maxValue, minValue };
+            int testCaseCount = (int)Math.Pow(numberOfElements, 2);
+            object[,] matrix = new object[numberOfElements, testCaseCount];
+            for (int x = 0; x < numberOfElements; ++x)
+            {
+                int counter = 0;
+                int value = 0;
+                for (int y = 0; y < testCaseCount; ++y)
+                {
 
-        static object[] generateTestData(int numOfTests, int numOfElements,int min,int max)
+                    matrix[x, y] = valuePair[value];
+                    counter++;
+                    if (counter > x)
+                    {
+                        counter = 0;
+                        if (value == 0)
+                            value = 1;
+                        else
+                            value = 0;
+                    }
+                }
+            }
+            object[] result = new object[testCaseCount];
+            for (int y = 0; y < testCaseCount; ++y)
+            {
+                object[] line = new object[numberOfElements];
+                for (int x = 0; x < numberOfElements; ++x)
+                {
+                    line[x] = matrix[x, y];
+                }
+                result[y] = line;
+            }
+            return result;
+
+        }
+        static object[] generateTestData(int numOfTests, int numOfElements, int min, int max)
         {
             object[] result = new object[numOfTests];
 
