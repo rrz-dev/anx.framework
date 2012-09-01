@@ -2,8 +2,8 @@ using System;
 using ANX.Framework;
 using ANX.Framework.Input;
 using ANX.Framework.NonXNA;
-using SharpDX.XInput;
 using ANX.Framework.NonXNA.Development;
+using SharpDX.XInput;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,39 +11,49 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.InputDevices.Windows.XInput
 {
-	[PercentageComplete(90)]
+	[PercentageComplete(100)]
 	[TestState(TestStateAttribute.TestState.InProgress)]
 	[Developer("AstrorEnales")]
 	public class GamePad : IGamePad
 	{
-		#region Private
-		private Controller[] controller;
-		private const float thumbstickRangeFactor = 1f / short.MaxValue;
-		private const float triggerRangeFactor = 1f / byte.MaxValue;
-		private GamePadCapabilities emptyCaps;
-		private GamePadState emptyState;
+		#region Constants
+		private const int LeftThumbDeadZoneSquare = 7849 * 7849;
+		private const int RightThumbDeadZoneSquare = 8689 * 8689;
 		#endregion
 
+		#region Private
+		private Controller[] controller;
+		private const float triggerRangeFactor = 1f / byte.MaxValue;
+		private GamePadCapabilities emptyCaps = new GamePadCapabilities();
+		private GamePadState emptyState = new GamePadState();
+		#endregion
+
+		#region Constructor
 		public GamePad()
 		{
 			controller = new Controller[4];
 			for (int index = 0; index < controller.Length; index++)
 				controller[index] = new Controller((UserIndex)index);
 		}
+		#endregion
 
+		#region GetCapabilities
 		public GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)
 		{
+			var gamepad = controller[(int)playerIndex];
+			if (gamepad.IsConnected == false)
+				return emptyCaps;
+
 			try
 			{
-				Capabilities nativeCaps = controller[(int)playerIndex].GetCapabilities(DeviceQueryType.Gamepad);
+				Capabilities nativeCaps = gamepad.GetCapabilities(DeviceQueryType.Gamepad);
 				return new GamePadCapabilities()
 				{
 					GamePadType = FormatConverter.Translate(nativeCaps.SubType),
-					IsConnected = controller[(int)playerIndex].IsConnected,
+					IsConnected = gamepad.IsConnected,
 					HasAButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.A) != 0,
 					HasBackButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.Back) != 0,
 					HasBButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.B) != 0,
-					HasBigButton = false, // TODO
 					HasDPadDownButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.DPadDown) != 0,
 					HasDPadLeftButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.DPadLeft) != 0,
 					HasDPadRightButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.DPadRight) != 0,
@@ -55,48 +65,37 @@ namespace ANX.InputDevices.Windows.XInput
 					HasStartButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.Start) != 0,
 					HasXButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.X) != 0,
 					HasYButton = (nativeCaps.Gamepad.Buttons & GamepadButtonFlags.Y) != 0,
-					HasLeftVibrationMotor = false,
-					HasRightVibrationMotor = false, // TODO
-					HasVoiceSupport = false, // TODO
-					HasRightXThumbStick = false, // TODO
-					HasRightYThumbStick = false, // TODO
-					HasLeftXThumbStick = false, // TODO
-					HasLeftYThumbStick = false, // TODO
-					HasLeftTrigger = false, // TODO
-					HasRightTrigger = false, // TODO
+					HasLeftVibrationMotor = nativeCaps.Vibration.LeftMotorSpeed != 0,
+					HasRightVibrationMotor = nativeCaps.Vibration.RightMotorSpeed != 0,
+					HasVoiceSupport = (nativeCaps.Flags & CapabilityFlags.VoiceSupported) != 0,
+					HasRightXThumbStick = nativeCaps.Gamepad.RightThumbX != 0,
+					HasRightYThumbStick = nativeCaps.Gamepad.RightThumbY != 0,
+					HasLeftXThumbStick = nativeCaps.Gamepad.LeftThumbX != 0,
+					HasLeftYThumbStick = nativeCaps.Gamepad.LeftThumbY != 0,
+					HasLeftTrigger = nativeCaps.Gamepad.LeftTrigger > 0,
+					HasRightTrigger = nativeCaps.Gamepad.RightTrigger > 0,
+
+					// Impossible to check
+					HasBigButton = false,
 				};
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.Info("Failed to get caps for gamepad " + playerIndex + ": " + ex);
 				return emptyCaps;
 			}
 		}
+		#endregion
 
+		#region GetState
 		public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
 		{
-			isConnected = controller[(int)playerIndex].IsConnected;
-			if (isConnected == false)
-			{
-				packetNumber = 0;
-				return emptyState;
-			}
-
-			State nativeState = controller[(int)playerIndex].GetState();
-			var result = new GamePadState(
-				new Vector2(nativeState.Gamepad.LeftThumbX, nativeState.Gamepad.LeftThumbY) * thumbstickRangeFactor,
-				new Vector2(nativeState.Gamepad.RightThumbX, nativeState.Gamepad.RightThumbY) * thumbstickRangeFactor,
-				nativeState.Gamepad.LeftTrigger * triggerRangeFactor, nativeState.Gamepad.RightTrigger * triggerRangeFactor,
-				FormatConverter.Translate(nativeState.Gamepad.Buttons));
-
-			packetNumber = nativeState.PacketNumber;
-			return result;
+			return GetState(playerIndex, GamePadDeadZone.None, out isConnected, out packetNumber);
 		}
 
 		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode, out bool isConnected,
 			out int packetNumber)
 		{
-			// TODO: deadZoneMode
-
 			isConnected = controller[(int)playerIndex].IsConnected;
 			if (isConnected == false)
 			{
@@ -105,10 +104,10 @@ namespace ANX.InputDevices.Windows.XInput
 			}
 
 			State nativeState = controller[(int)playerIndex].GetState();
-			Vector2 leftThumb = ConvertThumbStick(nativeState.Gamepad.LeftThumbX, nativeState.Gamepad.LeftThumbY,
-				SharpDX.XInput.Gamepad.LeftThumbDeadZone, deadZoneMode);
-			Vector2 rightThumb = ConvertThumbStick(nativeState.Gamepad.RightThumbX, nativeState.Gamepad.RightThumbY,
-				SharpDX.XInput.Gamepad.LeftThumbDeadZone, deadZoneMode);
+			Vector2 leftThumb = ApplyDeadZone(nativeState.Gamepad.LeftThumbX, nativeState.Gamepad.LeftThumbY,
+				LeftThumbDeadZoneSquare, deadZoneMode);
+			Vector2 rightThumb = ApplyDeadZone(nativeState.Gamepad.RightThumbX, nativeState.Gamepad.RightThumbY,
+				RightThumbDeadZoneSquare, deadZoneMode);
 
 			var result = new GamePadState(leftThumb, rightThumb, nativeState.Gamepad.LeftTrigger * triggerRangeFactor,
 				nativeState.Gamepad.RightTrigger * triggerRangeFactor, FormatConverter.Translate(nativeState.Gamepad.Buttons));
@@ -116,7 +115,9 @@ namespace ANX.InputDevices.Windows.XInput
 			packetNumber = nativeState.PacketNumber;
 			return result;
 		}
+		#endregion
 
+		#region SetVibration
 		public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
 		{
 			if (controller[(int)playerIndex].IsConnected == false)
@@ -124,35 +125,37 @@ namespace ANX.InputDevices.Windows.XInput
 
 			var vib = new Vibration()
 			{
-				LeftMotorSpeed = (short)((Math.Abs(leftMotor) > 1) ? 1 : Math.Abs(leftMotor) * short.MaxValue),
-				RightMotorSpeed = (short)((Math.Abs(rightMotor) > 1) ? 1 : Math.Abs(rightMotor) * short.MaxValue),
+				LeftMotorSpeed = (short)(Math.Min(Math.Abs(leftMotor), 1f) * short.MaxValue),
+				RightMotorSpeed = (short)(Math.Min(Math.Abs(rightMotor), 1f) * short.MaxValue),
 			};
 			controller[(int)playerIndex].SetVibration(vib);
 
 			return true;
 		}
+		#endregion
 
-		private Vector2 ConvertThumbStick(int x, int y, int deadZone, GamePadDeadZone deadZoneMode)
+		#region ApplyDeadZone
+		private Vector2 ApplyDeadZone(int x, int y, int deadZone, GamePadDeadZone deadZoneMode)
 		{
-			int deadZoneSquare = deadZone * deadZone;
-			if (deadZoneMode == GamePadDeadZone.IndependentAxes)
+			if (deadZoneMode != GamePadDeadZone.None)
 			{
-				if (x * x < deadZoneSquare)
-					x = 0;
-				if (y * y < deadZoneSquare)
-					y = 0;
-			}
-			else if (deadZoneMode == GamePadDeadZone.Circular)
-			{
-				if ((x * x) + (y * y) < deadZoneSquare)
+				int xSquare = x * x;
+				int ySquare = y * y;
+				if (deadZoneMode == GamePadDeadZone.IndependentAxes)
 				{
-					x = 0;
-					y = 0;
+					if (xSquare < deadZone)
+						x = 0;
+					if (ySquare < deadZone)
+						y = 0;
 				}
+				else if (deadZoneMode == GamePadDeadZone.Circular && xSquare + ySquare < deadZone)
+					x = y = 0;
 			}
 
-			return new Vector2(x < 0 ? -((float)x / (float)short.MinValue) : (float)x / (float)short.MaxValue,
-				y < 0 ? -((float)y / (float)short.MinValue) : (float)y / (float)short.MaxValue);
+			float fx = x < 0 ? -(x / (float)short.MinValue) : x / (float)short.MaxValue;
+			float fy = y < 0 ? -(y / (float)short.MinValue) : y / (float)short.MaxValue;
+			return new Vector2(fx, fy);
 		}
+		#endregion
 	}
 }
