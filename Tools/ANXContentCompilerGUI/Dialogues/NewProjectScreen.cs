@@ -59,6 +59,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         {
             if (String.IsNullOrEmpty(textBoxName.Text))
                 MessageBox.Show("Give your child a name!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (Directory.Exists(textBoxLocation.Text))
+                MessageBox.Show("A project with this name already exists in that path!", "Will not overwrite existing stuff", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
                 DialogResult = DialogResult.OK;
         }

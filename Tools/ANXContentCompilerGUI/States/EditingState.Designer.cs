@@ -58,6 +58,7 @@
             this.arrowButtonAddFiles.Name = "arrowButtonAddFiles";
             this.arrowButtonAddFiles.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonAddFiles.TabIndex = 5;
+            this.arrowButtonAddFiles.Click += new System.EventHandler(this.ArrowButtonAddFilesClick);
             // 
             // arrowButtonCreateFolder
             // 

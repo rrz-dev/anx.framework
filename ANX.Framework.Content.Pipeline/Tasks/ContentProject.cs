@@ -199,6 +199,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
+                writer.WriteEndElement();
             }
             writer.WriteEndElement();
 
@@ -309,23 +310,36 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                     case "BuildItem":
                         if (versionMajor == 1 && versionMinor >= 0)
                         {
+                            if (reader.NodeType != XmlNodeType.Element)
+                                break;
                             var buildItem = new BuildItem();
                             lastBuildItem = buildItem;
-                            if (reader.NodeType == XmlNodeType.Attribute)
+                            reader.MoveToFirstAttribute();
+                            while (reader.NodeType == XmlNodeType.Attribute)
                             {
                                 switch (reader.Name)
                                 {
                                     case "AssetName":
                                         buildItem.AssetName = reader.ReadContentAsString();
+                                        reader.MoveToNextAttribute();
                                         break;
                                     case "OutputFilename":
                                         buildItem.OutputFilename = reader.ReadContentAsString();
+                                        reader.MoveToNextAttribute();
                                         break;
                                     case "Importer":
                                         buildItem.ImporterName = reader.ReadContentAsString();
+                                        reader.MoveToNextAttribute();
                                         break;
                                     case "Processor":
                                         buildItem.ProcessorName = reader.ReadContentAsString();
+                                        if (buildItem.AssetName == null)
+                                            reader.MoveToNextAttribute();
+                                        else
+                                            reader.Read();
+                                        break;
+                                    case "":
+                                        reader.Read();
                                         break;
                                 }
                             }

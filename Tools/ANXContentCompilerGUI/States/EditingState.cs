@@ -16,5 +16,16 @@ namespace ANX.ContentCompiler.GUI.States
             BackColor = Settings.MainColor;
         }
 
+        private void ArrowButtonAddFilesClick(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Multiselect = true;
+                dlg.Title = "Add files";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    MainWindow.Instance.AddFiles(dlg.FileNames);
+            }
+        }
+
     }
 }

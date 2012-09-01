@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.Content.Pipeline;
@@ -103,6 +105,7 @@ namespace ANX.ContentCompiler.GUI
             _contentProject = new ContentProject(ProjectName)
                                   {
                                       OutputDirectory = ProjectOutputDir,
+                                      InputDirectory = ProjectFolder,
                                       Configuration = "Release",
                                       Creator = "ANX Content Compiler (4.0)",
                                       ContentRoot = "Content",
@@ -166,6 +169,42 @@ namespace ANX.ContentCompiler.GUI
         }
         #endregion
 
+        #region FileMethods
+        private void AddFile(string file)
+        {
+            if (!File.Exists(file))
+                throw new FileNotFoundException();
+
+            var folder = _contentProject.ContentRoot;
+            var node = treeView.SelectedNode;
+            if (node != null)
+                folder = node.Name;
+            else
+                node = treeView.Nodes[0];
+            var absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file);
+            if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
+                Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
+            File.Copy(file, absPath);
+            var item = new BuildItem
+                           {
+                               AssetName = String.IsNullOrEmpty(folder) ? folder.Replace(_contentProject.ContentRoot, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) : Path.GetFileNameWithoutExtension(file),
+                               SourceFilename = absPath,
+                               OutputFilename = ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
+                               ImporterName = ImporterManager.GuessImporterByFileExtension(file)
+                           };
+            _contentProject.BuildItems.Add(item);
+        }
+
+        public void AddFiles(string[] files)
+        {
+            foreach (var file in files)
+            {
+                AddFile(file);
+            }
+            ChangeEnvironmentOpenProject();
+        }
+        #endregion
+
         #region EnvironmentStates
         public void ChangeEnvironmentStartState()
         {
@@ -173,6 +212,8 @@ namespace ANX.ContentCompiler.GUI
             startState.Visible = true;
             Text = "ANX Content Compiler 4";
             labelTitle.Text = "ANX Content Compiler 4";
+            treeView.Nodes.Clear();
+            propertyGrid.SelectedObject = null;
         }
 
         public void ChangeEnvironmentOpenProject()
@@ -181,6 +222,68 @@ namespace ANX.ContentCompiler.GUI
             editingState.Visible = true;
             Text = ProjectName + " - ANX Content Compiler 4";
             labelTitle.Text = "ANX Content Compiler 4 - " + ProjectName;
+
+            ProjectFolder = _contentProject.InputDirectory;
+            treeView.Nodes.Clear();
+            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")") {Name = _contentProject.ContentRoot};
+            treeView.Nodes.Add(rootNode);
+            var lastNode = rootNode;
+            foreach (var parts in _contentProject.BuildItems.Select(buildItem => buildItem.AssetName.Split('/')).Where(parts => parts.Length >= 2))
+            {
+                for (int i=0; i < parts.Length - 1; i++)
+                {
+                    var node = new TreeNode(parts[i]) {Name = lastNode.Name + "/" + parts[i] + "/"};
+                    if (!lastNode.Nodes.Contains(node))
+                    {
+                        lastNode.Nodes.Add(node);
+                        lastNode = node;
+                    }
+                    else
+                    {
+                        lastNode = lastNode.Nodes[parts[i]];
+                    }
+                }
+                lastNode = rootNode;
+            }
+            if (_contentProject.BuildItems.Count > 0)
+            {
+                foreach (var buildItem in _contentProject.BuildItems)
+                {
+                    String[] parts = null;
+                    if (buildItem.AssetName.Contains("\\"))
+                        parts = buildItem.AssetName.Split('\\');
+                    else if (buildItem.AssetName.Contains("/"))
+                        parts = buildItem.AssetName.Split('/');
+                    /*if (parts.Length >= 2)
+                    {
+                        for (int i = 0; i < parts.Length - 1; i++)
+                        {
+                            lastNode = lastNode.Nodes[parts[i]];
+                        }
+                    }*/
+                    string path = "";
+                    if (parts != null)
+                    {
+                        for (int i = 0; i < parts.Length - 1; i++)
+                        {
+                            path = parts[i];
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(path))
+                    {
+                        var node = treeView.RecursiveSearch(path);
+                        if (node == null) throw new ArgumentNullException("Node not found!");
+                        var item = new TreeNode(parts[parts.Length - 1]) {Name = buildItem.AssetName};
+                        node.Nodes.Add(item);
+                    }
+                    else
+                    {
+                        var item = new TreeNode(buildItem.AssetName) {Name = buildItem.AssetName};
+                        treeView.Nodes[0].Nodes.Add(item);
+                    }
+                }
+            }
+
         }
         #endregion
 
@@ -293,6 +396,40 @@ namespace ANX.ContentCompiler.GUI
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
 
+        }
+        #endregion
+
+        #region TreeViewEvents
+        private void TreeViewAfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (treeView.SelectedNode == treeView.TopNode)
+                propertyGrid.SelectedObject = _contentProject;
+            else
+            {
+                foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName.Equals(treeView.SelectedNode.Name)))
+                {
+                    propertyGrid.SelectedObject = buildItem;
+                }
+            }
+        }
+        #endregion
+
+        #region PropertyGridEvents
+        private void PropertyGridPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            ProjectName = _contentProject.Name;
+            ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
+            ProjectFolder = _contentProject.InputDirectory;
+            ProjectOutputDir = _contentProject.OutputDirectory;
+            if (e.ChangedItem.Label.Equals("ContentRoot"))
+            {
+                foreach (BuildItem buildItem in _contentProject.BuildItems)
+                {
+                    buildItem.AssetName = buildItem.AssetName.Replace((string)e.OldValue, _contentProject.ContentRoot);
+                }
+                treeView.Nodes[0].RecursivelyReplacePartOfName((string)e.OldValue, _contentProject.ContentRoot);
+            }
+            ChangeEnvironmentOpenProject();
         }
         #endregion
     }

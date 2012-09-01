@@ -259,6 +259,7 @@ namespace ANX.ContentCompiler.GUI
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(219, 527);
             this.treeView.TabIndex = 0;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewAfterSelect);
             // 
             // treeViewContextMenu
             // 
@@ -318,7 +319,7 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerProperties.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainerProperties.Panel2.ForeColor = System.Drawing.Color.White;
             this.splitContainerProperties.Size = new System.Drawing.Size(640, 549);
-            this.splitContainerProperties.SplitterDistance = 409;
+            this.splitContainerProperties.SplitterDistance = 366;
             this.splitContainerProperties.TabIndex = 0;
             // 
             // editingState
@@ -327,7 +328,7 @@ namespace ANX.ContentCompiler.GUI
             this.editingState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editingState.Location = new System.Drawing.Point(0, 0);
             this.editingState.Name = "editingState";
-            this.editingState.Size = new System.Drawing.Size(407, 547);
+            this.editingState.Size = new System.Drawing.Size(364, 547);
             this.editingState.TabIndex = 1;
             this.editingState.Visible = false;
             // 
@@ -337,7 +338,7 @@ namespace ANX.ContentCompiler.GUI
             this.startState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startState.Location = new System.Drawing.Point(0, 0);
             this.startState.Name = "startState";
-            this.startState.Size = new System.Drawing.Size(407, 547);
+            this.startState.Size = new System.Drawing.Size(364, 547);
             this.startState.TabIndex = 0;
             this.startState.Visible = false;
             // 
@@ -349,7 +350,7 @@ namespace ANX.ContentCompiler.GUI
             this.labelProperties.ForeColor = System.Drawing.Color.White;
             this.labelProperties.Location = new System.Drawing.Point(3, 0);
             this.labelProperties.Name = "labelProperties";
-            this.labelProperties.Size = new System.Drawing.Size(221, 19);
+            this.labelProperties.Size = new System.Drawing.Size(264, 19);
             this.labelProperties.TabIndex = 2;
             this.labelProperties.Text = "Properties";
             this.labelProperties.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -370,10 +371,11 @@ namespace ANX.ContentCompiler.GUI
             this.propertyGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.propertyGrid.Location = new System.Drawing.Point(3, 22);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(221, 503);
+            this.propertyGrid.Size = new System.Drawing.Size(264, 503);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.propertyGrid.ViewForeColor = System.Drawing.Color.White;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridPropertyValueChanged);
             // 
             // menuState
             // 
