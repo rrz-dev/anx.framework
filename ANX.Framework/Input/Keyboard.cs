@@ -1,8 +1,6 @@
-#region Using Statements
 using System;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,39 +8,38 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
-    public static class Keyboard
-    {
-        private static IKeyboard keyboard;
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Tested)]
+	public static class Keyboard
+	{
+		private static IKeyboard keyboard;
 
-        static Keyboard()
-        {
-            keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
-        }
+		internal static IntPtr WindowHandle
+		{
+			get
+			{
+				return keyboard != null ? keyboard.WindowHandle : IntPtr.Zero;
+			}
+			set
+			{
+				if (keyboard != null)
+					keyboard.WindowHandle = value;
+			}
+		}
 
-        internal static IntPtr WindowHandle
-        {
-            get
-            {
-                return keyboard != null ? keyboard.WindowHandle : IntPtr.Zero;
-            }
-            set
-            {
-                if (keyboard != null)
-                {
-                    keyboard.WindowHandle = value;
-                }
-            }
-        }
+		static Keyboard()
+		{
+			keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
+		}
 
-        public static KeyboardState GetState() 
-        {
-            return keyboard.GetState(); 
-        }
+		public static KeyboardState GetState()
+		{
+			return keyboard.GetState();
+		}
 
-        public static KeyboardState GetState (PlayerIndex playerIndex)
-        {
-            return keyboard.GetState(playerIndex);
-        }
-
-    }
+		public static KeyboardState GetState(PlayerIndex playerIndex)
+		{
+			return keyboard.GetState(playerIndex);
+		}
+	}
 }

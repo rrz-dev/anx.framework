@@ -1,9 +1,5 @@
-#region Using Statements
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,92 +7,63 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
     public struct GamePadDPad
     {
-        #region Private Members
-        private Buttons buttons;
-
-        private ButtonState up;
-        private ButtonState down;
-        private ButtonState left;
-        private ButtonState right;
-
-        #endregion // Private Members
+		public ButtonState Down { get; private set; }
+		public ButtonState Left { get; private set; }
+		public ButtonState Right { get; private set; }
+		public ButtonState Up { get; private set; }
+		internal Buttons Buttons { get; private set; }
 
         public GamePadDPad(ButtonState upValue, ButtonState downValue, ButtonState leftValue, ButtonState rightValue)
+			: this()
         {
-            this.up = upValue;
-            this.down = downValue;
-            this.left = leftValue;
-            this.right = rightValue;
-
-            buttons = 0;
-            buttons |= (upValue == ButtonState.Pressed ? Buttons.DPadUp : 0);
-            buttons |= (downValue == ButtonState.Pressed ? Buttons.DPadDown : 0);
-            buttons |= (leftValue == ButtonState.Pressed ? Buttons.DPadLeft : 0);
-            buttons |= (rightValue == ButtonState.Pressed ? Buttons.DPadRight : 0);
+			Up = upValue;
+            Down = downValue;
+            Left = leftValue;
+            Right = rightValue;
+			AddToButtonsIfPressed(upValue, Buttons.DPadUp);
+			AddToButtonsIfPressed(downValue, Buttons.DPadDown);
+			AddToButtonsIfPressed(leftValue, Buttons.DPadLeft);
+			AddToButtonsIfPressed(rightValue, Buttons.DPadRight);
         }
 
-        internal GamePadDPad(Buttons buttons)
+		internal GamePadDPad(Buttons buttons)
+			: this()
         {
-            this.buttons = buttons;
-
-            this.up = (buttons & Buttons.DPadUp) == Buttons.DPadUp ? ButtonState.Pressed : ButtonState.Released;
-            this.left = (buttons & Buttons.DPadLeft) == Buttons.DPadLeft ? ButtonState.Pressed : ButtonState.Released;
-            this.down = (buttons & Buttons.DPadDown) == Buttons.DPadDown ? ButtonState.Pressed : ButtonState.Released;
-            this.right = (buttons & Buttons.DPadRight) == Buttons.DPadRight ? ButtonState.Pressed : ButtonState.Released;
+			Buttons = buttons;
+			Up = GetButtonStateFrom(Buttons.DPadUp);
+			Left = GetButtonStateFrom(Buttons.DPadLeft);
+			Down = GetButtonStateFrom(Buttons.DPadDown);
+			Right = GetButtonStateFrom(Buttons.DPadRight);
         }
 
-        public ButtonState Down 
-        { 
-            get 
-            {
-                return down;
-            } 
-        }
+		private ButtonState GetButtonStateFrom(Buttons button)
+		{
+			return (Buttons & button) == button ? ButtonState.Pressed : ButtonState.Released;
+		}
 
-        public ButtonState Left
-        {
-            get
-            {
-                return left;
-            }
-        }
-
-        public ButtonState Right
-        {
-            get
-            {
-                return right;
-            }
-        }
-        
-        public ButtonState Up
-        {
-            get
-            {
-                return up;
-            }
-        }
+		private void AddToButtonsIfPressed(ButtonState state, Buttons button)
+		{
+			Buttons |= (state == ButtonState.Pressed ? button : 0);
+		}
 
         public override int GetHashCode()
         {
-            return (int)buttons;
+            return (int)Buttons;
         }
 
         public override string ToString()
         {
-            String buttons = String.Empty;
-
-            buttons += this.up == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Up" : "";
-            buttons += this.down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
-            buttons += this.left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
-            buttons += this.right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
+            string buttons = Up == ButtonState.Pressed ? "Up" : "";
+            buttons += Down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
+            buttons += Left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
+            buttons += Right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
 
             if (String.IsNullOrEmpty(buttons))
-            {
                 buttons = "None";
-            }
 
             return String.Format("{{DPad:{0}}}", buttons);
         }
@@ -104,29 +71,19 @@ namespace ANX.Framework.Input
         public override bool Equals(object obj)
         {
             if (obj != null && obj.GetType() == typeof(GamePadDPad))
-            {
                 return this == (GamePadDPad)obj;
-            }
 
             return false;
         }
 
         public static bool operator ==(GamePadDPad lhs, GamePadDPad rhs)
         {
-            return lhs.buttons == rhs.buttons;
+			return lhs.Buttons == rhs.Buttons;
         }
 
         public static bool operator !=(GamePadDPad lhs, GamePadDPad rhs)
         {
-            return lhs.buttons != rhs.buttons;
-        }
-
-        internal Buttons Buttons
-        {
-            get
-            {
-                return this.buttons;
-            }
+			return lhs.Buttons != rhs.Buttons;
         }
     }
 }

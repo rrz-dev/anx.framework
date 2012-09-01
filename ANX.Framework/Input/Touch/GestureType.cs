@@ -1,7 +1,4 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,19 +6,19 @@ using System;
 
 namespace ANX.Framework.Input.Touch
 {
-    [Flags]
-    public enum GestureType
-    {
-        None = 0,
-        Tap = 1,
-        DoubleTap = 2,
-        Hold = 4,
-        HorizontalDrag = 8,
-        VerticalDrag = 16,
-        FreeDrag = 32,
-        Pinch = 64,
-        Flick = 128,
-        DragComplete = 256,
-        PinchComplete = 512,
-    }
+	[Flags]
+	public enum GestureType
+	{
+		None = 0,
+		Tap = 1,
+		DoubleTap = 2,
+		Hold = 4,
+		HorizontalDrag = 8,
+		VerticalDrag = 16,
+		FreeDrag = 32,
+		Pinch = 64,
+		Flick = 128,
+		DragComplete = 256,
+		PinchComplete = 512,
+	}
 }

@@ -15,47 +15,51 @@ namespace ANX.InputDevices.Test
 			return new GamePadCapabilities();
 		}
 
-		public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected,
-			out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex)
 		{
 			GamePadState gamepad;
 			switch (playerIndex)
 			{
 				case PlayerIndex.One:
-					isConnected = true;
-					packetNumber = 0;
-					gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100),
-						0.5f, 0.5f, Buttons.A, Buttons.B);
+					gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A, Buttons.B)
+					{
+						IsConnected = true,
+						PacketNumber = 0,
+					};
 					break;
 
 				case PlayerIndex.Two:
-					isConnected = true;
-					packetNumber = 0;
-					gamepad = new GamePadState(new Vector2(200, 200), new Vector2(100, 100),
-						0.5f, 0.5f, Buttons.A, Buttons.BigButton);
+					gamepad = new GamePadState(new Vector2(200, 200), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A,
+						Buttons.BigButton)
+					{
+						IsConnected = true,
+						PacketNumber = 0,
+					};
 					break;
 
 				case PlayerIndex.Three:
-					isConnected = true;
-					packetNumber = 0;
-					gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100),
-						0.5f, 0.5f, Buttons.A, Buttons.X);
+					gamepad = new GamePadState(new Vector2(100, 100), new Vector2(100, 100), 0.5f, 0.5f, Buttons.A, Buttons.X)
+					{
+						IsConnected = true,
+						PacketNumber = 0,
+					};
 					break;
 
 				case PlayerIndex.Four:
 				default:
-					isConnected = false;
-					packetNumber = 0;
-					gamepad = new GamePadState();
+					gamepad = new GamePadState()
+					{
+						IsConnected = false,
+						PacketNumber = 0,
+					};
 					break;
 			}
 			return gamepad;
 		}
 
-		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode,
-			out bool isConnected, out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
 		{
-			return this.GetState(playerIndex, out isConnected, out packetNumber);
+			return GetState(playerIndex);
 		}
 
 		public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)

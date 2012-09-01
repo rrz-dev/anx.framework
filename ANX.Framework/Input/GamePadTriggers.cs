@@ -1,9 +1,5 @@
-#region Using Statements
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,68 +7,46 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
-    public struct GamePadTriggers
-    {
-        #region Private Members
-        private float left;
-        private float right;
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	public struct GamePadTriggers
+	{
+		public float Left { get; private set; }
+		public float Right { get; private set; }
 
-        #endregion // Private Members
+		public GamePadTriggers(float leftTrigger, float rightTrigger)
+			: this()
+		{
+			Left = MathHelper.Clamp(leftTrigger, 0f, 1f);
+			Right = MathHelper.Clamp(rightTrigger, 0f, 1f);
+		}
 
-        public GamePadTriggers (float leftTrigger,float rightTrigger)
-        {
-            if (leftTrigger>1)
-            {
-                leftTrigger = 1;
-            }
-            if (leftTrigger<0)
-            {
-                leftTrigger = 0;
-            }
-            if (rightTrigger>1)
-            {
-                rightTrigger = 1;
-            }
-            if (rightTrigger<0)
-            {
-                rightTrigger = 0;
-            }
-            left =  leftTrigger;
-            right = rightTrigger;
-        }
+		public override int GetHashCode()
+		{
+			return Left.GetHashCode() ^ Right.GetHashCode();
+		}
 
-        public override int GetHashCode()
-        {
-            return left.GetHashCode() ^ right.GetHashCode();
-        }
+		public override string ToString()
+		{
+			return String.Format("{{Left:{0} Right:{1}}}", Left, Right);
+		}
 
-        public override string ToString()
-        {
-            return String.Format("{{Left:{0} Right:{1}}}", left, right);
-        }
+		public override bool Equals(object obj)
+		{
+			if (obj != null && obj.GetType() == typeof(GamePadTriggers))
+				return this == (GamePadTriggers)obj;
 
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj.GetType() == typeof(GamePadTriggers))
-            {
-                return this == (GamePadTriggers)obj;
-            }
+			return false;
+		}
 
-            return false;
-        }
+		public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
+		{
+			return lhs.Left == rhs.Left && lhs.Right == rhs.Right;
+		}
 
-        public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
-        {
-            return lhs.left == rhs.left && lhs.right == rhs.right;
-        }
-
-        public static bool operator !=(GamePadTriggers lhs, GamePadTriggers rhs)
-        {
-            return lhs.left != rhs.left || lhs.right != rhs.right;
-        }
-
-        public float Left { get { return this.left; } }
-        public float Right { get { return this.right; } }
-
-    }
+		public static bool operator !=(GamePadTriggers lhs, GamePadTriggers rhs)
+		{
+			return lhs.Left != rhs.Left || lhs.Right != rhs.Right;
+		}
+	}
 }

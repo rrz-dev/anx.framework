@@ -62,12 +62,12 @@ namespace ANX.InputSystem.Recording
             return realGamePad.GetCapabilities(playerIndex);
         }
 
-        public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
+        public GamePadState GetState(PlayerIndex playerIndex)
         {
             throw new NotImplementedException();
         }
 
-        public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode, out bool isConnected, out int packetNumber)
+        public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
         {
             throw new NotImplementedException();
         }

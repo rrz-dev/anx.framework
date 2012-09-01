@@ -1,4 +1,5 @@
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,8 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	public static class GamePad
 	{
 		private static IGamePad gamePad;
@@ -22,22 +25,12 @@ namespace ANX.Framework.Input
 
 		public static GamePadState GetState(PlayerIndex playerIndex)
 		{
-			bool isConnected;
-			int packetNumber;
-			GamePadState ret = gamePad.GetState(playerIndex, out isConnected, out packetNumber);
-			ret.IsConnected = isConnected;
-			ret.PacketNumber = packetNumber;
-			return ret;
+			return gamePad.GetState(playerIndex);
 		}
 
 		public static GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
 		{
-			bool isConnected;
-			int packetNumber;
-			GamePadState ret = gamePad.GetState(playerIndex, deadZoneMode, out isConnected, out packetNumber);
-			ret.IsConnected = isConnected;
-			ret.PacketNumber = packetNumber;
-			return ret;
+			return gamePad.GetState(playerIndex, deadZoneMode);
 		}
 
 		public static bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)

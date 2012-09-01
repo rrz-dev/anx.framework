@@ -1,9 +1,5 @@
-#region Using Statements
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,13 +7,24 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Input
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
     public struct GamePadThumbSticks
     {
-        #region Private Members
+        #region Private
         private Vector2 left;
         private Vector2 right;
+		#endregion
 
-        #endregion // Private Members
+		public Vector2 Left
+		{
+			get { return this.left; }
+		}
+
+		public Vector2 Right
+		{
+			get { return this.right; }
+		}
 
         public GamePadThumbSticks (Vector2 leftThumbstick, Vector2 rightThumbstick)
         {
@@ -28,9 +35,7 @@ namespace ANX.Framework.Input
         public override bool Equals(object obj)
         {
             if (obj != null && obj.GetType() == typeof(GamePadThumbSticks))
-            {
                 return this == (GamePadThumbSticks)obj;
-            }
 
             return false;
         }
@@ -54,9 +59,6 @@ namespace ANX.Framework.Input
         {
             return String.Format("{{Left:{0} Right:{1}}}", left, right);
         }
-
-        public Vector2 Left { get { return this.left; } }
-        public Vector2 Right { get { return this.right; } }
 
     }
 }

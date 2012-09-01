@@ -88,20 +88,16 @@ namespace ANX.InputDevices.Windows.XInput
 		#endregion
 
 		#region GetState
-		public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex)
 		{
-			return GetState(playerIndex, GamePadDeadZone.None, out isConnected, out packetNumber);
+			return GetState(playerIndex, GamePadDeadZone.None);
 		}
 
-		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode, out bool isConnected,
-			out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
 		{
-			isConnected = controller[(int)playerIndex].IsConnected;
+			bool isConnected = controller[(int)playerIndex].IsConnected;
 			if (isConnected == false)
-			{
-				packetNumber = 0;
 				return emptyState;
-			}
 
 			State nativeState = controller[(int)playerIndex].GetState();
 			Vector2 leftThumb = ApplyDeadZone(nativeState.Gamepad.LeftThumbX, nativeState.Gamepad.LeftThumbY,
@@ -109,11 +105,12 @@ namespace ANX.InputDevices.Windows.XInput
 			Vector2 rightThumb = ApplyDeadZone(nativeState.Gamepad.RightThumbX, nativeState.Gamepad.RightThumbY,
 				RightThumbDeadZoneSquare, deadZoneMode);
 
-			var result = new GamePadState(leftThumb, rightThumb, nativeState.Gamepad.LeftTrigger * triggerRangeFactor,
-				nativeState.Gamepad.RightTrigger * triggerRangeFactor, FormatConverter.Translate(nativeState.Gamepad.Buttons));
-
-			packetNumber = nativeState.PacketNumber;
-			return result;
+			return new GamePadState(leftThumb, rightThumb, nativeState.Gamepad.LeftTrigger * triggerRangeFactor,
+				nativeState.Gamepad.RightTrigger * triggerRangeFactor, FormatConverter.Translate(nativeState.Gamepad.Buttons))
+				{
+					PacketNumber = nativeState.PacketNumber,
+					IsConnected = isConnected
+				};
 		}
 		#endregion
 

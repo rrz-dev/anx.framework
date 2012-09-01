@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,6 +7,8 @@ using System;
 
 namespace ANX.Framework.Input.Touch
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
     public struct TouchLocation : IEquatable<TouchLocation>
     {
         #region Private

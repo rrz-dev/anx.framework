@@ -47,27 +47,23 @@ namespace ANX.InputDevices.PsVita
 			};
 		}
 
-		public GamePadState GetState(PlayerIndex playerIndex, out bool isConnected, out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex)
 		{
-			SceInput.GamePadData data = SceInput.GamePad.GetData((int)playerIndex);
-			isConnected = data.Skip == false;
-			packetNumber = 0; // TODO
-			
-			return new GamePadState(new Vector2(data.AnalogLeftX, data.AnalogLeftY),
-				new Vector2(data.AnalogRightX, data.AnalogRightY), 0f, 0f, ConvertButtons(data.ButtonsDown));
+			return GetState(playerIndex, GamePadDeadZone.None);
 		}
 
-		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode,
-			out bool isConnected, out int packetNumber)
+		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
 		{
 			// TODO: GamePadDeadZone
 
 			SceInput.GamePadData data = SceInput.GamePad.GetData((int)playerIndex);
-			isConnected = data.Skip == false;
-			packetNumber = 0; // TODO
 
 			return new GamePadState(new Vector2(data.AnalogLeftX, data.AnalogLeftY),
-				new Vector2(data.AnalogRightX, data.AnalogRightY), 0f, 0f, ConvertButtons(data.ButtonsDown));
+				new Vector2(data.AnalogRightX, data.AnalogRightY), 0f, 0f, ConvertButtons(data.ButtonsDown))
+			{
+				IsConnected = data.Skip == false,
+				PacketNumber = 0 // TODO
+			};
 		}
 
 		public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)

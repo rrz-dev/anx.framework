@@ -1,8 +1,6 @@
-#region Using Statements
 using System;
 using System.Collections.Generic;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,36 +8,37 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Input
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
     public struct KeyboardState
     {
-        #region Private Members
+        #region Private
         private KeyState[] keyState;
-        private List<Keys> pressedKeys; 
+		#endregion
 
-        #endregion // Private Members
+		public KeyState this[Keys key]
+		{
+			get
+			{
+				return keyState[(int)key];
+			}
+		}
 
         public KeyboardState(params Keys[] keys)
         {
-            pressedKeys = new List<Keys>();
-            pressedKeys.AddRange(keys);
-
             keyState = new KeyState[255];
-            keyState.Initialize();
-
             for (int i = 0; i < keys.Length; i++)
-            {
                 keyState[(int)keys[i]] = KeyState.Down;
-            }
         }
 
         public bool IsKeyDown(Keys key)
         {
-            return keyState != null ? keyState[(int)key] == KeyState.Down : false;
+            return keyState[(int)key] == KeyState.Down;
         }
 
         public bool IsKeyUp(Keys key)
         {
-            return keyState != null ? keyState[(int)key] == KeyState.Up : true;
+            return keyState[(int)key] == KeyState.Up;
         }
 
         public override int GetHashCode()
@@ -50,9 +49,7 @@ namespace ANX.Framework.Input
         public override bool Equals(object obj)
         {
             if (obj != null && obj.GetType() == typeof(KeyboardState))
-            {
                 return this == (KeyboardState)obj;
-            }
 
             return false;
         }
@@ -60,56 +57,46 @@ namespace ANX.Framework.Input
         public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
         {
             if (lhs.keyState.Length != rhs.keyState.Length)
-            {
                 return false;
-            }
 
             for (int i = 0; i < lhs.keyState.Length; i++)
-            {
                 if (lhs.keyState[i] != rhs.keyState[i])
-                {
                     return false;
-                }
-            }
 
             return true;
         }
 
         public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
-        {
-            return !(lhs == rhs);
-        }
+		{
+			if (lhs.keyState.Length == rhs.keyState.Length)
+			{
+				for (int i = 0; i < lhs.keyState.Length; i++)
+					if (lhs.keyState[i] != rhs.keyState[i])
+						return true;
 
-        public KeyState this[Keys key]
-        {
-            get
-            {
-                return keyState[(int)key];
-            }
+				return false;
+			}
+
+			return true;
         }
 
         public Keys[] GetPressedKeys()
         {
-            List<Keys> value = new List<Keys>();
+            var result = new List<Keys>();
             for (int i = 0; i < keyState.Length; ++i)
-            {
                 if (keyState[i] == KeyState.Down)
-                {
-                    value.Add((Keys)i);
-                }
-            }
-            return value.ToArray();
+                    result.Add((Keys)i);
+
+            return result.ToArray();
         }
 
         internal void AddPressedKey(Keys key)
         {
-            this.pressedKeys.Add(key);
             this.keyState[(int)key] = KeyState.Down;
         }
 
         internal void RemovePressedKey(Keys key)
         {
-            this.pressedKeys.Remove(key);
             this.keyState[(int)key] = KeyState.Up;
         }
 

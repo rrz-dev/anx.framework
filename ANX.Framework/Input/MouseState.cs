@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,38 +8,34 @@ using System;
 namespace ANX.Framework.Input
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-    [SerializableAttribute]
+	[Serializable]
 #endif
-    public struct MouseState
-    {
-        private int x;
-        private int y;
-        private int scrollWheel;
-        private ButtonState leftButton;
-        private ButtonState middleButton;
-        private ButtonState rightButton;
-        private ButtonState xButton1;
-        private ButtonState xButton2;
-        public MouseState (int x, int y, int scrollWheel,ButtonState leftButton,ButtonState middleButton,ButtonState rightButton,ButtonState xButton1,ButtonState xButton2)
-        {
-            this.x = x;
-            this.y = y;
-            this.scrollWheel = scrollWheel;
-            this.leftButton = leftButton;
-            this.middleButton = middleButton;
-            this.rightButton = rightButton;
-            this.xButton1 = xButton1;
-            this.xButton2 = xButton2;
-        }
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	public struct MouseState
+	{
+		public ButtonState LeftButton { get; private set; }
+		public ButtonState MiddleButton { get; private set; }
+		public ButtonState RightButton { get; private set; }
+		public ButtonState XButton1 { get; private set; }
+		public ButtonState XButton2 { get; private set; }
+		public int ScrollWheelValue { get; private set; }
+		public int X { get; private set; }
+		public int Y { get; private set; }
 
-        public ButtonState LeftButton { get { return this.leftButton; } }
-        public ButtonState MiddleButton { get { return this.middleButton; } }
-        public ButtonState RightButton { get { return this.rightButton; } }
-        public ButtonState XButton1 { get { return this.xButton1; } }
-        public ButtonState XButton2 { get { return this.xButton2; } }
-        public int ScrollWheelValue { get { return this.scrollWheel; } }
-        public int X { get { return this.x; } }
-        public int Y { get { return this.y; } }
+		public MouseState(int x, int y, int scrollWheel, ButtonState leftButton, ButtonState middleButton,
+			ButtonState rightButton, ButtonState xButton1, ButtonState xButton2)
+			: this()
+		{
+			X = x;
+			Y = y;
+			ScrollWheelValue = scrollWheel;
+			LeftButton = leftButton;
+			MiddleButton = middleButton;
+			RightButton = rightButton;
+			XButton1 = xButton1;
+			XButton2 = xButton2;
+		}
 
 		public static bool operator ==(MouseState left, MouseState right)
 		{
@@ -69,30 +63,27 @@ namespace ANX.Framework.Input
 
 		public override bool Equals(object obj)
 		{
-			if (obj is MouseState)
-			{
+			if (obj != null && obj is MouseState)
 				return this == (MouseState)obj;
-			}
 
 			return false;
 		}
 
-        public override int GetHashCode()
-        {
-            return ((((((this.x.GetHashCode() ^ this.y.GetHashCode()) ^ this.leftButton.GetHashCode()) ^ this.rightButton.GetHashCode()) ^ this.middleButton.GetHashCode()) ^ this.xButton1.GetHashCode()) ^ this.xButton2.GetHashCode()) ^ this.scrollWheel.GetHashCode();
-        }
+		public override int GetHashCode()
+		{
+			return X.GetHashCode() ^ Y.GetHashCode() ^ LeftButton.GetHashCode() ^ RightButton.GetHashCode() ^
+				MiddleButton.GetHashCode() ^ XButton1.GetHashCode() ^ XButton2.GetHashCode() ^ ScrollWheelValue.GetHashCode();
+		}
 
-        public override string ToString()
-        {
-            string buttons = String.Empty;
+		public override string ToString()
+		{
+			string buttons = LeftButton == ButtonState.Pressed ? "Left" : "";
+			buttons += RightButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
+			buttons += MiddleButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Middle" : "";
+			buttons += XButton1 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton1" : "";
+			buttons += XButton2 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton2" : "";
 
-            buttons += leftButton == ButtonState.Pressed ? "Left" : "";
-            buttons += rightButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
-            buttons += middleButton == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Middle" : "";
-            buttons += xButton1 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton1" : "";
-            buttons += xButton2 == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "XButton2" : "";
-
-            return string.Format("{{X:{0} Y:{1} Buttons:{2} Wheel:{3}}}", this.x, this.y, buttons, this.scrollWheel);
-        }
-    }
+			return String.Format("{{X:{0} Y:{1} Buttons:{2} Wheel:{3}}}", X, Y, buttons, ScrollWheelValue);
+		}
+	}
 }

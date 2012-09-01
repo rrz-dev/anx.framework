@@ -1,5 +1,6 @@
 using System;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.InputSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -8,6 +9,8 @@ using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.Framework.Input.Touch
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
 	public static class TouchPanel
 	{
 		#region Private
