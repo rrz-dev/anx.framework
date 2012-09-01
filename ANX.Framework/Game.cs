@@ -1,12 +1,11 @@
 #region Using Statements
 using System;
-using System.Threading;
+using System.Collections.Generic;
 using ANX.Framework.Content;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.Framework.NonXNA.PlatformSystem;
-using System.Collections.Generic;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.PlatformSystem;
 
 #endregion // Using Statements
 

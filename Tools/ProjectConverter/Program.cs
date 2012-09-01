@@ -1,9 +1,8 @@
 #region Using Statements
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
 using System.IO;
 using ProjectConverter.Platforms;
-using System.Collections.Generic;
 
 #endregion
 
@@ -15,7 +14,12 @@ namespace ProjectConverter
 {
 	static class Program
 	{
-        static Converter[] converters = new Converter[] { new LinuxConverter(), new MetroConverter(), new PsVitaConverter() };
+		private static Converter[] converters = new Converter[]
+		{
+			new LinuxConverter(),
+			new MetroConverter(),
+			new PsVitaConverter(),
+		};
 
 		[STAThread]
 		static void Main(string[] args)
@@ -31,28 +35,21 @@ namespace ProjectConverter
             Dictionary<string, string> keyValueParameters = new Dictionary<string,string>();
             List<string> files = new List<string>();
 
-            foreach (string arg in args)
-            {
-                if (arg.StartsWith("/") || arg.StartsWith("-"))
-                {
-                    if (arg.Contains("="))
-                    {
-                        string[] parts = arg.Split('=');
-                        keyValueParameters[parts[0].Trim().ToLowerInvariant()] = parts[1].Trim().ToLowerInvariant();
-                    }
-                    else
-                    {
-                        switches.Add(arg.Substring(1).Trim().ToLowerInvariant());
-                    }
-                }
-                else
-                {
-                    if (File.Exists(arg))
-                    {
-                        files.Add(arg);
-                    }
-                }
-            }
+			foreach (string arg in args)
+			{
+				if (arg.StartsWith("/") || arg.StartsWith("-"))
+				{
+					if (arg.Contains("="))
+					{
+						string[] parts = arg.Split('=');
+						keyValueParameters[parts[0].Trim().ToLowerInvariant()] = parts[1].Trim().ToLowerInvariant();
+					}
+					else
+						switches.Add(arg.Substring(1).Trim().ToLowerInvariant());
+				}
+				else if (File.Exists(arg))
+					files.Add(arg);
+			}
 
             foreach (string file in files)
             {
