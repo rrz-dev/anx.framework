@@ -99,7 +99,11 @@ namespace ANX.PlatformSystem.Windows
 					GraphicsDeviceManager.DefaultBackBufferWidth,
 					GraphicsDeviceManager.DefaultBackBufferHeight),
 			};
+
+            Form.Activated += delegate { base.OnActivated(); };
+            Form.Deactivate += delegate { base.OnDeactivated(); };
 		}
+
 		#endregion
 
 		#region Close

@@ -13,11 +13,13 @@ namespace ModelSample
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Model cubeModel;
+        Matrix cubeWorld;
+        Model anxLogo;
+        Matrix anxLogoWorld;
         Effect effect;
         Texture2D texture;
         bool overrideWithSimpleEffect = true;
 
-        Matrix world;
         Matrix view;
         Matrix projection;
 
@@ -32,14 +34,10 @@ namespace ModelSample
 
         protected override void Initialize()
         {
-            float aspect = (float)graphics.PreferredBackBufferWidth /
-							(float)graphics.PreferredBackBufferHeight;
+            float aspect = GraphicsDevice.Viewport.AspectRatio;
 
-            world = Matrix.Identity;
-            view = Matrix.CreateLookAt(Vector3.Backward * 10, world.Translation,
-							Vector3.Up);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
-							aspect, 1f, 100f);
+            view = Matrix.CreateLookAt(Vector3.Backward * 10, Matrix.Identity.Translation, Vector3.Up);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect, 1f, 100f);
 
             base.Initialize();
         }
@@ -48,7 +46,13 @@ namespace ModelSample
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = Content.Load<Effect>("Effects/SimpleEffect");
+            
             cubeModel = Content.Load<Model>("Models/Cube");
+            cubeWorld = Matrix.Identity;
+
+            anxLogo = Content.Load<Model>("Models/ANX_vertex_color");
+            anxLogoWorld = Matrix.CreateWorld(new Vector3(10, 10, 10), Vector3.Forward, Vector3.Up);
+
             texture = Content.Load<Texture2D>("Textures/Test_100x100");
 
             // Ovrride the basic effect in the model for testing
@@ -66,18 +70,17 @@ namespace ModelSample
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 this.Exit();
+            }
 
-            const float speed = 0.000001f;
+            const float speed = 0.25f;
             float rotation = (float)gameTime.TotalGameTime.TotalSeconds * speed;
-            world = Matrix.CreateRotationX(rotation) *
-								Matrix.CreateRotationY(rotation) *
-								Matrix.CreateRotationZ(rotation);
+            cubeWorld = Matrix.CreateRotationX(rotation) * Matrix.CreateRotationY(rotation) * Matrix.CreateRotationZ(rotation);
 
-            worldViewProj = world * view * projection;
-            worldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
+            worldViewProj = cubeWorld * view * projection;
+            worldInverseTranspose = Matrix.Transpose(Matrix.Invert(cubeWorld));
 
             base.Update(gameTime);
         }
@@ -88,7 +91,7 @@ namespace ModelSample
 
             if (overrideWithSimpleEffect)
             {
-                this.effect.Parameters["World"].SetValue(this.world);
+                this.effect.Parameters["World"].SetValue(this.cubeWorld);
                 this.effect.Parameters["View"].SetValue(this.view);
                 this.effect.Parameters["Projection"].SetValue(this.projection);
                 this.effect.Parameters["WorldViewProj"].SetValue(this.worldViewProj);
@@ -96,7 +99,7 @@ namespace ModelSample
                 this.effect.Parameters["Texture"].SetValue(this.texture);
             }
 
-            cubeModel.Draw(world, view, projection);
+            cubeModel.Draw(cubeWorld, view, projection);
             base.Draw(gameTime);
         }
     }

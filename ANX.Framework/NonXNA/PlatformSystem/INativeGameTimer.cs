@@ -8,6 +8,21 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 {
 	public interface INativeGameTimer
 	{
+        void Update();
+        void Reset();
+        void Suspend();
+        void Resume();
+
+        TimeSpan CurrentTime
+        {
+            get;
+        }
+
+        TimeSpan ElapsedTime
+        {
+            get;
+        }
+
 		long Frequency
 		{
 			get;

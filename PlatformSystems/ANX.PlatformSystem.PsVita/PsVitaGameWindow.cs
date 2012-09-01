@@ -81,6 +81,7 @@ namespace ANX.PlatformSystem.PsVita
 		#region Constructor
 		internal PsVitaGameWindow()
 		{
+            //TODO: Hook up activate and deactivate events
 		}
 		#endregion
 

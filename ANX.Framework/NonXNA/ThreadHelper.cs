@@ -13,5 +13,14 @@ namespace ANX.Framework.NonXNA
 			Thread.Sleep(milliseconds);
 #endif
 		}
+
+        public static void Sleep(TimeSpan timeSpan)
+        {
+#if WINDOWSMETRO
+            // TODO: search replacement
+#else
+            Thread.Sleep(timeSpan);
+#endif
+        }
 	}
 }

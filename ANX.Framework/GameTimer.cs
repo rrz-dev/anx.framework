@@ -1,5 +1,9 @@
+#region Using Statements
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
+using System;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,32 +11,34 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework
 {
+    //TODO: this class is public on Windows Phone
+
 	internal class GameTimer
 	{
 		private INativeGameTimer nativeImplementation;
-
-		//private long lastTicks;
-		//private long frequency;
+        private TimeSpan lastUpdate;
 
 		public GameTimer()
 		{
 			nativeImplementation = AddInSystemFactory.DefaultPlatformCreator.CreateGameTimer();
 
-			//lastTicks = nativeImplementation.Timestamp;
-			//frequency = nativeImplementation.Frequency;
-		}
+            nativeImplementation.Reset();
+            lastUpdate = nativeImplementation.ElapsedTime;
+        }
 
-		//internal TimeSpan Update()
-		//{
-		//  long newTicks = nativeImplementation.Timestamp;
-		//  //long elapseTenthsOfMilliseconds =
-		//  //  ((newTicks - lastTicks) * 10000) / frequency;
-		//  //float frameTime = (float)(elapseTenthsOfMilliseconds / 10000f);
-		//  TimeSpan elapsedUpdate = TimeSpan.FromTicks(newTicks - lastTicks);
-		//  lastTicks = newTicks;
+        public void Update()
+        {
+            nativeImplementation.Update();
+            lastUpdate = nativeImplementation.ElapsedTime;
+        }
 
-		//  return elapsedUpdate;
-		//}
+        public TimeSpan Elapsed
+        {
+            get
+            {
+                return nativeImplementation.ElapsedTime;
+            }
+        }
 
 		public long Timestamp
 		{

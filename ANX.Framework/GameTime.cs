@@ -41,10 +41,10 @@ namespace ANX.Framework
 		{
 			this.TotalGameTime = totalGameTime;
 			this.ElapsedGameTime = elapsedGameTime;
+            this.IsRunningSlowly = false;
 		}
 
-		public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime,
-			bool isRunningSlowly)
+		public GameTime(TimeSpan totalGameTime, TimeSpan elapsedGameTime, bool isRunningSlowly)
 		{
 			this.TotalGameTime = totalGameTime;
 			this.ElapsedGameTime = elapsedGameTime;

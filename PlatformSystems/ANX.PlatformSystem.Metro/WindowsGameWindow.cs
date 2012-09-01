@@ -87,6 +87,7 @@ namespace ANX.PlatformSystem.Metro
 		internal WindowsGameWindow(WindowsGameHost setGameHost)
 		{
 			gameHost = setGameHost;
+            //TODO: Hook up activate and deactivate events
 		}
 		#endregion
 

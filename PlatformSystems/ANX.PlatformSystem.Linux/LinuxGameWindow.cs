@@ -99,6 +99,9 @@ namespace ANX.PlatformSystem.Linux
 					GraphicsDeviceManager.DefaultBackBufferWidth,
 					GraphicsDeviceManager.DefaultBackBufferHeight),
 			};
+
+            Form.Activated += delegate { base.OnActivated(); };
+            Form.Deactivate += delegate { base.OnDeactivated(); };
 		}
 		#endregion
 

@@ -16,41 +16,50 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
-    [PercentageComplete(30)]
+    [PercentageComplete(60)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
 	public class Game : IDisposable
-	{
-		private IGraphicsDeviceManager graphicsDeviceManager;
+    {
+        #region Private Members
+        private IGraphicsDeviceManager graphicsDeviceManager;
 		private IGraphicsDeviceService graphicsDeviceService;
 		private GameServiceContainer gameServices;
-		private bool inRun;
-		private bool doneFirstUpdate;
+
+        private bool firstUpdateDone;
+        private bool firstDrawDone;
+        private bool drawingSlow;
+        private bool inRun;
+
 		private GameHost host;
 		private bool ShouldExit;
 
-		private GameTimer clock;
-		private bool isFixedTimeStep;
-		private TimeSpan targetElapsedTime;
+		private GameTimer gameTimer;
+        private TimeSpan gameTimeAccu;
 		private GameTime gameTime;
 		private TimeSpan totalGameTime;
-		private long lastUpdate;
+        private long updatesSinceRunningSlowly1;
+        private long updatesSinceRunningSlowly2;
+        private bool suppressDraw;
 
 		private GameTime gameUpdateTime;
-		private TimeSpan inactiveSleepTime;
 
 		private ContentManager content;
 
         private GameComponentCollection components;
         private List<IGameComponent> drawableGameComponents;
 
-		// Events
-		public event EventHandler<EventArgs> Activated;
+        #endregion
+
+        #region Events
+        public event EventHandler<EventArgs> Activated;
 		public event EventHandler<EventArgs> Deactivated;
 		public event EventHandler<EventArgs> Disposed;
 		public event EventHandler<EventArgs> Exiting;
 
-		public Game()
+        #endregion
+
+        public Game()
 		{
 			Logger.Info("created a new Game-Class");
 
@@ -78,11 +87,11 @@ namespace ANX.Framework
 			this.content = new ContentManager(this.gameServices);
 
 			Logger.Info("creating GameTimer");
-			this.clock = new GameTimer();
-			this.isFixedTimeStep = true;
+			this.gameTimer = new GameTimer();
+			this.IsFixedTimeStep = true;
 			this.gameUpdateTime = new GameTime();
-			this.inactiveSleepTime = TimeSpan.Zero;
-			this.targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
+            this.InactiveSleepTime = TimeSpan.FromMilliseconds(20.0); 
+            this.TargetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
 
             //TODO: implement draw- and update-order handling of GameComponents
             this.components = new GameComponentCollection();
@@ -91,6 +100,8 @@ namespace ANX.Framework
             this.drawableGameComponents = new List<IGameComponent>();
 
 			Logger.Info("finished initializing new Game class");
+
+            this.IsActive = true;
 		}
 
 		~Game()
@@ -187,7 +198,7 @@ namespace ANX.Framework
 
 		public void SuppressDraw()
 		{
-			throw new NotImplementedException();
+            this.suppressDraw = true;
 		}
 
 		public void ResetElapsedTime()
@@ -227,46 +238,94 @@ namespace ANX.Framework
 		public void Tick()
 		{
             if (this.ShouldExit)
+            {
                 return;
+            }
 
-			//TODO: calculation of times is wrong
-			//TODO: encapsulate timing stuff in GameTimer class
-			TimeSpan elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - lastUpdate);
-			if (isFixedTimeStep)
-			{
-				while (elapsedUpdate < targetElapsedTime)
-				{
-					ThreadHelper.Sleep(TargetElapsedTime.Milliseconds - elapsedUpdate.Milliseconds);
-					elapsedUpdate = TimeSpan.FromTicks(clock.Timestamp - elapsedUpdate.Ticks);
-				}
+            // Throttle speed when the game is not active
+            if (!this.IsActive)
+            {
+                ThreadHelper.Sleep(InactiveSleepTime);
+            }
 
-				gameUpdateTime.ElapsedGameTime = targetElapsedTime;
-				gameUpdateTime.TotalGameTime += elapsedUpdate;
-			}
-			else
-			{
-				gameUpdateTime.ElapsedGameTime = elapsedUpdate;
-				gameUpdateTime.TotalGameTime += elapsedUpdate;
-			}
+            gameTimer.Update();
 
-			//TODO: behaviour of update is wrong (I think): update should be called multiple times if we are behind the time
-			//TODO: is update called if minimized?
-			lastUpdate = clock.Timestamp;
-			Update(gameUpdateTime);
+            bool skipDraw = IsFixedTimeStep ? DoFixedTimeStep(gameTimer.Elapsed) : DoTimeStep(gameTimer.Elapsed);
+            this.suppressDraw = false;
+            if (skipDraw == false)
+            {
+                DrawFrame();
+            }
 
-			//elapsedUpdate = TimeSpan.FromTicks(GameTimer.Timestamp - lastUpdate);
-			gameUpdateTime.IsRunningSlowly = isFixedTimeStep && elapsedUpdate > targetElapsedTime;
-
-			if (!Window.IsMinimized && BeginDraw())
-			{
-				//TODO: does draw always get the same time as update or is the time updated in between? (this solution is like in Mono.XNA but it is wrong, I think)
-				Draw(gameUpdateTime);
-
-				EndDraw();
-			}
 		}
 
-		private void RunGame()
+        private bool DoFixedTimeStep(TimeSpan time)
+        {
+            bool skipDraw = false;
+
+            if (Math.Abs(time.Ticks - this.TargetElapsedTime.Ticks) < this.TargetElapsedTime.Ticks >> 6)
+            {
+                time = this.TargetElapsedTime;
+            }
+
+            this.gameTimeAccu += time;
+            long updateCount = this.gameTimeAccu.Ticks / this.TargetElapsedTime.Ticks;
+
+            if (updateCount <= 0)
+            {
+                return false;
+            }
+
+            if (updateCount > 1)
+            {
+                this.updatesSinceRunningSlowly2 = this.updatesSinceRunningSlowly1;
+                this.updatesSinceRunningSlowly1 = 0;
+            }
+            else
+            {
+                this.updatesSinceRunningSlowly1++;
+                this.updatesSinceRunningSlowly2++;
+            }
+
+            this.drawingSlow = (this.updatesSinceRunningSlowly2 < 20);
+
+            while (updateCount > 0)
+            {
+                if (this.ShouldExit)
+                {
+                    break;
+                }
+
+                updateCount -= 1L;
+
+                this.gameTime.ElapsedGameTime = this.TargetElapsedTime;
+                this.gameTime.TotalGameTime = this.totalGameTime;
+                this.gameTime.IsRunningSlowly = this.drawingSlow;
+                this.Update(this.gameTime);
+                skipDraw &= this.suppressDraw;
+                this.suppressDraw = false;
+
+                this.gameTimeAccu -= this.TargetElapsedTime;
+                this.totalGameTime += this.TargetElapsedTime;
+            }
+
+            return skipDraw;
+        }
+
+        private bool DoTimeStep(TimeSpan time)
+        {
+            this.gameTime.ElapsedGameTime = time;
+            this.gameTime.TotalGameTime = this.totalGameTime;
+            this.gameTime.IsRunningSlowly = false;
+
+            this.Update(this.gameTime);
+
+            this.totalGameTime += time;
+
+            return suppressDraw;
+        }
+
+        private void RunGame()
 		{
 			this.graphicsDeviceManager = this.Services.GetService(typeof(IGraphicsDeviceManager)) as IGraphicsDeviceManager;
 			if (this.graphicsDeviceManager != null)
@@ -278,81 +337,37 @@ namespace ANX.Framework
 			this.gameTime.ElapsedGameTime = TimeSpan.Zero;
 			this.gameTime.TotalGameTime = this.totalGameTime;
 			this.gameTime.IsRunningSlowly = false;
-			this.lastUpdate = clock.Timestamp;
 			this.Update(this.gameTime);
-			this.doneFirstUpdate = true;
+			this.firstUpdateDone = true;
 			this.host.Run();
 			this.EndRun();
 		}
 
 		private void DrawFrame()
 		{
-			try
-			{
-				if (((!this.ShouldExit && this.doneFirstUpdate) && !this.Window.IsMinimized) && this.BeginDraw())
-				{
-					this.gameTime.TotalGameTime = this.totalGameTime;
-					//this.gameTime.ElapsedGameTime = this.lastFrameElapsedGameTime;
-					//this.gameTime.IsRunningSlowly = this.drawRunningSlowly;
-					this.Draw(this.gameTime);
-					this.EndDraw();
-					//this.doneFirstDraw = true;
-				}
-			}
-			finally
-			{
-				//this.lastFrameElapsedGameTime = TimeSpan.Zero;
-			}
+            if (!this.ShouldExit)
+            {
+                if (this.firstUpdateDone)
+                {
+                    if (!this.Window.IsMinimized)
+                    {
+                        if (this.BeginDraw())
+                        {
+                            this.Draw(this.gameTime);
+                            this.EndDraw();
+
+                            if (!this.firstDrawDone)
+                            {
+                                this.firstDrawDone = true;
+                            }
+                        }
+                    }
+                }
+            }
 		}
 
-		private void HostActivated(object sender, EventArgs e)
-		{
-			//TODO: implement
-
-			//if (!this.isActive)
-			//{
-			//    this.isActive = true;
-			//    this.OnActivated(this, EventArgs.Empty);
-			//}
-		}
-
-		private void HostDeactivated(object sender, EventArgs e)
-		{
-			//TODO: implement
-
-			//if (this.isActive)
-			//{
-			//    this.isActive = false;
-			//    this.OnDeactivated(this, EventArgs.Empty);
-			//}
-		}
-
-		private void HostExiting(object sender, EventArgs e)
-		{
-            ShouldExit = true;
-
-			//TODO: implement
-			//this.OnExiting(this, EventArgs.Empty);
-		}
-
-		private void HostIdle(object sender, EventArgs e)
-		{
-			this.Tick();
-		}
-
-		private void HostResume(object sender, EventArgs e)
-		{
-			//TODO: implement
-			//this.clock.Resume();
-		}
-
-		private void HostSuspend(object sender, EventArgs e)
-		{
-			//TODO: implement
-			//this.clock.Suspend();
-		}
-
-		public GameServiceContainer Services
+        #region Public Properties
+        public GameServiceContainer Services
 		{
 			get
 			{
@@ -386,6 +401,7 @@ namespace ANX.Framework
 
 					//TODO: exception if null
 				}
+
 				return graphicsDeviceService.GraphicsDevice;
 			}
 		}
@@ -394,32 +410,20 @@ namespace ANX.Framework
 		{
 			get
 			{
-				return (host != null) ? host.Window : null;
+                return (host != null) ? host.Window : null;
 			}
 		}
 
 		public bool IsFixedTimeStep
 		{
-			get
-			{
-				return isFixedTimeStep;
-			}
-			set
-			{
-				isFixedTimeStep = value;
-			}
+			get;
+			set;
 		}
 
 		public TimeSpan TargetElapsedTime
 		{
-			get
-			{
-				return targetElapsedTime;
-			}
-			set
-			{
-				targetElapsedTime = value;
-			}
+			get;
+			set;
 		}
 
 		public TimeSpan InactiveSleepTime
@@ -430,19 +434,9 @@ namespace ANX.Framework
 
 		public bool IsActive
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		internal bool IsActiveIgnoringGuide
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+			get;
+            internal set;
+        }
 
 		public bool IsMouseVisible
 		{
@@ -462,6 +456,16 @@ namespace ANX.Framework
         {
             get;
             private set;
+        }
+
+        #endregion
+
+        internal bool IsActiveIgnoringGuide
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
 		public void Dispose()
@@ -493,25 +497,34 @@ namespace ANX.Framework
 			}
 		}
 
-		protected virtual void OnActivated(Object sender, EventArgs args)
+        protected virtual bool ShowMissingRequirementMessage(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Event Handling
+        protected virtual void OnActivated(Object sender, EventArgs args)
 		{
-			throw new NotImplementedException();
+            RaiseIfNotNull(this.Activated, sender, args);
 		}
 
 		protected virtual void OnDeactivated(Object sender, EventArgs args)
 		{
-			throw new NotImplementedException();
+            RaiseIfNotNull(this.Deactivated, sender, args);
 		}
 
 		protected virtual void OnExiting(Object sender, EventArgs args)
 		{
-			throw new NotImplementedException();
+            RaiseIfNotNull(this.Exiting, sender, args);
 		}
 
-		protected virtual bool ShowMissingRequirementMessage(Exception exception)
-		{
-			throw new NotImplementedException();
-		}
+        private void RaiseIfNotNull(EventHandler<EventArgs> eventDelegate, Object sender, EventArgs args)
+        {
+            if (eventDelegate != null)
+            {
+                eventDelegate(sender, args);
+            }
+        }
 
         private void components_ComponentRemoved(object sender, GameComponentCollectionEventArgs e)
         {
@@ -531,5 +544,49 @@ namespace ANX.Framework
             e.GameComponent.Initialize();
         }
 
-	}
+        private void HostActivated(object sender, EventArgs e)
+        {
+            if (!IsActive)
+            {
+                this.IsActive = true;
+                this.OnActivated(this, EventArgs.Empty);
+            }
+        }
+
+        private void HostDeactivated(object sender, EventArgs e)
+        {
+            if (IsActive)
+            {
+                this.IsActive = false;
+                this.OnDeactivated(this, EventArgs.Empty);
+            }
+        }
+
+        private void HostExiting(object sender, EventArgs e)
+        {
+            ShouldExit = true;
+
+            //TODO: implement
+            //this.OnExiting(this, EventArgs.Empty);
+        }
+
+        private void HostIdle(object sender, EventArgs e)
+        {
+            this.Tick();
+        }
+
+        private void HostResume(object sender, EventArgs e)
+        {
+            //TODO: implement
+            //this.clock.Resume();
+        }
+
+        private void HostSuspend(object sender, EventArgs e)
+        {
+            //TODO: implement
+            //this.clock.Suspend();
+        }
+
+        #endregion
+    }
 }
