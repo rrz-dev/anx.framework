@@ -37,6 +37,8 @@ namespace WindowsGame1
 		{
 			graphics = new GraphicsDeviceManager(this);
 			graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+			//graphics.SynchronizeWithVerticalRetrace = false;
+			//IsFixedTimeStep = false;
 			Content.RootDirectory = "SampleContent";
 		}
 
