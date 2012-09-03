@@ -1,8 +1,7 @@
-#region Using Statements
 using System;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,76 +9,92 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Graphics
 {
-    public class OcclusionQuery : GraphicsResource, IGraphicsResource
-    {
-        private bool hasBegun;
-        private bool completeCallPending;
+	public class OcclusionQuery : GraphicsResource, IGraphicsResource
+	{
+		#region Private
+		private bool hasBegun;
+		private bool completeCallPending;
 
-        public OcclusionQuery(GraphicsDevice graphicsDevice)
-            : base(graphicsDevice)
-        {
-            throw new NotImplementedException();
-        }
+		private IOcclusionQuery nativeQuery;
+		#endregion
 
-        public void Begin()
-        {
-            if (this.hasBegun)
-            {
-                throw new InvalidOperationException("Begin cannot be called again until End is called.");
-            }
+		#region Public
+		public bool IsComplete
+		{
+			get
+			{
+				return nativeQuery.IsComplete;
+			}
+		}
 
-            if (this.completeCallPending)
-            {
-                throw new InvalidOperationException("Begin may not be called on this query object again before IsComplete is checked.");
-            }
+		public int PixelCount
+		{
+			get
+			{
+				if (this.completeCallPending)
+					throw new InvalidOperationException("The status of the query data is unknown. Use the IsComplete " +
+						"property to determine if the data is available before attempting to retrieve it.");
 
-            this.hasBegun = true;
-            this.completeCallPending = true;
+				return nativeQuery.PixelCount;
+			}
+		}
+		#endregion
 
-            throw new NotImplementedException();
-        }
+		#region Constructor
+		public OcclusionQuery(GraphicsDevice graphicsDevice)
+			: base(graphicsDevice)
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			nativeQuery = creator.CreateOcclusionQuery();
+		}
 
-        public void End()
-        {
-            if (!this.hasBegun)
-            {
-                throw new InvalidOperationException("Begin must be called before End can be called.");
-            }
+		~OcclusionQuery()
+		{
+			Dispose(true);
+		}
+		#endregion
 
-            throw new NotImplementedException();
-        }
+		#region Begin
+		public void Begin()
+		{
+			if (hasBegun)
+				throw new InvalidOperationException("Begin cannot be called again until End is called.");
 
-        public override void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+			if (completeCallPending)
+				throw new InvalidOperationException("Begin may not be called on this query object again before IsComplete " +
+					"is checked.");
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
+			hasBegun = true;
+			completeCallPending = true;
 
-        public bool IsComplete
-        {
-            get
-            {
-                this.completeCallPending = false;
+			nativeQuery.Begin();
+		}
+		#endregion
 
-                throw new NotImplementedException();
-            }
-        }
+		#region End
+		public void End()
+		{
+			if (this.hasBegun == false)
+				throw new InvalidOperationException("Begin must be called before End can be called.");
 
-        public int PixelCount
-        {
-            get
-            {
-                if (this.completeCallPending)
-                {
-                    throw new InvalidOperationException("The status of the query data is unknown. Use the IsComplete property to determine if the data is available before attempting to retrieve it.");
-                }
+			nativeQuery.End();
+		}
+		#endregion
 
-                throw new NotImplementedException();
-            }
-        }
-    }
+		#region Dispose
+		public override void Dispose()
+		{
+			Dispose(true);
+		}
+
+		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		{
+			if (nativeQuery != null)
+			{
+				nativeQuery.Dispose();
+				nativeQuery = null;
+			}
+		}
+		#endregion
+	}
 }

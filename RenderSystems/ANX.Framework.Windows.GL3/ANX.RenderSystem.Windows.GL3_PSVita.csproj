@@ -57,6 +57,7 @@
     <Compile Include="Helpers\LinuxInterop.cs" />
     <Compile Include="Helpers\WindowsInterop.cs" />
     <Compile Include="IndexBufferGL3.cs" />
+    <Compile Include="OcclusionQueryGL3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterizerStateGL3.cs" />
     <Compile Include="RenderTarget2DGL3.cs" />

@@ -247,5 +247,12 @@ namespace ANX.RenderSystem.Windows.DX10
         {
             return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
         }
+
+		#region CreateOcclusionQuery (TODO)
+		public IOcclusionQuery CreateOcclusionQuery()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
     }
 }

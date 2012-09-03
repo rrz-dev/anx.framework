@@ -262,5 +262,22 @@ namespace ANX.RenderSystem.Windows.Metro
 				preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
 		}
 		#endregion
+
+		#region CreateOcclusionQuery (TODO)
+		public IOcclusionQuery CreateOcclusionQuery()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region IRenderSystemCreator Member
+
+
+		public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }

@@ -323,5 +323,12 @@ namespace ANX.RenderSystem.Windows.GL3
             return sourceLanguage == EffectSourceLanguage.GLSL_FX || sourceLanguage == EffectSourceLanguage.GLSL;
 		}
 		#endregion
+
+		#region CreateOcclusionQuery
+		public IOcclusionQuery CreateOcclusionQuery()
+		{
+			return new OcclusionQueryGL3();
+		}
+		#endregion
 	}
 }

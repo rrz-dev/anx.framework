@@ -160,5 +160,11 @@ namespace ANX.RenderSystem.PsVita
             return false;
         }
 
+		#region CreateOcclusionQuery (TODO)
+		public IOcclusionQuery CreateOcclusionQuery()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 }
