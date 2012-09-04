@@ -1,15 +1,7 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
-using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA.RenderSystem;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -17,123 +9,126 @@ using System.Runtime.CompilerServices;
 
 namespace ANX.Framework.Graphics
 {
-    public class RenderTarget2D : Texture2D, IDynamicGraphicsResource
-    {
-        public event EventHandler<EventArgs> ContentLost;
+	public class RenderTarget2D : Texture2D, IDynamicGraphicsResource
+	{
+		public event EventHandler<EventArgs> ContentLost;
 
-        #region Private Members
-        private DepthFormat depthStencilFormat;
-        private int multiSampleCount;
-        private RenderTargetUsage usage;
-        private bool isContentLost;
-        private INativeRenderTarget2D nativeRenderTarget;
+		#region Private
+		private DepthFormat depthStencilFormat;
+		private int multiSampleCount;
+		private RenderTargetUsage usage;
+		private bool isContentLost;
+		private INativeRenderTarget2D nativeRenderTarget;
+		#endregion
 
-        #endregion // Private Members
+		internal INativeRenderTarget2D NativeRenderTarget
+		{
+			get
+			{
+				return this.nativeRenderTarget;
+			}
+		}
 
-        #region Constructors
-        public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
-            : base(graphicsDevice)
-        {
-            this.width = width;
-            this.height = height;
+		public DepthFormat DepthStencilFormat
+		{
+			get
+			{
+				return this.depthStencilFormat;
+			}
+		}
 
-            base.levelCount = 1;
-            base.format = SurfaceFormat.Color;
+		public bool IsContentLost
+		{
+			get
+			{
+				return this.isContentLost;
+			}
+		}
 
-            this.depthStencilFormat = DepthFormat.None;
-            this.multiSampleCount = 0;
-            this.usage = RenderTargetUsage.DiscardContents;
+		public int MultiSampleCount
+		{
+			get
+			{
+				return this.multiSampleCount;
+			}
+		}
 
-            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
-        }
+		public RenderTargetUsage RenderTargetUsage
+		{
+			get
+			{
+				return this.usage;
+			}
+		}
 
-				public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
-            : base(graphicsDevice)
-        {
-            this.depthStencilFormat = DepthFormat.None;
-            this.multiSampleCount = 0;
-            this.usage = RenderTargetUsage.DiscardContents;
+		#region Constructor
+		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
+			: base(graphicsDevice)
+		{
+			this.width = width;
+			this.height = height;
 
-            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
-        }
+			base.levelCount = 1;
+			base.format = SurfaceFormat.Color;
 
-				public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)]  bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
-            : base(graphicsDevice)
-        {
-            this.depthStencilFormat = preferredDepthFormat;
-            this.multiSampleCount = preferredMultiSampleCount;
-            this.usage = usage;
+			this.depthStencilFormat = DepthFormat.None;
+			this.multiSampleCount = 0;
+			this.usage = RenderTargetUsage.DiscardContents;
 
-            this.nativeRenderTarget = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color, this.depthStencilFormat, this.multiSampleCount, this.usage);
-            base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
-        }
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.depthStencilFormat, this.multiSampleCount, this.usage);
+			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+		}
 
-        #endregion // Constructors
+		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height,
+			[MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
+			: base(graphicsDevice)
+		{
+			this.depthStencilFormat = DepthFormat.None;
+			this.multiSampleCount = 0;
+			this.usage = RenderTargetUsage.DiscardContents;
 
-        protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.depthStencilFormat, this.multiSampleCount, this.usage);
+			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+		}
 
-        internal INativeRenderTarget2D NativeRenderTarget
-        {
-            get
-            {
-                return this.nativeRenderTarget;
-            }
-        }
+		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height,
+			[MarshalAsAttribute(UnmanagedType.U1)]  bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat,
+			int preferredMultiSampleCount, RenderTargetUsage usage)
+			: base(graphicsDevice)
+		{
+			this.depthStencilFormat = preferredDepthFormat;
+			this.multiSampleCount = preferredMultiSampleCount;
+			this.usage = usage;
 
-        public DepthFormat DepthStencilFormat
-        {
-            get
-            {
-                return this.depthStencilFormat;
-            }
-        }
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.depthStencilFormat, this.multiSampleCount, this.usage);
+			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+		}
+		#endregion
 
-        public bool IsContentLost
-        {
-            get
-            {
-                return this.isContentLost;
-            }
-        }
+		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		{
+			throw new NotImplementedException();
+		}
 
-        public int MultiSampleCount
-        {
-            get
-            {
-                return this.multiSampleCount;
-            }
-        }
+		void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
+		{
+			this.isContentLost = isContentLost;
+			if (isContentLost)
+				raise_ContentLost(this, EventArgs.Empty);
 
-        public RenderTargetUsage RenderTargetUsage
-        {
-            get
-            {
-                return this.usage;
-            }
-        }
+			throw new NotImplementedException();
+		}
 
-        void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
-        {
-            this.isContentLost = isContentLost;
-            if (isContentLost)
-            {
-                raise_ContentLost(this, EventArgs.Empty);
-            }
-
-            throw new NotImplementedException();
-        }
-
-        protected void raise_ContentLost(object sender, EventArgs args)
-        {
-            if (ContentLost != null)
-            {
-                ContentLost(sender, args);
-            }
-        }
-    }
+		protected void raise_ContentLost(object sender, EventArgs args)
+		{
+			if (ContentLost != null)
+				ContentLost(sender, args);
+		}
+	}
 }

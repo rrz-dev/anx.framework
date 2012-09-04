@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,8 +9,15 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
 	public class RasterizerState : GraphicsResource
 	{
+		#region Constants
+		public static readonly RasterizerState CullClockwise;
+		public static readonly RasterizerState CullCounterClockwise;
+		public static readonly RasterizerState CullNone;
+		#endregion
+
 		#region Private
 		private INativeRasterizerState nativeRasterizerState;
 
@@ -19,15 +27,9 @@ namespace ANX.Framework.Graphics
 		private bool multiSampleAntiAlias;
 		private bool scissorTestEnable;
 		private float slopeScaleDepthBias;
-
 		#endregion
 
 		#region Public
-		public static readonly RasterizerState CullClockwise;
-		public static readonly RasterizerState CullCounterClockwise;
-		public static readonly RasterizerState CullNone;
-
-		#region NativeRasterizerState
 		internal INativeRasterizerState NativeRasterizerState
 		{
 			get
@@ -35,9 +37,7 @@ namespace ANX.Framework.Graphics
 				return this.nativeRasterizerState;
 			}
 		}
-		#endregion
 
-		#region CullMode
 		public CullMode CullMode
 		{
 			get
@@ -46,15 +46,12 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.cullMode = value;
 				this.nativeRasterizerState.CullMode = value;
 			}
 		}
-		#endregion
 
-		#region DepthBias
 		public float DepthBias
 		{
 			get
@@ -63,15 +60,12 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.depthBias = value;
 				this.nativeRasterizerState.DepthBias = value;
 			}
 		}
-		#endregion
 
-		#region FillMode
 		public FillMode FillMode
 		{
 			get
@@ -80,15 +74,12 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.fillMode = value;
 				this.nativeRasterizerState.FillMode = value;
 			}
 		}
-		#endregion
 
-		#region MultiSampleAntiAlias
 		public bool MultiSampleAntiAlias
 		{
 			get
@@ -97,15 +88,12 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.multiSampleAntiAlias = value;
 				this.nativeRasterizerState.MultiSampleAntiAlias = value;
 			}
 		}
-		#endregion
 
-		#region SlopeScaleDepthBias
 		public bool ScissorTestEnable
 		{
 			get
@@ -114,15 +102,12 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.scissorTestEnable = value;
 				this.nativeRasterizerState.ScissorTestEnable = value;
 			}
 		}
-		#endregion
 
-		#region SlopeScaleDepthBias
 		public float SlopeScaleDepthBias
 		{
 			get
@@ -131,21 +116,18 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				ValidateSetProperty();
-
+				ThrowIfBound();
 				this.slopeScaleDepthBias = value;
 				this.nativeRasterizerState.SlopeScaleDepthBias = value;
 			}
 		}
 		#endregion
-		#endregion
 
 		#region Constructor
 		public RasterizerState()
 		{
-			this.nativeRasterizerState =
-				AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>()
-				.CreateRasterizerState();
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeRasterizerState = creator.CreateRasterizerState();
 
 			this.CullMode = CullMode.CullCounterClockwiseFace;
 			this.DepthBias = 0f;
@@ -157,9 +139,8 @@ namespace ANX.Framework.Graphics
 
 		private RasterizerState(CullMode cullMode, string name)
 		{
-			this.nativeRasterizerState =
-				AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>()
-				.CreateRasterizerState();
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeRasterizerState = creator.CreateRasterizerState();
 
 			this.CullMode = cullMode;
 			this.DepthBias = 0f;
@@ -167,29 +148,23 @@ namespace ANX.Framework.Graphics
 			this.MultiSampleAntiAlias = true;
 			this.ScissorTestEnable = false;
 			this.SlopeScaleDepthBias = 0f;
-
 			Name = name;
 		}
 
 		static RasterizerState()
 		{
-			CullClockwise = new RasterizerState(CullMode.CullClockwiseFace,
-				"RasterizerState.CullClockwise");
-			CullCounterClockwise = new RasterizerState(CullMode.CullCounterClockwiseFace,
-					"RasterizerState.CullCounterClockwise");
+			CullClockwise = new RasterizerState(CullMode.CullClockwiseFace, "RasterizerState.CullClockwise");
+			CullCounterClockwise = new RasterizerState(CullMode.CullCounterClockwiseFace, "RasterizerState.CullCounterClockwise");
 			CullNone = new RasterizerState(CullMode.None, "RasterizerState.CullNone");
 		}
 		#endregion
 
-		#region ValidateSetProperty (private helper)
-		private void ValidateSetProperty()
+		#region ThrowIfBound
+		private void ThrowIfBound()
 		{
 			if (this.nativeRasterizerState.IsBound)
-			{
-				throw new InvalidOperationException(
-					"You are not allowed to change RasterizerState properties " +
+				throw new InvalidOperationException("You are not allowed to change RasterizerState properties " +
 					"while it is bound to the GraphicsDevice.");
-			}
 		}
 		#endregion
 

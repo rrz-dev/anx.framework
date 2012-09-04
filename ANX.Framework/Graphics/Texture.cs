@@ -1,9 +1,4 @@
-#region Using Statements
-using System;
 using ANX.Framework.NonXNA.RenderSystem;
-using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -15,7 +10,36 @@ namespace ANX.Framework.Graphics
     {
         protected internal int levelCount;
         protected internal SurfaceFormat format;
-        protected internal INativeTexture nativeTexture;
+		protected internal INativeTexture nativeTexture;
+
+		public int LevelCount
+		{
+			get
+			{
+				return this.levelCount;
+			}
+		}
+
+		public SurfaceFormat Format
+		{
+			get
+			{
+				return this.format;
+			}
+		}
+
+		internal INativeTexture NativeTexture
+		{
+			get
+			{
+				if (this.nativeTexture == null)
+				{
+					ReCreateNativeTextureSurface();
+				}
+
+				return this.nativeTexture;
+			}
+		}
 
         public Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
@@ -28,35 +52,6 @@ namespace ANX.Framework.Graphics
         {
             base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
             base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
-
-        public int LevelCount
-        {
-            get
-            {
-                return this.levelCount;
-            }
-        }
-
-        public SurfaceFormat Format
-        {
-            get
-            {
-                return this.format;
-            }
-        }
-
-        internal INativeTexture NativeTexture
-        {
-            get
-            {
-                if (this.nativeTexture == null)
-                {
-                    ReCreateNativeTextureSurface();
-                }
-
-                return this.nativeTexture;
-            }
         }
 
         public override void Dispose()
@@ -76,22 +71,13 @@ namespace ANX.Framework.Graphics
         internal abstract void ReCreateNativeTextureSurface();
 
         private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
-        {
-            if (nativeTexture != null)
-            {
-                nativeTexture.Dispose();
-                nativeTexture = null;
-            }
+		{
+			Dispose(true);
         }
 
         private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
-        {
-            if (nativeTexture != null)
-            {
-                nativeTexture.Dispose();
-                nativeTexture = null;
-            }
-
+		{
+			Dispose(true);
             ReCreateNativeTextureSurface();
         }
     }

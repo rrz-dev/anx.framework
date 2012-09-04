@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,12 +7,31 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
     public struct RenderTargetBinding
     {
-        #region Private Members
+        #region Private
         private Texture renderTarget;
         private CubeMapFace cubeMapFace;
-        #endregion // Private Members
+		#endregion
+
+		#region Public
+		public Texture RenderTarget
+		{
+			get
+			{
+				return this.renderTarget;
+			}
+		}
+
+		public CubeMapFace CubeMapFace
+		{
+			get
+			{
+				return this.cubeMapFace;
+			}
+		}
+		#endregion
 
         public RenderTargetBinding(RenderTarget2D renderTarget)
         {
@@ -31,22 +48,6 @@ namespace ANX.Framework.Graphics
         public static implicit operator RenderTargetBinding(RenderTarget2D renderTarget)
         {
             return new RenderTargetBinding(renderTarget);
-        }
-
-        public Texture RenderTarget
-        {
-            get
-            {
-                return this.renderTarget;
-            }
-        }
-
-        public CubeMapFace CubeMapFace
-        {
-            get
-            {
-                return this.cubeMapFace;
-            }
         }
     }
 }

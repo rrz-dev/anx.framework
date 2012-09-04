@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,24 +7,16 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
     public sealed class ResourceDestroyedEventArgs : EventArgs
-    {
+	{
+		public string Name { get; set; }
+		public object Tag { get; set; }
+
         public ResourceDestroyedEventArgs(string name, object tag)
         {
             this.Tag = tag;
             this.Name = name;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public object Tag
-        {
-            get;
-            set;
         }
     }
 }

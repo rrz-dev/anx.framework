@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,85 +7,85 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
-    public sealed class ModelMeshPart
-    {
-        internal ModelMesh parentMesh;
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	public sealed class ModelMeshPart
+	{
+		#region Private
+		internal ModelMesh parentMesh;
+		private Effect effect;
+		private IndexBuffer indexBuffer;
+		private int numVertices;
+		private int primitiveCount;
+		private int startIndex;
+		private Object tag;
+		private VertexBuffer vertexBuffer;
+		private int vertexOffset;
+		#endregion
 
-        private Effect effect;
+		#region Public
+		public Effect Effect
+		{
+			get { return effect; }
+			set
+			{
+				if (this.effect != value)
+				{
+					var old = this.effect;
+					this.effect = value;
+					this.parentMesh.EffectChangedOnMeshPart(this, old, value);
+				}
+			}
+		}
 
-        public Effect Effect
-        {
-            get { return effect; }
-            set 
-            {
-                if (this.effect != value)
-                {
-                    var old = this.effect;
-                    this.effect = value;
-                    this.parentMesh.EffectChangedOnMeshPart(this, old, value);
-                }
-            }
-        }
+		public IndexBuffer IndexBuffer
+		{
+			get { return indexBuffer; }
+			internal set { this.indexBuffer = value; }
+		}
 
-        private IndexBuffer indexBuffer;
+		public int NumVertices
+		{
+			get { return numVertices; }
+		}
 
-        public IndexBuffer IndexBuffer
-        {
-            get { return indexBuffer; }
-            internal set { this.indexBuffer = value; }
-        }
+		public int PrimitiveCount
+		{
+			get { return primitiveCount; }
+		}
 
-        private int numVertices;
+		public int StartIndex
+		{
+			get { return startIndex; }
+		}
 
-        public int NumVertices
-        {
-            get { return numVertices; }
-        }
+		public Object Tag
+		{
+			get { return tag; }
+			set { tag = value; }
+		}
 
-        private int primitiveCount;
 
-        public int PrimitiveCount
-        {
-            get { return primitiveCount; }
-        }
+		public VertexBuffer VertexBuffer
+		{
+			get { return vertexBuffer; }
+			internal set { this.vertexBuffer = value; }
+		}
 
-        private int startIndex;
 
-        public int StartIndex
-        {
-            get { return startIndex; }
-        }
+		public int VertexOffset
+		{
+			get { return vertexOffset; }
+		}
+		#endregion
 
-        private Object tag;
-
-        public Object Tag
-        {
-            get { return tag; }
-            set { tag = value; }
-        }
-
-        private VertexBuffer vertexBuffer;
-
-        public VertexBuffer VertexBuffer
-        {
-            get { return vertexBuffer; }
-            internal set { this.vertexBuffer = value; }
-        }
-
-        private int vertexOffset;
-
-        public int VertexOffset
-        {
-            get { return vertexOffset; }
-        }
-
-        internal ModelMeshPart(int vertexOffset, int numVertices, int startIndex, int primitiveCount, object tag)
-        {
-            this.vertexOffset = vertexOffset;
-            this.numVertices = numVertices;
-            this.startIndex = startIndex;
-            this.primitiveCount = primitiveCount;
-            this.tag = tag;
-        }
-    }
+		internal ModelMeshPart(int vertexOffset, int numVertices, int startIndex, int primitiveCount, object tag)
+		{
+			this.vertexOffset = vertexOffset;
+			this.numVertices = numVertices;
+			this.startIndex = startIndex;
+			this.primitiveCount = primitiveCount;
+			this.tag = tag;
+		}
+	}
 }

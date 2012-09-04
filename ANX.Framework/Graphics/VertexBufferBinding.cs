@@ -1,7 +1,4 @@
-#region Using Statements
-using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,13 +6,40 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
     public struct VertexBufferBinding
     {
-        #region Private Members
+        #region Private
         private VertexBuffer vertexBuffer;
         private int instanceFrequency;
         private int vertexOffset;
-        #endregion // Private Members
+		#endregion
+
+		#region Public
+		public VertexBuffer VertexBuffer
+		{
+			get
+			{
+				return this.vertexBuffer;
+			}
+		}
+
+		public int InstanceFrequency
+		{
+			get
+			{
+				return this.instanceFrequency;
+			}
+		}
+
+		public int VertexOffset
+		{
+			get
+			{
+				return this.vertexOffset;
+			}
+		}
+		#endregion
 
         public VertexBufferBinding(VertexBuffer vertexBuffer)
         {
@@ -41,30 +65,6 @@ namespace ANX.Framework.Graphics
         public static implicit operator VertexBufferBinding(VertexBuffer vertexBuffer)
         {
             return new VertexBufferBinding(vertexBuffer);
-        }
-
-        public VertexBuffer VertexBuffer
-        {
-            get
-            {
-                return this.vertexBuffer;
-            }
-        }
-
-        public int InstanceFrequency
-        {
-            get
-            {
-                return this.instanceFrequency;
-            }
-        }
-
-        public int VertexOffset
-        {
-            get
-            {
-                return this.vertexOffset;
-            }
         }
     }
 }

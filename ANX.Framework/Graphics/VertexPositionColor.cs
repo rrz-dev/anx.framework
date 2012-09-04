@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,7 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(95)]
 	public struct VertexPositionColor : IVertexType
 	{
 		public Vector3 Position;
@@ -15,10 +17,7 @@ namespace ANX.Framework.Graphics
 
 		VertexDeclaration IVertexType.VertexDeclaration
 		{
-			get
-			{
-				return VertexDeclaration;
-			}
+			get { return VertexDeclaration; }
 		}
 
 		public VertexPositionColor(Vector3 position, Color color)
@@ -31,15 +30,12 @@ namespace ANX.Framework.Graphics
 		{
 			VertexElement[] elements =
 			{
-				new VertexElement(0, VertexElementFormat.Vector3,
-					VertexElementUsage.Position, 0),
-				new VertexElement(12, VertexElementFormat.Color,
-					VertexElementUsage.Color, 0),
+				new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+				new VertexElement(12, VertexElementFormat.Color, VertexElementUsage.Color, 0),
 			};
 
-			VertexDeclaration declaration = new VertexDeclaration(16, elements);
-			declaration.Name = "VertexPositionColor.VertexDeclaration";
-			VertexDeclaration = declaration;
+			VertexDeclaration = new VertexDeclaration(16, elements);
+			VertexDeclaration.Name = "VertexPositionColor.VertexDeclaration";
 		}
 
 		public override int GetHashCode()
@@ -49,16 +45,13 @@ namespace ANX.Framework.Graphics
 
 		public override string ToString()
 		{
-			return string.Format("{{Position:{0} Color:{1}}}",
-				this.Position, this.Color);
+			return String.Format("{{Position:{0} Color:{1}}}", Position, Color);
 		}
 
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj.GetType() == this.GetType())
-			{
+			if (obj != null && obj is VertexPositionColor)
 				return this == (VertexPositionColor)obj;
-			}
 
 			return false;
 		}
@@ -70,8 +63,7 @@ namespace ANX.Framework.Graphics
 
 		public static bool operator !=(VertexPositionColor lhs, VertexPositionColor rhs)
 		{
-			return lhs.Color.Equals(rhs.Color) == false ||
-					lhs.Position.Equals(rhs.Position) == false;
+			return lhs.Color.Equals(rhs.Color) == false || lhs.Position.Equals(rhs.Position) == false;
 		}
 	}
 }

@@ -1,7 +1,4 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,7 +7,54 @@ using System;
 namespace ANX.Framework.Graphics
 {
     public sealed class EffectAnnotation
-    {
+	{
+		public int ColumnCount
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public EffectParameterClass ParameterClass
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public EffectParameterType ParameterType
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public int RowCount
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string Semantic
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 
         public bool GetValueBoolean()
         {
@@ -51,54 +95,5 @@ namespace ANX.Framework.Graphics
         {
             throw new NotImplementedException();
         }
-
-        public int ColumnCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public EffectParameterClass ParameterClass
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public EffectParameterType ParameterType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int RowCount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Semantic
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
     }
 }

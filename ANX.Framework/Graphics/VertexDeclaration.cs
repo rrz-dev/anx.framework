@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
 	public class VertexDeclaration : GraphicsResource
 	{
 		private VertexElement[] elements;
@@ -33,10 +35,7 @@ namespace ANX.Framework.Graphics
 
 		public VertexElement[] GetVertexElements()
 		{
-			if (elements != null)
-				return elements.Clone() as VertexElement[];
-			else
-				return null;
+			return (elements != null) ? (elements.Clone() as VertexElement[]) : null;
 		}
 
 		public override void Dispose()
@@ -70,7 +69,7 @@ namespace ANX.Framework.Graphics
 				case VertexElementFormat.Vector4:
 					return 16;
 				default:
-					throw new ArgumentException("unknown VertexElementFormat size '" + format + "'");
+					throw new ArgumentException("Unknown VertexElementFormat size '" + format + "'.");
 			}
 		}
 	}
