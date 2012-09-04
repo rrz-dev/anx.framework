@@ -14,16 +14,12 @@ namespace ANX.RenderSystem.Windows.DX11
 	{
 		int vertexStride;
 
-		public SharpDX.Direct3D11.Buffer NativeBuffer
-		{
-			get;
-			private set;
-		}
+		public SharpDX.Direct3D11.Buffer NativeBuffer { get; private set; }
 
 		#region Constructor
 		public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
-			GraphicsDeviceWindowsDX11 gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
+			var gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
 			SharpDX.Direct3D11.DeviceContext context = gd11 != null ?
 				gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext :
 				null;
@@ -115,20 +111,39 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
 		#endregion
 
-		#region GetData (TODO)
+		#region GetData
 		public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			throw new NotImplementedException();
+			DeviceContext context = NativeBuffer.Device.ImmediateContext;
+
+			SharpDX.DataStream stream;
+			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
+
+			if (offsetInBytes > 0)
+			    stream.Seek(offsetInBytes, SeekOrigin.Current);
+
+			stream.ReadRange(data, startIndex, elementCount);
+			context.UnmapSubresource(NativeBuffer, 0);
 		}
 
 		public void GetData<T>(T[] data) where T : struct
 		{
-			throw new NotImplementedException();
+			DeviceContext context = NativeBuffer.Device.ImmediateContext;
+
+			SharpDX.DataStream stream;
+			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
+			stream.ReadRange(data, 0, data.Length);
+			context.UnmapSubresource(NativeBuffer, 0);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			throw new NotImplementedException();
+			DeviceContext context = NativeBuffer.Device.ImmediateContext;
+
+			SharpDX.DataStream stream;
+			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
+			stream.ReadRange(data, startIndex, elementCount);
+			context.UnmapSubresource(NativeBuffer, 0);
 		}
 		#endregion
 	}

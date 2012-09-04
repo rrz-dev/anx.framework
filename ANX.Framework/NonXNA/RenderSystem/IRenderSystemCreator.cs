@@ -46,5 +46,7 @@ namespace ANX.Framework.NonXNA
         EffectSourceLanguage GetStockShaderSourceLanguage { get; }
 
 		ReadOnlyCollection<GraphicsAdapter> GetAdapterList();
+
+		void SetTextureSampler(int index, Texture value);
 	}
 }

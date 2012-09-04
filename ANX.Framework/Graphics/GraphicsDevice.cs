@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,7 +12,6 @@ namespace ANX.Framework.Graphics
 	public class GraphicsDevice : IDisposable
 	{
 		#region Private Members
-		private INativeGraphicsDevice nativeDevice;
 		private IndexBuffer indexBuffer;
 		private SamplerStateCollection samplerStateCollection;
 		private Viewport viewport;
@@ -52,8 +52,8 @@ namespace ANX.Framework.Graphics
 
 			// TODO: get maximum number of sampler states from capabilities
 			this.samplerStateCollection = new SamplerStateCollection(this, 8);
-			this.textureCollection = new TextureCollection();
-			this.vertexTextureCollection = new TextureCollection();
+			this.textureCollection = new TextureCollection(16);
+			this.vertexTextureCollection = new TextureCollection(16);
 
 			this.BlendState = BlendState.Opaque;
 			this.DepthStencilState = DepthStencilState.Default;
@@ -71,13 +71,9 @@ namespace ANX.Framework.Graphics
 		{
 			ClearOptions options = ClearOptions.Target;
 			if (this.currentPresentationParameters.DepthStencilFormat != DepthFormat.None)
-			{
 				options |= ClearOptions.DepthBuffer;
-			}
 			if (this.currentPresentationParameters.DepthStencilFormat == DepthFormat.Depth24Stencil8)
-			{
 				options |= ClearOptions.Stencil;
-			}
 
 			Clear(options, color, 1, 0);
 			// nativeDevice.Clear(ref color);
@@ -93,17 +89,18 @@ namespace ANX.Framework.Graphics
 			if ((options & ClearOptions.DepthBuffer) == ClearOptions.DepthBuffer &&
 				this.currentPresentationParameters.DepthStencilFormat == DepthFormat.None)
 			{
-				throw new InvalidOperationException("The depth buffer can only be cleared if it exists. The current DepthStencilFormat is DepthFormat.None");
+				throw new InvalidOperationException("The depth buffer can only be cleared if it exists. The current " +
+					"DepthStencilFormat is DepthFormat.None");
 			}
 
 			if ((options & ClearOptions.Stencil) == ClearOptions.Stencil &&
 				this.currentPresentationParameters.DepthStencilFormat != DepthFormat.Depth24Stencil8)
 			{
-				throw new InvalidOperationException("The stencil buffer can only be cleared if it exists. The current DepthStencilFormat is not DepthFormat.Depth24Stencil8");
+				throw new InvalidOperationException("The stencil buffer can only be cleared if it exists. The current " +
+					"DepthStencilFormat is not DepthFormat.Depth24Stencil8");
 			}
 
-
-			nativeDevice.Clear(options, color, depth, stencil);
+			NativeDevice.Clear(options, color, depth, stencil);
 		}
 
 		#endregion // Clear
@@ -111,10 +108,11 @@ namespace ANX.Framework.Graphics
 		#region Present
 		public void Present()
 		{
-			nativeDevice.Present();
+			NativeDevice.Present();
 		}
 
-		public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle, IntPtr overrideWindowHandle)
+		public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle,
+			IntPtr overrideWindowHandle)
 		{
 			//TODO: implement
 			throw new NotImplementedException();
@@ -126,13 +124,13 @@ namespace ANX.Framework.Graphics
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
 			int startIndex, int primitiveCount)
 		{
-			nativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
+			NativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
 				primitiveCount);
 		}
 
 		public void DrawPrimitives(PrimitiveType primitiveType, int startVertex, int primitiveCount)
 		{
-			nativeDevice.DrawPrimitives(primitiveType, startVertex, primitiveCount);
+			NativeDevice.DrawPrimitives(primitiveType, startVertex, primitiveCount);
 		}
 		#endregion
 
@@ -140,7 +138,7 @@ namespace ANX.Framework.Graphics
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
 			int startIndex, int primitiveCount, int instanceCount)
 		{
-			nativeDevice.DrawInstancedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
+			NativeDevice.DrawInstancedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
 				primitiveCount, instanceCount);
 		}
 		#endregion
@@ -149,8 +147,8 @@ namespace ANX.Framework.Graphics
 		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
 			short[] indexData, int indexOffset, int primitiveCount) where T : struct, IVertexType
 		{
-			VertexDeclaration vertexDeclaration = GetDeclarationForDraw<T>();
-			nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
+			var vertexDeclaration = VertexTypeHelper.GetDeclaration<T>();
+			NativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
 				indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.SixteenBits);
 		}
 
@@ -158,15 +156,15 @@ namespace ANX.Framework.Graphics
 			short[] indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration)
 			where T : struct, IVertexType
 		{
-			nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
+			NativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
 				indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.SixteenBits);
 		}
 
 		public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
 			int[] indexData, int indexOffset, int primitiveCount) where T : struct, IVertexType
 		{
-			VertexDeclaration vertexDeclaration = GetDeclarationForDraw<T>();
-			nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
+			var vertexDeclaration = VertexTypeHelper.GetDeclaration<T>();
+			NativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
 				indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.ThirtyTwoBits);
 		}
 
@@ -174,7 +172,7 @@ namespace ANX.Framework.Graphics
 			int[] indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration)
 			where T : struct, IVertexType
 		{
-			nativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
+			NativeDevice.DrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData,
 				indexOffset, primitiveCount, vertexDeclaration, IndexElementSize.ThirtyTwoBits);
 		}
 		#endregion
@@ -183,24 +181,17 @@ namespace ANX.Framework.Graphics
 		public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount)
 			where T : struct, IVertexType
 		{
-			VertexDeclaration vertexDeclaration = GetDeclarationForDraw<T>();
-			nativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
+			var vertexDeclaration = VertexTypeHelper.GetDeclaration<T>();
+			NativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
 		}
 
 		public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount,
 			VertexDeclaration vertexDeclaration) where T : struct, IVertexType
 		{
-			nativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
+			NativeDevice.DrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, primitiveCount, vertexDeclaration);
 		}
 		#endregion
-
-		private VertexDeclaration GetDeclarationForDraw<T>() where T : struct, IVertexType
-		{
-			//TODO: cache the instances to avoid reflection overhead
-			IVertexType vertexType = Activator.CreateInstance<T>();
-			return vertexType.VertexDeclaration;
-		}
-
+		
 #if XNAEXT
 		#region SetConstantBuffer
 		/// <summary>
@@ -210,7 +201,7 @@ namespace ANX.Framework.Graphics
 		/// <param name="constantBuffer">The managed constant buffer object to bind.</param>
 		public void SetConstantBuffer(int slot, ConstantBuffer constantBuffer)
 		{
-			this.nativeDevice.SetConstantBuffer(slot, constantBuffer);
+			NativeDevice.SetConstantBuffer(slot, constantBuffer);
 		}
 
 		/// <summary>
@@ -221,9 +212,7 @@ namespace ANX.Framework.Graphics
 		public void SetConstantBuffers(params ConstantBuffer[] constantBuffers)
 		{
 			for (int slot = 0; slot < constantBuffers.Length; slot++)
-			{
-				this.nativeDevice.SetConstantBuffer(slot, constantBuffers[slot]);
-			}
+				NativeDevice.SetConstantBuffer(slot, constantBuffers[slot]);
 		}
 
 		#endregion
@@ -234,20 +223,20 @@ namespace ANX.Framework.Graphics
 		{
 			VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer) };
 			this.currentVertexBufferBindings = bindings;
-			this.nativeDevice.SetVertexBuffers(bindings);
+			NativeDevice.SetVertexBuffers(bindings);
 		}
 
 		public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
 		{
 			VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer, vertexOffset) };
 			this.currentVertexBufferBindings = bindings;
-			this.nativeDevice.SetVertexBuffers(bindings);
+			NativeDevice.SetVertexBuffers(bindings);
 		}
 
 		public void SetVertexBuffers(params Graphics.VertexBufferBinding[] vertexBuffers)
 		{
 			this.currentVertexBufferBindings = vertexBuffers;
-			nativeDevice.SetVertexBuffers(vertexBuffers);
+			NativeDevice.SetVertexBuffers(vertexBuffers);
 		}
 
 		#endregion // SetVertexBuffer
@@ -259,25 +248,23 @@ namespace ANX.Framework.Graphics
 			{
 				RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget) };
 				this.currentRenderTargetBindings = renderTargetBindings;
-				nativeDevice.SetRenderTargets(renderTargetBindings);
+				NativeDevice.SetRenderTargets(renderTargetBindings);
 			}
 			else
-			{
-				nativeDevice.SetRenderTargets(null);
-			}
+				NativeDevice.SetRenderTargets(null);
 		}
 
 		public void SetRenderTarget(RenderTargetCube renderTarget, CubeMapFace cubeMapFace)
 		{
 			RenderTargetBinding[] renderTargetBindings = new RenderTargetBinding[] { new RenderTargetBinding(renderTarget, cubeMapFace) };
 			this.currentRenderTargetBindings = renderTargetBindings;
-			nativeDevice.SetRenderTargets(renderTargetBindings);
+			NativeDevice.SetRenderTargets(renderTargetBindings);
 		}
 
 		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
 		{
 			this.currentRenderTargetBindings = renderTargets;
-			nativeDevice.SetRenderTargets(renderTargets);
+			NativeDevice.SetRenderTargets(renderTargets);
 		}
 
 		#endregion // SetRenderTarget
@@ -285,17 +272,17 @@ namespace ANX.Framework.Graphics
 		#region GetBackBufferData<T>
 		public void GetBackBufferData<T>(Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
 		{
-			nativeDevice.GetBackBufferData<T>(rect, data, startIndex, elementCount);
+			NativeDevice.GetBackBufferData<T>(rect, data, startIndex, elementCount);
 		}
 
 		public void GetBackBufferData<T>(T[] data) where T : struct
 		{
-			nativeDevice.GetBackBufferData<T>(data);
+			NativeDevice.GetBackBufferData<T>(data);
 		}
 
 		public void GetBackBufferData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			nativeDevice.GetBackBufferData<T>(data, startIndex, elementCount);
+			NativeDevice.GetBackBufferData<T>(data, startIndex, elementCount);
 		}
 
 		#endregion // GetBackBufferData<T>
@@ -354,7 +341,7 @@ namespace ANX.Framework.Graphics
 			}
 
 			// reset presentation parameters
-			nativeDevice.ResizeBuffers(presentationParameters);
+			NativeDevice.ResizeBuffers(presentationParameters);
 			this.viewport = new Graphics.Viewport(0, 0, presentationParameters.BackBufferWidth,
 				presentationParameters.BackBufferHeight);
 
@@ -374,10 +361,11 @@ namespace ANX.Framework.Graphics
 		{
 			if (isDisposed == false)
 			{
-				if (nativeDevice != null)
+				isDisposed = true;
+				if (NativeDevice != null)
 				{
-					nativeDevice.Dispose();
-					nativeDevice = null;
+					NativeDevice.Dispose();
+					NativeDevice = null;
 				}
 
 				raise_Disposing(this, EventArgs.Empty);
@@ -622,69 +610,51 @@ namespace ANX.Framework.Graphics
 
 		internal INativeGraphicsDevice NativeDevice
 		{
-			get
-			{
-				return this.nativeDevice;
-			}
-			set
-			{
-				this.nativeDevice = value;
-			}
+			get;
+			set;
 		}
 
 		internal void Recreate(PresentationParameters presentationParameters)
 		{
-			if (nativeDevice != null)
+			if (NativeDevice != null)
 			{
-				nativeDevice.Dispose();
-				raise_ResourceDestroyed(this, new ResourceDestroyedEventArgs("NativeGraphicsDevice", nativeDevice));
-				nativeDevice = null;
+				NativeDevice.Dispose();
+				raise_ResourceDestroyed(this, new ResourceDestroyedEventArgs("NativeGraphicsDevice", NativeDevice));
+				NativeDevice = null;
 			}
 
-			if (nativeDevice == null)
+			if (NativeDevice == null)
 			{
 				this.currentPresentationParameters = presentationParameters;
 				var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-				nativeDevice = creator.CreateGraphicsDevice(presentationParameters);
+				NativeDevice = creator.CreateGraphicsDevice(presentationParameters);
 				this.viewport = new Viewport(0, 0, presentationParameters.BackBufferWidth,
 					presentationParameters.BackBufferHeight);
 
-				raise_ResourceCreated(this, new ResourceCreatedEventArgs(nativeDevice));
+				raise_ResourceCreated(this, new ResourceCreatedEventArgs(NativeDevice));
 				GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this);
 
 				if (this.indexBuffer != null)
-				{
 					NativeDevice.SetIndexBuffer(this.indexBuffer);
-				}
 
 				if (this.currentVertexBufferBindings != null)
-				{
 					NativeDevice.SetVertexBuffers(this.currentVertexBufferBindings);
-				}
 
 				if (this.blendState != null)
-				{
 					this.blendState.NativeBlendState.Apply(this);
-				}
 
 				if (this.rasterizerState != null)
-				{
 					this.rasterizerState.NativeRasterizerState.Apply(this);
-				}
 
 				if (this.depthStencilState != null)
-				{
 					this.depthStencilState.NativeDepthStencilState.Apply(this);
-				}
 
 				if (this.samplerStateCollection != null)
 				{
 					for (int i = 0; i < 8; i++)
 					{
 						if (this.samplerStateCollection[i] != null)
-						{
 							this.samplerStateCollection[i].NativeSamplerState.Apply(this, i);
-						}
 					}
 				}
 			}
@@ -692,38 +662,38 @@ namespace ANX.Framework.Graphics
 
 		protected void raise_Disposing(object sender, EventArgs args)
 		{
-			if (Disposing != null)
-				Disposing(sender, args);
+			RaiseIfNotNull(Disposing, sender, args);
 		}
 
 		protected void raise_DeviceResetting(object sender, EventArgs args)
 		{
-			if (DeviceResetting != null)
-				DeviceResetting(sender, args);
+			RaiseIfNotNull(DeviceResetting, sender, args);
 		}
 
 		protected void raise_DeviceReset(object sender, EventArgs args)
 		{
-			if (DeviceReset != null)
-				DeviceReset(sender, args);
+			RaiseIfNotNull(DeviceReset, sender, args);
 		}
 
 		protected void raise_DeviceLost(object sender, EventArgs args)
 		{
-			if (DeviceLost != null)
-				DeviceLost(sender, args);
+			RaiseIfNotNull(DeviceLost, sender, args);
 		}
 
 		protected void raise_ResourceCreated(object sender, ResourceCreatedEventArgs args)
 		{
-			if (ResourceCreated != null)
-				ResourceCreated(sender, args);
+			RaiseIfNotNull(ResourceCreated, sender, args);
 		}
 
 		protected void raise_ResourceDestroyed(object sender, ResourceDestroyedEventArgs args)
 		{
-			if (ResourceDestroyed != null)
-				ResourceDestroyed(sender, args);
+			RaiseIfNotNull(ResourceDestroyed, sender, args);
+		}
+
+		private void RaiseIfNotNull<T>(EventHandler<T> handler, object sender, T args) where T : EventArgs
+		{
+			if (handler != null)
+				handler(sender, args);
 		}
 	}
 }

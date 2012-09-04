@@ -1,4 +1,3 @@
-#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,8 +7,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.DXGI;
-
-#endregion // Using Statements
+using Dx10 = SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -19,6 +17,7 @@ namespace ANX.RenderSystem.Windows.DX10
 {
 	public class Creator : IRenderSystemCreator
 	{
+		#region Public
 		public string Name
 		{
 			get { return "DirectX10"; }
@@ -38,132 +37,133 @@ namespace ANX.RenderSystem.Windows.DX10
 			}
 		}
 
+		public EffectSourceLanguage GetStockShaderSourceLanguage
+		{
+			get
+			{
+				return EffectSourceLanguage.HLSL_FX;
+			}
+		}
+		#endregion
+
+		#region CreateGraphicsDevice
 		public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
 		{
 			PreventSystemChange();
 			return new GraphicsDeviceWindowsDX10(presentationParameters);
 		}
+		#endregion
 
+		#region CreateIndexBuffer
 		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size,
 			int indexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
 			return new IndexBuffer_DX10(graphics, size, indexCount, usage);
 		}
+		#endregion
 
+		#region CreateVertexBuffer
 		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer,
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-
-            return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
+			return new VertexBuffer_DX10(graphics, vertexDeclaration, vertexCount, usage);
 		}
+		#endregion
 
 #if XNAEXT
-        #region CreateConstantBuffer
-        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
-        {
-            PreventSystemChange();
-
-            throw new NotImplementedException();
-        }
-        #endregion
-#endif
-
-        public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
-			Stream pixelShaderByteCode)
+		#region CreateConstantBuffer
+		public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
 		{
 			PreventSystemChange();
 
+			throw new NotImplementedException();
+		}
+		#endregion
+#endif
+
+		#region CreateEffect
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
+			Stream pixelShaderByteCode)
+		{
+			PreventSystemChange();
 			return new Effect_DX10(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
 			PreventSystemChange();
-
 			return new Effect_DX10(graphics, managedEffect, byteCode);
 		}
+		#endregion
 
-		public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
+		#region CreateTexture
+		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height,
+			int mipCount)
 		{
 			PreventSystemChange();
-
-			//TODO: implement
-			throw new NotImplementedException();
-
-			//GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-			//SharpDX.Direct3D10.Texture2D nativeTexture = SharpDX.Direct3D10.Texture2D.FromFile<SharpDX.Direct3D10.Texture2D>(graphicsDX10.NativeDevice, fileName);
-			//Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height, FormatConverter.Translate(nativeTexture.Description.Format), nativeTexture.Description.MipLevels);
-			//texture.NativeTexture = nativeTexture;
-
-			//return texture;
+			return new Texture2D_DX10(graphics, width, height, surfaceFormat, mipCount);
 		}
+		#endregion
 
+		#region CreateBlendState
 		public INativeBlendState CreateBlendState()
 		{
 			PreventSystemChange();
 			return new BlendState_DX10();
 		}
+		#endregion
 
+		#region CreateRasterizerState
 		public INativeRasterizerState CreateRasterizerState()
 		{
 			PreventSystemChange();
 			return new RasterizerState_DX10();
 		}
+		#endregion
 
+		#region CreateDepthStencilState
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
 			PreventSystemChange();
 			return new DepthStencilState_DX10();
 		}
+		#endregion
 
+		#region CreateSamplerState
 		public INativeSamplerState CreateSamplerState()
 		{
 			PreventSystemChange();
 			return new SamplerState_DX10();
 		}
+		#endregion
 
+		#region GetShaderByteCode
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
 			PreventSystemChange();
-
-			if (type == PreDefinedShader.SpriteBatch)
+			switch (type)
 			{
-				return ShaderByteCode.SpriteBatchByteCode;
-			}
-			else if (type == PreDefinedShader.AlphaTestEffect)
-			{
-				return ShaderByteCode.AlphaTestEffectByteCode;
-			}
-			else if (type == PreDefinedShader.BasicEffect)
-			{
-				return ShaderByteCode.BasicEffectByteCode;
-			}
-			else if (type == PreDefinedShader.DualTextureEffect)
-			{
-				return ShaderByteCode.DualTextureEffectByteCode;
-			}
-			else if (type == PreDefinedShader.EnvironmentMapEffect)
-			{
-				return ShaderByteCode.EnvironmentMapEffectByteCode;
-			}
-			else if (type == PreDefinedShader.SkinnedEffect)
-			{
-				return ShaderByteCode.SkinnedEffectByteCode;
+				case PreDefinedShader.SpriteBatch:
+					return ShaderByteCode.SpriteBatchByteCode;
+				case PreDefinedShader.AlphaTestEffect:
+					return ShaderByteCode.AlphaTestEffectByteCode;
+				case PreDefinedShader.BasicEffect:
+					return ShaderByteCode.BasicEffectByteCode;
+				case PreDefinedShader.DualTextureEffect:
+					return ShaderByteCode.DualTextureEffectByteCode;
+				case PreDefinedShader.EnvironmentMapEffect:
+					return ShaderByteCode.EnvironmentMapEffectByteCode;
+				case PreDefinedShader.SkinnedEffect:
+					return ShaderByteCode.SkinnedEffectByteCode;
 			}
 
 			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
 		}
+		#endregion
 
-        public EffectSourceLanguage GetStockShaderSourceLanguage
-        {
-            get
-            {
-                return EffectSourceLanguage.HLSL_FX;
-            }
-        }
-
+		#region GetAdapterList
 		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			PreventSystemChange();
@@ -177,7 +177,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			{
 				using (Adapter adapter = factory.GetAdapter(i))
 				{
-					GraphicsAdapter ga = new GraphicsAdapter();
+					var ga = new GraphicsAdapter();
 					//ga.CurrentDisplayMode = ;
 					//ga.Description = ;
 					ga.DeviceId = adapter.Description.DeviceId;
@@ -218,23 +218,18 @@ namespace ANX.RenderSystem.Windows.DX10
 
 			return new ReadOnlyCollection<GraphicsAdapter>(adapterList);
 		}
+		#endregion
 
-		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height,
-			int mipCount)
-		{
-			PreventSystemChange();
-
-			return new Texture2D_DX10(graphics, width, height, surfaceFormat, mipCount);
-		}
-
+		#region CreateRenderTarget
 		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap,
-			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
+			RenderTargetUsage usage)
 		{
 			PreventSystemChange();
-
 			return new RenderTarget2D_DX10(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
 				preferredMultiSampleCount, usage);
 		}
+		#endregion
 
 		#region PreventSystemChange
 		private void PreventSystemChange()
@@ -243,16 +238,27 @@ namespace ANX.RenderSystem.Windows.DX10
 		}
 		#endregion
 
-        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
-        {
-            return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
-        }
+		#region IsLanguageSupported
+		public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+		{
+			return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
+		}
+		#endregion
 
 		#region CreateOcclusionQuery (TODO)
 		public IOcclusionQuery CreateOcclusionQuery()
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
-    }
+
+		#region SetTextureSampler (TODO)
+		public void SetTextureSampler(int index, Texture value)
+		{
+			PreventSystemChange();
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }

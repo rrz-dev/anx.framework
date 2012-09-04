@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
 using ANX.Framework.Windows.GL3;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -328,6 +329,18 @@ namespace ANX.RenderSystem.Windows.GL3
 		public IOcclusionQuery CreateOcclusionQuery()
 		{
 			return new OcclusionQueryGL3();
+		}
+		#endregion
+
+		#region SetTextureSampler (TODO)
+		public void SetTextureSampler(int index, Texture value)
+		{
+			TextureUnit textureUnit = TextureUnit.Texture0 + index;
+			GL.ActiveTexture(textureUnit);
+			int handle = (value.NativeTexture as Texture2DGL3).NativeHandle;
+			GL.BindTexture(TextureTarget.Texture2D, handle);
+			int unitIndex = (int)(textureUnit - TextureUnit.Texture0);
+			//GL.Uniform1(UniformIndex, 1, ref unitIndex);
 		}
 		#endregion
 	}

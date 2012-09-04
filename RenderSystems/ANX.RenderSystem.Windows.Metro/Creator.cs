@@ -279,5 +279,12 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 
 		#endregion
+
+		#region SetTextureSampler (TODO)
+		public void SetTextureSampler(int index, Texture value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 }

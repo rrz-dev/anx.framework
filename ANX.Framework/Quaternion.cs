@@ -371,7 +371,7 @@ namespace ANX.Framework
         {
             Quaternion result;
             Quaternion.Slerp(ref quaternion1, ref quaternion2, amount, out result);
-            return result; throw new NotImplementedException();
+            return result;
         }
 
         public static void Slerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
@@ -409,9 +409,7 @@ namespace ANX.Framework
         public override string ToString()
         {
             var culture = CultureInfo.CurrentCulture;
-            return "{X:" + X.ToString(culture) +
-                " Y:" + Y.ToString(culture) +
-                " Z:" + Z.ToString(culture) +
+            return "{X:" + X.ToString(culture) + " Y:" + Y.ToString(culture) + " Z:" + Z.ToString(culture) +
                 " W:" + W.ToString(culture) + "}";
         }
         #endregion

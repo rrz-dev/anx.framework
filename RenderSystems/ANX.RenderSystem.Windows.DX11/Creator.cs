@@ -249,5 +249,12 @@ namespace ANX.RenderSystem.Windows.DX11
 			throw new NotImplementedException();
 		}
 		#endregion
+
+		#region SetTextureSampler (TODO)
+		public void SetTextureSampler(int index, Texture value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 }

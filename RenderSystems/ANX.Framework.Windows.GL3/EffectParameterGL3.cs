@@ -121,7 +121,7 @@ namespace ANX.RenderSystem.Windows.GL3
 			if (textureCache == null ||
 			  textureCache != value)
 			{
-			  textureCache = value;
+				textureCache = value;
 				// TODO: multiple texture units
 				TextureUnit textureUnit = TextureUnit.Texture0;
 				GL.ActiveTexture(textureUnit);

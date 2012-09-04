@@ -1,9 +1,6 @@
-#region Private Members
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
-#endregion // Private Members
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -191,8 +188,7 @@ namespace ANXStatusComparer.Data
 
 		public override string ToString()
 		{
-			return (HasPercentageAttribute ?
-				PercentageComplete.ToString("000") : "-?-") + "% - " + Handle.FullName;
+			return (HasPercentageAttribute ? PercentageComplete.ToString("000") : "-?-") + "% - " + Handle.FullName;
 		}
 
 		#region IsCorrect
@@ -201,21 +197,13 @@ namespace ANXStatusComparer.Data
 		{
 			bool isCorrect = true;
 			if (CompareLists(Methods, otherObject.Methods, wrongPair) == false)
-			{
 				isCorrect = false;
-			}
 			if (CompareLists(Events, otherObject.Events, wrongPair) == false)
-			{
 				isCorrect = false;
-			}
 			if (CompareLists(Fields, otherObject.Fields, wrongPair) == false)
-			{
 				isCorrect = false;
-			}
 			if (CompareLists(Properties, otherObject.Properties, wrongPair) == false)
-			{
 				isCorrect = false;
-			}
 
 			foreach(string parent in ParentNames)
 			{
@@ -228,37 +216,33 @@ namespace ANXStatusComparer.Data
 
 			if (Handle.IsPublic != otherObject.Handle.IsPublic)
 			{
-				wrongPair.WrongAccesses.Add("[IsPublic(XNA:" + Handle.IsPublic +
-					"|ANX:" + otherObject.Handle.IsPublic + ")] ");
+				wrongPair.WrongAccesses.Add("[IsPublic(XNA:" + Handle.IsPublic + "|ANX:" + otherObject.Handle.IsPublic + ")] ");
 				isCorrect = false;
 			}
 
 			if (Handle.IsSealed != otherObject.Handle.IsSealed)
 			{
-				wrongPair.WrongAccesses.Add("[IsSealed(XNA:" + Handle.IsSealed +
-					"|ANX:" + otherObject.Handle.IsSealed + ")] ");
+				wrongPair.WrongAccesses.Add("[IsSealed(XNA:" + Handle.IsSealed + "|ANX:" + otherObject.Handle.IsSealed + ")] ");
 				isCorrect = false;
 			}
 
 			if (Handle.IsAbstract != otherObject.Handle.IsAbstract)
 			{
-				wrongPair.WrongAccesses.Add("[IsAbstract(XNA:" + Handle.IsAbstract +
-					"|ANX:" + otherObject.Handle.IsAbstract + ")] ");
+				wrongPair.WrongAccesses.Add("[IsAbstract(XNA:" + Handle.IsAbstract + "|ANX:" + otherObject.Handle.IsAbstract + ")] ");
 				isCorrect = false;
 			}
 
 			if (Handle.IsGenericType != otherObject.Handle.IsGenericType)
 			{
-				wrongPair.WrongAccesses.Add("[IsGenericType(XNA:" +
-					Handle.IsGenericType +
-					"|ANX:" + otherObject.Handle.IsGenericType + ")] ");
+				wrongPair.WrongAccesses.Add("[IsGenericType(XNA:" + Handle.IsGenericType + "|ANX:" +
+					otherObject.Handle.IsGenericType + ")] ");
 				isCorrect = false;
 			}
 
 			if (Handle.IsVisible != otherObject.Handle.IsVisible)
 			{
-				wrongPair.WrongAccesses.Add("[IsVisible(XNA:" + Handle.IsVisible +
-					"|ANX:" + otherObject.Handle.IsVisible + ")] ");
+				wrongPair.WrongAccesses.Add("[IsVisible(XNA:" + Handle.IsVisible + "|ANX:" + otherObject.Handle.IsVisible +
+					")] ");
 				isCorrect = false;
 			}
 
@@ -267,8 +251,7 @@ namespace ANXStatusComparer.Data
 		#endregion
 
 		#region CompareLists
-		private bool CompareLists(Dictionary<string, BaseObjectElement> dictXna,
-			Dictionary<string, BaseObjectElement> dictAnx,
+		private bool CompareLists(Dictionary<string, BaseObjectElement> dictXna, Dictionary<string, BaseObjectElement> dictAnx,
 			ResultData.WrongObjectPair wrongPair)
 		{
 			bool isCorrect = true;

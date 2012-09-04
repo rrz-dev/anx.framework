@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input.Touch
 {
-	[PercentageComplete(90)]
+	[PercentageComplete(100)]
 	[TestState(TestStateAttribute.TestState.Untested)]
 	public struct TouchCollection : IList<TouchLocation>, ICollection<TouchLocation>, IEnumerable<TouchLocation>, IEnumerable
 	{
@@ -67,7 +67,7 @@ namespace ANX.Framework.Input.Touch
 		private List<TouchLocation> locations;
 		#endregion
 
-		#region Public (TODO)
+		#region Public
 		public TouchLocation this[int index]
 		{
 			get
@@ -92,7 +92,7 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return true;
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace ANX.Framework.Input.Touch
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return true;
 			}
 		}
 		#endregion

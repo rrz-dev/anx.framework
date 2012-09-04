@@ -52,22 +52,16 @@ namespace ANXStatusComparer.Data
 				foreach (Type type in types)
 				{
 					if (String.IsNullOrEmpty(type.Namespace))
-					{
 						continue;
-					}
 
 					if (Namespaces.ContainsKey(type.Namespace) == false)
-					{
 						Namespaces.Add(type.Namespace, new NamespaceData(type.Namespace));
-					}
 					Namespaces[type.Namespace].AllTypes.Add(type);
 				}
 			}
 
 			foreach (string key in Namespaces.Keys)
-			{
 				Namespaces[key].ParseTypes();
-			}
 		}
 		#endregion
 	}

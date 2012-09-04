@@ -1,7 +1,5 @@
-#region Using Statements
 using System;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,18 +7,27 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
-    public sealed class TextureCollection
-    {
-			public Texture this[int index]
+	public sealed class TextureCollection
+	{
+		private Texture[] textures;
+
+		public Texture this[int index]
+		{
+			get
 			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-				set
-				{
-					throw new NotImplementedException();
-				}
+				return textures[index];
 			}
-    }
+			set
+			{
+				textures[index] = value;
+				var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+				creator.SetTextureSampler(index, value);
+			}
+		}
+
+		internal TextureCollection(int maxNumberOfTextures)
+		{
+			textures = new Texture[maxNumberOfTextures];
+		}
+	}
 }

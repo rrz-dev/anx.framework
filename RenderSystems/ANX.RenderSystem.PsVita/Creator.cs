@@ -166,5 +166,12 @@ namespace ANX.RenderSystem.PsVita
 			throw new NotImplementedException();
 		}
 		#endregion
+
+		#region SetTextureSampler (TODO)
+		public void SetTextureSampler(int index, Texture value)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 }

@@ -1,9 +1,6 @@
-#region Using Statements
 using System;
-using ANX.Framework;
 using System.Collections.ObjectModel;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,16 +8,15 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.GamerServices
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public interface IAvatarAnimation
     {
         ReadOnlyCollection<Matrix> BoneTransforms { get; }
-
         TimeSpan CurrentPosition { get; set; }
-
         AvatarExpression Expression { get; }
-
         TimeSpan Length { get; }
-
-        void Update(TimeSpan elapsedAnimationTime, bool loop);
+        
+		void Update(TimeSpan elapsedAnimationTime, bool loop);
     }
 }
