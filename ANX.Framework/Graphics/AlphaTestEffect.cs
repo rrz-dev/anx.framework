@@ -1,8 +1,5 @@
-#region Using Statements
 using System;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -13,7 +10,8 @@ namespace ANX.Framework.Graphics
     public class AlphaTestEffect : Effect, IEffectMatrices, IEffectFog, IGraphicsResource
     {
         public AlphaTestEffect(GraphicsDevice device)
-            : base(device, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.AlphaTestEffect))
+            : base(device, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(
+			NonXNA.PreDefinedShader.AlphaTestEffect))
         {
             throw new NotImplementedException();
         }

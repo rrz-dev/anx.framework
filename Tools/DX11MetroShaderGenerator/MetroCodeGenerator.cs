@@ -195,7 +195,7 @@ namespace DX11MetroShaderGenerator
 			
 			Process process = new Process();
 			process.StartInfo.FileName = GetCompilerFilepath();
-      process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile +
+			process.StartInfo.Arguments = "/E" + entryPoint + " /T" + profile +
 				"_level_9_1 \"" + tempSourcePath + "\" /Fo" + tempDestPath;
 
 			process.StartInfo.UseShellExecute = false;
@@ -245,7 +245,7 @@ namespace DX11MetroShaderGenerator
 			string sdkPath = Environment.GetEnvironmentVariable("DXSDK_DIR");
 			if (String.IsNullOrEmpty(sdkPath) == false)
 			{
-				fxcToolPath = Path.Combine(sdkPath, subDir);
+				fxcToolPath = Path.Combine(sdkPath, @"Utilities\bin\", subDir);
 			}
 			else
 			{

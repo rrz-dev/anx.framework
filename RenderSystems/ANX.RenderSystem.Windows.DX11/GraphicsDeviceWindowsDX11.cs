@@ -1,9 +1,5 @@
 #region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D;
 using SharpDX.D3DCompiler;
@@ -20,11 +16,6 @@ using System.Runtime.InteropServices;
 // For details see: http://anxframework.codeplex.com/license
 
 using Device = SharpDX.Direct3D11.Device;
-using Buffer = SharpDX.Direct3D11.Buffer;
-using Rectangle = ANX.Framework.Rectangle;
-using Vector4 = ANX.Framework.Vector4;
-using VertexBufferBinding = ANX.Framework.Graphics.VertexBufferBinding;
-using Viewport = ANX.Framework.Graphics.Viewport;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
@@ -396,8 +387,9 @@ namespace ANX.RenderSystem.Windows.DX11
             Effect_DX11 effect = this.currentEffect;
 
             // get the input semantic of the current effect / technique that is used
-            //TODO: check for null's and throw exceptions
-            technique = effect.NativeEffect.GetTechniqueByIndex(0);
+			//TODO: check for null's and throw exceptions
+			// TODO: get the correct pass index!
+			technique = effect.GetCurrentTechnique().NativeTechnique;
             pass = technique.GetPassByIndex(0);
             passSignature = pass.Description.Signature;
         }
