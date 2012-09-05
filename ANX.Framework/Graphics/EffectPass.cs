@@ -38,7 +38,8 @@ namespace ANX.Framework.Graphics
 
         public void Apply()
         {
-            this.parentEffect.NativeEffect.Apply(this.parentEffect.GraphicsDevice);
+			parentEffect.PreBindSetParameters();
+            parentEffect.NativeEffect.Apply(this.parentEffect.GraphicsDevice);
         }
     }
 }

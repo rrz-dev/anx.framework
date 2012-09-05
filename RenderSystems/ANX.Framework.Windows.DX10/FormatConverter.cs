@@ -168,17 +168,13 @@ namespace ANX.RenderSystem.Windows.DX10
             }
         }
 
-        public static string Translate(VertexElementUsage usage)
+        public static string Translate(ref VertexElement element)
         {
             //TODO: map the other Usages
-            if (usage == VertexElementUsage.TextureCoordinate)
-            {
-                return "TEXCOORD";
-            }
+			if (element.VertexElementUsage == VertexElementUsage.TextureCoordinate)
+				return "TEXCOORD";
             else
-            {
-                return usage.ToString().ToUpperInvariant();
-            }
+				return element.VertexElementUsage.ToString().ToUpperInvariant();
         }
 
         public static BlendOperation Translate(BlendFunction blendFunction)

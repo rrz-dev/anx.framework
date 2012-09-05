@@ -152,9 +152,7 @@ namespace ANX.Framework
 		protected void OnClientSizeChanged()
 		{
 			if (ClientSizeChanged != null)
-			{
 				ClientSizeChanged(this, EventArgs.Empty);
-			}
 		}
 		#endregion
 	}

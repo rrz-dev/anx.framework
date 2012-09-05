@@ -1,9 +1,6 @@
-#region Private Members
 using System;
 using System.Reflection;
 using System.Diagnostics;
-
-#endregion // Private Members
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

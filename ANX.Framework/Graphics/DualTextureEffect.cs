@@ -1,11 +1,6 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -13,167 +8,170 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.InProgress)]
+	[Developer("AstrorEnales")]
     public class DualTextureEffect : Effect, IEffectMatrices, IEffectFog
-    {
-        public DualTextureEffect(GraphicsDevice graphics)
-            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.DualTextureEffect))
+	{
+		#region Private
+		private Matrix world;
+		private Matrix view;
+		private Matrix projection;
+		private Vector3 fogColor;
+		private Vector3 diffuseColor;
+		private bool isVertexColorEnabled;
+		private bool isFogEnabled;
+		#endregion
+
+		#region Public
+		public Matrix Projection
+		{
+			get { return projection; }
+			set { projection = value; }
+		}
+
+		public Matrix View
+		{
+			get { return view; }
+			set { view = value; }
+		}
+
+		public Matrix World
+		{
+			get { return world; }
+			set { world = value; }
+		}
+
+		public Vector3 FogColor
+		{
+			get { return fogColor; }
+			set { fogColor = value; }
+		}
+
+		public float Alpha { get; set; }
+		public float FogEnd { get; set; }
+		public float FogStart { get; set; }
+		public Texture2D Texture { get; set; }
+		public Texture2D Texture2 { get; set; }
+
+		public Vector3 DiffuseColor
+		{
+			get { return diffuseColor; }
+			set { diffuseColor = value; }
+		}
+
+		public bool FogEnabled
+		{
+			get { return isFogEnabled; }
+			set
+			{
+				isFogEnabled = value;
+				SelectTechnique();
+			}
+		}
+
+		public bool VertexColorEnabled
+		{
+			get { return isVertexColorEnabled; }
+			set
+			{
+				isVertexColorEnabled = value;
+				SelectTechnique();
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public DualTextureEffect(GraphicsDevice graphics)
+            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(
+				NonXNA.PreDefinedShader.DualTextureEffect))
         {
-            throw new NotImplementedException();
+			diffuseColor = Vector3.One;
+			Alpha = 1f;
+			FogStart = 0f;
+			FogEnd = 1f;
+			FogEnabled = false;
+			VertexColorEnabled = false;
+			world = Matrix.Identity;
+			view = Matrix.Identity;
+			projection = Matrix.Identity;
         }
 
         protected DualTextureEffect(DualTextureEffect cloneSource)
             : base(cloneSource)
-        {
-            throw new NotImplementedException();
+		{
+			diffuseColor = cloneSource.diffuseColor;
+			Alpha = cloneSource.Alpha;
+			FogStart = cloneSource.FogStart;
+			FogEnd = cloneSource.FogEnd;
+			FogEnabled = cloneSource.FogEnabled;
+			VertexColorEnabled = cloneSource.VertexColorEnabled;
+			world = cloneSource.world;
+			view = cloneSource.view;
+			projection = cloneSource.projection;
+			Texture = cloneSource.Texture;
+			Texture2 = cloneSource.Texture2;
         }
+		#endregion
 
-        public override Effect Clone()
+		#region Clone
+		public override Effect Clone()
         {
             return new DualTextureEffect(this);
-        }
+		}
+		#endregion
 
-        public Matrix Projection
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+		#region PreBindSetParameters
+		internal override void PreBindSetParameters()
+		{
+			Matrix worldView;
+			Matrix.Multiply(ref world, ref view, out worldView);
+			Matrix wvp;
+			Matrix.Multiply(ref worldView, ref projection, out wvp);
+			Parameters["WorldViewProj"].SetValue(wvp);
 
-        public Matrix View
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+			Parameters["DiffuseColor"].SetValue(new Vector4(diffuseColor * Alpha, Alpha));
+			Parameters["FogColor"].SetValue(fogColor);
 
-        public Matrix World
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+			if (Texture != null)
+				Parameters["Texture"].SetValue(Texture);
+			if (Texture2 != null)
+				Parameters["Texture2"].SetValue(Texture2);
 
-        public Vector3 FogColor
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+			if (FogStart == FogEnd)
+			{
+				Parameters["FogVector"].SetValue(new Vector4(0f, 0f, 0f, 1f));
+				return;
+			}
 
-        public bool FogEnabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+			float fogFactor = 1f / (FogStart - FogEnd);
+			Vector4 value;
+			value.X = worldView.M13 * fogFactor;
+			value.Y = worldView.M23 * fogFactor;
+			value.Z = worldView.M33 * fogFactor;
+			value.W = (worldView.M43 + FogStart) * fogFactor;
+			Parameters["FogVector"].SetValue(value);
+		}
+		#endregion
 
-        public float FogEnd
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public float FogStart
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Texture2D Texture
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Texture2D Texture2
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Vector3 DiffuseColor
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public float Alpha
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool VertexColorEnabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
+		#region SelectTechnique
+		private void SelectTechnique()
+		{
+			if (isVertexColorEnabled)
+			{
+				if (isFogEnabled)
+					CurrentTechnique = Techniques["DualTextureEffectVertexColor"];
+				if (isFogEnabled == false)
+					CurrentTechnique = Techniques["DualTextureEffectNoFogVertexColor"];
+			}
+			else
+			{
+				if (isFogEnabled)
+					CurrentTechnique = Techniques["DualTextureEffect"];
+				if (isFogEnabled == false)
+					CurrentTechnique = Techniques["DualTextureEffectNoFog"];
+			}
+		}
+		#endregion
+	}
 }

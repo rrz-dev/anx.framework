@@ -1,13 +1,7 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.NonXNA;
 using System.IO;
 using System.Runtime.InteropServices;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -15,146 +9,166 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Graphics
 {
-    public class Effect : GraphicsResource, IGraphicsResource
-    {
-        #region Private Members
-        private INativeEffect nativeEffect;
-        private EffectTechniqueCollection techniqueCollection;
-        private EffectTechnique currentTechnique;
-        private EffectParameterCollection parameterCollection;
-        private byte[] byteCode;
-        private EffectSourceLanguage sourceLanguage;
+	public class Effect : GraphicsResource, IGraphicsResource
+	{
+		#region Private
+		private INativeEffect nativeEffect;
+		private EffectTechniqueCollection techniqueCollection;
+		private EffectTechnique currentTechnique;
+		private EffectParameterCollection parameterCollection;
+		private byte[] byteCode;
+		private EffectSourceLanguage sourceLanguage;
+		#endregion
 
-        #endregion // Private Members
+		#region Public
+		internal INativeEffect NativeEffect
+		{
+			get
+			{
+				if (nativeEffect == null)
+				{
+					CreateNativeEffect(this.sourceLanguage);
+				}
 
-        protected Effect(Effect cloneSource)
-            : this(cloneSource.GraphicsDevice, cloneSource.byteCode)
-        {
-        }
+				return this.nativeEffect;
+			}
+		}
 
-        public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
-            : this(graphicsDevice, byteCode, EffectSourceLanguage.HLSL_FX)
-        {
-        }
+		public EffectTechnique CurrentTechnique
+		{
+			get
+			{
+				return this.currentTechnique;
+			}
+			set
+			{
+				this.currentTechnique = value;
+			}
+		}
 
-        public Effect(GraphicsDevice graphicsDevice, byte[] byteCode, EffectSourceLanguage sourceLanguage)
-            : base(graphicsDevice)
-        {
-            this.byteCode = new byte[byteCode.Length];
-            Array.Copy(byteCode, this.byteCode, byteCode.Length);
+		public EffectParameterCollection Parameters
+		{
+			get
+			{
+				return this.parameterCollection;
+			}
+		}
 
-            base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
+		public EffectTechniqueCollection Techniques
+		{
+			get
+			{
+				return this.techniqueCollection;
+			}
+		}
+		#endregion
 
-            CreateNativeEffect(sourceLanguage);
+		#region Constructor
+		protected Effect(Effect cloneSource)
+			: this(cloneSource.GraphicsDevice, cloneSource.byteCode)
+		{
+		}
 
-            this.currentTechnique = this.techniqueCollection[0];
+		public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
+			: this(graphicsDevice, byteCode, EffectSourceLanguage.HLSL_FX)
+		{
+		}
 
-            this.sourceLanguage = sourceLanguage;
-        }
+		public Effect(GraphicsDevice graphicsDevice, byte[] byteCode, EffectSourceLanguage sourceLanguage)
+			: base(graphicsDevice)
+		{
+			this.byteCode = new byte[byteCode.Length];
+			Array.Copy(byteCode, this.byteCode, byteCode.Length);
 
-        ~Effect()
-        {
-            Dispose();
-            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
+			base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
 
-        private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
-        {
-            if (nativeEffect != null)
-            {
-                nativeEffect.Dispose();
-                nativeEffect = null;
-            }
+			CreateNativeEffect(sourceLanguage);
 
-            CreateNativeEffect(this.sourceLanguage);
-        }
+			this.currentTechnique = this.techniqueCollection[0];
 
-        private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
-        {
-            if (nativeEffect != null)
-            {
-                nativeEffect.Dispose();
-                nativeEffect = null;
-            }
-        }
+			this.sourceLanguage = sourceLanguage;
+		}
 
-        public virtual Effect Clone()
-        {
-            throw new NotImplementedException();
-        }
+		~Effect()
+		{
+			Dispose();
+			base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+			base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+		}
+		#endregion
 
-        internal INativeEffect NativeEffect
-        {
-            get
-            {
-                if (nativeEffect == null)
-                {
-                    CreateNativeEffect(this.sourceLanguage);
-                }
+		#region GraphicsDevice_ResourceCreated
+		private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
+		{
+			if (nativeEffect != null)
+			{
+				nativeEffect.Dispose();
+				nativeEffect = null;
+			}
 
-                return this.nativeEffect;
-            }
-        }
+			CreateNativeEffect(this.sourceLanguage);
+		}
+		#endregion
 
-        public EffectTechnique CurrentTechnique
-        {
-            get
-            {
-                return this.currentTechnique;
-            }
-            set
-            {
-                this.currentTechnique = value;
-            }
-        }
+		#region GraphicsDevice_ResourceDestroyed
+		private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+		{
+			if (nativeEffect != null)
+			{
+				nativeEffect.Dispose();
+				nativeEffect = null;
+			}
+		}
+		#endregion
 
-        public EffectParameterCollection Parameters
-        {
-            get
-            {
-                return this.parameterCollection;
-            }
-        }
+		#region Clone (TODO)
+		public virtual Effect Clone()
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        public EffectTechniqueCollection Techniques
-        {
-            get
-            {
-                return this.techniqueCollection;
-            }
-        }
+		#region PreBindSetParameters
+		/// <summary>
+		/// This is used by the built in effects to set all their parameters only once and not everytime the properties change.
+		/// </summary>
+		internal virtual void PreBindSetParameters()
+		{
+		}
+		#endregion
 
-        public override void Dispose()
-        {
-            if (nativeEffect != null)
-            {
-                nativeEffect.Dispose();
-                nativeEffect = null;
-            }
-        }
+		#region Dispose (TODO)
+		public override void Dispose()
+		{
+			if (nativeEffect != null)
+			{
+				nativeEffect.Dispose();
+				nativeEffect = null;
+			}
+		}
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            throw new NotImplementedException();
-        }
+		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 
-        private void CreateNativeEffect(EffectSourceLanguage sourceLanguage)
-        {
-            IRenderSystemCreator creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+		#region CreateNativeEffect
+		private void CreateNativeEffect(EffectSourceLanguage sourceLanguage)
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
 
-            if (creator.IsLanguageSupported(sourceLanguage))
-            {
-                this.nativeEffect = creator.CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
-
-                this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
-                this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
-            }
-            else
-            {
-                throw new InvalidOperationException("couldn't create " + sourceLanguage.ToString() + " native effect using RenderSystem " + creator.Name);
-            }
-        }
-    }
+			if (creator.IsLanguageSupported(sourceLanguage))
+			{
+				this.nativeEffect = creator.CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
+				this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
+				this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
+			}
+			else
+				throw new InvalidOperationException("couldn't create " + sourceLanguage + " native effect using RenderSystem " +
+					creator.Name);
+		}
+		#endregion
+	}
 }

@@ -1,11 +1,6 @@
 #region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX;
 using SharpDX.DXGI;
-using SharpDX.Direct3D;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D10;
 using ANX.Framework;
@@ -20,7 +15,6 @@ using System.Runtime.InteropServices;
 // For details see: http://anxframework.codeplex.com/license
 
 using Device = SharpDX.Direct3D10.Device;
-using Buffer = SharpDX.Direct3D10.Buffer;
 using Rectangle = ANX.Framework.Rectangle;
 using Vector4 = ANX.Framework.Vector4;
 using VertexBufferBinding = ANX.Framework.Graphics.VertexBufferBinding;
@@ -73,7 +67,15 @@ namespace ANX.RenderSystem.Windows.DX10
         private SharpDX.Color4 clearColor;
         private bool vSyncEnabled;
 
-        #endregion // Private Members
+		#endregion // Private Members
+
+		internal Device NativeDevice
+		{
+			get
+			{
+				return this.device;
+			}
+		}
 
         public GraphicsDeviceWindowsDX10(PresentationParameters presentationParameters)
         {
@@ -374,23 +376,17 @@ namespace ANX.RenderSystem.Windows.DX10
 
         #endregion // DrawUserPrimitives<T>
 
-        internal Device NativeDevice
-        {
-            get
-            {
-                return this.device;
-            }
-        }
-
-        private void SetupEffectForDraw(out SharpDX.Direct3D10.EffectPass pass, out SharpDX.Direct3D10.EffectTechnique technique, out ShaderBytecode passSignature)
+        private void SetupEffectForDraw(out SharpDX.Direct3D10.EffectPass pass, out SharpDX.Direct3D10.EffectTechnique technique,
+			out ShaderBytecode passSignature)
         {
             // get the current effect
             //TODO: check for null and throw exception
             Effect_DX10 effect = this.currentEffect;
-
+			
             // get the input semantic of the current effect / technique that is used
-            //TODO: check for null's and throw exceptions
-            technique = effect.NativeEffect.GetTechniqueByIndex(0);
+            // TODO: check for null's and throw exceptions
+			// TODO: get the correct pass index!
+			technique = effect.GetCurrentTechnique().NativeTechnique;
             pass = technique.GetPassByIndex(0);
             passSignature = pass.Description.Signature;
         }
@@ -400,9 +396,7 @@ namespace ANX.RenderSystem.Windows.DX10
             // get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
             
             if (currentVertexBuffer == null)
-            {
                 throw new ArgumentNullException("passSignature");
-            }
 
             VertexDeclaration vertexDeclaration = currentVertexBuffer.VertexDeclaration;
             var layout = CreateInputLayout(device, passSignature, vertexDeclaration);
@@ -476,15 +470,17 @@ namespace ANX.RenderSystem.Windows.DX10
 
             this.currentVertexBuffer = vertexBuffers[0].VertexBuffer;   //TODO: hmmmmm, not nice :-)
 
-            SharpDX.Direct3D10.VertexBufferBinding[] nativeVertexBufferBindings = new SharpDX.Direct3D10.VertexBufferBinding[vertexBuffers.Length];
+            SharpDX.Direct3D10.VertexBufferBinding[] nativeVertexBufferBindings =
+				new SharpDX.Direct3D10.VertexBufferBinding[vertexBuffers.Length];
             for (int i = 0; i < vertexBuffers.Length; i++)
             {
                 ANX.Framework.Graphics.VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
-                VertexBuffer_DX10 nativeVertexBuffer = anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_DX10;
+                var nativeVertexBuffer = anxVertexBufferBinding.VertexBuffer.NativeVertexBuffer as VertexBuffer_DX10;
 
                 if (nativeVertexBuffer != null)
                 {
-                    nativeVertexBufferBindings[i] = new SharpDX.Direct3D10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
+                    nativeVertexBufferBindings[i] = new SharpDX.Direct3D10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer,
+						anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
                 }
                 else
                 {
@@ -497,12 +493,13 @@ namespace ANX.RenderSystem.Windows.DX10
 
         public void SetViewport(Viewport viewport)
         {
-            this.currentViewport = new SharpDX.Direct3D10.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
+            this.currentViewport = new SharpDX.Direct3D10.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height,
+				viewport.MinDepth, viewport.MaxDepth);
         }
 
         /// <summary>
-        /// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives. The VertexDeclaration of ANX/XNA needs to be mapped
-        /// to the DirectX 10 types. This is what this method is for.
+        /// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives.
+		/// The VertexDeclaration of ANX/XNA needs to be mapped to the DirectX 10 types.
         /// </summary>
         private InputLayout CreateInputLayout(Device device, ShaderBytecode passSignature, VertexDeclaration vertexDeclaration)
         {
@@ -511,41 +508,44 @@ namespace ANX.RenderSystem.Windows.DX10
             InputElement[] inputElements = new InputElement[elementCount];
 
             for (int i = 0; i < elementCount; i++)
-            {
                 inputElements[i] = CreateInputElementFromVertexElement(vertexElements[i]);
-            }
 
-            // Layout from VertexShader input signature
             return new InputLayout(device, passSignature, inputElements);
         }
 
         private InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
         {
-            string elementName = FormatConverter.Translate(vertexElement.VertexElementUsage);
-
-            Format elementFormat;
-            switch (vertexElement.VertexElementFormat)
-            {
-                case VertexElementFormat.Vector2:
-                    elementFormat = Format.R32G32_Float;
-                    break;
-                case VertexElementFormat.Vector3:
-                    elementFormat = Format.R32G32B32_Float;
-                    break;
-                case VertexElementFormat.Vector4:
-                    elementFormat = Format.R32G32B32A32_Float;
-                    break;
-                case VertexElementFormat.Color:
-                    elementFormat = Format.R8G8B8A8_UNorm;
-                    break;
-                default:
-                    throw new Exception("can't map '" + vertexElement.VertexElementFormat.ToString() + "' to DXGI.Format in DirectX10 RenderSystem CreateInputElementFromVertexElement");
-            }
-
+            string elementName = FormatConverter.Translate(ref vertexElement);
+			Format elementFormat = ConvertVertexElementFormat(vertexElement.VertexElementFormat);
             return new InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
         }
 
-        public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
+		private Format ConvertVertexElementFormat(VertexElementFormat format)
+		{
+			switch (format)
+			{
+				case VertexElementFormat.Vector2:
+					return Format.R32G32_Float;
+				case VertexElementFormat.Vector3:
+					return Format.R32G32B32_Float;
+				case VertexElementFormat.Vector4:
+					return Format.R32G32B32A32_Float;
+				case VertexElementFormat.Color:
+					return Format.R8G8B8A8_UNorm;
+				case VertexElementFormat.Single:
+					return Format.R32_Float;
+					// TODO: validate
+				case VertexElementFormat.Short2:
+					return Format.R16G16_SInt;
+				case VertexElementFormat.Short4:
+					return Format.R16G16B16A16_SInt;
+			}
+
+			throw new Exception("Can't map '" + format + "' to DXGI.Format in Dx10 CreateInputElementFromVertexElement.");
+		}
+
+		#region SetRenderTargets
+		public void SetRenderTargets(params RenderTargetBinding[] renderTargets)
         {
             if (renderTargets == null)
             {
@@ -620,8 +620,10 @@ namespace ANX.RenderSystem.Windows.DX10
                 //}
             }
         }
+		#endregion
 
-        public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+		#region GetBackBufferData
+		public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
         {
             throw new NotImplementedException();
         }
@@ -635,8 +637,10 @@ namespace ANX.RenderSystem.Windows.DX10
         {
             throw new NotImplementedException();
         }
+		#endregion
 
-        public void ResizeBuffers(PresentationParameters presentationParameters)
+		#region ResizeBuffers
+		public void ResizeBuffers(PresentationParameters presentationParameters)
         {
             if (swapChain != null)
             {
@@ -645,16 +649,16 @@ namespace ANX.RenderSystem.Windows.DX10
 
                 //TODO: handle format
 
-                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, swapChain.Description.Flags);
+                swapChain.ResizeBuffers(swapChain.Description.BufferCount, presentationParameters.BackBufferWidth,
+					presentationParameters.BackBufferHeight, Format.R8G8B8A8_UNorm, swapChain.Description.Flags);
 
                 backBuffer = SharpDX.Direct3D10.Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(swapChain, 0);
                 renderView = new RenderTargetView(device, backBuffer);
 
-                currentViewport = new SharpDX.Direct3D10.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+                currentViewport = new SharpDX.Direct3D10.Viewport(0, 0, presentationParameters.BackBufferWidth,
+					presentationParameters.BackBufferHeight);
 
-                //
                 // create the depth stencil buffer
-                //
                 Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
                 if (depthFormat != Format.Unknown)
                 {
@@ -664,20 +668,24 @@ namespace ANX.RenderSystem.Windows.DX10
 
             ResizeRenderWindow(presentationParameters);
         }
+		#endregion
 
-        private void ResizeRenderWindow(PresentationParameters presentationParameters)
+		#region ResizeRenderWindow
+		private void ResizeRenderWindow(PresentationParameters presentationParameters)
         {
             RECT windowRect;
             RECT clientRect;
-            if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
-                GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
-            {
-                int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
-                int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
+			if (GetWindowRect(presentationParameters.DeviceWindowHandle, out windowRect) &&
+				GetClientRect(presentationParameters.DeviceWindowHandle, out clientRect))
+			{
+				int width = presentationParameters.BackBufferWidth + ((windowRect.Right - windowRect.Left) - clientRect.Right);
+				int height = presentationParameters.BackBufferHeight + ((windowRect.Bottom - windowRect.Top) - clientRect.Bottom);
 
-                SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width, height, 0);
-            }
+				SetWindowPos(presentationParameters.DeviceWindowHandle, IntPtr.Zero, windowRect.Left, windowRect.Top, width,
+					height, 0);
+			}
         }
+		#endregion
 
         public bool VSync
         {
@@ -691,7 +699,8 @@ namespace ANX.RenderSystem.Windows.DX10
             }
         }
 
-        public void Dispose()
+		#region Dispose
+		public void Dispose()
         {
             for (int i = 0; i < renderTargetView.Length; i++)
             {
@@ -724,6 +733,7 @@ namespace ANX.RenderSystem.Windows.DX10
             }
 
             //TODO: dispose everything else
-        }
-    }
+		}
+		#endregion
+	}
 }

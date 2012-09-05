@@ -306,17 +306,7 @@ namespace ANX.Framework
 		#region CanResetDevice
 		protected virtual bool CanResetDevice(GraphicsDeviceInformation newDeviceInfo)
 		{
-			if (newDeviceInfo.Adapter == currentGraphicsDeviceInformation.Adapter &&
-				newDeviceInfo.GraphicsProfile == currentGraphicsDeviceInformation.GraphicsProfile &&
-				//newDeviceInfo.PresentationParameters.DepthStencilFormat == currentGraphicsDeviceInformation.PresentationParameters.DepthStencilFormat &&
-				newDeviceInfo.PresentationParameters.BackBufferFormat == currentGraphicsDeviceInformation.PresentationParameters.BackBufferFormat)
-			{
-				return true;
-			}
-
-			//TODO: implement CanResetDevice completly
-
-			return false;
+			return GraphicsDevice.GraphicsProfile == newDeviceInfo.GraphicsProfile;
 		}
 		#endregion
 

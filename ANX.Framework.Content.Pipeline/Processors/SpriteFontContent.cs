@@ -1,10 +1,6 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-#endregion
+using ANX.Framework.Content.Pipeline.Graphics;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,6 +10,37 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     public sealed class SpriteFontContent
     {
+		[ContentSerializer(ElementName = "Texture", AllowNull = false)]
+		internal Texture2DContent Texture { get; private set; }
 
+		[ContentSerializer(ElementName = "Glyphs", AllowNull = false)]
+		internal List<Rectangle> Glyphs { get; private set; }
+
+		[ContentSerializer(ElementName = "Cropping", AllowNull = false)]
+		internal List<Rectangle> Cropping { get; private set; }
+
+		[ContentSerializer(ElementName = "CharacterMap", AllowNull = false)]
+		internal List<char> CharacterMap { get; private set; }
+
+		[ContentSerializer(ElementName = "LineSpacing", AllowNull = false)]
+		internal int LineSpacing { get; set; }
+
+		[ContentSerializer(ElementName = "Spacing", AllowNull = false)]
+		internal float Spacing { get; set; }
+
+		[ContentSerializer(ElementName = "Kerning", AllowNull = false)]
+		internal List<Vector3> Kerning { get; private set; }
+
+		[ContentSerializer(ElementName = "DefaultCharacter", AllowNull = true)]
+		internal char? DefaultCharacter { get; set; }
+
+		internal SpriteFontContent()
+		{
+			Texture = new Texture2DContent();
+			Glyphs = new List<Rectangle>();
+			Cropping = new List<Rectangle>();
+			CharacterMap = new List<char>();
+			Kerning = new List<Vector3>();
+		}
     }
 }
