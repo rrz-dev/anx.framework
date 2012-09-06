@@ -1,14 +1,8 @@
-#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX.Direct3D10;
+using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.Framework;
-
-#endregion // Using Statements
+using ANX.RenderSystem.Windows.DX10.Helpers;
+using Dx10 = SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -18,236 +12,193 @@ namespace ANX.RenderSystem.Windows.DX10
 {
     public class BlendState_DX10 : INativeBlendState
     {
-        #region Private Members
-        private BlendStateDescription description;
-        private SharpDX.Direct3D10.BlendState nativeBlendState;
-        private bool nativeBlendStateDirty;
+		private const float ColorByteToFloatFactor = 1f / 255f;
+
+        #region Private
+		private Dx10.BlendStateDescription description;
+        private Dx10.BlendState nativeBlendState;
+        private bool isDirty;
         private SharpDX.Color4 blendFactor;
         private int multiSampleMask;
-        private bool bound;
+		#endregion
 
-        #endregion // Private Members
+		#region Public
+		public bool IsBound
+		{
+			get;
+			private set;
+		}
 
-        public BlendState_DX10()
-        {
-            this.description = new BlendStateDescription();
+		public Color BlendFactor
+		{
+			set
+			{
+				blendFactor.Red = value.R * ColorByteToFloatFactor;
+				blendFactor.Green = value.G * ColorByteToFloatFactor;
+				blendFactor.Blue = value.B * ColorByteToFloatFactor;
+				blendFactor.Alpha = value.A * ColorByteToFloatFactor;
+			}
+		}
 
+		public int MultiSampleMask
+		{
+			set
+			{
+				multiSampleMask = value;
+			}
+		}
+
+		public BlendFunction AlphaBlendFunction
+		{
+			set
+			{
+				Dx10.BlendOperation alphaBlendOperation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.AlphaBlendOperation, ref alphaBlendOperation);
+			}
+		}
+
+		public BlendFunction ColorBlendFunction
+		{
+			set
+			{
+				Dx10.BlendOperation blendOperation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.BlendOperation, ref blendOperation);
+			}
+		}
+
+		public Blend AlphaDestinationBlend
+		{
+			set
+			{
+				Dx10.BlendOption destinationAlphaBlend = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.DestinationAlphaBlend, ref destinationAlphaBlend);
+			}
+		}
+
+		public Blend ColorDestinationBlend
+		{
+			set
+			{
+				Dx10.BlendOption destinationBlend = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.DestinationBlend, ref destinationBlend);
+			}
+		}
+
+		public ColorWriteChannels ColorWriteChannels
+		{
+			set
+			{
+				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[0], ref writeMask);
+			}
+		}
+
+		public ColorWriteChannels ColorWriteChannels1
+		{
+			set
+			{
+				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[1], ref writeMask);
+			}
+		}
+
+		public ColorWriteChannels ColorWriteChannels2
+		{
+			set
+			{
+				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[2], ref writeMask);
+			}
+		}
+
+		public ColorWriteChannels ColorWriteChannels3
+		{
+			set
+			{
+				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[3], ref writeMask);
+			}
+		}
+
+		public Blend AlphaSourceBlend
+		{
+			set
+			{
+				Dx10.BlendOption sourceAlphaBlend = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.SourceAlphaBlend, ref sourceAlphaBlend);
+			}
+		}
+
+		public Blend ColorSourceBlend
+		{
+			set
+			{
+				Dx10.BlendOption sourceBlend = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.SourceBlend, ref sourceBlend);
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public BlendState_DX10()
+		{
+			isDirty = true;
             for (int i = 0; i < description.IsBlendEnabled.Length; i++)
-            {
                 description.IsBlendEnabled[i] = (i < 4);
-            }
-
-            nativeBlendStateDirty = true;
         }
+		#endregion
 
-        public void Apply(GraphicsDevice graphics)
+		#region Apply
+		public void Apply(GraphicsDevice graphics)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-            SharpDX.Direct3D10.Device device = gdx10.NativeDevice;
+            Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
 
             UpdateNativeBlendState(device);
-            this.bound = true;
+			IsBound = true;
 
-            device.OutputMerger.SetBlendState(nativeBlendState, this.blendFactor, this.multiSampleMask);
+            device.OutputMerger.SetBlendState(nativeBlendState, blendFactor, multiSampleMask);
         }
+		#endregion
 
-        public void Release()
+		#region Release
+		public void Release()
         {
-            this.bound = false;
-        }
+			IsBound = false;
+		}
+		#endregion
 
-        public void Dispose()
+		#region Dispose
+		public void Dispose()
         {
-            if (this.nativeBlendState != null)
+            if (nativeBlendState != null)
             {
-                this.nativeBlendState.Dispose();
-                this.nativeBlendState = null;
+                nativeBlendState.Dispose();
+                nativeBlendState = null;
+            }
+		}
+		#endregion
+
+		#region UpdateNativeBlendState
+		private void UpdateNativeBlendState(Dx10.Device device)
+        {
+			if (isDirty || nativeBlendState == null)
+            {
+				Dispose();
+                nativeBlendState = new Dx10.BlendState(device, ref description);
+				isDirty = false;
             }
         }
+		#endregion
 
-        public bool IsBound
-        {
-            get
-            {
-                return this.bound;
-            }
-        }
-
-        public Color BlendFactor
-        {
-            set
-            {
-							const float colorConvert = 1f / 255f;
-
-							blendFactor.Red = value.R * colorConvert;
-							blendFactor.Green = value.G * colorConvert;
-							blendFactor.Blue = value.B * colorConvert;
-							blendFactor.Alpha = value.A * colorConvert;
-            }
-        }
-
-        public int MultiSampleMask
-        {
-            set
-            {
-                this.multiSampleMask = value;
-            }
-        }
-
-        public BlendFunction AlphaBlendFunction
-        {
-            set
-            {
-                BlendOperation alphaBlendOperation = FormatConverter.Translate(value);
-
-                if (description.AlphaBlendOperation != alphaBlendOperation)
-                {
-                    nativeBlendStateDirty = true;
-                    description.AlphaBlendOperation = alphaBlendOperation;
-                }
-            }
-        }
-
-        public BlendFunction ColorBlendFunction
-        {
-            set
-            {
-                BlendOperation blendOperation = FormatConverter.Translate(value);
-
-                if (description.BlendOperation != blendOperation)
-                {
-                    nativeBlendStateDirty = true;
-                    description.BlendOperation = blendOperation;
-                }
-            }
-        }
-
-        public Blend AlphaDestinationBlend
-        {
-            set
-            {
-                BlendOption destinationAlphaBlend = FormatConverter.Translate(value);
-
-                if (description.DestinationAlphaBlend != destinationAlphaBlend)
-                {
-                    nativeBlendStateDirty = true;
-                    description.DestinationAlphaBlend = destinationAlphaBlend;
-                }
-            }
-        }
-
-        public Blend ColorDestinationBlend
-        {
-            set
-            {
-                BlendOption destinationBlend = FormatConverter.Translate(value);
-
-                if (description.DestinationBlend != destinationBlend)
-                {
-                    nativeBlendStateDirty = true;
-                    description.DestinationBlend = destinationBlend;
-                }
-            }
-        }
-
-        public ColorWriteChannels ColorWriteChannels
-        {
-            set
-            {
-                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
-                if (description.RenderTargetWriteMask[0] != renderTargetWriteMask)
-                {
-                    nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[0] = renderTargetWriteMask;
-                }
-            }
-        }
-
-        public ColorWriteChannels ColorWriteChannels1
-        {
-            set
-            {
-                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
-                if (description.RenderTargetWriteMask[1] != renderTargetWriteMask)
-                {
-                    nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[1] = renderTargetWriteMask;
-                }
-            }
-        }
-
-        public ColorWriteChannels ColorWriteChannels2
-        {
-            set
-            {
-                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
-                if (description.RenderTargetWriteMask[2] != renderTargetWriteMask)
-                {
-                    nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[2] = renderTargetWriteMask;
-                }
-            }
-        }
-
-        public ColorWriteChannels ColorWriteChannels3
-        {
-            set
-            {
-                ColorWriteMaskFlags renderTargetWriteMask = FormatConverter.Translate(value);
-
-                if (description.RenderTargetWriteMask[3] != renderTargetWriteMask)
-                {
-                    nativeBlendStateDirty = true;
-                    description.RenderTargetWriteMask[3] = renderTargetWriteMask;
-                }
-            }
-        }
-
-        public Blend AlphaSourceBlend
-        {
-            set
-            {
-                BlendOption sourceAlphaBlend = FormatConverter.Translate(value);
-
-                if (description.SourceAlphaBlend != sourceAlphaBlend)
-                {
-                    nativeBlendStateDirty = true;
-                    description.SourceAlphaBlend = sourceAlphaBlend;
-                }
-            }
-        }
-
-        public Blend ColorSourceBlend
-        {
-            set
-            {
-                BlendOption sourceBlend = FormatConverter.Translate(value);
-
-                if (description.SourceBlend != sourceBlend)
-                {
-                    nativeBlendStateDirty = true;
-                    description.SourceBlend = sourceBlend;
-                }
-            }
-        }
-
-        private void UpdateNativeBlendState(SharpDX.Direct3D10.Device device)
-        {
-            if (this.nativeBlendStateDirty == true || this.nativeBlendState == null)
-            {
-                if (this.nativeBlendState != null)
-                {
-                    this.nativeBlendState.Dispose();
-                    this.nativeBlendState = null;
-                }
-
-                this.nativeBlendState = new SharpDX.Direct3D10.BlendState(device, ref this.description);
-
-                this.nativeBlendStateDirty = false;
-            }
-        }
-    }
+		#region UpdateValueAndMarkDirtyIfNeeded
+		private void UpdateValueAndMarkDirtyIfNeeded<T>(ref T currentValue, ref T value)
+		{
+			if (value.Equals(currentValue) == false)
+			{
+				isDirty = true;
+				currentValue = value;
+			}
+		}
+		#endregion
+	}
 }

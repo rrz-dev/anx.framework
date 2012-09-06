@@ -30,9 +30,7 @@ namespace ANX.Framework
         protected override void ClearItems()
         {
             for (int i = 0; i < base.Count; i++)
-            {
                 OnComponentRemoved(base[i]);
-            }
 
             base.Clear();
         }
@@ -40,9 +38,7 @@ namespace ANX.Framework
         protected override void InsertItem(int index, IGameComponent item)
         {
             if (item == null)
-            {
                 throw new ArgumentNullException("item");
-            }
 
             base.Insert(index, item);
             OnComponentAdded(item);
@@ -64,17 +60,13 @@ namespace ANX.Framework
         private void OnComponentAdded(IGameComponent component)
         {
             if (ComponentAdded != null)
-            {
                 ComponentAdded(this, new GameComponentCollectionEventArgs(component));
-            }
         }
 
         private void OnComponentRemoved(IGameComponent component)
         {
             if (ComponentRemoved != null)
-            {
                 ComponentRemoved(this, new GameComponentCollectionEventArgs(component));
-            }
         }
     }
 }

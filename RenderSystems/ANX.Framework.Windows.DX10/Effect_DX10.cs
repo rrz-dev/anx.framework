@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.RenderSystem.Windows.DX10.Helpers;
 using SharpDX.D3DCompiler;
 using Dx10 = SharpDX.Direct3D10;
 
@@ -92,35 +93,46 @@ namespace ANX.RenderSystem.Windows.DX10
         }
 		#endregion
 
+		#region GetCurrentTechnique
 		public EffectTechnique_DX10 GetCurrentTechnique()
 		{
 			return managedEffect.CurrentTechnique.NativeTechnique as EffectTechnique_DX10;
 		}
+		#endregion
 
+		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
         {
             ((GraphicsDeviceWindowsDX10)graphicsDevice.NativeDevice).currentEffect = this;
         }
+		#endregion
 
-        public static byte[] CompileVertexShader(string effectCode, string directory = "")
+		#region CompileVertexShader (TODO)
+		public static byte[] CompileVertexShader(string effectCode, string directory = "")
         {
+			// TODO: not all entry points are named VS!
             ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None,
 				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
             byte[] bytecode = new byte[vertexShaderByteCode.BufferSize];
             vertexShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
-        }
+		}
+		#endregion
 
-        public static byte[] CompilePixelShader(string effectCode, string directory = "")
-        {
+		#region CompilePixelShader (TODO)
+		public static byte[] CompilePixelShader(string effectCode, string directory = "")
+		{
+			// TODO: not all entry points are named PS!
             ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None,
 				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
             byte[] bytecode = new byte[pixelShaderByteCode.BufferSize];
             pixelShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
-        }
+		}
+		#endregion
 
-        public static byte[] CompileFXShader(string effectCode, string directory = "")
+		#region CompileFXShader
+		public static byte[] CompileFXShader(string effectCode, string directory = "")
         {
             ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_4_0", ShaderFlags.None, EffectFlags.None,
 				null, new IncludeHandler(directory), "unknown");
@@ -128,6 +140,7 @@ namespace ANX.RenderSystem.Windows.DX10
             effectByteCode.Data.Read(bytecode, 0, bytecode.Length);
             return bytecode;
         }
+		#endregion
 
 		#region Dispose
 		public void Dispose()

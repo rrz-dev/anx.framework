@@ -45,7 +45,6 @@ namespace ANX.Framework
 
 		private ContentManager content;
 
-        private GameComponentCollection components;
         private List<IGameComponent> drawableGameComponents;
 
         #endregion
@@ -93,9 +92,9 @@ namespace ANX.Framework
             this.TargetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
 
             //TODO: implement draw- and update-order handling of GameComponents
-            this.components = new GameComponentCollection();
-            this.components.ComponentAdded += components_ComponentAdded;
-            this.components.ComponentRemoved += components_ComponentRemoved;
+			this.Components = new GameComponentCollection();
+			this.Components.ComponentAdded += components_ComponentAdded;
+			this.Components.ComponentRemoved += components_ComponentRemoved;
             this.drawableGameComponents = new List<IGameComponent>();
 
 			Logger.Info("finished initializing new Game class");
@@ -105,8 +104,8 @@ namespace ANX.Framework
 
 		~Game()
 		{
-            this.components.ComponentAdded -= components_ComponentAdded;
-            this.components.ComponentRemoved -= components_ComponentRemoved;
+			this.Components.ComponentAdded -= components_ComponentAdded;
+			this.Components.ComponentRemoved -= components_ComponentRemoved;
 
 			Dispose(false);
 		}
@@ -150,7 +149,7 @@ namespace ANX.Framework
 
 		protected virtual void Update(GameTime gameTime)
 		{
-            foreach (IUpdateable updateable in this.components)
+			foreach (IUpdateable updateable in this.Components)
             {
                 if (updateable.Enabled)
                 {
@@ -478,8 +477,8 @@ namespace ANX.Framework
 			if (disposing)
 			{
 				IDisposable disposable;
-				var array = new IGameComponent[components.Count];
-				components.CopyTo(array, 0);
+				var array = new IGameComponent[Components.Count];
+				Components.CopyTo(array, 0);
 				for (int i = 0; i < array.Length; i++)
 				{
 					disposable = (IDisposable)array[i];

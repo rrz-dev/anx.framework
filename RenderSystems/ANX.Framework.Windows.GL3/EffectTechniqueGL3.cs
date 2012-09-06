@@ -59,8 +59,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		/// <summary>
 		/// Create a ne effect technique object.
 		/// </summary>
-		internal EffectTechniqueGL3(Effect setParentEffect, string setName,
-			int setProgramHandle)
+		internal EffectTechniqueGL3(Effect setParentEffect, string setName, int setProgramHandle)
 		{
 			parentEffect = setParentEffect;
 			Name = setName;

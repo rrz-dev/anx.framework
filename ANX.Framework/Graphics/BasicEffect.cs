@@ -30,8 +30,8 @@ namespace ANX.Framework.Graphics
         private DirectionalLight[] directionalLight;
         private Vector3 ambientLightColor;
 
-        public BasicEffect(GraphicsDevice graphics)
-            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(NonXNA.PreDefinedShader.BasicEffect))
+		public BasicEffect(GraphicsDevice graphics)
+			: base(graphics, GetByteCode(), GetSourceLanguage())
         {
             world = base.Parameters["World"];
             view = base.Parameters["View"];
@@ -54,7 +54,23 @@ namespace ANX.Framework.Graphics
             : base(cloneSource)
         {
             throw new NotImplementedException();
-        }
+		}
+
+		#region GetByteCode
+		private static byte[] GetByteCode()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetShaderByteCode(PreDefinedShader.BasicEffect);
+		}
+		#endregion
+
+		#region GetSourceLanguage
+		private static EffectSourceLanguage GetSourceLanguage()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetStockShaderSourceLanguage;
+		}
+		#endregion
 
         public bool PreferPerPixelLighting
         {

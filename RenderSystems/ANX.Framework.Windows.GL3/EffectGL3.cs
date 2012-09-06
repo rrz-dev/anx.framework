@@ -243,16 +243,12 @@ namespace ANX.RenderSystem.Windows.GL3
 		}
 		#endregion
 
-		#region Apply (TODO)
+		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			if (GraphicsDeviceWindowsGL3.activeEffect != this)
-			{
-				GL.Enable(EnableCap.Blend);
-				GL.UseProgram(CurrentTechnique.programHandle);
-				GraphicsDeviceWindowsGL3.activeEffect = this;
-				ErrorHelper.Check("UseProgram");
-			}
+			GL.UseProgram(CurrentTechnique.programHandle);
+			GraphicsDeviceWindowsGL3.activeEffect = this;
+			ErrorHelper.Check("UseProgram");
 		}
 		#endregion
 

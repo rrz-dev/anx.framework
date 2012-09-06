@@ -1,8 +1,8 @@
 using System;
+using ANX.Framework;
 using ANX.Framework.Graphics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using ANX.Framework;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -194,8 +194,7 @@ namespace ANX.RenderSystem.Windows.GL3.Helpers
 		/// </summary>
 		/// <param name="type">XNA PrimitiveType.</param>
 		/// <returns>Translated BeginMode for OpenGL.</returns>
-		public static BeginMode PrimitiveTypeToBeginMode(PrimitiveType type,
-			int primitiveCount, out int count)
+		public static BeginMode PrimitiveTypeToBeginMode(PrimitiveType type, int primitiveCount, out int count)
 		{
 			switch (type)
 			{

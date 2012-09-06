@@ -9,9 +9,8 @@ namespace ANX.Framework.Graphics
 {
     public class AlphaTestEffect : Effect, IEffectMatrices, IEffectFog, IGraphicsResource
     {
-        public AlphaTestEffect(GraphicsDevice device)
-            : base(device, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(
-			NonXNA.PreDefinedShader.AlphaTestEffect))
+		public AlphaTestEffect(GraphicsDevice device)
+			: base(device, GetByteCode(), GetSourceLanguage())
         {
             throw new NotImplementedException();
         }
@@ -20,7 +19,23 @@ namespace ANX.Framework.Graphics
             : base(cloneSource)
         {
             throw new NotImplementedException();
-        }
+		}
+
+		#region GetByteCode
+		private static byte[] GetByteCode()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetShaderByteCode(PreDefinedShader.AlphaTestEffect);
+		}
+		#endregion
+
+		#region GetSourceLanguage
+		private static EffectSourceLanguage GetSourceLanguage()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetStockShaderSourceLanguage;
+		}
+		#endregion
 
         public override Effect Clone()
         {

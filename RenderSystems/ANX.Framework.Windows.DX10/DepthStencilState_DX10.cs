@@ -1,301 +1,236 @@
-#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX.Direct3D10;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.Framework;
-
-#endregion // Using Statements
+using ANX.RenderSystem.Windows.DX10.Helpers;
+using Dx10 = SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-using StencilOperation = ANX.Framework.Graphics.StencilOperation;
-
 namespace ANX.RenderSystem.Windows.DX10
 {
     public class DepthStencilState_DX10 : INativeDepthStencilState
     {
-        #region Private Members
-        private DepthStencilStateDescription description;
-        private SharpDX.Direct3D10.DepthStencilState nativeDepthStencilState;
-        private bool nativeDepthStencilStateDirty;
-        private bool bound;
-
+        #region Private
+		private Dx10.DepthStencilStateDescription description;
+		private Dx10.DepthStencilState nativeDepthStencilState;
+        private bool isDirty;
         private int referenceStencil;
+		#endregion
 
-        #endregion // Private Members
+		#region Public (TODO)
+		public bool IsBound
+		{
+			get;
+			private set;
+		}
 
-        public DepthStencilState_DX10()
+		public StencilOperation CounterClockwiseStencilDepthBufferFail
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.BackFace.DepthFailOperation, ref operation);
+			}
+		}
+
+		public StencilOperation CounterClockwiseStencilFail
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.BackFace.FailOperation, ref operation);
+			}
+		}
+
+		public CompareFunction CounterClockwiseStencilFunction
+		{
+			set
+			{
+				Dx10.Comparison comparison = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.BackFace.Comparison, ref comparison);
+			}
+		}
+
+		public StencilOperation CounterClockwiseStencilPass
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.BackFace.PassOperation, ref operation);
+			}
+		}
+
+		public bool DepthBufferEnable
+		{
+			set
+			{
+				if (description.IsDepthEnabled != value)
+				{
+					description.IsDepthEnabled = value;
+					isDirty = true;
+				}
+			}
+		}
+
+		public CompareFunction DepthBufferFunction
+		{
+			set
+			{
+				Dx10.Comparison comparison = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.DepthComparison, ref comparison);
+			}
+		}
+
+		public bool DepthBufferWriteEnable
+		{
+			set
+			{
+				Dx10.DepthWriteMask writeMask = value ? Dx10.DepthWriteMask.All : Dx10.DepthWriteMask.Zero;
+				UpdateValueAndMarkDirtyIfNeeded(ref description.DepthWriteMask, ref writeMask);
+			}
+		}
+
+		public int ReferenceStencil
+		{
+			set
+			{
+				UpdateValueAndMarkDirtyIfNeeded(ref referenceStencil, ref value);
+			}
+		}
+
+		public StencilOperation StencilDepthBufferFail
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.FrontFace.DepthFailOperation, ref operation);
+			}
+		}
+
+		public bool StencilEnable
+		{
+			set
+			{
+				if (description.IsStencilEnabled != value)
+				{
+					description.IsStencilEnabled = value;
+					isDirty = true;
+				}
+			}
+		}
+
+		public StencilOperation StencilFail
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.FrontFace.FailOperation, ref operation);
+			}
+		}
+
+		public CompareFunction StencilFunction
+		{
+			set
+			{
+				Dx10.Comparison comparison = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.FrontFace.Comparison, ref comparison);
+			}
+		}
+
+		public int StencilMask
+		{
+			set
+			{
+				byte stencilMask = (byte)value;         //TODO: check range
+				UpdateValueAndMarkDirtyIfNeeded(ref description.StencilReadMask, ref stencilMask);
+			}
+		}
+
+		public StencilOperation StencilPass
+		{
+			set
+			{
+				Dx10.StencilOperation operation = FormatConverter.Translate(value);
+				UpdateValueAndMarkDirtyIfNeeded(ref description.FrontFace.PassOperation, ref operation);
+			}
+		}
+
+		public int StencilWriteMask
+		{
+			set
+			{
+				byte stencilWriteMask = (byte)value;        //TODO: check range
+				UpdateValueAndMarkDirtyIfNeeded(ref description.StencilWriteMask, ref stencilWriteMask);
+			}
+		}
+
+		public bool TwoSidedStencilMode
+		{
+			set
+			{
+				//TODO: check if we really need  in xna this enables only counter clockwise stencil operations
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public DepthStencilState_DX10()
         {
-            this.description = new DepthStencilStateDescription();
-
-            this.nativeDepthStencilStateDirty = true;
+            isDirty = true;
         }
-
+		#endregion
+		
+		#region Apply
         public void Apply(GraphicsDevice graphicsDevice)
         {
-            GraphicsDeviceWindowsDX10 gdx10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-            Device device = gdx10.NativeDevice;
-
+			Dx10.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
             UpdateNativeDepthStencilState(device);
-            this.bound = true;
+			IsBound = true;
 
-            device.OutputMerger.SetDepthStencilState(nativeDepthStencilState, this.referenceStencil);
+            device.OutputMerger.SetDepthStencilState(nativeDepthStencilState, referenceStencil);
         }
-
+		#endregion
+		
+		#region Release
         public void Release()
         {
-            this.bound = false;
+			IsBound = false;
         }
-
+		#endregion
+		
+		#region Dispose
         public void Dispose()
         {
-            if (this.nativeDepthStencilState != null)
+            if (nativeDepthStencilState != null)
             {
-                this.nativeDepthStencilState.Dispose();
-                this.nativeDepthStencilState = null;
+                nativeDepthStencilState.Dispose();
+                nativeDepthStencilState = null;
             }
         }
+		#endregion
 
-        public bool IsBound
+		#region UpdateNativeDepthStencilState
+		private void UpdateNativeDepthStencilState(Dx10.Device device)
         {
-            get
+            if (isDirty == true || nativeDepthStencilState == null)
             {
-                return this.bound;
+                Dispose();
+                nativeDepthStencilState = new Dx10.DepthStencilState(device, ref description);
+                isDirty = false;
             }
         }
+		#endregion
 
-        public StencilOperation CounterClockwiseStencilDepthBufferFail
-        {
-            set 
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.BackFace.DepthFailOperation != operation)
-                {
-                    description.BackFace.DepthFailOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public StencilOperation CounterClockwiseStencilFail
-        {
-            set 
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.BackFace.FailOperation != operation)
-                {
-                    description.BackFace.FailOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public CompareFunction CounterClockwiseStencilFunction
-        {
-            set 
-            {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
-
-                if (description.BackFace.Comparison != comparison)
-                {
-                    description.BackFace.Comparison = comparison;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public StencilOperation CounterClockwiseStencilPass
-        {
-            set 
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.BackFace.PassOperation != operation)
-                {
-                    description.BackFace.PassOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public bool DepthBufferEnable
-        {
-            set 
-            {
-                if (description.IsDepthEnabled != value)
-                {
-                    description.IsDepthEnabled = value;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public CompareFunction DepthBufferFunction
-        {
-            set 
-            {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
-
-                if (description.DepthComparison != comparison)
-                {
-                    description.DepthComparison = comparison;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public bool DepthBufferWriteEnable
-        {
-            set 
-            { 
-                DepthWriteMask writeMask = value ? DepthWriteMask.All : DepthWriteMask.Zero;
-
-                if (description.DepthWriteMask != writeMask)
-                {
-                    description.DepthWriteMask = writeMask;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public int ReferenceStencil
-        {
-            set 
-            {
-                if (this.referenceStencil != value)
-                {
-                    this.referenceStencil = value;
-                    this.nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public StencilOperation StencilDepthBufferFail
-        {
-            set 
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.FrontFace.DepthFailOperation != operation)
-                {
-                    description.FrontFace.DepthFailOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public bool StencilEnable
-        {
-            set 
-            {
-                if (description.IsStencilEnabled != value)
-                {
-                    description.IsStencilEnabled = value;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public StencilOperation StencilFail
-        {
-            set
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.FrontFace.FailOperation != operation)
-                {
-                    description.FrontFace.FailOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public CompareFunction StencilFunction
-        {
-            set 
-            {
-                SharpDX.Direct3D10.Comparison comparison = FormatConverter.Translate(value);
-
-                if (description.FrontFace.Comparison != comparison)
-                {
-                    description.FrontFace.Comparison = comparison;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public int StencilMask
-        {
-            set 
-            {
-                byte stencilMask = (byte)value;         //TODO: check range
-
-                if (description.StencilReadMask != stencilMask)
-                {
-                    description.StencilReadMask = stencilMask;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public StencilOperation StencilPass
-        {
-            set 
-            {
-                SharpDX.Direct3D10.StencilOperation operation = FormatConverter.Translate(value);
-
-                if (description.FrontFace.PassOperation != operation)
-                {
-                    description.FrontFace.PassOperation = operation;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public int StencilWriteMask
-        {
-            set 
-            {
-                byte stencilWriteMask = (byte)value;        //TODO: check range
-
-                if (description.StencilWriteMask != stencilWriteMask)
-                {
-                    description.StencilWriteMask = stencilWriteMask;
-                    nativeDepthStencilStateDirty = true;
-                }
-            }
-        }
-
-        public bool TwoSidedStencilMode
-        {
-            set 
-            { 
-                //TODO: check if we really need this. in xna this enables only counter clockwise stencil operations
-            }
-        }
-
-        private void UpdateNativeDepthStencilState(Device device)
-        {
-            if (this.nativeDepthStencilStateDirty == true || this.nativeDepthStencilState == null)
-            {
-                if (this.nativeDepthStencilState != null)
-                {
-                    this.nativeDepthStencilState.Dispose();
-                    this.nativeDepthStencilState = null;
-                }
-
-                this.nativeDepthStencilState = new SharpDX.Direct3D10.DepthStencilState(device, ref this.description);
-
-                this.nativeDepthStencilStateDirty = false;
-            }
-        }
+		#region UpdateValueAndMarkDirtyIfNeeded
+		private void UpdateValueAndMarkDirtyIfNeeded<T>(ref T currentValue, ref T value)
+		{
+			if (value.Equals(currentValue) == false)
+			{
+				isDirty = true;
+				currentValue = value;
+			}
+		}
+		#endregion
     }
 }

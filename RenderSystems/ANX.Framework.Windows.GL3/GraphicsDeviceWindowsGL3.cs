@@ -20,17 +20,8 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region Private
-		/// <summary>
-		/// Native graphics context.
-		/// </summary>
 		private GraphicsContext nativeContext;
-
-		/// <summary>
-		/// The OpenTK window info helper class to provide window informations
-		/// to the graphics device.
-		/// </summary>
 		private IWindowInfo nativeWindowInfo;
-
 		private GraphicsMode graphicsMode;
 
 		private int cachedVersionMinor = -1;
@@ -51,9 +42,7 @@ namespace ANX.RenderSystem.Windows.GL3
 		{
 			get
 			{
-				if (Current == null || Current.nativeContext == null)
-					return false;
-				return Current.nativeContext.IsCurrent;
+				return (Current == null || Current.nativeContext == null) ? false : Current.nativeContext.IsCurrent;
 			}
 		}
 		#endregion
@@ -251,19 +240,16 @@ namespace ANX.RenderSystem.Windows.GL3
 		#endregion
 
 		#region DrawIndexedPrimitives
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
-				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-				int primitiveCount)
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
+			int startIndex, int primitiveCount)
 		{
-			// TODO: baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount
-			DrawElementsType elementsType =
-				boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
+			// TODO: baseVertex, minVertexIndex, numVertices, startIndex
+			DrawElementsType elementsType = boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
 				DrawElementsType.UnsignedShort :
 				DrawElementsType.UnsignedInt;
 
 			int count;
-			BeginMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType,
-				primitiveCount, out count);
+			BeginMode mode = DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType, primitiveCount, out count);
 
 			GL.DrawElements(mode, count, elementsType, 0);
 			ErrorHelper.Check("DrawElements");
@@ -348,8 +334,7 @@ namespace ANX.RenderSystem.Windows.GL3
 			boundVertexBuffers = new VertexBufferGL3[vertexBuffers.Length];
 			for (int index = 0; index < vertexBuffers.Length; index++)
 			{
-				var nativeBuffer =
-					(VertexBufferGL3)vertexBuffers[index].VertexBuffer.NativeVertexBuffer;
+				var nativeBuffer = (VertexBufferGL3)vertexBuffers[index].VertexBuffer.NativeVertexBuffer;
 				boundVertexBuffers[index] = nativeBuffer;
 				nativeBuffer.Bind(activeEffect);
 			}
@@ -359,12 +344,8 @@ namespace ANX.RenderSystem.Windows.GL3
 		#region SetIndexBuffer
 		public void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
-			IndexBufferGL3 nativeBuffer =
-				(IndexBufferGL3)indexBuffer.NativeIndexBuffer;
-
-			boundIndexBuffer = nativeBuffer;
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer,
-				nativeBuffer.BufferHandle);
+			boundIndexBuffer = (IndexBufferGL3)indexBuffer.NativeIndexBuffer;
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, boundIndexBuffer.BufferHandle);
 			ErrorHelper.Check("BindBuffer");
 		}
 		#endregion

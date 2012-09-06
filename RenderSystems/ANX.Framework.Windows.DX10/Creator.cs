@@ -6,8 +6,8 @@ using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.RenderSystem.Windows.DX10.Helpers;
 using SharpDX.DXGI;
-using Dx10 = SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

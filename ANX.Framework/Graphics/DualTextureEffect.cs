@@ -83,8 +83,7 @@ namespace ANX.Framework.Graphics
 
 		#region Constructor
 		public DualTextureEffect(GraphicsDevice graphics)
-            : base(graphics, AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().GetShaderByteCode(
-				NonXNA.PreDefinedShader.DualTextureEffect))
+			: base(graphics, GetByteCode(), GetSourceLanguage())
         {
 			diffuseColor = Vector3.One;
 			Alpha = 1f;
@@ -112,6 +111,22 @@ namespace ANX.Framework.Graphics
 			Texture = cloneSource.Texture;
 			Texture2 = cloneSource.Texture2;
         }
+		#endregion
+
+		#region GetByteCode
+		private static byte[] GetByteCode()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetShaderByteCode(PreDefinedShader.DualTextureEffect);
+		}
+		#endregion
+
+		#region GetSourceLanguage
+		private static EffectSourceLanguage GetSourceLanguage()
+		{
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			return creator.GetStockShaderSourceLanguage;
+		}
 		#endregion
 
 		#region Clone
