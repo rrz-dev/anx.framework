@@ -6,6 +6,7 @@ using ANX.RenderSystem.Windows.DX10.Helpers;
 using SharpDX.D3DCompiler;
 using SharpDX.DXGI;
 using Dx10 = SharpDX.Direct3D10;
+using ANX.BaseDirectX;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -58,7 +59,7 @@ namespace ANX.RenderSystem.Windows.DX10
                 BufferCount = 1,
                 ModeDescription = new ModeDescription(presentationParameters.BackBufferWidth,
 					presentationParameters.BackBufferHeight, new Rational(60, 1),
-					FormatConverter.Translate(presentationParameters.BackBufferFormat)),
+					BaseFormatConverter.Translate(presentationParameters.BackBufferFormat)),
                 IsWindowed = true,
                 OutputHandle = presentationParameters.DeviceWindowHandle,
                 SampleDescription = new SampleDescription(1, 0),
@@ -91,7 +92,7 @@ namespace ANX.RenderSystem.Windows.DX10
             //
             // create the depth stencil buffer
             //
-            Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+			Format depthFormat = BaseFormatConverter.Translate(presentationParameters.DepthStencilFormat);
             if (depthFormat != Format.Unknown)
                 CreateDepthStencilBuffer(depthFormat);
         }
@@ -248,9 +249,9 @@ namespace ANX.RenderSystem.Windows.DX10
 			int startIndex, int primitiveCount)
 		{
 			Dx10.EffectTechnique technique = SetupEffectForDraw();
-			int vertexCount = FormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
+			int vertexCount = BaseFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
-            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+			device.InputAssembler.PrimitiveTopology = BaseFormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
             device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
@@ -267,7 +268,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			Dx10.EffectTechnique technique = SetupEffectForDraw();
 
-            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+			device.InputAssembler.PrimitiveTopology = BaseFormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
             device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
@@ -334,7 +335,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
             device.InputAssembler.InputLayout = layout;
             // Prepare All the stages
-            device.InputAssembler.PrimitiveTopology = FormatConverter.Translate(primitiveType);
+			device.InputAssembler.PrimitiveTopology = BaseFormatConverter.Translate(primitiveType);
             device.Rasterizer.SetViewports(currentViewport);
 
             //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
@@ -388,7 +389,8 @@ namespace ANX.RenderSystem.Windows.DX10
 
             if (nativeIndexBuffer != null)
             {
-                device.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, FormatConverter.Translate(indexBuffer.IndexElementSize), 0);
+				device.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer,
+					BaseFormatConverter.Translate(indexBuffer.IndexElementSize), 0);
             }
             else
             {
@@ -469,7 +471,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region CreateInputElementFromVertexElement
 		private Dx10.InputElement CreateInputElementFromVertexElement(VertexElement vertexElement)
         {
-            string elementName = FormatConverter.Translate(ref vertexElement);
+			string elementName = BaseFormatConverter.Translate(ref vertexElement);
 			Format elementFormat = ConvertVertexElementFormat(vertexElement.VertexElementFormat);
 			return new Dx10.InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, 0);
 		}
@@ -616,7 +618,7 @@ namespace ANX.RenderSystem.Windows.DX10
 					presentationParameters.BackBufferHeight);
 
                 // create the depth stencil buffer
-                Format depthFormat = FormatConverter.Translate(presentationParameters.DepthStencilFormat);
+				Format depthFormat = BaseFormatConverter.Translate(presentationParameters.DepthStencilFormat);
                 if (depthFormat != Format.Unknown)
                     CreateDepthStencilBuffer(depthFormat);
             }

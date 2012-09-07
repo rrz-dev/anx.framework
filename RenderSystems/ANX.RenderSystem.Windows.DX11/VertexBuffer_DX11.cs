@@ -1,8 +1,9 @@
 using System;
-using System.IO;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
-using SharpDX.Direct3D11;
+using SharpDX;
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,141 +11,66 @@ using SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-	public class VertexBuffer_DX11 : INativeVertexBuffer, IDisposable
+	public class VertexBuffer_DX11 : BaseVertexBuffer<Dx11.Buffer>, INativeVertexBuffer, IDisposable
 	{
-		int vertexStride;
-
-		public SharpDX.Direct3D11.Buffer NativeBuffer { get; private set; }
-
 		#region Constructor
 		public VertexBuffer_DX11(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			var gd11 = graphics.NativeDevice as GraphicsDeviceWindowsDX11;
-			SharpDX.Direct3D11.DeviceContext context = gd11 != null ?
-				gd11.NativeDevice as SharpDX.Direct3D11.DeviceContext :
-				null;
+			Dx11.DeviceContext context = gd11 != null ? gd11.NativeDevice as Dx11.DeviceContext : null;
 
 			InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
 		}
 
-		internal VertexBuffer_DX11(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount,
-			BufferUsage usage)
+		internal VertexBuffer_DX11(Dx11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
 		#region InitializeBuffer (TODO)
-		private void InitializeBuffer(SharpDX.Direct3D11.Device device, VertexDeclaration vertexDeclaration, int vertexCount,
-			BufferUsage usage)
+		private void InitializeBuffer(Dx11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
-			this.vertexStride = vertexDeclaration.VertexStride;
+			vertexStride = vertexDeclaration.VertexStride;
 
 			//TODO: translate and use usage
 
 			if (device != null)
 			{
-				BufferDescription description = new BufferDescription()
+				var description = new Dx11.BufferDescription()
 				{
-					Usage = ResourceUsage.Dynamic,
+					Usage = Dx11.ResourceUsage.Dynamic,
 					SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-					BindFlags = BindFlags.VertexBuffer,
-					CpuAccessFlags = CpuAccessFlags.Write,
-					OptionFlags = ResourceOptionFlags.None
+					BindFlags = Dx11.BindFlags.VertexBuffer,
+					CpuAccessFlags = Dx11.CpuAccessFlags.Write,
+					OptionFlags = Dx11.ResourceOptionFlags.None
 				};
 
-				NativeBuffer = new SharpDX.Direct3D11.Buffer(device, description);
+				NativeBuffer = new Dx11.Buffer(device, description);
 			}
 		}
 		#endregion
 
-		#region SetData (TODO)
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
-			where T : struct
+		protected override SharpDX.DataStream MapBufferWrite()
 		{
-			GraphicsDeviceWindowsDX11 dx11GraphicsDevice = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-			DeviceContext context = dx11GraphicsDevice.NativeDevice;
+			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
+			DataStream stream;
+			context.MapSubresource(NativeBuffer, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None, out stream);
+			return stream;
+		}
 
-			//TODO: check offsetInBytes parameter for bounds etc.
+		protected override SharpDX.DataStream MapBufferRead()
+		{
+			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
+			DataStream stream;
+			context.MapSubresource(NativeBuffer, Dx11.MapMode.Read, Dx11.MapFlags.None, out stream);
+			return stream;
+		}
 
-			SharpDX.DataStream stream;
-			context.MapSubresource(NativeBuffer, MapMode.WriteDiscard, MapFlags.None, out stream);
-
-			if (offsetInBytes > 0)
-				stream.Seek(offsetInBytes, SeekOrigin.Current);
-
-			if (startIndex > 0 || elementCount < data.Length)
-				for (int i = startIndex; i < startIndex + elementCount; i++)
-					stream.Write<T>(data[i]);
-			else
-				for (int i = 0; i < data.Length; i++)
-					stream.Write<T>(data[i]);
-
+		protected override void UnmapBuffer()
+		{
+			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
 			context.UnmapSubresource(NativeBuffer, 0);
 		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-		{
-			SetData<T>(graphicsDevice, data, 0, data.Length);
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount,
-			int vertexStride) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-
-		#region Dispose
-		public void Dispose()
-		{
-			if (NativeBuffer != null)
-			{
-				NativeBuffer.Dispose();
-				NativeBuffer = null;
-			}
-		}
-		#endregion
-
-		#region GetData
-		public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
-		{
-			DeviceContext context = NativeBuffer.Device.ImmediateContext;
-
-			SharpDX.DataStream stream;
-			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
-
-			if (offsetInBytes > 0)
-			    stream.Seek(offsetInBytes, SeekOrigin.Current);
-
-			stream.ReadRange(data, startIndex, elementCount);
-			context.UnmapSubresource(NativeBuffer, 0);
-		}
-
-		public void GetData<T>(T[] data) where T : struct
-		{
-			DeviceContext context = NativeBuffer.Device.ImmediateContext;
-
-			SharpDX.DataStream stream;
-			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
-			stream.ReadRange(data, 0, data.Length);
-			context.UnmapSubresource(NativeBuffer, 0);
-		}
-
-		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-		{
-			DeviceContext context = NativeBuffer.Device.ImmediateContext;
-
-			SharpDX.DataStream stream;
-			context.MapSubresource(NativeBuffer, MapMode.Read, MapFlags.None, out stream);
-			stream.ReadRange(data, startIndex, elementCount);
-			context.UnmapSubresource(NativeBuffer, 0);
-		}
-		#endregion
 	}
 }

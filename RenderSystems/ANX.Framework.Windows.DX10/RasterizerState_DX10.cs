@@ -1,3 +1,5 @@
+using System;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.RenderSystem.Windows.DX10.Helpers;
@@ -9,25 +11,17 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    public class RasterizerState_DX10 : INativeRasterizerState
+    public class RasterizerState_DX10 : BaseStateObject<Dx10.RasterizerState>, INativeRasterizerState
 	{
-		private const int intMaxOver16 = int.MaxValue / 16;
-
-        #region Private
         private Dx10.RasterizerStateDescription description;
-        private Dx10.RasterizerState nativeRasterizerState;
-        private bool isDirty;
-        #endregion
 
 		#region Public
-		public bool IsBound { get; private set; }
-
 		public CullMode CullMode
 		{
 			set
 			{
 				Dx10.CullMode cullMode = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.CullMode, ref cullMode);
+				SetValueIfDifferentAndMarkDirty(ref description.CullMode, ref cullMode);
 			}
 		}
 
@@ -38,8 +32,8 @@ namespace ANX.RenderSystem.Windows.DX10
 				// XNA uses a float value in the range of 0f..16f as value
 				// DirectX 10 uses a INT value
 
-				int depthBiasValue = (int)(value * intMaxOver16);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.DepthBias, ref depthBiasValue);
+				int depthBiasValue = (int)(value * IntMaxOver16);
+				SetValueIfDifferentAndMarkDirty(ref description.DepthBias, ref depthBiasValue);
 			}
 		}
 
@@ -48,7 +42,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.FillMode fillMode = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.FillMode, ref fillMode);
+				SetValueIfDifferentAndMarkDirty(ref description.FillMode, ref fillMode);
 			}
 		}
 
@@ -80,70 +74,26 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			set
 			{
-				UpdateValueAndMarkDirtyIfNeeded(ref description.SlopeScaledDepthBias, ref value);
+				SetValueIfDifferentAndMarkDirty(ref description.SlopeScaledDepthBias, ref value);
 			}
 		}
 		#endregion
 
-		#region Constructor
-		public RasterizerState_DX10()
-        {
-            description.IsAntialiasedLineEnabled = false;
-            isDirty = true;
-		}
-		#endregion
-
-		#region Apply
-		public void Apply(GraphicsDevice graphicsDevice)
-        {
-			UpdateNativeRasterizerState(graphicsDevice);
-            IsBound = true;
-		}
-		#endregion
-
-		#region Release
-		public void Release()
-        {
-			IsBound = false;
-		}
-		#endregion
-
-		#region Dispose
-		public void Dispose()
-        {
-            if (nativeRasterizerState != null)
-            {
-                nativeRasterizerState.Dispose();
-                nativeRasterizerState = null;
-            }
-		}
-		#endregion
-
-		#region UpdateNativeRasterizerState
-		private void UpdateNativeRasterizerState(GraphicsDevice graphicsDevice)
+		protected override void Init()
 		{
-			Dx10.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
-
-            if (isDirty == true || nativeRasterizerState == null)
-            {
-				Dispose();
-                nativeRasterizerState = new Dx10.RasterizerState(device, ref description);
-                isDirty = false;
-            }
-
-			device.Rasterizer.State = nativeRasterizerState;
+			description.IsAntialiasedLineEnabled = false;
 		}
-		#endregion
 
-		#region UpdateValueAndMarkDirtyIfNeeded
-		private void UpdateValueAndMarkDirtyIfNeeded<T>(ref T currentValue, ref T value)
+		protected override Dx10.RasterizerState CreateNativeState(GraphicsDevice graphics)
 		{
-			if (value.Equals(currentValue) == false)
-			{
-				isDirty = true;
-				currentValue = value;
-			}
+			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
+			return new Dx10.RasterizerState(device, ref description);
 		}
-		#endregion
+
+		protected override void ApplyNativeState(GraphicsDevice graphics)
+		{
+			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
+			device.Rasterizer.State = nativeState;
+		}
 	}
 }

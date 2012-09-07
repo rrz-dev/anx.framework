@@ -12,89 +12,6 @@ namespace ANX.RenderSystem.Windows.DX10.Helpers
 {
 	internal class FormatConverter
 	{
-		#region FormatSize (SurfaceFormat)
-		public static int FormatSize(SurfaceFormat format)
-		{
-			switch (format)
-			{
-				case SurfaceFormat.Vector4:
-					return 16;
-				//case SurfaceFormat.Vector3:
-				//    return 12;
-				case SurfaceFormat.Vector2:
-					return 8;
-				case SurfaceFormat.Single:
-				case SurfaceFormat.Color:
-					//case SurfaceFormat.RGBA1010102:
-					//case SurfaceFormat.RG32:
-					return 4;
-				//case SurfaceFormat.BGR565:
-				//case SurfaceFormat.BGRA5551:
-				//    return 2;
-				case SurfaceFormat.Dxt1:
-				case SurfaceFormat.Dxt3:
-				case SurfaceFormat.Dxt5:
-				case SurfaceFormat.Alpha8:
-					return 1;
-			}
-
-			throw new ArgumentException("Invalid format '" + format + "'.");
-		}
-		#endregion
-
-		#region Translate (SurfaceFormat)
-		public static SharpDX.DXGI.Format Translate(SurfaceFormat surfaceFormat)
-		{
-			switch (surfaceFormat)
-			{
-				case SurfaceFormat.Color:
-					return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
-				case SurfaceFormat.Dxt3:
-					return SharpDX.DXGI.Format.BC2_UNorm;
-				case SurfaceFormat.Dxt5:
-					return SharpDX.DXGI.Format.BC3_UNorm;
-			}
-
-			throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
-		}
-		#endregion
-
-		#region Translate (DepthFormat)
-		public static Format Translate(DepthFormat depthFormat)
-		{
-			switch (depthFormat)
-			{
-				case DepthFormat.Depth16:
-					return Format.D16_UNorm;
-				case DepthFormat.Depth24:
-				//TODO: no DirectX10 24Bit depth format???                    
-				case DepthFormat.Depth24Stencil8:
-					return Format.D24_UNorm_S8_UInt;
-				case DepthFormat.None:
-					return Format.Unknown;
-			}
-
-			throw new Exception("can't translate DepthFormat: " + depthFormat.ToString());
-		}
-		#endregion
-
-		#region Translate (Format)
-		public static SurfaceFormat Translate(SharpDX.DXGI.Format format)
-		{
-			switch (format)
-			{
-				case SharpDX.DXGI.Format.R8G8B8A8_UNorm:
-					return SurfaceFormat.Color;
-				case SharpDX.DXGI.Format.BC2_UNorm:
-					return SurfaceFormat.Dxt3;
-				case SharpDX.DXGI.Format.BC3_UNorm:
-					return SurfaceFormat.Dxt5;
-			}
-
-			throw new Exception("can't translate Format: " + format.ToString());
-		}
-		#endregion
-
 		#region Translate (TextureFilter)
 		public static Dx10.Filter Translate(TextureFilter filter)
 		{
@@ -138,51 +55,6 @@ namespace ANX.RenderSystem.Windows.DX10.Helpers
 			}
 
 			return Dx10.TextureAddressMode.Clamp;
-		}
-		#endregion
-
-		#region Translate (PrimitiveType)
-		public static PrimitiveTopology Translate(PrimitiveType primitiveType)
-		{
-			switch (primitiveType)
-			{
-				case PrimitiveType.LineList:
-					return PrimitiveTopology.LineList;
-				case PrimitiveType.LineStrip:
-					return PrimitiveTopology.LineStrip;
-				case PrimitiveType.TriangleList:
-					return PrimitiveTopology.TriangleList;
-				case PrimitiveType.TriangleStrip:
-					return PrimitiveTopology.TriangleStrip;
-			}
-
-			throw new InvalidOperationException("unknown PrimitiveType: " + primitiveType);
-		}
-		#endregion
-
-		#region Translate (IndexElementSize)
-		public static SharpDX.DXGI.Format Translate(IndexElementSize indexElementSize)
-		{
-			switch (indexElementSize)
-			{
-				case IndexElementSize.SixteenBits:
-					return Format.R16_UInt;
-				case IndexElementSize.ThirtyTwoBits:
-					return Format.R32_UInt;
-			}
-
-			throw new InvalidOperationException("unknown IndexElementSize: " + indexElementSize);
-		}
-		#endregion
-
-		#region Translate (VertexElement)
-		public static string Translate(ref VertexElement element)
-		{
-			//TODO: map the other Usages
-			if (element.VertexElementUsage == VertexElementUsage.TextureCoordinate)
-				return "TEXCOORD";
-			else
-				return element.VertexElementUsage.ToString().ToUpperInvariant();
 		}
 		#endregion
 
@@ -338,22 +210,6 @@ namespace ANX.RenderSystem.Windows.DX10.Helpers
 		public static Dx10.FillMode Translate(FillMode fillMode)
 		{
 			return fillMode == FillMode.WireFrame ? Dx10.FillMode.Wireframe : Dx10.FillMode.Solid;
-		}
-		#endregion
-
-		#region CalculateVertexCount
-		public static int CalculateVertexCount(PrimitiveType type, int primitiveCount)
-		{
-			if (type == PrimitiveType.TriangleList)
-				return primitiveCount * 3;
-			else if (type == PrimitiveType.LineList)
-				return primitiveCount * 2;
-			else if (type == PrimitiveType.LineStrip)
-				return primitiveCount + 1;
-			else if (type == PrimitiveType.TriangleStrip)
-				return primitiveCount + 2;
-
-			throw new NotImplementedException("Couldn't calculate vertex count for PrimitiveType '" + type + "'.");
 		}
 		#endregion
 	}

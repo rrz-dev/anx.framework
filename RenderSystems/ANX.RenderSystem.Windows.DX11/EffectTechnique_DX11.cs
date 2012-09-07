@@ -1,12 +1,8 @@
-#region Using Statements
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ANX.BaseDirectX;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using SharpDX.Direct3D11;
-
-#endregion // Using Statements
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,56 +10,32 @@ using SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class EffectTechnique_DX11 : INativeEffectTechnique
-    {
-        private EffectTechnique nativeTechnique;
-        private ANX.Framework.Graphics.Effect parentEffect;
+	public class EffectTechnique_DX11 : BaseEffectTechnique<Dx11.EffectTechnique>, INativeEffectTechnique
+	{
+		public string Name
+		{
+			get
+			{
+				return NativeTechnique.Description.Name;
+			}
+		}
 
-        internal EffectTechnique_DX11(ANX.Framework.Graphics.Effect parentEffect)
-        {
-            if (parentEffect == null)
-            {
-                throw new ArgumentNullException("parentEffect");
-            }
+		public IEnumerable<EffectPass> Passes
+		{
+			get
+			{
+				for (int i = 0; i < NativeTechnique.Description.PassCount; i++)
+				{
+					var passDx11 = new EffectPass_DX11(NativeTechnique.GetPassByIndex(i));
+					// TODO: wire up native pass and managed pass?
+					yield return new EffectPass(this.parentEffect);
+				}
+			}
+		}
 
-            this.parentEffect = parentEffect;
-        }
-
-        public EffectTechnique NativeTechnique
-        {
-            get
-            {
-                return this.nativeTechnique;
-            }
-            internal set
-            {
-                this.nativeTechnique = value;
-            }
-        }
-
-        public string Name
-        {
-            get 
-            {
-                return nativeTechnique.Description.Name;
-            }
-        }
-
-
-        public IEnumerable<ANX.Framework.Graphics.EffectPass> Passes
-        {
-            get 
-            {
-                for (int i = 0; i < nativeTechnique.Description.PassCount; i++)
-                {
-                    EffectPass_DX11 passDx11 = new EffectPass_DX11();
-                    passDx11.NativePass = nativeTechnique.GetPassByIndex(i);
-
-                    ANX.Framework.Graphics.EffectPass pass = new ANX.Framework.Graphics.EffectPass(this.parentEffect);
-
-                    yield return pass;
-                }
-            }
-        }
-    }
+		public EffectTechnique_DX11(Effect parentEffect, Dx11.EffectTechnique nativeTechnique)
+			: base(parentEffect, nativeTechnique)
+		{
+		}
+	}
 }

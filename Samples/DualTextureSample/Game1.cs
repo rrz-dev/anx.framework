@@ -125,7 +125,7 @@ namespace DualTextureSample
 			dualTextureEffect.FogEnabled = (mode == DualTextureMode.VertexColorFog || mode == DualTextureMode.Fog);
 			dualTextureEffect.FogColor = Color.Red.ToVector3();
 			dualTextureEffect.FogStart = 0f;
-			dualTextureEffect.FogEnd = 50f;
+			dualTextureEffect.FogEnd = 25f;
 			dualTextureEffect.Alpha = 1f;
 
 			dualTextureEffect.Texture = texture1;

@@ -149,9 +149,6 @@ namespace ANX.RenderSystem.Windows.DX10
 				throw new ArgumentNullException("value");
 
 			var tex = value.NativeTexture as Texture2D_DX10;
-			var graphicsDX10 = tex.GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-			Dx10.Device device = graphicsDX10.NativeDevice;
-
 			NativeParameter.AsShaderResource().SetResource(tex.NativeShaderResourceView);
 		}
 		#endregion

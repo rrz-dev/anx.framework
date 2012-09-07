@@ -34,8 +34,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			{
 				for (int i = 0; i < NativeEffect.Description.TechniqueCount; i++)
 				{
-					EffectTechnique_DX10 teqDx10 = new EffectTechnique_DX10(this.managedEffect);
-					teqDx10.NativeTechnique = NativeEffect.GetTechniqueByIndex(i);
+					var teqDx10 = new EffectTechnique_DX10(managedEffect, NativeEffect.GetTechniqueByIndex(i));
 					yield return new EffectTechnique(this.managedEffect, teqDx10);
 				}
 			}

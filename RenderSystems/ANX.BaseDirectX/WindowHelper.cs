@@ -2,17 +2,21 @@
 using System.Runtime.InteropServices;
 using ANX.Framework.Graphics;
 
-namespace ANX.RenderSystem.Windows.DX10.Helpers
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
+
+namespace ANX.BaseDirectX
 {
-	internal static class WindowHelper
+	public static class WindowHelper
 	{
 		[StructLayout(LayoutKind.Sequential)]
 		public struct RECT
 		{
-			public int Left;        // x position of upper-left corner 
-			public int Top;         // y position of upper-left corner 
-			public int Right;       // x position of lower-right corner 
-			public int Bottom;      // y position of lower-right corner 
+			public int Left;
+			public int Top;
+			public int Right;
+			public int Bottom;
 		}
 
 		[DllImport("user32.dll")]

@@ -86,7 +86,6 @@ namespace ANX.RenderSystem.Windows.Metro
 		public SamplerState_Metro()
 			: base()
 		{
-			description = new Dx11.SamplerStateDescription();
 		}
 		#endregion
 
@@ -96,8 +95,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			UpdateNativeSamplerState();
 			bound = true;
 
-			NativeDxDevice.Current.NativeContext.PixelShader.SetSampler(
-				index, this.nativeSamplerState);
+			NativeDxDevice.Current.NativeContext.PixelShader.SetSampler(index, this.nativeSamplerState);
 		}
 		#endregion
 

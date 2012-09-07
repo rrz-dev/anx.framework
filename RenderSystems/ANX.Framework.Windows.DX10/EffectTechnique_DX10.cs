@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using Dx10 = SharpDX.Direct3D10;
@@ -10,12 +10,8 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-	public class EffectTechnique_DX10 : INativeEffectTechnique
+	public class EffectTechnique_DX10 : BaseEffectTechnique<Dx10.EffectTechnique>, INativeEffectTechnique
 	{
-		private Effect parentEffect;
-
-		public Dx10.EffectTechnique NativeTechnique { get; internal set; }
-
 		public string Name
 		{
 			get
@@ -30,20 +26,16 @@ namespace ANX.RenderSystem.Windows.DX10
 			{
 				for (int i = 0; i < NativeTechnique.Description.PassCount; i++)
 				{
-					EffectPass_DX10 passDx10 = new EffectPass_DX10(NativeTechnique.GetPassByIndex(i));
-					EffectPass pass = new EffectPass(this.parentEffect);
+					var passDx10 = new EffectPass_DX10(NativeTechnique.GetPassByIndex(i));
 					// TODO: wire up native pass and managed pass?
-					yield return pass;
+					yield return new EffectPass(this.parentEffect);
 				}
 			}
 		}
 
-		internal EffectTechnique_DX10(Effect parentEffect)
+		public EffectTechnique_DX10(Effect parentEffect, Dx10.EffectTechnique nativeTechnique)
+			: base(parentEffect, nativeTechnique)
 		{
-			if (parentEffect == null)
-				throw new ArgumentNullException("parentEffect");
-
-			this.parentEffect = parentEffect;
 		}
 	}
 }

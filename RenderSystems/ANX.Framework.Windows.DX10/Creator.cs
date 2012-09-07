@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using ANX.RenderSystem.Windows.DX10.Helpers;
 using SharpDX.DXGI;
+using ANX.BaseDirectX;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -197,7 +198,7 @@ namespace ANX.RenderSystem.Windows.DX10
 						{
 							DisplayMode displayMode = new DisplayMode()
 							{
-								Format = FormatConverter.Translate(modeDescription.Format),
+								Format = BaseFormatConverter.Translate(modeDescription.Format),
 								Width = modeDescription.Width,
 								Height = modeDescription.Height,
 								AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,

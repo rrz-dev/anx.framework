@@ -1,3 +1,5 @@
+using System;
+using ANX.BaseDirectX;
 using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
@@ -10,25 +12,13 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    public class BlendState_DX10 : INativeBlendState
+    public class BlendState_DX10 : BaseStateObject<Dx10.BlendState>, INativeBlendState
     {
-		private const float ColorByteToFloatFactor = 1f / 255f;
-
-        #region Private
 		private Dx10.BlendStateDescription description;
-        private Dx10.BlendState nativeBlendState;
-        private bool isDirty;
         private SharpDX.Color4 blendFactor;
         private int multiSampleMask;
-		#endregion
 
 		#region Public
-		public bool IsBound
-		{
-			get;
-			private set;
-		}
-
 		public Color BlendFactor
 		{
 			set
@@ -53,7 +43,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOperation alphaBlendOperation = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.AlphaBlendOperation, ref alphaBlendOperation);
+				SetValueIfDifferentAndMarkDirty(ref description.AlphaBlendOperation, ref alphaBlendOperation);
 			}
 		}
 
@@ -62,7 +52,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOperation blendOperation = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.BlendOperation, ref blendOperation);
+				SetValueIfDifferentAndMarkDirty(ref description.BlendOperation, ref blendOperation);
 			}
 		}
 
@@ -71,7 +61,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOption destinationAlphaBlend = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.DestinationAlphaBlend, ref destinationAlphaBlend);
+				SetValueIfDifferentAndMarkDirty(ref description.DestinationAlphaBlend, ref destinationAlphaBlend);
 			}
 		}
 
@@ -80,7 +70,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOption destinationBlend = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.DestinationBlend, ref destinationBlend);
+				SetValueIfDifferentAndMarkDirty(ref description.DestinationBlend, ref destinationBlend);
 			}
 		}
 
@@ -89,7 +79,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[0], ref writeMask);
+				SetValueIfDifferentAndMarkDirty(ref description.RenderTargetWriteMask[0], ref writeMask);
 			}
 		}
 
@@ -98,7 +88,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[1], ref writeMask);
+				SetValueIfDifferentAndMarkDirty(ref description.RenderTargetWriteMask[1], ref writeMask);
 			}
 		}
 
@@ -107,7 +97,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[2], ref writeMask);
+				SetValueIfDifferentAndMarkDirty(ref description.RenderTargetWriteMask[2], ref writeMask);
 			}
 		}
 
@@ -116,7 +106,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.ColorWriteMaskFlags writeMask = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.RenderTargetWriteMask[3], ref writeMask);
+				SetValueIfDifferentAndMarkDirty(ref description.RenderTargetWriteMask[3], ref writeMask);
 			}
 		}
 
@@ -125,7 +115,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOption sourceAlphaBlend = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.SourceAlphaBlend, ref sourceAlphaBlend);
+				SetValueIfDifferentAndMarkDirty(ref description.SourceAlphaBlend, ref sourceAlphaBlend);
 			}
 		}
 
@@ -134,71 +124,27 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.BlendOption sourceBlend = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.SourceBlend, ref sourceBlend);
+				SetValueIfDifferentAndMarkDirty(ref description.SourceBlend, ref sourceBlend);
 			}
 		}
 		#endregion
 
-		#region Constructor
-		public BlendState_DX10()
+		protected override void Init()
 		{
-			isDirty = true;
-            for (int i = 0; i < description.IsBlendEnabled.Length; i++)
-                description.IsBlendEnabled[i] = (i < 4);
-        }
-		#endregion
-
-		#region Apply
-		public void Apply(GraphicsDevice graphics)
-        {
-            Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
-
-            UpdateNativeBlendState(device);
-			IsBound = true;
-
-            device.OutputMerger.SetBlendState(nativeBlendState, blendFactor, multiSampleMask);
-        }
-		#endregion
-
-		#region Release
-		public void Release()
-        {
-			IsBound = false;
+			for (int i = 0; i < description.IsBlendEnabled.Length; i++)
+				description.IsBlendEnabled[i] = (i < 4);
 		}
-		#endregion
 
-		#region Dispose
-		public void Dispose()
-        {
-            if (nativeBlendState != null)
-            {
-                nativeBlendState.Dispose();
-                nativeBlendState = null;
-            }
-		}
-		#endregion
-
-		#region UpdateNativeBlendState
-		private void UpdateNativeBlendState(Dx10.Device device)
-        {
-			if (isDirty || nativeBlendState == null)
-            {
-				Dispose();
-                nativeBlendState = new Dx10.BlendState(device, ref description);
-				isDirty = false;
-            }
-        }
-		#endregion
-
-		#region UpdateValueAndMarkDirtyIfNeeded
-		private void UpdateValueAndMarkDirtyIfNeeded<T>(ref T currentValue, ref T value)
+		protected override Dx10.BlendState CreateNativeState(GraphicsDevice graphics)
 		{
-			if (value.Equals(currentValue) == false)
-			{
-				isDirty = true;
-				currentValue = value;
-			}
+			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
+			return new Dx10.BlendState(device, ref description);
 		}
-		#endregion
+
+		protected override void ApplyNativeState(GraphicsDevice graphics)
+		{
+			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
+			device.OutputMerger.SetBlendState(nativeState, blendFactor, multiSampleMask);
+		}
 	}
 }

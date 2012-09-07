@@ -1,12 +1,5 @@
-#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ANX.Framework.NonXNA;
 using SharpDX.Direct3D11;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -16,26 +9,19 @@ namespace ANX.RenderSystem.Windows.DX11
 {
     public class EffectPass_DX11 : INativeEffectPass
     {
-        private EffectPass nativePass;
-
-        public EffectPass NativePass
-        {
-            get
-            {
-                return this.nativePass;
-            }
-            internal set
-            {
-                this.nativePass = value;
-            }
-        }
+		private EffectPass nativePass;
 
         public string Name
         {
             get 
             {
-                return nativePass.Description.Name;
+				return nativePass.Description.Name;
             }
         }
+
+		internal EffectPass_DX11(EffectPass setNativePass)
+		{
+			nativePass = setNativePass;
+		}
     }
 }

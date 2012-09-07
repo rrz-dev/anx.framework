@@ -15,82 +15,6 @@ namespace ANX.RenderSystem.Windows.DX11
 {
     internal class FormatConverter
     {
-
-        public static int FormatSize(SurfaceFormat format)
-        {
-            switch (format)
-            {
-                case SurfaceFormat.Vector4:
-                    return 16;
-                //case SurfaceFormat.Vector3:
-                //    return 12;
-                case SurfaceFormat.Vector2:
-                    return 8;
-                case SurfaceFormat.Single:
-                case SurfaceFormat.Color:
-                    //case SurfaceFormat.RGBA1010102:
-                    //case SurfaceFormat.RG32:
-                    return 4;
-                //case SurfaceFormat.BGR565:
-                //case SurfaceFormat.BGRA5551:
-                //    return 2;
-                case SurfaceFormat.Dxt1:
-                case SurfaceFormat.Dxt3:
-                case SurfaceFormat.Dxt5:
-                case SurfaceFormat.Alpha8:
-                    return 1;
-                default:
-                    throw new ArgumentException("Invalid format");
-            }
-        }
-        
-        public static SharpDX.DXGI.Format Translate(SurfaceFormat surfaceFormat)
-        {
-            switch (surfaceFormat)
-            {
-                case SurfaceFormat.Color:
-                    return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
-                case SurfaceFormat.Dxt3:
-                    return SharpDX.DXGI.Format.BC2_UNorm;
-                case SurfaceFormat.Dxt5:
-                    return SharpDX.DXGI.Format.BC3_UNorm;
-            }
-
-            throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
-        }
-
-        public static Format Translate(ANX.Framework.Graphics.DepthFormat depthFormat)
-        {
-            switch (depthFormat)
-            {
-                case DepthFormat.Depth16:
-                    return Format.D16_UNorm;
-                case DepthFormat.Depth24:
-                    //TODO: no DirectX10 24Bit depth format???                    
-                case DepthFormat.Depth24Stencil8:
-                    return Format.D24_UNorm_S8_UInt;
-                case DepthFormat.None:
-                    return Format.Unknown;
-            }
-
-            throw new Exception("can't translate DepthFormat: " + depthFormat.ToString());
-        }
-
-        public static SurfaceFormat Translate(SharpDX.DXGI.Format format)
-        {
-            switch (format)
-            {
-                case SharpDX.DXGI.Format.R8G8B8A8_UNorm:
-                    return SurfaceFormat.Color;
-                case SharpDX.DXGI.Format.BC2_UNorm:
-                    return SurfaceFormat.Dxt3;
-                case SharpDX.DXGI.Format.BC3_UNorm:
-                    return SurfaceFormat.Dxt5;
-            }
-
-            throw new Exception("can't translate Format: " + format.ToString());
-        }
-
         public static Filter Translate(TextureFilter filter)
         {
             switch (filter)
@@ -131,49 +55,6 @@ namespace ANX.RenderSystem.Windows.DX11
             }
 
             return SharpDX.Direct3D11.TextureAddressMode.Clamp;
-        }
-
-        public static PrimitiveTopology Translate(PrimitiveType primitiveType)
-        {
-            switch (primitiveType)
-            {
-                case PrimitiveType.LineList:
-                    return PrimitiveTopology.LineList;
-                case PrimitiveType.LineStrip:
-                    return PrimitiveTopology.LineStrip;
-                case PrimitiveType.TriangleList:
-                    return PrimitiveTopology.TriangleList;
-                case PrimitiveType.TriangleStrip:
-                    return PrimitiveTopology.TriangleStrip;
-                default:
-                    throw new InvalidOperationException("unknown PrimitiveType: " + primitiveType.ToString());
-            }
-        }
-
-        public static SharpDX.DXGI.Format Translate(IndexElementSize indexElementSize)
-        {
-            switch (indexElementSize)
-            {
-                case IndexElementSize.SixteenBits:
-                    return Format.R16_UInt;
-                case IndexElementSize.ThirtyTwoBits:
-                    return Format.R32_UInt;
-                default:
-                    throw new InvalidOperationException("unknown IndexElementSize: " + indexElementSize.ToString());
-            }
-        }
-
-        public static string Translate(VertexElementUsage usage)
-        {
-            //TODO: map the other Usages
-            if (usage == VertexElementUsage.TextureCoordinate)
-            {
-                return "TEXCOORD";
-            }
-            else
-            {
-                return usage.ToString().ToUpperInvariant();
-            }
         }
 
         public static BlendOperation Translate(BlendFunction blendFunction)
@@ -235,29 +116,19 @@ namespace ANX.RenderSystem.Windows.DX11
             ColorWriteMaskFlags mask = 0;
 
             if ((colorWriteChannels & ColorWriteChannels.All) == ColorWriteChannels.All)
-            {
                 mask |= ColorWriteMaskFlags.All;
-            }
 
             if ((colorWriteChannels & ColorWriteChannels.Alpha) == ColorWriteChannels.Alpha)
-            {
                 mask |= ColorWriteMaskFlags.Alpha;
-            }
 
             if ((colorWriteChannels & ColorWriteChannels.Blue) == ColorWriteChannels.Blue)
-            {
                 mask |= ColorWriteMaskFlags.Blue;
-            }
 
             if ((colorWriteChannels & ColorWriteChannels.Green) == ColorWriteChannels.Green)
-            {
                 mask |= ColorWriteMaskFlags.Green;
-            }
 
             if ((colorWriteChannels & ColorWriteChannels.Red) == ColorWriteChannels.Red)
-            {
                 mask |= ColorWriteMaskFlags.Red;
-            }
 
             return mask;
         }

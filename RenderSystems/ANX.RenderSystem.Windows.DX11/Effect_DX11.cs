@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using SharpDX.D3DCompiler;
 using System.IO;
-using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
+using ANX.RenderSystem.Windows.DX11.Helpers;
+using SharpDX.D3DCompiler;
 using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
@@ -33,8 +34,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			{
 				for (int i = 0; i < NativeEffect.Description.TechniqueCount; i++)
 				{
-					EffectTechnique_DX11 teqDx11 = new EffectTechnique_DX11(this.managedEffect);
-					teqDx11.NativeTechnique = NativeEffect.GetTechniqueByIndex(i);
+					var teqDx11 = new EffectTechnique_DX11(managedEffect, NativeEffect.GetTechniqueByIndex(i));
 					yield return new EffectTechnique(this.managedEffect, teqDx11);
 				}
 			}

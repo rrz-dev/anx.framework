@@ -8,20 +8,20 @@ using SharpDX.Direct3D10;
 namespace ANX.RenderSystem.Windows.DX10
 {
     public class EffectPass_DX10 : INativeEffectPass
-    {
-		public EffectPass NativePass { get; internal set; }
+	{
+		private EffectPass nativePass;
 
         public string Name
         {
             get 
             {
-				return NativePass.Description.Name;
+				return nativePass.Description.Name;
             }
         }
 
 		internal EffectPass_DX10(EffectPass setNativePass)
 		{
-			NativePass = setNativePass;
+			nativePass = setNativePass;
 		}
     }
 }

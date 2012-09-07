@@ -85,7 +85,6 @@
     <Compile Include="Helpers\FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX10.cs" />
     <Compile Include="Helpers\IncludeHandler.cs" />
-    <Compile Include="Helpers\WindowHelper.cs" />
     <Compile Include="IndexBuffer_DX10.cs" />
     <Compile Include="EffectPass_DX10.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +100,10 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ANX.BaseDirectX\ANX.BaseDirectX_Linux.csproj">
+      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
+      <Name>ANX.BaseDirectX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

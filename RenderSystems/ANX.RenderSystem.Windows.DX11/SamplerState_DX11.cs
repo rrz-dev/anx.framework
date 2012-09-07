@@ -1,10 +1,8 @@
-#region Using Statements
-using System;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using SharpDX.Direct3D11;
-
-#endregion // Using Statements
+using Dx11 = SharpDX.Direct3D11;
+using System;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,162 +10,107 @@ using SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class SamplerState_DX11 : INativeSamplerState
+    public class SamplerState_DX11 : BaseStateObject<Dx11.SamplerState>, INativeSamplerState
     {
-        #region Private Members
-        private SamplerStateDescription description;
-        private SharpDX.Direct3D11.SamplerState nativeSamplerState;
-        private bool nativeSamplerStateDirty;
-        private bool bound;
+		private Dx11.SamplerStateDescription description;
 
-        #endregion // Private Members
+		#region Public
+		public TextureAddressMode AddressU
+		{
+			set
+			{
+				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressU, ref mode);
+			}
+		}
 
-        public SamplerState_DX11()
+		public TextureAddressMode AddressV
+		{
+			set
+			{
+				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressV, ref mode);
+			}
+		}
+
+		public TextureAddressMode AddressW
+		{
+			set
+			{
+				Dx11.TextureAddressMode mode = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressW, ref mode);
+			}
+		}
+
+		public TextureFilter Filter
+		{
+			set
+			{
+				Dx11.Filter filter = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.Filter, ref filter);
+			}
+		}
+
+		public int MaxAnisotropy
+		{
+			set
+			{
+				SetValueIfDifferentAndMarkDirty(ref description.MaximumAnisotropy, ref value);
+			}
+		}
+
+		public int MaxMipLevel
+		{
+			set
+			{
+				if (description.MaximumLod != value)
+				{
+					description.MaximumLod = value;
+					isDirty = true;
+				}
+			}
+		}
+
+		public float MipMapLevelOfDetailBias
+		{
+			set
+			{
+				SetValueIfDifferentAndMarkDirty(ref description.MipLodBias, ref value);
+			}
+		}
+		#endregion
+
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice, int index)
         {
-            this.description = new SamplerStateDescription();
-
-            this.nativeSamplerStateDirty = true;
-        }
-
-        public void Apply(GraphicsDevice graphicsDevice, int index)
-        {
-            GraphicsDeviceWindowsDX11 gdx11 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-            DeviceContext context = gdx11.NativeDevice;
+			Dx11.DeviceContext context = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
 
             UpdateNativeSamplerState(context.Device);
-            this.bound = true;
+            IsBound = true;
 
-            context.PixelShader.SetSampler(index, this.nativeSamplerState);
-        }
+			context.PixelShader.SetSampler(index, nativeState);
+		}
+		#endregion
 
-        public void Release()
+		#region UpdateNativeSamplerState
+		private void UpdateNativeSamplerState(Dx11.Device device)
         {
-            this.bound = false;
-        }
-
-        public bool IsBound
-        {
-            get 
-            { 
-                return this.bound; 
-            }
-        }
-
-        public ANX.Framework.Graphics.TextureAddressMode AddressU
-        {
-            set 
+			if (isDirty || nativeState == null)
             {
-                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
-
-                if (description.AddressU != mode)
-                {
-                    description.AddressU = mode;
-                    nativeSamplerStateDirty = true;
-                }
+				Dispose();
+                nativeState = new Dx11.SamplerState(device, ref description);
+                isDirty = false;
             }
         }
+		#endregion
 
-        public ANX.Framework.Graphics.TextureAddressMode AddressV
-        {
-            set
-            {
-                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
+		protected override Dx11.SamplerState CreateNativeState(GraphicsDevice graphics)
+		{
+			return null;
+		}
 
-                if (description.AddressV != mode)
-                {
-                    description.AddressV = mode;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public ANX.Framework.Graphics.TextureAddressMode AddressW
-        {
-            set
-            {
-                SharpDX.Direct3D11.TextureAddressMode mode = FormatConverter.Translate(value);
-
-                if (description.AddressW != mode)
-                {
-                    description.AddressW = mode;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public TextureFilter Filter
-        {
-            set 
-            {
-                SharpDX.Direct3D11.Filter filter = FormatConverter.Translate(value);
-
-                if (description.Filter != filter)
-                {
-                    description.Filter = filter;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public int MaxAnisotropy
-        {
-            set 
-            {
-                if (description.MaximumAnisotropy != value)
-                {
-                    description.MaximumAnisotropy = value;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public int MaxMipLevel
-        {
-            set 
-            {
-                if (description.MaximumLod != value)
-                {
-                    description.MaximumLod = value;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public float MipMapLevelOfDetailBias
-        {
-            set 
-            {
-                if (description.MipLodBias != value)
-                {
-                    description.MipLodBias = value;
-                    nativeSamplerStateDirty = true;
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            if (this.nativeSamplerState != null)
-            {
-                this.nativeSamplerState.Dispose();
-                this.nativeSamplerState = null;
-            }
-        }
-
-        private void UpdateNativeSamplerState(Device device)
-        {
-            if (this.nativeSamplerStateDirty == true || this.nativeSamplerState == null)
-            {
-                if (this.nativeSamplerState != null)
-                {
-                    this.nativeSamplerState.Dispose();
-                    this.nativeSamplerState = null;
-                }
-
-                this.nativeSamplerState = new SharpDX.Direct3D11.SamplerState(device, ref this.description);
-
-                this.nativeSamplerStateDirty = false;
-            }
-        }
+		protected override void ApplyNativeState(GraphicsDevice graphics)
+		{
+		}
     }
 }

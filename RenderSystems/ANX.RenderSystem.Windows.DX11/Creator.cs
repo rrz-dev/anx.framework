@@ -1,17 +1,12 @@
-#region Using Statements
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.Graphics;
 using System.IO;
-using ANX.Framework.NonXNA;
-using System.Runtime.InteropServices;
-using SharpDX.DXGI;
-using ANX.Framework.NonXNA.RenderSystem;
 using ANX.Framework;
-
-#endregion // Using Statements
+using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.RenderSystem;
+using SharpDX.DXGI;
+using ANX.BaseDirectX;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -21,6 +16,7 @@ namespace ANX.RenderSystem.Windows.DX11
 {
 	public class Creator : IRenderSystemCreator
 	{
+		#region Public
 		public string Name
 		{
 			get { return "DirectX11"; }
@@ -40,99 +36,104 @@ namespace ANX.RenderSystem.Windows.DX11
 			}
 		}
 
+		public EffectSourceLanguage GetStockShaderSourceLanguage
+		{
+			get
+			{
+				return EffectSourceLanguage.HLSL_FX;
+			}
+		}
+		#endregion
+
+		#region CreateGraphicsDevice
 		public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(
-				AddInType.RenderSystem);
+			PreventSystemChange();
 			return new GraphicsDeviceWindowsDX11(presentationParameters);
 		}
+		#endregion
 
-		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
-			IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+		#region CreateIndexBuffer
+		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size,
+			int indexCount, BufferUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(
-				AddInType.RenderSystem);
+			PreventSystemChange();
 			return new IndexBuffer_DX11(graphics, size, indexCount, usage);
 		}
+		#endregion
 
-		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+		#region CreateVertexBuffer
+		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer,
+			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 			return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
 		}
+		#endregion
 
 #if XNAEXT
         #region CreateConstantBuffer
-        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
-        {
-            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, 
+			BufferUsage usage)
+		{
+			PreventSystemChange();
 
             throw new NotImplementedException();
         }
         #endregion
 #endif
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+		#region CreateEffect
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
+			Stream pixelShaderByteCode)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
-			Effect_DX11 effect = new Effect_DX11(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
-
-			return effect;
+			PreventSystemChange();
+			return new Effect_DX11(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 
-		public INativeEffect CreateEffect(GraphicsDevice graphics, ANX.Framework.Graphics.Effect managedEffect, System.IO.Stream byteCode)
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
-			Effect_DX11 effect = new Effect_DX11(graphics, managedEffect, byteCode);
-
-			return effect;
+			PreventSystemChange();
+			return new Effect_DX11(graphics, managedEffect, byteCode);
 		}
+		#endregion
 
-		public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
-		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
-			//TODO: implement
-			throw new NotImplementedException();
-
-			//GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-			//SharpDX.Direct3D10.Texture2D nativeTexture = SharpDX.Direct3D10.Texture2D.FromFile<SharpDX.Direct3D10.Texture2D>(graphicsDX10.NativeDevice, fileName);
-			//Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height, FormatConverter.Translate(nativeTexture.Description.Format), nativeTexture.Description.MipLevels);
-			//texture.NativeTexture = nativeTexture;
-
-			//return texture;
-		}
-
+		#region CreateBlendState
 		public INativeBlendState CreateBlendState()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 			return new BlendState_DX11();
 		}
+		#endregion
 
+		#region CreateRasterizerState
 		public INativeRasterizerState CreateRasterizerState()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 			return new RasterizerState_DX11();
 		}
+		#endregion
 
+		#region CreateDepthStencilState
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 			return new DepthStencilState_DX11();
 		}
+		#endregion
 
+		#region CreateSamplerState
 		public INativeSamplerState CreateSamplerState()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 			return new SamplerState_DX11();
 		}
+		#endregion
 
+		#region GetShaderByteCode
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 
 			if (type == PreDefinedShader.SpriteBatch)
 			{
@@ -159,22 +160,16 @@ namespace ANX.RenderSystem.Windows.DX11
 				return ShaderByteCode.SkinnedEffectByteCode;
 			}
 
-			throw new NotImplementedException("ByteCode for '" + type.ToString() + "' is not yet available");
+			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
 		}
+		#endregion
 
-        public EffectSourceLanguage GetStockShaderSourceLanguage
-        {
-            get
-            {
-                return EffectSourceLanguage.HLSL_FX;
-            }
-        }
-
+		#region GetAdapterList
 		public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+			PreventSystemChange();
 
-			SharpDX.DXGI.Factory factory = new Factory();
+			var factory = new Factory();
 
 			List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
 			DisplayModeCollection displayModeCollection = new DisplayModeCollection();
@@ -202,7 +197,7 @@ namespace ANX.RenderSystem.Windows.DX11
 						{
 							DisplayMode displayMode = new DisplayMode()
 							{
-								Format = FormatConverter.Translate(modeDescription.Format),
+								Format = BaseFormatConverter.Translate(modeDescription.Format),
 								Width = modeDescription.Width,
 								Height = modeDescription.Height,
 								AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
@@ -223,29 +218,39 @@ namespace ANX.RenderSystem.Windows.DX11
 
 			return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);
 		}
+		#endregion
 
-		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+		#region CreateTexture
+		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height,
+			int mipCount)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
+			PreventSystemChange();
 			return new Texture2D_DX11(graphics, width, height, surfaceFormat, mipCount);
 		}
+		#endregion
 
-		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+		#region CreateRenderTarget
+		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap,
+			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
+			RenderTargetUsage usage)
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-
-			return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
+			PreventSystemChange();
+			return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
+				preferredMultiSampleCount, usage);
 		}
+		#endregion
 
-        public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
+		#region IsLanguageSupported
+		public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
         {
             return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
         }
+		#endregion
 
 		#region CreateOcclusionQuery (TODO)
 		public IOcclusionQuery CreateOcclusionQuery()
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -253,7 +258,15 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region SetTextureSampler (TODO)
 		public void SetTextureSampler(int index, Texture value)
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region PreventSystemChange
+		private void PreventSystemChange()
+		{
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 		}
 		#endregion
 	}

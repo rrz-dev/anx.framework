@@ -1,3 +1,5 @@
+using System;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.RenderSystem.Windows.DX10.Helpers;
@@ -9,41 +11,37 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    public class SamplerState_DX10 : INativeSamplerState
+	public class SamplerState_DX10 : BaseStateObject<Dx10.SamplerState>, INativeSamplerState
     {
         #region Private
 		private Dx10.SamplerStateDescription description;
-		private Dx10.SamplerState nativeSamplerState;
-        private bool isDirty;
 		#endregion
 
 		#region Public
-		public bool IsBound { get; private set; }
-
-		public ANX.Framework.Graphics.TextureAddressMode AddressU
+		public TextureAddressMode AddressU
 		{
 			set
 			{
 				Dx10.TextureAddressMode mode = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.AddressU, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressU, ref mode);
 			}
 		}
 
-		public ANX.Framework.Graphics.TextureAddressMode AddressV
+		public TextureAddressMode AddressV
 		{
 			set
 			{
 				Dx10.TextureAddressMode mode = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.AddressV, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressV, ref mode);
 			}
 		}
 
-		public ANX.Framework.Graphics.TextureAddressMode AddressW
+		public TextureAddressMode AddressW
 		{
 			set
 			{
 				Dx10.TextureAddressMode mode = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.AddressW, ref mode);
+				SetValueIfDifferentAndMarkDirty(ref description.AddressW, ref mode);
 			}
 		}
 
@@ -52,7 +50,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			set
 			{
 				Dx10.Filter filter = FormatConverter.Translate(value);
-				UpdateValueAndMarkDirtyIfNeeded(ref description.Filter, ref filter);
+				SetValueIfDifferentAndMarkDirty(ref description.Filter, ref filter);
 			}
 		}
 
@@ -60,7 +58,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			set
 			{
-				UpdateValueAndMarkDirtyIfNeeded(ref description.MaximumAnisotropy, ref value);
+				SetValueIfDifferentAndMarkDirty(ref description.MaximumAnisotropy, ref value);
 			}
 		}
 
@@ -80,15 +78,8 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			set
 			{
-				UpdateValueAndMarkDirtyIfNeeded(ref description.MipLodBias, ref value);
+				SetValueIfDifferentAndMarkDirty(ref description.MipLodBias, ref value);
 			}
-		}
-		#endregion
-
-		#region Constructor
-		public SamplerState_DX10()
-        {
-            isDirty = true;
 		}
 		#endregion
 
@@ -99,49 +90,29 @@ namespace ANX.RenderSystem.Windows.DX10
             UpdateNativeSamplerState(device);
 			IsBound = true;
 
-            device.PixelShader.SetSampler(index, nativeSamplerState);
+			device.PixelShader.SetSampler(index, nativeState);
 		}
-		#endregion
-
-		#region Release
-		public void Release()
-        {
-			IsBound = false;
-		}
-		#endregion
-
-		#region Dispose
-		public void Dispose()
-        {
-            if (nativeSamplerState != null)
-            {
-                nativeSamplerState.Dispose();
-                nativeSamplerState = null;
-            }
-        }
 		#endregion
 
 		#region UpdateNativeSamplerState
 		private void UpdateNativeSamplerState(Dx10.Device device)
         {
-            if (isDirty == true || nativeSamplerState == null)
+			if (isDirty == true || nativeState == null)
             {
 				Dispose();
-				nativeSamplerState = new Dx10.SamplerState(device, ref description);
+				nativeState = new Dx10.SamplerState(device, ref description);
                 isDirty = false;
             }
 		}
 		#endregion
 
-		#region UpdateValueAndMarkDirtyIfNeeded
-		private void UpdateValueAndMarkDirtyIfNeeded<T>(ref T currentValue, ref T value)
+		protected override Dx10.SamplerState CreateNativeState(GraphicsDevice graphics)
 		{
-			if (value.Equals(currentValue) == false)
-			{
-				isDirty = true;
-				currentValue = value;
-			}
+			return null;
 		}
-		#endregion
+
+		protected override void ApplyNativeState(GraphicsDevice graphics)
+		{
+		}
 	}
 }

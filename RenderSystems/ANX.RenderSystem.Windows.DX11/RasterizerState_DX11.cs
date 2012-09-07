@@ -1,13 +1,8 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX.Direct3D11;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -15,155 +10,89 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public class RasterizerState_DX11 : INativeRasterizerState
-    {
-        #region Private Members
-        private RasterizerStateDescription description;
-        private SharpDX.Direct3D11.RasterizerState nativeRasterizerState;
-        private bool nativeRasterizerStateDirty;
-        private bool bound;
+	public class RasterizerState_DX11 : BaseStateObject<Dx11.RasterizerState>, INativeRasterizerState
+	{
+		private Dx11.RasterizerStateDescription description;
 
-        private const int intMaxOver16 = int.MaxValue / 16;
+		#region Public
+		public CullMode CullMode
+		{
+			set
+			{
+				SharpDX.Direct3D11.CullMode cullMode = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.CullMode, ref cullMode);
+			}
+		}
 
-        #endregion // Private Members
+		public float DepthBias
+		{
+			set
+			{
+				// XNA uses a float value in the range of 0f..16f as value
+				// DirectX 10 uses a INT value
 
-        public RasterizerState_DX11()
-        {
-            this.description = new RasterizerStateDescription();
+				int depthBiasValue = (int)(value * IntMaxOver16);
+				SetValueIfDifferentAndMarkDirty(ref description.DepthBias, ref depthBiasValue);
+			}
+		}
 
-            this.description.IsAntialiasedLineEnabled = false;
+		public FillMode FillMode
+		{
+			set
+			{
+				SharpDX.Direct3D11.FillMode fillMode = FormatConverter.Translate(value);
+				SetValueIfDifferentAndMarkDirty(ref description.FillMode, ref fillMode);
+			}
+		}
 
-            this.nativeRasterizerStateDirty = true;
-        }
+		public bool MultiSampleAntiAlias
+		{
+			set
+			{
+				if (description.IsMultisampleEnabled != value)
+				{
+					isDirty = true;
+					description.IsMultisampleEnabled = value;
+				}
+			}
+		}
 
-        public void Apply(ANX.Framework.Graphics.GraphicsDevice graphicsDevice)
-        {
-            GraphicsDeviceWindowsDX11 gdx11 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11;
-            DeviceContext context = gdx11.NativeDevice;
+		public bool ScissorTestEnable
+		{
+			set
+			{
+				if (description.IsScissorEnabled != value)
+				{
+					isDirty = true;
+					description.IsScissorEnabled = value;
+				}
+			}
+		}
 
-            UpdateNativeRasterizerState(context.Device);
-            this.bound = true;
+		public float SlopeScaleDepthBias
+		{
+			set
+			{
+				SetValueIfDifferentAndMarkDirty(ref description.SlopeScaledDepthBias, ref value);
+			}
+		}
+		#endregion
 
-            context.Rasterizer.State = this.nativeRasterizerState;
-        }
+		protected override void Init()
+		{
+			description.IsAntialiasedLineEnabled = false;
+		}
 
-        public void Release()
-        {
-            this.bound = false;
-        }
+		protected override Dx11.RasterizerState CreateNativeState(GraphicsDevice graphics)
+		{
+			Dx11.DeviceContext context = (graphics.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
+			return new Dx11.RasterizerState(context.Device, ref description);
+		}
 
-        public void Dispose()
-        {
-            if (this.nativeRasterizerState != null)
-            {
-                this.nativeRasterizerState.Dispose();
-                this.nativeRasterizerState = null;
-            }
-        }
-
-        public bool IsBound
-        {
-            get 
-            {
-                return this.bound;    
-            }
-        }
-
-        public ANX.Framework.Graphics.CullMode CullMode
-        {
-            set 
-            {
-                SharpDX.Direct3D11.CullMode cullMode = FormatConverter.Translate(value);
-
-                if (description.CullMode != cullMode)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.CullMode = cullMode;
-                }
-            }
-        }
-
-        public float DepthBias
-        {
-            set 
-            { 
-                // XNA uses a float value in the range of 0f..16f as value
-                // DirectX 10 uses a INT value
-
-                int depthBiasValue = (int)(value * intMaxOver16);
-
-                if (description.DepthBias != depthBiasValue)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.DepthBias = depthBiasValue;
-                }
-            }
-        }
-
-        public ANX.Framework.Graphics.FillMode FillMode
-        {
-            set 
-            {
-                SharpDX.Direct3D11.FillMode fillMode = FormatConverter.Translate(value);
-
-                if (description.FillMode != fillMode)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.FillMode = fillMode;
-                }
-            }
-        }
-
-        public bool MultiSampleAntiAlias
-        {
-            set 
-            {
-                if (description.IsMultisampleEnabled != value)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.IsMultisampleEnabled = value;
-                }
-            }
-        }
-
-        public bool ScissorTestEnable
-        {
-            set 
-            {
-                if (description.IsScissorEnabled != value)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.IsScissorEnabled = value;
-                }
-            }
-        }
-
-        public float SlopeScaleDepthBias
-        {
-            set
-            {
-                if (description.SlopeScaledDepthBias != value)
-                {
-                    nativeRasterizerStateDirty = true;
-                    description.SlopeScaledDepthBias = value;
-                }
-            }
-        }
-
-        private void UpdateNativeRasterizerState(Device device)
-        {
-            if (this.nativeRasterizerStateDirty == true || this.nativeRasterizerState == null)
-            {
-                if (this.nativeRasterizerState != null)
-                {
-                    this.nativeRasterizerState.Dispose();
-                    this.nativeRasterizerState = null;
-                }
-
-                this.nativeRasterizerState = new SharpDX.Direct3D11.RasterizerState(device, ref this.description);
-
-                this.nativeRasterizerStateDirty = false;
-            }
-        }
+		protected override void ApplyNativeState(GraphicsDevice graphics)
+		{
+			Dx11.DeviceContext context = (graphics.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
+			context.Rasterizer.State = nativeState;
+		}
     }
 }

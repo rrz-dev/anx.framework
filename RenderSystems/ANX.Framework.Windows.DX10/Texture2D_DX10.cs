@@ -1,10 +1,9 @@
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using ANX.Framework;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.RenderSystem;
-using ANX.RenderSystem.Windows.DX10.Helpers;
+using SharpDX;
 using Dx10 = SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
@@ -13,96 +12,39 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-	public class Texture2D_DX10 : INativeTexture2D
+	public class Texture2D_DX10 : BaseTexture2D<Dx10.Texture2D>, INativeTexture2D
 	{
-		#region Private
-		protected internal Dx10.Texture2D nativeTexture;
-		protected internal Dx10.ShaderResourceView nativeShaderResourceView;
-		protected internal int formatSize;
-		protected internal SurfaceFormat surfaceFormat;
-		protected internal GraphicsDevice graphicsDevice;
-		#endregion
-
 		#region Public
-		internal Dx10.Texture2D NativeTexture
+		public override int Width
 		{
 			get
 			{
-				return this.nativeTexture;
-			}
-			set
-			{
-				if (this.nativeTexture != value)
-				{
-					if (this.nativeTexture != null)
-						this.nativeTexture.Dispose();
-
-					this.nativeTexture = value;
-				}
+				return NativeTexture != null ? NativeTexture.Description.Width : 0;
 			}
 		}
 
-		internal Dx10.ShaderResourceView NativeShaderResourceView
+		public override int Height
 		{
 			get
 			{
-				return this.nativeShaderResourceView;
-			}
-			set
-			{
-				if (this.nativeShaderResourceView != value)
-				{
-					if (this.nativeShaderResourceView != null)
-					{
-						this.nativeShaderResourceView.Dispose();
-					}
-
-					this.nativeShaderResourceView = value;
-				}
+				return NativeTexture != null ? NativeTexture.Description.Height : 0;
 			}
 		}
 
-		public int Width
-		{
-			get
-			{
-				return (this.nativeTexture != null) ? this.nativeTexture.Description.Width : 0;
-			}
-		}
-
-		public int Height
-		{
-			get
-			{
-				return (this.nativeTexture != null) ? this.nativeTexture.Description.Height : 0;
-			}
-		}
-
-		public GraphicsDevice GraphicsDevice
-		{
-			get
-			{
-				return this.graphicsDevice;
-			}
-		}
+		protected internal Dx10.ShaderResourceView NativeShaderResourceView { get; protected set; }
 		#endregion
 
 		#region Constructor
-		internal Texture2D_DX10(GraphicsDevice graphicsDevice)
+		internal Texture2D_DX10(GraphicsDevice graphicsDevice, SurfaceFormat surfaceFormat)
+			: base(graphicsDevice, surfaceFormat)
 		{
-			this.graphicsDevice = graphicsDevice;
 		}
 
 		public Texture2D_DX10(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
+			: base(graphicsDevice, surfaceFormat)
 		{
 			if (mipCount > 1)
 				throw new Exception("creating textures with mip map not yet implemented");
-
-			this.graphicsDevice = graphicsDevice;
-			this.surfaceFormat = surfaceFormat;
-
-			GraphicsDeviceWindowsDX10 graphicsDX10 = graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10;
-			Dx10.Device device = graphicsDX10.NativeDevice;
 
 			Dx10.Texture2DDescription description = new Dx10.Texture2DDescription()
 			{
@@ -110,20 +52,17 @@ namespace ANX.RenderSystem.Windows.DX10
 				Height = height,
 				MipLevels = mipCount,
 				ArraySize = mipCount,
-				Format = FormatConverter.Translate(surfaceFormat),
+				Format = BaseFormatConverter.Translate(surfaceFormat),
 				SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
 				Usage = Dx10.ResourceUsage.Dynamic,
 				BindFlags = Dx10.BindFlags.ShaderResource,
 				CpuAccessFlags = Dx10.CpuAccessFlags.Write,
 				OptionFlags = Dx10.ResourceOptionFlags.None,
 			};
-			this.nativeTexture = new Dx10.Texture2D(graphicsDX10.NativeDevice, description);
-			this.nativeShaderResourceView = new Dx10.ShaderResourceView(graphicsDX10.NativeDevice, this.nativeTexture);
 
-			// description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
-			// more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
-
-			this.formatSize = FormatConverter.FormatSize(surfaceFormat);
+			Dx10.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
+			NativeTexture = new Dx10.Texture2D(device, description);
+			NativeShaderResourceView = new Dx10.ShaderResourceView(device, NativeTexture);
 		}
 		#endregion
 
@@ -134,136 +73,16 @@ namespace ANX.RenderSystem.Windows.DX10
 		}
 		#endregion
 
-		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-		{
-			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
-			where T : struct
-		{
-			//TODO: handle offsetInBytes parameter
-			//TODO: handle startIndex parameter
-			//TODO: handle elementCount parameter
-
-			if (this.surfaceFormat == SurfaceFormat.Color)
-			{
-				int subresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-				SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, Dx10.MapMode.WriteDiscard, Dx10.MapFlags.None);
-				int rowPitch = rectangle.Pitch;
-
-				unsafe
-				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
-
-					byte* pTexels = (byte*)rectangle.DataPointer;
-					int srcIndex = 0;
-
-					for (int row = 0; row < Height; row++)
-					{
-						int rowStart = row * rowPitch;
-
-						for (int col = 0; col < Width; col++)
-						{
-							int colStart = col * formatSize;
-							pTexels[rowStart + colStart + 0] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 1] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 2] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 3] = colorData[srcIndex++];
-						}
-					}
-
-					handle.Free();
-				}
-
-				this.nativeTexture.Unmap(subresource);
-			}
-			else if (surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 || surfaceFormat == SurfaceFormat.Dxt1)
-			{
-				unsafe
-				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
-
-					int w = (Width + 3) >> 2;
-					int h = (Height + 3) >> 2;
-					formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
-
-					int subresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-					SharpDX.DataRectangle rectangle = this.nativeTexture.Map(subresource, Dx10.MapMode.WriteDiscard, Dx10.MapFlags.None);
-					SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
-					int pitch = rectangle.Pitch;
-					int col = 0;
-					int index = 0; // startIndex
-					int count = data.Length; // elementCount
-					int actWidth = w * formatSize;
-
-					for (int i = 0; i < h; i++)
-					{
-						ds.Position = (i * pitch) + (col * formatSize);
-						if (count <= 0)
-						{
-							break;
-						}
-						else if (count < actWidth)
-						{
-							for (int idx = index; idx < index + count; idx++)
-							{
-								ds.WriteByte(colorData[idx]);
-							}
-							//ds.WriteRange<byte>(colorDataArray, index, count);
-
-							break;
-						}
-
-						for (int idx = index; idx < index + actWidth; idx++)
-						{
-							ds.WriteByte(colorData[idx]);
-						}
-						//ds.WriteRange<byte>(colorDataArray, index, actWidth);
-
-						index += actWidth;
-						count -= actWidth;
-					}
-
-					handle.Free();
-
-					this.nativeTexture.Unmap(subresource);
-				}
-			}
-			else
-			{
-				throw new Exception(string.Format("creating textures of format {0} not yet implemented...", surfaceFormat.ToString()));
-			}
-		}
-
-		public void SetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-
 		#region Dispose
-		public void Dispose()
+		public override void Dispose()
 		{
-			if (this.nativeShaderResourceView != null)
+			if (NativeShaderResourceView != null)
 			{
-				this.nativeShaderResourceView.Dispose();
-				this.nativeShaderResourceView = null;
+				NativeShaderResourceView.Dispose();
+				NativeShaderResourceView = null;
 			}
 
-			if (this.nativeTexture != null)
-			{
-				this.nativeTexture.Dispose();
-				this.nativeTexture = null;
-			}
+			base.Dispose();
 		}
 		#endregion
 
@@ -284,7 +103,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region GetData (TODO)
 		public void GetData<T>(T[] data) where T : struct
 		{
-			throw new NotImplementedException();
+			GetData(data, 0, data.Length);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
@@ -292,9 +111,36 @@ namespace ANX.RenderSystem.Windows.DX10
 			throw new NotImplementedException();
 		}
 
-		public void GetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+		public void GetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
 		{
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region MapWrite
+		protected override IntPtr MapWrite()
+		{
+			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
+			DataRectangle rect = NativeTexture.Map(tempSubresource, Dx10.MapMode.WriteDiscard, Dx10.MapFlags.None);
+			pitch = rect.Pitch;
+			return rect.DataPointer;
+		}
+		#endregion
+
+		#region MapRead
+		protected override IntPtr MapRead()
+		{
+			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
+			DataRectangle rect = NativeTexture.Map(tempSubresource, Dx10.MapMode.Read, Dx10.MapFlags.None);
+			pitch = rect.Pitch;
+			return rect.DataPointer;
+		}
+		#endregion
+
+		#region Unmap
+		protected override void Unmap()
+		{
+			NativeTexture.Unmap(tempSubresource);
 		}
 		#endregion
 	}
