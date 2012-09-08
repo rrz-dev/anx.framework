@@ -1,4 +1,4 @@
-#define DIRECTX_DEBUG_LAYER
+//#define DIRECTX_DEBUG_LAYER
 using System;
 using ANX.Framework;
 using ANX.Framework.Graphics;
