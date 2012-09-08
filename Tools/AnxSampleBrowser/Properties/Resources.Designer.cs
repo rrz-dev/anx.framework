@@ -60,30 +60,30 @@ namespace AnxSampleBrowser.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap ANX_Framework {
+        internal static System.Drawing.Bitmap ANX_Framework_Logo_120x32 {
             get {
-                object obj = ResourceManager.GetObject("ANX.Framework", resourceCulture);
+                object obj = ResourceManager.GetObject("ANX.Framework.Logo_120x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap button {
+        internal static System.Drawing.Bitmap ANX_Icon_100x100 {
             get {
-                object obj = ResourceManager.GetObject("button", resourceCulture);
+                object obj = ResourceManager.GetObject("ANX.Icon_100x100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap header {
+        internal static System.Drawing.Bitmap appbar_arrow_left {
             get {
-                object obj = ResourceManager.GetObject("header", resourceCulture);
+                object obj = ResourceManager.GetObject("appbar.arrow.left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap sample1 {
+        internal static System.Drawing.Bitmap appbar_arrow_right {
             get {
-                object obj = ResourceManager.GetObject("sample1", resourceCulture);
+                object obj = ResourceManager.GetObject("appbar.arrow.right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

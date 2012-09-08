@@ -1,6 +1,6 @@
 ﻿namespace AnxSampleBrowser
 {
-    partial class SampleDataVisual
+    partial class SampleDataHalfVisual
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -28,68 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._pImage = new System.Windows.Forms.PictureBox();
             this._lName = new System.Windows.Forms.Label();
             this._bLaunch = new System.Windows.Forms.Button();
             this._rDescription = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this._pImage)).BeginInit();
+            this._pImage = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // _pImage
-            // 
-            this._pImage.ErrorImage = null;
-            this._pImage.ImageLocation = "0;0";
-            this._pImage.Location = new System.Drawing.Point(481, 28);
-            this._pImage.Name = "_pImage";
-            this._pImage.Size = new System.Drawing.Size(100, 100);
-            this._pImage.TabIndex = 0;
-            this._pImage.TabStop = false;
             // 
             // _lName
             // 
             this._lName.AutoSize = true;
             this._lName.BackColor = System.Drawing.Color.Transparent;
-            this._lName.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lName.Location = new System.Drawing.Point(3, 19);
+            this._lName.Font = new System.Drawing.Font("Segoe WP", 15.75F);
+            this._lName.ForeColor = System.Drawing.Color.White;
+            this._lName.Location = new System.Drawing.Point(5, 10);
             this._lName.Name = "_lName";
-            this._lName.Size = new System.Drawing.Size(64, 26);
+            this._lName.Size = new System.Drawing.Size(64, 28);
             this._lName.TabIndex = 1;
             this._lName.Text = "label1";
             // 
             // _bLaunch
             // 
-            this._bLaunch.BackgroundImage = global::AnxSampleBrowser.Properties.Resources.button;
-            this._bLaunch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this._bLaunch.Location = new System.Drawing.Point(587, 65);
+            this._bLaunch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this._bLaunch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this._bLaunch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._bLaunch.Font = new System.Drawing.Font("Segoe WP", 10F, System.Drawing.FontStyle.Bold);
+            this._bLaunch.ForeColor = System.Drawing.Color.White;
+            this._bLaunch.Location = new System.Drawing.Point(259, 103);
             this._bLaunch.Name = "_bLaunch";
-            this._bLaunch.Size = new System.Drawing.Size(101, 26);
+            this._bLaunch.Size = new System.Drawing.Size(90, 26);
             this._bLaunch.TabIndex = 2;
-            this._bLaunch.UseVisualStyleBackColor = true;
+            this._bLaunch.Text = "Launch";
+            this._bLaunch.UseVisualStyleBackColor = false;
             this._bLaunch.Click += new System.EventHandler(this._bLaunch_Click);
             // 
             // _rDescription
             // 
-            this._rDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(157)))), ((int)(((byte)(23)))));
+            this._rDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this._rDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._rDescription.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._rDescription.Location = new System.Drawing.Point(8, 48);
+            this._rDescription.Font = new System.Drawing.Font("Segoe WP", 12F);
+            this._rDescription.ForeColor = System.Drawing.Color.White;
+            this._rDescription.Location = new System.Drawing.Point(10, 39);
             this._rDescription.Name = "_rDescription";
-            this._rDescription.Size = new System.Drawing.Size(452, 93);
+            this._rDescription.Size = new System.Drawing.Size(243, 90);
             this._rDescription.TabIndex = 3;
             this._rDescription.Text = "";
             // 
-            // SampleDataVisual
+            // _pImage
+            // 
+            this._pImage.BackgroundImage = global::AnxSampleBrowser.Properties.Resources.ANX_Icon_100x100;
+            this._pImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this._pImage.Location = new System.Drawing.Point(259, 10);
+            this._pImage.Name = "_pImage";
+            this._pImage.Size = new System.Drawing.Size(90, 90);
+            this._pImage.TabIndex = 4;
+            // 
+            // SampleDataHalfVisual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::AnxSampleBrowser.Properties.Resources.sample1;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this._pImage);
             this.Controls.Add(this._rDescription);
             this.Controls.Add(this._bLaunch);
             this.Controls.Add(this._lName);
-            this.Name = "SampleDataVisual";
-            this.Size = new System.Drawing.Size(700, 150);
-            ((System.ComponentModel.ISupportInitialize)(this._pImage)).EndInit();
+            this.Name = "SampleDataHalfVisual";
+            this.Size = new System.Drawing.Size(358, 140);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,9 +101,9 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox _pImage;
         private System.Windows.Forms.Label _lName;
         private System.Windows.Forms.Button _bLaunch;
         private System.Windows.Forms.RichTextBox _rDescription;
+        private System.Windows.Forms.Panel _pImage;
     }
 }

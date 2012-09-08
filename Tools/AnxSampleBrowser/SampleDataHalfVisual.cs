@@ -10,17 +10,19 @@ using System.IO;
 
 namespace AnxSampleBrowser
 {
-    public partial class SampleDataVisual : UserControl
+    public partial class SampleDataHalfVisual : UserControl
     {
         private SampleData _source;
         private AnxSampleBrowser _parent;
 
-        public SampleDataVisual(SampleData source,AnxSampleBrowser parent)
+        public SampleDataHalfVisual(SampleData source, AnxSampleBrowser parent)
         {
          
             InitializeComponent();
+
+
             //until error is gone
-            _pImage.Visible = false;
+           // _pImage.Visible = false;
 
             _rDescription.ReadOnly = true;
             _parent = parent;
@@ -31,7 +33,7 @@ namespace AnxSampleBrowser
             if (source.ImagePath.Length > 0)
             {
                 Bitmap b = new Bitmap(source.ImagePath);
-                _pImage.Image = b;
+                _pImage.BackgroundImage = b;
          
             }
         }

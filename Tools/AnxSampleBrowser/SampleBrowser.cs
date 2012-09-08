@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using System.IO;
+using System.Linq;
 
 namespace AnxSampleBrowser
 {
+    /// <summary>
+    /// WinForm project which let you browse through the ANX samples
+    /// </summary>
     public partial class AnxSampleBrowser : Form
     {
         //list of all registered samples
         private List<SampleData> _sampleAtlas;
+        private List<SampleData> _filteredSamples;
+
+        private int _currentPage = 1;
+        private int _pageCount;
+        //default path to the samples folder
         public String SamplePath { get { return "../Samples/"; } }
 
         /// <summary>
@@ -25,7 +30,6 @@ namespace AnxSampleBrowser
         {
             
             InitializeComponent();
-
             //make the form fixed size
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             // Set the MaximizeBox to false to remove the maximize box.
@@ -35,23 +39,31 @@ namespace AnxSampleBrowser
 
             //init sample list
             _sampleAtlas = new List<SampleData>();
+            _filteredSamples = new List<SampleData>();
             //add default categorie (everything)...
             _dCategories.Items.Add("all");
             //...and select it
             _dCategories.SelectedIndex = 0;
             _dCategories.DropDownStyle = ComboBoxStyle.DropDownList;
 
+          
+        
             //load out Samples.xml
             parseXMl();
-           
+            addAll();
+            calculatePages();
 
+            _dSort.SelectedIndex = 0;
+            _dSort.DropDownStyle = ComboBoxStyle.DropDownList;
           
             _cFilter.CheckOnClick = true;
+
+           
             for (int i = 0; i < _cFilter.Items.Count; ++i)
             {
                 _cFilter.SetItemChecked(i, true);
             }
-            this._cFilter.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this._cFilter_ItemCheck);
+           // this._cFilter.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this._cFilter_ItemCheck);
 
             
 
@@ -67,6 +79,24 @@ namespace AnxSampleBrowser
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp; 
+            }
+        }
+
+        private void calculatePages()
+        {
+            _pSamples.Controls.Clear();
+            if (_filteredSamples.Count == 0)
+                return;
+            _pageCount = (int)Math.Ceiling(_filteredSamples.Count / 6f);
+            while (_currentPage > _pageCount)
+                _currentPage--;
+
+            _lPageIndex.Text = _currentPage + " / " + _pageCount;
+          
+            for (int i = 6 * (_currentPage - 1); i < _currentPage * 6 && i < _filteredSamples.Count; ++i)
+            {
+
+                addSampleDataVisual(_filteredSamples[i]);
             }
         }
 
@@ -133,29 +163,52 @@ namespace AnxSampleBrowser
             _dCategories.Items.AddRange(_categorieAtlas.ToArray());
 
            _cFilter.Items.AddRange(_tagAtlas.ToArray());
+
+        
       
 
         }
 
         private void addAll()
         {
-            _pSamples.Controls.Clear();
-            foreach (SampleData data in _sampleAtlas)
+            _filteredSamples.Clear();
+            _filteredSamples.AddRange(_sampleAtlas);
+            calculatePages();
+        }
+
+        private void addAll(List<SampleData> value)
+        {
+            _filteredSamples.Clear();
+            _filteredSamples.AddRange(value);
+            calculatePages();
+        }
+
+      
+
+        private bool isFiltered(SampleData data)
+        {
+            foreach (String tag in data.Tags)
             {
-                addSampleDataVisual(data);
+                if(_cFilter.CheckedItems.Contains(tag))
+                    return true;
             }
+            return false;
         }
 
         private void addSampleDataVisual(SampleData data)
         {
-            SampleDataVisual dataV = new SampleDataVisual(data,this);
-            dataV.Location = new Point(0, this._pSamples.Controls.Count * (dataV.Size.Height + 5));
+            SampleDataHalfVisual dataV = new SampleDataHalfVisual(data, this);
+            if (this._pSamples.Controls.Count % 2 == 0)
+            dataV.Location = new Point(0, (this._pSamples.Controls.Count/2) * (dataV.Size.Height + 5));
+            else
+                dataV.Location = new Point(dataV.Width+5, ((this._pSamples.Controls.Count-1)/2) * (dataV.Size.Height + 5));
             this._pSamples.Controls.Add(dataV);
         }
 
      
         private void search()
         {
+            _filteredSamples.Clear();
             String[] phrases=_tSearch.Text.Split(new char[]{' ',',',';'});
             this._pSamples.Controls.Clear();
             foreach (SampleData data in _sampleAtlas)
@@ -180,37 +233,12 @@ namespace AnxSampleBrowser
                     }                        
                 }
                 if (add)
-                    addSampleDataVisual(data);
+                    _filteredSamples.Add(data);
             }
+            calculatePages();
         }
 
-        private void pickCategorie()
-        {
-            _pSamples.Controls.Clear();
-            foreach (SampleData data in _sampleAtlas)
-            {
-                if (data.Categorie.Equals(_dCategories.SelectedItem))
-                addSampleDataVisual(data);
-            }
-        }
-
-        private void filter()
-        {
-            _pSamples.Controls.Clear();
-            foreach (SampleData data in _sampleAtlas)
-            {
-                foreach (String tag in data.Tags)
-                {
-                    if (_cFilter.CheckedItems.Contains(tag))
-                    {
-                        addSampleDataVisual(data);
-                        break;
-                    }
-                }
-
-            }
-        }
-
+  
 
         private void _bSearch_Click(object sender, EventArgs e)
         {
@@ -223,24 +251,55 @@ namespace AnxSampleBrowser
             addAll();
         }
 
-        private void _dCategories_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_dCategories.Items.Count == 0)
-                return;
-            if (_dCategories.SelectedItem.Equals("all"))
-                addAll();
-            else
-                pickCategorie();
-        }
-
-        private void _cFilter_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            this.BeginInvoke((MethodInvoker)delegate { filter(); });
-        }
-
         private void AnxSampleBrowser_Load(object sender, EventArgs e)
         {
             this.Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        private void _cSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_dSort.SelectedItem.Equals("categorie"))
+            {
+                _sampleAtlas.Sort((x, y) => x.Categorie.CompareTo(y.Categorie));
+                _filteredSamples.Sort((x, y) => x.Categorie.CompareTo(y.Categorie));  
+                return;
+            }
+            if (_dSort.SelectedItem.Equals("name"))
+            {
+                _sampleAtlas.Sort((x, y) => x.Name.CompareTo(y.Name));
+                _filteredSamples.Sort((x, y) => x.Name.CompareTo(y.Name));
+                return;
+            }
+            
+
+        }
+
+        private void _bApply_Click(object sender, EventArgs e)
+        {
+            _filteredSamples.Clear();
+            foreach (SampleData data in _sampleAtlas)
+            {
+                if (_dCategories.SelectedItem.Equals("all") || data.Categorie.Equals(_dCategories.SelectedItem))
+                {
+                    if(isFiltered(data))
+                    {
+                        _filteredSamples.Add(data);
+                    }
+                }
+            }
+            calculatePages() ;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            _currentPage = _currentPage+1 > _pageCount ? _currentPage : _currentPage+1;
+            calculatePages();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            _currentPage = _currentPage - 1 <= 0 ? _currentPage : _currentPage - 1;
+            calculatePages();
         }
     }
 
