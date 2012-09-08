@@ -61,6 +61,12 @@
     <Compile Include="Controls\RibbonButton.Designer.cs">
       <DependentUpon>RibbonButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogues\NewFolderScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogues\NewFolderScreen.Designer.cs">
+      <DependentUpon>NewFolderScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogues\OpenProjectScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RibbonButton.resx">
       <DependentUpon>RibbonButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogues\NewFolderScreen.resx">
+      <DependentUpon>NewFolderScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogues\OpenProjectScreen.resx">
       <DependentUpon>OpenProjectScreen.cs</DependentUpon>

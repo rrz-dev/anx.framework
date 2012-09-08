@@ -184,10 +184,10 @@ namespace ANX.ContentCompiler.GUI
             var absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file);
             if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
                 Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
-            File.Copy(file, absPath);
+            File.Copy(file, absPath, true);
             var item = new BuildItem
                            {
-                               AssetName = String.IsNullOrEmpty(folder) ? folder.Replace(_contentProject.ContentRoot, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) : Path.GetFileNameWithoutExtension(file),
+                               AssetName = !String.IsNullOrEmpty(folder) ? folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) : Path.GetFileNameWithoutExtension(file),
                                SourceFilename = absPath,
                                OutputFilename = ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
                                ImporterName = ImporterManager.GuessImporterByFileExtension(file)
@@ -202,6 +202,35 @@ namespace ANX.ContentCompiler.GUI
                 AddFile(file);
             }
             ChangeEnvironmentOpenProject();
+        }
+
+        public void AddFolder(string name)
+        {
+            string folder = _contentProject.ContentRoot;
+            var node = treeView.SelectedNode;
+            if (node != null)
+                folder = node.Name;
+            else
+                node = treeView.Nodes[0];
+
+            var newFolder = new TreeNode(name) { Name = folder + Path.DirectorySeparatorChar + name};
+            node.Nodes.Add(newFolder);
+
+        }
+
+        public void RemoveFile(string name)
+        {
+            
+        }
+
+        public void RemoveFiles(string[] files)
+        {
+            
+        }
+
+        public void RemoveFolder(string name)
+        {
+            
         }
         #endregion
 
@@ -228,20 +257,29 @@ namespace ANX.ContentCompiler.GUI
             var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")") {Name = _contentProject.ContentRoot};
             treeView.Nodes.Add(rootNode);
             var lastNode = rootNode;
-            foreach (var parts in _contentProject.BuildItems.Select(buildItem => buildItem.AssetName.Split('/')).Where(parts => parts.Length >= 2))
+            foreach (var parts in _contentProject.BuildItems.Select(buildItem => buildItem.AssetName.Split(Path.DirectorySeparatorChar)).Where(parts => parts.Length >= 2))
             {
+                string folder = "";
+                string parent = _contentProject.ContentRoot;
                 for (int i=0; i < parts.Length - 1; i++)
                 {
-                    var node = new TreeNode(parts[i]) {Name = lastNode.Name + "/" + parts[i] + "/"};
-                    if (!lastNode.Nodes.Contains(node))
-                    {
-                        lastNode.Nodes.Add(node);
-                        lastNode = node;
-                    }
+                    if (parts[i] == null) continue;
+                    if (i > 0)
+                        folder += Path.DirectorySeparatorChar + parts[i];
                     else
-                    {
-                        lastNode = lastNode.Nodes[parts[i]];
-                    }
+                        folder = parts[0];
+
+
+                    if (parts.Length > 2 && i < parts.Length -2)
+                        parent += Path.DirectorySeparatorChar + parts[i];
+                    //else if (parts.Length == 2)
+                      //  parent += Path.DirectorySeparatorChar + parts[0];
+                }
+                lastNode = treeView.RecursiveSearch(parent);
+                var node = new TreeNode(parts[parts.Length - 2]) { Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder };
+                if (!ContainsTreeNode(lastNode, node))
+                {
+                    lastNode.Nodes.Add(node);
                 }
                 lastNode = rootNode;
             }
@@ -261,15 +299,15 @@ namespace ANX.ContentCompiler.GUI
                             lastNode = lastNode.Nodes[parts[i]];
                         }
                     }*/
-                    string path = "";
+                    string path = _contentProject.ContentRoot;
                     if (parts != null)
                     {
                         for (int i = 0; i < parts.Length - 1; i++)
                         {
-                            path = parts[i];
+                            path += String.IsNullOrEmpty(path) ? parts[i] : Path.DirectorySeparatorChar + parts[i];
                         }
                     }
-                    if (!String.IsNullOrEmpty(path))
+                    if (parts != null)
                     {
                         var node = treeView.RecursiveSearch(path);
                         if (node == null) throw new ArgumentNullException("Node not found!");
@@ -412,6 +450,12 @@ namespace ANX.ContentCompiler.GUI
                 }
             }
         }
+
+        private bool ContainsTreeNode(TreeNode haystack, TreeNode needle)
+        {
+            return haystack.Nodes.Cast<TreeNode>().Any(node => node.Name.Equals(needle.Name));
+        }
+
         #endregion
 
         #region PropertyGridEvents

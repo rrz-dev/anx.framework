@@ -32,12 +32,12 @@
             this.buttonNext = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.listBoxRecentProjects = new System.Windows.Forms.ListBox();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.textBoxLocation = new System.Windows.Forms.TextBox();
             this.labelManualSearch = new System.Windows.Forms.Label();
             this.labelHeading = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.listBoxRecentProjects = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +104,24 @@
             this.panel1.Size = new System.Drawing.Size(600, 359);
             this.panel1.TabIndex = 14;
             // 
+            // listBoxRecentProjects
+            // 
+            this.listBoxRecentProjects.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.listBoxRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listBoxRecentProjects.ForeColor = System.Drawing.Color.LightGray;
+            this.listBoxRecentProjects.FormattingEnabled = true;
+            this.listBoxRecentProjects.Items.AddRange(new object[] {
+            "Test",
+            "Blubb",
+            "Put",
+            "Recent",
+            "Projects",
+            "here"});
+            this.listBoxRecentProjects.Location = new System.Drawing.Point(71, 96);
+            this.listBoxRecentProjects.Name = "listBoxRecentProjects";
+            this.listBoxRecentProjects.Size = new System.Drawing.Size(443, 119);
+            this.listBoxRecentProjects.TabIndex = 21;
+            // 
             // buttonBrowse
             // 
             this.buttonBrowse.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -158,26 +176,9 @@
             this.label1.Text = "New Project";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // listBoxRecentProjects
-            // 
-            this.listBoxRecentProjects.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.listBoxRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listBoxRecentProjects.ForeColor = System.Drawing.Color.LightGray;
-            this.listBoxRecentProjects.FormattingEnabled = true;
-            this.listBoxRecentProjects.Items.AddRange(new object[] {
-            "Test",
-            "Blubb",
-            "Put",
-            "Recent",
-            "Projects",
-            "here"});
-            this.listBoxRecentProjects.Location = new System.Drawing.Point(71, 96);
-            this.listBoxRecentProjects.Name = "listBoxRecentProjects";
-            this.listBoxRecentProjects.Size = new System.Drawing.Size(443, 119);
-            this.listBoxRecentProjects.TabIndex = 21;
-            // 
             // OpenProjectScreen
             // 
+            this.AcceptButton = this.buttonNext;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));

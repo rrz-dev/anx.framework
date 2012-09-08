@@ -71,6 +71,7 @@
             this.arrowButtonCreateFolder.Name = "arrowButtonCreateFolder";
             this.arrowButtonCreateFolder.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonCreateFolder.TabIndex = 6;
+            this.arrowButtonCreateFolder.Click += new System.EventHandler(this.ArrowButtonCreateFolderClick);
             // 
             // arrowButtonPreview
             // 

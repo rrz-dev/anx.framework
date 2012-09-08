@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ANX.ContentCompiler.GUI.Dialogues;
 
 namespace ANX.ContentCompiler.GUI.States
 {
@@ -112,29 +113,45 @@ namespace ANX.ContentCompiler.GUI.States
         #region MenuNew
         private void ArrowButtonFileClick(object sender, EventArgs e)
         {
-
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Multiselect = true;
+                dlg.Title = "Add files";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    MainWindow.Instance.AddFiles(dlg.FileNames);
+            }
+            MainWindow.Instance.ToggleMenuMode();
         }
 
         private void ArrowButtonFolderClick(object sender, EventArgs e)
         {
-
+            using (var dlg = new NewFolderScreen())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    MainWindow.Instance.AddFolder(dlg.textBoxName.Text);
+                }
+            }
+            MainWindow.Instance.ToggleMenuMode();
         }
 
         private void ArrowButtonNewProjectClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.NewProject(sender, e);
         }
         #endregion
 
         #region MenuOpen
         private void ArrowButtonOpenClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.OpenProjectDialog(sender, e);
+            MainWindow.Instance.ToggleMenuMode();
         }
 
         private void ArrowButtonImportClick(object sender, EventArgs e)
         {
-
+            MainWindow.Instance.OpenProjectDialog(sender, e);
+            MainWindow.Instance.ToggleMenuMode();
         }
         #endregion
 
@@ -142,11 +159,13 @@ namespace ANX.ContentCompiler.GUI.States
         private void ArrowButtonSaveAsCprojClick(object sender, EventArgs e)
         {
             MainWindow.Instance.SaveProjectAs(sender, e);
+            MainWindow.Instance.ToggleMenuMode();
         }
 
         private void ArrowButtonSaveAsCcProjClick(object sender, EventArgs e)
         {
             MainWindow.Instance.SaveProjectAs(sender, e);
+            MainWindow.Instance.ToggleMenuMode();
         }
         #endregion
 
