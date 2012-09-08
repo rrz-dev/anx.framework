@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 #endregion // Using Statements
 
@@ -14,7 +15,43 @@ namespace ANX.Framework.TestCenter
 {
     class DataFactory
     {
-        static Random r=new Random();
+        static Random r = new Random();
+
+        public static object[] createFullTestSet<T>(int numberOfElements) where T : struct, IComparable<T>, IEquatable<T>, IConvertible
+        {
+            return createFullTestSet<T>(numberOfElements, 0);
+        }
+        public static object[] createFullTestSet<T>(int numberOfElements, int numberOfRandomSets) where T : struct, IComparable<T>, IEquatable<T>, IConvertible
+        {
+            T maxValue = ReadStaticField<T>("MaxValue");
+            T MinValue = ReadStaticField<T>("MinValue");
+            object[] random = new object[numberOfRandomSets];
+            for (int i = 0; i < numberOfRandomSets; ++i)
+            {
+
+            }
+            return createLinear(0, numberOfElements).Concat(
+                createLinear(1, numberOfElements).Concat(
+                createPermutation(maxValue, MinValue, numberOfElements).Concat(
+                createPermutation(maxValue, 0, numberOfElements).Concat(
+                createPermutation(0, MinValue, numberOfElements))))).ToArray();
+        }
+
+        /// <summary>
+        /// Create a test dataset filled with constant numbers
+        /// </summary>
+        /// <param name="value">Number which should fill the test set</param>
+        /// <param name="numberOfElements">How many values are needed</param>
+        /// <returns></returns>
+        public static object[] createLinear(object value, int numberOfElements)
+        {
+            object[] result = new object[numberOfElements];
+            for (int i = 0; i < numberOfElements; ++i)
+                result[i] = value;
+            return result;
+        }
+
+
         /// <summary>
         /// Create a test-dataset with a permutation of extreme value
         /// </summary>
@@ -59,6 +96,22 @@ namespace ANX.Framework.TestCenter
             return result;
 
         }
+
+        private static T ReadStaticField<T>(string name)
+        {
+            FieldInfo field = typeof(T).GetField(name,
+           BindingFlags.Public | BindingFlags.Static);
+            if (field == null)
+            {
+                // There's no TypeArgumentException, unfortunately. You might want    
+                // to create one :)        
+                throw new InvalidOperationException("Invalid type argument for NumericUpDown<T>: " + typeof(T).Name);
+            }
+            return (T)field.GetValue(null);
+        }
+
+        #region OLD
+        
         static object[] generateTestData(int numOfTests, int numOfElements, int min, int max)
         {
             object[] result = new object[numOfTests];
@@ -108,5 +161,7 @@ namespace ANX.Framework.TestCenter
         {
             return r.Next(min, max);
         }
+        //*/
+        #endregion
     }
 }
