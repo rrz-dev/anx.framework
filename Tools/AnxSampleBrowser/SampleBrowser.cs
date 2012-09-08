@@ -91,7 +91,8 @@ namespace AnxSampleBrowser
             while (_currentPage > _pageCount)
                 _currentPage--;
 
-            _lPageIndex.Text = _currentPage + " / " + _pageCount;
+            _lCurrentPage.Text = _currentPage.ToString();
+            _lMaxPage.Text = _pageCount.ToString();
           
             for (int i = 6 * (_currentPage - 1); i < _currentPage * 6 && i < _filteredSamples.Count; ++i)
             {
@@ -301,6 +302,7 @@ namespace AnxSampleBrowser
             _currentPage = _currentPage - 1 <= 0 ? _currentPage : _currentPage - 1;
             calculatePages();
         }
+
     }
 
     static class StringExtender

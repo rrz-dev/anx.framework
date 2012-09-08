@@ -46,6 +46,8 @@
             this._bSearch = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this._lCurrentPage = new System.Windows.Forms.Label();
+            this._lMaxPage = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -92,9 +94,9 @@
             this._lCategorie.ForeColor = System.Drawing.Color.White;
             this._lCategorie.Location = new System.Drawing.Point(739, 274);
             this._lCategorie.Name = "_lCategorie";
-            this._lCategorie.Size = new System.Drawing.Size(82, 21);
+            this._lCategorie.Size = new System.Drawing.Size(77, 21);
             this._lCategorie.TabIndex = 2;
-            this._lCategorie.Text = "Categorie";
+            this._lCategorie.Text = "Category";
             // 
             // _dCategories
             // 
@@ -141,11 +143,11 @@
             this._lPageIndex.BackColor = System.Drawing.Color.Transparent;
             this._lPageIndex.Font = new System.Drawing.Font("Segoe UI", 15F);
             this._lPageIndex.ForeColor = System.Drawing.Color.White;
-            this._lPageIndex.Location = new System.Drawing.Point(807, 464);
+            this._lPageIndex.Location = new System.Drawing.Point(823, 469);
             this._lPageIndex.Name = "_lPageIndex";
-            this._lPageIndex.Size = new System.Drawing.Size(64, 28);
+            this._lPageIndex.Size = new System.Drawing.Size(20, 28);
             this._lPageIndex.TabIndex = 11;
-            this._lPageIndex.Text = "99/99";
+            this._lPageIndex.Text = "/";
             // 
             // _bApply
             // 
@@ -238,7 +240,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::AnxSampleBrowser.Properties.Resources.appbar_arrow_left;
-            this.pictureBox1.Location = new System.Drawing.Point(751, 457);
+            this.pictureBox1.Location = new System.Drawing.Point(746, 461);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(42, 50);
             this.pictureBox1.TabIndex = 12;
@@ -248,12 +250,36 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::AnxSampleBrowser.Properties.Resources.appbar_arrow_right;
-            this.pictureBox2.Location = new System.Drawing.Point(880, 457);
+            this.pictureBox2.Location = new System.Drawing.Point(878, 461);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(42, 50);
             this.pictureBox2.TabIndex = 13;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // _lCurrentPage
+            // 
+            this._lCurrentPage.AutoSize = true;
+            this._lCurrentPage.BackColor = System.Drawing.Color.Transparent;
+            this._lCurrentPage.Font = new System.Drawing.Font("Segoe UI", 15F);
+            this._lCurrentPage.ForeColor = System.Drawing.Color.White;
+            this._lCurrentPage.Location = new System.Drawing.Point(794, 469);
+            this._lCurrentPage.Name = "_lCurrentPage";
+            this._lCurrentPage.Size = new System.Drawing.Size(23, 28);
+            this._lCurrentPage.TabIndex = 14;
+            this._lCurrentPage.Text = "9";
+            // 
+            // _lMaxPage
+            // 
+            this._lMaxPage.AutoSize = true;
+            this._lMaxPage.BackColor = System.Drawing.Color.Transparent;
+            this._lMaxPage.Font = new System.Drawing.Font("Segoe UI", 15F);
+            this._lMaxPage.ForeColor = System.Drawing.Color.White;
+            this._lMaxPage.Location = new System.Drawing.Point(849, 469);
+            this._lMaxPage.Name = "_lMaxPage";
+            this._lMaxPage.Size = new System.Drawing.Size(23, 28);
+            this._lMaxPage.TabIndex = 15;
+            this._lMaxPage.Text = "9";
             // 
             // AnxSampleBrowser
             // 
@@ -262,11 +288,13 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.ClientSize = new System.Drawing.Size(934, 522);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this._lMaxPage);
             this.Controls.Add(this._bApply);
-            this.Controls.Add(this._lPageIndex);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this._dSort);
+            this.Controls.Add(this._lPageIndex);
             this.Controls.Add(this._pSamples);
+            this.Controls.Add(this._lCurrentPage);
             this.Controls.Add(this._lFilter);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this._lSortBy);
@@ -305,6 +333,8 @@
         private System.Windows.Forms.Button _bApply;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label _lCurrentPage;
+        private System.Windows.Forms.Label _lMaxPage;
     }
 }
 
