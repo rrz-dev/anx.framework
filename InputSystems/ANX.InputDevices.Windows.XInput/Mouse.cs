@@ -41,8 +41,8 @@ namespace ANX.InputDevices.Windows.XInput
 				ScreenToClient(WindowHandle, ref cursorPos);
 
 			ButtonState left = state.Buttons[0] ? ButtonState.Pressed : ButtonState.Released;
-			ButtonState middle = state.Buttons[1] ? ButtonState.Pressed : ButtonState.Released;
-			ButtonState right = state.Buttons[2] ? ButtonState.Pressed : ButtonState.Released;
+			ButtonState middle = state.Buttons[2] ? ButtonState.Pressed : ButtonState.Released;
+			ButtonState right = state.Buttons[1] ? ButtonState.Pressed : ButtonState.Released;
 			ButtonState x1 = state.Buttons[3] ? ButtonState.Pressed : ButtonState.Released;
 			ButtonState x2 = state.Buttons[4] ? ButtonState.Pressed : ButtonState.Released;
 
