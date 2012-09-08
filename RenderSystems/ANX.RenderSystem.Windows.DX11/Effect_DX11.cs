@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
+using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using ANX.RenderSystem.Windows.DX11.Helpers;
-using SharpDX.D3DCompiler;
 using Dx11 = SharpDX.Direct3D11;
 
 // This file is part of the ANX.Framework created by the
@@ -13,20 +11,15 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-	public class Effect_DX11 : INativeEffect
+	public class Effect_DX11 : BaseEffect, INativeEffect
 	{
 		#region Private
 		private Dx11.VertexShader vertexShader;
 		private Dx11.PixelShader pixelShader;
-		private Effect managedEffect;
 		#endregion
 
 		#region Public
-		internal Dx11.Effect NativeEffect
-		{
-			get;
-			private set;
-		}
+		internal Dx11.Effect NativeEffect { get; private set; }
 
 		public IEnumerable<EffectTechnique> Techniques
 		{
@@ -58,43 +51,20 @@ namespace ANX.RenderSystem.Windows.DX11
 		#endregion
 
 		#region Constructor
-		public Effect_DX11(GraphicsDevice device, Effect setManagedEffect, Stream vertexShaderStream, Stream pixelShaderStream)
+		public Effect_DX11(GraphicsDevice graphicsDevice, Effect managedEffect, Stream vertexShaderStream,
+			Stream pixelShaderStream)
+			: base(managedEffect)
 		{
-			if (setManagedEffect == null)
-				throw new ArgumentNullException("managedEffect");
-			managedEffect = setManagedEffect;
-
-			if (vertexShaderStream.CanSeek)
-				vertexShaderStream.Seek(0, SeekOrigin.Begin);
-
-			var vertexShaderByteCode = ShaderBytecode.FromStream(vertexShaderStream);
-			vertexShader = new Dx11.VertexShader((Dx11.Device)device.NativeDevice, vertexShaderByteCode);
-
-			if (pixelShaderStream.CanSeek)
-				pixelShaderStream.Seek(0, SeekOrigin.Begin);
-
-			var pixelShaderByteCode = ShaderBytecode.FromStream(pixelShaderStream);
-			pixelShader = new Dx11.PixelShader((Dx11.Device)device.NativeDevice, pixelShaderByteCode);
+			var device = ((GraphicsDeviceWindowsDX11)graphicsDevice.NativeDevice).NativeDevice.Device;
+			vertexShader = new Dx11.VertexShader(device, GetByteCode(vertexShaderStream));
+			pixelShader = new Dx11.PixelShader(device, GetByteCode(pixelShaderStream));
 		}
 
-		public Effect_DX11(GraphicsDevice device, Effect setManagedEffect, Stream effectStream)
+		public Effect_DX11(GraphicsDevice graphicsDevice, Effect managedEffect, Stream effectStream)
+			: base(managedEffect)
 		{
-			if (setManagedEffect == null)
-				throw new ArgumentNullException("managedEffect");
-			managedEffect = setManagedEffect;
-
-			if (effectStream.CanSeek)
-				effectStream.Seek(0, SeekOrigin.Begin);
-
-			var effectByteCode = ShaderBytecode.FromStream(effectStream);
-			NativeEffect = new Dx11.Effect(((GraphicsDeviceWindowsDX11)device.NativeDevice).NativeDevice.Device, effectByteCode);
-		}
-		#endregion
-
-		#region Apply
-		public void Apply(GraphicsDevice graphicsDevice)
-		{
-			((GraphicsDeviceWindowsDX11)graphicsDevice.NativeDevice).currentEffect = this;
+			var device = ((GraphicsDeviceWindowsDX11)graphicsDevice.NativeDevice).NativeDevice.Device;
+			NativeEffect = new Dx11.Effect(device, GetByteCode(effectStream));
 		}
 		#endregion
 
@@ -105,32 +75,19 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
 		#endregion
 
-		public static byte[] CompileVertexShader(string effectCode, string directory = "")
+		#region Apply
+		public void Apply(GraphicsDevice graphicsDevice)
 		{
-			ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None,
-				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[vertexShaderByteCode.BufferSize];
-			vertexShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
+			((GraphicsDeviceWindowsDX11)graphicsDevice.NativeDevice).currentEffect = this;
 		}
+		#endregion
 
-		public static byte[] CompilePixelShader(string effectCode, string directory = "")
-		{
-			ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None,
-				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[pixelShaderByteCode.BufferSize];
-			pixelShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
-		}
-
+		#region CompileFXShader
 		public static byte[] CompileFXShader(string effectCode, string directory = "")
 		{
-			ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, "fx_5_0", ShaderFlags.None, EffectFlags.None,
-				null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[effectByteCode.BufferSize];
-			effectByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
+			return CompileShader("fx_5_0", effectCode, directory);
 		}
+		#endregion
 
 		#region Dispose
 		public void Dispose()

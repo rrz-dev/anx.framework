@@ -81,6 +81,10 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RenderSystems\ANX.BaseDirectX\ANX.BaseDirectX_WindowsMetro.csproj">
+      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
+      <Name>ANX.BaseDirectX</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

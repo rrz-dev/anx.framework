@@ -97,7 +97,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region UpdateNativeSamplerState
 		private void UpdateNativeSamplerState(Dx10.Device device)
         {
-			if (isDirty == true || nativeState == null)
+			if (isDirty || nativeState == null)
             {
 				Dispose();
 				nativeState = new Dx10.SamplerState(device, ref description);

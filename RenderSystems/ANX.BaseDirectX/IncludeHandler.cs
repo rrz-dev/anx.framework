@@ -6,11 +6,11 @@ using SharpDX.D3DCompiler;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.RenderSystem.Windows.DX10.Helpers
+namespace ANX.BaseDirectX
 {
-    internal class IncludeHandler : Include
+    public class IncludeHandler : Include
     {
-        private string directory;
+		private string directory;
 
 		public IDisposable Shadow { get; set; }
 

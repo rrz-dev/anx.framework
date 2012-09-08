@@ -85,7 +85,6 @@
     <Compile Include="Effect_DX10.cs" />
     <Compile Include="Helpers\FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX10.cs" />
-    <Compile Include="Helpers\IncludeHandler.cs" />
     <Compile Include="IndexBuffer_DX10.cs" />
     <Compile Include="EffectPass_DX10.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

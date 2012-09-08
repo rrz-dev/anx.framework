@@ -154,5 +154,31 @@ namespace ANX.BaseDirectX
 			throw new NotImplementedException("Couldn't calculate vertex count for PrimitiveType '" + type + "'.");
 		}
 		#endregion
+
+		#region ConvertVertexElementFormat
+		public static Format ConvertVertexElementFormat(VertexElementFormat format)
+		{
+			switch (format)
+			{
+				case VertexElementFormat.Vector2:
+					return Format.R32G32_Float;
+				case VertexElementFormat.Vector3:
+					return Format.R32G32B32_Float;
+				case VertexElementFormat.Vector4:
+					return Format.R32G32B32A32_Float;
+				case VertexElementFormat.Color:
+					return Format.R8G8B8A8_UNorm;
+				case VertexElementFormat.Single:
+					return Format.R32_Float;
+				// TODO: validate
+				case VertexElementFormat.Short2:
+					return Format.R16G16_SInt;
+				case VertexElementFormat.Short4:
+					return Format.R16G16B16A16_SInt;
+			}
+
+			throw new Exception("Can't map '" + format + "' to DXGI.Format in Dx10 CreateInputElementFromVertexElement.");
+		}
+		#endregion
 	}
 }

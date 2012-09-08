@@ -101,7 +101,6 @@
     <Compile Include="Effect_DX11.cs" />
     <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceWindowsDX11.cs" />
-    <Compile Include="Helpers\IncludeHandler.cs" />
     <Compile Include="IndexBuffer_DX11.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterizerState_DX11.cs" />
