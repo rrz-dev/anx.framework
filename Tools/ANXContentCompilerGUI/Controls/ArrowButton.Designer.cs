@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.labelText = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelText
@@ -52,22 +53,6 @@
             this.labelText.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
             this.labelText.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
             this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.arrow;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(47, 48);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1Click);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseDown);
-            this.pictureBox1.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
             // 
             // splitContainer
             // 
@@ -87,6 +72,22 @@
             this.splitContainer.SplitterDistance = 47;
             this.splitContainer.TabIndex = 2;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.arrow1;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(47, 48);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1Click);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseDown);
+            this.pictureBox1.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
+            // 
             // ArrowButton
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -104,10 +105,11 @@
             this.MouseEnter += new System.EventHandler(this.ArrowButtonMouseEnter);
             this.MouseLeave += new System.EventHandler(this.ArrowButtonMouseLeave);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -180,15 +180,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -204,6 +195,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow.png" />
+    <None Include="Resources\appbar.new1.png" />
+    <None Include="Resources\appbar.folder.open.png" />
+    <None Include="Resources\appbar.save.png" />
+    <None Include="Resources\appbar.question.png" />
+    <None Include="Resources\appbar.globe.wire.png" />
+    <None Include="Resources\appbar.globe.png" />
+    <None Include="Resources\appbar.arrow.right.png" />
+    <None Include="Resources\appbar.page.multiple.png" />
+    <None Include="Resources\appbar.clean.png" />
+    <None Include="Resources\arrow1.png" />
+    <None Include="Resources\arrow2.png" />
     <Content Include="Resources\clouds.png" />
   </ItemGroup>
   <ItemGroup>

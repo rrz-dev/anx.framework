@@ -145,6 +145,7 @@ namespace ANX.ContentCompiler.GUI
         #region SaveProject
         public void SaveProject(object sender, EventArgs e)
         {
+            if (_contentProject == null) return;
             if (String.IsNullOrEmpty(ProjectPath))
                 SaveProjectAs(sender, e);
 
