@@ -12,19 +12,13 @@ namespace ANX.BaseDirectX
 	public abstract class BaseTexture2D<S> : IDisposable where S : class, IDisposable
 	{
 		#region Private
+		protected int mipCount;
 		protected int tempSubresource;
 		protected int pitch;
-		protected int formatSize;
+		private int formatSize;
 		protected SurfaceFormat surfaceFormat;
-
-		protected bool IsDxtTexture
-		{
-			get
-			{
-				return surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 ||
-					surfaceFormat == SurfaceFormat.Dxt1;
-			}
-		}
+		protected bool useRenderTexture;
+		protected S NativeTextureStaging;
 		#endregion
 
 		#region Public
@@ -45,13 +39,10 @@ namespace ANX.BaseDirectX
 		#endregion
 
 		#region Constructor
-		protected BaseTexture2D(GraphicsDevice graphicsDevice)
+		protected BaseTexture2D(GraphicsDevice graphicsDevice, SurfaceFormat setSurfaceFormat, int setMipCount)
 		{
-			GraphicsDevice = graphicsDevice;
-		}
-
-		protected BaseTexture2D(GraphicsDevice graphicsDevice, SurfaceFormat setSurfaceFormat)
-		{
+			mipCount = setMipCount;
+			useRenderTexture = mipCount > 1;
 			GraphicsDevice = graphicsDevice;
 			surfaceFormat = setSurfaceFormat;
 
@@ -78,94 +69,135 @@ namespace ANX.BaseDirectX
 			//TODO: handle offsetInBytes parameter
 			//TODO: handle startIndex parameter
 			//TODO: handle elementCount parameter
-			
-			if (surfaceFormat == SurfaceFormat.Color)
+
+			unsafe
 			{
-				IntPtr dataPtr = MapWrite();
+				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+				byte* colorData = (byte*)handle.AddrOfPinnedObject();
 
-				unsafe
+				switch (surfaceFormat)
 				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
+					case SurfaceFormat.Color:
+						SetDataColor(0, offsetInBytes, colorData, startIndex, elementCount);
+						return;
 
-					byte* pTexels = (byte*)dataPtr;
-					int srcIndex = 0;
-
-					for (int row = 0; row < Height; row++)
-					{
-						int rowStart = row * pitch;
-
-						for (int col = 0; col < Width; col++)
-						{
-							int colStart = col * formatSize;
-							pTexels[rowStart + colStart + 0] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 1] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 2] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 3] = colorData[srcIndex++];
-						}
-					}
-
-					handle.Free();
+					case SurfaceFormat.Dxt1:
+					case SurfaceFormat.Dxt3:
+					case SurfaceFormat.Dxt5:
+						SetDataDxt(0, offsetInBytes, colorData, startIndex, elementCount, data.Length);
+						return;
 				}
 
-				Unmap();
+				handle.Free();
 			}
-			else if (IsDxtTexture)
+
+			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
+		}
+		#endregion
+
+		#region SetDataColor
+		private unsafe void SetDataColor(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount)
+		{
+			int mipmapWidth = Math.Max(Width >> level, 1);
+			int mipmapHeight = Math.Max(Height >> level, 1);
+
+			IntPtr dataPtr = MapWrite(level);
+			int srcIndex = 0;
+
+			byte* pTexels = (byte*)dataPtr;
+			for (int row = 0; row < mipmapHeight; row++)
 			{
-				unsafe
+				int rowStart = row * pitch;
+
+				for (int col = 0; col < mipmapWidth; col++)
 				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
-
-					int w = (Width + 3) >> 2;
-					int h = (Height + 3) >> 2;
-					formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
-
-					IntPtr dataPtr = MapWrite();
-					var ds = new DataStream(dataPtr, Width * Height * 4 * 2, true, true);
-					int col = 0;
-					int index = 0; // startIndex
-					int count = data.Length; // elementCount
-					int actWidth = w * formatSize;
-
-					for (int i = 0; i < h; i++)
-					{
-						ds.Position = (i * pitch) + (col * formatSize);
-						if (count <= 0)
-							break;
-						else if (count < actWidth)
-						{
-							for (int idx = index; idx < index + count; idx++)
-								ds.WriteByte(colorData[idx]);
-							break;
-						}
-
-						for (int idx = index; idx < index + actWidth; idx++)
-							ds.WriteByte(colorData[idx]);
-
-						index += actWidth;
-						count -= actWidth;
-					}
-
-					handle.Free();
-
-					Unmap();
+					int colStart = rowStart + (col * formatSize);
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
 				}
 			}
-			else
-				throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
+
+			Unmap();
+		}
+		#endregion
+
+		#region SetDataDxt
+		private unsafe void SetDataDxt(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount,
+			int dataLength)
+		{
+			int mipmapWidth = Math.Max(Width >> level, 1);
+			int mipmapHeight = Math.Max(Height >> level, 1);
+
+			int w = (mipmapWidth + 3) >> 2;
+			int h = (mipmapHeight + 3) >> 2;
+			formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
+
+			IntPtr dataPtr = MapWrite(level);
+			var ds = new DataStream(dataPtr, mipmapWidth * mipmapHeight * 4 * 2, true, true);
+			int col = 0;
+			int index = 0; // startIndex
+			int count = dataLength; // elementCount
+			int actWidth = w * formatSize;
+
+			for (int i = 0; i < h; i++)
+			{
+				ds.Position = (i * pitch) + (col * formatSize);
+				if (count <= 0)
+					break;
+				else if (count < actWidth)
+				{
+					for (int idx = index; idx < index + count; idx++)
+						ds.WriteByte(colorData[idx]);
+					break;
+				}
+
+				for (int idx = index; idx < index + actWidth; idx++)
+					ds.WriteByte(colorData[idx]);
+
+				index += actWidth;
+				count -= actWidth;
+			}
+
+			Unmap();
 		}
 		#endregion
 
 		#region SetData (TODO)
 		public void SetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
 		{
-			throw new NotImplementedException();
+			//TODO: handle rect parameter
+			if (rect != null)
+				throw new Exception("Texture2D SetData with rectangle is not yet implemented!");
+
+			unsafe
+			{
+				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+				byte* colorData = (byte*)handle.AddrOfPinnedObject();
+
+				switch (surfaceFormat)
+				{
+					case SurfaceFormat.Color:
+						SetDataColor(level, 0, colorData, startIndex, elementCount);
+						return;
+
+					case SurfaceFormat.Dxt1:
+					case SurfaceFormat.Dxt3:
+					case SurfaceFormat.Dxt5:
+						SetDataDxt(level, 0, colorData, startIndex, elementCount, data.Length);
+						return;
+				}
+
+				handle.Free();
+			}
+
+			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
 		}
 		#endregion
 
-		protected abstract IntPtr MapWrite();
-		protected abstract IntPtr MapRead();
+		protected abstract IntPtr MapWrite(int level);
+		protected abstract IntPtr MapRead(int level);
 		protected abstract void Unmap();
 
 		#region Dispose

@@ -31,6 +31,8 @@ namespace ANX.Framework.NonXNA.Reflection
 			"System.Xml.Linq.dll",
 			"mscorlib.dll",
 			"Sce.PlayStation.Core.dll",
+			"wrap_oal.dll",
+			"OpenAL32.dll",
 		};
 		#endregion
 
@@ -70,9 +72,12 @@ namespace ANX.Framework.NonXNA.Reflection
 			LoadAssembliesFromFile();
 			LoadAssembliesFromNames();
 
-#if !WINDOWSMETRO // TODO: find way for metro
 			// Also load the current assembly. This is needed when we run on android or win8 with merged assemblies.
+#if !WINDOWSMETRO
 			allAssemblies.Add(Assembly.GetEntryAssembly());
+#else
+			// TODO: a lot of testing is required!
+			allAssemblies.Add(typeof(AssemblyLoader).GetTypeInfo().Assembly);
 #endif
 		}
 		#endregion
@@ -93,7 +98,7 @@ namespace ANX.Framework.NonXNA.Reflection
 				bool ignore = false;
 				foreach (string ignoreName in IgnoreAssemblies)
 				{
-					if (file.EndsWith(ignoreName))
+					if (file.EndsWith(ignoreName, StringComparison.InvariantCultureIgnoreCase))
 					{
 						ignore = true;
 						break;
@@ -161,9 +166,7 @@ namespace ANX.Framework.NonXNA.Reflection
 		private static void SearchForValidAddInTypes()
 		{
 			foreach (Assembly assembly in allAssemblies)
-			{
 				SearchForValidAddInTypesInAssembly(assembly);
-			}
 		}
 		#endregion
 

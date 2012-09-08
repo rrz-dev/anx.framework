@@ -15,11 +15,14 @@ namespace ANX.RenderSystem.Windows.Metro
 	public class Texture2D_Metro : INativeTexture2D
 	{
 		#region Private
+		protected bool useRenderTexture;
+		protected Dx11.Texture2D NativeTextureStaging;
 		protected internal Dx11.Texture2D NativeTexture;
         protected internal Dx11.ShaderResourceView NativeShaderResourceView;
 		protected int formatSize;
 		protected SurfaceFormat surfaceFormat;
 		protected GraphicsDevice graphicsDevice;
+		private int mipCount;
 		#endregion
 
 		#region Public
@@ -27,9 +30,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				return NativeTexture != null ?
-					NativeTexture.Description.Width :
-					0;
+				return NativeTexture != null ? NativeTexture.Description.Width : 0;
 			}
 		}
 
@@ -37,9 +38,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				return NativeTexture != null ?
-					NativeTexture.Description.Height :
-					0;
+				return NativeTexture != null ? NativeTexture.Description.Height : 0;
 			}
 		}
 		#endregion
@@ -50,19 +49,31 @@ namespace ANX.RenderSystem.Windows.Metro
 			this.graphicsDevice = graphicsDevice;
 		}
 
-		public Texture2D_Metro(GraphicsDevice graphicsDevice, int width, int height,
-			SurfaceFormat surfaceFormat, int mipCount)
+		public Texture2D_Metro(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
 		{
-			if (mipCount > 1)
-			{
-				throw new Exception("creating textures with mip map not yet implemented");
-			}
-
+			this.mipCount = mipCount;
+			useRenderTexture = mipCount > 1;
 			this.graphicsDevice = graphicsDevice;
 			this.surfaceFormat = surfaceFormat;
 
 			GraphicsDeviceWindowsMetro graphicsMetro = graphicsDevice.NativeDevice as GraphicsDeviceWindowsMetro;
 			var device = graphicsMetro.NativeDevice.NativeDevice;
+
+			if (useRenderTexture)
+			{
+				var descriptionStaging = new Dx11.Texture2DDescription()
+				{
+					Width = width,
+					Height = height,
+					MipLevels = mipCount,
+					ArraySize = mipCount,
+					Format = FormatConverter.Translate(surfaceFormat),
+					SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
+					Usage = Dx11.ResourceUsage.Staging,
+					CpuAccessFlags = Dx11.CpuAccessFlags.Write,
+				};
+				NativeTextureStaging = new Dx11.Texture2D(device, descriptionStaging);
+			}
 
 			var description = new Dx11.Texture2DDescription()
 			{
@@ -72,10 +83,9 @@ namespace ANX.RenderSystem.Windows.Metro
 				ArraySize = mipCount,
 				Format = FormatConverter.Translate(surfaceFormat),
 				SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
-				Usage = Dx11.ResourceUsage.Dynamic,
+				Usage = useRenderTexture ? Dx11.ResourceUsage.Default : Dx11.ResourceUsage.Dynamic,
 				BindFlags = Dx11.BindFlags.ShaderResource,
-				CpuAccessFlags = Dx11.CpuAccessFlags.Write,
-				OptionFlags = Dx11.ResourceOptionFlags.None,
+				CpuAccessFlags = useRenderTexture ? Dx11.CpuAccessFlags.None : Dx11.CpuAccessFlags.Write,
 			};
 			this.NativeTexture = new Dx11.Texture2D(device, description);
 			this.NativeShaderResourceView = new Dx11.ShaderResourceView(device, this.NativeTexture);
@@ -95,119 +105,153 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region SetData
-		public void SetData<T>(int level, Rectangle? rect, T[] data,
-			int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
-			where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
 		{
 			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
-			int startIndex, int elementCount) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
 		{
 			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
-			T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
+			where T : struct
 		{
 			//TODO: handle offsetInBytes parameter
 			//TODO: handle startIndex parameter
 			//TODO: handle elementCount parameter
+
+			unsafe
+			{
+				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+				byte* colorData = (byte*)handle.AddrOfPinnedObject();
+
+				switch (surfaceFormat)
+				{
+					case SurfaceFormat.Color:
+						SetDataColor(0, offsetInBytes, colorData, startIndex, elementCount);
+						return;
+
+					case SurfaceFormat.Dxt1:
+					case SurfaceFormat.Dxt3:
+					case SurfaceFormat.Dxt5:
+						SetDataDxt(0, offsetInBytes, colorData, startIndex, elementCount, data.Length);
+						return;
+				}
+
+				handle.Free();
+			}
+
+			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
+		}
+
+		public void SetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+		{
+			//TODO: handle rect parameter
+			if (rect != null)
+				throw new Exception("Texture2D SetData with rectangle is not yet implemented!");
+
+			unsafe
+			{
+				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+				byte* colorData = (byte*)handle.AddrOfPinnedObject();
+
+				switch (surfaceFormat)
+				{
+					case SurfaceFormat.Color:
+						SetDataColor(level, 0, colorData, startIndex, elementCount);
+						return;
+
+					case SurfaceFormat.Dxt1:
+					case SurfaceFormat.Dxt3:
+					case SurfaceFormat.Dxt5:
+						SetDataDxt(level, 0, colorData, startIndex, elementCount, data.Length);
+						return;
+				}
+
+				handle.Free();
+			}
+
+			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
+		}
+		#endregion
+
+		#region SetDataColor
+		private unsafe void SetDataColor(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount)
+		{
+			int mipmapWidth = Math.Max(Width >> level, 1);
+			int mipmapHeight = Math.Max(Height >> level, 1);
+
+			int subresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(texture, subresource);
 			
-			if (this.surfaceFormat == SurfaceFormat.Color)
+			int srcIndex = 0;
+			byte* pTexels = (byte*)rectangle.DataPointer;
+			for (int row = 0; row < mipmapHeight; row++)
 			{
-				int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-				SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(NativeTexture, subresource);
-				int rowPitch = rectangle.RowPitch;
+				int rowStart = row * rectangle.RowPitch;
 
-				unsafe
+				for (int col = 0; col < mipmapWidth; col++)
 				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
-
-					byte* pTexels = (byte*)rectangle.DataPointer;
-					int srcIndex = 0;
-
-					for (int row = 0; row < Height; row++)
-					{
-						int rowStart = row * rowPitch;
-
-						for (int col = 0; col < Width; col++)
-						{
-							int colStart = col * formatSize;
-							pTexels[rowStart + colStart + 0] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 1] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 2] = colorData[srcIndex++];
-							pTexels[rowStart + colStart + 3] = colorData[srcIndex++];
-						}
-					}
-
-					handle.Free();
-				}
-
-				NativeDxDevice.Current.UnmapSubresource(NativeTexture, subresource);
-			}
-			else if (surfaceFormat == SurfaceFormat.Dxt5 || surfaceFormat == SurfaceFormat.Dxt3 || surfaceFormat == SurfaceFormat.Dxt1)
-			{
-				unsafe
-				{
-					GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-					byte* colorData = (byte*)handle.AddrOfPinnedObject();
-
-					int w = (Width + 3) >> 2;
-					int h = (Height + 3) >> 2;
-					formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
-
-					int subresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-					SharpDX.DataBox rectangle =
-						NativeDxDevice.Current.MapSubresource(NativeTexture, subresource);
-					SharpDX.DataStream ds = new SharpDX.DataStream(rectangle.DataPointer, Width * Height * 4 * 2, true, true);
-					int pitch = rectangle.RowPitch;
-					int col = 0;
-					int index = 0; // startIndex
-					int count = data.Length; // elementCount
-					int actWidth = w * formatSize;
-
-					for (int i = 0; i < h; i++)
-					{
-						ds.Position = (i * pitch) + (col * formatSize);
-						if (count <= 0)
-						{
-							break;
-						}
-						else if (count < actWidth)
-						{
-							for (int idx = index; idx < index + count; idx++)
-							{
-								ds.WriteByte(colorData[idx]);
-							}
-							break;
-						}
-
-						for (int idx = index; idx < index + actWidth; idx++)
-						{
-							ds.WriteByte(colorData[idx]);
-						}
-
-						index += actWidth;
-						count -= actWidth;
-					}
-
-					handle.Free();
-
-					NativeDxDevice.Current.UnmapSubresource(NativeTexture, subresource);
+					int colStart = rowStart + (col * formatSize);
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
+					pTexels[colStart++] = colorData[srcIndex++];
 				}
 			}
-			else
+
+			NativeDxDevice.Current.UnmapSubresource(texture, subresource);
+			if (useRenderTexture)
+				NativeDxDevice.Current.NativeContext.CopyResource(NativeTextureStaging, NativeTexture);
+		}
+		#endregion
+
+		#region SetDataDxt
+		private unsafe void SetDataDxt(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount,
+			int dataLength)
+		{
+			int mipmapWidth = Math.Max(Width >> level, 1);
+			int mipmapHeight = Math.Max(Height >> level, 1);
+
+			int w = (mipmapWidth + 3) >> 2;
+			int h = (mipmapHeight + 3) >> 2;
+			formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
+
+			int subresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			SharpDX.DataBox rectangle = NativeDxDevice.Current.MapSubresource(texture, subresource);
+
+			var ds = new SharpDX.DataStream(rectangle.DataPointer, mipmapWidth * mipmapHeight * 4 * 2, true, true);
+			int col = 0;
+			int index = 0; // startIndex
+			int count = dataLength; // elementCount
+			int actWidth = w * formatSize;
+
+			for (int i = 0; i < h; i++)
 			{
-				throw new Exception(string.Format("creating textures of format {0} not yet implemented...", surfaceFormat.ToString()));
+				ds.Position = (i * rectangle.RowPitch) + (col * formatSize);
+				if (count <= 0)
+					break;
+				else if (count < actWidth)
+				{
+					for (int idx = index; idx < index + count; idx++)
+						ds.WriteByte(colorData[idx]);
+					break;
+				}
+
+				for (int idx = index; idx < index + actWidth; idx++)
+					ds.WriteByte(colorData[idx]);
+
+				index += actWidth;
+				count -= actWidth;
 			}
+
+			NativeDxDevice.Current.UnmapSubresource(texture, subresource);
+			if (useRenderTexture)
+				NativeDxDevice.Current.NativeContext.CopyResource(NativeTextureStaging, NativeTexture);
 		}
 		#endregion
 
@@ -224,6 +268,12 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				NativeTexture.Dispose();
 				NativeTexture = null;
+			}
+
+			if (NativeTextureStaging != null)
+			{
+				NativeTextureStaging.Dispose();
+				NativeTextureStaging = null;
 			}
 		}
 		#endregion

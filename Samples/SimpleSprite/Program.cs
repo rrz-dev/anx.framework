@@ -1,5 +1,3 @@
-//#define USE_GL3
-
 using System;
 using ANX.Framework.NonXNA;
 
@@ -12,11 +10,9 @@ namespace WindowsGame1
 		/// </summary>
 		static void Main(string[] args)
 		{
-#if USE_GL3
-			AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
-#else
+			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
 			AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
-#endif
+			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX11");
 
 			using (Game1 game = new Game1())
 			{

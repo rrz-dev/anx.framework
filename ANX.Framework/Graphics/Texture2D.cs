@@ -73,14 +73,26 @@ namespace ANX.Framework.Graphics
 			CreateNativeTextureSurface();
 		}
 
-		public Texture2D(GraphicsDevice graphicsDevice, int width, int height,
-			[MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat format)
+		public Texture2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap,
+			SurfaceFormat format)
+			: base(graphicsDevice)
+		{
+			this.width = width;
+			this.height = height;
+			// TODO: pass the mipmap parameter to the creation of the texture to let the graphics card generate mipmaps!
+			base.levelCount = 1;
+			base.format = format;
+
+			CreateNativeTextureSurface();
+		}
+
+		internal Texture2D(GraphicsDevice graphicsDevice, int width, int height, int mipCount, SurfaceFormat format)
 			: base(graphicsDevice)
 		{
 			this.width = width;
 			this.height = height;
 
-			base.levelCount = 1;    //TODO: mipmap paramter?!?!?
+			base.levelCount = mipCount;
 			base.format = format;
 
 			CreateNativeTextureSurface();

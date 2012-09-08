@@ -36,16 +36,32 @@ namespace ANX.RenderSystem.Windows.DX11
 
 		#region Constructor
 		internal Texture2D_DX11(GraphicsDevice graphicsDevice, SurfaceFormat surfaceFormat)
-			: base(graphicsDevice, surfaceFormat)
+			: base(graphicsDevice, surfaceFormat, 1)
 		{
 		}
 
 		public Texture2D_DX11(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
-			: base(graphicsDevice, surfaceFormat)
+			: base(graphicsDevice, surfaceFormat, mipCount)
 		{
-			if (mipCount > 1)
-				throw new Exception("creating textures with mip map not yet implemented");
-			
+			Dx11.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice.Device;
+			var sampleDescription = new SharpDX.DXGI.SampleDescription(1, 0);
+
+			if (useRenderTexture)
+			{
+				var descriptionStaging = new Dx11.Texture2DDescription()
+				{
+					Width = width,
+					Height = height,
+					MipLevels = mipCount,
+					ArraySize = mipCount,
+					Format = BaseFormatConverter.Translate(surfaceFormat),
+					SampleDescription = sampleDescription,
+					Usage = Dx11.ResourceUsage.Staging,
+					CpuAccessFlags = Dx11.CpuAccessFlags.Write,
+				};
+				NativeTextureStaging = new Dx11.Texture2D(device, descriptionStaging);
+			}
+
 			var description = new Dx11.Texture2DDescription()
 			{
 				Width = width,
@@ -53,16 +69,14 @@ namespace ANX.RenderSystem.Windows.DX11
 				MipLevels = mipCount,
 				ArraySize = mipCount,
 				Format = BaseFormatConverter.Translate(surfaceFormat),
-				SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
-				Usage = Dx11.ResourceUsage.Dynamic,
+				SampleDescription = sampleDescription,
+				Usage = useRenderTexture ? Dx11.ResourceUsage.Default : Dx11.ResourceUsage.Dynamic,
 				BindFlags = Dx11.BindFlags.ShaderResource,
-				CpuAccessFlags = Dx11.CpuAccessFlags.Write,
-				OptionFlags = Dx11.ResourceOptionFlags.None,
+				CpuAccessFlags = useRenderTexture ? Dx11.CpuAccessFlags.None : Dx11.CpuAccessFlags.Write,
 			};
 
-			Dx11.DeviceContext context = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
-			NativeTexture = new Dx11.Texture2D(context.Device, description);
-			NativeShaderResourceView = new Dx11.ShaderResourceView(context.Device, NativeTexture);
+			NativeTexture = new Dx11.Texture2D(device, description);
+			NativeShaderResourceView = new Dx11.ShaderResourceView(device, NativeTexture);
 		}
 		#endregion
 
@@ -82,6 +96,12 @@ namespace ANX.RenderSystem.Windows.DX11
 				NativeShaderResourceView = null;
 			}
 
+			if (NativeTextureStaging != null)
+			{
+				NativeTextureStaging.Dispose();
+				NativeTextureStaging = null;
+			}
+
 			base.Dispose();
 		}
 		#endregion
@@ -89,14 +109,16 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region SaveAsJpeg (TODO)
 		public void SaveAsJpeg(Stream stream, int width, int height)
 		{
-			throw new NotImplementedException();
+			// TODO: handle width and height?
+			Dx11.Texture2D.ToStream(NativeTexture.Device.ImmediateContext, NativeTexture, Dx11.ImageFileFormat.Jpg, stream);
 		}
 		#endregion
 
 		#region SaveAsPng (TODO)
 		public void SaveAsPng(Stream stream, int width, int height)
 		{
-			throw new NotImplementedException();
+			// TODO: handle width and height?
+			Dx11.Texture2D.ToStream(NativeTexture.Device.ImmediateContext, NativeTexture, Dx11.ImageFileFormat.Png, stream);
 		}
 		#endregion
 
@@ -118,22 +140,25 @@ namespace ANX.RenderSystem.Windows.DX11
 		#endregion
 
 		#region MapWrite
-		protected override IntPtr MapWrite()
+		protected override IntPtr MapWrite(int level)
 		{
 			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
-			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-			DataBox box = context.MapSubresource(NativeTexture, tempSubresource, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
+			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			DataBox box = context.MapSubresource(texture, tempSubresource,
+				useRenderTexture ? Dx11.MapMode.Write : Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
 			pitch = box.RowPitch;
 			return box.DataPointer;
 		}
 		#endregion
 
 		#region MapRead
-		protected override IntPtr MapRead()
+		protected override IntPtr MapRead(int level)
 		{
 			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
-			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-			DataBox box = context.MapSubresource(NativeTexture, tempSubresource, Dx11.MapMode.Read, Dx11.MapFlags.None);
+			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			DataBox box = context.MapSubresource(texture, tempSubresource, Dx11.MapMode.Read, Dx11.MapFlags.None);
 			pitch = box.RowPitch;
 			return box.DataPointer;
 		}
@@ -143,7 +168,11 @@ namespace ANX.RenderSystem.Windows.DX11
 		protected override void Unmap()
 		{
 			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
-			context.UnmapSubresource(NativeTexture, tempSubresource);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			context.UnmapSubresource(texture, tempSubresource);
+
+			if(useRenderTexture)
+				context.CopyResource(NativeTextureStaging, NativeTexture);
 		}
 		#endregion
 	}

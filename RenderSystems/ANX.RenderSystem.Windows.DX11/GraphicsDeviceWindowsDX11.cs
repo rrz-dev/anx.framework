@@ -1,3 +1,4 @@
+#define DIRECTX_DEBUG_LAYER
 using System;
 using ANX.Framework;
 using ANX.Framework.Graphics;
@@ -243,48 +244,54 @@ namespace ANX.RenderSystem.Windows.DX11
         #endregion
 
         #region DrawPrimitives & DrawIndexedPrimitives
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex,
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex,
 					int numVertices, int startIndex, int primitiveCount)
-        {
-            SharpDX.Direct3D11.EffectPass pass;
-						SharpDX.Direct3D11.EffectTechnique technique;
-						ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
+		{
+			SharpDX.Direct3D11.EffectPass pass;
+			SharpDX.Direct3D11.EffectTechnique technique;
+			ShaderBytecode passSignature;
+			SetupEffectForDraw(out pass, out technique, out passSignature);
 
-            SetupInputLayout(passSignature);
+			var layout = SetupInputLayout(passSignature);
 
-            // Prepare All the stages
+			// Prepare All the stages
 			deviceContext.InputAssembler.PrimitiveTopology = BaseFormatConverter.Translate(primitiveType);
-            deviceContext.Rasterizer.SetViewports(currentViewport);
+			deviceContext.Rasterizer.SetViewports(currentViewport);
 
-            deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+			deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-            {
-                pass.Apply(deviceContext);
+			for (int i = 0; i < technique.Description.PassCount; ++i)
+			{
+				pass.Apply(deviceContext);
 				deviceContext.DrawIndexed(BaseFormatConverter.CalculateVertexCount(primitiveType, primitiveCount), startIndex, baseVertex);
-            }
-        }
+			}
 
-        public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
-        {
-            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
+			layout.Dispose();
+			layout = null;
+		}
 
-            SetupInputLayout(passSignature);
+		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
+		{
+			SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+			SetupEffectForDraw(out pass, out technique, out passSignature);
 
-            // Prepare All the stages
+			var layout = SetupInputLayout(passSignature);
+
+			// Prepare All the stages
 			deviceContext.InputAssembler.PrimitiveTopology = BaseFormatConverter.Translate(primitiveType);
-            deviceContext.Rasterizer.SetViewports(currentViewport);
+			deviceContext.Rasterizer.SetViewports(currentViewport);
 
-            deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+			deviceContext.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-            {
-                pass.Apply(deviceContext);
-                deviceContext.Draw(primitiveCount, vertexOffset);
-            }
-        }
+			for (int i = 0; i < technique.Description.PassCount; ++i)
+			{
+				pass.Apply(deviceContext);
+				deviceContext.Draw(primitiveCount, vertexOffset);
+			}
+
+			layout.Dispose();
+			layout = null;
+		}
 
         #endregion // DrawPrimitives & DrawIndexedPrimitives
 
@@ -297,26 +304,25 @@ namespace ANX.RenderSystem.Windows.DX11
         #endregion // DrawInstancedPrimitives
 
         #region DrawUserIndexedPrimitives<T>
-        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices, Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration, IndexElementSize indexFormat) where T : struct, IVertexType
+        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
+			Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
+			IndexElementSize indexFormat) where T : struct, IVertexType
         {
             int vertexCount = vertexData.Length;
             int indexCount = indexData.Length;
-            VertexBuffer_DX11 vb11 = new VertexBuffer_DX11(this.deviceContext.Device, vertexDeclaration, vertexCount, BufferUsage.None);
+            var vb11 = new VertexBuffer_DX11(this.deviceContext.Device, vertexDeclaration, vertexCount, BufferUsage.None);
             vb11.SetData<T>(null, vertexData);
 
-            SharpDX.Direct3D11.VertexBufferBinding nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
+            var nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer,
+				vertexDeclaration.VertexStride, 0);
 
             deviceContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
             IndexBuffer_DX11 idx10 = new IndexBuffer_DX11(this.deviceContext.Device, indexFormat, indexCount, BufferUsage.None);
             if (indexData.GetType() == typeof(Int16[]))
-            {
                 idx10.SetData<short>(null, (short[])indexData);
-            }
             else
-            {
                 idx10.SetData<int>(null, (int[])indexData);
-            }
 
             DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
         }
@@ -350,7 +356,10 @@ namespace ANX.RenderSystem.Windows.DX11
             {
                 pass.Apply(deviceContext);
                 deviceContext.Draw(primitiveCount, vertexOffset);
-            }
+			}
+
+			layout.Dispose();
+			layout = null;
         }
 
         #endregion // DrawUserPrimitives<T>
@@ -369,7 +378,7 @@ namespace ANX.RenderSystem.Windows.DX11
             passSignature = pass.Description.Signature;
         }
 
-        private void SetupInputLayout(ShaderBytecode passSignature)
+        private InputLayout SetupInputLayout(ShaderBytecode passSignature)
         {
             // get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
             //TODO: check for null and throw exception
@@ -377,6 +386,7 @@ namespace ANX.RenderSystem.Windows.DX11
             var layout = CreateInputLayout(deviceContext.Device, passSignature, vertexDeclaration);
 
             deviceContext.InputAssembler.InputLayout = layout;
+			return layout;
         }
 
         public void SetIndexBuffer(IndexBuffer indexBuffer)

@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Diagnostics;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 #endregion

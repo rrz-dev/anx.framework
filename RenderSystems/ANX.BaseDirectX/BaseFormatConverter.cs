@@ -54,7 +54,7 @@ namespace ANX.BaseDirectX
 					return SharpDX.DXGI.Format.BC3_UNorm;
 			}
 
-			throw new Exception("can't translate SurfaceFormat: " + surfaceFormat.ToString());
+			throw new Exception("Can't translate SurfaceFormat: " + surfaceFormat);
 		}
 		#endregion
 

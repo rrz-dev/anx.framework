@@ -36,17 +36,32 @@ namespace ANX.RenderSystem.Windows.DX10
 
 		#region Constructor
 		internal Texture2D_DX10(GraphicsDevice graphicsDevice, SurfaceFormat surfaceFormat)
-			: base(graphicsDevice, surfaceFormat)
+			: base(graphicsDevice, surfaceFormat, 1)
 		{
 		}
 
 		public Texture2D_DX10(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
-			: base(graphicsDevice, surfaceFormat)
+			: base(graphicsDevice, surfaceFormat, mipCount)
 		{
-			if (mipCount > 1)
-				throw new Exception("creating textures with mip map not yet implemented");
+			Dx10.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
 
-			Dx10.Texture2DDescription description = new Dx10.Texture2DDescription()
+			if (useRenderTexture)
+			{
+				var descriptionStaging = new Dx10.Texture2DDescription()
+				{
+					Width = width,
+					Height = height,
+					MipLevels = mipCount,
+					ArraySize = mipCount,
+					Format = BaseFormatConverter.Translate(surfaceFormat),
+					SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
+					Usage = Dx10.ResourceUsage.Staging,
+					CpuAccessFlags = Dx10.CpuAccessFlags.Write,
+				};
+				NativeTextureStaging = new Dx10.Texture2D(device, descriptionStaging);
+			}
+
+			var description = new Dx10.Texture2DDescription()
 			{
 				Width = width,
 				Height = height,
@@ -54,13 +69,12 @@ namespace ANX.RenderSystem.Windows.DX10
 				ArraySize = mipCount,
 				Format = BaseFormatConverter.Translate(surfaceFormat),
 				SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
-				Usage = Dx10.ResourceUsage.Dynamic,
+				Usage = useRenderTexture ? Dx10.ResourceUsage.Default : Dx10.ResourceUsage.Dynamic,
 				BindFlags = Dx10.BindFlags.ShaderResource,
-				CpuAccessFlags = Dx10.CpuAccessFlags.Write,
+				CpuAccessFlags = useRenderTexture ? Dx10.CpuAccessFlags.None : Dx10.CpuAccessFlags.Write,
 				OptionFlags = Dx10.ResourceOptionFlags.None,
 			};
 
-			Dx10.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX10).NativeDevice;
 			NativeTexture = new Dx10.Texture2D(device, description);
 			NativeShaderResourceView = new Dx10.ShaderResourceView(device, NativeTexture);
 		}
@@ -89,14 +103,16 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region SaveAsJpeg (TODO)
 		public void SaveAsJpeg(Stream stream, int width, int height)
 		{
-			throw new NotImplementedException();
+			// TODO: handle width and height?
+			Dx10.Texture2D.ToStream(NativeTexture, Dx10.ImageFileFormat.Jpg, stream);
 		}
 		#endregion
 
 		#region SaveAsPng (TODO)
 		public void SaveAsPng(Stream stream, int width, int height)
 		{
-			throw new NotImplementedException();
+			// TODO: handle width and height?
+			Dx10.Texture2D.ToStream(NativeTexture, Dx10.ImageFileFormat.Png, stream);
 		}
 		#endregion
 
@@ -118,20 +134,23 @@ namespace ANX.RenderSystem.Windows.DX10
 		#endregion
 
 		#region MapWrite
-		protected override IntPtr MapWrite()
+		protected override IntPtr MapWrite(int level)
 		{
-			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-			DataRectangle rect = NativeTexture.Map(tempSubresource, Dx10.MapMode.WriteDiscard, Dx10.MapFlags.None);
+			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			DataRectangle rect = texture.Map(tempSubresource, useRenderTexture ? Dx10.MapMode.Write : Dx10.MapMode.WriteDiscard,
+				Dx10.MapFlags.None);
 			pitch = rect.Pitch;
 			return rect.DataPointer;
 		}
 		#endregion
 
 		#region MapRead
-		protected override IntPtr MapRead()
+		protected override IntPtr MapRead(int level)
 		{
-			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(0, 0, 1);
-			DataRectangle rect = NativeTexture.Map(tempSubresource, Dx10.MapMode.Read, Dx10.MapFlags.None);
+			tempSubresource = Dx10.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			DataRectangle rect = texture.Map(tempSubresource, Dx10.MapMode.Read, Dx10.MapFlags.None);
 			pitch = rect.Pitch;
 			return rect.DataPointer;
 		}
@@ -140,7 +159,10 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region Unmap
 		protected override void Unmap()
 		{
-			NativeTexture.Unmap(tempSubresource);
+			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
+			texture.Unmap(tempSubresource);
+			if (useRenderTexture)
+				texture.Device.CopyResource(NativeTextureStaging, NativeTexture);
 		}
 		#endregion
 	}

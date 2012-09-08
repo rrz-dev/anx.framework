@@ -71,6 +71,7 @@ namespace WindowsGame1
 			//this.alternateTexture = Content.Load<Texture2D>(@"Textures/DotColor4x4");
 			this.alternateTexture = Content.Load<Texture2D>(@"Textures/DotWhiteTopLeft5x5");
 			this.texture = Content.Load<Texture2D>(@"Textures/ANX.logo");
+			//this.texture = Content.Load<Texture2D>(@"Textures/dds-test");
 
 			//this.alternateTexture = new Texture2D(GraphicsDevice, 64, 64);
 			//Color[] color = new Color[this.alternateTexture.Width * this.alternateTexture.Height];

@@ -69,12 +69,13 @@ namespace ANX.SoundSystem.Windows.XAudio
 				AudioBytes = (int)stream.Length,
 				Flags = BufferFlags.EndOfStream
 			};
-			soundStream.Close();
 
 			float sizeMulBlockAlign = soundStream.Length / (waveFormat.Channels * 2);
 			duration = TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)waveFormat.SampleRate));
 
 			DecodedPacketsInfo = soundStream.DecodedPacketsInfo;
+
+			soundStream.Dispose();
 		}
 		#endregion
 

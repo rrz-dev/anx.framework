@@ -1,3 +1,4 @@
+#define DIRECTX_DEBUG_LAYER
 using System;
 using ANX.Framework;
 using ANX.Framework.Graphics;
@@ -259,7 +260,10 @@ namespace ANX.RenderSystem.Windows.DX10
 			{
                 technique.GetPassByIndex(i).Apply();
 				device.DrawIndexed(vertexCount, startIndex, baseVertex);
-            }
+			}
+
+			device.InputAssembler.InputLayout.Dispose();
+			device.InputAssembler.InputLayout = null;
 		}
 		#endregion
 
@@ -277,6 +281,9 @@ namespace ANX.RenderSystem.Windows.DX10
 				technique.GetPassByIndex(i).Apply();
                 device.Draw(primitiveCount, vertexOffset);
             }
+
+			device.InputAssembler.InputLayout.Dispose();
+			device.InputAssembler.InputLayout = null;
         }
         #endregion
 
@@ -345,6 +352,9 @@ namespace ANX.RenderSystem.Windows.DX10
                 pass.Apply();
                 device.Draw(primitiveCount, vertexOffset);
             }
+
+			device.InputAssembler.InputLayout.Dispose();
+			device.InputAssembler.InputLayout = null;
         }
         #endregion
 

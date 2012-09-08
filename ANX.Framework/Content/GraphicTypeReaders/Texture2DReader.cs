@@ -1,10 +1,6 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
+﻿using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -16,33 +12,26 @@ namespace ANX.Framework.Content
     {
         protected internal override Texture2D Read(ContentReader input, Texture2D existingInstance)
         {
-            IServiceProvider service = input.ContentManager.ServiceProvider;
+			//IServiceProvider service = input.ContentManager.ServiceProvider;
+			//var renderSystem = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
+			//if (renderSystem == null)
+			//    throw new ContentLoadException("Service not found IRenderSystemCreator");
 
-            var rfc = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
-            if (rfc == null)
-            {
-                throw new ContentLoadException("Service not found IRenderFrameworkCreator");
-            }
+			//GraphicsDevice graphics = input.ResolveGraphicsDevice();
 
-            GraphicsDevice graphics = input.ResolveGraphicsDevice();
-            int surfaceFormat = input.ReadInt32();
+			SurfaceFormat surfaceFormat = (SurfaceFormat)input.ReadInt32();
             int width = input.ReadInt32();
             int height = input.ReadInt32();
             int mipCount = input.ReadInt32();
-            SurfaceFormat sFormat = (SurfaceFormat)surfaceFormat;
 
-            List<byte> colorData = new List<byte>();
-
-            for (int i = 0; i < mipCount; i++)
-            {
+			var texture2D = new Texture2D(input.ResolveGraphicsDevice(), width, height, mipCount, surfaceFormat);
+			for (int level = 0; level < mipCount; level++)
+			{
                 int size = input.ReadInt32();
-                colorData.AddRange(input.ReadBytes(size));
-            }
-
-            Texture2D texture = new Texture2D(graphics, width, height, mipCount > 0, sFormat);
-            texture.SetData<byte>(colorData.ToArray());
-
-            return texture;
+				byte[] data = input.ReadBytes(size);
+				texture2D.SetData<byte>(level, null, data, 0, size);
+			}
+			return texture2D;
         }
     }
 }

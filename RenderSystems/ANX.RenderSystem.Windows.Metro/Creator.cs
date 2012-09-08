@@ -269,14 +269,11 @@ namespace ANX.RenderSystem.Windows.Metro
 		}
 		#endregion
 
-		#region IRenderSystemCreator Member
-
-
+		#region IsLanguageSupported
 		public bool IsLanguageSupported(EffectSourceLanguage sourceLanguage)
 		{
-			throw new NotImplementedException();
+			return sourceLanguage == EffectSourceLanguage.HLSL_FX || sourceLanguage == EffectSourceLanguage.HLSL;
 		}
-
 		#endregion
 
 		#region SetTextureSampler (TODO)
