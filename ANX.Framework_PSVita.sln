@@ -48,7 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX10", "DX10", "{CCB4679D-1
 		shader\DX10\EnvironmentMap.fx = shader\DX10\EnvironmentMap.fx
 		shader\DX10\Skinned.fx = shader\DX10\Skinned.fx
 		shader\DX10\SpriteBatch.fx = shader\DX10\SpriteBatch.fx
-		shader\DX10\Structures.fxh = shader\DX10\Structures.fxh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL3", "GL3", "{E4FFD875-95FC-48F2-8B6D-8483D0B71666}"
@@ -113,6 +112,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-07DB-49C9-8CDE-A9092789FE4F}"
 	ProjectSection(SolutionItems) = preProject
 		shader\DX11\AlphaTest.fx = shader\DX11\AlphaTest.fx
+		shader\DX11\BasicEffect.fx = shader\DX11\BasicEffect.fx
 		shader\DX11\build.xml = shader\DX11\build.xml
 		shader\DX11\DualTexture.fx = shader\DX11\DualTexture.fx
 		shader\DX11\EnvironmentMap.fx = shader\DX11\EnvironmentMap.fx
@@ -167,6 +167,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metro", "Metro", "{32B91ACB
 		shader\Metro\build.xml = shader\Metro\build.xml
 		shader\Metro\DualTexture.fx = shader\Metro\DualTexture.fx
 		shader\Metro\EnvironmentMap.fx = shader\Metro\EnvironmentMap.fx
+		shader\Metro\Skinned.fx = shader\Metro\Skinned.fx
 		shader\Metro\SpriteBatch.fx = shader\Metro\SpriteBatch.fx
 	EndProjectSection
 EndProject

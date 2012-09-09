@@ -40,76 +40,64 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region CreateGraphicsDevice
-		public INativeGraphicsDevice CreateGraphicsDevice(
-			PresentationParameters presentationParameters)
+		public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
 		{
+			PreventSystemChange();
 			return new GraphicsDeviceWindowsMetro(presentationParameters);
 		}
 		#endregion
 
 		#region CreateIndexBuffer
-		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics,
-			IndexBuffer managedBuffer, IndexElementSize size, int indexCount,
-			BufferUsage usage)
+		public INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size,
+			int indexCount, BufferUsage usage)
 		{
+			PreventSystemChange();
 			return new IndexBuffer_Metro(graphics, size, indexCount, usage);
 		}
 		#endregion
 
 		#region CreateVertexBuffer
-		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics,
-			VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration,
-			int vertexCount, BufferUsage usage)
+		public INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer,
+			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
+			PreventSystemChange();
 			return new VertexBuffer_Metro(graphics, vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
 #if XNAEXT
         #region CreateConstantBuffer
-        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage)
-        {
+        public INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer,
+			BufferUsage usage)
+		{
+			PreventSystemChange();
             throw new NotImplementedException();
         }
         #endregion
 #endif
 
         #region CreateEffect
-        public INativeEffect CreateEffect(GraphicsDevice graphics,
-			Effect managedEffect, Stream vertexShaderByteCode, Stream pixelShaderByteCode)
+        public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream vertexShaderByteCode,
+			Stream pixelShaderByteCode)
 		{
-			return new Effect_Metro(graphics, managedEffect,
-				vertexShaderByteCode, pixelShaderByteCode);
+			PreventSystemChange();
+			return new Effect_Metro(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 		#endregion
 
 		#region CreateEffect
-		public INativeEffect CreateEffect(GraphicsDevice graphics,
-			Effect managedEffect, System.IO.Stream byteCode)
+		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
+			PreventSystemChange();
 			return new Effect_Metro(graphics, managedEffect, byteCode);
 		}
 		#endregion
-
-		#region CreateTexture (TODO)
-		public Texture2D CreateTexture(GraphicsDevice graphics, string fileName)
-		{
-			//TODO: implement
-			throw new NotImplementedException();
-
-			//GraphicsDeviceWindowsDX10 graphicsDX10 = graphics.NativeDevice as GraphicsDeviceWindowsDX10;
-			//Dx11.Texture2D nativeTexture = Dx11.Texture2D.FromFile<Dx11.Texture2D>(graphicsDX10.NativeDevice, fileName);
-			//Texture2D_DX10 texture = new Texture2D_DX10(graphics, nativeTexture.Description.Width, nativeTexture.Description.Height, FormatConverter.Translate(nativeTexture.Description.Format), nativeTexture.Description.MipLevels);
-			//texture.NativeTexture = nativeTexture;
-
-			//return texture;
-		}
-		#endregion
-
+		
 		#region CreateTexture
-		public INativeTexture2D CreateTexture(GraphicsDevice graphics,
-			SurfaceFormat surfaceFormat, int width, int height, int mipCount)
+		public INativeTexture2D CreateTexture(GraphicsDevice graphics, SurfaceFormat surfaceFormat, int width, int height,
+			int mipCount)
 		{
+			PreventSystemChange();
 			return new Texture2D_Metro(graphics, width, height, surfaceFormat, mipCount);
 		}
 		#endregion
@@ -117,6 +105,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region CreateBlendState
 		public INativeBlendState CreateBlendState()
 		{
+			PreventSystemChange();
 			return new BlendState_Metro();
 		}
 		#endregion
@@ -124,6 +113,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region CreateRasterizerState
 		public INativeRasterizerState CreateRasterizerState()
 		{
+			PreventSystemChange();
 			return new RasterizerState_Metro();
 		}
 		#endregion
@@ -131,6 +121,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region CreateDepthStencilState
 		public INativeDepthStencilState CreateDepthStencilState()
 		{
+			PreventSystemChange();
 			return new DepthStencilState_Metro();
 		}
 		#endregion
@@ -138,6 +129,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region CreateSamplerState
 		public INativeSamplerState CreateSamplerState()
 		{
+			PreventSystemChange();
 			return new SamplerState_Metro();
 		}
 		#endregion
@@ -145,6 +137,8 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region GetShaderByteCode
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
+			PreventSystemChange();
+
 			switch (type)
 			{
 				case PreDefinedShader.SpriteBatch:
@@ -157,12 +151,11 @@ namespace ANX.RenderSystem.Windows.Metro
 					return ShaderByteCode.EnvironmentMapEffectByteCode;
 				case PreDefinedShader.BasicEffect:
 					return ShaderByteCode.BasicEffectByteCode;
-				// TODO
-				//case PreDefinedShader.SkinnedEffect:
-				//    return ShaderByteCode.SkinnedEffectByteCode;
+				case PreDefinedShader.SkinnedEffect:
+					return ShaderByteCode.SkinnedEffectByteCode;
 			}
 
-			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
+			throw new NotImplementedException("ByteCode for built-in effect '" + type + "' is not yet available.");
 		}
 		#endregion
 
@@ -244,18 +237,20 @@ namespace ANX.RenderSystem.Windows.Metro
 		#endregion
 
 		#region CreateRenderTarget
-		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics,
-			int width, int height, bool mipMap, SurfaceFormat preferredFormat,
-			DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
+		public INativeRenderTarget2D CreateRenderTarget(GraphicsDevice graphics, int width, int height, bool mipMap,
+			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
+			RenderTargetUsage usage)
 		{
-			return new RenderTarget2D_Metro(graphics, width, height, mipMap,
-				preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
+			PreventSystemChange();
+			return new RenderTarget2D_Metro(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
+				preferredMultiSampleCount, usage);
 		}
 		#endregion
 
 		#region CreateOcclusionQuery (TODO)
 		public IOcclusionQuery CreateOcclusionQuery()
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
@@ -270,7 +265,15 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetTextureSampler (TODO)
 		public void SetTextureSampler(int index, Texture value)
 		{
+			PreventSystemChange();
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region PreventSystemChange
+		private void PreventSystemChange()
+		{
+			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 		}
 		#endregion
 	}

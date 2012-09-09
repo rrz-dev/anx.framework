@@ -5,7 +5,7 @@
 uniform extern float4x4 MatrixTransform;
 
 Texture2D<float4> Texture : register(t0);
-   sampler TextureSampler : register(s0);
+sampler TextureSampler : register(s0);
 
 struct VertexShaderInput
 {
@@ -21,18 +21,16 @@ struct PixelShaderInput
 	float2 tex : TEXCOORD0;
 };
 
-PixelShaderInput SpriteVertexShader( VertexShaderInput input )
+PixelShaderInput SpriteVertexShader(VertexShaderInput input)
 {
-	PixelShaderInput output = (PixelShaderInput)0;
-	
+	PixelShaderInput output;
 	output.pos = mul(input.pos, MatrixTransform);
 	output.col = input.col;
 	output.tex = input.tex;
-
 	return output;
 }
 
-float4 SpritePixelShader( PixelShaderInput input ) : SV_Target
+float4 SpritePixelShader(PixelShaderInput input) : SV_Target
 {
 	return Texture.Sample(TextureSampler, input.tex) * input.col;
 }
@@ -41,8 +39,7 @@ technique10 SpriteTechnique
 {
 	pass SpriteColorPass
 	{
-		SetGeometryShader( 0 );
-		SetVertexShader( CompileShader( vs_4_0, SpriteVertexShader() ) );
-		SetPixelShader( CompileShader( ps_4_0, SpritePixelShader() ) );
+		SetVertexShader(CompileShader(vs_4_0, SpriteVertexShader()));
+		SetPixelShader(CompileShader(ps_4_0, SpritePixelShader()));
 	}
 }

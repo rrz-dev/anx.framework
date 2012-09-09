@@ -144,23 +144,24 @@ namespace ANX.RenderSystem.Windows.DX10
 		public byte[] GetShaderByteCode(PreDefinedShader type)
 		{
 			PreventSystemChange();
+
 			switch (type)
 			{
 				case PreDefinedShader.SpriteBatch:
 					return ShaderByteCode.SpriteBatchByteCode;
-				case PreDefinedShader.AlphaTestEffect:
-					return ShaderByteCode.AlphaTestEffectByteCode;
-				case PreDefinedShader.BasicEffect:
-					return ShaderByteCode.BasicEffectByteCode;
 				case PreDefinedShader.DualTextureEffect:
 					return ShaderByteCode.DualTextureEffectByteCode;
+				case PreDefinedShader.AlphaTestEffect:
+					return ShaderByteCode.AlphaTestEffectByteCode;
 				case PreDefinedShader.EnvironmentMapEffect:
 					return ShaderByteCode.EnvironmentMapEffectByteCode;
+				case PreDefinedShader.BasicEffect:
+					return ShaderByteCode.BasicEffectByteCode;
 				case PreDefinedShader.SkinnedEffect:
 					return ShaderByteCode.SkinnedEffectByteCode;
 			}
 
-			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
+			throw new NotImplementedException("ByteCode for built-in effect '" + type + "' is not yet available.");
 		}
 		#endregion
 

@@ -135,32 +135,23 @@ namespace ANX.RenderSystem.Windows.DX11
 		{
 			PreventSystemChange();
 
-			if (type == PreDefinedShader.SpriteBatch)
+			switch (type)
 			{
-				return ShaderByteCode.SpriteBatchByteCode;
-			}
-			else if (type == PreDefinedShader.AlphaTestEffect)
-			{
-				return ShaderByteCode.AlphaTestEffectByteCode;
-			}
-			else if (type == PreDefinedShader.BasicEffect)
-			{
-				return ShaderByteCode.BasicEffectByteCode;
-			}
-			else if (type == PreDefinedShader.DualTextureEffect)
-			{
-				return ShaderByteCode.DualTextureEffectByteCode;
-			}
-			else if (type == PreDefinedShader.EnvironmentMapEffect)
-			{
-				return ShaderByteCode.EnvironmentMapEffectByteCode;
-			}
-			else if (type == PreDefinedShader.SkinnedEffect)
-			{
-				return ShaderByteCode.SkinnedEffectByteCode;
+				case PreDefinedShader.SpriteBatch:
+					return ShaderByteCode.SpriteBatchByteCode;
+				case PreDefinedShader.DualTextureEffect:
+					return ShaderByteCode.DualTextureEffectByteCode;
+				case PreDefinedShader.AlphaTestEffect:
+					return ShaderByteCode.AlphaTestEffectByteCode;
+				case PreDefinedShader.EnvironmentMapEffect:
+					return ShaderByteCode.EnvironmentMapEffectByteCode;
+				case PreDefinedShader.BasicEffect:
+					return ShaderByteCode.BasicEffectByteCode;
+				case PreDefinedShader.SkinnedEffect:
+					return ShaderByteCode.SkinnedEffectByteCode;
 			}
 
-			throw new NotImplementedException("ByteCode for '" + type + "' is not yet available");
+			throw new NotImplementedException("ByteCode for built-in effect '" + type + "' is not yet available.");
 		}
 		#endregion
 

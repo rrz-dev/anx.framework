@@ -7,4 +7,5 @@
 	<Shader Type="AlphaTestEffect" Source="../Shader/Metro/AlphaTest.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
 	<Shader Type="EnvironmentMapEffect" Source="../Shader/Metro/EnvironmentMap.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
 	<Shader Type="BasicEffect" Source="../Shader/Metro/BasicEffect.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
+	<Shader Type="SkinnedEffect" Source="../Shader/Metro/Skinned.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
 </Build>
