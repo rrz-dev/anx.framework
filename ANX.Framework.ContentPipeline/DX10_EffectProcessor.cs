@@ -1,15 +1,6 @@
-#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 using ANX.RenderSystem.Windows.DX10;
-
-#endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -44,15 +35,12 @@ namespace ANX.Framework.ContentPipeline
 
         private byte[] StringToByteArray(string str)
         {
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            return enc.GetBytes(str);
+            return System.Text.Encoding.ASCII.GetBytes(str);
         }
 
         private string ByteArrayToString(byte[] arr)
         {
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            return enc.GetString(arr);
+			return System.Text.Encoding.ASCII.GetString(arr);
         }
-
     }
 }

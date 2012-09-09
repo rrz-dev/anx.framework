@@ -158,7 +158,8 @@ namespace DX11MetroShaderGenerator
 				{
 					writer.Write(variable.Type);
 					writer.Write(variable.Name);
-					writer.Write(variable.Semantic);
+					string semantic = variable.Semantic != null ? variable.Semantic : "";
+					writer.Write(semantic);
 				}
 			}
 		}

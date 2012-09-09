@@ -98,7 +98,7 @@ namespace ModelSample
                 this.effect.Parameters["WorldInverseTranspose"].SetValue(this.worldInverseTranspose);
                 this.effect.Parameters["Texture"].SetValue(this.texture);
             }
-
+			
             cubeModel.Draw(cubeWorld, view, projection);
             base.Draw(gameTime);
         }

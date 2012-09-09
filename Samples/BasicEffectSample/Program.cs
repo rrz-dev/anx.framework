@@ -5,12 +5,12 @@ using ANX.Framework.NonXNA;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace DualTextureSample
+namespace BasicEffectSample
 {
     static class Program
     {
         static void Main(string[] args)
-        {
+		{
 			AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
 			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX11");
 			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
@@ -22,3 +22,4 @@ namespace DualTextureSample
         }
     }
 }
+

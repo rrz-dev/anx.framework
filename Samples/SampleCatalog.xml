@@ -86,6 +86,16 @@
     </Tags>
   </Sample>
 
+	<Sample>
+		<Name>BasicEffectSample</Name>
+		<Description>A Sample demonstrating all possible uses of the BasicEffect class.</Description>
+		<ExecPath>BasicEffectSample\bin\x86\Debug\BasicEffectSample.exe</ExecPath>
+		<Categorie>Rendering</Categorie>
+		<Tags>
+			<Tag>3D</Tag>
+		</Tags>
+	</Sample>
+
   <Sample>
     <Name>SpriteSample</Name>
     <Description>A simple sample showing the rendering of a bunch of sprites.</Description>

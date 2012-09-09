@@ -34,9 +34,9 @@ namespace ANX.Framework.Graphics
 		public TextureCube EnvironmentMap { get; set; }
 		public float EnvironmentMapAmount { get; set; }
 		public float FresnelFactor { get; set; }
-		public DirectionalLight DirectionalLight0 { get; set; }
-		public DirectionalLight DirectionalLight1 { get; set; }
-		public DirectionalLight DirectionalLight2 { get; set; }
+		public DirectionalLight DirectionalLight0 { get; private set; }
+		public DirectionalLight DirectionalLight1 { get; private set; }
+		public DirectionalLight DirectionalLight2 { get; private set; }
 
 		public Matrix Projection
 		{
@@ -120,11 +120,11 @@ namespace ANX.Framework.Graphics
 			diffuseColor = Vector3.One;
 			emissiveColor = Vector3.Zero;
 			ambientLightColor = Vector3.Zero;
-			DirectionalLight0.Enabled = true;
 			EnvironmentMapAmount = 1f;
 			EnvironmentMapSpecular = Vector3.Zero;
 			FresnelFactor = 1f;
 			CreateLights(null);
+			DirectionalLight0.Enabled = true;
 			SelectTechnique();
 		}
 
@@ -192,19 +192,23 @@ namespace ANX.Framework.Graphics
 		#region EnableDefaultLighting
 		public void EnableDefaultLighting()
 		{
+			LightingEnabled = true;
+			ambientLightColor = new Vector3(0.05333332f, 0.09882354f, 0.1819608f);
+
 			DirectionalLight0.Direction = new Vector3(-0.5265408f, -0.5735765f, -0.6275069f);
 			DirectionalLight0.DiffuseColor = new Vector3(1f, 0.9607844f, 0.8078432f);
-			DirectionalLight0.SpecularColor = new Vector3(1f, 0.9607844f, 0.8078432f);
+			DirectionalLight0.SpecularColor = DirectionalLight0.DiffuseColor;
 			DirectionalLight0.Enabled = true;
+
 			DirectionalLight1.Direction = new Vector3(0.7198464f, 0.3420201f, 0.6040227f);
 			DirectionalLight1.DiffuseColor = new Vector3(0.9647059f, 0.7607844f, 0.4078432f);
 			DirectionalLight1.SpecularColor = Vector3.Zero;
 			DirectionalLight1.Enabled = true;
+
 			DirectionalLight2.Direction = new Vector3(0.4545195f, -0.7660444f, 0.4545195f);
 			DirectionalLight2.DiffuseColor = new Vector3(0.3231373f, 0.3607844f, 0.3937255f);
-			DirectionalLight2.SpecularColor = new Vector3(0.3231373f, 0.3607844f, 0.3937255f);
+			DirectionalLight2.SpecularColor = DirectionalLight2.DiffuseColor;
 			DirectionalLight2.Enabled = true;
-			ambientLightColor = new Vector3(0.05333332f, 0.09882354f, 0.1819608f);
 		}
 		#endregion
 

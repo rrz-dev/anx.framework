@@ -113,7 +113,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-07DB-49C9-8CDE-A9092789FE4F}"
 	ProjectSection(SolutionItems) = preProject
 		shader\DX11\AlphaTest.fx = shader\DX11\AlphaTest.fx
-		shader\DX11\BasicEffect.fx = shader\DX11\BasicEffect.fx
 		shader\DX11\build.xml = shader\DX11\build.xml
 		shader\DX11\DualTexture.fx = shader\DX11\DualTexture.fx
 		shader\DX11\EnvironmentMap.fx = shader\DX11\EnvironmentMap.fx
@@ -164,8 +163,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metro", "Metro", "{32B91ACB-CC8A-4E43-A6F1-FC8F8CAA4D22}"
 	ProjectSection(SolutionItems) = preProject
 		shader\Metro\AlphaTest.fx = shader\Metro\AlphaTest.fx
+		shader\Metro\BasicEffect.fx = shader\Metro\BasicEffect.fx
 		shader\Metro\build.xml = shader\Metro\build.xml
 		shader\Metro\DualTexture.fx = shader\Metro\DualTexture.fx
+		shader\Metro\EnvironmentMap.fx = shader\Metro\EnvironmentMap.fx
 		shader\Metro\SpriteBatch.fx = shader\Metro\SpriteBatch.fx
 	EndProjectSection
 EndProject
@@ -188,6 +189,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualTextureSample", "Samples\DualTextureSample\DualTextureSample_PSVita.csproj", "{9259CC4E-AE6B-403C-8FAB-2408448C3935}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.BaseDirectX", "RenderSystems\ANX.BaseDirectX\ANX.BaseDirectX_PSVita.csproj", "{A4D3AD34-E49C-4142-8620-2AFF44ED6719}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicEffectSample", "Samples\BasicEffectSample\BasicEffectSample_PSVita.csproj", "{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -741,6 +744,17 @@ Global
 		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|x86.ActiveCfg = Release|Any CPU
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Any CPU.Build.0 = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|x86.ActiveCfg = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|x86.Build.0 = Debug|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|Any CPU.ActiveCfg = Release|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|x86.ActiveCfg = Release|x86
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -779,6 +793,7 @@ Global
 		{160150D5-38E6-482D-97F5-2624F322A854} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{4A048A8C-C31D-4FC8-AAF3-C387B9E0309B} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
+		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{49066074-3B7B-4A55-B122-6BD33AB73558} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
 		{60D08399-244F-46A3-91F1-4CFD26D961A3} = {7AD65E6B-2A48-437F-81D9-4CA9C9A85C64}
