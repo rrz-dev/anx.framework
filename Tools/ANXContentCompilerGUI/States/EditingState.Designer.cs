@@ -96,6 +96,7 @@
             this.arrowButtonBuild.Name = "arrowButtonBuild";
             this.arrowButtonBuild.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonBuild.TabIndex = 8;
+            this.arrowButtonBuild.Click += new System.EventHandler(this.ArrowButtonBuildClick);
             // 
             // EditingState
             // 

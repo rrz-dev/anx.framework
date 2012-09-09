@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CCompilerBuildLogger.cs" />
     <Compile Include="Controls\ArrowButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -60,6 +61,18 @@
     </Compile>
     <Compile Include="Controls\RibbonButton.Designer.cs">
       <DependentUpon>RibbonButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RibbonTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RibbonTextBox.Designer.cs">
+      <DependentUpon>RibbonTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogues\ErrorLogScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogues\ErrorLogScreen.Designer.cs">
+      <DependentUpon>ErrorLogScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogues\NewFolderScreen.cs">
       <SubType>Form</SubType>
@@ -103,6 +116,7 @@
     <Compile Include="Dialogues\FirstStartScreen.Designer.cs">
       <DependentUpon>FirstStartScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="RecentProjects.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="States\EditingState.cs">
       <SubType>UserControl</SubType>
@@ -131,6 +145,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeViewExtensions.cs" />
+    <EmbeddedResource Include="Controls\RibbonTextBox.resx">
+      <DependentUpon>RibbonTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogues\ErrorLogScreen.resx">
+      <DependentUpon>ErrorLogScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +196,10 @@
     <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
       <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
       <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

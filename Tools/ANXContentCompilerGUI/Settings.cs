@@ -95,7 +95,7 @@ namespace ANX.ContentCompiler.GUI
             if (!Directory.Exists(Path.GetDirectoryName(path)))
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-            XmlWriter writer = new XmlTextWriter(path, Encoding.Unicode);
+            XmlWriter writer = XmlWriter.Create(path, new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true, NewLineHandling = NewLineHandling.Entitize });
             writer.WriteStartDocument();
             writer.WriteStartElement("CCompiler4Settings");
             writer.WriteStartElement("MainColor");

@@ -209,6 +209,6 @@
         private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.Label labelManualSearch;
         public System.Windows.Forms.TextBox textBoxLocation;
-        private System.Windows.Forms.ListBox listBoxRecentProjects;
+        public System.Windows.Forms.ListBox listBoxRecentProjects;
     }
 }

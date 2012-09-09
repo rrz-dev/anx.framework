@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.Content.Pipeline;
@@ -32,6 +33,7 @@ namespace ANX.ContentCompiler.GUI
         public String ProjectFolder { get; set; }
         public String ProjectOutputDir { get; set; }
         public String ProjectImportersDir { get; set; }
+        public RecentProjects RecentProjects { get; set; }
         #endregion
 
         #region Init
@@ -44,9 +46,14 @@ namespace ANX.ContentCompiler.GUI
             {
                 Settings.Defaults();
                 Settings.Save(SettingsFile);
+                RecentProjects = new RecentProjects();
+                RecentProjects.Save();
             }
             else
+            {
                 Settings.Load(SettingsFile);
+                RecentProjects = RecentProjects.Load();
+            }
             treeViewItemAddFolder.MouseEnter += TreeViewItemMouseEnter;
             treeViewItemAddFolder.MouseLeave += TreeViewItemeLeave;
             treeViewItemDelete.MouseEnter += TreeViewItemMouseEnter;
@@ -120,16 +127,21 @@ namespace ANX.ContentCompiler.GUI
         {
             using (var dlg = new OpenProjectScreen())
             {
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                if (dlg.listBoxRecentProjects.SelectedItem == null)
                     OpenProject(dlg.textBoxLocation.Text);
-                }
+                else
+                    OpenProject((string)dlg.listBoxRecentProjects.SelectedItem);
             }
         }
         public void OpenProject(string path)
         {
             if (!File.Exists(path))
-                throw new FileNotFoundException("No file found at the given location:", path);
+            {
+                MessageBox.Show("No file found at this location: " + path, "Project not found");
+                return;
+            }
             _contentProject = ContentProject.Load(path);
             ProjectName = _contentProject.Name;
             ProjectOutputDir = _contentProject.OutputDirectory;
@@ -150,6 +162,9 @@ namespace ANX.ContentCompiler.GUI
                 SaveProjectAs(sender, e);
 
             _contentProject.Save(ProjectPath);
+            if (RecentProjects.Contains(ProjectPath))
+                RecentProjects.Remove(ProjectPath);
+            RecentProjects.Add(ProjectPath);
         }
         #endregion
 
@@ -170,6 +185,55 @@ namespace ANX.ContentCompiler.GUI
         }
         #endregion
 
+        #region BuildProject
+        public void BuildProject(object sender, EventArgs e)
+        {
+            DisableUI();
+            BuildContent builderTask = new BuildContent();
+            builderTask.BuildLogger = new CCompilerBuildLogger();
+            builderTask.OutputDirectory = _contentProject.OutputDirectory;
+            builderTask.TargetPlatform = _contentProject.Platform;
+            builderTask.TargetProfile = _contentProject.Profile;
+            builderTask.CompressContent = false;
+            try
+            {
+                builderTask.Execute(_contentProject.BuildItems);
+            }
+            catch(Exception ex)
+            {
+                ribbonTextBox.AddMessage("[ERROR] " + ex.ToString() + "\n Stack: " +  ex.StackTrace);
+                EnableUI();
+            }
+            EnableUI();
+        }
+
+        private void DisableUI()
+        {
+            buttonMenu.Enabled = false;
+            buttonQuit.Enabled = false;
+            editingState.Enabled = false;
+            treeView.Enabled = false;
+            propertyGrid.Enabled = false;
+            ribbonButtonNew.Enabled = false;
+            ribbonButtonSave.Enabled = false;
+            ribbonButtonLoad.Enabled = false;
+            ribbonButtonClean.Enabled = false;
+        }
+
+        private void EnableUI()
+        {
+            buttonMenu.Enabled = true;
+            buttonQuit.Enabled = true;
+            editingState.Enabled = true;
+            treeView.Enabled = true;
+            propertyGrid.Enabled = true;
+            ribbonButtonNew.Enabled = true;
+            ribbonButtonSave.Enabled = true;
+            ribbonButtonLoad.Enabled = true;
+            ribbonButtonClean.Enabled = true;
+        }
+        #endregion
+
         #region FileMethods
         private void AddFile(string file)
         {
@@ -180,15 +244,13 @@ namespace ANX.ContentCompiler.GUI
             var node = treeView.SelectedNode;
             if (node != null)
                 folder = node.Name;
-            else
-                node = treeView.Nodes[0];
             var absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file);
             if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
                 Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
             File.Copy(file, absPath, true);
             var item = new BuildItem
                            {
-                               AssetName = !String.IsNullOrEmpty(folder) ? folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) : Path.GetFileNameWithoutExtension(file),
+                               AssetName = folder.Equals(_contentProject.ContentRoot) ? Path.GetFileNameWithoutExtension(file) : folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file),
                                SourceFilename = absPath,
                                OutputFilename = ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
                                ImporterName = ImporterManager.GuessImporterByFileExtension(file)
@@ -430,6 +492,7 @@ namespace ANX.ContentCompiler.GUI
         private void MainWindowFormClosed(object sender, FormClosedEventArgs e)
         {
             Settings.Save(SettingsFile);
+            RecentProjects.Save();
         }
 
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)

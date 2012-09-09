@@ -263,7 +263,7 @@
             this.labelOpenDesc.Name = "labelOpenDesc";
             this.labelOpenDesc.Size = new System.Drawing.Size(687, 70);
             this.labelOpenDesc.TabIndex = 3;
-            this.labelOpenDesc.Text = resources.GetString("labelOpenDesc.Text");
+            this.labelOpenDesc.Text = "If you want to import Content Projects from XNA or previous Content Compiler versions, you can do that by clicking the import button.";
             // 
             // arrowButtonImport
             // 

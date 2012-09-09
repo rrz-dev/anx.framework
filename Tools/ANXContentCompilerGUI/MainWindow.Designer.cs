@@ -32,6 +32,13 @@ namespace ANX.ContentCompiler.GUI
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainerMenuLayout = new System.Windows.Forms.SplitContainer();
+            this.ribbonTextBox = new ANX.ContentCompiler.GUI.Controls.RibbonTextBox();
+            this.ribbonButtonHelp = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
+            this.ribbonButtonWeb = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
+            this.ribbonButtonClean = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
+            this.ribbonButtonSave = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
+            this.ribbonButtonLoad = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
+            this.ribbonButtonNew = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
             this.buttonQuit = new System.Windows.Forms.Button();
             this.buttonMenu = new System.Windows.Forms.Button();
             this.labelTitle = new System.Windows.Forms.Label();
@@ -43,17 +50,11 @@ namespace ANX.ContentCompiler.GUI
             this.treeViewItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.treeViewItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.editingState = new ANX.ContentCompiler.GUI.States.EditingState();
+            this.startState = new ANX.ContentCompiler.GUI.States.StartState();
             this.labelProperties = new System.Windows.Forms.Label();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.menuState = new ANX.ContentCompiler.GUI.States.MenuState();
-            this.ribbonButtonHelp = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.ribbonButtonWeb = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.ribbonButtonClean = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.ribbonButtonSave = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.ribbonButtonLoad = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.ribbonButtonNew = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
-            this.editingState = new ANX.ContentCompiler.GUI.States.EditingState();
-            this.startState = new ANX.ContentCompiler.GUI.States.StartState();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             this.splitContainerMenuLayout.Panel1.SuspendLayout();
             this.splitContainerMenuLayout.Panel2.SuspendLayout();
@@ -81,6 +82,7 @@ namespace ANX.ContentCompiler.GUI
             // 
             // splitContainerMenuLayout.Panel1
             // 
+            this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonTextBox);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonButtonHelp);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonButtonWeb);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonButtonClean);
@@ -97,6 +99,79 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerMenuLayout.Size = new System.Drawing.Size(865, 652);
             this.splitContainerMenuLayout.SplitterDistance = 99;
             this.splitContainerMenuLayout.TabIndex = 0;
+            // 
+            // ribbonTextBox
+            // 
+            this.ribbonTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ribbonTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ribbonTextBox.Location = new System.Drawing.Point(532, 26);
+            this.ribbonTextBox.Name = "ribbonTextBox";
+            this.ribbonTextBox.Size = new System.Drawing.Size(320, 70);
+            this.ribbonTextBox.TabIndex = 9;
+            // 
+            // ribbonButtonHelp
+            // 
+            this.ribbonButtonHelp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonHelp.Content = "Help";
+            this.ribbonButtonHelp.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_question;
+            this.ribbonButtonHelp.Location = new System.Drawing.Point(299, 26);
+            this.ribbonButtonHelp.Name = "ribbonButtonHelp";
+            this.ribbonButtonHelp.Size = new System.Drawing.Size(52, 68);
+            this.ribbonButtonHelp.TabIndex = 8;
+            // 
+            // ribbonButtonWeb
+            // 
+            this.ribbonButtonWeb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonWeb.Content = "Website";
+            this.ribbonButtonWeb.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_globe;
+            this.ribbonButtonWeb.Location = new System.Drawing.Point(237, 26);
+            this.ribbonButtonWeb.Name = "ribbonButtonWeb";
+            this.ribbonButtonWeb.Size = new System.Drawing.Size(63, 68);
+            this.ribbonButtonWeb.TabIndex = 7;
+            // 
+            // ribbonButtonClean
+            // 
+            this.ribbonButtonClean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ribbonButtonClean.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonClean.Content = "Clean";
+            this.ribbonButtonClean.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_clean;
+            this.ribbonButtonClean.Location = new System.Drawing.Point(186, 26);
+            this.ribbonButtonClean.Name = "ribbonButtonClean";
+            this.ribbonButtonClean.Size = new System.Drawing.Size(52, 68);
+            this.ribbonButtonClean.TabIndex = 6;
+            // 
+            // ribbonButtonSave
+            // 
+            this.ribbonButtonSave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonSave.Content = "Save";
+            this.ribbonButtonSave.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_save;
+            this.ribbonButtonSave.Location = new System.Drawing.Point(105, 26);
+            this.ribbonButtonSave.Name = "ribbonButtonSave";
+            this.ribbonButtonSave.Size = new System.Drawing.Size(52, 68);
+            this.ribbonButtonSave.TabIndex = 5;
+            this.ribbonButtonSave.Click += new System.EventHandler(this.SaveProject);
+            // 
+            // ribbonButtonLoad
+            // 
+            this.ribbonButtonLoad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonLoad.Content = "Open";
+            this.ribbonButtonLoad.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_folder_open;
+            this.ribbonButtonLoad.Location = new System.Drawing.Point(54, 26);
+            this.ribbonButtonLoad.Name = "ribbonButtonLoad";
+            this.ribbonButtonLoad.Size = new System.Drawing.Size(52, 68);
+            this.ribbonButtonLoad.TabIndex = 4;
+            this.ribbonButtonLoad.Click += new System.EventHandler(this.OpenProjectDialog);
+            // 
+            // ribbonButtonNew
+            // 
+            this.ribbonButtonNew.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ribbonButtonNew.Content = "New";
+            this.ribbonButtonNew.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_page_multiple;
+            this.ribbonButtonNew.Location = new System.Drawing.Point(3, 26);
+            this.ribbonButtonNew.Name = "ribbonButtonNew";
+            this.ribbonButtonNew.Size = new System.Drawing.Size(52, 68);
+            this.ribbonButtonNew.TabIndex = 3;
+            this.ribbonButtonNew.Click += new System.EventHandler(this.NewProject);
             // 
             // buttonQuit
             // 
@@ -259,6 +334,26 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerProperties.SplitterDistance = 366;
             this.splitContainerProperties.TabIndex = 0;
             // 
+            // editingState
+            // 
+            this.editingState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editingState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editingState.Location = new System.Drawing.Point(0, 0);
+            this.editingState.Name = "editingState";
+            this.editingState.Size = new System.Drawing.Size(364, 547);
+            this.editingState.TabIndex = 1;
+            this.editingState.Visible = false;
+            // 
+            // startState
+            // 
+            this.startState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.startState.Location = new System.Drawing.Point(0, 0);
+            this.startState.Name = "startState";
+            this.startState.Size = new System.Drawing.Size(364, 547);
+            this.startState.TabIndex = 0;
+            this.startState.Visible = false;
+            // 
             // labelProperties
             // 
             this.labelProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -306,90 +401,6 @@ namespace ANX.ContentCompiler.GUI
             this.menuState.Size = new System.Drawing.Size(865, 630);
             this.menuState.TabIndex = 1;
             this.menuState.Visible = false;
-            // 
-            // ribbonButtonHelp
-            // 
-            this.ribbonButtonHelp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonHelp.Content = "Help";
-            this.ribbonButtonHelp.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_question;
-            this.ribbonButtonHelp.Location = new System.Drawing.Point(299, 26);
-            this.ribbonButtonHelp.Name = "ribbonButtonHelp";
-            this.ribbonButtonHelp.Size = new System.Drawing.Size(52, 68);
-            this.ribbonButtonHelp.TabIndex = 8;
-            // 
-            // ribbonButtonWeb
-            // 
-            this.ribbonButtonWeb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonWeb.Content = "Website";
-            this.ribbonButtonWeb.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_globe;
-            this.ribbonButtonWeb.Location = new System.Drawing.Point(237, 26);
-            this.ribbonButtonWeb.Name = "ribbonButtonWeb";
-            this.ribbonButtonWeb.Size = new System.Drawing.Size(63, 68);
-            this.ribbonButtonWeb.TabIndex = 7;
-            // 
-            // ribbonButtonClean
-            // 
-            this.ribbonButtonClean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ribbonButtonClean.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonClean.Content = "Clean";
-            this.ribbonButtonClean.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_clean;
-            this.ribbonButtonClean.Location = new System.Drawing.Point(186, 26);
-            this.ribbonButtonClean.Name = "ribbonButtonClean";
-            this.ribbonButtonClean.Size = new System.Drawing.Size(52, 68);
-            this.ribbonButtonClean.TabIndex = 6;
-            // 
-            // ribbonButtonSave
-            // 
-            this.ribbonButtonSave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonSave.Content = "Save";
-            this.ribbonButtonSave.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_save;
-            this.ribbonButtonSave.Location = new System.Drawing.Point(105, 26);
-            this.ribbonButtonSave.Name = "ribbonButtonSave";
-            this.ribbonButtonSave.Size = new System.Drawing.Size(52, 68);
-            this.ribbonButtonSave.TabIndex = 5;
-            this.ribbonButtonSave.Click += new System.EventHandler(this.SaveProject);
-            // 
-            // ribbonButtonLoad
-            // 
-            this.ribbonButtonLoad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonLoad.Content = "Open";
-            this.ribbonButtonLoad.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_folder_open;
-            this.ribbonButtonLoad.Location = new System.Drawing.Point(54, 26);
-            this.ribbonButtonLoad.Name = "ribbonButtonLoad";
-            this.ribbonButtonLoad.Size = new System.Drawing.Size(52, 68);
-            this.ribbonButtonLoad.TabIndex = 4;
-            this.ribbonButtonLoad.Click += new System.EventHandler(this.OpenProjectDialog);
-            // 
-            // ribbonButtonNew
-            // 
-            this.ribbonButtonNew.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ribbonButtonNew.Content = "New";
-            this.ribbonButtonNew.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.appbar_page_multiple;
-            this.ribbonButtonNew.Location = new System.Drawing.Point(3, 26);
-            this.ribbonButtonNew.Name = "ribbonButtonNew";
-            this.ribbonButtonNew.Size = new System.Drawing.Size(52, 68);
-            this.ribbonButtonNew.TabIndex = 3;
-            this.ribbonButtonNew.Click += new System.EventHandler(this.NewProject);
-            // 
-            // editingState
-            // 
-            this.editingState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editingState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editingState.Location = new System.Drawing.Point(0, 0);
-            this.editingState.Name = "editingState";
-            this.editingState.Size = new System.Drawing.Size(364, 547);
-            this.editingState.TabIndex = 1;
-            this.editingState.Visible = false;
-            // 
-            // startState
-            // 
-            this.startState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startState.Location = new System.Drawing.Point(0, 0);
-            this.startState.Name = "startState";
-            this.startState.Size = new System.Drawing.Size(364, 547);
-            this.startState.TabIndex = 0;
-            this.startState.Visible = false;
             // 
             // MainWindow
             // 
@@ -450,6 +461,7 @@ namespace ANX.ContentCompiler.GUI
         private EditingState editingState;
         private MenuState menuState;
         private System.Windows.Forms.Button buttonMenu;
+        public Controls.RibbonTextBox ribbonTextBox;
     }
 }
 

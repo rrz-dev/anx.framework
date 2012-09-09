@@ -10,6 +10,11 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         {
             InitializeComponent();
             SetUpColors();
+            listBoxRecentProjects.Items.Clear();
+            foreach(var project in MainWindow.Instance.RecentProjects)
+            {
+                listBoxRecentProjects.Items.Add(project);
+            }
         }
 
         private void SetUpColors()

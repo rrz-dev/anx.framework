@@ -1,4 +1,6 @@
-﻿namespace ANX.ContentCompiler.GUI.Dialogues
+﻿using ANX.ContentCompiler.GUI.Properties;
+
+namespace ANX.ContentCompiler.GUI.Dialogues
 {
     partial class FirstStartScreen
     {
@@ -124,7 +126,7 @@
             // 
             // pictureBoxArrowLeft
             // 
-            this.pictureBoxArrowLeft.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxArrowLeft.Image")));
+            this.pictureBoxArrowLeft.Image = ((System.Drawing.Image)(Resources.arrow_left));
             this.pictureBoxArrowLeft.Location = new System.Drawing.Point(176, 274);
             this.pictureBoxArrowLeft.Name = "pictureBoxArrowLeft";
             this.pictureBoxArrowLeft.Size = new System.Drawing.Size(118, 114);
@@ -134,7 +136,7 @@
             // 
             // pictureBoxArrowRight
             // 
-            this.pictureBoxArrowRight.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxArrowRight.Image")));
+            this.pictureBoxArrowRight.Image = ((System.Drawing.Image)(Resources.arrow_right));
             this.pictureBoxArrowRight.Location = new System.Drawing.Point(317, 274);
             this.pictureBoxArrowRight.Name = "pictureBoxArrowRight";
             this.pictureBoxArrowRight.Size = new System.Drawing.Size(119, 114);

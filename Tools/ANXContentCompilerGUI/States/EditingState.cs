@@ -39,5 +39,10 @@ namespace ANX.ContentCompiler.GUI.States
             }
         }
 
+        private void ArrowButtonBuildClick(object sender, EventArgs e)
+        {
+            MainWindow.Instance.BuildProject(sender, e);
+        }
+
     }
 }

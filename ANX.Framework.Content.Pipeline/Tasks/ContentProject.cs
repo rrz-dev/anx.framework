@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
+using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
 #endregion
 
@@ -34,7 +35,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// Minor version of the project format.
         /// Used to keep backwards compatibility
         /// </summary>
-        public int VersionMinor { get { return 1; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
+        public int VersionMinor { get { return 2; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
 
         /// <summary>
         /// The directory where the compiled output will be placed
@@ -71,6 +72,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// bugs in that particular application.
         /// </summary>
         public String Creator { get; set; }
+
+        /// <summary>
+        /// Target Graphics Profile
+        /// </summary>
+        public GraphicsProfile Profile { get; set; }
 
         /// <summary>
         /// The configuration. Can be "Debug" or "Release".
@@ -124,6 +130,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             //<Configuration>Debug</Configuration>
             writer.WriteStartElement("Configuration");
             writer.WriteValue(Configuration);
+            writer.WriteEndElement();
+
+            //<Profile>Reach</Profile>
+            writer.WriteStartElement("Profile");
+            writer.WriteValue(Profile.ToString());
             writer.WriteEndElement();
 
             //<Platform>Windows</Platform>
@@ -244,6 +255,25 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         if (reader.NodeType == XmlNodeType.Element)
                             if (versionMajor == 1 && versionMinor >= 0)
                                 project.Configuration = reader.ReadElementContentAsString();
+                        break;
+                    case "Profile":
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            if (versionMinor < 2)
+                                project.Profile = GraphicsProfile.Reach;
+                            else
+                            {
+                                switch (reader.ReadElementContentAsString())
+                                {
+                                    case "Reach":
+                                        project.Profile = GraphicsProfile.Reach;
+                                        break;
+                                    case "HiDef":
+                                        project.Profile = GraphicsProfile.HiDef;
+                                        break;
+                                }
+                            }
+                        }
                         break;
                     case "Platform":
                         if (reader.NodeType == XmlNodeType.Element)
