@@ -77,6 +77,16 @@
   </Sample>
 
   <Sample>
+    <Name>DualTextureSample</Name>
+    <Description>A Sample demonstrating the use of a lightmap combined with a normal texture, fog and vertex color by using the built in DualTextureEffect.</Description>
+    <ExecPath>DualTextureSample\bin\x86\Debug\DualTextureSample.exe</ExecPath>
+    <Categorie>Rendering</Categorie>
+    <Tags>
+      <Tag>3D</Tag>
+    </Tags>
+  </Sample>
+
+  <Sample>
     <Name>SpriteSample</Name>
     <Description>A simple sample showing the rendering of a bunch of sprites.</Description>
     <ExecPath>SimpleSprite\bin\x86\Debug\SimpleSprite.exe</ExecPath>

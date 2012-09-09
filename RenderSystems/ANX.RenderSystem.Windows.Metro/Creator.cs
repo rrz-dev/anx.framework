@@ -153,18 +153,18 @@ namespace ANX.RenderSystem.Windows.Metro
 			{
 				return ShaderByteCode.DualTextureEffectByteCode;
 			}
-			/* TODO
 			else if (type == PreDefinedShader.AlphaTestEffect)
 			{
 				return ShaderByteCode.AlphaTestEffectByteCode;
 			}
-			else if (type == PreDefinedShader.BasicEffect)
-			{
-				return ShaderByteCode.BasicEffectByteCode;
-			}
 			else if (type == PreDefinedShader.EnvironmentMapEffect)
 			{
 				return ShaderByteCode.EnvironmentMapEffectByteCode;
+			}
+			/* TODO
+			else if (type == PreDefinedShader.BasicEffect)
+			{
+				return ShaderByteCode.BasicEffectByteCode;
 			}
 			else if (type == PreDefinedShader.SkinnedEffect)
 			{

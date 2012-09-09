@@ -39,7 +39,9 @@ namespace ANX.PlatformSystem.PsVita
 
         public void Reset()
         {
-            stopwatch.Restart();
+            stopwatch.Stop();
+            stopwatch.Reset();
+            stopwatch.Start();
             lastElapsed = stopwatch.Elapsed;
         }
 

@@ -50,8 +50,8 @@ namespace DualTextureSample
 			spritebatch = new SpriteBatch(GraphicsDevice);
 			font = Content.Load<SpriteFont>("Fonts/Debug");
 
-			texture1 = Content.Load<Texture2D>("Textures/chest");
-			texture2 = Content.Load<Texture2D>("Textures/DotColor4x4");
+			texture1 = Content.Load<Texture2D>("Textures/stone_tile");
+			texture2 = Content.Load<Texture2D>("Textures/lightmap");
 
 			vertices = new VertexBuffer(GraphicsDevice, VertexDualTexture.VertexDeclaration, 4, BufferUsage.WriteOnly);
 			vertices.SetData(new VertexDualTexture[]
@@ -123,16 +123,16 @@ namespace DualTextureSample
 			dualTextureEffect.DiffuseColor = Color.White.ToVector3();
 
 			dualTextureEffect.FogEnabled = (mode == DualTextureMode.VertexColorFog || mode == DualTextureMode.Fog);
-			dualTextureEffect.FogColor = Color.Red.ToVector3();
-			dualTextureEffect.FogStart = 0f;
-			dualTextureEffect.FogEnd = 25f;
+			dualTextureEffect.FogColor = Color.Gray.ToVector3();
+			dualTextureEffect.FogStart = 5f;
+			dualTextureEffect.FogEnd = 15f;
 			dualTextureEffect.Alpha = 1f;
 
 			dualTextureEffect.Texture = texture1;
 			dualTextureEffect.Texture2 = texture2;
 
 			dualTextureEffect.World = Matrix.Identity;
-			dualTextureEffect.View = Matrix.CreateLookAt(new Vector3(4f, 6f, 7f), Vector3.Zero, Vector3.Up);
+			dualTextureEffect.View = Matrix.CreateLookAt(new Vector3(0f, 5f, -8f), Vector3.Zero, Vector3.Up);
 			dualTextureEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
 				GraphicsDevice.Viewport.AspectRatio, 1f, 100f);
 			dualTextureEffect.CurrentTechnique.Passes[0].Apply();

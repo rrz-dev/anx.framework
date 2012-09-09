@@ -163,8 +163,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DX11MetroShaderGenerator", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metro", "Metro", "{32B91ACB-CC8A-4E43-A6F1-FC8F8CAA4D22}"
 	ProjectSection(SolutionItems) = preProject
+		shader\Metro\AlphaTest.fx = shader\Metro\AlphaTest.fx
 		shader\Metro\build.xml = shader\Metro\build.xml
 		shader\Metro\DualTexture.fx = shader\Metro\DualTexture.fx
+		shader\Metro\EnvironmentMap.fx = shader\Metro\EnvironmentMap.fx
 		shader\Metro\SpriteBatch.fx = shader\Metro\SpriteBatch.fx
 	EndProjectSection
 EndProject

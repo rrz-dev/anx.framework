@@ -48,6 +48,19 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
+		#region ConvertReference
+		protected override void ConvertReference(XElement element)
+		{
+			XAttribute includeAttribute = element.Attribute("Include");
+			if (includeAttribute != null)
+			{
+				string value = includeAttribute.Value;
+				if (value == "System.Net")
+					element.Remove();
+			}
+		}
+		#endregion
+
 		#region ConvertMainPropertyGroup
 		protected override void ConvertMainPropertyGroup(XElement element)
 		{

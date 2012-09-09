@@ -2,12 +2,8 @@
 <Build License="../doc/license.txt"
 		Target="../RenderSystems/ANX.RenderSystem.Windows.Metro/ShaderByteCode.cs" 
 		Namespace="ANX.RenderSystem.Windows.Metro">
-  <Shader Type="SpriteBatch"
-			Source="../Shader/Metro/SpriteBatch.fx"
-			RenderSystem="ANX.RenderSystem.Windows.Metro"
-			/>
-	<Shader Type="DualTextureEffect"
-			Source="../Shader/Metro/DualTexture.fx"
-			RenderSystem="ANX.RenderSystem.Windows.Metro"
-			/>
+	<Shader Type="SpriteBatch" Source="../Shader/Metro/SpriteBatch.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
+	<Shader Type="DualTextureEffect" Source="../Shader/Metro/DualTexture.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
+	<Shader Type="AlphaTestEffect" Source="../Shader/Metro/AlphaTest.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
+	<Shader Type="EnvironmentMapEffect" Source="../Shader/Metro/EnvironmentMap.fx" RenderSystem="ANX.RenderSystem.Windows.Metro" />
 </Build>

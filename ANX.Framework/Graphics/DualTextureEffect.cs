@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.InProgress)]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	[Developer("AstrorEnales")]
     public class DualTextureEffect : Effect, IEffectMatrices, IEffectFog
 	{
@@ -153,19 +153,10 @@ namespace ANX.Framework.Graphics
 			if (Texture2 != null)
 				Parameters["Texture2"].SetValue(Texture2);
 
-			if (FogStart == FogEnd)
-			{
-				Parameters["FogVector"].SetValue(new Vector4(0f, 0f, 0f, 1f));
-				return;
-			}
-
-			float fogFactor = 1f / (FogStart - FogEnd);
-			Vector4 value;
-			value.X = worldView.M13 * fogFactor;
-			value.Y = worldView.M23 * fogFactor;
-			value.Z = worldView.M33 * fogFactor;
-			value.W = (worldView.M43 + FogStart) * fogFactor;
-			Parameters["FogVector"].SetValue(value);
+			if (isFogEnabled)
+				SetFogVector(ref worldView);
+			else
+				Parameters["FogVector"].SetValue(Vector4.Zero);
 		}
 		#endregion
 
@@ -186,6 +177,25 @@ namespace ANX.Framework.Graphics
 				if (isFogEnabled == false)
 					CurrentTechnique = Techniques["DualTextureEffectNoFog"];
 			}
+		}
+		#endregion
+
+		#region SetFogVector
+		private void SetFogVector(ref Matrix worldView)
+		{
+			if (FogStart == FogEnd)
+			{
+				Parameters["FogVector"].SetValue(new Vector4(0f, 0f, 0f, 1f));
+				return;
+			}
+
+			float fogFactor = 1f / (FogStart - FogEnd);
+			Vector4 value;
+			value.X = worldView.M13 * fogFactor;
+			value.Y = worldView.M23 * fogFactor;
+			value.Z = worldView.M33 * fogFactor;
+			value.W = (worldView.M43 + FogStart) * fogFactor;
+			Parameters["FogVector"].SetValue(value);
 		}
 		#endregion
 	}
