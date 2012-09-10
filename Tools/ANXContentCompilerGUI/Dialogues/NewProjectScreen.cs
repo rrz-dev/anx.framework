@@ -1,9 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class NewProjectScreen : Form
     {
         public NewProjectScreen()
@@ -60,7 +64,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             if (String.IsNullOrEmpty(textBoxName.Text))
                 MessageBox.Show("Give your child a name!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else if (Directory.Exists(textBoxLocation.Text))
-                MessageBox.Show("A project with this name already exists in that path!", "Will not overwrite existing stuff", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A project with this name already exists in that path!",
+                                "Will not overwrite existing stuff", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
                 DialogResult = DialogResult.OK;
         }

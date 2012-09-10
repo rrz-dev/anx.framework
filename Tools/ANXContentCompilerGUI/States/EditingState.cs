@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.States
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(90)] //TODO: Add click event to open preview window!
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class EditingState : UserControl
     {
         public EditingState()
@@ -43,6 +47,5 @@ namespace ANX.ContentCompiler.GUI.States
         {
             MainWindow.Instance.BuildProject(sender, e);
         }
-
     }
 }

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.States
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(90)] //TODO: Actually implement Import dialogue, for now just using the usual one
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class MenuState : UserControl
     {
         public MenuState()
@@ -18,6 +16,7 @@ namespace ANX.ContentCompiler.GUI.States
         }
 
         #region HelperMethods
+
         private void SetUpColors()
         {
             BackColor = Settings.MainColor;
@@ -60,15 +59,18 @@ namespace ANX.ContentCompiler.GUI.States
             panelSaveAs.Visible = false;
             panelSettings.Visible = false;
         }
+
         #endregion
 
         #region MenuButtons
+
         private void ButtonNewClick(object sender, EventArgs e)
         {
             ResetMenuState();
             buttonNew.BackColor = Settings.AccentColor;
             panelNew.Visible = true;
         }
+
         private void ButtonOpenClick(object sender, EventArgs e)
         {
             ResetMenuState();
@@ -108,9 +110,11 @@ namespace ANX.ContentCompiler.GUI.States
             ResetMenuState();
             Application.Exit();
         }
+
         #endregion
 
         #region MenuNew
+
         private void ArrowButtonFileClick(object sender, EventArgs e)
         {
             using (var dlg = new OpenFileDialog())
@@ -139,9 +143,11 @@ namespace ANX.ContentCompiler.GUI.States
         {
             MainWindow.Instance.NewProject(sender, e);
         }
+
         #endregion
 
         #region MenuOpen
+
         private void ArrowButtonOpenClick(object sender, EventArgs e)
         {
             MainWindow.Instance.OpenProjectDialog(sender, e);
@@ -153,9 +159,11 @@ namespace ANX.ContentCompiler.GUI.States
             MainWindow.Instance.OpenProjectDialog(sender, e);
             MainWindow.Instance.ToggleMenuMode();
         }
+
         #endregion
 
         #region MenuSave
+
         private void ArrowButtonSaveAsCprojClick(object sender, EventArgs e)
         {
             MainWindow.Instance.SaveProjectAs(sender, e);
@@ -167,8 +175,10 @@ namespace ANX.ContentCompiler.GUI.States
             MainWindow.Instance.SaveProjectAs(sender, e);
             MainWindow.Instance.ToggleMenuMode();
         }
+
         #endregion
 
+        #region Load
         private void MenuState_Load(object sender, EventArgs e)
         {
             SetUpColors();
@@ -176,5 +186,6 @@ namespace ANX.ContentCompiler.GUI.States
             buttonNew.BackColor = Settings.AccentColor;
             panelNew.Visible = true;
         }
+        #endregion
     }
 }

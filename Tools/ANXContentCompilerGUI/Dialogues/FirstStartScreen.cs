@@ -1,7 +1,11 @@
 ﻿using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(80)] //TODO: Implement tour in MainWindow and launch it from here!
+    [TestState(TestStateAttribute.TestState.Untested)]
     public partial class FirstStartScreen : Form
     {
         public FirstStartScreen()

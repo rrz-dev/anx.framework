@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Controls
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class RibbonTextBox : UserControl
     {
         public RibbonTextBox()

@@ -1,9 +1,12 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class NewFolderScreen : Form
     {
         public NewFolderScreen()
@@ -32,7 +35,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         private void ButtonNextClick(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(textBoxName.Text))
-                MessageBox.Show("You need to type a name!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You need to type a name!", "Missing value", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
             else
                 DialogResult = DialogResult.OK;
         }

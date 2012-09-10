@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public static class TreeViewExtensions
     {
         /// <summary>
@@ -18,7 +22,7 @@ namespace ANX.ContentCompiler.GUI
                 if (treeNode.Name.Equals(name))
                     return treeNode;
 
-                var retNode = treeNode.RecursiveSearch(name);
+                TreeNode retNode = treeNode.RecursiveSearch(name);
                 if (retNode != null)
                 {
                     return retNode;
@@ -40,7 +44,7 @@ namespace ANX.ContentCompiler.GUI
                 if (node.Name.Equals(name))
                     return node;
 
-                var ret = node.RecursiveSearch(name);
+                TreeNode ret = node.RecursiveSearch(name);
                 if (ret != null)
                     return ret;
             }

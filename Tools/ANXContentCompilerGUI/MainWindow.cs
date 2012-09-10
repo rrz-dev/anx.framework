@@ -1,31 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(71)] //TODO: Implement parameter handling, Tour, HelpButton, WebsiteButton, Preview!
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class MainWindow : Form
     {
         #region Fields
-        public static String DefaultOutputPath = "bin";
-        public static String SettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ANX Content Compiler" + Path.DirectorySeparatorChar + "settings.ees");
 
-        private Point _lastPos;
-        private bool _mouseDown;
-        private bool _menuMode;
+        public static String DefaultOutputPath = "bin";
+
+        public static String SettingsFile =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                         "ANX Content Compiler" + Path.DirectorySeparatorChar + "settings.ees");
+
         private readonly bool _firstStart = true;
 
         private ContentProject _contentProject;
+        private Point _lastPos;
+        private bool _menuMode;
+        private bool _mouseDown;
+
         #endregion
 
         #region Properties
+
         public static MainWindow Instance { get; private set; }
 
         public String ProjectName { get; set; }
@@ -34,10 +42,12 @@ namespace ANX.ContentCompiler.GUI
         public String ProjectOutputDir { get; set; }
         public String ProjectImportersDir { get; set; }
         public RecentProjects RecentProjects { get; set; }
+
         #endregion
 
         #region Init
-        public MainWindow()
+
+        public MainWindow(string[] args)
         {
             InitializeComponent();
             Instance = this;
@@ -67,9 +77,11 @@ namespace ANX.ContentCompiler.GUI
                 ShowFirstStartStuff();
             ChangeEnvironmentStartState();
         }
+
         #endregion
 
         #region NewProject
+
         public void NewProject(object sender, EventArgs e)
         {
             using (var dlg = new NewProjectScreen())
@@ -77,7 +89,9 @@ namespace ANX.ContentCompiler.GUI
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     ProjectName = dlg.textBoxName.Text;
-                    ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text) ? dlg.textBoxLocation.Text : Path.Combine(Settings.DefaultProjectPath, ProjectName);
+                    ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text)
+                                        ? dlg.textBoxLocation.Text
+                                        : Path.Combine(Settings.DefaultProjectPath, ProjectName);
                     ProjectPath = Path.Combine(ProjectFolder, ProjectName + ".cproj");
                 }
                 else
@@ -89,7 +103,9 @@ namespace ANX.ContentCompiler.GUI
             {
                 if (dlg2.ShowDialog() == DialogResult.OK)
                 {
-                    ProjectOutputDir = !String.IsNullOrEmpty(dlg2.textBoxLocation.Text) ? dlg2.textBoxLocation.Text : Path.Combine(ProjectFolder, DefaultOutputPath);
+                    ProjectOutputDir = !String.IsNullOrEmpty(dlg2.textBoxLocation.Text)
+                                           ? dlg2.textBoxLocation.Text
+                                           : Path.Combine(ProjectFolder, DefaultOutputPath);
                 }
                 else
                     return;
@@ -101,11 +117,13 @@ namespace ANX.ContentCompiler.GUI
                 else
                     return;
             }
-            var importersEnabled = !String.IsNullOrEmpty(ProjectImportersDir);
-            var importers = 0;
-            var processors = 0;
+            bool importersEnabled = !String.IsNullOrEmpty(ProjectImportersDir);
+            int importers = 0;
+            int processors = 0;
 
-            using (var dlg4 = new NewProjectSummaryScreen(ProjectName, ProjectFolder, ProjectOutputDir, importersEnabled, ProjectImportersDir, importers, processors))
+            using (
+                var dlg4 = new NewProjectSummaryScreen(ProjectName, ProjectFolder, ProjectOutputDir, importersEnabled,
+                                                       ProjectImportersDir, importers, processors))
             {
                 dlg4.ShowDialog();
             }
@@ -120,9 +138,11 @@ namespace ANX.ContentCompiler.GUI
                                   };
             ChangeEnvironmentOpenProject();
         }
+
         #endregion
 
         #region OpenProject
+
         public void OpenProjectDialog(object sender, EventArgs e)
         {
             using (var dlg = new OpenProjectScreen())
@@ -132,9 +152,10 @@ namespace ANX.ContentCompiler.GUI
                 if (dlg.listBoxRecentProjects.SelectedItem == null)
                     OpenProject(dlg.textBoxLocation.Text);
                 else
-                    OpenProject((string)dlg.listBoxRecentProjects.SelectedItem);
+                    OpenProject((string) dlg.listBoxRecentProjects.SelectedItem);
             }
         }
+
         public void OpenProject(string path)
         {
             if (!File.Exists(path))
@@ -152,9 +173,11 @@ namespace ANX.ContentCompiler.GUI
                 _contentProject.Creator = "ANX Content Compiler (4.0)";
             ChangeEnvironmentOpenProject();
         }
+
         #endregion
 
         #region SaveProject
+
         public void SaveProject(object sender, EventArgs e)
         {
             if (_contentProject == null) return;
@@ -166,9 +189,11 @@ namespace ANX.ContentCompiler.GUI
                 RecentProjects.Remove(ProjectPath);
             RecentProjects.Add(ProjectPath);
         }
+
         #endregion
 
         #region SaveProjectAs
+
         public void SaveProjectAs(object sender, EventArgs e)
         {
             using (var dlg = new SaveFileDialog())
@@ -183,25 +208,42 @@ namespace ANX.ContentCompiler.GUI
                 }
             }
         }
+
+        #endregion
+
+        #region CleanProject
+        public void CleanProject()
+        {
+            if (Directory.Exists(ProjectOutputDir))
+                Directory.Delete(ProjectOutputDir, true);
+        }
         #endregion
 
         #region BuildProject
+
         public void BuildProject(object sender, EventArgs e)
         {
             DisableUI();
-            BuildContent builderTask = new BuildContent();
-            builderTask.BuildLogger = new CCompilerBuildLogger();
-            builderTask.OutputDirectory = _contentProject.OutputDirectory;
-            builderTask.TargetPlatform = _contentProject.Platform;
-            builderTask.TargetProfile = _contentProject.Profile;
-            builderTask.CompressContent = false;
+            var builderTask = new BuildContent
+                                  {
+                                      BuildLogger = new CCompilerBuildLogger(),
+                                      OutputDirectory = _contentProject.OutputDirectory,
+                                      TargetPlatform = _contentProject.Platform,
+                                      TargetProfile = _contentProject.Profile,
+                                      CompressContent = false
+                                  };
             try
             {
+                foreach (var dir in _contentProject.BuildItems.Select(buildItem => Path.GetDirectoryName(buildItem.OutputFilename)).Where(dir => !Directory.Exists(dir)))
+                {
+                    Directory.CreateDirectory(dir);
+                }
                 builderTask.Execute(_contentProject.BuildItems);
+                ribbonTextBox.AddMessage("[Info] Build process successfully finished.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ribbonTextBox.AddMessage("[ERROR] " + ex.ToString() + "\n Stack: " +  ex.StackTrace);
+                ribbonTextBox.AddMessage("[ERROR] " + ex + "\n Stack: " + ex.StackTrace);
                 EnableUI();
             }
             EnableUI();
@@ -232,35 +274,52 @@ namespace ANX.ContentCompiler.GUI
             ribbonButtonLoad.Enabled = true;
             ribbonButtonClean.Enabled = true;
         }
+
         #endregion
 
         #region FileMethods
+        /// <summary>
+        /// Adds a file to the project
+        /// </summary>
+        /// <param name="file">the file to add</param>
         private void AddFile(string file)
         {
             if (!File.Exists(file))
                 throw new FileNotFoundException();
 
-            var folder = _contentProject.ContentRoot;
-            var node = treeView.SelectedNode;
+            string folder = _contentProject.ContentRoot;
+            TreeNode node = treeView.SelectedNode;
             if (node != null)
                 folder = node.Name;
-            var absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file);
+            string absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
+                             Path.GetFileName(file);
             if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
                 Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
             File.Copy(file, absPath, true);
             var item = new BuildItem
                            {
-                               AssetName = folder.Equals(_contentProject.ContentRoot) ? Path.GetFileNameWithoutExtension(file) : folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file),
+                               AssetName =
+                                   folder.Equals(_contentProject.ContentRoot)
+                                       ? Path.GetFileNameWithoutExtension(file)
+                                       : folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") +
+                                         Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file),
                                SourceFilename = absPath,
-                               OutputFilename = ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
-                               ImporterName = ImporterManager.GuessImporterByFileExtension(file)
+                               OutputFilename =
+                                   ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
+                                   Path.GetFileNameWithoutExtension(file) + ".xnb",   //<- Change this if you want some other extension (i.e. to annoy modders or whatever)
+                               ImporterName = ImporterManager.GuessImporterByFileExtension(file)//,
+                               //ProcessorName = ProcessorManager.GuessImporterByFileExtension(file) //<- This still needs to be implemented, Pipeline devs! *poke*
                            };
             _contentProject.BuildItems.Add(item);
         }
 
+        /// <summary>
+        /// Wrapper for adding moar files! (Just a foreach loop, nothing special)
+        /// </summary>
+        /// <param name="files">files to add</param>
         public void AddFiles(string[] files)
         {
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 AddFile(file);
             }
@@ -270,34 +329,35 @@ namespace ANX.ContentCompiler.GUI
         public void AddFolder(string name)
         {
             string folder = _contentProject.ContentRoot;
-            var node = treeView.SelectedNode;
+            TreeNode node = treeView.SelectedNode;
             if (node != null)
                 folder = node.Name;
             else
                 node = treeView.Nodes[0];
 
-            var newFolder = new TreeNode(name) { Name = folder + Path.DirectorySeparatorChar + name};
+            var newFolder = new TreeNode(name) {Name = folder + Path.DirectorySeparatorChar + name};
             node.Nodes.Add(newFolder);
-
         }
 
         public void RemoveFile(string name)
         {
-            
         }
 
         public void RemoveFiles(string[] files)
         {
-            
         }
 
         public void RemoveFolder(string name)
         {
-            
         }
+
         #endregion
 
         #region EnvironmentStates
+
+        /// <summary>
+        /// Changes the current editor state to the "No project open" state
+        /// </summary>
         public void ChangeEnvironmentStartState()
         {
             editingState.Visible = false;
@@ -308,6 +368,9 @@ namespace ANX.ContentCompiler.GUI
             propertyGrid.SelectedObject = null;
         }
 
+        /// <summary>
+        /// Changes the current editor state to edit mode
+        /// </summary>
         public void ChangeEnvironmentOpenProject()
         {
             startState.Visible = false;
@@ -317,40 +380,47 @@ namespace ANX.ContentCompiler.GUI
 
             ProjectFolder = _contentProject.InputDirectory;
             treeView.Nodes.Clear();
-            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")") {Name = _contentProject.ContentRoot};
+            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")")
+                               {Name = _contentProject.ContentRoot};
             treeView.Nodes.Add(rootNode);
-            var lastNode = rootNode;
-            foreach (var parts in _contentProject.BuildItems.Select(buildItem => buildItem.AssetName.Split(Path.DirectorySeparatorChar)).Where(parts => parts.Length >= 2))
+            TreeNode lastNode = rootNode;
+            //aaaand here comes the nasty part. Watch out, it bites...um bugs!
+            foreach (
+                var parts in
+                    _contentProject.BuildItems.Select(
+                        buildItem => buildItem.AssetName.Split(Path.DirectorySeparatorChar)).Where(
+                            parts => parts.Length >= 2)) //all BuildItems which names contain more than two elements (ContentRoot + FileName), Split by SeperatorChar (=> platform independent coding :))
             {
                 string folder = "";
                 string parent = _contentProject.ContentRoot;
-                for (int i=0; i < parts.Length - 1; i++)
+                for (int i = 0; i < parts.Length - 1; i++) //Examine everything between ContentRoot and fileName. If we find something, add a folder!
                 {
-                    if (parts[i] == null) continue;
-                    if (i > 0)
+                    if (parts[i] == null) continue; 
+                    if (i > 0) //if there is already a path we need to add the new part with a SeperatorChar!
                         folder += Path.DirectorySeparatorChar + parts[i];
                     else
-                        folder = parts[0];
+                        folder = parts[0]; //Yay! We are first! Let's make ourselves comfortable here!
 
 
-                    if (parts.Length > 2 && i < parts.Length -2)
+                    if (parts.Length > 2 && i < parts.Length - 2) // if we have more than two parts we have another parent than the content root! 
                         parent += Path.DirectorySeparatorChar + parts[i];
                     //else if (parts.Length == 2)
-                      //  parent += Path.DirectorySeparatorChar + parts[0];
+                    //  parent += Path.DirectorySeparatorChar + parts[0];
                 }
-                lastNode = treeView.RecursiveSearch(parent);
-                var node = new TreeNode(parts[parts.Length - 2]) { Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder };
+                lastNode = treeView.RecursiveSearch(parent); //Search for parent node! Often an Exception Candidate! Check the 'parent' var then.
+                var node = new TreeNode(parts[parts.Length - 2])
+                               {Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder}; //Finally glue a new folder node together
                 if (!ContainsTreeNode(lastNode, node))
                 {
-                    lastNode.Nodes.Add(node);
+                    lastNode.Nodes.Add(node); // If the folder is new, add it - else it's just wasted memory :)
                 }
                 lastNode = rootNode;
             }
-            if (_contentProject.BuildItems.Count > 0)
+            if (_contentProject.BuildItems.Count > 0) //Only do this when there are items, it'll get nasty soon if there isn't one!
             {
-                foreach (var buildItem in _contentProject.BuildItems)
+                foreach (BuildItem buildItem in _contentProject.BuildItems)
                 {
-                    String[] parts = null;
+                    String[] parts = null; //Split by seperator char
                     if (buildItem.AssetName.Contains("\\"))
                         parts = buildItem.AssetName.Split('\\');
                     else if (buildItem.AssetName.Contains("/"))
@@ -362,8 +432,9 @@ namespace ANX.ContentCompiler.GUI
                             lastNode = lastNode.Nodes[parts[i]];
                         }
                     }*/
+                    //Add the actual files to the tree in their apropriate subdirs
                     string path = _contentProject.ContentRoot;
-                    if (parts != null)
+                    if (parts != null) 
                     {
                         for (int i = 0; i < parts.Length - 1; i++)
                         {
@@ -372,39 +443,56 @@ namespace ANX.ContentCompiler.GUI
                     }
                     if (parts != null)
                     {
-                        var node = treeView.RecursiveSearch(path);
+                        TreeNode node = treeView.RecursiveSearch(path);
                         if (node == null) throw new ArgumentNullException("Node not found!");
                         var item = new TreeNode(parts[parts.Length - 1]) {Name = buildItem.AssetName};
                         node.Nodes.Add(item);
                     }
-                    else
+                    else //if the node is "forever alone", put him into the rootNode to make some friends!
                     {
                         var item = new TreeNode(buildItem.AssetName) {Name = buildItem.AssetName};
                         treeView.Nodes[0].Nodes.Add(item);
                     }
                 }
             }
-
         }
+
         #endregion
 
         #region ButtonHandlers
+
         private void ButtonQuitClick(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
         private void ButtonMenuClick(object sender, EventArgs e)
         {
             ToggleMenuMode();
         }
+
+        private void RibbonButtonCleanClick(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(ProjectOutputDir)) return;
+            if (MessageBox.Show(
+                "You are about to delete stuff you previously built! That already built content will be lost forever (which is a very long time!). Still want to continue?",
+                "Delete Output?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                CleanProject();
+                MessageBox.Show("Your build directory has been emptied. Goodbye Files!", "Success", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+
         #endregion
 
         #region WindowMoveMethods
+
         private void LabelTitleMouseMove(object sender, MouseEventArgs e)
         {
             if (!_mouseDown) return;
-            var xoffset = MousePosition.X - _lastPos.X;
-            var yoffset = MousePosition.Y - _lastPos.Y;
+            int xoffset = MousePosition.X - _lastPos.X;
+            int yoffset = MousePosition.Y - _lastPos.Y;
             Left += xoffset;
             Top += yoffset;
             _lastPos = MousePosition;
@@ -420,21 +508,25 @@ namespace ANX.ContentCompiler.GUI
         {
             _mouseDown = false;
         }
+
         #endregion
 
         #region TreeVieItemDesignMethods
-        void TreeViewItemeLeave(object sender, EventArgs e)
+
+        private void TreeViewItemeLeave(object sender, EventArgs e)
         {
-            ((ToolStripItem)sender).BackColor = Color.FromArgb(0, 64, 64, 64);
+            ((ToolStripItem) sender).BackColor = Color.FromArgb(0, 64, 64, 64);
         }
 
-        void TreeViewItemMouseEnter(object sender, EventArgs e)
+        private void TreeViewItemMouseEnter(object sender, EventArgs e)
         {
-            ((ToolStripItem)sender).BackColor = Color.Green;
+            ((ToolStripItem) sender).BackColor = Color.Green;
         }
+
         #endregion
 
         #region MenuMethods
+
         public void ToggleMenuMode()
         {
             _menuMode = !_menuMode;
@@ -453,19 +545,21 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region ShowFirstStartStuff
+
         private void ShowFirstStartStuff()
         {
             using (var dlg = new FirstStartScreen())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    
                 }
             }
         }
+
         #endregion
 
         #region SetUpColors
+
         private void SetUpColors()
         {
             BackColor = Settings.MainColor;
@@ -486,9 +580,11 @@ namespace ANX.ContentCompiler.GUI
             propertyGrid.ViewBackColor = Settings.DarkMainColor;
             propertyGrid.ViewForeColor = Settings.ForeColor;
         }
+
         #endregion
 
         #region Exit
+
         private void MainWindowFormClosed(object sender, FormClosedEventArgs e)
         {
             Settings.Save(SettingsFile);
@@ -497,18 +593,22 @@ namespace ANX.ContentCompiler.GUI
 
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
+
         #endregion
 
         #region TreeViewEvents
+
         private void TreeViewAfterSelect(object sender, TreeViewEventArgs e)
         {
             if (treeView.SelectedNode == treeView.TopNode)
                 propertyGrid.SelectedObject = _contentProject;
             else
             {
-                foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName.Equals(treeView.SelectedNode.Name)))
+                foreach (
+                    BuildItem buildItem in
+                        _contentProject.BuildItems.Where(
+                            buildItem => buildItem.AssetName.Equals(treeView.SelectedNode.Name)))
                 {
                     propertyGrid.SelectedObject = buildItem;
                 }
@@ -523,6 +623,7 @@ namespace ANX.ContentCompiler.GUI
         #endregion
 
         #region PropertyGridEvents
+
         private void PropertyGridPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             ProjectName = _contentProject.Name;
@@ -533,12 +634,14 @@ namespace ANX.ContentCompiler.GUI
             {
                 foreach (BuildItem buildItem in _contentProject.BuildItems)
                 {
-                    buildItem.AssetName = buildItem.AssetName.Replace((string)e.OldValue, _contentProject.ContentRoot);
+                    buildItem.AssetName = buildItem.AssetName.Replace((string) e.OldValue, _contentProject.ContentRoot);
                 }
-                treeView.Nodes[0].RecursivelyReplacePartOfName((string)e.OldValue, _contentProject.ContentRoot);
+                treeView.Nodes[0].RecursivelyReplacePartOfName((string) e.OldValue, _contentProject.ContentRoot);
             }
             ChangeEnvironmentOpenProject();
         }
+
         #endregion
+
     }
 }

@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class RecentProjects : List<String>
     {
         private static readonly string Path =
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + System.IO.Path.DirectorySeparatorChar + "ANX Content Compiler" + System.IO.Path.DirectorySeparatorChar + "recentProjects.ees";
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+            System.IO.Path.DirectorySeparatorChar + "ANX Content Compiler" + System.IO.Path.DirectorySeparatorChar +
+            "recentProjects.ees";
 
         public RecentProjects()
             : base(10)
         {
-            
         }
 
         public void Save()

@@ -28,23 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.labelText = new System.Windows.Forms.Label();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox
-            // 
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(60, 60);
-            this.pictureBox.TabIndex = 0;
-            this.pictureBox.TabStop = false;
-            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseDown);
-            this.pictureBox.MouseEnter += new System.EventHandler(this.RibbonButtonMouseEnter);
-            this.pictureBox.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
-            this.pictureBox.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
-            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
             // 
             // labelText
             // 
@@ -61,6 +48,22 @@
             this.labelText.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
             this.labelText.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
             this.labelText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(60, 60);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseDown);
+            this.pictureBox.MouseEnter += new System.EventHandler(this.RibbonButtonMouseEnter);
+            this.pictureBox.MouseLeave += new System.EventHandler(this.RibbonButtonMouseLeave);
+            this.pictureBox.MouseHover += new System.EventHandler(this.RibbonButtonMouseHover);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RibbonButtonMouseUp);
             // 
             // RibbonButton
             // 
@@ -85,7 +88,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Label labelText;
+        private System.Windows.Forms.PictureBox pictureBox;
     }
 }

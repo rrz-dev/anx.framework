@@ -1,9 +1,12 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class OpenProjectScreen : Form
     {
         public OpenProjectScreen()
@@ -11,7 +14,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             InitializeComponent();
             SetUpColors();
             listBoxRecentProjects.Items.Clear();
-            foreach(var project in MainWindow.Instance.RecentProjects)
+            foreach (string project in MainWindow.Instance.RecentProjects)
             {
                 listBoxRecentProjects.Items.Add(project);
             }
@@ -57,7 +60,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         private void ButtonNextClick(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(textBoxLocation.Text) && listBoxRecentProjects.SelectedItem == null)
-                MessageBox.Show("You need to select a project!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You need to select a project!", "Missing value", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
             else
                 DialogResult = DialogResult.OK;
         }

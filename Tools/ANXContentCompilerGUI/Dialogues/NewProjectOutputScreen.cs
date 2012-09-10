@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class NewProjectOutputScreen : Form
     {
         public NewProjectOutputScreen()

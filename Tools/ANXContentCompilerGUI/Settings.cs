@@ -4,9 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Xml;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI
 {
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(90)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public static class Settings
     {
         public static String DefaultProjectPath { get; set; }
@@ -17,12 +21,13 @@ namespace ANX.ContentCompiler.GUI
         public static Color AccentColor { get; set; }
         public static Color AccentColor2 { get; set; }
         public static Color AccentColor3 { get; set; }
-        public static List<String> RecentProjects { get; set; } 
+        public static List<String> RecentProjects { get; set; }
 
         public static void Defaults()
         {
             DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "ANX Content Compiler" + Path.DirectorySeparatorChar + "4.0" + Path.DirectorySeparatorChar);
+                                              "ANX Content Compiler" + Path.DirectorySeparatorChar + "4.0" +
+                                              Path.DirectorySeparatorChar);
             RecentProjects = new List<string>();
             MainColor = Color.FromArgb(64, 64, 64);
             //MainColor = Color.Goldenrod;
@@ -32,7 +37,7 @@ namespace ANX.ContentCompiler.GUI
             //LightMainColor = Color.Gold;
             ForeColor = Color.White;
             //ForeColor = Color.DarkRed;
-            AccentColor =  Color.FromArgb(0, 192, 0);
+            AccentColor = Color.FromArgb(0, 192, 0);
             //AccentColor = Color.HotPink;
             AccentColor2 = Color.LimeGreen;
             //AccentColor2 = Color.IndianRed;
@@ -42,7 +47,8 @@ namespace ANX.ContentCompiler.GUI
         public static void Load(string path)
         {
             DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                            "ANX Content Compiler" + Path.DirectorySeparatorChar + "4.0" + Path.DirectorySeparatorChar);
+                                              "ANX Content Compiler" + Path.DirectorySeparatorChar + "4.0" +
+                                              Path.DirectorySeparatorChar);
             RecentProjects = new List<string>();
             if (!File.Exists(path)) return;
             XmlReader reader = new XmlTextReader(path);
@@ -95,7 +101,13 @@ namespace ANX.ContentCompiler.GUI
             if (!Directory.Exists(Path.GetDirectoryName(path)))
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-            XmlWriter writer = XmlWriter.Create(path, new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true, NewLineHandling = NewLineHandling.Entitize });
+            XmlWriter writer = XmlWriter.Create(path,
+                                                new XmlWriterSettings
+                                                    {
+                                                        Encoding = Encoding.UTF8,
+                                                        Indent = true,
+                                                        NewLineHandling = NewLineHandling.Entitize
+                                                    });
             writer.WriteStartDocument();
             writer.WriteStartElement("CCompiler4Settings");
             writer.WriteStartElement("MainColor");
@@ -120,7 +132,7 @@ namespace ANX.ContentCompiler.GUI
             writer.WriteValue(GetStringFromColor(AccentColor3));
             writer.WriteFullEndElement();
             writer.WriteStartElement("RecentProjects");
-            foreach (var recentProject in RecentProjects)
+            foreach (string recentProject in RecentProjects)
             {
                 writer.WriteStartElement("Path");
                 writer.WriteString(recentProject);
@@ -140,7 +152,7 @@ namespace ANX.ContentCompiler.GUI
 
         private static Color GetColorFromString(string xml)
         {
-            var s = xml.Split(new[] {','}, 3);
+            string[] s = xml.Split(new[] {','}, 3);
             return Color.FromArgb(Convert.ToInt32(s[0]), Convert.ToInt32(s[1]), Convert.ToInt32(s[2]));
         }
     }
