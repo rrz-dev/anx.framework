@@ -21,11 +21,18 @@ namespace TextRendering
 
         SpriteFont debugFont;
 
+		int fps = 60;
+		int fpsCount = 0;
+		float fpsTimer = 0f;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
             Content.RootDirectory = "SampleContent";
+
+			IsFixedTimeStep = false;
+			graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
@@ -55,6 +62,15 @@ namespace TextRendering
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+			fpsCount++;
+			fpsTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if (fpsTimer >= 1f)
+			{
+				fpsTimer -= 1f;
+				fps = fpsCount;
+				fpsCount = 0;
+			}
+
             base.Update(gameTime);
         }
 
@@ -63,7 +79,7 @@ namespace TextRendering
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
-            spriteBatch.DrawString(this.debugFont, "Hello World!", new Vector2(100, 100), Color.White);
+			spriteBatch.DrawString(this.debugFont, "Hello World! FPS: " + fps, new Vector2(100, 100), Color.White);
 
             spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!\r\nsecond line", new Vector2(100, 100 + this.debugFont.LineSpacing), Color.Black, 0.0f, new Vector2(1, -1), Vector2.One, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(this.debugFont, "This screen is powered by the ANX.Framework!\r\nsecond line", new Vector2(100, 100 + this.debugFont.LineSpacing), Color.Red, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 1.0f);

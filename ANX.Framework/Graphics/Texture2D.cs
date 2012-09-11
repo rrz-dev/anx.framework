@@ -16,6 +16,9 @@ namespace ANX.Framework.Graphics
 		protected internal int width;
 		protected internal int height;
 
+		internal float OneOverWidth;
+		internal float OneOverHeight;
+
 		private INativeTexture2D nativeTexture2D;
 		private INativeTexture2D NativeTexture2D
 		{
@@ -66,6 +69,8 @@ namespace ANX.Framework.Graphics
 		{
 			this.width = width;
 			this.height = height;
+			OneOverWidth = 1f / width;
+			OneOverHeight = 1f / height;
 
 			base.levelCount = 1;
 			base.format = SurfaceFormat.Color;
@@ -79,6 +84,9 @@ namespace ANX.Framework.Graphics
 		{
 			this.width = width;
 			this.height = height;
+			OneOverWidth = 1f / width;
+			OneOverHeight = 1f / height;
+
 			// TODO: pass the mipmap parameter to the creation of the texture to let the graphics card generate mipmaps!
 			base.levelCount = 1;
 			base.format = format;
@@ -91,6 +99,8 @@ namespace ANX.Framework.Graphics
 		{
 			this.width = width;
 			this.height = height;
+			OneOverWidth = 1f / width;
+			OneOverHeight = 1f / height;
 
 			base.levelCount = mipCount;
 			base.format = format;

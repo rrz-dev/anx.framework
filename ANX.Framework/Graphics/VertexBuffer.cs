@@ -16,9 +16,6 @@ namespace ANX.Framework.Graphics
 	public class VertexBuffer : GraphicsResource, IGraphicsResource
 	{
 		#region Private
-		private VertexDeclaration vertexDeclaration;
-		private int vertexCount;
-		private BufferUsage bufferUsage;
 		private INativeVertexBuffer nativeVertexBuffer;
 		#endregion
 
@@ -29,55 +26,31 @@ namespace ANX.Framework.Graphics
 		{
 			get
 			{
-				if (this.nativeVertexBuffer == null)
-				{
+				if (nativeVertexBuffer == null)
 					CreateNativeBuffer();
-				}
 
-				return this.nativeVertexBuffer;
+				return nativeVertexBuffer;
 			}
 		}
 
-		public BufferUsage BufferUsage
-		{
-			get
-			{
-				return this.bufferUsage;
-			}
-		}
-
-		public int VertexCount
-		{
-			get
-			{
-				return this.vertexCount;
-			}
-		}
-
-		public VertexDeclaration VertexDeclaration
-		{
-			get
-			{
-				return this.vertexDeclaration;
-			}
-		}
+		public BufferUsage BufferUsage { get; private set; }
+		public int VertexCount { get; private set; }
+		public VertexDeclaration VertexDeclaration { get; private set; }
 		#endregion
 
 		#region Constructor
-		public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType,
-			int vertexCount, BufferUsage usage)
-			: this(graphicsDevice, VertexBuffer.TypeToVertexDeclaration(vertexType),
-		vertexCount, usage)
+		public VertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
+			: this(graphicsDevice, VertexTypeHelper.GetDeclaration(vertexType), vertexCount, usage)
 		{
 		}
 
-		public VertexBuffer(GraphicsDevice graphicsDevice,
-			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+		public VertexBuffer(GraphicsDevice graphicsDevice, VertexDeclaration vertexDeclaration, int vertexCount,
+			BufferUsage usage)
 			: base(graphicsDevice)
 		{
-			this.vertexCount = vertexCount;
-			this.vertexDeclaration = vertexDeclaration;
-			this.bufferUsage = usage;
+			VertexCount = vertexCount;
+			VertexDeclaration = vertexDeclaration;
+			BufferUsage = usage;
 
 			base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;
 			base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
@@ -120,17 +93,16 @@ namespace ANX.Framework.Graphics
 		#region CreateNativeBuffer
 		private void CreateNativeBuffer()
 		{
-			this.nativeVertexBuffer =
-				AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateVertexBuffer(GraphicsDevice, this, vertexDeclaration, vertexCount, bufferUsage);
+			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+			this.nativeVertexBuffer = creator.CreateVertexBuffer(GraphicsDevice, this, VertexDeclaration, VertexCount,
+				BufferUsage);
 		}
 		#endregion
 
 		#region GetData
-		public void GetData<T>(int offsetInBytes, T[] data, int startIndex,
-			int elementCount, int vertexStride) where T : struct
+		public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			NativeVertexBuffer.GetData(offsetInBytes, data, startIndex,
-				elementCount, vertexStride);
+			NativeVertexBuffer.GetData(offsetInBytes, data, startIndex, elementCount, vertexStride);
 		}
 
 		public void GetData<T>(T[] data) where T : struct
@@ -138,19 +110,16 @@ namespace ANX.Framework.Graphics
 			NativeVertexBuffer.GetData(data);
 		}
 
-		public void GetData<T>(T[] data, int startIndex, int elementCount)
-			where T : struct
+		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
 			NativeVertexBuffer.GetData(data, startIndex, elementCount);
 		}
 		#endregion
 
 		#region SetData
-		public void SetData<T>(int offsetInBytes, T[] data, int startIndex,
-			int elementCount, int vertexStride) where T : struct
+		public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data,
-				startIndex, elementCount, vertexStride);
+			NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
 		}
 
 		public void SetData<T>(T[] data) where T : struct
@@ -164,19 +133,6 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		#region TypeToVertexDeclaration
-		private static VertexDeclaration TypeToVertexDeclaration(Type t)
-		{
-			IVertexType vt = Activator.CreateInstance(t) as IVertexType;
-			if (vt != null)
-			{
-				return vt.VertexDeclaration;
-			}
-
-			return null;
-		}
-		#endregion
-
 		#region Dispose
 		public override void Dispose()
 		{
@@ -186,16 +142,17 @@ namespace ANX.Framework.Graphics
 				nativeVertexBuffer = null;
 			}
 
-			if (vertexDeclaration != null)
-			{
-				// do not dispose the VertexDeclaration here, because it's only a reference
-				vertexDeclaration = null;
-			}
+			// do not dispose the VertexDeclaration here, because it's only a reference
+			if (VertexDeclaration != null)
+				VertexDeclaration = null;
 		}
 
 		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
 		{
-			throw new NotImplementedException();
+			if (disposeManaged)
+			{
+				Dispose();
+			}
 		}
 		#endregion
 	}

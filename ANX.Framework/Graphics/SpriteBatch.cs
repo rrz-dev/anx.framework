@@ -1,10 +1,8 @@
-#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Text;
 using ANX.Framework.NonXNA;
-
-#endregion // Using Statements
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,11 +10,14 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+	[PercentageComplete(100)]
+	[TestState(TestStateAttribute.TestState.Untested)]
+	[Developer("Glatzemann, AstrorEnales")]
     public class SpriteBatch : GraphicsResource
-    {
-        #region Private Members
-        private const int InitialBatchSize = 1024;
+	{
+		private const int InitialBatchSize = 1024;
 
+        #region Private
         private Effect spriteBatchEffect;
         private bool hasBegun;
         private SpriteSortMode currentSortMode;
@@ -43,8 +44,7 @@ namespace ANX.Framework.Graphics
         private static TextureComparer textureComparer = new TextureComparer();
         private static FrontToBackComparer frontToBackComparer = new FrontToBackComparer();
         private static BackToFrontComparer backToFrontComparer = new BackToFrontComparer();
-
-        #endregion // Private Members
+        #endregion
 
         #region Constructor
         public SpriteBatch(GraphicsDevice graphicsDevice)
@@ -55,43 +55,55 @@ namespace ANX.Framework.Graphics
             base.GraphicsDevice = graphicsDevice;
 
             var renderSystemCreator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-            this.spriteBatchEffect = new Effect(graphicsDevice, renderSystemCreator.GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch), renderSystemCreator.GetStockShaderSourceLanguage);
+            this.spriteBatchEffect = new Effect(graphicsDevice,
+				renderSystemCreator.GetShaderByteCode(NonXNA.PreDefinedShader.SpriteBatch),
+				renderSystemCreator.GetStockShaderSourceLanguage);
 
             this.spriteInfos = new SpriteInfo[InitialBatchSize];
-
             this.InitializeIndexBuffer(InitialBatchSize);
-
             this.InitializeVertexBuffer();
         }
         #endregion
 
-        #region Begin-Method
+        #region Begin
         public void Begin()
         {
-            Begin(SpriteSortMode.Texture, null, null, null, null, null, Matrix.Identity);
+            Begin(SpriteSortMode.Texture, null, null, null, null, null);
         }
 
         public void Begin(SpriteSortMode sortMode, BlendState blendState)
         {
-            Begin(sortMode, blendState, null, null, null, null, Matrix.Identity);
+            Begin(sortMode, blendState, null, null, null, null);
         }
 
-        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState)
+        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState,
+			DepthStencilState depthStencilState, RasterizerState rasterizerState)
         {
-            Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, null, Matrix.Identity);
+            Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, null);
         }
 
-        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect)
-        {
-            Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, Matrix.Identity);
+        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState,
+			DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect)
+		{
+			if (hasBegun == true)
+				throw new Exception("End() has to be called before a new SpriteBatch can be started with Begin()");
+
+			hasBegun = true;
+			this.currentSortMode = sortMode;
+
+			this.blendState = blendState;
+			this.samplerState = samplerState;
+			this.depthStencilState = depthStencilState;
+			this.rasterizerState = rasterizerState;
+			this.effect = effect;
+			this.transformMatrix = Matrix.Identity;
         }
 
-        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect, Matrix transformMatrix)
+        public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState,
+			DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect, Matrix transformMatrix)
         {
-            if (this.hasBegun == true)
-            {
+            if (hasBegun == true)
                 throw new Exception("End() has to be called before a new SpriteBatch can be started with Begin()");
-            }
 
             hasBegun = true;
 
@@ -104,150 +116,186 @@ namespace ANX.Framework.Graphics
             this.effect = effect;
             this.transformMatrix = transformMatrix;
         }
+        #endregion
 
-        #endregion // Begin-Method
+		#region Draw
+		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
+		{
+			Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width,
+				destinationRectangle.Height), null, color, Vector2.Zero, 0f, 0f, Vector2.One, SpriteEffects.None);
+		}
 
-        #region Draw-Method
-        public void Draw (Texture2D texture, Rectangle destinationRectangle, Color color)
+		public void Draw(Texture2D texture, Rectangle destinationRectangle, Nullable<Rectangle> sourceRectangle, Color color)
+		{
+			Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width,
+				destinationRectangle.Height), sourceRectangle, color, Vector2.Zero, 0f, 0f, Vector2.One, SpriteEffects.None);
+		}
+
+        public void Draw(Texture2D texture, Rectangle destinationRectangle, Nullable<Rectangle> sourceRectangle, Color color,
+			Single rotation, Vector2 origin, SpriteEffects effects, Single layerDepth)
         {
-            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width, destinationRectangle.Height), null, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
-        }
-
-        public void Draw (Texture2D texture, Rectangle destinationRectangle, Nullable<Rectangle> sourceRectangle, Color color)
-        {
-            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width, destinationRectangle.Height), sourceRectangle, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
-        }
-
-        public void Draw(Texture2D texture, Rectangle destinationRectangle, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, SpriteEffects effects, Single layerDepth)
-        {
-            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width, destinationRectangle.Height), sourceRectangle, color, origin, layerDepth, rotation, Vector2.One, effects);
+            Draw(texture, new Vector2(destinationRectangle.X, destinationRectangle.Y), new Vector2(destinationRectangle.Width,
+				destinationRectangle.Height), sourceRectangle, color, origin, layerDepth, rotation, Vector2.One, effects);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Color color)
         {
-            Draw(texture, position, new Vector2(texture.Width, texture.Height), null, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
+            Draw(texture, position, new Vector2(texture.Width, texture.Height), null, color, Vector2.Zero, 0f, 0f, Vector2.One,
+				SpriteEffects.None);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color)
         {
-            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
-            Draw(texture, position, size, sourceRectangle, color, Vector2.Zero, 0.0f, 0.0f, Vector2.One, SpriteEffects.None);
+            Vector2 size = sourceRectangle.HasValue ?
+				new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) :
+				new Vector2(texture.Width, texture.Height);
+			Draw(texture, position, size, sourceRectangle, color, Vector2.Zero, 0f, 0f, Vector2.One, SpriteEffects.None);
         }
 
-        public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
+        public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation,
+			Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
         {
-            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
+            Vector2 size = sourceRectangle.HasValue ?
+				new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) :
+				new Vector2(texture.Width, texture.Height);
             Draw(texture, position, size, sourceRectangle, color, origin, layerDepth, rotation, new Vector2(scale), effects);
         }
 
-        public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
-        {
-            Vector2 size = sourceRectangle.HasValue ? new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) : new Vector2(texture.Width, texture.Height);
-            Draw(texture, position, size, sourceRectangle, color, origin, layerDepth, rotation, scale, effects);
+		public void Draw(Texture2D texture, Vector2 position, Nullable<Rectangle> sourceRectangle, Color color, Single rotation,
+			Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
+		{
+			Vector2 size = sourceRectangle.HasValue ?
+				new Vector2(sourceRectangle.Value.Width, sourceRectangle.Value.Height) :
+				new Vector2(texture.Width, texture.Height);
+			Draw(texture, position, size, sourceRectangle, color, origin, layerDepth, rotation, scale, effects);
+		}
+        #endregion
+
+		#region DrawOptimizedText
+		internal void DrawOptimizedText(Texture2D texture, Vector2 position, ref Rectangle sourceRectangle, ref Color color,
+			float rotation, Vector2 scale, SpriteEffects effects, float layerDepth)
+		{
+			Vector2 size = new Vector2(sourceRectangle.Width, sourceRectangle.Height);
+			Draw(texture, position, size, sourceRectangle, color, Vector2.Zero, layerDepth, rotation, scale, effects);
+		}
+
+		internal void DrawOptimizedText(Texture2D texture, Vector2 position, ref Rectangle sourceRectangle, ref Color color)
+		{
+			if (hasBegun == false)
+				throw new InvalidOperationException("Begin() must be called before Draw()");
+
+			if (texture == null)
+				throw new ArgumentNullException("texture");
+
+			ResizeIfNeeded();
+
+			Vector2 bottomRight;
+			bottomRight.X = position.X + sourceRectangle.Width;
+			bottomRight.Y = position.Y + sourceRectangle.Height;
+
+			SpriteInfo currentSprite = spriteInfos[currentBatchPosition];
+			currentSprite.Corners = new Vector2[]
+			{
+				position,
+				new Vector2(bottomRight.X, position.Y),
+				bottomRight,
+				new Vector2(position.X, bottomRight.Y)
+			};
+
+			currentSprite.Tint = color;
+			currentSprite.texture = texture;
+
+			currentSprite.topLeftUV.X = sourceRectangle.X * texture.OneOverWidth;
+			currentSprite.topLeftUV.Y = sourceRectangle.Y * texture.OneOverHeight;
+			currentSprite.bottomRightUV.X = (sourceRectangle.X + sourceRectangle.Width) * texture.OneOverWidth;
+			currentSprite.bottomRightUV.Y = (sourceRectangle.Y + sourceRectangle.Height) * texture.OneOverHeight;
+
+			currentSprite.origin = Vector2.Zero;
+			currentSprite.rotation = 0f;
+			currentSprite.layerDepth = 1f;
+
+			spriteInfos[currentBatchPosition] = currentSprite;
+			currentBatchPosition++;
+
+			if (this.currentSortMode == SpriteSortMode.Immediate)
+			{
+				BatchRender(0, 1);
+				Flush();
+			}
+		}
+		#endregion
+
+		#region DrawString
+		public void DrawString(SpriteFont font, String text, Vector2 position, Color color)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
+
+			font.DrawString(text, this, position, color);
         }
 
-        #endregion // Draw-Method
+		public void DrawString(SpriteFont font, StringBuilder text, Vector2 position, Color color)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
 
-        #region DrawString-Method
-        public void DrawString(SpriteFont font, String text, Vector2 position, Color color)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
+			font.DrawString(text.ToString(), this, position, color);
+		}
 
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
+        public void DrawString(SpriteFont font, String text, Vector2 position, Color color, Single rotation, Vector2 origin,
+			Single scale, SpriteEffects effects, Single layerDepth)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
 
-            font.DrawString(ref text, this, position, color, Vector2.One, Vector2.Zero, 0.0f, 1.0f, SpriteEffects.None);
+			font.DrawString(text, this, position, color, new Vector2(scale), origin, rotation, layerDepth, effects);
         }
 
-        public void DrawString(SpriteFont font, String text, Vector2 position, Color color, Single rotation, Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
+        public void DrawString(SpriteFont font, String text, Vector2 position, Color color, Single rotation, Vector2 origin,
+			Vector2 scale, SpriteEffects effects, Single layerDepth)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
 
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            font.DrawString(ref text, this, position, color, new Vector2(scale), origin, rotation, layerDepth, effects);
+            font.DrawString(text, this, position, color, scale, origin, rotation, layerDepth, effects);
         }
 
-        public void DrawString(SpriteFont font, String text, Vector2 position, Color color, Single rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
+		public void DrawString(SpriteFont font, StringBuilder text, Vector2 position, Color color, Single rotation,
+			Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
 
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
+			font.DrawString(text.ToString(), this, position, color, new Vector2(scale), origin, rotation, layerDepth, effects);
+		}
 
-            font.DrawString(ref text, this, position, color, scale, origin, rotation, layerDepth, effects);
-        }
+		public void DrawString(SpriteFont font, StringBuilder text, Vector2 position, Color color, Single rotation,
+			Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
+		{
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (text == null)
+				throw new ArgumentNullException("text");
 
-        public void DrawString (SpriteFont font, StringBuilder text, Vector2 position, Color color)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
-
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            DrawString(font, text.ToString(), position, color);
-        }
-
-        public void DrawString (SpriteFont font, StringBuilder text, Vector2 position, Color color, Single rotation, Vector2 origin, Single scale, SpriteEffects effects, Single layerDepth)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
-
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            DrawString(font, text.ToString(), position, color, rotation, origin, scale, effects, layerDepth);
-        }
-
-        public void DrawString (SpriteFont font, StringBuilder text, Vector2 position, Color color, Single rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Single layerDepth)
-        {
-            if (font == null)
-            {
-                throw new ArgumentNullException("font");
-            }
-
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            DrawString(font, text.ToString(), position, color, rotation, origin, scale, effects, layerDepth);
-        }
-
-        #endregion // DrawString-Method
+			font.DrawString(text.ToString(), this, position, color, scale, origin, rotation, layerDepth, effects);
+		}
+        #endregion
 
         #region End
         public void End()
         {
             if (hasBegun == false)
-            {
                 throw new Exception("Begin() has to be called before End()");
-            }
             
             hasBegun = false;
 
@@ -256,17 +304,11 @@ namespace ANX.Framework.Graphics
                 if (currentBatchPosition > 0)
                 {
                     if (this.currentSortMode == SpriteSortMode.Texture)
-                    {
                         Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, textureComparer);
-                    }
                     else if (this.currentSortMode == SpriteSortMode.BackToFront)
-                    {
                         Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, backToFrontComparer);
-                    }
                     else if (this.currentSortMode == SpriteSortMode.FrontToBack)
-                    {
                         Array.Sort<SpriteInfo>(spriteInfos, 0, currentBatchPosition, frontToBackComparer);
-                    }
 
                     int startOffset = 0;
                     Texture2D lastTexture = spriteInfos[0].texture;
@@ -285,57 +327,72 @@ namespace ANX.Framework.Graphics
 
             Flush();
         }
-        #endregion
+		#endregion
 
-        private void Draw(Texture2D texture, Vector2 topLeft, Vector2 destinationSize, Rectangle? sourceRectangle, Color tint, Vector2 origin, float layerDepth, float rotation, Vector2 scale, SpriteEffects effects)
+		#region ResizeIfNeeded
+		private void ResizeIfNeeded()
+		{
+			if (currentBatchPosition >= spriteInfos.Length)
+			{
+				int newSize = spriteInfos.Length * 2;
+				Array.Resize<SpriteInfo>(ref spriteInfos, newSize);
+				InitializeIndexBuffer(newSize);
+			}
+		}
+		#endregion
+
+		#region Draw
+		private void Draw(Texture2D texture, Vector2 topLeft, Vector2 destinationSize, Rectangle? sourceRectangle,
+			Color tint, Vector2 origin, float layerDepth, float rotation, Vector2 scale, SpriteEffects effects)
         {
             if (hasBegun == false)
-            {
                 throw new InvalidOperationException("Begin() must be called before Draw()");
-            }
 
             if (texture == null)
-            {
                 throw new ArgumentNullException("texture");
-            }
 
-            if (currentBatchPosition >= spriteInfos.Length)
-            {
-                int newSize = spriteInfos.Length * 2;
-                Array.Resize<SpriteInfo>(ref spriteInfos, newSize);
-                InitializeIndexBuffer(newSize);
-            }
+			ResizeIfNeeded();
 
-            Vector2 bottomRight = topLeft + (destinationSize * scale);
+            Vector2 bottomRight = new Vector2(topLeft.X + (destinationSize.X * scale.X),
+				topLeft.Y + (destinationSize.Y * scale.Y));
 
-            spriteInfos[currentBatchPosition].Corners = new Vector2[] { topLeft, new Vector2(bottomRight.X, topLeft.Y), bottomRight, new Vector2(topLeft.X, bottomRight.Y) };
+			SpriteInfo currentSprite = spriteInfos[currentBatchPosition];
+			currentSprite.Corners = new Vector2[]
+			{
+				topLeft,
+				new Vector2(bottomRight.X, topLeft.Y),
+				bottomRight,
+				new Vector2(topLeft.X, bottomRight.Y)
+			};
 
-            spriteInfos[currentBatchPosition].Tint = tint;
-            spriteInfos[currentBatchPosition].texture = texture;
+			currentSprite.Tint = tint;
+			currentSprite.texture = texture;
 
             if (sourceRectangle.HasValue)
             {
-                spriteInfos[currentBatchPosition].topLeftUV = new Vector2(sourceRectangle.Value.X / (float)texture.Width, sourceRectangle.Value.Y / (float)texture.Height);
-                spriteInfos[currentBatchPosition].bottomRightUV = new Vector2((sourceRectangle.Value.X + sourceRectangle.Value.Width) / (float)texture.Width, (sourceRectangle.Value.Y + sourceRectangle.Value.Height) / (float)texture.Height);
+				currentSprite.topLeftUV.X = sourceRectangle.Value.X * texture.OneOverWidth;
+				currentSprite.topLeftUV.Y = sourceRectangle.Value.Y * texture.OneOverHeight;
+				currentSprite.bottomRightUV.X = (sourceRectangle.Value.X + sourceRectangle.Value.Width) * texture.OneOverWidth;
+				currentSprite.bottomRightUV.Y = (sourceRectangle.Value.Y + sourceRectangle.Value.Height) * texture.OneOverHeight;
             }
             else
             {
-                spriteInfos[currentBatchPosition].topLeftUV = Vector2.Zero;
-                spriteInfos[currentBatchPosition].bottomRightUV = Vector2.One;
+				currentSprite.topLeftUV = Vector2.Zero;
+				currentSprite.bottomRightUV = Vector2.One;
             }
 
             if ((effects & SpriteEffects.FlipHorizontally) == SpriteEffects.FlipHorizontally)
             {
-                float tempY = spriteInfos[currentBatchPosition].bottomRightUV.Y;
-                spriteInfos[currentBatchPosition].bottomRightUV.Y = spriteInfos[currentBatchPosition].topLeftUV.Y;
-                spriteInfos[currentBatchPosition].topLeftUV.Y = tempY;
+				float tempY = currentSprite.bottomRightUV.Y;
+				currentSprite.bottomRightUV.Y = currentSprite.topLeftUV.Y;
+				currentSprite.topLeftUV.Y = tempY;
             }
 
             if ((effects & SpriteEffects.FlipVertically) == SpriteEffects.FlipVertically)
             {
-                float tempX = spriteInfos[currentBatchPosition].bottomRightUV.X;
-                spriteInfos[currentBatchPosition].bottomRightUV.X = spriteInfos[currentBatchPosition].topLeftUV.X;
-                spriteInfos[currentBatchPosition].topLeftUV.X = tempX;
+				float tempX = currentSprite.bottomRightUV.X;
+				currentSprite.bottomRightUV.X = currentSprite.topLeftUV.X;
+				currentSprite.topLeftUV.X = tempX;
             }
 
             if (rotation != 0f)
@@ -348,17 +405,22 @@ namespace ANX.Framework.Graphics
 
                 Vector2 transformVector;
                 Vector2 result;
+				float offsetX = topLeft.X + origin.X;
+				float offsetY = topLeft.Y + origin.Y;
                 for (int i = 0; i < 4; i++)
                 {
-                    transformVector = spriteInfos[currentBatchPosition].Corners[i] - topLeft - origin;
+					transformVector.X = currentSprite.Corners[i].X - offsetX;
+					transformVector.Y = currentSprite.Corners[i].Y - offsetY;
                     Vector2.Transform(ref transformVector, ref this.cachedRotationMatrix, out result);
-                    spriteInfos[currentBatchPosition].Corners[i] = result + topLeft + origin;
+					currentSprite.Corners[i].X = result.X + offsetX;
+					currentSprite.Corners[i].Y = result.Y + offsetY;
                 }
             }
 
-            spriteInfos[currentBatchPosition].origin = origin;
-            spriteInfos[currentBatchPosition].rotation = rotation;
-            spriteInfos[currentBatchPosition].layerDepth = layerDepth;
+			currentSprite.origin = origin;
+			currentSprite.rotation = rotation;
+			currentSprite.layerDepth = layerDepth;
+			spriteInfos[currentBatchPosition] = currentSprite;
 
             currentBatchPosition++;
 
@@ -367,20 +429,18 @@ namespace ANX.Framework.Graphics
                 BatchRender(0, 1);
                 Flush();
             }
-        }
+		}
+		#endregion
 
-        private void BatchRender(int offset, int count)
+		#region BatchRender
+		private void BatchRender(int offset, int count)
         {
             int vertexCount = count * 4;
 
             if (this.vertices == null)
-            {
                 this.vertices = new VertexPositionColorTexture[vertexCount];
-            }
             else if (this.vertices.Length < vertexCount)
-            {
                 Array.Resize<VertexPositionColorTexture>(ref this.vertices, vertexCount);
-            }
 
             int vertexPos = 0;
             for (int i = offset; i < offset + count; i++)
@@ -415,27 +475,34 @@ namespace ANX.Framework.Graphics
             spriteBatchEffect.Parameters["Texture"].SetValue(this.spriteInfos[offset].texture);
 
             GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertexCount, 0, count * 2);
-        }
+		}
+		#endregion
 
-        private void Flush()
+		#region Flush
+		private void Flush()
         {
             currentBatchPosition = 0;
         }
+        #endregion
 
-        private void InitializeIndexBuffer(int size)
+		#region InitializeIndexBuffer
+		private void InitializeIndexBuffer(int size)
         {
             int indexCount = size * 6;
 
             if (this.indexBuffer == null)
             {
-                this.indexBuffer = new DynamicIndexBuffer(this.GraphicsDevice, IndexElementSize.SixteenBits, indexCount, BufferUsage.WriteOnly);
+                this.indexBuffer = new DynamicIndexBuffer(this.GraphicsDevice, IndexElementSize.SixteenBits, indexCount,
+					BufferUsage.WriteOnly);
                 this.indexBuffer.ContentLost += new EventHandler<EventArgs>(indexBuffer_ContentLost);
             }
 
             SetIndexData(indexCount);
-        }
+		}
+		#endregion
 
-        private void indexBuffer_ContentLost(object sender, EventArgs e)
+		#region indexBuffer_ContentLost
+		private void indexBuffer_ContentLost(object sender, EventArgs e)
         {
             if (this.indexBuffer != null)
             {
@@ -445,11 +512,13 @@ namespace ANX.Framework.Graphics
             }
 
             InitializeIndexBuffer(InitialBatchSize);
-        }
+		}
+		#endregion
 
-        private void SetIndexData(int indexCount)
+		#region SetIndexData
+		private void SetIndexData(int indexCount)
         {
-            short[] indices = new short[indexCount];
+            var indices = new ushort[indexCount];
 
             int baseIndex;
             int baseArrayIndex;
@@ -458,27 +527,32 @@ namespace ANX.Framework.Graphics
                 baseIndex = i * 4;
                 baseArrayIndex = baseIndex + i + i;
 
-                indices[baseArrayIndex] = (short)baseIndex;
-                indices[baseArrayIndex + 1] = (short)(baseIndex + 1);
-                indices[baseArrayIndex + 2] = (short)(baseIndex + 2);
-                indices[baseArrayIndex + 3] = (short)baseIndex;
-                indices[baseArrayIndex + 4] = (short)(baseIndex + 2);
-                indices[baseArrayIndex + 5] = (short)(baseIndex + 3);
+				indices[baseArrayIndex] = (ushort)baseIndex;
+				indices[baseArrayIndex + 1] = (ushort)(baseIndex + 1);
+				indices[baseArrayIndex + 2] = (ushort)(baseIndex + 2);
+				indices[baseArrayIndex + 3] = (ushort)baseIndex;
+				indices[baseArrayIndex + 4] = (ushort)(baseIndex + 2);
+				indices[baseArrayIndex + 5] = (ushort)(baseIndex + 3);
             }
 
-            this.indexBuffer.SetData<short>(indices);
-        }
+            this.indexBuffer.SetData<ushort>(indices);
+		}
+		#endregion
 
-        private void InitializeVertexBuffer()
+		#region InitializeVertexBuffer
+		private void InitializeVertexBuffer()
         {
             if (this.vertexBuffer == null)
             {
-                this.vertexBuffer = new DynamicVertexBuffer(this.GraphicsDevice, typeof(VertexPositionColorTexture), InitialBatchSize * 4, BufferUsage.WriteOnly);
-                this.vertexBuffer.ContentLost += new EventHandler<EventArgs>(vertexBuffer_ContentLost);
+                this.vertexBuffer = new DynamicVertexBuffer(this.GraphicsDevice, typeof(VertexPositionColorTexture),
+					InitialBatchSize * 4, BufferUsage.WriteOnly);
+                this.vertexBuffer.ContentLost += vertexBuffer_ContentLost;
             }
         }
+		#endregion
 
-        private void vertexBuffer_ContentLost(object sender, EventArgs e)
+		#region vertexBuffer_ContentLost
+		private void vertexBuffer_ContentLost(object sender, EventArgs e)
         {
             this.currentBatchPosition = 0;
 
@@ -490,16 +564,19 @@ namespace ANX.Framework.Graphics
             }
 
             InitializeVertexBuffer();
-        }
+		}
+		#endregion
 
-        private void SetRenderStates()
+		#region SetRenderStates
+		private void SetRenderStates()
         {
-            GraphicsDevice.BlendState = this.blendState != null ? this.blendState : BlendState.AlphaBlend;
-            GraphicsDevice.DepthStencilState = this.depthStencilState != null ? this.depthStencilState : DepthStencilState.None;
-            GraphicsDevice.RasterizerState = this.rasterizerState != null ? this.rasterizerState : RasterizerState.CullCounterClockwise;
-            GraphicsDevice.SamplerStates[0] = this.samplerState != null ? this.samplerState : SamplerState.LinearClamp;
+            GraphicsDevice.BlendState = blendState != null ? blendState : BlendState.AlphaBlend;
+            GraphicsDevice.DepthStencilState = depthStencilState != null ? depthStencilState : DepthStencilState.None;
+            GraphicsDevice.RasterizerState = rasterizerState != null ? rasterizerState : RasterizerState.CullCounterClockwise;
+            GraphicsDevice.SamplerStates[0] = samplerState != null ? samplerState : SamplerState.LinearClamp;
 
-            if (cachedTransformMatrix == null || GraphicsDevice.Viewport.Width != viewportWidth || GraphicsDevice.Viewport.Height != viewportHeight)
+            if (cachedTransformMatrix == null || GraphicsDevice.Viewport.Width != viewportWidth ||
+				GraphicsDevice.Viewport.Height != viewportHeight)
             {
                 this.viewportWidth = GraphicsDevice.Viewport.Width;
                 this.viewportHeight = GraphicsDevice.Viewport.Height;
@@ -518,14 +595,18 @@ namespace ANX.Framework.Graphics
                 cachedTransformMatrix.M42 -= cachedTransformMatrix.M22;
             }
 
-            this.spriteBatchEffect.Parameters["MatrixTransform"].SetValue(this.transformMatrix * cachedTransformMatrix);
+			Matrix result;
+			Matrix.Multiply(ref transformMatrix, ref cachedTransformMatrix, out result);
+			this.spriteBatchEffect.Parameters["MatrixTransform"].SetValue(result);
             spriteBatchEffect.NativeEffect.Apply(GraphicsDevice);
 
             GraphicsDevice.Indices = this.indexBuffer;
             GraphicsDevice.SetVertexBuffer(this.vertexBuffer);
-        }
+		}
+		#endregion
 
-        public override void Dispose()
+		#region Dispose
+		public override void Dispose()
         {
             if (this.spriteBatchEffect != null)
             {
@@ -550,19 +631,18 @@ namespace ANX.Framework.Graphics
         {
             throw new NotImplementedException();
         }
+		#endregion
 
-        private class TextureComparer : IComparer<SpriteInfo>
+		private class TextureComparer : IComparer<SpriteInfo>
         {
             public int Compare(SpriteInfo x, SpriteInfo y)
             {
-                if (x.texture.GetHashCode() > y.texture.GetHashCode())
-                {
+				int hash1 = x.texture.GetHashCode();
+				int hash2 = y.texture.GetHashCode();
+				if (hash1 > hash2)
                     return -1;
-                }
-                else if (x.texture.GetHashCode() < y.texture.GetHashCode())
-                {
+				else if (hash1 < hash2)
                     return 1;
-                }
 
                 return 0;
             }
@@ -573,13 +653,9 @@ namespace ANX.Framework.Graphics
             public int Compare(SpriteInfo x, SpriteInfo y)
             {
                 if (x.layerDepth > y.layerDepth)
-                {
                     return 1;
-                }
                 else if (x.layerDepth < y.layerDepth)
-                {
                     return -1;
-                }
 
                 return 0;
             }
@@ -590,17 +666,12 @@ namespace ANX.Framework.Graphics
             public int Compare(SpriteInfo x, SpriteInfo y)
             {
                 if (x.layerDepth > y.layerDepth)
-                {
                     return -1;
-                }
                 else if (x.layerDepth < y.layerDepth)
-                {
                     return 1;
-                }
 
                 return 0;
             }
         }
-
     }
 }

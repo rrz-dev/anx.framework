@@ -67,6 +67,8 @@ namespace ANX.Framework.Graphics
 		{
 			this.width = width;
 			this.height = height;
+			OneOverWidth = 1f / width;
+			OneOverHeight = 1f / height;
 
 			base.levelCount = 1;
 			base.format = SurfaceFormat.Color;
