@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using ANX.RenderSystem.Windows.DX10;
+using ANX.BaseDirectX;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

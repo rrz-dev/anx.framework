@@ -126,10 +126,60 @@
     </exec>
   </target>
 
+  <target name="support" description="ANX.Framework supporting libraries" unless="${target::has-executed('support')}">
+    <fileset id="support_files" basedir="../Support/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="support_files" basedir="../Support/">
+        <include name="**/*_Linux.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="support_files" basedir="../Support/">
+        <include name="**/*.PSVITA*_PSVITA.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="support_files" basedir="../Support/">
+        <include name="**/*.Metro*_WindowsMetro.csproj" />
+      </fileset>
+    </if>
+    
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="support_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+  
   <target name="rendersystem" description="Build ANX.Framework InputSystems">
     <!-- default windows fileset -->
     <fileset id="rendersystem_files" basedir="../RenderSystems/">
       <include name="**/*.csproj" />
+      <exclude name="**/*.BaseDirectX.*" />
       <exclude name="**/*PSVita*.csproj" />
       <exclude name="**/*Metro*.csproj" />
       <exclude name="**/*Linux*.csproj" />
@@ -138,12 +188,14 @@
     <if test="${project.anx.linux}">
       <fileset id="rendersystem_files" basedir="../RenderSystems/">
         <include name="**/*GL*_Linux.csproj" />
+        <exclude name="**/*.BaseDirectX.*" />
       </fileset>
     </if>
 
     <if test="${project.anx.psvita}">
       <fileset id="rendersystem_files" basedir="../RenderSystems/">
         <include name="**/*.PSVITA*_PSVITA.csproj" />
+        <exclude name="**/*.BaseDirectX.*" />
       </fileset>
     </if>
 
@@ -248,7 +300,7 @@
     </foreach>
   </target>
  
-  <target name="soundsystem" description="Build ANX.Framework SoundSystems">
+  <target name="soundsystem" description="Build ANX.Framework SoundSystems" depends="support">
     <!-- default windows fileset -->
     <fileset id="soundsystem_files" basedir="../SoundSystems/">
       <include name="**/*.csproj" />
@@ -369,7 +421,7 @@
       <do>
         <echo message="generating: ${path::get-file-name(path::get-directory-name(buildFile))}" />
         
-        <exec program="../bin/sscg.exe" >
+        <exec program="../bin/${build.configuration}/sscg.exe" >
           <arg value="${buildFile}" />
           <arg value="/silent" />
         </exec>
@@ -431,7 +483,7 @@
 
   </target>
 
-  <target name="tools" description="Build ANX.Framework tools" unless="${target::has-executed('tools')}">
+  <target name="tools" description="Build ANX.Framework tools" depends="support" unless="${target::has-executed('tools')}">
     <foreach item="File" property="projectFile">
       <in>
         <items basedir="../Tools/">
@@ -460,9 +512,9 @@
 
   </target>
 
-  <target name="content_pipeline" description="Build ANX.Framework ContentPipeline extensions">
+  <target name="content_pipeline" description="Build ANX.Framework ContentPipeline extensions" depends="support">
     <echo message="building: Content.Pipeline.Extensions" />
-
+<!--
     <exec program="msbuild.exe" >
       <arg value="/t:Build"/>
       <arg value="/p:Configuration=${build.configuration}"/>
@@ -475,6 +527,7 @@
       <arg value="/nologo" />
       <arg value="${project.anxcontent.path}/${project.anxcontent.name}.csproj" />
     </exec>
+-->    
   </target>
 
   <target name="create_packages" description="generates all type of packages">
@@ -540,6 +593,7 @@
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
       <include name="Samples/**/*.csproj" />
+      <exclude name="**/*.BaseDirectX.*" />
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
