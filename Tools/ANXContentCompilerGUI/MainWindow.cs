@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.ContentCompiler.GUI
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(71)] //TODO: Implement parameter handling, Tour, HelpButton, WebsiteButton, Preview!
+    [PercentageComplete(80)] //TODO: Implement Tour, Preview, Renaming of Folders!
     [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class MainWindow : Form
     {
@@ -29,6 +30,7 @@ namespace ANX.ContentCompiler.GUI
         private Point _lastPos;
         private bool _menuMode;
         private bool _mouseDown;
+        private readonly string[] _args;
 
         #endregion
 
@@ -51,6 +53,7 @@ namespace ANX.ContentCompiler.GUI
         {
             InitializeComponent();
             Instance = this;
+            _args = args;
             _firstStart = !File.Exists(SettingsFile);
             if (_firstStart)
             {
@@ -76,6 +79,11 @@ namespace ANX.ContentCompiler.GUI
             if (_firstStart)
                 ShowFirstStartStuff();
             ChangeEnvironmentStartState();
+            if (_args.Length > 0)
+            {
+                if (File.Exists(_args[0]))
+                    OpenProject(_args[0]);
+            }
         }
 
         #endregion
@@ -341,14 +349,32 @@ namespace ANX.ContentCompiler.GUI
 
         public void RemoveFile(string name)
         {
+            for (var i = _contentProject.BuildItems.Count - 1; i >= 0; i--)
+            {
+                if (_contentProject.BuildItems[i].AssetName == name)
+                    _contentProject.BuildItems.RemoveAt(i);
+            }
+            ChangeEnvironmentOpenProject();
         }
 
         public void RemoveFiles(string[] files)
         {
+            foreach (var file in files)
+            {
+                RemoveFile(file);
+            }
         }
 
         public void RemoveFolder(string name)
         {
+            if (treeView.RecursiveSearch(name).Nodes.Count > 0)
+            {
+                foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName.Contains(name)))
+                {
+                    RemoveFile(buildItem.AssetName);
+                }
+            }
+            treeView.Nodes.Remove(treeView.RecursiveSearch(name));
         }
 
         #endregion
@@ -484,6 +510,15 @@ namespace ANX.ContentCompiler.GUI
             }
         }
 
+        private void RibbonButtonWebClick(object sender, EventArgs e)
+        {
+            Process.Start("http://anxframework.codeplex.com/");
+        }
+
+        private void RibbonButtonHelpClick(object sender, EventArgs e)
+        {
+            Process.Start("http://anxframework.codeplex.com/wikipage?title=Content%20Compiler");
+        }
         #endregion
 
         #region WindowMoveMethods
@@ -643,5 +678,40 @@ namespace ANX.ContentCompiler.GUI
 
         #endregion
 
+        #region ContextMenuStuff
+        private void FileToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Multiselect = true;
+                dlg.Title = "Add files";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    AddFiles(dlg.FileNames);
+            }
+        }
+
+        private void FolderToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            using (var dlg = new NewFolderScreen())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    AddFolder(dlg.textBoxName.Text);
+                }
+            }
+        }
+
+        private void TreeViewItemDeleteClick(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode == null) return;
+            if (treeView.SelectedNode == treeView.Nodes[0]) return;
+            foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName == treeView.SelectedNode.Name))
+            {
+                RemoveFile(buildItem.AssetName);
+                return;
+            }
+            RemoveFolder(treeView.SelectedNode.Name);
+        }
+        #endregion
     }
 }
