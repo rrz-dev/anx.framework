@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ANX.RenderSystem.GL3</RootNamespace>
+    <AssemblyName>ANX.RenderSystem.GL3</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;XNAEXT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;XNAEXT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\lib\OpenTK\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlendStateGL3.cs" />
+    <Compile Include="Creator.cs" />
+    <Compile Include="Helpers\DatatypesMapping.cs" />
+    <Compile Include="DepthStencilStateGL3.cs" />
+    <Compile Include="EffectGL3.cs" />
+    <Compile Include="EffectParameterGL3.cs" />
+    <Compile Include="EffectPassGL3.cs" />
+    <Compile Include="EffectTechniqueGL3.cs" />
+    <Compile Include="ErrorHelper.cs" />
+    <Compile Include="GraphicsDeviceWindowsGL3.cs" />
+    <Compile Include="Helpers\GraphicsResourceManager.cs" />
+    <Compile Include="Helpers\LinuxInterop.cs" />
+    <Compile Include="Helpers\WindowsInterop.cs" />
+    <Compile Include="IndexBufferGL3.cs" />
+    <Compile Include="OcclusionQueryGL3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterizerStateGL3.cs" />
+    <Compile Include="RenderTarget2DGL3.cs" />
+    <Compile Include="SamplerStateGL3.cs" />
+    <Compile Include="ShaderAttributeGL3.cs" />
+    <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="ShaderData.cs" />
+    <Compile Include="ShaderHelper.cs" />
+    <Compile Include="SupportedPlatformsImpl.cs" />
+    <Compile Include="Texture2DGL3.cs" />
+    <Compile Include="VertexBufferGL3.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

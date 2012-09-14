@@ -53,7 +53,7 @@ namespace ProjectConverter.Platforms
 			{
 				string value = includeAttribute.Value;
 				if (value.Contains("ANX.RenderSystem.Windows.DX10") ||
-					value.Contains("ANX.RenderSystem.Windows.GL3") ||
+					value.Contains("ANX.RenderSystem.GL3") ||
 					value.Contains("ANX.PlatformSystem.Windows") ||
 					value.Contains("ANX.RenderSystem.Windows.DX11") ||
 					value.Contains("ANX.SoundSystem.OpenAL"))

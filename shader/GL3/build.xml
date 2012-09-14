@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Build License="../doc/license.txt"
-       Target="../RenderSystems/ANX.Framework.Windows.GL3/ShaderByteCode.cs"
-       Namespace="ANX.Framework.Windows.GL3">
+       Target="../RenderSystems/ANX.Framework.GL3/ShaderByteCode.cs"
+       Namespace="ANX.Framework.GL3">
   <Shader Type="SpriteBatch"
           Source="../Shader/GL3/SpriteBatch_GLSL.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
   <Shader Type="AlphaTestEffect"
           Source="../Shader/GL3/AlphaTest.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
   <Shader Type="BasicEffect"
           Source="../Shader/GL3/BasicEffect.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
   <Shader Type="DualTextureEffect"
           Source="../Shader/GL3/DualTexture.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
   <Shader Type="EnvironmentMapEffect"
           Source="../Shader/GL3/EnvironmentMap.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
   <Shader Type="SkinnedEffect"
           Source="../Shader/GL3/Skinned.fx"
-          RenderSystem="ANX.RenderSystem.Windows.GL3"
+          RenderSystem="ANX.RenderSystem.GL3"
           />
 </Build>

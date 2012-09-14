@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using ANX.RenderSystem.Windows.DX10;
 using ANX.RenderSystem.Windows.DX11;
-using ANX.RenderSystem.Windows.GL3;
+using ANX.RenderSystem.GL3;
 using DX11MetroShaderGenerator;
 using System.Diagnostics;
 
@@ -76,7 +76,7 @@ namespace StockShaderCodeGenerator
 					byteCode = metroGenerator.ResultByteCode;
 					break;
 
-				case "ANX.RenderSystem.Windows.GL3":
+				case "ANX.RenderSystem.GL3":
 					byteCode = ShaderHelper.SaveShaderCode(sourceCode);
 					break;
 

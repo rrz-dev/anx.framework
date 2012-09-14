@@ -120,10 +120,6 @@
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
       <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.Windows.GL3</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio.csproj">
       <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
       <Name>ANX.SoundSystem.Windows.XAudio</Name>

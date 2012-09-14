@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 using TInput = Microsoft.Xna.Framework.Content.Pipeline.Graphics.EffectContent;
 using TOutput = Microsoft.Xna.Framework.Content.Pipeline.Processors.CompiledEffectContent;
-using ANX.RenderSystem.Windows.GL3;
+using ANX.RenderSystem.GL3;
 using System.Text;
 
 namespace ANX.Framework.ContentPipeline

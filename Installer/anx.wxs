@@ -106,8 +106,8 @@
       <Component Id='ANX.RenderSystem.Windows.DX11' Guid='{0E0CE2E8-9458-4333-9CF7-D60B126F7310}'>
         <File Id='anx.RenderSystem.windows.dx11' Name='ANX.RenderSystem.Windows.DX11.dll' DiskId='1' Source='../../bin/Release/ANX.RenderSystem.Windows.DX11.dll' />
       </Component>
-      <Component Id='ANX.Framework.Windows.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
-        <File Id='anx.framework.windows.gl3' Name='ANX.Framework.Windows.GL3.dll' DiskId='1' Source='../../bin/Release/ANX.RenderSystem.Windows.GL3.dll' />
+      <Component Id='ANX.Framework.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
+        <File Id='anx.framework.GL3' Name='ANX.Framework.GL3.dll' DiskId='1' Source='../../bin/Release/ANX.RenderSystem.GL3.dll' />
       </Component>
       <Component Id='ANX.InputSystem.Standard' Guid='{71A52D93-AE81-4847-A29A-6AA6E16C83FB}'>
         <File Id='anx.inputsystem.Standard' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../../bin/Release/ANX.InputSystem.Standard.dll' />

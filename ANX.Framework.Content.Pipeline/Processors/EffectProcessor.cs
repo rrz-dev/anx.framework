@@ -6,7 +6,7 @@ using System.Text;
 using ANX.Framework.Content.Pipeline.Graphics;
 using System.IO;
 using System.ComponentModel;
-using ANX.RenderSystem.Windows.GL3;
+using ANX.RenderSystem.GL3;
 
 #endregion
 
