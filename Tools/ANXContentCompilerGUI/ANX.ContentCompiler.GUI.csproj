@@ -166,6 +166,9 @@
     <EmbeddedResource Include="Dialogues\ErrorLogScreen.resx">
       <DependentUpon>ErrorLogScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

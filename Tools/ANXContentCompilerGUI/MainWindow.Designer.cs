@@ -308,7 +308,7 @@ namespace ANX.ContentCompiler.GUI
             this.fileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.FileToolStripMenuItemClick);
             // 
@@ -317,7 +317,7 @@ namespace ANX.ContentCompiler.GUI
             this.folderToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.folderToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItemClick);
             // 
@@ -436,8 +436,8 @@ namespace ANX.ContentCompiler.GUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(865, 652);
-            this.Controls.Add(this.splitContainerMenuLayout);
             this.Controls.Add(this.menuState);
+            this.Controls.Add(this.splitContainerMenuLayout);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
