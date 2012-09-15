@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Build License="../doc/license.txt"
-       Target="../RenderSystems/ANX.Framework.Windows.DX10/ShaderByteCode.cs" 
+       Target="../RenderSystems/ANX.RenderSystem.Windows.DX10/ShaderByteCode.cs" 
        Namespace="ANX.RenderSystem.Windows.DX10">
   <Shader Type="SpriteBatch"
           Source="../Shader/DX10/SpriteBatch.fx"

@@ -148,7 +148,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			if (value == null)
 				throw new ArgumentNullException("value");
 
-			var tex = value.NativeTexture as Texture2D_DX11;
+			var tex = value.NativeTexture as DxTexture2D;
 			NativeParameter.AsShaderResource().SetResource(tex.NativeShaderResourceView);
 		}
 		#endregion

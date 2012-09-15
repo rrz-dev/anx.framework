@@ -1,3 +1,4 @@
+#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,9 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.DXGI;
-using ANX.BaseDirectX;
+using ANX.Framework.NonXNA.Development;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,6 +17,7 @@ using ANX.BaseDirectX;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
+    [Developer("Glatzemann")]
 	public class Creator : IRenderSystemCreator
 	{
 		#region Public
@@ -49,7 +53,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		public INativeGraphicsDevice CreateGraphicsDevice(PresentationParameters presentationParameters)
 		{
 			PreventSystemChange();
-			return new GraphicsDeviceWindowsDX11(presentationParameters);
+			return new GraphicsDeviceDX(presentationParameters);
 		}
 		#endregion
 
@@ -58,7 +62,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			int indexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new IndexBuffer_DX11(graphics, size, indexCount, usage);
+			return new DxIndexBuffer(graphics, size, indexCount, usage);
 		}
 		#endregion
 
@@ -67,7 +71,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new VertexBuffer_DX11(graphics, vertexDeclaration, vertexCount, usage);
+			return new DxVertexBuffer(graphics, vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
@@ -88,13 +92,13 @@ namespace ANX.RenderSystem.Windows.DX11
 			Stream pixelShaderByteCode)
 		{
 			PreventSystemChange();
-			return new Effect_DX11(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
+			return new EffectDX(graphics, managedEffect, vertexShaderByteCode, pixelShaderByteCode);
 		}
 
 		public INativeEffect CreateEffect(GraphicsDevice graphics, Effect managedEffect, Stream byteCode)
 		{
 			PreventSystemChange();
-			return new Effect_DX11(graphics, managedEffect, byteCode);
+			return new EffectDX(graphics, managedEffect, byteCode);
 		}
 		#endregion
 
@@ -188,7 +192,7 @@ namespace ANX.RenderSystem.Windows.DX11
 						{
 							DisplayMode displayMode = new DisplayMode()
 							{
-								Format = BaseFormatConverter.Translate(modeDescription.Format),
+								Format = DxFormatConverter.Translate(modeDescription.Format),
 								Width = modeDescription.Width,
 								Height = modeDescription.Height,
 								AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
@@ -216,7 +220,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			int mipCount)
 		{
 			PreventSystemChange();
-			return new Texture2D_DX11(graphics, width, height, surfaceFormat, mipCount);
+			return new DxTexture2D(graphics, width, height, surfaceFormat, mipCount);
 		}
 		#endregion
 

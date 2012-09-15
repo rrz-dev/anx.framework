@@ -13,6 +13,9 @@ using System.Diagnostics;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using EffectDX10 = ANX.RenderSystem.Windows.DX10.EffectDX;
+using EffectDX11 = ANX.RenderSystem.Windows.DX11.EffectDX;
+
 namespace StockShaderCodeGenerator
 {
 	public static class Compiler
@@ -64,11 +67,11 @@ namespace StockShaderCodeGenerator
 			switch (RenderSystem)
 			{
 				case "ANX.RenderSystem.Windows.DX10":
-					byteCode = Effect_DX10.CompileFXShader(sourceCode, directory);
+					byteCode = EffectDX10.CompileFXShader(sourceCode, directory);
 					break;
 
 				case "ANX.RenderSystem.Windows.DX11":
-					byteCode = Effect_DX11.CompileFXShader(sourceCode, directory);
+					byteCode = EffectDX11.CompileFXShader(sourceCode, directory);
 					break;
 
 				case "ANX.RenderSystem.Windows.Metro":

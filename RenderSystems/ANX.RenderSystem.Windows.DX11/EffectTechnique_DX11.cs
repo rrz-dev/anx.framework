@@ -1,18 +1,37 @@
+#region Using Statements
+using System;
 using System.Collections.Generic;
-using ANX.BaseDirectX;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using Dx11 = SharpDX.Direct3D11;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using Dx11 = SharpDX.Direct3D11;
+
 namespace ANX.RenderSystem.Windows.DX11
 {
-	public class EffectTechnique_DX11 : BaseEffectTechnique<Dx11.EffectTechnique>, INativeEffectTechnique
+	public class EffectTechnique_DX11 : INativeEffectTechnique
 	{
-		public string Name
+		private Effect parentEffect;
+
+		public EffectTechnique_DX11(Effect parentEffect, Dx11.EffectTechnique nativeTechnique)
+		{
+            if (parentEffect == null)
+            {
+                throw new ArgumentNullException("parentEffect");
+            }
+
+			this.parentEffect = parentEffect;
+			NativeTechnique = nativeTechnique;
+		}
+
+        public Dx11.EffectTechnique NativeTechnique { get; protected set; }
+
+        public string Name
 		{
 			get
 			{
@@ -31,11 +50,6 @@ namespace ANX.RenderSystem.Windows.DX11
 					yield return new EffectPass(this.parentEffect);
 				}
 			}
-		}
-
-		public EffectTechnique_DX11(Effect parentEffect, Dx11.EffectTechnique nativeTechnique)
-			: base(parentEffect, nativeTechnique)
-		{
 		}
 	}
 }

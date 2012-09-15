@@ -1,6 +1,6 @@
 using System;
-using ANX.Framework.NonXNA;
 using System.Windows.Forms;
+using ANX.Framework.NonXNA;
 
 namespace WindowsGame1
 {
@@ -17,15 +17,10 @@ namespace WindowsGame1
 
             AddInSelector selector = new AddInSelector();
             if (selector.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-						{
-							AddInSystemFactory.Instance.SetPreferredSystem(
-								AddInType.RenderSystem, selector.cbRenderSystem.Text);
-							
-							AddInSystemFactory.Instance.SetPreferredSystem(
-								AddInType.SoundSystem, selector.cbAudioSystem.Text);
-							
-							AddInSystemFactory.Instance.SetPreferredSystem(
-								AddInType.InputSystem, selector.cbInputSystem.Text);
+            {
+                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, selector.cbRenderSystem.Text);
+                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, selector.cbAudioSystem.Text);
+                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, selector.cbInputSystem.Text);
 
                 using (Game1 game = new Game1())
                 {

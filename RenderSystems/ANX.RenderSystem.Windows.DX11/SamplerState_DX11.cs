@@ -1,12 +1,15 @@
-using ANX.BaseDirectX;
+#region Using Statements
+using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
-using Dx11 = SharpDX.Direct3D11;
-using System;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
+
+using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
@@ -83,7 +86,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region Apply
 		public void Apply(GraphicsDevice graphicsDevice, int index)
         {
-			Dx11.DeviceContext context = (graphicsDevice.NativeDevice as GraphicsDeviceWindowsDX11).NativeDevice;
+			Dx11.DeviceContext context = (graphicsDevice.NativeDevice as GraphicsDeviceDX).NativeDevice;
 
             UpdateNativeSamplerState(context.Device);
             IsBound = true;

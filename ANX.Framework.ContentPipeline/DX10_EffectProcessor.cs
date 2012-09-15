@@ -1,7 +1,9 @@
+#region Using Statements
 using System;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using ANX.RenderSystem.Windows.DX10;
-using ANX.BaseDirectX;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -17,7 +19,7 @@ namespace ANX.Framework.ContentPipeline
     {
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
-            byte[] effectByteCode = Effect_DX10.CompileFXShader(input.EffectCode);
+            byte[] effectByteCode = EffectDX.CompileFXShader(input.EffectCode);
 
             Byte[] byteCode = new Byte[3 + 2 + 1 + 4 + effectByteCode.Length];
 

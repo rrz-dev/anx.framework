@@ -179,7 +179,6 @@
     <!-- default windows fileset -->
     <fileset id="rendersystem_files" basedir="../RenderSystems/">
       <include name="**/*.csproj" />
-      <exclude name="**/*.BaseDirectX.*" />
       <exclude name="**/*PSVita*.csproj" />
       <exclude name="**/*Metro*.csproj" />
       <exclude name="**/*Linux*.csproj" />
@@ -188,14 +187,12 @@
     <if test="${project.anx.linux}">
       <fileset id="rendersystem_files" basedir="../RenderSystems/">
         <include name="**/*GL*_Linux.csproj" />
-        <exclude name="**/*.BaseDirectX.*" />
       </fileset>
     </if>
 
     <if test="${project.anx.psvita}">
       <fileset id="rendersystem_files" basedir="../RenderSystems/">
         <include name="**/*.PSVITA*_PSVITA.csproj" />
-        <exclude name="**/*.BaseDirectX.*" />
       </fileset>
     </if>
 
@@ -210,7 +207,11 @@
         <items refid="rendersystem_files" />
       </in>
       <do>
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+        <property name="additional_directives" value="${path::get-file-name-without-extension(projectFile)}" />
+        <property name="additional_directives" value="${string::replace(additional_directives, 'ANX.RenderSystem.', '')}" />
+        <property name="additional_directives" value="${string::replace(additional_directives, 'Windows.', '')}" />
+
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)} (directives: ${additional_directives})" />
 
         <exec program="msbuild.exe" >
           <arg value="/t:Build"/>
@@ -219,7 +220,7 @@
           <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value='/p:DefineConstants="${project.anx.directives} ${additional_directives}"' />
           <arg value="/clp:ErrorsOnly" />
           <arg value="/nologo" />
           <arg value="${projectFile}" />
@@ -593,7 +594,6 @@
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
       <include name="Samples/**/*.csproj" />
-      <exclude name="**/*.BaseDirectX.*" />
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
