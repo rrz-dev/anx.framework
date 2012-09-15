@@ -213,14 +213,6 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11.csproj">
-      <Project>{b30de9c2-0926-46b6-8351-9af276c472d5}</Project>
-      <Name>ANX.RenderSystem.Windows.DX11</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio.csproj">
-      <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
