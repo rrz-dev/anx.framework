@@ -117,50 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="appbar_arrow_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.arrow.right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ActionPanel" xml:space="preserve">
+    <value>This is the Action Panel. In this central place you can find depending on your situation the most common actions.</value>
   </data>
-  <data name="appbar_question" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="End" xml:space="preserve">
+    <value>Cave Johnson - we're done here! If you have further questions, click the Help button in the top area!</value>
   </data>
-  <data name="appbar_page_multiple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.page.multiple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LogBox" xml:space="preserve">
+    <value>When building your project, you can see the Log output here. This box enables you to detect build errors quickly. You can expand the log by clicking on the down-pointing arrow on the right.</value>
   </data>
-  <data name="appbar_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Menu" xml:space="preserve">
+    <value>More detailed actions can be found in the File Menu which you can open by clicking on this button.</value>
   </data>
-  <data name="arrow_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PropertyGrid" xml:space="preserve">
+    <value>In the Property Grid you can change the options or parameters of the object you selected in the Project Explorer.</value>
   </data>
-  <data name="appbar_folder_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.folder.open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RibbonButtons" xml:space="preserve">
+    <value>These buttons provide you quick access to some general and common actions. </value>
   </data>
-  <data name="appbar_new" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Start" xml:space="preserve">
+    <value>Hi and welcome to the ANX Content Compiler! The Content Compiler enables you to convert your media files to XNB files that can be read by the ANX Content Pipeline.</value>
   </data>
-  <data name="appbar_clean" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.clean.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Start2" xml:space="preserve">
+    <value>This quick tour will guide you through the main components of the User Interface.</value>
   </data>
-  <data name="clouds" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clouds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="appbar_globe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.globe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Deleket_Smileys_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deleket-Smileys-8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="red_arrow_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red-arrow_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="red_arrow_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red-arrow_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TreeView" xml:space="preserve">
+    <value>This is the Project Explorer. Here you can see and select all files &amp; folders that your project contains. By clicking on them, you can manipulate them in the Property Grid.</value>
   </data>
 </root>

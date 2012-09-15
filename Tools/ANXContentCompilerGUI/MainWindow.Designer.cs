@@ -33,6 +33,9 @@ namespace ANX.ContentCompiler.GUI
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainerMenuLayout = new System.Windows.Forms.SplitContainer();
+            this.show_pictureBoxRibbon = new System.Windows.Forms.PictureBox();
+            this.show_pictureBoxMenu = new System.Windows.Forms.PictureBox();
+            this.show_pictureBoxErrorLog = new System.Windows.Forms.PictureBox();
             this.ribbonTextBox = new ANX.ContentCompiler.GUI.Controls.RibbonTextBox();
             this.ribbonButtonHelp = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
             this.ribbonButtonWeb = new ANX.ContentCompiler.GUI.Controls.RibbonButton();
@@ -44,6 +47,7 @@ namespace ANX.ContentCompiler.GUI
             this.buttonMenu = new System.Windows.Forms.Button();
             this.labelTitle = new System.Windows.Forms.Label();
             this.splitContainerFileTree = new System.Windows.Forms.SplitContainer();
+            this.show_pictureBoxSmiley = new System.Windows.Forms.PictureBox();
             this.labelFileTree = new System.Windows.Forms.Label();
             this.treeView = new System.Windows.Forms.TreeView();
             this.treeViewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -53,24 +57,36 @@ namespace ANX.ContentCompiler.GUI
             this.treeViewItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.treeViewItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.show_labelDesc = new System.Windows.Forms.Label();
+            this.show_pictureBoxProperties = new System.Windows.Forms.PictureBox();
+            this.show_pictureBoxProjectExplorer = new System.Windows.Forms.PictureBox();
             this.editingState = new ANX.ContentCompiler.GUI.States.EditingState();
             this.startState = new ANX.ContentCompiler.GUI.States.StartState();
+            this.show_pictureBoxMainPanel = new System.Windows.Forms.PictureBox();
             this.labelProperties = new System.Windows.Forms.Label();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.show_timer = new System.Windows.Forms.Timer(this.components);
             this.menuState = new ANX.ContentCompiler.GUI.States.MenuState();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             this.splitContainerMenuLayout.Panel1.SuspendLayout();
             this.splitContainerMenuLayout.Panel2.SuspendLayout();
             this.splitContainerMenuLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxErrorLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).BeginInit();
             this.splitContainerFileTree.Panel1.SuspendLayout();
             this.splitContainerFileTree.Panel2.SuspendLayout();
             this.splitContainerFileTree.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).BeginInit();
             this.treeViewContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).BeginInit();
             this.splitContainerProperties.Panel1.SuspendLayout();
             this.splitContainerProperties.Panel2.SuspendLayout();
             this.splitContainerProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainerMenuLayout
@@ -85,6 +101,9 @@ namespace ANX.ContentCompiler.GUI
             // 
             // splitContainerMenuLayout.Panel1
             // 
+            this.splitContainerMenuLayout.Panel1.Controls.Add(this.show_pictureBoxRibbon);
+            this.splitContainerMenuLayout.Panel1.Controls.Add(this.show_pictureBoxMenu);
+            this.splitContainerMenuLayout.Panel1.Controls.Add(this.show_pictureBoxErrorLog);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonTextBox);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonButtonHelp);
             this.splitContainerMenuLayout.Panel1.Controls.Add(this.ribbonButtonWeb);
@@ -102,6 +121,39 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerMenuLayout.Size = new System.Drawing.Size(865, 652);
             this.splitContainerMenuLayout.SplitterDistance = 99;
             this.splitContainerMenuLayout.TabIndex = 0;
+            // 
+            // show_pictureBoxRibbon
+            // 
+            this.show_pictureBoxRibbon.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_left;
+            this.show_pictureBoxRibbon.Location = new System.Drawing.Point(357, 22);
+            this.show_pictureBoxRibbon.Name = "show_pictureBoxRibbon";
+            this.show_pictureBoxRibbon.Size = new System.Drawing.Size(115, 72);
+            this.show_pictureBoxRibbon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxRibbon.TabIndex = 12;
+            this.show_pictureBoxRibbon.TabStop = false;
+            this.show_pictureBoxRibbon.Visible = false;
+            // 
+            // show_pictureBoxMenu
+            // 
+            this.show_pictureBoxMenu.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_left;
+            this.show_pictureBoxMenu.Location = new System.Drawing.Point(90, -1);
+            this.show_pictureBoxMenu.Name = "show_pictureBoxMenu";
+            this.show_pictureBoxMenu.Size = new System.Drawing.Size(52, 36);
+            this.show_pictureBoxMenu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxMenu.TabIndex = 11;
+            this.show_pictureBoxMenu.TabStop = false;
+            this.show_pictureBoxMenu.Visible = false;
+            // 
+            // show_pictureBoxErrorLog
+            // 
+            this.show_pictureBoxErrorLog.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_right;
+            this.show_pictureBoxErrorLog.Location = new System.Drawing.Point(411, 22);
+            this.show_pictureBoxErrorLog.Name = "show_pictureBoxErrorLog";
+            this.show_pictureBoxErrorLog.Size = new System.Drawing.Size(115, 72);
+            this.show_pictureBoxErrorLog.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxErrorLog.TabIndex = 5;
+            this.show_pictureBoxErrorLog.TabStop = false;
+            this.show_pictureBoxErrorLog.Visible = false;
             // 
             // ribbonTextBox
             // 
@@ -240,6 +292,7 @@ namespace ANX.ContentCompiler.GUI
             // 
             // splitContainerFileTree.Panel1
             // 
+            this.splitContainerFileTree.Panel1.Controls.Add(this.show_pictureBoxSmiley);
             this.splitContainerFileTree.Panel1.Controls.Add(this.labelFileTree);
             this.splitContainerFileTree.Panel1.Controls.Add(this.treeView);
             // 
@@ -249,6 +302,17 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerFileTree.Size = new System.Drawing.Size(865, 549);
             this.splitContainerFileTree.SplitterDistance = 221;
             this.splitContainerFileTree.TabIndex = 0;
+            // 
+            // show_pictureBoxSmiley
+            // 
+            this.show_pictureBoxSmiley.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.Deleket_Smileys_8;
+            this.show_pictureBoxSmiley.Location = new System.Drawing.Point(89, 394);
+            this.show_pictureBoxSmiley.Name = "show_pictureBoxSmiley";
+            this.show_pictureBoxSmiley.Size = new System.Drawing.Size(127, 122);
+            this.show_pictureBoxSmiley.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxSmiley.TabIndex = 2;
+            this.show_pictureBoxSmiley.TabStop = false;
+            this.show_pictureBoxSmiley.Visible = false;
             // 
             // labelFileTree
             // 
@@ -350,17 +414,55 @@ namespace ANX.ContentCompiler.GUI
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.show_labelDesc);
+            this.splitContainerProperties.Panel1.Controls.Add(this.show_pictureBoxProperties);
+            this.splitContainerProperties.Panel1.Controls.Add(this.show_pictureBoxProjectExplorer);
             this.splitContainerProperties.Panel1.Controls.Add(this.editingState);
             this.splitContainerProperties.Panel1.Controls.Add(this.startState);
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.show_pictureBoxMainPanel);
             this.splitContainerProperties.Panel2.Controls.Add(this.labelProperties);
             this.splitContainerProperties.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainerProperties.Panel2.ForeColor = System.Drawing.Color.White;
             this.splitContainerProperties.Size = new System.Drawing.Size(640, 549);
             this.splitContainerProperties.SplitterDistance = 366;
             this.splitContainerProperties.TabIndex = 0;
+            // 
+            // show_labelDesc
+            // 
+            this.show_labelDesc.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.show_labelDesc.ForeColor = System.Drawing.Color.Red;
+            this.show_labelDesc.Location = new System.Drawing.Point(0, 388);
+            this.show_labelDesc.Name = "show_labelDesc";
+            this.show_labelDesc.Size = new System.Drawing.Size(361, 137);
+            this.show_labelDesc.TabIndex = 11;
+            this.show_labelDesc.Text = "Explanation goes here.";
+            this.show_labelDesc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.show_labelDesc.Visible = false;
+            // 
+            // show_pictureBoxProperties
+            // 
+            this.show_pictureBoxProperties.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_right;
+            this.show_pictureBoxProperties.Location = new System.Drawing.Point(246, 195);
+            this.show_pictureBoxProperties.Name = "show_pictureBoxProperties";
+            this.show_pictureBoxProperties.Size = new System.Drawing.Size(115, 72);
+            this.show_pictureBoxProperties.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxProperties.TabIndex = 10;
+            this.show_pictureBoxProperties.TabStop = false;
+            this.show_pictureBoxProperties.Visible = false;
+            // 
+            // show_pictureBoxProjectExplorer
+            // 
+            this.show_pictureBoxProjectExplorer.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_left;
+            this.show_pictureBoxProjectExplorer.Location = new System.Drawing.Point(-1, 157);
+            this.show_pictureBoxProjectExplorer.Name = "show_pictureBoxProjectExplorer";
+            this.show_pictureBoxProjectExplorer.Size = new System.Drawing.Size(115, 81);
+            this.show_pictureBoxProjectExplorer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxProjectExplorer.TabIndex = 4;
+            this.show_pictureBoxProjectExplorer.TabStop = false;
+            this.show_pictureBoxProjectExplorer.Visible = false;
             // 
             // editingState
             // 
@@ -381,6 +483,17 @@ namespace ANX.ContentCompiler.GUI
             this.startState.Size = new System.Drawing.Size(364, 547);
             this.startState.TabIndex = 0;
             this.startState.Visible = false;
+            // 
+            // show_pictureBoxMainPanel
+            // 
+            this.show_pictureBoxMainPanel.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.red_arrow_left;
+            this.show_pictureBoxMainPanel.Location = new System.Drawing.Point(0, 186);
+            this.show_pictureBoxMainPanel.Name = "show_pictureBoxMainPanel";
+            this.show_pictureBoxMainPanel.Size = new System.Drawing.Size(115, 81);
+            this.show_pictureBoxMainPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.show_pictureBoxMainPanel.TabIndex = 3;
+            this.show_pictureBoxMainPanel.TabStop = false;
+            this.show_pictureBoxMainPanel.Visible = false;
             // 
             // labelProperties
             // 
@@ -417,6 +530,11 @@ namespace ANX.ContentCompiler.GUI
             this.propertyGrid.ViewForeColor = System.Drawing.Color.White;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridPropertyValueChanged);
             // 
+            // show_timer
+            // 
+            this.show_timer.Interval = 2000;
+            this.show_timer.Tick += new System.EventHandler(this.ShowTimerTick);
+            // 
             // menuState
             // 
             this.menuState.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -451,15 +569,22 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerMenuLayout.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).EndInit();
             this.splitContainerMenuLayout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxErrorLog)).EndInit();
             this.splitContainerFileTree.Panel1.ResumeLayout(false);
             this.splitContainerFileTree.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).EndInit();
             this.splitContainerFileTree.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).EndInit();
             this.treeViewContextMenu.ResumeLayout(false);
             this.splitContainerProperties.Panel1.ResumeLayout(false);
             this.splitContainerProperties.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).EndInit();
             this.splitContainerProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -492,6 +617,15 @@ namespace ANX.ContentCompiler.GUI
         public Controls.RibbonTextBox ribbonTextBox;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem;
+        private System.Windows.Forms.PictureBox show_pictureBoxErrorLog;
+        private System.Windows.Forms.PictureBox show_pictureBoxProjectExplorer;
+        private System.Windows.Forms.PictureBox show_pictureBoxMainPanel;
+        private System.Windows.Forms.PictureBox show_pictureBoxRibbon;
+        private System.Windows.Forms.PictureBox show_pictureBoxMenu;
+        private System.Windows.Forms.PictureBox show_pictureBoxProperties;
+        private System.Windows.Forms.Label show_labelDesc;
+        private System.Windows.Forms.Timer show_timer;
+        private System.Windows.Forms.PictureBox show_pictureBoxSmiley;
     }
 }
 

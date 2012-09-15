@@ -30,7 +30,6 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FirstStartScreen));
             this.labelTour = new System.Windows.Forms.Label();
             this.labelSkip = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -98,6 +97,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             this.button2.TabIndex = 6;
             this.button2.Text = "Take Tour";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
             // button3
             // 
@@ -126,7 +126,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             // 
             // pictureBoxArrowLeft
             // 
-            this.pictureBoxArrowLeft.Image = ((System.Drawing.Image)(Resources.arrow_left));
+            this.pictureBoxArrowLeft.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.arrow_left;
             this.pictureBoxArrowLeft.Location = new System.Drawing.Point(176, 274);
             this.pictureBoxArrowLeft.Name = "pictureBoxArrowLeft";
             this.pictureBoxArrowLeft.Size = new System.Drawing.Size(118, 114);
@@ -136,7 +136,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             // 
             // pictureBoxArrowRight
             // 
-            this.pictureBoxArrowRight.Image = ((System.Drawing.Image)(Resources.arrow_right));
+            this.pictureBoxArrowRight.Image = global::ANX.ContentCompiler.GUI.Properties.Resources.arrow_right;
             this.pictureBoxArrowRight.Location = new System.Drawing.Point(317, 274);
             this.pictureBoxArrowRight.Name = "pictureBoxArrowRight";
             this.pictureBoxArrowRight.Size = new System.Drawing.Size(119, 114);

@@ -12,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.ContentCompiler.GUI
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(80)] //TODO: Implement Tour, Preview, Renaming of Folders!
+    [PercentageComplete(90)] //TODO: Preview, Renaming of Folders!
     [TestState(TestStateAttribute.TestState.Tested)]
     public partial class MainWindow : Form
     {
@@ -31,7 +31,7 @@ namespace ANX.ContentCompiler.GUI
         private bool _menuMode;
         private bool _mouseDown;
         private readonly string[] _args;
-
+        private int _showCounter = 0;
         #endregion
 
         #region Properties
@@ -712,6 +712,123 @@ namespace ANX.ContentCompiler.GUI
             }
             RemoveFolder(treeView.SelectedNode.Name);
         }
+        #endregion
+
+        #region TourMethods
+        public void StartShow()
+        {
+            propertyGrid.Visible = false;
+            treeView.Visible = false;
+            editingState.Visible = false;
+            startState.Visible = false;
+            ribbonButtonClean.Enabled = false;
+            ribbonButtonHelp.Enabled = false;
+            ribbonButtonLoad.Enabled = false;
+            ribbonButtonNew.Enabled = false;
+            ribbonButtonSave.Enabled = false;
+            ribbonButtonWeb.Enabled = false;
+            ribbonTextBox.Enabled = false;
+            buttonMenu.Enabled = false;
+
+            show_timer.Start();
+        }
+
+        public void EndShow()
+        {
+            show_timer.Stop();
+            show_labelDesc.Visible = false;
+            show_pictureBoxSmiley.Visible = false;
+            
+            propertyGrid.Visible = true;
+            treeView.Visible = true;
+            startState.Visible = true;
+            ribbonButtonClean.Enabled = true;
+            ribbonButtonHelp.Enabled = true;
+            ribbonButtonLoad.Enabled = true;
+            ribbonButtonNew.Enabled = true;
+            ribbonButtonSave.Enabled = true;
+            ribbonButtonWeb.Enabled = true;
+            ribbonTextBox.Enabled = true;
+            buttonMenu.Enabled = true;
+        }
+
+        private void ShowTimerTick(object sender, EventArgs e)
+        {
+            switch(_showCounter)
+            {
+                case 0:
+                    show_timer.Interval = 8000;
+                    startState.Visible = false;
+                    show_pictureBoxSmiley.Visible = true;
+                    show_labelDesc.Visible = true;
+                    show_labelDesc.Text = ShowStrings.Start;
+                    break;
+                case 1:
+                    show_timer.Interval = 6000;
+                    show_labelDesc.Text = ShowStrings.Start2;
+                    break;
+                case 2:
+                    show_timer.Interval = 9000;
+                    show_pictureBoxMainPanel.Visible = true;
+                    show_labelDesc.Text = ShowStrings.ActionPanel;
+                    editingState.Enabled = false;
+                    editingState.Visible = true;
+                    break;
+                case 3:
+                    show_timer.Interval = 9000;
+                    editingState.Enabled = true;
+                    editingState.Visible = false;
+                    show_pictureBoxMainPanel.Visible = false;
+                    show_pictureBoxProjectExplorer.Visible = true;
+                    show_pictureBoxSmiley.BackColor = Settings.DarkMainColor;
+                    show_labelDesc.Text = ShowStrings.TreeView;
+                    treeView.Visible = true;
+                    treeView.Enabled = false;
+                    break;
+                case 4:
+                    show_timer.Interval = 8000;
+                    treeView.Enabled = true;
+                    treeView.Visible = false;
+                    show_pictureBoxSmiley.BackColor = Settings.MainColor;
+                    show_pictureBoxProjectExplorer.Visible = false;
+                    show_pictureBoxProperties.Visible = true;
+                    show_labelDesc.Text = ShowStrings.PropertyGrid;
+                    propertyGrid.Visible = true;
+                    propertyGrid.Enabled = false;
+                    break;
+                case 5:
+                    show_timer.Interval = 6000;
+                    propertyGrid.Visible = false;
+                    propertyGrid.Enabled = true;
+                    show_pictureBoxProperties.Visible = false;
+                    show_pictureBoxRibbon.Visible = true;
+                    show_labelDesc.Text = ShowStrings.RibbonButtons;
+                    break;
+                case 6:
+                    show_timer.Interval = 8000;
+                    show_pictureBoxRibbon.Visible = false;
+                    show_pictureBoxMenu.Visible = true;
+                    show_labelDesc.Text = ShowStrings.Menu;
+                    break;
+                case 7:
+                    show_timer.Interval = 11000;
+                    show_pictureBoxMenu.Visible = false;
+                    show_pictureBoxErrorLog.Visible = true;
+                    show_labelDesc.Text = ShowStrings.LogBox;
+                    break;
+                case 8:
+                    show_timer.Interval = 7000;
+                    show_pictureBoxErrorLog.Visible = false;
+                    show_labelDesc.Text = ShowStrings.End;
+                    break;
+                case 9:
+                    show_timer.Interval = 2000;
+                    EndShow();
+                    break;
+            }
+            _showCounter++;
+        }
+
         #endregion
     }
 }

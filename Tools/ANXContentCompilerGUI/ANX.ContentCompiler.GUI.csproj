@@ -136,6 +136,11 @@
     </Compile>
     <Compile Include="RecentProjects.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ShowStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="States\EditingState.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -166,9 +171,6 @@
     <EmbeddedResource Include="Dialogues\ErrorLogScreen.resx">
       <DependentUpon>ErrorLogScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -179,6 +181,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ShowStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShowStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -193,6 +199,8 @@
     <None Include="Resources\arrow-right.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\red-arrow_right.png" />
+    <None Include="Resources\red-arrow_left.png" />
     <None Include="Resources\arrow.png" />
     <None Include="Resources\appbar.new1.png" />
     <None Include="Resources\appbar.folder.open.png" />
