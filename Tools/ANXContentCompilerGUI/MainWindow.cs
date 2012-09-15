@@ -13,7 +13,7 @@ namespace ANX.ContentCompiler.GUI
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [PercentageComplete(80)] //TODO: Implement Tour, Preview, Renaming of Folders!
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class MainWindow : Form
     {
         #region Fields
@@ -369,12 +369,12 @@ namespace ANX.ContentCompiler.GUI
         {
             if (treeView.RecursiveSearch(name).Nodes.Count > 0)
             {
-                foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName.Contains(name)))
+                for (int i = _contentProject.BuildItems.Count - 1; i >= 0; i--)
                 {
-                    RemoveFile(buildItem.AssetName);
+                    if (_contentProject.BuildItems[i].AssetName.Contains(name.Replace("Content" + Path.DirectorySeparatorChar, "")))
+                        RemoveFile(_contentProject.BuildItems[i].AssetName);
                 }
             }
-            treeView.Nodes.Remove(treeView.RecursiveSearch(name));
         }
 
         #endregion
