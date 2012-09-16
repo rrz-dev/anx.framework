@@ -32,6 +32,7 @@ namespace ANX.ContentCompiler.GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.splitContainerMenuLayout = new System.Windows.Forms.SplitContainer();
             this.show_pictureBoxRibbon = new System.Windows.Forms.PictureBox();
             this.show_pictureBoxMenu = new System.Windows.Forms.PictureBox();
@@ -559,6 +560,7 @@ namespace ANX.ContentCompiler.GUI
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ANX Content Compiler";

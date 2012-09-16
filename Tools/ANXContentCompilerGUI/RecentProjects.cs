@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
 using ANX.Framework.NonXNA.Development;
@@ -47,14 +48,17 @@ namespace ANX.ContentCompiler.GUI
         public static RecentProjects Load()
         {
             var instance = new RecentProjects();
-            XmlReader reader = XmlReader.Create(Path);
-            while (!reader.EOF)
+            if (File.Exists(Path))
             {
-                if (reader.Name == "ContentProject")
-                    instance.Add(reader.ReadElementContentAsString());
-                reader.Read();
+                XmlReader reader = XmlReader.Create(Path);
+                while (!reader.EOF)
+                {
+                    if (reader.Name == "ContentProject")
+                        instance.Add(reader.ReadElementContentAsString());
+                    reader.Read();
+                }
+                reader.Close();
             }
-            reader.Close();
             return instance;
         }
     }
