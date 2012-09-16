@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.ContentCompiler.GUI
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(90)]
+    [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Tested)]
     public static class Settings
     {
@@ -22,6 +22,7 @@ namespace ANX.ContentCompiler.GUI
         public static Color AccentColor2 { get; set; }
         public static Color AccentColor3 { get; set; }
         public static List<String> RecentProjects { get; set; }
+        public static bool ShowFirstStartScreen { get; set; }
 
         public static void Defaults()
         {
@@ -88,6 +89,10 @@ namespace ANX.ContentCompiler.GUI
                         if (reader.NodeType == XmlNodeType.Element)
                             RecentProjects.Add(reader.ReadElementContentAsString());
                         break;
+                    case "ShowFirstStartScreen":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            ShowFirstStartScreen = reader.ReadElementContentAsBoolean();
+                        break;
                     default:
                         reader.Read();
                         break;
@@ -138,6 +143,9 @@ namespace ANX.ContentCompiler.GUI
                 writer.WriteString(recentProject);
                 writer.WriteEndElement();
             }
+            writer.WriteEndElement();
+            writer.WriteStartElement("ShowFirstStartScreen");
+            writer.WriteValue(ShowFirstStartScreen);
             writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteEndDocument();

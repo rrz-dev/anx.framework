@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuState));
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
@@ -55,6 +54,7 @@
             this.arrowButtonSaveAsCproj = new ANX.ContentCompiler.GUI.Controls.ArrowButton();
             this.labelHeading = new System.Windows.Forms.Label();
             this.panelSettings = new System.Windows.Forms.Panel();
+            this.checkBoxShowWelcomeScreen = new System.Windows.Forms.CheckBox();
             this.labelSettings = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panelNew.SuspendLayout();
@@ -263,7 +263,8 @@
             this.labelOpenDesc.Name = "labelOpenDesc";
             this.labelOpenDesc.Size = new System.Drawing.Size(687, 70);
             this.labelOpenDesc.TabIndex = 3;
-            this.labelOpenDesc.Text = "If you want to import Content Projects from XNA or previous Content Compiler versions, you can do that by clicking the import button.";
+            this.labelOpenDesc.Text = "If you want to import Content Projects from XNA or previous Content Compiler vers" +
+    "ions, you can do that by clicking the import button.";
             // 
             // arrowButtonImport
             // 
@@ -362,12 +363,24 @@
             this.panelSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSettings.Controls.Add(this.checkBoxShowWelcomeScreen);
             this.panelSettings.Controls.Add(this.labelSettings);
             this.panelSettings.Location = new System.Drawing.Point(95, 0);
             this.panelSettings.Name = "panelSettings";
             this.panelSettings.Size = new System.Drawing.Size(773, 576);
             this.panelSettings.TabIndex = 6;
             this.panelSettings.Visible = false;
+            // 
+            // checkBoxShowWelcomeScreen
+            // 
+            this.checkBoxShowWelcomeScreen.AutoSize = true;
+            this.checkBoxShowWelcomeScreen.Location = new System.Drawing.Point(26, 55);
+            this.checkBoxShowWelcomeScreen.Name = "checkBoxShowWelcomeScreen";
+            this.checkBoxShowWelcomeScreen.Size = new System.Drawing.Size(191, 17);
+            this.checkBoxShowWelcomeScreen.TabIndex = 2;
+            this.checkBoxShowWelcomeScreen.Text = "Show Welcomescreen at startup";
+            this.checkBoxShowWelcomeScreen.UseVisualStyleBackColor = true;
+            this.checkBoxShowWelcomeScreen.CheckedChanged += new System.EventHandler(this.CheckBoxShowWelcomeScreenCheckedChanged);
             // 
             // labelSettings
             // 
@@ -385,11 +398,11 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.labelVersion);
-            this.Controls.Add(this.panelOpen);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelSettings);
+            this.Controls.Add(this.panelOpen);
             this.Controls.Add(this.panelSaveAs);
             this.Controls.Add(this.panelNew);
-            this.Controls.Add(this.panelSettings);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "MenuState";
@@ -403,6 +416,7 @@
             this.panelSaveAs.ResumeLayout(false);
             this.panelSaveAs.PerformLayout();
             this.panelSettings.ResumeLayout(false);
+            this.panelSettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -436,5 +450,6 @@
         private System.Windows.Forms.Label labelOpenDesc;
         private System.Windows.Forms.Panel panelSettings;
         private System.Windows.Forms.Label labelSettings;
+        private System.Windows.Forms.CheckBox checkBoxShowWelcomeScreen;
     }
 }

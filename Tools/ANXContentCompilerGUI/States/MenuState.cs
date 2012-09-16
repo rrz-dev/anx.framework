@@ -43,6 +43,7 @@ namespace ANX.ContentCompiler.GUI.States
             buttonSave.FlatAppearance.MouseOverBackColor = Settings.AccentColor2;
             buttonSaveAs.FlatAppearance.MouseOverBackColor = Settings.AccentColor2;
             buttonSettings.FlatAppearance.MouseDownBackColor = Settings.AccentColor2;
+            checkBoxShowWelcomeScreen.Checked = Settings.ShowFirstStartScreen;
         }
 
         private void ResetMenuState()
@@ -186,6 +187,14 @@ namespace ANX.ContentCompiler.GUI.States
             buttonNew.BackColor = Settings.AccentColor;
             panelNew.Visible = true;
         }
+        #endregion
+
+        #region Options Stuff
+        private void CheckBoxShowWelcomeScreenCheckedChanged(object sender, EventArgs e)
+        {
+            Settings.ShowFirstStartScreen = ((CheckBox)sender).Checked;
+        }
+
         #endregion
     }
 }

@@ -61,12 +61,12 @@ namespace ANX.ContentCompiler.GUI.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
-        internal static System.Drawing.Bitmap appbar_arrow_right {
+        internal static System.Drawing.Icon anx {
             get {
-                object obj = ResourceManager.GetObject("appbar_arrow_right", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("anx", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

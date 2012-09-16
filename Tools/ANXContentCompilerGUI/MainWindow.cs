@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
+using ANX.ContentCompiler.GUI.Properties;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.NonXNA.Development;
@@ -24,7 +25,7 @@ namespace ANX.ContentCompiler.GUI
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                          "ANX Content Compiler" + Path.DirectorySeparatorChar + "settings.ees");
 
-        private readonly bool _firstStart = true;
+        private bool _firstStart = true;
 
         private ContentProject _contentProject;
         private Point _lastPos;
@@ -52,6 +53,7 @@ namespace ANX.ContentCompiler.GUI
         public MainWindow(string[] args)
         {
             InitializeComponent();
+            Icon = Resources.anx;
             Instance = this;
             _args = args;
             _firstStart = !File.Exists(SettingsFile);
@@ -76,6 +78,9 @@ namespace ANX.ContentCompiler.GUI
 
         private void MainWindowShown(object sender, EventArgs e)
         {
+
+            if (!_firstStart && Settings.ShowFirstStartScreen)
+                _firstStart = true;
             if (_firstStart)
                 ShowFirstStartStuff();
             ChangeEnvironmentStartState();
@@ -750,6 +755,7 @@ namespace ANX.ContentCompiler.GUI
             ribbonButtonWeb.Enabled = true;
             ribbonTextBox.Enabled = true;
             buttonMenu.Enabled = true;
+            Settings.ShowFirstStartScreen = false;
         }
 
         private void ShowTimerTick(object sender, EventArgs e)

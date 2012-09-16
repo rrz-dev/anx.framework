@@ -428,7 +428,7 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerProperties.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainerProperties.Panel2.ForeColor = System.Drawing.Color.White;
             this.splitContainerProperties.Size = new System.Drawing.Size(640, 549);
-            this.splitContainerProperties.SplitterDistance = 366;
+            this.splitContainerProperties.SplitterDistance = 395;
             this.splitContainerProperties.TabIndex = 0;
             // 
             // show_labelDesc
@@ -471,7 +471,7 @@ namespace ANX.ContentCompiler.GUI
             this.editingState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editingState.Location = new System.Drawing.Point(0, 0);
             this.editingState.Name = "editingState";
-            this.editingState.Size = new System.Drawing.Size(364, 547);
+            this.editingState.Size = new System.Drawing.Size(393, 547);
             this.editingState.TabIndex = 1;
             this.editingState.Visible = false;
             // 
@@ -481,7 +481,7 @@ namespace ANX.ContentCompiler.GUI
             this.startState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startState.Location = new System.Drawing.Point(0, 0);
             this.startState.Name = "startState";
-            this.startState.Size = new System.Drawing.Size(364, 547);
+            this.startState.Size = new System.Drawing.Size(393, 547);
             this.startState.TabIndex = 0;
             this.startState.Visible = false;
             // 
@@ -504,7 +504,7 @@ namespace ANX.ContentCompiler.GUI
             this.labelProperties.ForeColor = System.Drawing.Color.White;
             this.labelProperties.Location = new System.Drawing.Point(3, 0);
             this.labelProperties.Name = "labelProperties";
-            this.labelProperties.Size = new System.Drawing.Size(264, 19);
+            this.labelProperties.Size = new System.Drawing.Size(235, 19);
             this.labelProperties.TabIndex = 2;
             this.labelProperties.Text = "Properties";
             this.labelProperties.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -525,7 +525,7 @@ namespace ANX.ContentCompiler.GUI
             this.propertyGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.propertyGrid.Location = new System.Drawing.Point(3, 22);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(264, 503);
+            this.propertyGrid.Size = new System.Drawing.Size(235, 503);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.propertyGrid.ViewForeColor = System.Drawing.Color.White;
@@ -560,7 +560,6 @@ namespace ANX.ContentCompiler.GUI
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ANX Content Compiler";
