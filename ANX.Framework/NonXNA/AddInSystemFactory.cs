@@ -26,7 +26,7 @@ namespace ANX.Framework.NonXNA
 		private Dictionary<string, ICreator> creators;
 		private static AddInSystemFactory instance;
 		private bool initialized;
-		private Dictionary<AddInType, AddInTypeCollection> addinSystems;
+		private Dictionary<AddInType, AddInTypeCollection> addInSystems;
 		#endregion
 
 		#region Public
@@ -57,10 +57,10 @@ namespace ANX.Framework.NonXNA
 		private AddInSystemFactory()
 		{
 			creators = new Dictionary<string, ICreator>();
-			addinSystems = new Dictionary<AddInType, AddInTypeCollection>();
+			addInSystems = new Dictionary<AddInType, AddInTypeCollection>();
 
 			foreach (AddInType type in Enum.GetValues(typeof(AddInType)))
-				addinSystems.Add(type, new AddInTypeCollection());
+				addInSystems.Add(type, new AddInTypeCollection());
 		}
 		#endregion
 
@@ -89,7 +89,7 @@ namespace ANX.Framework.NonXNA
 				AddIn addin = new AddIn(creatorType, matchingSupportedPlatformsType);
 				if (addin.IsSupported)
 				{
-				    addinSystems[addin.Type].Add(addin);
+				    addInSystems[addin.Type].Add(addin);
 					Logger.Info("[ANX] successfully loaded AddIn (" + addin.Type + ") " + creatorType.FullName + ".");
 				}
 				else
@@ -173,20 +173,45 @@ namespace ANX.Framework.NonXNA
 		}
 		#endregion
 
-		#region GetDefaultCreator
-		public T GetDefaultCreator<T>() where T : class, ICreator
+        #region GetAvailableCreators
+        public IEnumerable<T> GetAvailableCreators<T>() where T : class, ICreator
+        {
+            AddInType type = GetAddInType(typeof(T));
+
+            if (type != AddInType.Unknown)
+            {
+                AddInTypeCollection addIns = addInSystems[type];
+
+                foreach (AddIn addIn in addIns)
+                {
+                    T instance = addIn.Instance as T;
+                    if (instance != null && instance.IsSupported)
+                    {
+                        yield return instance;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("couldn't resolve AddInType of '" + typeof(T).FullName + "'");
+            }
+        }
+        #endregion
+
+        #region GetDefaultCreator
+        public T GetDefaultCreator<T>() where T : class, ICreator
 		{
 			Initialize();
 
 			AddInType addInType = GetAddInType(typeof(T));
-			return addinSystems[addInType].GetDefaultCreator<T>(addInType);
+			return addInSystems[addInType].GetDefaultCreator<T>(addInType);
 		}
 		#endregion
 
 		#region SortAddIns
 		public void SortAddIns()
 		{
-			foreach (AddInTypeCollection info in addinSystems.Values)
+			foreach (AddInTypeCollection info in addInSystems.Values)
 				info.Sort();
 
 			creators = creators.OrderBy(x => x.Value.Priority).ToDictionary(x => x.Key, x => x.Value);
@@ -196,24 +221,24 @@ namespace ANX.Framework.NonXNA
 		#region GetPreferredSystem
 		public string GetPreferredSystem(AddInType addInType)
 		{
-			return addinSystems[addInType].PreferredName;
+			return addInSystems[addInType].PreferredName;
 		}
 		#endregion
 
 		#region SetPreferredSystem
 		public void SetPreferredSystem(AddInType addInType, string preferredName)
 		{
-			if (addinSystems[addInType].PreferredLocked)
+			if (addInSystems[addInType].PreferredLocked)
 				throw new AddInLoadingException(String.Format("Can't set preferred {0} because a {0} is alread in use.", addInType));
 
-			addinSystems[addInType].PreferredName = preferredName;
+			addInSystems[addInType].PreferredName = preferredName;
 		}
 		#endregion
 
 		#region PreventSystemChange
 		public void PreventSystemChange(AddInType addInType)
 		{
-			addinSystems[addInType].Lock();
+			addInSystems[addInType].Lock();
 		}
 		#endregion
 

@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.NonXNA
 {
-	internal class AddInTypeCollection
+	internal class AddInTypeCollection : IEnumerable<AddIn>
 	{
-		private List<AddIn> AvailableSystems;
+		private List<AddIn> availableSystems;
 
 		#region Public
 		public string PreferredName
@@ -28,21 +28,21 @@ namespace ANX.Framework.NonXNA
 		#region Constructor
 		public AddInTypeCollection()
 		{
-			AvailableSystems = new List<AddIn>();
+			availableSystems = new List<AddIn>();
 		}
 		#endregion
 
 		#region Add
 		public void Add(AddIn addIn)
 		{
-			AvailableSystems.Add(addIn);
+			availableSystems.Add(addIn);
 		}
 		#endregion
 
 		#region Sort
 		public void Sort()
 		{
-			AvailableSystems.Sort();
+			availableSystems.Sort();
 		}
 		#endregion
 
@@ -56,19 +56,27 @@ namespace ANX.Framework.NonXNA
 		#region GetDefaultCreator
 		public T GetDefaultCreator<T>(AddInType addInType) where T : class, ICreator
 		{
+            Sort();
+
 			if (String.IsNullOrEmpty(PreferredName))
 			{
-				if (AvailableSystems.Count > 0)
-					return AvailableSystems[0].Instance as T;
+                for (int i = 0; i < availableSystems.Count; i++)
+                {
+                    T candidate = availableSystems[i].Instance as T;
+                    if (candidate != null && candidate.IsSupported)
+                    {
+                        return candidate;
+                    }
+                }
 
 				throw new AddInLoadingException(String.Format(
 					"Couldn't get default {0} because there are no " +
-					"registered {0}s available! Make sure you referenced a {0} library " +
+					"registered and supported {0}s available! Make sure you referenced a {0} library " +
 					"in your project or one is laying in your output folder!", addInType));
 			}
 			else
 			{
-				foreach (AddIn addin in AvailableSystems)
+				foreach (AddIn addin in availableSystems)
 					if (addin.Name.Equals(PreferredName, StringComparison.CurrentCultureIgnoreCase))
 						return addin.Instance as T;
 
@@ -80,5 +88,15 @@ namespace ANX.Framework.NonXNA
 			throw new AddInLoadingException(String.Format("Couldn't find a DefaultCreator of type '{0}'!", typeof(T).FullName));
 		}
 		#endregion
-	}
+
+        public IEnumerator<AddIn> GetEnumerator()
+        {
+            return availableSystems.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return availableSystems.GetEnumerator();
+        }
+    }
 }

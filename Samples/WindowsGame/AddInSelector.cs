@@ -24,23 +24,23 @@ namespace WindowsGame1
         {
             AddInSystemFactory.Instance.SortAddIns();
 
-            foreach (IRenderSystemCreator renderSystemCreator in AddInSystemFactory.Instance.GetCreators<IRenderSystemCreator>())
+            foreach (IRenderSystemCreator renderSystemCreator in AddInSystemFactory.Instance.GetAvailableCreators<IRenderSystemCreator>())
             {
                 cbRenderSystem.Items.Add(renderSystemCreator.Name);
             }
-            cbRenderSystem.SelectedIndex = 0;
+            cbRenderSystem.SelectedItem = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().Name;
 
-            foreach (IInputSystemCreator inputSystemCreator in AddInSystemFactory.Instance.GetCreators<IInputSystemCreator>())
+            foreach (IInputSystemCreator inputSystemCreator in AddInSystemFactory.Instance.GetAvailableCreators<IInputSystemCreator>())
             {
                 cbInputSystem.Items.Add(inputSystemCreator.Name);
             }
-            cbInputSystem.SelectedIndex = 0;
+            cbInputSystem.SelectedItem = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Name;
 
-            foreach (ISoundSystemCreator soundSystemCreator in AddInSystemFactory.Instance.GetCreators<ISoundSystemCreator>())
+            foreach (ISoundSystemCreator soundSystemCreator in AddInSystemFactory.Instance.GetAvailableCreators<ISoundSystemCreator>())
             {
                 cbAudioSystem.Items.Add(soundSystemCreator.Name);
             }
-            cbAudioSystem.SelectedIndex = 0;
+            cbAudioSystem.SelectedItem = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>().Name;
         }
 
         private void button1_Click(object sender, EventArgs e)

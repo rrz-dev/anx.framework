@@ -484,7 +484,24 @@
 
   </target>
 
-  <target name="tools" description="Build ANX.Framework tools" depends="support" unless="${target::has-executed('tools')}">
+  <!--
+    TODO: "depends rendersystem" in the tools target leads to three compilations of all the rendersystems. Currently this is necessary because we have
+    kind of ring dependency. To build a rendersystem we need the StockShaderCodeGenerator. This is used to embed the stock shaders into the 
+    rendersystem. To compile a stock shader the rendersystem is needed because the compile methods are embedded into the rendersytem.
+    
+    A possible solution is:
+    
+    - compile render system
+    - compile stock shader code generator
+    - generate stock shaders
+    - compile stock shader assembly
+    - merge render system and stock shader assembly to one file
+    
+    Another possible solution is:
+    
+    - don't use sscg or remove rendersystem dependency from sscg
+  -->
+  <target name="tools" description="Build ANX.Framework tools" depends="support, rendersystem" unless="${target::has-executed('tools')}">
     <foreach item="File" property="projectFile">
       <in>
         <items basedir="../Tools/">
