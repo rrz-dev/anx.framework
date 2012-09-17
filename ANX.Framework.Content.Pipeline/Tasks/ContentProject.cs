@@ -263,14 +263,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                 project.Profile = GraphicsProfile.Reach;
                             else
                             {
-                                switch (reader.ReadElementContentAsString())
+                                string profileElement = reader.ReadElementContentAsString();
+                                GraphicsProfile profile;
+                                if (Enum.TryParse<GraphicsProfile>(profileElement, true, out profile))
                                 {
-                                    case "Reach":
-                                        project.Profile = GraphicsProfile.Reach;
-                                        break;
-                                    case "HiDef":
-                                        project.Profile = GraphicsProfile.HiDef;
-                                        break;
+                                    project.Profile = profile;
                                 }
                             }
                         }
@@ -280,35 +277,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         {
                             if (versionMajor == 1 && versionMinor >= 0)
                             {
-                                switch (reader.ReadElementContentAsString())
+                                string platformElement = reader.ReadElementContentAsString();
+                                TargetPlatform targetPlatform;
+                                if (Enum.TryParse<TargetPlatform>(platformElement, true, out targetPlatform))
                                 {
-                                    case "Windows":
-                                        project.Platform = TargetPlatform.Windows;
-                                        break;
-                                    case "WindowsPhone":
-                                        project.Platform = TargetPlatform.WindowsPhone;
-                                        break;
-                                    case "Linux":
-                                        project.Platform = TargetPlatform.Linux;
-                                        break;
-                                    case "Android":
-                                        project.Platform = TargetPlatform.Android;
-                                        break;
-                                    case "IOS":
-                                        project.Platform = TargetPlatform.IOS;
-                                        break;
-                                    case "PsVita":
-                                        project.Platform = TargetPlatform.PsVita;
-                                        break;
-                                    case "MacOs":
-                                        project.Platform = TargetPlatform.MacOs;
-                                        break;
-                                    case "WindowsMetro":
-                                        project.Platform = TargetPlatform.WindowsMetro;
-                                        break;
-                                    case "XBox360":
-                                        project.Platform = TargetPlatform.XBox360;
-                                        break;
+                                    project.Platform = targetPlatform;
                                 }
                             }
                         }

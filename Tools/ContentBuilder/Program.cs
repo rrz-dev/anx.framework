@@ -32,14 +32,33 @@ namespace ContentBuilder
                 {
                     if (File.Exists(arg))
                     {
-                        BuildItem buildItem = new BuildItem();
-                        buildItem.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
-                        //TODO: set configured processor name
-                        buildItem.SourceFilename = arg;
-                        buildItem.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
-                        buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.AssetName);
+                        if (Path.GetExtension(arg) == ".cproj")
+                        {
+                            var contentProject = ContentProject.Load(arg);
 
-                        itemsToBuild.Add(buildItem);
+                            buildContentTask.OutputDirectory = contentProject.OutputDirectory;
+                            buildContentTask.TargetPlatform = contentProject.Platform;
+                            buildContentTask.TargetProfile = contentProject.Profile;
+                            buildContentTask.CompressContent = false; //TODO: make dynamic
+
+                            foreach (var dir in contentProject.BuildItems.Select(buildItem => Path.GetDirectoryName(buildItem.OutputFilename)).Where(dir => !Directory.Exists(dir)))
+                            {
+                                Directory.CreateDirectory(dir);
+                            }
+
+                            itemsToBuild.AddRange(contentProject.BuildItems);
+                        }
+                        else
+                        {
+                            BuildItem buildItem = new BuildItem();
+                            buildItem.ImporterName = ImporterManager.GuessImporterByFileExtension(arg);
+                            //TODO: set configured processor name
+                            buildItem.SourceFilename = arg;
+                            buildItem.AssetName = System.IO.Path.GetFileNameWithoutExtension(arg);
+                            buildItem.OutputFilename = String.Format("{0}.xnb", buildItem.AssetName);
+
+                            itemsToBuild.Add(buildItem);
+                        }
                     }
                     else
                     {
