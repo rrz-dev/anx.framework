@@ -41,8 +41,7 @@ namespace ANX.Framework.Storage
 			StorageDevice = device;
 			DisplayName = displayName;
 
-			nativeImplementation =
-				AddInSystemFactory.DefaultPlatformCreator.CreateStorageContainer(this);
+            nativeImplementation = PlatformSystem.Instance.CreateStorageContainer(this);
 		}
 
 		~StorageContainer()

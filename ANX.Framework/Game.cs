@@ -76,7 +76,6 @@ namespace ANX.Framework
 
 			AddSystemCreator<IInputSystemCreator>();
 			AddSystemCreator<ISoundSystemCreator>();
-			AddSystemCreator<IPlatformSystemCreator>();
 			AddSystemCreator<IRenderSystemCreator>();
 
 			CreateGameHost();
@@ -114,11 +113,7 @@ namespace ANX.Framework
 		private void CreateGameHost()
 		{
 			Logger.Info("creating GameHost");
-			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IPlatformSystemCreator>();
-			if (creator == null)
-				Logger.ErrorAndThrow<NullReferenceException>("Could not fetch PlatformSystem creator to create a game host.");
-
-			host = creator.CreateGameHost(this);
+			host = PlatformSystem.Instance.CreateGameHost(this);
 
 			host.Activated += HostActivated;
 			host.Deactivated += HostDeactivated;

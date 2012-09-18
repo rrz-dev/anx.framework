@@ -9,7 +9,7 @@ using ANX.Framework.Storage;
 
 namespace ANX.Framework.NonXNA.PlatformSystem
 {
-	public interface IPlatformSystemCreator : ICreator
+	public interface IPlatformSystem
 	{
 		GameHost CreateGameHost(Game game);
 		INativeStorageDevice CreateStorageDevice(StorageDevice device, PlayerIndex player, int sizeInBytes, int directoryCount);

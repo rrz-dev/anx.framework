@@ -15,7 +15,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 {
     public class ProcessorManager
     {
-        private Dictionary<String, IContentProcessor> processors = new Dictionary<string,IContentProcessor>();
+        private Dictionary<string, IContentProcessor> processors = new Dictionary<string, IContentProcessor>();
 
         public ProcessorManager()
         {
@@ -45,7 +45,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         public String GetProcessorForType(Type type)
         {
-            foreach (KeyValuePair<String, IContentProcessor> processorDescription in processors)
+            foreach (KeyValuePair<string, IContentProcessor> processorDescription in processors)
             {
                 if (Type.Equals(processorDescription.Value.InputType, type))
                 {
@@ -53,7 +53,23 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 }
             }
 
-            return String.Empty;
+            return string.Empty;
+        }
+
+        public string GetProcessorForImporter(IContentImporter contentImporter)
+        {
+            return GetProcessorForType(contentImporter.OutputType);
+        }
+
+        public IEnumerable<KeyValuePair<string, IContentProcessor>> AvailableProcessors
+        {
+            get
+            {
+                foreach (KeyValuePair<string, IContentProcessor> kvp in processors)
+                {
+                    yield return kvp;
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using ANX.Framework.Content.Pipeline.Audio;
 using WaveUtils;
 
@@ -24,5 +25,6 @@ namespace ANX.Framework.Content.Pipeline.Importer
 				FileType = AudioFileType.Wav,
 			};
 		}
+
 	}
 }

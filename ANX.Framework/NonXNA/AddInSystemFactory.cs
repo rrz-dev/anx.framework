@@ -18,7 +18,6 @@ namespace ANX.Framework.NonXNA
 				typeof(IInputSystemCreator),
 				typeof(IRenderSystemCreator),
 				typeof(ISoundSystemCreator),
-				typeof(IPlatformSystemCreator),
 			};
 		#endregion
 
@@ -44,13 +43,6 @@ namespace ANX.Framework.NonXNA
 			}
 		}
 
-		internal static IPlatformSystemCreator DefaultPlatformCreator
-		{
-			get
-			{
-				return Instance.GetDefaultCreator<IPlatformSystemCreator>();
-			}
-		}
 		#endregion
 
 		#region Constructor

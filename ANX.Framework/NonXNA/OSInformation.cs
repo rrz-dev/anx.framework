@@ -6,6 +6,7 @@ using System;
 
 namespace ANX.Framework.NonXNA
 {
+    //TODO: remove conditional compilation
 	public static class OSInformation
 	{
 		#region IsWindows

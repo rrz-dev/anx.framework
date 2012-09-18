@@ -5,6 +5,7 @@ using System.IO;
 using ANX.Framework.Audio.XactParser;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -47,7 +48,7 @@ namespace ANX.Framework.Audio
 			// TODO: get renderer details
 			RendererDetails = new ReadOnlyCollection<RendererDetail>(new List<RendererDetail>());
 
-			Stream loadingStream = AddInSystemFactory.DefaultPlatformCreator.OpenReadFilestream(settingsFile);
+			Stream loadingStream = PlatformSystem.Instance.OpenReadFilestream(settingsFile);
 			generalSettings = new XactGeneralSettings(loadingStream);
 			loadingStream.Dispose();
 		}
@@ -59,7 +60,7 @@ namespace ANX.Framework.Audio
 
 			// TODO: lookAheadTime and rendererId
 
-			Stream loadingStream = AddInSystemFactory.DefaultPlatformCreator.OpenReadFilestream(settingsFile);
+			Stream loadingStream = PlatformSystem.Instance.OpenReadFilestream(settingsFile);
 			generalSettings = new XactGeneralSettings(loadingStream);
 			loadingStream.Dispose();
 		}

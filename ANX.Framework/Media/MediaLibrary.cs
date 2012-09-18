@@ -94,13 +94,13 @@ namespace ANX.Framework.Media
 		#region Constructor
 		public MediaLibrary()
 		{
-			nativeLibrary = AddInSystemFactory.DefaultPlatformCreator.CreateMediaPlayer();
+			nativeLibrary = PlatformSystem.Instance.CreateMediaPlayer();
 			MediaSource = MediaSource.GetAvailableMediaSources()[0];
 		}
 
 		public MediaLibrary(MediaSource setSource)
 		{
-			nativeLibrary = AddInSystemFactory.DefaultPlatformCreator.CreateMediaPlayer();
+			nativeLibrary = PlatformSystem.Instance.CreateMediaPlayer();
 			MediaSource = setSource;
 		}
 

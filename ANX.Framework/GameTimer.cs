@@ -20,7 +20,7 @@ namespace ANX.Framework
 
 		public GameTimer()
 		{
-			nativeImplementation = AddInSystemFactory.DefaultPlatformCreator.CreateGameTimer();
+			nativeImplementation = PlatformSystem.Instance.CreateGameTimer();
 
             nativeImplementation.Reset();
             lastUpdate = nativeImplementation.ElapsedTime;

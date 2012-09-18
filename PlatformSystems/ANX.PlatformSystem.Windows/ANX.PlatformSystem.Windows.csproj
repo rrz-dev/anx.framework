@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsGameHost.cs" />
     <Compile Include="WindowsGameWindow.cs" />
-    <Compile Include="WindowsPlatformCreator.cs" />
+    <Compile Include="WindowsPlatformSystem.cs" />
     <Compile Include="WindowsStorageDevice.cs" />
     <Compile Include="WindowsTitleContainer.cs" />
   </ItemGroup>

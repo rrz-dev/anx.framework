@@ -14,34 +14,8 @@ using ANX.Framework.Storage;
 
 namespace ANX.PlatformSystem.PsVita
 {
-	public class PsVitaPlatformCreator : IPlatformSystemCreator
+	public class PsVitaPlatformCreator : IPlatformSystem
 	{
-		#region Public
-		public string Name
-		{
-			get
-			{
-				return "Platform.PsVita";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				return OSInformation.GetName() == PlatformName.PSVita;
-			}
-		}
-		#endregion
-
 		#region Constructor
 		public PsVitaPlatformCreator()
 		{
@@ -52,7 +26,6 @@ namespace ANX.PlatformSystem.PsVita
 		public GameHost CreateGameHost(Game game)
 		{
 			Logger.Info("creating PsVita GameHost");
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.PlatformSystem);
 			return new PsVitaGameHost(game);
 		}
 		#endregion

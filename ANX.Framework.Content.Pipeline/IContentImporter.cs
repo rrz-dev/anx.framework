@@ -12,5 +12,7 @@ namespace ANX.Framework.Content.Pipeline
     public interface IContentImporter
     {
         Object Import(string filename, ContentImporterContext context);
+
+        Type OutputType { get; }
     }
 }

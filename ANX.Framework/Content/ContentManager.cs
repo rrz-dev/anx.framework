@@ -66,8 +66,7 @@ namespace ANX.Framework.Content
 		#region Constructor
 		private ContentManager()
 		{
-			nativeImplementation =
-				AddInSystemFactory.DefaultPlatformCreator.CreateContentManager();
+			nativeImplementation = PlatformSystem.Instance.CreateContentManager();
 
 			loadedAssets =
 			 new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);

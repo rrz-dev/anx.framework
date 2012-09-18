@@ -13,35 +13,9 @@ using ANX.Framework.Storage;
 
 namespace ANX.PlatformSystem.Linux
 {
-	public class LinuxPlatformCreator : IPlatformSystemCreator
+	public class LinuxPlatformSystem : IPlatformSystem
 	{
-		#region Public
-		public string Name
-		{
-			get
-			{
-				return "Linux";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				return OSInformation.GetName() == PlatformName.Linux;
-			}
-		}
-		#endregion
-
-		public LinuxPlatformCreator()
+		public LinuxPlatformSystem()
 		{
 		}
 
@@ -49,7 +23,6 @@ namespace ANX.PlatformSystem.Linux
 		public GameHost CreateGameHost(Game game)
 		{
 			Logger.Info("creating Linux GameHost");
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.PlatformSystem);
 			return new LinuxGameHost(game);
 		}
 		#endregion

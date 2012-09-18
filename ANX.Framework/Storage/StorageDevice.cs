@@ -63,9 +63,7 @@ namespace ANX.Framework.Storage
 		#region Constructor
 		internal StorageDevice(PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
-			nativeImplementation =
-				AddInSystemFactory.DefaultPlatformCreator.CreateStorageDevice(
-				this, player, sizeInBytes, directoryCount);
+			nativeImplementation = PlatformSystem.Instance.CreateStorageDevice(this, player, sizeInBytes, directoryCount);
 		}
 		#endregion
 

@@ -13,35 +13,9 @@ using ANX.Framework.Storage;
 
 namespace ANX.PlatformSystem.Windows
 {
-	public class WindowsPlatformCreator : IPlatformSystemCreator
+	public class WindowsPlatformSystem : IPlatformSystem
 	{
-		#region Public
-		public string Name
-		{
-			get
-			{
-				return "Windows";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				return OSInformation.IsWindows;
-			}
-		}
-		#endregion
-
-		public WindowsPlatformCreator()
+		public WindowsPlatformSystem()
 		{
 		}
 
@@ -49,7 +23,6 @@ namespace ANX.PlatformSystem.Windows
 		public GameHost CreateGameHost(Game game)
 		{
 			Logger.Info("creating Windows GameHost");
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.PlatformSystem);
 			return new WindowsGameHost(game);
 		}
 		#endregion

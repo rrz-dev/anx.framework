@@ -18,16 +18,35 @@ namespace ANX.Framework
 
 		static TitleContainer()
 		{
-			nativeImplementation = AddInSystemFactory.DefaultPlatformCreator.CreateTitleContainer();
+            try
+            {
+                nativeImplementation = PlatformSystem.Instance.CreateTitleContainer();
+            }
+            catch (PlatformSystemInstanceException ex)
+            {
+                //TODO: error handling
+            }
 		}
 		
 		public static Stream OpenStream(string name)
 		{
+            if (nativeImplementation == null)
+            {
+                //TODO: error handling
+                return null;
+            }
+
 			return nativeImplementation.OpenStream(name);
 		}
 
 		internal static string GetCleanPath(string path)
 		{
+            if (nativeImplementation == null)
+            {
+                //TODO: error handling
+                return null;
+            }
+
 			return nativeImplementation.GetCleanPath(path);
 		}
 	}
