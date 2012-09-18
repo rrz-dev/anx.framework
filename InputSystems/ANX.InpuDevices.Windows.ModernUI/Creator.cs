@@ -1,4 +1,5 @@
 ﻿using ANX.Framework.NonXNA;
+
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
@@ -32,10 +33,12 @@ namespace ANX.InpuDevices.Windows.ModernUI
             get { throw new System.NotImplementedException(); }
         }
 
+#if XNAEXT
         public IMotionSensingDevice MotionSensingDevice
         {
             get { throw new System.NotImplementedException(); }
         }
+#endif
 
         public string Name
         {

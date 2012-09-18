@@ -2,88 +2,68 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{441D953C-94C2-42FD-9917-3EB2F6E28173}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
+    <ProjectGuid>{F5819204-4882-4F33-B973-DE6762C9682F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsEditor</RootNamespace>
-    <AssemblyName>WindowsFormsEditor</AssemblyName>
+    <RootNamespace>ANX.InputDevices.Windows.XInput</RootNamespace>
+    <AssemblyName>ANX.InputDevices.Windows.XInput</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>XNAEXT;DEBUG;TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DirectInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.XInput.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs" />
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Creator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj">
-      <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
-      <Name>ANX.InputSystem.Standard</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets. 
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <None Include="Test_TemporaryKey.pfx" />
-    <AppxManifest Include="Manifest.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

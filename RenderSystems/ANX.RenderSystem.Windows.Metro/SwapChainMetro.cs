@@ -1,13 +1,15 @@
 ﻿using System;
-using ANX.PlatformSystem.Metro;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-using PresentationParameters = ANX.Framework.Graphics.PresentationParameters;
+using ANX.Framework.NonXNA.PlatformSystem;
+using ANX.PlatformSystem.Metro;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
+
+using PresentationParameters = ANX.Framework.Graphics.PresentationParameters;
 
 namespace ANX.RenderSystem.Windows.Metro
 {
@@ -70,6 +72,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				var dxgiAdapter = dxgiDevice2.Adapter;
 				var dxgiFactory2 = dxgiAdapter.GetParent<Factory2>();
 
+                //TODO: try to remove the direct dependency to the platform system
 				WindowsGameWindow gameWindow = (WindowsGameHost.Instance.Window as WindowsGameWindow);
 				var comWindow = new ComObject(gameWindow.Form);
 

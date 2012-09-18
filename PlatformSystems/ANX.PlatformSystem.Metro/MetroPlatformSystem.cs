@@ -13,45 +13,10 @@ using System.Collections.Generic;
 
 namespace ANX.PlatformSystem.Metro
 {
-	public class MetroPlatformCreator : IPlatformSystemCreator
+	public class MetroPlatformSystem : IPlatformSystem
 	{
-		#region Public
-		public string Name
-		{
-			get
-			{
-				return "Platform.Metro";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				return OSInformation.IsWindows;
-			}
-		}
-		#endregion
-
-		#region RegisterCreator
-		public void RegisterCreator(AddInSystemFactory factory)
-		{
-			Logger.Info(
-				"adding Metro PlatformSystem creator to collection of AddInSystemFactory");
-			factory.AddCreator(this);
-		}
-		#endregion
-
 		#region Constructor
-		public MetroPlatformCreator()
+		public MetroPlatformSystem()
 		{
 		}
 		#endregion
@@ -60,7 +25,6 @@ namespace ANX.PlatformSystem.Metro
 		public GameHost CreateGameHost(Game game)
 		{
 			Logger.Info("creating Windows GameHost");
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.PlatformSystem);
 			return new WindowsGameHost(game);
 		}
 		#endregion

@@ -74,7 +74,10 @@
   <target name="metro">
     <property name="project.anx.metro" value="true" />
     <property name="project.anx.platform" value="Windows 8 / Metro" />
+    <property name="build.platform" value="x86" />
 
+    <property name="project.anx.directives" value="${project.anx.directives} WINDOWSMETRO" />
+    
     <call target="generate_project_files" />
   </target>
   
@@ -268,8 +271,7 @@
 
     <if test="${project.anx.metro}">
       <fileset id="inputsystem_files" basedir="../InputSystems/">
-        <include name="**/*_WindowsMetro.csproj" />
-        <include name="**/*ModernUI*.csproj" />
+        <include name="**/*ModernUI*_WindowsMetro.csproj" />
         <exclude name="**/*PsVita*.csproj" />
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*Linux*.csproj" />
@@ -484,6 +486,32 @@
 
   </target>
 
+  <target name="build_tools" description="Tools supporting the build process of ANX.Framework" unless="${target::has-executed('build_tools')}">
+    <foreach item="File" property="projectFile">
+      <in>
+        <items basedir="../Tools/">
+          <include name="**/ProjectConverter.csproj" />
+        </items>
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+  
   <!--
     TODO: "depends rendersystem" in the tools target leads to three compilations of all the rendersystems. Currently this is necessary because we have
     kind of ring dependency. To build a rendersystem we need the StockShaderCodeGenerator. This is used to embed the stock shaders into the 
@@ -508,6 +536,7 @@
           <include name="**/*.csproj" />
           <exclude name="**/HLSLParser*.csproj" />
           <exclude name="**/DX11MetroShaderGenerator.csproj" />
+          <exclude name="**/ProjectConverter.csproj" />
         </items>
       </in>
       <do>
@@ -603,7 +632,7 @@
 
   </target>
 
-  <target name="generate_project_files" depends="tools">
+  <target name="generate_project_files" depends="build_tools">
     <fileset id="project_files" basedir="../">
       <include name="**/${project.anx.name}/*.csproj" />
       <include name="RenderSystems/**/*.csproj" />
@@ -614,6 +643,8 @@
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
+
+      <exclude name="Samples/**/*.csproj" if="${project.anx.metro}" />
     </fileset>
 
     <foreach item="File" property="projectFile">

@@ -44,9 +44,16 @@ namespace ANX.Framework.NonXNA.PlatformSystem
                 return null;
             }
 
+#if !WINDOWSMETRO
             Assembly assembly = Assembly.LoadFrom(platformAssemblyName);
 
             foreach (Type type in assembly.GetExportedTypes())
+#else
+            AssemblyName assemblyName = new AssemblyName(platformAssemblyName);
+            Assembly assembly = Assembly.Load(assemblyName);
+
+            foreach (Type type in assembly.ExportedTypes)
+#endif
             {
                 if (TypeHelper.IsTypeAssignableFrom(typeof(IPlatformSystem), type))
                 {
