@@ -67,7 +67,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddInSelector.cs" />
+    <Compile Include="AddInSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AddInSelector.Designer.cs">
       <DependentUpon>AddInSelector.cs</DependentUpon>
     </Compile>

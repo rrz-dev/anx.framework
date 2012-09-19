@@ -1,4 +1,4 @@
-<project name="ANX.Framework Build" default="build">
+<project name="ANX.Framework Build" default="build" basedir="./">
   <property name="build.platform" value="Any CPU" />
   <property name="build.dir" value="../../bin" />
   <property name="build.dir.tools" value="../bin" />
@@ -650,8 +650,10 @@
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
 
-      <exclude name="Samples/**/*.csproj" if="${project.anx.metro}" />
-    </fileset>
+<!--
+    <exclude name="Samples/**/*.csproj" if="${project.anx.metro}" />
+-->
+  </fileset>
 
     <foreach item="File" property="projectFile">
       <in>
