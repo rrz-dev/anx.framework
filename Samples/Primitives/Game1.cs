@@ -41,6 +41,9 @@ namespace Primitives
         VertexBuffer cubeVertexBuffer;
         IndexBuffer cubeIndexBuffer;
 
+        bool[] enabled = new bool[] { true, true, true, true, true };
+        KeyboardState lastKeyState;
+
         #region Corners of cube
         static Vector3 topLeftFront = new Vector3( -1.0f, 1.0f, 1.0f );
         static Vector3 bottomLeftFront = new Vector3(-1.0f, -1.0f, 1.0f);
@@ -158,6 +161,8 @@ namespace Primitives
         protected override void Initialize()
         {
             base.Initialize();
+
+            lastKeyState = Keyboard.GetState();
         }
 
         protected override void LoadContent()
@@ -215,6 +220,25 @@ namespace Primitives
 
             this.worldMatrix = Matrix.CreateRotationY(rotation);
 
+            KeyboardState keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.D1) && !lastKeyState.IsKeyDown(Keys.D1))
+                enabled[0] = !enabled[0];
+
+            if (keyState.IsKeyDown(Keys.D2) && !lastKeyState.IsKeyDown(Keys.D2))
+                enabled[1] = !enabled[1];
+
+            if (keyState.IsKeyDown(Keys.D3) && !lastKeyState.IsKeyDown(Keys.D3))
+                enabled[2] = !enabled[2];
+
+            if (keyState.IsKeyDown(Keys.D4) && !lastKeyState.IsKeyDown(Keys.D4))
+                enabled[3] = !enabled[3];
+
+            if (keyState.IsKeyDown(Keys.D5) && !lastKeyState.IsKeyDown(Keys.D5))
+                enabled[4] = !enabled[4];
+
+            lastKeyState = keyState;
+
             base.Update(gameTime);
         }
 
@@ -231,11 +255,11 @@ namespace Primitives
             spriteBatch.Draw(bgTexture, new Rectangle(0, 400, 300, 200), Color.Green);
             spriteBatch.Draw(bgTexture, new Rectangle(300, 400, 300, 200), Color.LightSeaGreen);
 
-            DrawShadowText(spriteBatch, this.font, "DrawInstancedPrimitives", new Vector2(10, 10), Color.White, Color.Black);
-            DrawShadowText(spriteBatch, this.font, "DrawPrimitives", new Vector2(10, 210), Color.White, Color.Black);
-            DrawShadowText(spriteBatch, this.font, "DrawIndexedPrimitives", new Vector2(310, 210), Color.White, Color.Black);
-            DrawShadowText(spriteBatch, this.font, "DrawUserPrimitives", new Vector2(10, 410), Color.White, Color.Black);
-            DrawShadowText(spriteBatch, this.font, "DrawUserIndexedPrimitives", new Vector2(310, 410), Color.White, Color.Black);
+            DrawShadowText(spriteBatch, this.font, "DrawInstancedPrimitives\n (press 1 to " + (enabled[0] ? "disable" : "enable") + ")" , new Vector2(10, 10), Color.White, Color.Black);
+            DrawShadowText(spriteBatch, this.font, "DrawPrimitives\n (press 2 to " + (enabled[1] ? "disable" : "enable") + ")", new Vector2(10, 210), Color.White, Color.Black);
+            DrawShadowText(spriteBatch, this.font, "DrawIndexedPrimitives\n (press 3 to " + (enabled[2] ? "disable" : "enable") + ")", new Vector2(310, 210), Color.White, Color.Black);
+            DrawShadowText(spriteBatch, this.font, "DrawUserPrimitives\n (press 4 to " + (enabled[3] ? "disable" : "enable") + ")", new Vector2(10, 410), Color.White, Color.Black);
+            DrawShadowText(spriteBatch, this.font, "DrawUserIndexedPrimitives\n (press 5 to " + (enabled[4] ? "disable" : "enable") + ")", new Vector2(310, 410), Color.White, Color.Black);
 
             spriteBatch.End();
 
@@ -249,49 +273,59 @@ namespace Primitives
             this.basicEffect.CurrentTechnique.Passes[0].Apply();
 
             #region DrawPrimitives
-            GraphicsDevice.Viewport = new Viewport(0, 200, 300, 200);
+            if (enabled[1])
+            {
+                GraphicsDevice.Viewport = new Viewport(0, 200, 300, 200);
 
-            GraphicsDevice.SetVertexBuffer(this.cubeNoIndicesBuffer);
-            GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, cubeNoIndices.Length / 3);
-
+                GraphicsDevice.SetVertexBuffer(this.cubeNoIndicesBuffer);
+                GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, cubeNoIndices.Length / 3);
+            }
             #endregion // DrawPrimitives
 
             #region DrawIndexedPrimitives
-            GraphicsDevice.Viewport = new Viewport(300, 200, 300, 200);
+            if (enabled[2])
+            {
+                GraphicsDevice.Viewport = new Viewport(300, 200, 300, 200);
 
-            GraphicsDevice.SetVertexBuffer(this.cubeVertexBuffer);
-            GraphicsDevice.Indices = this.cubeIndexBuffer;
-            GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, cubeVertices.Length, 0, cubeNoIndices.Length / 3);
-
+                GraphicsDevice.SetVertexBuffer(this.cubeVertexBuffer);
+                GraphicsDevice.Indices = this.cubeIndexBuffer;
+                GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, cubeVertices.Length, 0, cubeNoIndices.Length / 3);
+            }
             #endregion
 
             #region DrawUserPrimitives
-            GraphicsDevice.Viewport = new Viewport(0, 400, 300, 200);
+            if (enabled[3])
+            {
+                GraphicsDevice.Viewport = new Viewport(0, 400, 300, 200);
 
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, this.cubeNoIndices, 0, this.cubeNoIndices.Length / 3);
-
+                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, this.cubeNoIndices, 0, this.cubeNoIndices.Length / 3);
+            }
             #endregion
 
             #region DrawUserIndexedPrimitives
-            GraphicsDevice.Viewport = new Viewport(300, 400, 300, 200);
+            if (enabled[4])
+            {
+                GraphicsDevice.Viewport = new Viewport(300, 400, 300, 200);
 
-            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, this.cubeVertices, 0, this.cubeVertices.Length, this.cubeIndices, 0, this.cubeIndices.Length / 3);
-
+                GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, this.cubeVertices, 0, this.cubeVertices.Length, this.cubeIndices, 0, this.cubeIndices.Length / 3);
+            }
             #endregion
 
             #region DrawInstancedPrimitives
-            GraphicsDevice.Viewport = new Viewport(0, 0, 600, 200);
+            if (enabled[0])
+            {
+                GraphicsDevice.Viewport = new Viewport(0, 0, 600, 200);
 
-            this.hardwareInstanceEffect.Parameters["View"].SetValue(this.instancedViewMatrix);
-            this.hardwareInstanceEffect.Parameters["Projection"].SetValue(this.instancedProjectionMatrix);
-            this.hardwareInstanceEffect.Parameters["World"].SetValue(this.worldMatrix);
-            this.hardwareInstanceEffect.CurrentTechnique.Passes[0].Apply();
+                this.hardwareInstanceEffect.Parameters["View"].SetValue(this.instancedViewMatrix);
+                this.hardwareInstanceEffect.Parameters["Projection"].SetValue(this.instancedProjectionMatrix);
+                this.hardwareInstanceEffect.Parameters["World"].SetValue(this.worldMatrix);
+                this.hardwareInstanceEffect.CurrentTechnique.Passes[0].Apply();
 
-            instanceVertexBuffer.SetData<Matrix>(this.instanceTransformMatrices, 0, this.instanceTransformMatrices.Length, SetDataOptions.Discard);
-            GraphicsDevice.SetVertexBuffers(cubeVertexBuffer, new VertexBufferBinding(instanceVertexBuffer, 0, 1));
-            GraphicsDevice.Indices = this.cubeIndexBuffer;
-            GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, this.cubeVertices.Length, 0, this.cubeIndices.Length / 3, 5);
-
+                instanceVertexBuffer.SetData<Matrix>(this.instanceTransformMatrices, 0, this.instanceTransformMatrices.Length, SetDataOptions.Discard);
+                GraphicsDevice.SetVertexBuffers(cubeVertexBuffer, new VertexBufferBinding(instanceVertexBuffer, 0, 1));
+                GraphicsDevice.Indices = this.cubeIndexBuffer;
+                GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, this.cubeVertices.Length, 0, this.cubeIndices.Length / 3, 5);
+            }
             #endregion
 
             base.Draw(gameTime);
@@ -300,8 +334,8 @@ namespace Primitives
 
         private void DrawShadowText(SpriteBatch spriteBatch, SpriteFont font, String text, Vector2 position, Color foreground, Color shadow)
         {
-            spriteBatch.DrawString(font, text, position + new Vector2(2, 2), shadow);
-            spriteBatch.DrawString(font, text, position, foreground);
+            spriteBatch.DrawString(font, text, position + new Vector2(2, 2), shadow, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.DrawString(font, text, position, foreground, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
         }
     }
 }

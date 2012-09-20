@@ -260,10 +260,19 @@ namespace ANX.RenderSystem.Windows.DX10
 			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
 			DxIndexBuffer idx10 = new DxIndexBuffer(nativeDevice, indexFormat, indexCount, BufferUsage.None);
-            if (indexData.GetType()  == typeof(Int16[]))
+            IndexElementSize indexElementSize;
+            if (indexData.GetType() == typeof(Int16[]))
+            {
                 idx10.SetData<short>(null, (short[])indexData);
+                indexElementSize = IndexElementSize.SixteenBits;
+            }
             else
+            {
                 idx10.SetData<int>(null, (int[])indexData);
+                indexElementSize = IndexElementSize.ThirtyTwoBits;
+            }
+
+            nativeDevice.InputAssembler.SetIndexBuffer(idx10.NativeBuffer, DxFormatConverter.Translate(indexElementSize), 0);
 
             DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
         }

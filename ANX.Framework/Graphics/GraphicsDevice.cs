@@ -413,7 +413,8 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				this.viewport = value;
+                this.viewport = value;
+                NativeDevice.SetViewport(this.viewport);    //TODO: this is not optimal...
 			}
 		}
 

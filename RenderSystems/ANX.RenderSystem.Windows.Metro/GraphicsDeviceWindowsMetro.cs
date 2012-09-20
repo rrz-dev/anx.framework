@@ -177,14 +177,19 @@ namespace ANX.RenderSystem.Windows.Metro
 			NativeDevice.NativeContext.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
 			IndexBuffer_Metro idxMetro = new IndexBuffer_Metro(NativeDevice.NativeDevice, indexFormat, indexCount, BufferUsage.None);
+            IndexElementSize indexElementSize;
 			if (indexData.GetType() == typeof(Int16[]))
 			{
 				idxMetro.SetData<short>(null, (short[])indexData);
+                indexElementSize = IndexElementSize.SixteenBits;
 			}
 			else
 			{
 				idxMetro.SetData<int>(null, (int[])indexData);
+                indexElementSize = IndexElementSize.ThirtyTwoBits;
 			}
+
+            NativeDevice.NativeContext.InputAssembler.SetIndexBuffer(idxMetro.NativeBuffer, FormatConverter.Translate(indexElementSize), 0);
 
 			DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
 		}

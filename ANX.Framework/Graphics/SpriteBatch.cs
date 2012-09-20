@@ -644,7 +644,7 @@ namespace ANX.Framework.Graphics
 				else if (hash1 < hash2)
                     return 1;
 
-                return 0;
+                return y.layerDepth.CompareTo(x.layerDepth);
             }
         }
 
