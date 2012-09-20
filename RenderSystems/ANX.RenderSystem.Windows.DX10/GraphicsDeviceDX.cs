@@ -195,8 +195,7 @@ namespace ANX.RenderSystem.Windows.DX10
         #endregion
 
         #region DrawIndexedPrimitives
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount)
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
 		{
 			Dx10.EffectTechnique technique = SetupEffectForDraw();
 			int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
@@ -211,8 +210,8 @@ namespace ANX.RenderSystem.Windows.DX10
 				nativeDevice.DrawIndexed(vertexCount, startIndex, baseVertex);
 			}
 
-            //nativeDevice.InputAssembler.InputLayout.Dispose();
-            //nativeDevice.InputAssembler.InputLayout = null;
+            nativeDevice.InputAssembler.InputLayout.Dispose();
+            nativeDevice.InputAssembler.InputLayout = null;
 		}
 		#endregion
 
@@ -220,6 +219,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
 		{
 			Dx10.EffectTechnique technique = SetupEffectForDraw();
+            int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
 			nativeDevice.Rasterizer.SetViewports(currentViewport);
@@ -228,7 +228,7 @@ namespace ANX.RenderSystem.Windows.DX10
             for (int i = 0; i < technique.Description.PassCount; ++i)
 			{
 				technique.GetPassByIndex(i).Apply();
-				nativeDevice.Draw(primitiveCount, vertexOffset);
+				nativeDevice.Draw(vertexCount, vertexOffset);
             }
 
 			nativeDevice.InputAssembler.InputLayout.Dispose();
@@ -254,8 +254,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			DxVertexBuffer vb10 = new DxVertexBuffer(nativeDevice, vertexDeclaration, vertexCount, BufferUsage.None);
             vb10.SetData<T>(null, vertexData);
 
-            Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer,
-				vertexDeclaration.VertexStride, 0);
+            Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
 
 			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
@@ -279,15 +278,13 @@ namespace ANX.RenderSystem.Windows.DX10
         #endregion
 
         #region DrawUserPrimitives<T>
-        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount,
-			VertexDeclaration vertexDeclaration) where T : struct, IVertexType
+        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
             int vertexCount = vertexData.Length;
 			DxVertexBuffer vb10 = new DxVertexBuffer(nativeDevice, vertexDeclaration, vertexCount, BufferUsage.None);
             vb10.SetData<T>(null, vertexData);
 
-            Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer,
-				vertexDeclaration.VertexStride, 0);
+            Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
 
 			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
@@ -307,8 +304,8 @@ namespace ANX.RenderSystem.Windows.DX10
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
             {
-                pass.Apply();
-				nativeDevice.Draw(primitiveCount, vertexOffset);
+                technique.GetPassByIndex(i).Apply();
+				nativeDevice.Draw(vertexCount, vertexOffset);
             }
 
 			nativeDevice.InputAssembler.InputLayout.Dispose();

@@ -199,31 +199,23 @@ namespace ANX.RenderSystem.Windows.DX11
         #endregion
 
 		#region DrawIndexedPrimitives
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex,
-					int numVertices, int startIndex, int primitiveCount)
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
 		{
-			SharpDX.Direct3D11.EffectPass pass;
-			SharpDX.Direct3D11.EffectTechnique technique;
-			ShaderBytecode passSignature;
-			SetupEffectForDraw(out pass, out technique, out passSignature);
+            SharpDX.Direct3D11.EffectTechnique technique = SetupEffectForDraw();
+            int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
-			var layout = SetupInputLayout(passSignature);
+            nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
+            nativeDevice.Rasterizer.SetViewports(currentViewport);
+            nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
-			// Prepare All the stages
-			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-			nativeDevice.Rasterizer.SetViewports(currentViewport);
+            for (int i = 0; i < technique.Description.PassCount; ++i)
+            {
+                technique.GetPassByIndex(i).Apply(nativeDevice);
+                nativeDevice.DrawIndexed(vertexCount, startIndex, baseVertex);
+            }
 
-			nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-
-			for (int i = 0; i < technique.Description.PassCount; ++i)
-			{
-				pass.Apply(nativeDevice);
-				nativeDevice.DrawIndexed(DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount), startIndex,
-					baseVertex);
-			}
-
-			layout.Dispose();
-			layout = null;
+            nativeDevice.InputAssembler.InputLayout.Dispose();
+            nativeDevice.InputAssembler.InputLayout = null;
 		}
 		#endregion
 
@@ -344,6 +336,18 @@ namespace ANX.RenderSystem.Windows.DX11
 			technique = effect.GetCurrentTechnique().NativeTechnique;
             pass = technique.GetPassByIndex(0);
             passSignature = pass.Description.Signature;
+        }
+
+        private SharpDX.Direct3D11.EffectTechnique SetupEffectForDraw()
+        {
+            //TODO: check for currentEffect null and throw exception
+            // TODO: check for null's and throw exceptions
+            // TODO: get the correct pass index!
+            var technique = currentEffect.GetCurrentTechnique().NativeTechnique;
+            var pass = technique.GetPassByIndex(0);
+            SetupInputLayout(pass.Description.Signature);
+
+            return technique;
         }
 		#endregion
 
