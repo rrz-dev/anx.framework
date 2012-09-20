@@ -221,16 +221,30 @@ namespace ANX.Framework.Graphics
 		#region SetVertexBuffer
 		public void SetVertexBuffer(VertexBuffer vertexBuffer)
 		{
-			VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer) };
-			this.currentVertexBufferBindings = bindings;
-			NativeDevice.SetVertexBuffers(bindings);
+            if (vertexBuffer != null)
+            {
+                VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer) };
+                this.currentVertexBufferBindings = bindings;
+                NativeDevice.SetVertexBuffers(bindings);
+            }
+            else
+            {
+                SetVertexBuffers(null);
+            }
 		}
 
 		public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
 		{
-			VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer, vertexOffset) };
-			this.currentVertexBufferBindings = bindings;
-			NativeDevice.SetVertexBuffers(bindings);
+            if (vertexBuffer != null)
+            {
+                VertexBufferBinding[] bindings = new VertexBufferBinding[] { new VertexBufferBinding(vertexBuffer, vertexOffset) };
+                this.currentVertexBufferBindings = bindings;
+                NativeDevice.SetVertexBuffers(bindings);
+            }
+            else
+            {
+                SetVertexBuffers(null);
+            }
 		}
 
 		public void SetVertexBuffers(params Graphics.VertexBufferBinding[] vertexBuffers)

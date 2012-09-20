@@ -56,6 +56,8 @@ namespace ANX.RenderSystem.Windows.DX11
 			{
 				case SurfaceFormat.Color:
 					return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
+                case SurfaceFormat.Dxt1:
+                    return SharpDX.DXGI.Format.BC1_UNorm;
 				case SurfaceFormat.Dxt3:
 					return SharpDX.DXGI.Format.BC2_UNorm;
 				case SurfaceFormat.Dxt5:

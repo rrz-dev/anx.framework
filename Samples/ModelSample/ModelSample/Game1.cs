@@ -47,7 +47,7 @@ namespace ModelSample
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = Content.Load<Effect>("Effects/SimpleEffect");
             
-            cubeModel = Content.Load<Model>("Models/Cube");
+            cubeModel = Content.Load<Model>("Models/SphereAndCube");
             cubeWorld = Matrix.Identity;
 
             anxLogo = Content.Load<Model>("Models/ANX_vertex_color");
@@ -56,13 +56,18 @@ namespace ModelSample
             texture = Content.Load<Texture2D>("Textures/Test_100x100");
 
             // Ovrride the basic effect in the model for testing
-            if (overrideWithSimpleEffect)
+            foreach (var mesh in cubeModel.Meshes)
             {
-                foreach (var mesh in cubeModel.Meshes)
+                foreach (var part in mesh.MeshParts)
                 {
-                    foreach (var part in mesh.MeshParts)
+                    if (overrideWithSimpleEffect)
                     {
                         part.Effect = effect;
+                    } 
+                    else 
+                    {
+                        ((BasicEffect)part.Effect).TextureEnabled = true;
+                        ((BasicEffect)part.Effect).EnableDefaultLighting();
                     }
                 }
             }

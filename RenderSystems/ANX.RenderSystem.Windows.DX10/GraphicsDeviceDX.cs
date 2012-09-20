@@ -211,8 +211,8 @@ namespace ANX.RenderSystem.Windows.DX10
 				nativeDevice.DrawIndexed(vertexCount, startIndex, baseVertex);
 			}
 
-			nativeDevice.InputAssembler.InputLayout.Dispose();
-			nativeDevice.InputAssembler.InputLayout = null;
+            //nativeDevice.InputAssembler.InputLayout.Dispose();
+            //nativeDevice.InputAssembler.InputLayout = null;
 		}
 		#endregion
 
@@ -373,8 +373,8 @@ namespace ANX.RenderSystem.Windows.DX10
 
                 if (nativeVertexBuffer != null)
                 {
-                    nativeVertexBufferBindings[i] = new Dx10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer,
-						anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride, anxVertexBufferBinding.VertexOffset);
+                    int vertexStride = anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride;
+                    nativeVertexBufferBindings[i] = new Dx10.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexStride, anxVertexBufferBinding.VertexOffset * vertexStride);
                 }
                 else
                 {
