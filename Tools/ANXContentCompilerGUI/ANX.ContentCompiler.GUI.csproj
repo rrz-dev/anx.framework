@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -13,9 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.ContentCompiler.GUI</RootNamespace>
     <AssemblyName>ccompiler4</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -48,6 +46,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -57,6 +57,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,7 +66,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -217,16 +217,6 @@
     <None Include="Resources\anx.ico" />
     <Content Include="Resources\clouds.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
-      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
-      <Name>ANX.Framework.Content.Pipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -235,4 +225,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline_Linux.csproj">
+      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
+      <Name>ANX.Framework.Content.Pipeline_Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework_Linux</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

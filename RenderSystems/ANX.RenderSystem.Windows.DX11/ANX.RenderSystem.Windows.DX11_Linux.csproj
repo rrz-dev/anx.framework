@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.RenderSystem.Windows.DX11</RootNamespace>
     <AssemblyName>ANX.RenderSystem.Windows.DX11</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -34,42 +33,27 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANX.BaseDirectX\ANX.BaseDirectX_Linux.csproj">
-      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
-      <Name>ANX.BaseDirectX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="SharpDX">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlendState_DX11.cs" />

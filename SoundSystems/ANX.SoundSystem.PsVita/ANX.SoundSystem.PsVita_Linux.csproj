@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.SoundSystem.PsVita</RootNamespace>
     <AssemblyName>ANX.SoundSystem.PsVita</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -46,7 +45,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

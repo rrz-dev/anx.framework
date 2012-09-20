@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{ECBF60CB-1CF0-4F92-8963-E73115B04B43}</ProjectGuid>
@@ -10,7 +10,8 @@
     <AssemblyName>ANX.Framework.ContentPipeline</AssemblyName>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,16 +33,10 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>true</SpecificVersion>
-    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core">
@@ -60,19 +55,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderSystems\ANX.BaseDirectX\ANX.BaseDirectX_Linux.csproj">
-      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
-      <Name>ANX.BaseDirectX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_Linux.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.Windows.GL3</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

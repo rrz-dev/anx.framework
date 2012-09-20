@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{41E6C2CF-51EA-4D8E-96AE-739CA3951766}</ProjectGuid>
@@ -8,7 +8,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StencilBuffer</RootNamespace>
     <AssemblyName>StencilBuffer</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>HiDef</XnaProfile>
@@ -31,6 +30,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +60,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin8|x86'">
     <OutputPath>bin\x86\DebugWin8\</OutputPath>
+    <DebugType>none</DebugType>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin8|x86'">
     <OutputPath>bin\x86\ReleaseWin8\</OutputPath>
@@ -76,26 +80,15 @@
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mscorlib">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Net">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,32 +129,23 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_Linux.csproj">
       <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
+      <Name>ANX.InputDevices.Windows.XInput_Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_Linux.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
-      <Name>ANX.InputSystem.Standard</Name>
+      <Name>ANX.InputSystem.Standard_Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_Linux.csproj">
       <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
-      <Name>ANX.PlatformSystem.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
+      <Name>ANX.PlatformSystem.Windows_Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_Linux.csproj">
       <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
-      <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
-      <Name>SampleContent</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
+      <Name>ANX.SoundSystem.Windows.XAudio_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ANX.Framework.Content.Pipeline</RootNamespace>
     <AssemblyName>ANX.Framework.Content.Pipeline</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -190,15 +189,11 @@
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_Linux.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.Windows.GL3</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SoundSystems\WaveUtils\WaveUtils_Linux.csproj">
+    <ProjectReference Include="..\Support\WaveUtils\WaveUtils_Linux.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>
-      <Name>WaveUtils</Name>
+      <Name>WaveUtils_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
