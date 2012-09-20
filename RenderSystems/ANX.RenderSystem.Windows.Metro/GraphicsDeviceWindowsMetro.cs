@@ -283,9 +283,8 @@ namespace ANX.RenderSystem.Windows.Metro
 
 				if (nativeVertexBuffer != null)
 				{
-					nativeVertexBufferBindings[i] = new Dx11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer,
-                        anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride,
-                        anxVertexBufferBinding.VertexOffset);
+                    int vertexStride = anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride;
+					nativeVertexBufferBindings[i] = new Dx11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexStride, anxVertexBufferBinding.VertexOffset * vertexStride);
 				}
 				else
 				{
