@@ -121,11 +121,14 @@ namespace ANX.Framework.Graphics
 		#endregion // Present
 
 		#region DrawPrimitives & DrawIndexedPrimitives
-		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount)
+		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
 		{
-			NativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
-				primitiveCount);
+            if (this.indexBuffer == null)
+            {
+                throw new InvalidOperationException("you have to set a index buffer before you can draw using DrawIndexedPrimitives");
+            }
+
+			NativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount, this.indexBuffer);
 		}
 
 		public void DrawPrimitives(PrimitiveType primitiveType, int startVertex, int primitiveCount)
@@ -397,11 +400,7 @@ namespace ANX.Framework.Graphics
 			}
 			set
 			{
-				if (this.indexBuffer != value)
-				{
-					this.indexBuffer = value;
-					NativeDevice.SetIndexBuffer(this.indexBuffer);
-				}
+				this.indexBuffer = value;
 			}
 		}
 

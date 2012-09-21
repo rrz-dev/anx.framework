@@ -64,6 +64,10 @@
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj">
+      <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
+      <Name>ANX.SoundSystem.Windows.XAudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
       <Name>SampleContent</Name>

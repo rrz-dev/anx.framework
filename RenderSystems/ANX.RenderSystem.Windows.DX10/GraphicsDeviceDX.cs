@@ -195,7 +195,7 @@ namespace ANX.RenderSystem.Windows.DX10
         #endregion
 
         #region DrawIndexedPrimitives
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer)
 		{
 			Dx10.EffectTechnique technique = SetupEffectForDraw();
 			int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
@@ -203,6 +203,11 @@ namespace ANX.RenderSystem.Windows.DX10
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
 			nativeDevice.Rasterizer.SetViewports(currentViewport);
 			nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+            if (indexBuffer != null)
+            {
+                SetIndexBuffer(indexBuffer);
+            }
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
 			{
@@ -273,7 +278,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
             nativeDevice.InputAssembler.SetIndexBuffer(idx10.NativeBuffer, DxFormatConverter.Translate(indexElementSize), 0);
 
-            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
+            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, null);
         }
         #endregion
 
@@ -352,8 +357,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
             if (nativeIndexBuffer != null)
             {
-				nativeDevice.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer,
-					DxFormatConverter.Translate(indexBuffer.IndexElementSize), 0);
+				nativeDevice.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, DxFormatConverter.Translate(indexBuffer.IndexElementSize), 0);
             }
             else
             {

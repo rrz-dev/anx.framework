@@ -120,11 +120,16 @@ namespace ANX.RenderSystem.Windows.Metro
 
         #region DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex,
-			int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
+            int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer)
         {
             SetInputLayout();
             ApplyPrimitiveType(primitiveType);
             NativeDevice.SetDefaultTargets();
+
+            if (indexBuffer != null)
+            {
+                SetIndexBuffer(indexBuffer);
+            }
 
             int indexCount = CalculateVertexCount(primitiveType, primitiveCount);
             for (int passIndex = 0; passIndex < currentTechnique.PassCount; passIndex++)
@@ -191,7 +196,7 @@ namespace ANX.RenderSystem.Windows.Metro
 
             NativeDevice.NativeContext.InputAssembler.SetIndexBuffer(idxMetro.NativeBuffer, FormatConverter.Translate(indexElementSize), 0);
 
-			DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount);
+			DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, null);
 		}
 
 		#endregion // DrawUserIndexedPrimitives<T>

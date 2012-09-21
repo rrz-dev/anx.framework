@@ -241,7 +241,7 @@ namespace ANX.RenderSystem.GL3
 
 		#region DrawIndexedPrimitives
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount)
+			int startIndex, int primitiveCount, IndexBuffer indexBuffer)
 		{
 			// TODO: baseVertex, minVertexIndex, numVertices, startIndex
 			DrawElementsType elementsType = boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
