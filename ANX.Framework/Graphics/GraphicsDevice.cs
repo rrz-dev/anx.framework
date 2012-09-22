@@ -142,7 +142,7 @@ namespace ANX.Framework.Graphics
 			int startIndex, int primitiveCount, int instanceCount)
 		{
 			NativeDevice.DrawInstancedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
-				primitiveCount, instanceCount);
+				primitiveCount, instanceCount, this.indexBuffer);
 		}
 		#endregion
 

@@ -259,7 +259,7 @@ namespace ANX.RenderSystem.GL3
 		#region DrawInstancedPrimitives (TODO)
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-				int primitiveCount, int instanceCount)
+				int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
 		{
 			//GL.DrawArraysInstanced(
 			//  DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),

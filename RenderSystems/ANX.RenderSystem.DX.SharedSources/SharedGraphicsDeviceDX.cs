@@ -36,7 +36,8 @@ namespace ANX.RenderSystem.Windows.DX11
 		protected uint lastClearColor;
 		protected SharpDX.Color4 clearColor;
 		protected SharpDX.DXGI.SwapChain swapChain;
-		protected VertexBuffer currentVertexBuffer;
+		protected VertexBufferBinding[] currentVertexBuffer;
+        protected int currentVertexBufferCount;
 		protected IndexBuffer currentIndexBuffer;
 		#endregion
 

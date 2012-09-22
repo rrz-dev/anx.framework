@@ -59,8 +59,13 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region SetValue (Matrix, transpose) (TODO)
 		public void SetValue(Matrix value, bool transpose)
 		{
-			// TODO: handle transpose!
-			NativeParameter.AsMatrix().SetMatrix(value);
+            Matrix val = value;
+            if (transpose)
+            {
+                Matrix.Transpose(ref val, out val);
+            }
+
+			NativeParameter.AsMatrix().SetMatrix(val);
 		}
 		#endregion
 

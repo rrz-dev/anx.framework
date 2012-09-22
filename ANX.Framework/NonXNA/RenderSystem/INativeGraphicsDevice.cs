@@ -17,7 +17,7 @@ namespace ANX.Framework.NonXNA
 		void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer);
 
 		void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount, int instanceCount);
+			int startIndex, int primitiveCount, int instanceCount, IndexBuffer indexBuffer);
 
 		void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
 			Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,

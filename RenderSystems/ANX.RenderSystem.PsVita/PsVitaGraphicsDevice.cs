@@ -111,14 +111,14 @@ namespace ANX.RenderSystem.PsVita
 		#region INativeGraphicsDevice Member
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType,
 			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount)
+			int primitiveCount, IndexBuffer indexBuffer)
 		{
 			throw new NotImplementedException();
 		}
 
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount, int instanceCount)
+			int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
 		{
 			throw new NotImplementedException();
 		}
