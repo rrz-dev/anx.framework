@@ -84,6 +84,7 @@
             this.arrowButtonPreview.Name = "arrowButtonPreview";
             this.arrowButtonPreview.Size = new System.Drawing.Size(348, 64);
             this.arrowButtonPreview.TabIndex = 7;
+            this.arrowButtonPreview.Click += new System.EventHandler(this.ArrowButtonPreviewClick);
             // 
             // arrowButtonBuild
             // 

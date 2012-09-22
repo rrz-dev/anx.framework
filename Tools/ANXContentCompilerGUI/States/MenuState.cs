@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.NonXNA.Development;
@@ -19,6 +20,7 @@ namespace ANX.ContentCompiler.GUI.States
 
         private void SetUpColors()
         {
+            labelVersion.Text = "ANX Content Compiler v" + Assembly.GetExecutingAssembly().GetName().Version;
             BackColor = Settings.MainColor;
             ForeColor = Settings.ForeColor;
             panel1.BackColor = Settings.AccentColor3;

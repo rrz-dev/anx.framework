@@ -191,6 +191,19 @@ namespace ANX.ContentCompiler.GUI
 
         #region SaveProject
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData.HasFlag(Keys.Control))
+            {
+                if (keyData.HasFlag(Keys.S))
+                {
+                    SaveProject(this, null);
+                    return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         public void SaveProject(object sender, EventArgs e)
         {
             if (_contentProject == null) return;
@@ -344,11 +357,18 @@ namespace ANX.ContentCompiler.GUI
             string folder = _contentProject.ContentRoot;
             TreeNode node = treeView.SelectedNode;
             if (node != null)
-                folder = node.Name;
+                if ((string)node.Tag == "Folder")
+                    folder = node.Name;
+                else
+                {
+                    MessageBox.Show("Can not add a file to a file!");
+                    return;
+                }
             else
                 node = treeView.Nodes[0];
 
-            var newFolder = new TreeNode(name) {Name = folder + Path.DirectorySeparatorChar + name};
+            var newFolder = new TreeNode(name) { Name = folder + Path.DirectorySeparatorChar + name };
+            node.Tag = "Folder";
             node.Nodes.Add(newFolder);
         }
 
@@ -411,9 +431,9 @@ namespace ANX.ContentCompiler.GUI
 
             ProjectFolder = _contentProject.InputDirectory;
             treeView.Nodes.Clear();
-            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")")
-                               {Name = _contentProject.ContentRoot};
+            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")") { Name = _contentProject.ContentRoot };
             treeView.Nodes.Add(rootNode);
+            rootNode.Tag = "Folder";
             TreeNode lastNode = rootNode;
             //aaaand here comes the nasty part. Watch out, it bites...um bugs!
             foreach (
@@ -426,7 +446,7 @@ namespace ANX.ContentCompiler.GUI
                 string parent = _contentProject.ContentRoot;
                 for (int i = 0; i < parts.Length - 1; i++) //Examine everything between ContentRoot and fileName. If we find something, add a folder!
                 {
-                    if (parts[i] == null) continue; 
+                    if (parts[i] == null) continue;
                     if (i > 0) //if there is already a path we need to add the new part with a SeperatorChar!
                         folder += Path.DirectorySeparatorChar + parts[i];
                     else
@@ -439,8 +459,7 @@ namespace ANX.ContentCompiler.GUI
                     //  parent += Path.DirectorySeparatorChar + parts[0];
                 }
                 lastNode = treeView.RecursiveSearch(parent); //Search for parent node! Often an Exception Candidate! Check the 'parent' var then.
-                var node = new TreeNode(parts[parts.Length - 2])
-                               {Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder}; //Finally glue a new folder node together
+                var node = new TreeNode(parts[parts.Length - 2]) { Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder, Tag = "Folder" }; //Finally glue a new folder node together
                 if (!ContainsTreeNode(lastNode, node))
                 {
                     lastNode.Nodes.Add(node); // If the folder is new, add it - else it's just wasted memory :)
@@ -465,7 +484,7 @@ namespace ANX.ContentCompiler.GUI
                     }*/
                     //Add the actual files to the tree in their apropriate subdirs
                     string path = _contentProject.ContentRoot;
-                    if (parts != null) 
+                    if (parts != null)
                     {
                         for (int i = 0; i < parts.Length - 1; i++)
                         {
@@ -476,18 +495,17 @@ namespace ANX.ContentCompiler.GUI
                     {
                         TreeNode node = treeView.RecursiveSearch(path);
                         if (node == null) throw new ArgumentNullException("Node not found!");
-                        var item = new TreeNode(parts[parts.Length - 1]) {Name = buildItem.AssetName};
+                        var item = new TreeNode(parts[parts.Length - 1]) { Name = buildItem.AssetName, Tag = "File" };
                         node.Nodes.Add(item);
                     }
                     else //if the node is "forever alone", put him into the rootNode to make some friends!
                     {
-                        var item = new TreeNode(buildItem.AssetName) {Name = buildItem.AssetName};
+                        var item = new TreeNode(buildItem.AssetName) { Name = buildItem.AssetName, Tag = "File" };
                         treeView.Nodes[0].Nodes.Add(item);
                     }
                 }
             }
         }
-
         #endregion
 
         #region ButtonHandlers
@@ -835,6 +853,17 @@ namespace ANX.ContentCompiler.GUI
             _showCounter++;
         }
 
+        #endregion
+
+        #region ShowPreview
+        internal void ShowPreview()
+        {
+            using (var preview = new PreviewScreen())
+            {
+                if ((string)treeView.SelectedNode.Tag == "File")
+                    preview.ShowDialog();
+            }
+        }
         #endregion
     }
 }

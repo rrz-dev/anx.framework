@@ -32,7 +32,6 @@ namespace ANX.ContentCompiler.GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.splitContainerMenuLayout = new System.Windows.Forms.SplitContainer();
             this.show_pictureBoxRibbon = new System.Windows.Forms.PictureBox();
             this.show_pictureBoxMenu = new System.Windows.Forms.PictureBox();

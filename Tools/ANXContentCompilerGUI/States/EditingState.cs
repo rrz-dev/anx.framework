@@ -47,5 +47,10 @@ namespace ANX.ContentCompiler.GUI.States
         {
             MainWindow.Instance.BuildProject(sender, e);
         }
+
+        private void ArrowButtonPreviewClick(object sender, EventArgs e)
+        {
+            MainWindow.Instance.ShowPreview();
+        }
     }
 }
