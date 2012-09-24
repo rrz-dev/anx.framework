@@ -158,7 +158,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region DrawInstancedPrimitives
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 			int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-			int primitiveCount, int instanceCount)
+            int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
 		{
 			NativeDevice.NativeContext.DrawIndexedInstanced(numVertices,
 				instanceCount, startIndex, baseVertex, 0);

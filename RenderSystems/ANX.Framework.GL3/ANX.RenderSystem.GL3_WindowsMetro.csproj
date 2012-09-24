@@ -71,12 +71,6 @@
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent></PreBuildEvent>
