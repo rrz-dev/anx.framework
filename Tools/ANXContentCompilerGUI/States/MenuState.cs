@@ -7,7 +7,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.ContentCompiler.GUI.States
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(90)] //TODO: Actually implement Import dialogue, for now just using the usual one
+    [PercentageComplete(90)] //TODO: Actually implement Import dialogue, for now just using the usual one; Fix weird width issue on Mono/Linux
     [TestState(TestStateAttribute.TestState.Tested)]
     public partial class MenuState : UserControl
     {

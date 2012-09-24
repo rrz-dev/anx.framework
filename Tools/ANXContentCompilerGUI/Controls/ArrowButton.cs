@@ -7,7 +7,7 @@ namespace ANX.ContentCompiler.GUI.Controls
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Tested)]
+    [TestState(TestStateAttribute.TestState.Tested)] //TODO: Fix the strange flickering with mono that makes the button unusable as seen on Linux
     public partial class ArrowButton : UserControl
     {
         public ArrowButton()

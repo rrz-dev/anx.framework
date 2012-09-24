@@ -20,11 +20,11 @@ namespace ANX.ContentCompiler.GUI
         #region Fields
 
         public static String DefaultOutputPath = "bin";
-
         public static String SettingsFile =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                          "ANX Content Compiler" + Path.DirectorySeparatorChar + "settings.ees");
-
+		
+		
         private bool _firstStart = true;
 
         private ContentProject _contentProject;
