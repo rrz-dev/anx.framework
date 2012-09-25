@@ -131,7 +131,7 @@ namespace ANX.Framework.NonXNA.Reflection
 			allAssemblyNames.Add("ANX.PlatformSystem.Metro");
 			allAssemblyNames.Add("ANX.RenderSystem.Windows.Metro");
 			allAssemblyNames.Add("ANX.InputSystem.Standard");
-			allAssemblyNames.Add("ANX.InputDevices.Windows.XInput");
+			allAssemblyNames.Add("ANX.InputDevices.Windows.ModernUI");
 			allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
 #endif
 

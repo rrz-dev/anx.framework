@@ -99,10 +99,14 @@ namespace ANX.Framework.NonXNA
 		#region CreateDefaultMouse
 		public IMouse CreateDefaultMouse()
 		{
-			ValidateWindowHandle();
+#if !WINDOWSMETRO
+            ValidateWindowHandle();
+#endif
+            var mouse = GetDefaultCreator<IMouseCreator>().CreateDevice();
 
-			var mouse = GetDefaultCreator<IMouseCreator>().CreateDevice();
-			mouse.WindowHandle = WindowHandle;
+#if !WINDOWSMETRO
+            mouse.WindowHandle = WindowHandle;
+#endif
 			return mouse;
 		}
 		#endregion
