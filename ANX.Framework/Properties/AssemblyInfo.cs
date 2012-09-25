@@ -46,6 +46,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ANX.InputDevices.PsVita")]
 [assembly: InternalsVisibleTo("ANX.InputDevices.Test")]
 [assembly: InternalsVisibleTo("ANX.InputDevices.Windows.XInput")]
+[assembly: InternalsVisibleTo("ANX.InputDevices.Windows.ModernUI")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Windows")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Linux")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Metro")]
