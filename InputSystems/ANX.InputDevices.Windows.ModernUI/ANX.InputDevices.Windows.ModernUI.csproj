@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -110,15 +110,18 @@
     <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ANX.Framework">
-      <HintPath>..\..\..\Whac-A-Hamster\lib\ANX.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput">
       <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.XInput.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
