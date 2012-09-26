@@ -132,7 +132,7 @@ namespace ANX.Framework.NonXNA.Reflection
 			allAssemblyNames.Add("ANX.RenderSystem.Windows.Metro");
 			allAssemblyNames.Add("ANX.InputSystem.Standard");
 			allAssemblyNames.Add("ANX.InputDevices.Windows.ModernUI");
-			allAssemblyNames.Add("ANX.SoundSystem.Windows.ModernUI");
+			allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
 #endif
 
 			foreach (string assemblyName in allAssemblyNames)
