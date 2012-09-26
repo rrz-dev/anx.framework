@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Eagle Eye Studios")]
 [assembly: AssemblyProduct("ANX.ContentCompiler.GUI")]
-[assembly: AssemblyCopyright("Copyright © 2012 Eagle Eye Studios.")]
+[assembly: AssemblyCopyright("Copyright © 2012 Eagle Eye Studios. Licensed under MS-PL")]
 [assembly: AssemblyTrademark("EES ContentCompiler")]
 [assembly: AssemblyCulture("")]
 

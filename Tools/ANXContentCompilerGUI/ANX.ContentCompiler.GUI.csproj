@@ -196,9 +196,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ShowStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="States\EditingState.resx">
-      <DependentUpon>EditingState.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -230,6 +227,16 @@
     <None Include="Resources\anx.ico" />
     <Content Include="Resources\clouds.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
+      <Project>{2dafdfc1-223b-4741-87bb-be3d0a7617db}</Project>
+      <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -238,14 +245,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline_Linux.csproj">
-      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
-      <Name>ANX.Framework.Content.Pipeline_Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework_Linux</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
