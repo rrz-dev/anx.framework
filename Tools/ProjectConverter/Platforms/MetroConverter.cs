@@ -137,7 +137,30 @@ namespace ProjectConverter.Platforms
 					noneNode.Remove();
 				}
 			}
+            XName referenceName = XName.Get("Reference", element.Name.NamespaceName);
 
+            var referenceElements = element.Elements(referenceName);
+            foreach (XElement referenceNode in referenceElements)
+            {
+                if (referenceNode.Value.Contains("Standard-net20"))
+                {
+                   var attribute=  referenceNode.Attribute("Include");
+                   attribute.Value = attribute.Value.Split(',').First();
+                   foreach (var nodeElement in referenceNode.Elements().ToList())
+                   {
+
+                       if (nodeElement.Name.LocalName=="SpecificVersion")
+                       {
+                           nodeElement.Remove();
+                       }
+                       if (nodeElement.Name.LocalName=="HintPath")
+                       {
+                           nodeElement.Value = nodeElement.Value.Replace("Standard-net20", "Win8Metro");
+                       }
+
+                   }                    
+                }
+            }
 			if (element.IsEmpty)
 			{
 				element.Remove();
