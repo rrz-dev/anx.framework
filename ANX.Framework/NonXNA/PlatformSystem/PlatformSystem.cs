@@ -50,7 +50,7 @@ namespace ANX.Framework.NonXNA.PlatformSystem
             foreach (Type type in assembly.GetExportedTypes())
 #else
             AssemblyName assemblyName = new AssemblyName(platformAssemblyName);
-            Assembly assembly = Assembly.Load(assemblyName);
+            Assembly assembly = Assembly.Load(assemblyName);            
 
             foreach (Type type in assembly.ExportedTypes)
 #endif
@@ -76,7 +76,7 @@ namespace ANX.Framework.NonXNA.PlatformSystem
                 case PlatformName.PSVita:
                     return prefix + platform.ToString() + suffix;
                 case PlatformName.Windows8:
-                    return prefix + "Metro" + suffix;
+                    return prefix + "Metro";
                 default:
                     throw new PlatformSystemInstanceException("couldn't solve assembly name for platform '" + platform.ToString() + "'");
             }
