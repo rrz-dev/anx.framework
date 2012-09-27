@@ -15,6 +15,7 @@ namespace ANX.Framework.NonXNA
 		#region Private members
 		private static GraphicsResourceTracker instance;
 		private static List<GraphicsResource> trackedGraphicsResources;
+        private GraphicsDevice graphicsDevice;
 
 		#endregion // Private members
 
@@ -46,6 +47,8 @@ namespace ANX.Framework.NonXNA
 
 		public void UpdateGraphicsDeviceReference(GraphicsDevice newGraphicsDevice)
 		{
+            this.graphicsDevice = newGraphicsDevice;
+
 			foreach (GraphicsResource resource in trackedGraphicsResources)
 			{
 				resource.GraphicsDevice = newGraphicsDevice;
@@ -57,6 +60,10 @@ namespace ANX.Framework.NonXNA
 		{
 			if (trackedGraphicsResources.Contains(graphicsResource) == false)
 			{
+                if (graphicsDevice != null && graphicsResource.GraphicsDevice == null)
+                {
+                    graphicsResource.GraphicsDevice = graphicsDevice;
+                }
 				trackedGraphicsResources.Add(graphicsResource);
 			}
 		}

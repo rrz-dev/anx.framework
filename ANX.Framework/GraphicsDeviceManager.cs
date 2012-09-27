@@ -197,8 +197,7 @@ namespace ANX.Framework
 
 			//TODO: validate graphics device
 
-			this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile,
-				deviceInformation.PresentationParameters);
+			this.graphicsDevice = new GraphicsDevice(deviceInformation.Adapter, deviceInformation.GraphicsProfile,deviceInformation.PresentationParameters);
 			GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this.graphicsDevice);
 
 			//TODO: hookup events

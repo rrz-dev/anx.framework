@@ -12,10 +12,10 @@ namespace ANX.Framework.Graphics
 	{
 		public event EventHandler<EventArgs> Disposing;
 
-		public GraphicsResource()
-		{
-			GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
-		}
+        internal GraphicsResource()
+        {
+            GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
+        }
 
 		~GraphicsResource()
 		{
@@ -31,7 +31,7 @@ namespace ANX.Framework.Graphics
 		public GraphicsDevice GraphicsDevice
 		{
 			get;
-			set;
+			internal set;
 		}
 
 		public bool IsDisposed

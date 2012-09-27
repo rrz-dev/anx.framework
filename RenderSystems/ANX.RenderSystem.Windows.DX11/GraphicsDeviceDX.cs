@@ -202,6 +202,9 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer)
 		{
+            if (primitiveCount <= 0) throw new ArgumentOutOfRangeException("primitiveCount is less than or equal to zero. When drawing, at least one primitive must be drawn.");
+            if (this.currentVertexBuffer == null || this.currentVertexBufferCount <= 0) throw new InvalidOperationException("you have to set a valid vertex buffer before drawing.");
+
             SharpDX.Direct3D11.EffectTechnique technique = SetupEffectForDraw();
             int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
@@ -284,30 +287,22 @@ namespace ANX.RenderSystem.Windows.DX11
         {
             int vertexCount = vertexData.Length;
             int indexCount = indexData.Length;
-			var vb11 = new DxVertexBuffer(nativeDevice.Device, vertexDeclaration, vertexCount, BufferUsage.None);
-            vb11.SetData<T>(null, vertexData);
 
-            var nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer,
-				vertexDeclaration.VertexStride, 0);
+            VertexBuffer vertexBuffer = new VertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly);
+            vertexBuffer.SetData(vertexData);
+            this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
 
-			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
-
-			DxIndexBuffer idx11 = new DxIndexBuffer(nativeDevice.Device, indexFormat, indexCount, BufferUsage.None);
-            IndexElementSize indexElementSize;
+            IndexBuffer indexBuffer = new IndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly);
             if (indexData.GetType() == typeof(Int16[]))
             {
-                idx11.SetData<short>(null, (short[])indexData);
-                indexElementSize = IndexElementSize.SixteenBits;
+                indexBuffer.SetData<short>((short[])indexData);
             }
             else
             {
-                idx11.SetData<int>(null, (int[])indexData);
-                indexElementSize = IndexElementSize.ThirtyTwoBits;
+                indexBuffer.SetData<int>((int[])indexData);
             }
 
-            nativeDevice.InputAssembler.SetIndexBuffer(idx11.NativeBuffer, DxFormatConverter.Translate(indexElementSize), 0);
-
-            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, null);
+            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
         }
 
         #endregion // DrawUserIndexedPrimitives<T>
@@ -455,6 +450,10 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region CreateInputLayout
         private InputLayout CreateInputLayout(Device device, ShaderBytecode passSignature, params VertexDeclaration[] vertexDeclaration)
         {
+            if (device == null) throw new ArgumentNullException("device");
+            if (passSignature == null) throw new ArgumentNullException("passSignature");
+            if (vertexDeclaration == null) throw new ArgumentNullException("vertexDeclaration");
+
             //TODO: try to get rid of the list
             List<InputElement> inputElements = new List<InputElement>();
             foreach (VertexDeclaration decl in vertexDeclaration)
@@ -470,6 +469,10 @@ namespace ANX.RenderSystem.Windows.DX11
         
         private InputLayout CreateInputLayout(Device device, ShaderBytecode passSignature, params ANX.Framework.Graphics.VertexBufferBinding[] vertexBufferBindings)
         {
+            if (device == null) throw new ArgumentNullException("device");
+            if (passSignature == null) throw new ArgumentNullException("passSignature");
+            if (vertexBufferBindings == null) throw new ArgumentNullException("vertexBufferBindings");
+
             //TODO: try to get rid of the list
             List<InputElement> inputElements = new List<InputElement>();
             int slot = 0;
