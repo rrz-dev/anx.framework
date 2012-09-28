@@ -545,7 +545,32 @@ namespace ANX.Framework
 
         public static void CreateFromQuaternion(ref Quaternion quaternion, out Matrix result)
         {
-            throw new NotImplementedException();
+            float xx = quaternion.X * quaternion.X;
+            float xy = quaternion.X * quaternion.Y;
+            float xz = quaternion.X * quaternion.Z;
+            float xw = quaternion.X * quaternion.W;
+            float yy = quaternion.Y * quaternion.Y;
+            float yz = quaternion.Y * quaternion.Z;
+            float yw = quaternion.Y * quaternion.W;
+            float zz = quaternion.Z * quaternion.Z;
+            float zw = quaternion.Z * quaternion.W;
+
+            result.M11 = 1 - 2 * (yy + zz);
+            result.M12 =     2 * (xy + zw);
+            result.M13 =     2 * (xz - yw);
+            result.M14 = 0;
+            result.M21 =     2 * (xy - zw);
+            result.M22 = 1 - 2 * (xx + zz);
+            result.M23 =     2 * (yz + xw);
+            result.M24 = 0;
+            result.M31 =     2 * (xz + yw);
+            result.M32 =     2 * (yz - xw);
+            result.M33 = 1 - 2 * (xx + yy);
+            result.M34 = 0;
+            result.M41 = 0;
+            result.M42 = 0;
+            result.M43 = 0;
+            result.M44 = 1;
         }
 
         public static Matrix CreateFromYawPitchRoll(float yaw, float pitch, float roll)
