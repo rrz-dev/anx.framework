@@ -21,7 +21,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public MipmapChain(BitmapContent bitmap)
         {
-            throw new NotImplementedException();
+            base.Add(bitmap);
         }
 
         public static MipmapChain op_Implicit(BitmapContent bitmap)

@@ -15,5 +15,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public sealed class MipmapChainCollection : Collection<MipmapChain>
     {
+        public MipmapChainCollection(int levels)
+        {
+            for (int i = 0; i < levels; i++)
+            {
+                base.Add(new MipmapChain());
+            }
+        }
     }
 }

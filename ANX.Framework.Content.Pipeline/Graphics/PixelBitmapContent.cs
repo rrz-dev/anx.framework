@@ -14,6 +14,8 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class PixelBitmapContent<T> : BitmapContent where T : struct, IEquatable<T>
     {
+        private T[,] pixels;
+
         protected PixelBitmapContent()
         {
 
@@ -22,12 +24,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         public PixelBitmapContent(int width, int height)
             : base(width, height)
         {
-        
+            pixels = new T[width, height];
         }
 
         public T GetPixel(int x, int y)
         {
-            throw new NotImplementedException();
+            return pixels[x, y];
         }
 
         public override byte[] GetPixelData()
@@ -42,7 +44,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public void SetPixel(int x, int y, T value)
         {
-            throw new NotImplementedException();
+            pixels[x, y] = value;
         }
 
         public override void SetPixelData(byte[] sourceData)

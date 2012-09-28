@@ -15,7 +15,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     public class Texture2DContent : TextureContent
     {
         public Texture2DContent()
-            : base(null)    //TODO: implement
+            : base(new MipmapChainCollection(1))
         {
 
         }
