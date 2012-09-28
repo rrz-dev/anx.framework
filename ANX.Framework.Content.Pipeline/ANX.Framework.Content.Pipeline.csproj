@@ -108,6 +108,7 @@
     <Compile Include="IContentProcessor.cs" />
     <Compile Include="Importer\TextureImporter.cs" />
     <Compile Include="Importer\WavImporter.cs" />
+    <Compile Include="Importer\XmlImporter.cs" />
     <Compile Include="InvalidContentException.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Tasks\ImporterManager.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="VideoContent.cs" />
+    <Compile Include="Serialization\XmlReaderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework.csproj">
