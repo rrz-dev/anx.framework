@@ -21,6 +21,7 @@
   <property name="project.anx.linux" value="false" />
   <property name="project.anx.psvita" value="false" />
   <property name="project.anx.metro" value="false" />
+  <property name="project.anx.winrt" value="false" />
   
   <target name="clean" description="Cleans all targets.">
     <delete>
@@ -81,6 +82,17 @@
     <call target="generate_project_files" />
   </target>
   
+  <target name="winrt">
+    <property name="project.anx.metro" value="true" />
+    <property name="project.anx.winrt" value="true" />
+    <property name="project.anx.platform" value="Windows 8 / Metro / WinRT" />
+    <property name="build.platform" value="ARM" />
+
+    <property name="project.anx.directives" value="${project.anx.directives} WINDOWSMETRO ARM WINRT" />
+    
+    <call target="generate_project_files" />
+  </target>
+    
   <target name="build">
     <echo message="===================================================" />
     <echo message="ANX.Framework build script" />
