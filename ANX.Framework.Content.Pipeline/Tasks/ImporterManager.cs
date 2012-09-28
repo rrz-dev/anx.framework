@@ -17,6 +17,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
     public class ImporterManager
     {
         private Dictionary<String, Type> importerTypes = new Dictionary<string,Type>();
+        private Dictionary<String, String> defaultProcessor = new Dictionary<string, string>();
 
         public ImporterManager()
         {
@@ -29,6 +30,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                     if (value.Length > 0)
                     {
                         importerTypes[type.Name] = type;
+
+                        foreach (ContentImporterAttribute cia in value)
+                        {
+                            if (!String.IsNullOrEmpty(cia.DefaultProcessor))
+                            {
+                                defaultProcessor.Add(type.Name, cia.DefaultProcessor);
+                            }
+                        }
                     }
                 }
             }
@@ -42,6 +51,16 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 throw new Exception(String.Format("can't find importer {0}", importerName));
             }
             return (IContentImporter)Activator.CreateInstance(type);
+        }
+
+        public String GetDefaultProcessor(string importerName)
+        {
+            if (defaultProcessor.ContainsKey(importerName))
+            {
+                return defaultProcessor[importerName];
+            }
+
+            return String.Empty;
         }
 
         public static String GuessImporterByFileExtension(string filename)

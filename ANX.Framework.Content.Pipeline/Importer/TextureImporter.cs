@@ -45,7 +45,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
             }
 
             TextureContent textureContent = new Texture2DContent();
-            textureContent.Faces.Add(new MipmapChain(bitmapContent));
+            textureContent.Faces[0] = new MipmapChain(bitmapContent);
 
             return textureContent;
         }

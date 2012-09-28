@@ -106,7 +106,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
                 if (String.IsNullOrEmpty(buildItem.ProcessorName))
                 {
-                    buildItem.ProcessorName = ProcessorManager.GetProcessorForType(importedObject.GetType());
+                    buildItem.ProcessorName = ImporterManager.GetDefaultProcessor(buildItem.ImporterName);
+                    if (string.IsNullOrEmpty(buildItem.ProcessorName))
+                    {
+                        buildItem.ProcessorName = ProcessorManager.GetProcessorForType(importedObject.GetType());
+                    }
                 }
 
                 var buildedItem = Process(buildItem, importedObject);

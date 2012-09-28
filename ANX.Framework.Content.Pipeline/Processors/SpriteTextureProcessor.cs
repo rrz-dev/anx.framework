@@ -26,7 +26,27 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
         public override TextureContent Process(TextureContent input, ContentProcessorContext context)
         {
-            throw new NotImplementedException();
+            if (ColorKeyEnabled)
+            {
+                throw new NotImplementedException("ColorKey not yet implemented");
+            }
+
+            if (GenerateMipmaps)
+            {
+                throw new NotImplementedException("Generation of MipMaps not yet implemented");
+            }
+
+            if (ResizeToPowerOfTwo)
+            {
+                throw new NotImplementedException("Resizing to power of two not yet implemented");
+            }
+
+            if (TextureFormat == TextureProcessorOutputFormat.DxtCompressed)
+            {
+                throw new NotImplementedException("DXT compression of textures not yet implemented");
+            }
+
+            return input;
         }
     }
 }
