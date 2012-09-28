@@ -10,31 +10,41 @@ using SharpDX;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-using Dx11 = SharpDX.Direct3D11;
+#if DX10
+using Dx = SharpDX.Direct3D10;
+using DxDevice = SharpDX.Direct3D10.Device;
+
+namespace ANX.RenderSystem.Windows.DX10
+#endif
+#if DX11
+using Dx = SharpDX.Direct3D11;
+using DxDevice = SharpDX.Direct3D11.Device;
 
 namespace ANX.RenderSystem.Windows.DX11
+#endif
 {
 	public partial class DxVertexBuffer : INativeVertexBuffer, IDisposable
 	{
-        public Dx11.Buffer NativeBuffer { get; protected set; }
+        public Dx.Buffer NativeBuffer { get; protected set; }
+        private Dx.DeviceContext context;
 
 		#region Constructor
 		public DxVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			var gd11 = graphics.NativeDevice as GraphicsDeviceDX;
-			Dx11.DeviceContext context = gd11 != null ? gd11.NativeDevice as Dx11.DeviceContext : null;
+			this.context = gd11 != null ? gd11.NativeDevice as Dx.DeviceContext : null;
 
 			InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
 		}
 
-		internal DxVertexBuffer(Dx11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+		internal DxVertexBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
 		#region InitializeBuffer (TODO)
-		private void InitializeBuffer(Dx11.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+		private void InitializeBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			vertexStride = vertexDeclaration.VertexStride;
 
@@ -42,40 +52,71 @@ namespace ANX.RenderSystem.Windows.DX11
 
 			if (device != null)
 			{
-				var description = new Dx11.BufferDescription()
+				var description = new Dx.BufferDescription()
 				{
-					Usage = Dx11.ResourceUsage.Dynamic,
+					Usage = Dx.ResourceUsage.Dynamic,
 					SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-					BindFlags = Dx11.BindFlags.VertexBuffer,
-					CpuAccessFlags = Dx11.CpuAccessFlags.Write,
-					OptionFlags = Dx11.ResourceOptionFlags.None
+					BindFlags = Dx.BindFlags.VertexBuffer,
+					CpuAccessFlags = Dx.CpuAccessFlags.Write,
+					OptionFlags = Dx.ResourceOptionFlags.None
 				};
 
-				NativeBuffer = new Dx11.Buffer(device, description);
+				NativeBuffer = new Dx.Buffer(device, description);
 			}
 		}
 		#endregion
 
-		protected SharpDX.DataStream MapBufferWrite()
+		private SharpDX.DataStream MapBufferWrite()
 		{
-			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
+			Dx.DeviceContext context = NativeBuffer.Device.ImmediateContext;
 			DataStream stream;
-			context.MapSubresource(NativeBuffer, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None, out stream);
+			context.MapSubresource(NativeBuffer, Dx.MapMode.WriteDiscard, Dx.MapFlags.None, out stream);
 			return stream;
 		}
 
-		protected SharpDX.DataStream MapBufferRead()
+		private SharpDX.DataStream MapBufferRead()
 		{
-			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
+			Dx.DeviceContext context = NativeBuffer.Device.ImmediateContext;
 			DataStream stream;
-			context.MapSubresource(NativeBuffer, Dx11.MapMode.Read, Dx11.MapFlags.None, out stream);
+			context.MapSubresource(NativeBuffer, Dx.MapMode.Read, Dx.MapFlags.None, out stream);
 			return stream;
 		}
 
-		protected void UnmapBuffer()
+        private SharpDX.DataStream MapBufferRead(Dx.Resource buffer)
+        {
+            DataStream stream;
+            buffer.Device.ImmediateContext.MapSubresource(buffer, 0, Dx.MapMode.Read, Dx.MapFlags.None, out stream);
+            return stream;
+        }
+
+		private void UnmapBuffer()
 		{
-			Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
+			Dx.DeviceContext context = NativeBuffer.Device.ImmediateContext;
 			context.UnmapSubresource(NativeBuffer, 0);
 		}
+
+        private void CopySubresource(Dx.Buffer source, Dx.Buffer destination)
+        {
+            this.context.CopyResource(source, destination);
+        }
+
+        private void UnmapBuffer(Dx.Resource buffer)
+        {
+            buffer.Device.ImmediateContext.UnmapSubresource(buffer, 0);
+        }
+
+        private Dx.Buffer CreateStagingBuffer(int sizeInBytes)
+        {
+            var description = new Dx.BufferDescription()
+            {
+                Usage = Dx.ResourceUsage.Staging,
+                SizeInBytes = sizeInBytes,
+                BindFlags = Dx.BindFlags.VertexBuffer,
+                CpuAccessFlags = Dx.CpuAccessFlags.Write | Dx.CpuAccessFlags.Read,
+                OptionFlags = Dx.ResourceOptionFlags.None
+            };
+
+            return new Dx.Buffer(context.Device, description);
+        }
 	}
 }

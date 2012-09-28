@@ -70,6 +70,9 @@ namespace VertexIndexBuffer
             graphics.PreferredBackBufferHeight = 486;
             graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
             graphics.ApplyChanges();
+
+            VertexPositionColor[] vertices23 = new VertexPositionColor[vb.VertexCount];
+            vb.GetData<VertexPositionColor>(vertices23);
         }
 
         protected override void Update(GameTime gameTime)
