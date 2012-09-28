@@ -583,8 +583,8 @@ namespace ANX.Framework.Graphics
 
                 cachedTransformMatrix = new Matrix()
                 {
-                    M11 = 2f * (this.viewportWidth > 0 ? 1f / (float)this.viewportWidth : 0f),
-                    M22 = 2f * (this.viewportHeight > 0 ? -1f / (float)this.viewportHeight : 0f),
+                    M11 = 2f * (this.viewportWidth > 0 ? 1f / ((float)this.viewportWidth - 1f) : 0f),
+                    M22 = 2f * (this.viewportHeight > 0 ? -1f / ((float)this.viewportHeight - 1f) : 0f),
                     M33 = 1f,
                     M44 = 1f,
                     M41 = -1f,

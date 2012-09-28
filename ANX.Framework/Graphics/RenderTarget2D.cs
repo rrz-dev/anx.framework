@@ -87,7 +87,15 @@ namespace ANX.Framework.Graphics
 			[MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
 			: base(graphicsDevice)
 		{
-			this.depthStencilFormat = DepthFormat.None;
+            this.width = width;
+            this.height = height;
+            OneOverWidth = 1f / width;
+            OneOverHeight = 1f / height;
+
+            base.levelCount = 1;
+            base.format = preferredFormat;
+
+			this.depthStencilFormat = preferredDepthFormat;
 			this.multiSampleCount = 0;
 			this.usage = RenderTargetUsage.DiscardContents;
 
@@ -102,6 +110,14 @@ namespace ANX.Framework.Graphics
 			int preferredMultiSampleCount, RenderTargetUsage usage)
 			: base(graphicsDevice)
 		{
+            this.width = width;
+            this.height = height;
+            OneOverWidth = 1f / width;
+            OneOverHeight = 1f / height;
+
+            base.levelCount = 1;
+            base.format = preferredFormat;
+
 			this.depthStencilFormat = preferredDepthFormat;
 			this.multiSampleCount = preferredMultiSampleCount;
 			this.usage = usage;

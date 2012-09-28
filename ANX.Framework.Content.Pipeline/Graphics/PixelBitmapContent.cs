@@ -1,7 +1,9 @@
 ﻿#region Using Statements
+using ANX.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 #endregion
@@ -34,12 +36,26 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public override byte[] GetPixelData()
         {
-            throw new NotImplementedException();
+            int rowSize = Marshal.SizeOf(typeof(T)) * base.Width;
+            byte[] array = new byte[rowSize * base.Height];
+            for (int i = 0; i < base.Height; i++)
+            {
+                T[] row = GetRow(i);
+
+                BitCopier.Copy<T, byte>(this.GetRow(i), 0, PixelBitmapContent<T>.pixelSize, array, i * num, PixelBitmapContent<T>.pixelSize, PixelBitmapContent<T>.pixelSize, base.Width);
+            }
+            return array;
         }
 
         public T[] GetRow(int y)
         {
-            throw new NotImplementedException();
+            T[] row = new T[Width];
+            for (int col = 0; col < Width; col++)
+            {
+                row[col] = pixels[col, y];
+            }
+
+            return row;
         }
 
         public void SetPixel(int x, int y, T value)
@@ -67,9 +83,65 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             throw new NotImplementedException();
         }
 
-        public override bool TryGetFormat(out Framework.Graphics.SurfaceFormat format)
+        public override bool TryGetFormat(out SurfaceFormat format)
         {
-            throw new NotImplementedException();
+            string type = typeof(T).Name.ToLowerInvariant();
+
+            switch (type)
+            {
+                case "float":
+                    format = SurfaceFormat.Single;
+                    return true;
+                case "vector2":
+                    format = SurfaceFormat.Single;
+                    return true;
+                case "vector4":
+                    format = SurfaceFormat.Vector4;
+                    return true;
+                case "halfsingle":
+                    format = SurfaceFormat.HalfVector2;
+                    return true;
+                case "halfvector2":
+                    format = SurfaceFormat.HalfVector2;
+                    return true;
+                case "halfvector4":
+                    format = SurfaceFormat.HalfVector4;
+                    return true;
+                case "bgra5551":
+                    format = SurfaceFormat.Bgra5551;
+                    return true;
+                case "bgr565":
+                    format = SurfaceFormat.Bgr565;
+                    return true;
+                case "bgra4444":
+                    format = SurfaceFormat.Bgra4444;
+                    return true;
+                case "color":
+                    format = SurfaceFormat.Color;
+                    return true;
+                case "rg32":
+                    format = SurfaceFormat.Rg32;
+                    return true;
+                case "rgba64":
+                    format = SurfaceFormat.Rgba64;
+                    return true;
+                case "rgba1010102":
+                    format = SurfaceFormat.Rgba1010102;
+                    return true;
+                case "alpha8":
+                    format = SurfaceFormat.Alpha8;
+                    return true;
+                case "normalizedbyte2":
+                    format = SurfaceFormat.NormalizedByte2;
+                    return true;
+                case "normalizedbyte4":
+                    format = SurfaceFormat.NormalizedByte4;
+                    return true;
+                default:
+                    format = Framework.Graphics.SurfaceFormat.Color;
+                    return false;
+            }
+
         }
     }
 }

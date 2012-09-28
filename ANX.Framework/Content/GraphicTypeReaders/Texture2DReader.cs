@@ -12,13 +12,6 @@ namespace ANX.Framework.Content
     {
         protected internal override Texture2D Read(ContentReader input, Texture2D existingInstance)
         {
-			//IServiceProvider service = input.ContentManager.ServiceProvider;
-			//var renderSystem = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
-			//if (renderSystem == null)
-			//    throw new ContentLoadException("Service not found IRenderSystemCreator");
-
-			//GraphicsDevice graphics = input.ResolveGraphicsDevice();
-
 			SurfaceFormat surfaceFormat = (SurfaceFormat)input.ReadInt32();
             int width = input.ReadInt32();
             int height = input.ReadInt32();

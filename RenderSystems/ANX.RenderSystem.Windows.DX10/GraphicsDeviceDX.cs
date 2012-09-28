@@ -58,6 +58,7 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			backBuffer = Dx10.Texture2D.FromSwapChain<Dx10.Texture2D>(swapChain, 0);
 			renderView = new Dx10.RenderTargetView(nativeDevice, backBuffer);
+            nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 		}
 		#endregion
 
@@ -112,6 +113,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			this.depthStencilBuffer = new Dx10.Texture2D(nativeDevice, depthStencilTextureDesc);
 
 			this.depthStencilView = new Dx10.DepthStencilView(nativeDevice, this.depthStencilBuffer);
+            nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
 			// this workaround is working but maybe not the best solution to issue #472
             Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, Vector4.Zero, 1.0f, 0);
@@ -207,7 +209,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
 			nativeDevice.Rasterizer.SetViewports(currentViewport);
-			nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+			//nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             if (indexBuffer != null)
             {
@@ -233,7 +235,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
 			nativeDevice.Rasterizer.SetViewports(currentViewport);
-			nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+			//nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
 			{
@@ -255,7 +257,7 @@ namespace ANX.RenderSystem.Windows.DX10
 
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
             nativeDevice.Rasterizer.SetViewports(currentViewport);
-            nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+            //nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             if (indexBuffer != null)
             {
