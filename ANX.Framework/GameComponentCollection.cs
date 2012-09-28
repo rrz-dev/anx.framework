@@ -35,7 +35,7 @@ namespace ANX.Framework
             base.Clear();
         }
 
-        protected override void InsertItem(int index, IGameComponent item)
+        protected new void InsertItem(int index, IGameComponent item)
         {
             if (item == null)
                 throw new ArgumentNullException("item");
@@ -44,7 +44,7 @@ namespace ANX.Framework
             OnComponentAdded(item);
         }
 
-        protected override void RemoveItem(int index)
+        protected new void RemoveItem(int index)
         {
             IGameComponent component = base[index];
             base.Remove(component);

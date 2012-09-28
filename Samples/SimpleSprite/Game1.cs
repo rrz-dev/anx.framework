@@ -13,6 +13,21 @@ using ANX.Framework.Input;
 
 namespace WindowsGame1
 {
+    public class GameComponentTest : GameComponent
+    {
+        public GameComponentTest(Game game)
+            : base(game)
+        {
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            //System.Diagnostics.Debugger.Break();
+
+            base.Update(gameTime);
+        }
+    }
+
 	/// <summary>
 	/// This is the main type for your game
 	/// </summary>
@@ -57,6 +72,8 @@ namespace WindowsGame1
 		protected override void Initialize()
 		{
 			base.Initialize();
+
+            Components.Add(new GameComponentTest(this));
 		}
 
 		/// <summary>
