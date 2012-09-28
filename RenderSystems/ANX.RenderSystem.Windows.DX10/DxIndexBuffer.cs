@@ -49,7 +49,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			};
 
 			NativeBuffer = new Dx10.Buffer(device, description);
-			NativeBuffer.Unmap();
+			//NativeBuffer.Unmap();
 		}
 		#endregion
 
