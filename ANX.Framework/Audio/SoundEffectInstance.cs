@@ -16,13 +16,8 @@ namespace ANX.Framework.Audio
 	{
 		#region Private
 		private ISoundEffectInstance nativeInstance;
-
-		internal bool IsFireAndForget
-		{
-			get;
-			private set;
-		}
-		#endregion
+	    internal bool IsFireAndForget { get; private set; }
+	    #endregion
 
 		#region Public
 	    public bool IsDisposed { get; private set; }

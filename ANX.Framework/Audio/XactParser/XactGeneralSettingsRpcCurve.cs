@@ -10,26 +10,14 @@ namespace ANX.Framework.Audio.XactParser
 	internal class XactGeneralSettingsRpcCurve
 	{
 		// what variable this curve involves
-		public ushort VariableIndex
-		{
-			get;
-			private set;
-		}
+	    public ushort VariableIndex { get; private set; }
 
-		// which parameter the curve affects refer to the above constants
-		public short Parameters
-		{
-			get;
-			private set;
-		}
+	    // which parameter the curve affects refer to the above constants
+	    public short Parameters { get; private set; }
 
-		public XactGeneralSettingsRpcCurvePoint[] Points
-		{
-			get;
-			private set;
-		}
+	    public XactGeneralSettingsRpcCurvePoint[] Points { get; private set; }
 
-		public XactGeneralSettingsRpcCurve(BinaryReader reader)
+	    public XactGeneralSettingsRpcCurve(BinaryReader reader)
 		{
 			VariableIndex = reader.ReadUInt16();
 			byte numberOfCurvePoints = reader.ReadByte();

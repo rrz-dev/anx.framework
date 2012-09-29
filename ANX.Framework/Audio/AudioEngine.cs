@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using ANX.Framework.Audio.XactParser;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
@@ -74,32 +75,29 @@ namespace ANX.Framework.Audio
 		#region GetCategory
 		public AudioCategory GetCategory(string name)
 		{
-			for (int index = 0; index < generalSettings.Categories.Length; index++)
-				if (generalSettings.Categories[index].Name == name)
-					return generalSettings.Categories[index];
+		    foreach (AudioCategory category in generalSettings.Categories.Where(category => category.Name == name))
+		        return category;
 
-			return new AudioCategory(name);
+		    return new AudioCategory(name);
 		}
-		#endregion
+	    #endregion
 
 		#region GetGlobalVariable
 		public float GetGlobalVariable(string name)
-		{
-			foreach (var variable in generalSettings.Variables)
-				if (variable.Name == name)
-					return variable.StartingValue;
+        {
+            foreach (var variable in generalSettings.Variables.Where(variable => variable.Name == name))
+                return variable.StartingValue;
 
 			return 0f;
 		}
 		#endregion
 
 		#region SetGlobalVariable
-		public void SetGlobalVariable(string name, float value)
-		{
-			foreach (var variable in generalSettings.Variables)
-				if (variable.Name == name)
-					variable.StartingValue = MathHelper.Clamp(value, variable.MinValue, variable.MaxValue);
-		}
+        public void SetGlobalVariable(string name, float value)
+        {
+            foreach (var variable in generalSettings.Variables.Where(variable => variable.Name == name))
+                variable.StartingValue = MathHelper.Clamp(value, variable.MinValue, variable.MaxValue);
+        }
 		#endregion
 
 		#region Update (TODO)
@@ -112,14 +110,14 @@ namespace ANX.Framework.Audio
 		#region Dispose
 		protected virtual void Dispose(bool disposing)
 		{
-			if (IsDisposed == false)
-			{
-				if (Disposing != null)
-					Disposing(this, EventArgs.Empty);
+		    if (IsDisposed)
+		        return;
 
-				IsDisposed = true;
-				generalSettings = null;
-			}
+		    if (Disposing != null)
+		        Disposing(this, EventArgs.Empty);
+
+		    IsDisposed = true;
+		    generalSettings = null;
 		}
 
 		public void Dispose()

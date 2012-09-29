@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio;
+using ANX.Framework.Media;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
 
@@ -163,6 +164,12 @@ namespace ANX.SoundSystem.PsVita
 		{
 			throw new NotImplementedException();
 		}
-		#endregion
+        #endregion
+
+        public ISong CreateSong(Song parentSong, Uri uri)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+            throw new NotImplementedException();
+        }
 	}
 }

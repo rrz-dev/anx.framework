@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,189 +7,170 @@ using System;
 
 namespace ANX.Framework.Media
 {
-	public static class MediaPlayer
-	{
-		#region Events
-		public static event EventHandler<EventArgs> ActiveSongChanged;
-		public static event EventHandler<EventArgs> MediaStateChanged;
-		#endregion
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    public static class MediaPlayer
+    {
+        #region Events
+        public static event EventHandler<EventArgs> ActiveSongChanged;
+        public static event EventHandler<EventArgs> MediaStateChanged;
+        #endregion
 
-		#region Public
-		#region IsShuffled (TODO)
-		public static bool IsShuffled
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        private static bool isRepeating;
+        private static float volume;
+        private static MediaState currentState;
+        internal static float VolumeToUse
+        {
+            get { return IsMuted ? 0f : volume; }
+        }
 
-		#region IsRepeating (TODO)
-		public static bool IsRepeating
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        #region Public
+        public static bool IsShuffled { get; set; }
 
-		#region Volume (TODO)
-		public static float Volume
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        public static bool IsRepeating
+        {
+            get { return isRepeating; }
+            set { isRepeating = value; }
+        }
 
-		#region IsMuted (TODO)
-		public static bool IsMuted
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        public static float Volume
+        {
+            get { return volume; }
+            set { volume = MathHelper.Clamp(value, 0f, 1f); }
+        }
 
-		#region IsVisualizationEnabled (TODO)
-		public static bool IsVisualizationEnabled
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        public static bool IsVisualizationEnabled { get; set; }
+        public static bool IsMuted { get; set; }
+        public static MediaQueue Queue { get; private set; }
+        public static MediaState State
+        {
+            get { return currentState; }
+            private set
+            {
+                if (currentState == value)
+                    return;
 
-		public static MediaQueue Queue
-		{
-			get;
-			private set;
-		}
+                currentState = value;
+                MediaStateChanged(null, EventArgs.Empty);
+            }
+        }
 
-		#region State (TODO)
-		public static MediaState State
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        public static TimeSpan PlayPosition
+        {
+            get
+            {
+                return Queue.ActiveSong == null
+                    ? TimeSpan.Zero : Queue.ActiveSong.NativeSong.PlayPosition;
+            }
+        }
 
-		#region PlayPosition (TODO)
-		public static TimeSpan PlayPosition
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        public static bool GameHasControl
+        {
+            get { return true; }
+        }
+        #endregion
 
-		#region GameHasControl (TODO)
-		public static bool GameHasControl
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
-		#endregion
+        #region Constructor
+        static MediaPlayer()
+        {
+            currentState = MediaState.Stopped;
+            volume = 1f;
+            isRepeating = false;
+            IsMuted = false;
+            IsVisualizationEnabled = false;
+            IsShuffled = false;
+            Queue = new MediaQueue();
+            FrameworkDispatcher.OnUpdate += Tick;
+        }
+        #endregion
 
-		#region Constructor
-		static MediaPlayer()
-		{
-			Queue = new MediaQueue();
-		}
-		#endregion
+        #region Play
+        public static void Play(Song song)
+        {
+            Queue.Play(song);
+        }
 
-		#region Play
-		public static void Play(Song song)
-		{
-			Queue.Play(song);
-		}
-		#endregion
+        public static void Play(SongCollection songCollection)
+        {
+            Queue.Play(songCollection);
+        }
 
-		#region Play
-		public static void Play(SongCollection songCollection)
-		{
-			Queue.Play(songCollection);
-		}
-		#endregion
+        public static void Play(SongCollection songCollection, int index)
+        {
+            Queue.Play(songCollection, index);
+        }
+        #endregion
 
-		#region Play (TODO)
-		public static void Play(SongCollection songCollection, int index)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region Pause
+        public static void Pause()
+        {
+            if (Queue.ActiveSong != null)
+                Queue.ActiveSong.Pause();
+        }
+        #endregion
 
-		#region Pause (TODO)
-		public static void Pause()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region Resume
+        public static void Resume()
+        {
+            if (Queue.ActiveSong != null)
+                Queue.ActiveSong.Resume();
+        }
+        #endregion
 
-		#region Resume (TODO)
-		public static void Resume()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region Stop
+        public static void Stop()
+        {
+            Queue.Stop();
+        }
+        #endregion
 
-		#region Stop (TODO)
-		public static void Stop()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region MoveNext
+        public static void MoveNext()
+        {
+            Queue.MoveNext(false);
+        }
+        #endregion
 
-		#region MoveNext
-		public static void MoveNext()
-		{
-			Queue.MoveNext();
-		}
-		#endregion
+        #region MovePrevious
+        public static void MovePrevious()
+        {
+            Queue.MovePrevious();
+        }
+        #endregion
 
-		#region MovePrevious
-		public static void MovePrevious()
-		{
-			Queue.MovePrevious();
-		}
-		#endregion
+        #region Tick
+        private static void Tick()
+        {
+            if (Queue.ActiveSong == null)
+            {
+                State = MediaState.Stopped;
+                return;
+            }
 
-		#region GetVisualizationData (TODO)
-		public static void GetVisualizationData(VisualizationData data)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-	}
+            State = Queue.ActiveSong.State;
+            if (Queue.ActiveSong.State != MediaState.Stopped)
+                return;
+
+            if (Queue.MoveNext(isRepeating))
+                State = MediaState.Playing;
+
+            ActiveSongChanged(null, EventArgs.Empty);
+        }
+        #endregion
+
+        #region GetVisualizationData
+        public static void GetVisualizationData(VisualizationData visualizationData)
+        {
+            if (visualizationData == null)
+                throw new ArgumentNullException("visualizationData");
+
+            if (IsVisualizationEnabled == false)
+                return;
+
+            if(Queue.ActiveSong != null)
+                Queue.ActiveSong.NativeSong.GetVisualizationData(visualizationData);
+        }
+        #endregion
+    }
 }

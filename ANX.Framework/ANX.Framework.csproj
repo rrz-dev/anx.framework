@@ -446,6 +446,7 @@
     <Compile Include="NonXNA\RenderSystem\IOcclusionQuery.cs" />
     <Compile Include="NonXNA\RenderSystem\VertexTypeHelper.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
+    <Compile Include="NonXNA\SoundSystem\ISong.cs" />
     <Compile Include="NonXNA\ThreadHelper.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />

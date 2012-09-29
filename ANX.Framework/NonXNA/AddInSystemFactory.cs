@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework.NonXNA.Reflection;
+using ANX.Framework.NonXNA.SoundSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

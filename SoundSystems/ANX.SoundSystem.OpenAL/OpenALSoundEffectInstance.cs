@@ -12,87 +12,69 @@ namespace ANX.SoundSystem.OpenAL
 	public class OpenALSoundEffectInstance : ISoundEffectInstance
 	{
 		#region Private
-		private OpenALSoundEffect parent;
-
+		private readonly OpenALSoundEffect parent;
+	    private float currentPan;
 		private int handle;
 		#endregion
 
 		#region Public
-		public bool IsLooped
-		{
-			get
-			{
-				bool result;
-				AL.GetSource(handle, ALSourceb.Looping, out result);
-				return result;
-			}
-			set
-			{
-				AL.Source(handle, ALSourceb.Looping, value);
-			}
-		}
+	    public bool IsLooped
+	    {
+	        get
+	        {
+	            bool result;
+	            AL.GetSource(handle, ALSourceb.Looping, out result);
+	            return result;
+	        }
+	        set { AL.Source(handle, ALSourceb.Looping, value); }
+	    }
 
-		public float Pan
-		{
-			get
-			{
-				return 0f;
-				//throw new NotImplementedException();
-			}
-			set
-			{
-				//throw new NotImplementedException();
-			}
-		}
+	    public float Pan
+	    {
+            get { return currentPan; }
+	        set
+	        {
+	            currentPan = value;
+                // TODO: set actual parameter
+	        }
+	    }
 
-		public float Pitch
-		{
-			get
-			{
-				float result;
-				AL.GetSource(handle, ALSourcef.Pitch, out result);
-				return result;
-			}
-			set
-			{
-				AL.Source(handle, ALSourcef.Pitch, value);
-			}
-		}
+	    public float Pitch
+	    {
+	        get
+	        {
+	            float result;
+	            AL.GetSource(handle, ALSourcef.Pitch, out result);
+	            return result;
+	        }
+	        set { AL.Source(handle, ALSourcef.Pitch, value); }
+	    }
 
-		public SoundState State
-		{
-			get;
-			private set;
-		}
+	    public SoundState State { get; private set; }
 
-		public float Volume
-		{
-			get
-			{
-				float result;
-				AL.GetSource(handle, ALSourcef.Gain, out result);
-				return result;
-			}
-			set
-			{
-				AL.Source(handle, ALSourcef.Gain, value);
-			}
-		}
-		#endregion
+	    public float Volume
+	    {
+	        get
+	        {
+	            float result;
+	            AL.GetSource(handle, ALSourcef.Gain, out result);
+	            return result;
+	        }
+	        set { AL.Source(handle, ALSourcef.Gain, value); }
+	    }
+	    #endregion
 
 		#region Constructor
 		internal OpenALSoundEffectInstance(OpenALSoundEffect setParent)
 		{
 			parent = setParent;
-
 			State = SoundState.Stopped;
-
 			handle = AL.GenSource();
 			AL.Source(handle, ALSourcei.Buffer, parent.bufferHandle);
 			IsLooped = false;
 			Pitch = 1f;
 			Volume = 1f;
-			// TODO: Pan = 0f;
+			Pan = 0f;
 
 			ALError error = AL.GetError();
 			if (error != ALError.NoError)
@@ -103,47 +85,44 @@ namespace ANX.SoundSystem.OpenAL
 		#region Play
 		public void Play()
 		{
-			if (State != SoundState.Playing)
-			{
-				State = SoundState.Playing;
-				AL.SourcePlay(handle);
-			}
+		    if (State == SoundState.Playing)
+		        return;
+
+		    State = SoundState.Playing;
+		    AL.SourcePlay(handle);
 		}
 		#endregion
 
 		#region Pause
 		public void Pause()
 		{
-			if (State != SoundState.Paused)
-			{
-				State = SoundState.Paused;
-				AL.SourcePause(handle);
-			}
+		    if (State == SoundState.Paused)
+		        return;
+
+		    State = SoundState.Paused;
+		    AL.SourcePause(handle);
 		}
 		#endregion
 
 		#region Stop
 		public void Stop(bool immediate)
 		{
-			if (State == SoundState.Stopped)
+            if (State == SoundState.Stopped || immediate == false)
 				return;
 
-			if (immediate)
-			{
-				State = SoundState.Stopped;
-				AL.SourceStop(handle);
-			}
+		    State = SoundState.Stopped;
+		    AL.SourceStop(handle);
 		}
 		#endregion
 
 		#region Resume
 		public void Resume()
 		{
-			if (State != SoundState.Playing)
-			{
-				State = SoundState.Playing;
-				AL.SourcePlay(handle);
-			}
+		    if (State == SoundState.Playing)
+		        return;
+
+		    State = SoundState.Playing;
+		    AL.SourcePlay(handle);
 		}
 		#endregion
 

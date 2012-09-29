@@ -1,10 +1,10 @@
+using System;
+using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 using ANX.Framework;
 using ANX.Framework.Graphics;
-using System.Windows.Interop;
-using System;
-using System.Windows.Threading;
-using System.Threading;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -12,13 +12,18 @@ using System.Threading;
 
 namespace WpfEditor
 {
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private GraphicsDevice device;
+	    private readonly ThreadStart emptyThreadStart;
 
 		public MainWindow()
 		{
 			InitializeComponent();
+		    emptyThreadStart = delegate { };
+
+            //AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
+            AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
 		}
 
 		protected override void OnActivated(EventArgs e)
@@ -30,10 +35,7 @@ namespace WpfEditor
 			while (IsVisible)
 			{
 				if (Application.Current != null)
-				{
-					Application.Current.Dispatcher.Invoke(
-						DispatcherPriority.Background, new ThreadStart(delegate { }));
-				}
+					Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, emptyThreadStart);
 
 				Tick();
 			}
@@ -41,13 +43,11 @@ namespace WpfEditor
 
 		public void Initialize()
 		{
-			device = new GraphicsDevice(
-				GraphicsAdapter.DefaultAdapter,
-				GraphicsProfile.HiDef,
+			device = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef,
 				new PresentationParameters
 				{
-					BackBufferWidth = (int)GamePanel.Width,
-					BackBufferHeight = (int)GamePanel.Height,
+					BackBufferWidth = GamePanel.Width,
+					BackBufferHeight = GamePanel.Height,
 					BackBufferFormat = SurfaceFormat.Color,
 					DeviceWindowHandle = GamePanel.Handle,
 					PresentationInterval = PresentInterval.Default,

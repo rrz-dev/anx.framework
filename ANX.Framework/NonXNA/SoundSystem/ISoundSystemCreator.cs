@@ -1,41 +1,23 @@
+using System;
 using System.IO;
 using ANX.Framework.Audio;
-using ANX.Framework.NonXNA.SoundSystem;
 using System.Collections.ObjectModel;
+using ANX.Framework.Media;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace ANX.Framework.NonXNA
+namespace ANX.Framework.NonXNA.SoundSystem
 {
 	public interface ISoundSystemCreator : ICreator
 	{
-		float DistanceScale
-		{
-			get;
-			set;
-		}
+	    float DistanceScale { get; set; }
+	    float DopplerScale { get; set; }
+	    float MasterVolume { get; set; }
+	    float SpeedOfSound { get; set; }
 
-		float DopplerScale
-		{
-			get;
-			set;
-		}
-
-		float MasterVolume
-		{
-			get;
-			set;
-		}
-
-		float SpeedOfSound
-		{
-			get;
-			set;
-		}
-
-		IAudioListener CreateAudioListener();
+	    IAudioListener CreateAudioListener();
 
 		IAudioEmitter CreateAudioEmitter();
 
@@ -52,5 +34,7 @@ namespace ANX.Framework.NonXNA
 		ReadOnlyCollection<Microphone> GetAllMicrophones();
 
 		int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones);
+
+        ISong CreateSong(Song parentSong, Uri uri);
 	}
 }

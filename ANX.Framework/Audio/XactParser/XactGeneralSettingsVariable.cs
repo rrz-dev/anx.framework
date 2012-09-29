@@ -17,35 +17,15 @@ namespace ANX.Framework.Audio.XactParser
 			Reserved = 0x08,
 		}
 
-		public VariableFlags Flags
-		{
-			get;
-			private set;
-		}
-
-		public float StartingValue
-		{
-			get;
-			set;
-		}
-
-		public float MinValue
-		{
-			get;
-			private set;
-		}
-
-		public float MaxValue
-		{
-			get;
-			private set;
-		}
-
-		public string Name;
+	    public VariableFlags Flags { get; private set; }
+	    public float StartingValue { get; set; }
+	    public float MinValue { get; private set; }
+	    public float MaxValue { get; private set; }
+	    public string Name;
 
 		public XactGeneralSettingsVariable(BinaryReader reader)
 		{
-			Flags = (XactGeneralSettingsVariable.VariableFlags)reader.ReadByte();
+			Flags = (VariableFlags)reader.ReadByte();
 			StartingValue = reader.ReadSingle();
 			MinValue = reader.ReadSingle();
 			MaxValue = reader.ReadSingle();

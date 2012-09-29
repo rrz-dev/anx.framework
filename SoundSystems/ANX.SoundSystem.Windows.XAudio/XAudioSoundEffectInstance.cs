@@ -74,10 +74,16 @@ namespace ANX.SoundSystem.Windows.XAudio
             currentPan = 0f;
             currentPitch = 1f;
             State = SoundState.Stopped;
-            source = new SourceVoice(device, setParent.WaveFormat);
+            source = new SourceVoice(device, setParent.WaveFormat, true);
             source.SubmitSourceBuffer(setParent.AudioBuffer, setParent.DecodedPacketsInfo);
+            source.StreamEnd += StreamEnd;
         }
         #endregion
+
+        private void StreamEnd()
+        {
+            State = SoundState.Stopped;
+        }
 
         #region Play
         public void Play()
@@ -94,6 +100,7 @@ namespace ANX.SoundSystem.Windows.XAudio
         public void Pause()
         {
             State = SoundState.Paused;
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -115,6 +122,7 @@ namespace ANX.SoundSystem.Windows.XAudio
         public void Resume()
         {
             State = SoundState.Playing;
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -182,7 +190,11 @@ namespace ANX.SoundSystem.Windows.XAudio
         public void Dispose()
         {
             if (source != null)
+            {
+                source.StreamEnd -= StreamEnd;
+                source.DestroyVoice();
                 source.Dispose();
+            }
             source = null;
         }
         #endregion

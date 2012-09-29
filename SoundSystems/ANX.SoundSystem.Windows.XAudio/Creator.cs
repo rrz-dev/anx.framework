@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio;
+using ANX.Framework.Media;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
 using SharpDX.XAudio2;
@@ -86,7 +87,10 @@ namespace ANX.SoundSystem.Windows.XAudio
         ~Creator()
         {
             if (MasteringVoice != null)
+            {
+                MasteringVoice.DestroyVoice();
                 MasteringVoice.Dispose();
+            }
 
             if (device != null)
                 device.Dispose();
@@ -149,9 +153,15 @@ namespace ANX.SoundSystem.Windows.XAudio
 			throw new NotImplementedException();
 		}
 
+        public ISong CreateSong(Song parentSong, Uri uri)
+        {
+            PreventSystemChange();
+            throw new NotImplementedException();
+        }
+
 		private static void PreventSystemChange()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 		}
-	}
+    }
 }

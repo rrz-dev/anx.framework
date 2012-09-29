@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -18,6 +19,8 @@ namespace ANX.Framework
 		{
 			if (OnUpdate != null)
 				OnUpdate();
+
+            SoundEffect.RecycleStoppedFireAndForgetInstances();
 		}
 	}
 }

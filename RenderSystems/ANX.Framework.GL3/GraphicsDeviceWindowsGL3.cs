@@ -42,25 +42,17 @@ namespace ANX.RenderSystem.GL3
 		{
 			get
 			{
-				return (Current == null || Current.nativeContext == null) ? false : Current.nativeContext.IsCurrent;
+				return (Current != null && Current.nativeContext != null) && Current.nativeContext.IsCurrent;
 			}
 		}
 		#endregion
 
 		#region Public
-		#region VSync
-		public bool VSync
-		{
-			get
-			{
-				return nativeContext.VSync;
-			}
-			set
-			{
-				nativeContext.VSync = value;
-			}
-		}
-		#endregion
+	    public bool VSync
+	    {
+	        get { return nativeContext.VSync; }
+	        set { nativeContext.VSync = value; }
+	    }
 		#endregion
 
 		#region Constructor

@@ -17,29 +17,15 @@ namespace ANX.Framework.Audio.XactParser
 			SinCos = 0x03,
 		}
 
-		public float X
-		{
-			get;
-			private set;
-		}
+	    public float X { get; private set; }
+	    public float Y { get; private set; }
+	    public CurveType Type { get; private set; }
 
-		public float Y
-		{
-			get;
-			private set;
-		}
-
-		public CurveType Type
-		{
-			get;
-			private set;
-		}
-
-		public XactGeneralSettingsRpcCurvePoint(BinaryReader reader)
+	    public XactGeneralSettingsRpcCurvePoint(BinaryReader reader)
 		{
 			X = reader.ReadSingle();
 			Y = reader.ReadSingle();
-			Type = (XactGeneralSettingsRpcCurvePoint.CurveType)reader.ReadByte();
+			Type = (CurveType)reader.ReadByte();
 		}
 	}
 }

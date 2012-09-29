@@ -6,6 +6,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.PlatformSystem;
+using ANX.Framework.NonXNA.SoundSystem;
 
 #endregion // Using Statements
 
@@ -77,6 +78,8 @@ namespace ANX.Framework
 			AddSystemCreator<IInputSystemCreator>();
 			AddSystemCreator<ISoundSystemCreator>();
 			AddSystemCreator<IRenderSystemCreator>();
+
+            FrameworkDispatcher.Update();
 
 			CreateGameHost();
 
@@ -151,6 +154,8 @@ namespace ANX.Framework
                     updateable.Update(gameTime);
                 }
             }
+
+            FrameworkDispatcher.Update();
 		}
 
 		protected virtual void Draw(GameTime gameTime)

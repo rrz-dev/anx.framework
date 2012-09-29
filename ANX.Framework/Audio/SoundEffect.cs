@@ -17,61 +17,29 @@ namespace ANX.Framework.Audio
 	public sealed class SoundEffect : IDisposable
 	{
 		#region Static
-		#region DistanceScale
-		public static float DistanceScale
-		{
-			get
-			{
-				return GetCreator().DistanceScale;
-			}
-			set
-			{
-				GetCreator().DistanceScale = value;
-			}
-		}
-		#endregion
+	    public static float DistanceScale
+	    {
+	        get { return GetCreator().DistanceScale; }
+	        set { GetCreator().DistanceScale = value; }
+	    }
 
-		#region DopplerScale
-		public static float DopplerScale
-		{
-			get
-			{
-				return GetCreator().DopplerScale;
-			}
-			set
-			{
-				GetCreator().DopplerScale = value;
-			}
-		}
-		#endregion
+	    public static float DopplerScale
+	    {
+	        get { return GetCreator().DopplerScale; }
+	        set { GetCreator().DopplerScale = value; }
+	    }
 
-		#region MasterVolume
-		public static float MasterVolume
-		{
-			get
-			{
-				return GetCreator().MasterVolume;
-			}
-			set
-			{
-				GetCreator().MasterVolume = value;
-			}
-		}
-		#endregion
+	    public static float MasterVolume
+	    {
+	        get { return GetCreator().MasterVolume; }
+	        set { GetCreator().MasterVolume = value; }
+	    }
 
-		#region SpeedOfSound
-		public static float SpeedOfSound
-		{
-			get
-			{
-				return GetCreator().SpeedOfSound;
-			}
-			set
-			{
-				GetCreator().SpeedOfSound = value;
-			}
-		}
-		#endregion
+	    public static float SpeedOfSound
+	    {
+	        get { return GetCreator().SpeedOfSound; }
+	        set { GetCreator().SpeedOfSound = value; }
+	    }
 		#endregion
 
 		#region Private
@@ -131,11 +99,13 @@ namespace ANX.Framework.Audio
 		{
 		}
 
-		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart, int loopLength)
+		public SoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels, int loopStart,
+            int loopLength)
 			: this()
 		{
 			var creator = GetCreator();
-			NativeSoundEffect = creator.CreateSoundEffect(this, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
+			NativeSoundEffect = creator.CreateSoundEffect(this, buffer, offset, count, sampleRate, channels, loopStart,
+                loopLength);
 		}
 
 		~SoundEffect()
@@ -204,9 +174,7 @@ namespace ANX.Framework.Audio
 				children.Add(new WeakReference(newInstance));
 
 				lock (fireAndForgetInstances)
-				{
 					fireAndForgetInstances.Add(newInstance);
-				}
 
 				newInstance.Play();
 			}
@@ -220,8 +188,27 @@ namespace ANX.Framework.Audio
 		}
 		#endregion
 
-		#region Dispose
-		public void Dispose()
+        #region RecycleStoppedFireAndForgetInstances
+        internal static void RecycleStoppedFireAndForgetInstances()
+        {
+            lock (fireAndForgetInstances)
+            {
+                var instancesToDispose = new List<SoundEffectInstance>();
+                foreach (SoundEffectInstance current in fireAndForgetInstances)
+                    if (current.State == SoundState.Stopped)
+                        instancesToDispose.Add(current);
+
+                foreach (SoundEffectInstance current in instancesToDispose)
+                {
+                    current.Dispose();
+                    fireAndForgetInstances.Remove(current);
+                }
+            }
+        }
+        #endregion
+
+        #region Dispose
+        public void Dispose()
 		{
 			if (IsDisposed)
 				return;

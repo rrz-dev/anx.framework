@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using ANX.Framework.Audio;
+using ANX.Framework.Media;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.SoundSystem;
 using OpenTK;
@@ -15,24 +16,21 @@ namespace ANX.SoundSystem.OpenAL
 {
 	public class Creator : ISoundSystemCreator
 	{
+	    private float currentDistanceScale;
+	    private float currentMasterVolume;
+
 		#region Public
-		public string Name
-		{
-			get
-			{
-				return "OpenAL";
-			}
-		}
+	    public string Name
+	    {
+	        get { return "OpenAL"; }
+	    }
 
-		public int Priority
-		{
-			get
-			{
-				return 100;
-			}
-		}
+	    public int Priority
+	    {
+	        get { return 100; }
+	    }
 
-		public bool IsSupported
+	    public bool IsSupported
 		{
 			get
 			{
@@ -43,80 +41,60 @@ namespace ANX.SoundSystem.OpenAL
 			}
 		}
 
-		public float DistanceScale
-		{
-			get
-			{
-				return 1f;
-				//throw new NotImplementedException();
-			}
-			set
-			{
-				//throw new NotImplementedException();
-			}
-		}
+	    public float DistanceScale
+	    {
+	        get { return currentDistanceScale; }
+	        set
+	        {
+	            currentDistanceScale = value;
+	            // TODO: set actual property
+	        }
+	    }
 
-		public float DopplerScale
-		{
-			get
-			{
-				return AL.Get(ALGetFloat.DopplerFactor);
-			}
-			set
-			{
-				AL.DopplerFactor(value);
-			}
-		}
+	    public float DopplerScale
+	    {
+	        get { return AL.Get(ALGetFloat.DopplerFactor); }
+	        set { AL.DopplerFactor(value); }
+	    }
 
-		public float MasterVolume
-		{
-			get
-			{
-				return 1f;
-				//throw new NotImplementedException();
-			}
-			set
-			{
-				//throw new NotImplementedException();
-			}
-		}
+	    public float MasterVolume
+	    {
+	        get { return currentMasterVolume; }
+	        set
+	        {
+	            currentMasterVolume = value;
+	            // TODO: set actual property
+	        }
+	    }
 
-		public float SpeedOfSound
-		{
-			get
-			{
-				return AL.Get(ALGetFloat.SpeedOfSound);
-			}
-			set
-			{
-				AL.SpeedOfSound(value);
-			}
-		}
-		#endregion
+	    public float SpeedOfSound
+	    {
+	        get { return AL.Get(ALGetFloat.SpeedOfSound); }
+	        set { AL.SpeedOfSound(value); }
+	    }
+	    #endregion
 
 		public Creator()
 		{
+		    currentDistanceScale = 1f;
+		    currentMasterVolume = 1f;
 			Init();
 		}
 
-		private void Init()
-		{
-			IntPtr deviceHandle;
-			ContextHandle context = Alc.GetCurrentContext();
-			if (context.Handle != IntPtr.Zero)
-			{
-				deviceHandle = Alc.GetContextsDevice(context);
-			}
-			else
-			{
-				deviceHandle = Alc.OpenDevice(Alc.GetString(IntPtr.Zero, AlcGetString.DefaultDeviceSpecifier));
-				context = Alc.CreateContext(deviceHandle, new int[0]);
-			}
+        private static void Init()
+        {
+            ContextHandle context = Alc.GetCurrentContext();
+            if (context.Handle == IntPtr.Zero)
+            {
+                string deviceName = Alc.GetString(IntPtr.Zero, AlcGetString.DefaultDeviceSpecifier);
+                IntPtr deviceHandle = Alc.OpenDevice(deviceName);
+                context = Alc.CreateContext(deviceHandle, new int[0]);
+            }
 
-			bool isNowCurrent = Alc.MakeContextCurrent(context);
-		}
+            Alc.MakeContextCurrent(context);
+        }
 
-		#region CreateSoundEffectInstance
+	    #region CreateSoundEffectInstance
 		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
 		{
 			PreventSystemChange();
@@ -179,9 +157,15 @@ namespace ANX.SoundSystem.OpenAL
 			PreventSystemChange();
 			throw new NotImplementedException();
 		}
-		#endregion
+        #endregion
 
-		private void PreventSystemChange()
+        public ISong CreateSong(Song parentSong, Uri uri)
+        {
+            PreventSystemChange();
+            throw new NotImplementedException();
+        }
+
+		private static void PreventSystemChange()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 		}
