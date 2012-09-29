@@ -1,4 +1,3 @@
-using System;
 using ANX.Framework;
 using ANX.Framework.Audio;
 
@@ -8,51 +7,45 @@ using ANX.Framework.Audio;
 
 namespace AudioSample
 {
-	public class Game1 : Game
-	{
-		GraphicsDeviceManager graphics;
-		SoundEffect sound;
+    public class Game1 : Game
+    {
+        private GraphicsDeviceManager graphics;
+        private SoundEffect sound;
+        private float timer;
+        private float duration;
 
-		float timer;
-		float duration;
+        public Game1()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "SampleContent";
+        }
 
-		public Game1()
-		{
-			graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "SampleContent";
-		}
+        protected override void LoadContent()
+        {
+            sound = Content.Load<SoundEffect>("Sounds\\testsound");
+            timer = duration = (float)sound.Duration.TotalSeconds;
+        }
 
-		protected override void Initialize()
-		{
-			base.Initialize();
-		}
+        protected override void UnloadContent()
+        {
+        }
 
-		protected override void LoadContent()
-		{
-			sound = Content.Load<SoundEffect>("Sounds\\testsound");
-			timer = duration = (float)sound.Duration.TotalSeconds;
-		}
+        protected override void Update(GameTime gameTime)
+        {
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer >= duration)
+            {
+                timer -= duration;
+                sound.Play(1f, 1f, 0f);
+            }
 
-		protected override void UnloadContent()
-		{
-		}
+            base.Update(gameTime);
+        }
 
-		protected override void Update(GameTime gameTime)
-		{
-			timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-			if (timer >= duration)
-			{
-				timer -= duration;
-				sound.Play();
-			}
-
-			base.Update(gameTime);
-		}
-
-		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-			base.Draw(gameTime);
-		}
-	}
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            base.Draw(gameTime);
+        }
+    }
 }

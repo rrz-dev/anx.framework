@@ -75,9 +75,9 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Private
-		private static List<SoundEffectInstance> fireAndForgetInstances;
-		private List<WeakReference> children;
-		internal ISoundEffect nativeSoundEffect;
+		private static readonly List<SoundEffectInstance> fireAndForgetInstances;
+		private readonly List<WeakReference> children;
+		internal ISoundEffect NativeSoundEffect;
 		#endregion
 
 		#region Public
@@ -85,7 +85,7 @@ namespace ANX.Framework.Audio
 		{
 			get
 			{
-				return nativeSoundEffect.Duration;
+				return NativeSoundEffect.Duration;
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace ANX.Framework.Audio
 			: this()
 		{
 			var creator = GetCreator();
-			nativeSoundEffect = creator.CreateSoundEffect(this, stream);
+			NativeSoundEffect = creator.CreateSoundEffect(this, stream);
 		}
 
 		public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels)
@@ -135,7 +135,7 @@ namespace ANX.Framework.Audio
 			: this()
 		{
 			var creator = GetCreator();
-			nativeSoundEffect = creator.CreateSoundEffect(this, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
+			NativeSoundEffect = creator.CreateSoundEffect(this, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 
 		~SoundEffect()
@@ -168,16 +168,15 @@ namespace ANX.Framework.Audio
 		#region GetSampleDuration
 		public static TimeSpan GetSampleDuration(int sizeInBytes, int sampleRate, AudioChannels channels)
 		{
-			float sizeMulBlockAlign = sizeInBytes / ((int)channels * 2);
-			return TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)sampleRate));
+			float sizeMulBlockAlign = (float)sizeInBytes / ((int)channels * 2);
+			return TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / sampleRate);
 		}
 		#endregion
 
 		#region GetSampleSizeInBytes
-		public static int GetSampleSizeInBytes(TimeSpan duration, int sampleRate,
-			AudioChannels channels)
+		public static int GetSampleSizeInBytes(TimeSpan duration, int sampleRate, AudioChannels channels)
 		{
-			int timeMulSamples = (int)(duration.TotalMilliseconds * (double)((float)sampleRate / 1000f));
+			int timeMulSamples = (int)(duration.TotalMilliseconds * (sampleRate / 1000f));
 			return (timeMulSamples + timeMulSamples % (int)channels) * ((int)channels * 2);
 		}
 		#endregion
@@ -195,12 +194,12 @@ namespace ANX.Framework.Audio
 
 			try
 			{
-				SoundEffectInstance newInstance = new SoundEffectInstance(this, true)
-				{
-					Volume = volume,
-					Pitch = pitch,
-					Pan = pan,
-				};
+			    var newInstance = new SoundEffectInstance(this, true)
+			    {
+			        Volume = volume,
+			        Pitch = pitch,
+			        Pan = pan,
+			    };
 
 				children.Add(new WeakReference(newInstance));
 
@@ -228,26 +227,22 @@ namespace ANX.Framework.Audio
 				return;
 
 			IsDisposed = true;
-			nativeSoundEffect.Dispose();
-			nativeSoundEffect = null;
+			NativeSoundEffect.Dispose();
+			NativeSoundEffect = null;
 
-			List<WeakReference> weakRefs = new List<WeakReference>(children);
+			var weakRefs = new List<WeakReference>(children);
 
 			lock (fireAndForgetInstances)
 			{
 				foreach (WeakReference current in weakRefs)
 				{
-					SoundEffectInstance soundInstance =
-						current.Target as SoundEffectInstance;
+					var soundInstance = current.Target as SoundEffectInstance;
+				    if (soundInstance == null)
+				        continue;
 
-					if (soundInstance != null)
-					{
-						if (soundInstance.IsFireAndForget)
-						{
-							fireAndForgetInstances.Remove(soundInstance);
-						}
-						soundInstance.Dispose();
-					}
+				    if (soundInstance.IsFireAndForget)
+				        fireAndForgetInstances.Remove(soundInstance);
+				    soundInstance.Dispose();
 				}
 			}
 

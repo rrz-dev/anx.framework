@@ -2,8 +2,8 @@
 using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.SoundSystem;
-using SharpDX.XAudio2;
 using SharpDX.Multimedia;
+using SharpDX.XAudio2;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,38 +14,35 @@ namespace ANX.SoundSystem.Windows.XAudio
 	public class XAudioSoundEffect : ISoundEffect
 	{
 		#region Private
-		internal SoundEffect parent;
+		internal SoundEffect Parent;
 		private TimeSpan duration;
-		internal WaveFormat waveFormat;
-		internal AudioBuffer audioBuffer;
+		internal WaveFormat WaveFormat;
+		internal AudioBuffer AudioBuffer;
 		internal uint[] DecodedPacketsInfo;
 		#endregion
 
 		#region Public
-		public TimeSpan Duration
-		{
-			get
-			{
-				return duration;
-			}
-		}
-		#endregion
+	    public TimeSpan Duration
+	    {
+	        get { return duration; }
+	    }
+	    #endregion
 
 		#region Constructor
 		internal XAudioSoundEffect(SoundEffect setParent, Stream stream)
 		{
-			parent = setParent;
+			Parent = setParent;
 			CreateFromStream(stream);
 		}
 
 		internal XAudioSoundEffect(SoundEffect setParent, byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
-			parent = setParent;
+			Parent = setParent;
 
-			using (MemoryStream stream = new MemoryStream())
+			using (var stream = new MemoryStream())
 			{
-				BinaryWriter writer = new BinaryWriter(stream);
+				var writer = new BinaryWriter(stream);
 				writer.Write(buffer, offset, count);
 				stream.Position = 0;
 				CreateFromStream(stream);
@@ -62,16 +59,16 @@ namespace ANX.SoundSystem.Windows.XAudio
 		private void CreateFromStream(Stream stream)
 		{
 			var soundStream = new SoundStream(stream);
-			waveFormat = soundStream.Format;
-			audioBuffer = new AudioBuffer
+			WaveFormat = soundStream.Format;
+			AudioBuffer = new AudioBuffer
 			{
 				Stream = soundStream.ToDataStream(),
 				AudioBytes = (int)stream.Length,
 				Flags = BufferFlags.EndOfStream
 			};
 
-			float sizeMulBlockAlign = soundStream.Length / (waveFormat.Channels * 2);
-			duration = TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)waveFormat.SampleRate));
+			float sizeMulBlockAlign = (float)soundStream.Length / (WaveFormat.Channels * 2);
+			duration = TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / WaveFormat.SampleRate);
 
 			DecodedPacketsInfo = soundStream.DecodedPacketsInfo;
 
@@ -82,8 +79,8 @@ namespace ANX.SoundSystem.Windows.XAudio
 		#region Dispose
 		public void Dispose()
 		{
-			waveFormat = null;
-			audioBuffer = null;
+			WaveFormat = null;
+			AudioBuffer = null;
 		}
 		#endregion
 	}

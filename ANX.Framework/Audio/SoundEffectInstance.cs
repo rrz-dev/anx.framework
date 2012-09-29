@@ -15,8 +15,6 @@ namespace ANX.Framework.Audio
 	public class SoundEffectInstance : IDisposable
 	{
 		#region Private
-		private SoundEffect parent;
-
 		private ISoundEffectInstance nativeInstance;
 
 		internal bool IsFireAndForget
@@ -27,93 +25,47 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Public
-		#region IsDisposed
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
-		#endregion
+	    public bool IsDisposed { get; private set; }
 
-		#region IsLooped
-		public virtual bool IsLooped
-		{
-			get
-			{
-				return nativeInstance.IsLooped;
-			}
-			set
-			{
-				nativeInstance.IsLooped = value;
-			}
-		}
-		#endregion
+	    public virtual bool IsLooped
+	    {
+	        get { return nativeInstance.IsLooped; }
+	        set { nativeInstance.IsLooped = value; }
+	    }
 
-		#region Pan
-		public float Pan
-		{
-			get
-			{
-				return nativeInstance.Pan;
-			}
-			set
-			{
-				nativeInstance.Pan = value;
-			}
-		}
-		#endregion
+	    public float Pan
+	    {
+	        get { return nativeInstance.Pan; }
+	        set { nativeInstance.Pan = value; }
+	    }
 
-		#region Pitch
-		public float Pitch
-		{
-			get
-			{
-				return nativeInstance.Pitch;
-			}
-			set
-			{
-				nativeInstance.Pitch = value;
-			}
-		}
-		#endregion
+	    public float Pitch
+	    {
+	        get { return nativeInstance.Pitch; }
+	        set { nativeInstance.Pitch = value; }
+	    }
 
-		#region State
-		public SoundState State
-		{
-			get
-			{
-				return nativeInstance.State;
-			}
-		}
-		#endregion
+	    public SoundState State
+	    {
+	        get { return nativeInstance.State; }
+	    }
 
-		#region Volume
-		public float Volume
-		{
-			get
-			{
-				return nativeInstance.Volume;
-			}
-			set
-			{
-				nativeInstance.Volume = value;
-			}
-		}
-		#endregion
+	    public float Volume
+	    {
+	        get { return nativeInstance.Volume; }
+	        set { nativeInstance.Volume = value; }
+	    }
 		#endregion
 
 		#region Constructor
-		protected SoundEffectInstance()
-		{
-		}
+        protected SoundEffectInstance()
+        {
+        }
 
-		internal SoundEffectInstance(SoundEffect setParent, bool setIsFireAndForget)
+	    internal SoundEffectInstance(SoundEffect setParent, bool setIsFireAndForget)
 		{
-			parent = setParent;
 			IsFireAndForget = setIsFireAndForget;
-
-			nativeInstance = GetCreator().CreateSoundEffectInstance(
-				setParent.nativeSoundEffect);
+			nativeInstance = GetCreator().CreateSoundEffectInstance(setParent.NativeSoundEffect);
 		}
 
 		~SoundEffectInstance()
@@ -132,7 +84,7 @@ namespace ANX.Framework.Audio
 		#region Apply3D
 		public void Apply3D(AudioListener listener, AudioEmitter emitter)
 		{
-			Apply3D(new AudioListener[] { listener }, emitter);
+			Apply3D(new[] { listener }, emitter);
 		}
 
 		public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)

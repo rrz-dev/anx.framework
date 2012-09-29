@@ -11,8 +11,8 @@ namespace AudioSample
     {
         static void Main(string[] args)
 		{
-			AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, "OpenAL");
-			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, "XAudio");
+            //AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, "OpenAL");
+            AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, "XAudio");
 
             using (Game1 game = new Game1())
             {
