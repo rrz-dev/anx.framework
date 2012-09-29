@@ -14,21 +14,12 @@ namespace ProjectConverter
 {
 	public abstract class Converter
 	{
-		protected const string XnaGameStudioTarget =
-			"Microsoft.Xna.GameStudio.targets";
+		protected const string XnaGameStudioTarget = "Microsoft.Xna.GameStudio.targets";
 		protected const string XnaPipelineExtensionTarget =
 			"Microsoft.Xna.GameStudio.ContentPipelineExtensions.targets";
 
-		protected ProjectPath CurrentProject
-		{
-			get;
-			private set;
-		}
-
-		public abstract string Postfix
-		{
-			get;
-		}
+		protected ProjectPath CurrentProject { get; private set; }
+		public abstract string Postfix { get; }
 
 		#region ConvertAllProjects
 		public void ConvertAllProjects(string solutionFilepath)
@@ -221,19 +212,14 @@ namespace ProjectConverter
 		#region CollectAllProjects
 		private ProjectPath[] CollectAllProjects(string solutionFilepath)
 		{
-			VSSolution solution = new VSSolution(solutionFilepath);
-			List<ProjectPath> result = new List<ProjectPath>();
+			var solution = VsSolution.Load(solutionFilepath);
+			var result = new List<ProjectPath>();
 
 			string basePath = Path.GetDirectoryName(solutionFilepath);
 
 			foreach (var project in solution.Projects)
-			{
-				if (project.IsCsProject &&
-					project.RelativePath.Contains("Tools") == false)
-				{
+				if (project.IsCsProject && project.RelativePath.Contains("Tools") == false)
 					result.Add(new ProjectPath(this, project.RelativePath, basePath));
-				}
-			}
 
 			return result.ToArray();
 		}

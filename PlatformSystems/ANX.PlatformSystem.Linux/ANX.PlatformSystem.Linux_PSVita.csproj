@@ -42,7 +42,7 @@
     <Compile Include="LinuxGameHost.cs" />
     <Compile Include="LinuxGameTimer.cs" />
     <Compile Include="LinuxGameWindow.cs" />
-    <Compile Include="LinuxPlatformCreator.cs" />
+    <Compile Include="LinuxPlatformSystem.cs" />
     <Compile Include="LinuxStorageContainer.cs" />
     <Compile Include="LinuxStorageDevice.cs" />
     <Compile Include="LinuxTitleContainer.cs" />

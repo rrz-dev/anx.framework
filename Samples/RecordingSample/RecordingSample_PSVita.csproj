@@ -117,7 +117,7 @@
       <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_PSVita.csproj">
+    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10_PSVita.csproj">
       <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
       <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>

@@ -31,7 +31,7 @@ namespace ProjectConverter.Platforms.Metro
 			}
 			
 			XName contentNodeName = XName.Get("Content", itemGroup.Name.NamespaceName);
-			string anxAssetsPath = "../media/MetroDefaultAssets";
+			const string anxAssetsPath = "../../media/MetroDefaultAssets";
 			foreach (string assetFilepath in Directory.GetFiles(anxAssetsPath))
 			{
 				string filename = Path.GetFileName(assetFilepath);

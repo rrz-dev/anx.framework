@@ -68,6 +68,12 @@
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_Linux.csproj">
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent></PreBuildEvent>

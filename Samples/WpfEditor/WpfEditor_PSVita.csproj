@@ -106,9 +106,9 @@
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_PSVita.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.Windows.GL3</Name>
+    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10_PSVita.csproj">
+      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_PSVita.csproj">
       <Project>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</Project>

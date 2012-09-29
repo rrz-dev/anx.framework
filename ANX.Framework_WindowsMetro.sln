@@ -1,10 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework_WindowsMetro", "ANX.Framework\ANX.Framework_WindowsMetro.csproj", "{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework", "ANX.Framework\ANX.Framework_WindowsMetro.csproj", "{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter_WindowsMetro", "ANX.Framework.TestCenter\ANX.Framework.TestCenter_WindowsMetro.csproj", "{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter", "ANX.Framework.TestCenter\ANX.Framework.TestCenter_WindowsMetro.csproj", "{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline.Extensions_WindowsMetro", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions_WindowsMetro.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline.Extensions", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions_WindowsMetro.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B24A8593-562A-4A25-BB08-46C163F10F3F}"
 EndProject
@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9B0D
 		Samples\SampleCatalog.xml = Samples\SampleCatalog.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertexIndexBuffer_WindowsMetro", "Samples\VertexIndexBuffer\VertexIndexBuffer_WindowsMetro.csproj", "{F945515B-394D-4ED4-80E0-98EB59B69D24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertexIndexBuffer", "Samples\VertexIndexBuffer\VertexIndexBuffer_WindowsMetro.csproj", "{F945515B-394D-4ED4-80E0-98EB59B69D24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSprite_WindowsMetro", "Samples\SimpleSprite\SimpleSprite_WindowsMetro.csproj", "{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSprite", "Samples\SimpleSprite\SimpleSprite_WindowsMetro.csproj", "{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRendering_WindowsMetro", "Samples\TextRendering\TextRendering_WindowsMetro.csproj", "{BC79B021-10E4-4D01-945A-7048FFF53A22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRendering", "Samples\TextRendering\TextRendering_WindowsMetro.csproj", "{BC79B021-10E4-4D01-945A-7048FFF53A22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContent", "Samples\SampleContent\SampleContent.contentproj", "{FA6E229D-4504-47B1-8A23-2D3FCC13F778}"
 EndProject
@@ -29,13 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputSystems", "InputSystem
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoundSystems", "SoundSystems", "{5725DA44-4F5C-4E93-A957-AC5C85603EE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.Windows.XAudio_WindowsMetro", "SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj", "{6A582788-C4D2-410C-96CD-177F75712D65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.Windows.XAudio", "SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj", "{6A582788-C4D2-410C-96CD-177F75712D65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame_WindowsMetro", "Samples\WindowsGame\WindowsGame_WindowsMetro.csproj", "{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame", "Samples\WindowsGame\WindowsGame_WindowsMetro.csproj", "{A08575E0-7B21-4822-9D4C-6B9EEB7EFFF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectConverter", "Tools\ProjectConverter\ProjectConverter.csproj", "{B5209A04-B2F8-4033-A5E7-545BE771214C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect_WindowsMetro", "Samples\Kinect\Kinect_WindowsMetro.csproj", "{A42413A9-5189-40CB-AACA-D50F24865431}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect", "Samples\Kinect\Kinect_WindowsMetro.csproj", "{A42413A9-5189-40CB-AACA-D50F24865431}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock Shaders", "Stock Shaders", "{60824BDB-AC8A-42ED-9B79-111FB44669FF}"
 EndProject
@@ -77,11 +77,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XNA", "XNA", "{BD648BB8-EF2
 		shader\XNA\Structures.fxh = shader\XNA\Structures.fxh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX10", "RenderSystems\ANX.Framework.Windows.DX10\ANX.RenderSystem.Windows.DX10_WindowsMetro.csproj", "{5BE49183-2F6F-4527-AC90-D816911FCF90}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.GL3", "RenderSystems\ANX.Framework.Windows.GL3\ANX.RenderSystem.Windows.GL3_WindowsMetro.csproj", "{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX11_WindowsMetro", "RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11_WindowsMetro.csproj", "{B30DE9C2-0926-46B6-8351-9AF276C472D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX11", "RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11_WindowsMetro.csproj", "{B30DE9C2-0926-46B6-8351-9AF276C472D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{82CDEC51-2E62-4D6D-8A89-8E0F68A9722B}"
 	ProjectSection(SolutionItems) = preProject
@@ -90,24 +86,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{82CDEC51
 		build\MakeAnxFramework.cmd = build\MakeAnxFramework.cmd
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardSample_WindowsMetro", "Samples\KeyboardSample\KeyboardSample_WindowsMetro.csproj", "{05233BB1-444F-43F6-A3DF-B82AA924E094}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardSample", "Samples\KeyboardSample\KeyboardSample_WindowsMetro.csproj", "{05233BB1-444F-43F6-A3DF-B82AA924E094}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{04C721BB-F871-4872-9EA9-B2062BF21E62}"
 	ProjectSection(SolutionItems) = preProject
 		Installer\anx.wxs = Installer\anx.wxs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTarget_WindowsMetro", "Samples\RenderTarget\RenderTarget_WindowsMetro.csproj", "{71378D2F-0DCD-4413-8DE0-3FEC0BA04E27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTarget", "Samples\RenderTarget\RenderTarget_WindowsMetro.csproj", "{71378D2F-0DCD-4413-8DE0-3FEC0BA04E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StencilBuffer_WindowsMetro", "Samples\StencilBuffer\StencilBuffer_WindowsMetro.csproj", "{41E6C2CF-51EA-4D8E-96AE-739CA3951766}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StencilBuffer", "Samples\StencilBuffer\StencilBuffer_WindowsMetro.csproj", "{41E6C2CF-51EA-4D8E-96AE-739CA3951766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primitives_WindowsMetro", "Samples\Primitives\Primitives_WindowsMetro.csproj", "{57097B7A-A283-4409-8AAC-35BF0F458657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primitives", "Samples\Primitives\Primitives_WindowsMetro.csproj", "{57097B7A-A283-4409-8AAC-35BF0F458657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.OpenAL_WindowsMetro", "SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_WindowsMetro.csproj", "{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.OpenAL", "SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_WindowsMetro.csproj", "{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Recording_WindowsMetro", "InputSystems\ANX.InputSystem.Recording\ANX.InputSystem.Recording_WindowsMetro.csproj", "{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Recording", "InputSystems\ANX.InputSystem.Recording\ANX.InputSystem.Recording_WindowsMetro.csproj", "{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.Metro_WindowsMetro", "RenderSystems\ANX.RenderSystem.Windows.Metro\ANX.RenderSystem.Windows.Metro_WindowsMetro.csproj", "{FF0AB665-2796-4354-9630-76C2751DB3C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.Metro", "RenderSystems\ANX.RenderSystem.Windows.Metro\ANX.RenderSystem.Windows.Metro_WindowsMetro.csproj", "{FF0AB665-2796-4354-9630-76C2751DB3C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-07DB-49C9-8CDE-A9092789FE4F}"
 	ProjectSection(SolutionItems) = preProject
@@ -120,39 +116,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DX11", "DX11", "{6285F3EF-0
 		shader\DX11\SpriteBatch.fx = shader\DX11\SpriteBatch.fx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Standard_WindowsMetro", "InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj", "{49066074-3B7B-4A55-B122-6BD33AB73558}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputSystem.Standard", "InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj", "{49066074-3B7B-4A55-B122-6BD33AB73558}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.XInput_WindowsMetro", "InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj", "{60D08399-244F-46A3-91F1-4CFD26D961A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.XInput", "InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj", "{60D08399-244F-46A3-91F1-4CFD26D961A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.OpenTK_WindowsMetro", "InputSystems\ANX.InputDevices.OpenTK\ANX.InputDevices.OpenTK_WindowsMetro.csproj", "{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.OpenTK", "InputSystems\ANX.InputDevices.OpenTK\ANX.InputDevices.OpenTK_WindowsMetro.csproj", "{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.Kinect_WindowsMetro", "InputSystems\ANX.InputDevices.Windows.Kinect\ANX.InputDevices.Windows.Kinect_WindowsMetro.csproj", "{E5D69E75-D77C-493F-BBDA-6F9E73B82549}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.Kinect", "InputSystems\ANX.InputDevices.Windows.Kinect\ANX.InputDevices.Windows.Kinect_WindowsMetro.csproj", "{E5D69E75-D77C-493F-BBDA-6F9E73B82549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Test_WindowsMetro", "InputSystems\ANX.InputDevices.Test\ANX.InputDevices.Test_WindowsMetro.csproj", "{5040A9C7-6DEC-4613-8586-A598C4070B35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Test", "InputSystems\ANX.InputDevices.Test\ANX.InputDevices.Test_WindowsMetro.csproj", "{5040A9C7-6DEC-4613-8586-A598C4070B35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiRenderTarget_WindowsMetro", "Samples\MultiRenderTarget\MultiRenderTarget_WindowsMetro.csproj", "{9C9C6245-35C2-4230-8E17-9038A228227F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiRenderTarget", "Samples\MultiRenderTarget\MultiRenderTarget_WindowsMetro.csproj", "{9C9C6245-35C2-4230-8E17-9038A228227F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlatformSystems", "PlatformSystems", "{1436F7C9-29D3-4FEF-8914-10B45F13D142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsEditor_WindowsMetro", "Samples\WindowsFormsEditor\WindowsFormsEditor_WindowsMetro.csproj", "{441D953C-94C2-42FD-9917-3EB2F6E28173}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsEditor", "Samples\WindowsFormsEditor\WindowsFormsEditor_WindowsMetro.csproj", "{441D953C-94C2-42FD-9917-3EB2F6E28173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfEditor_WindowsMetro", "Samples\WpfEditor\WpfEditor_WindowsMetro.csproj", "{EFC485F7-3E0A-40AB-B79D-E07FE86FC386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfEditor", "Samples\WpfEditor\WpfEditor_WindowsMetro.csproj", "{EFC485F7-3E0A-40AB-B79D-E07FE86FC386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelSample_WindowsMetro", "Samples\ModelSample\ModelSample\ModelSample_WindowsMetro.csproj", "{ED081799-AB02-4793-96F8-F9EA7F3192E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelSample", "Samples\ModelSample\ModelSample\ModelSample_WindowsMetro.csproj", "{ED081799-AB02-4793-96F8-F9EA7F3192E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Windows_WindowsMetro", "PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_WindowsMetro.csproj", "{068EB2E9-963C-4E1B-8831-E25011F11FFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Windows", "PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_WindowsMetro.csproj", "{068EB2E9-963C-4E1B-8831-E25011F11FFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Metro_WindowsMetro", "PlatformSystems\ANX.PlatformSystem.Metro\ANX.PlatformSystem.Metro_WindowsMetro.csproj", "{04F6041E-475E-4B2A-A889-6A33EABD718B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Metro", "PlatformSystems\ANX.PlatformSystem.Metro\ANX.PlatformSystem.Metro_WindowsMetro.csproj", "{04F6041E-475E-4B2A-A889-6A33EABD718B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Linux_WindowsMetro", "PlatformSystems\ANX.PlatformSystem.Linux\ANX.PlatformSystem.Linux_WindowsMetro.csproj", "{2B6D0EFF-7874-495F-9226-873ED9649C60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.Linux", "PlatformSystems\ANX.PlatformSystem.Linux\ANX.PlatformSystem.Linux_WindowsMetro.csproj", "{2B6D0EFF-7874-495F-9226-873ED9649C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordingSample_WindowsMetro", "Samples\RecordingSample\RecordingSample_WindowsMetro.csproj", "{160150D5-38E6-482D-97F5-2624F322A854}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordingSample", "Samples\RecordingSample\RecordingSample_WindowsMetro.csproj", "{160150D5-38E6-482D-97F5-2624F322A854}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.PsVita_WindowsMetro", "RenderSystems\ANX.RenderSystem.PsVita\ANX.RenderSystem.PsVita_WindowsMetro.csproj", "{2B71A7C2-0D18-4E3D-AE5A-320641D1162A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.PsVita", "RenderSystems\ANX.RenderSystem.PsVita\ANX.RenderSystem.PsVita_WindowsMetro.csproj", "{2B71A7C2-0D18-4E3D-AE5A-320641D1162A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.PsVita_WindowsMetro", "PlatformSystems\ANX.PlatformSystem.PsVita\ANX.PlatformSystem.PsVita_WindowsMetro.csproj", "{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.PlatformSystem.PsVita", "PlatformSystems\ANX.PlatformSystem.PsVita\ANX.PlatformSystem.PsVita_WindowsMetro.csproj", "{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.Content.Pipeline_WindowsMetro", "ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline_WindowsMetro.csproj", "{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.Content.Pipeline", "ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline_WindowsMetro.csproj", "{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLSLParser", "Tools\HLSLParser\HLSLParser\HLSLParser.csproj", "{9588B0C3-E03A-4C71-89A4-2C8685D426F1}"
 EndProject
@@ -177,25 +173,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnxSampleBrowser", "Tools\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNBInspector", "Tools\XNBInspector\XNBInspector.csproj", "{14B39F89-C9B0-407E-877A-B515C985E96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.PsVita_WindowsMetro", "InputSystems\ANX.InputDevices.PsVita\ANX.InputDevices.PsVita_WindowsMetro.csproj", "{566293A4-1187-4289-A28C-C74B499D46AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.PsVita", "InputSystems\ANX.InputDevices.PsVita\ANX.InputDevices.PsVita_WindowsMetro.csproj", "{566293A4-1187-4289-A28C-C74B499D46AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.PsVita_WindowsMetro", "SoundSystems\ANX.SoundSystem.PsVita\ANX.SoundSystem.PsVita_WindowsMetro.csproj", "{E2EE2D12-A98E-4C21-AFFA-35F48D2B2A94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.PsVita", "SoundSystems\ANX.SoundSystem.PsVita\ANX.SoundSystem.PsVita_WindowsMetro.csproj", "{E2EE2D12-A98E-4C21-AFFA-35F48D2B2A94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioSample_WindowsMetro", "Samples\AudioSample\AudioSample_WindowsMetro.csproj", "{4A048A8C-C31D-4FC8-AAF3-C387B9E0309B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioSample", "Samples\AudioSample\AudioSample_WindowsMetro.csproj", "{4A048A8C-C31D-4FC8-AAF3-C387B9E0309B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.ContentCompiler.GUI", "Tools\ANXContentCompilerGUI\ANX.ContentCompiler.GUI.csproj", "{45DD7B40-C498-4DD2-A16B-FD6C4E6991B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaveUtils", "SoundSystems\WaveUtils\WaveUtils_WindowsMetro.csproj", "{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualTextureSample", "Samples\DualTextureSample\DualTextureSample_WindowsMetro.csproj", "{9259CC4E-AE6B-403C-8FAB-2408448C3935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualTextureSample_WindowsMetro", "Samples\DualTextureSample\DualTextureSample_WindowsMetro.csproj", "{9259CC4E-AE6B-403C-8FAB-2408448C3935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicEffectSample", "Samples\BasicEffectSample\BasicEffectSample_WindowsMetro.csproj", "{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.BaseDirectX", "RenderSystems\ANX.BaseDirectX\ANX.BaseDirectX_WindowsMetro.csproj", "{A4D3AD34-E49C-4142-8620-2AFF44ED6719}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{3E29A6C6-9487-46A7-A161-D8DB84514933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicEffectSample_WindowsMetro", "Samples\BasicEffectSample\BasicEffectSample_WindowsMetro.csproj", "{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaveUtils", "Support\WaveUtils\WaveUtils_WindowsMetro.csproj", "{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.ModernUI_WindowsMetro", "InputSystems\ANX.InputDevices.Windows.ModernUI\ANX.InputDevices.Windows.ModernUI_WindowsMetro.csproj", "{628AB80A-B1B9-4878-A810-7A58D4840F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.GL3", "RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3_WindowsMetro.csproj", "{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.Windows.ModernUI_WindowsMetro", "SoundSystems\ANX.SoundSystem.Windows.ModernUI\ANX.SoundSystem.Windows.ModernUI_WindowsMetro.csproj", "{7C764555-14B2-45E9-AB33-0C412C8AC53B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.RenderSystem.Windows.DX10", "RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10_WindowsMetro.csproj", "{5BE49183-2F6F-4527-AC90-D816911FCF90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.InputDevices.Windows.ModernUI", "InputSystems\ANX.InputDevices.Windows.ModernUI\ANX.InputDevices.Windows.ModernUI_WindowsMetro.csproj", "{628AB80A-B1B9-4878-A810-7A58D4840F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -399,34 +397,6 @@ Global
 		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x64.ActiveCfg = Release|x86
 		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.ActiveCfg = Release|x86
 		{D73E5FF4-AE88-4637-8159-120FBDA564BF}.Release|x86.Build.0 = Release|x86
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|ARM.ActiveCfg = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|x64.ActiveCfg = Release|Any CPU
-		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|x86.ActiveCfg = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|ARM.ActiveCfg = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|x64.ActiveCfg = Release|Any CPU
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|x86.ActiveCfg = Release|Any CPU
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|Any CPU.Build.0 = Debug|x86
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5}.Debug|ARM.ActiveCfg = Debug|x86
@@ -918,20 +888,6 @@ Global
 		{45DD7B40-C498-4DD2-A16B-FD6C4E6991B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{45DD7B40-C498-4DD2-A16B-FD6C4E6991B3}.Release|x64.ActiveCfg = Release|Any CPU
 		{45DD7B40-C498-4DD2-A16B-FD6C4E6991B3}.Release|x86.ActiveCfg = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|ARM.ActiveCfg = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|x64.ActiveCfg = Release|Any CPU
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|x86.ActiveCfg = Release|Any CPU
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Debug|Any CPU.Build.0 = Debug|x86
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Debug|ARM.ActiveCfg = Debug|x86
@@ -947,20 +903,6 @@ Global
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Release|x64.ActiveCfg = Release|x86
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Release|x86.ActiveCfg = Release|x86
 		{9259CC4E-AE6B-403C-8FAB-2408448C3935}.Release|x86.Build.0 = Release|x86
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|ARM.ActiveCfg = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|x64.ActiveCfg = Release|Any CPU
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719}.Release|x86.ActiveCfg = Release|Any CPU
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|Any CPU.Build.0 = Debug|x86
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Debug|ARM.ActiveCfg = Debug|x86
@@ -976,12 +918,54 @@ Global
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|x64.ActiveCfg = Release|x86
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|x86.ActiveCfg = Release|x86
 		{D810F12D-6CE9-4755-AC6A-5DFEC7D1C782}.Release|x86.Build.0 = Release|x86
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|x64.ActiveCfg = Release|Any CPU
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|x64.ActiveCfg = Release|Any CPU
+		{5BE49183-2F6F-4527-AC90-D816911FCF90}.Release|x86.ActiveCfg = Release|Any CPU
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|ARM.ActiveCfg = Debug|ARM
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|ARM.Build.0 = Debug|ARM
-		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|x64.ActiveCfg = Debug|x64
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|x64.Build.0 = Debug|x64
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Debug|x86.ActiveCfg = Debug|x86
@@ -990,32 +974,12 @@ Global
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|ARM.ActiveCfg = Release|ARM
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|ARM.Build.0 = Release|ARM
-		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|Mixed Platforms.Build.0 = Release|x86
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|x64.ActiveCfg = Release|x64
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|x64.Build.0 = Release|x64
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|x86.ActiveCfg = Release|x86
 		{628AB80A-B1B9-4878-A810-7A58D4840F60}.Release|x86.Build.0 = Release|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|ARM.ActiveCfg = Debug|ARM
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|ARM.Build.0 = Debug|ARM
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|x64.ActiveCfg = Debug|x64
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|x64.Build.0 = Debug|x64
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|x86.ActiveCfg = Debug|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Debug|x86.Build.0 = Debug|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|ARM.ActiveCfg = Release|ARM
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|ARM.Build.0 = Release|ARM
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|x64.ActiveCfg = Release|x64
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|x64.Build.0 = Release|x64
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|x86.ActiveCfg = Release|x86
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1031,12 +995,11 @@ Global
 		{938D5F88-B888-4B04-BEEE-EE701FBA51EF} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
 		{14B39F89-C9B0-407E-877A-B515C985E96E} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
 		{45DD7B40-C498-4DD2-A16B-FD6C4E6991B3} = {B24A8593-562A-4A25-BB08-46C163F10F3F}
-		{5BE49183-2F6F-4527-AC90-D816911FCF90} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
-		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{B30DE9C2-0926-46B6-8351-9AF276C472D5} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{FF0AB665-2796-4354-9630-76C2751DB3C2} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{2B71A7C2-0D18-4E3D-AE5A-320641D1162A} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
-		{A4D3AD34-E49C-4142-8620-2AFF44ED6719} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
+		{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
+		{5BE49183-2F6F-4527-AC90-D816911FCF90} = {D421509A-9AE3-4D7E-881B-EAFED598B028}
 		{F945515B-394D-4ED4-80E0-98EB59B69D24} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
 		{BC79B021-10E4-4D01-945A-7048FFF53A22} = {9B0DD48B-3912-4F33-AF3F-691AF02B73F9}
@@ -1066,8 +1029,6 @@ Global
 		{6A582788-C4D2-410C-96CD-177F75712D65} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
 		{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
 		{E2EE2D12-A98E-4C21-AFFA-35F48D2B2A94} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
-		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
-		{7C764555-14B2-45E9-AB33-0C412C8AC53B} = {5725DA44-4F5C-4E93-A957-AC5C85603EE9}
 		{CCB4679D-11AF-4EC6-AAA4-36619FCE70FA} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 		{E4FFD875-95FC-48F2-8B6D-8483D0B71666} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
 		{BD648BB8-EF28-453C-B4F5-EE3C93EB4DAF} = {60824BDB-AC8A-42ED-9B79-111FB44669FF}
@@ -1077,6 +1038,7 @@ Global
 		{04F6041E-475E-4B2A-A889-6A33EABD718B} = {1436F7C9-29D3-4FEF-8914-10B45F13D142}
 		{2B6D0EFF-7874-495F-9226-873ED9649C60} = {1436F7C9-29D3-4FEF-8914-10B45F13D142}
 		{2CF3FE4D-586E-4B07-8BF0-1E84B670F0AD} = {1436F7C9-29D3-4FEF-8914-10B45F13D142}
+		{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C} = {3E29A6C6-9487-46A7-A161-D8DB84514933}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

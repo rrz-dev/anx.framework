@@ -20,7 +20,7 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				return "Sound.OpenAL";
+				return "OpenAL";
 			}
 		}
 

@@ -26,7 +26,7 @@ namespace ANX.Framework.Graphics
 		private Vector3 fogColor;
 		private Vector3 emissiveColor;
 		private Vector3 ambientLightColor;
-		private Matrix[] bones;
+		private readonly Matrix[] bones;
 		private int weightsPerBone;
 		#endregion
 

@@ -84,11 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Metro\ANX.PlatformSystem.Metro_PSVita.csproj">
-      <Project>{04F6041E-475E-4B2A-A889-6A33EABD718B}</Project>
+      <Project>{04f6041e-475e-4b2a-a889-6a33eabd718b}</Project>
       <Name>ANX.PlatformSystem.Metro</Name>
     </ProjectReference>
   </ItemGroup>

@@ -53,7 +53,7 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WaveUtils\WaveUtils_PSVita.csproj">
+    <ProjectReference Include="..\..\Support\WaveUtils\WaveUtils_PSVita.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>
       <Name>WaveUtils</Name>
     </ProjectReference>

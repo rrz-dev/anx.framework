@@ -14,11 +14,11 @@ namespace ProjectConverter
 {
 	static class Program
 	{
-		private static Converter[] converters = new Converter[]
+		private static readonly Converter[] Converters = new Converter[]
 		{
 			new LinuxConverter(),
 			new MetroConverter(),
-			new PsVitaConverter(),
+			new PsVitaConverter()
 		};
 
 		[STAThread]
@@ -29,11 +29,11 @@ namespace ProjectConverter
             //   ProjectConverter /linux /psvita /windowsmetro ../../ANX.Framework.sln
 			//
 			// For testing only
-			//args = new string[] { "/linux", "/psvita", "/windowsmetro", "../../ANX.Framework.sln" };
+            //args = new[] { "/linux", "/psvita", "/windowsmetro", "../../ANX.Framework.sln" };
 
-            List<string> switches = new List<string>();
-            Dictionary<string, string> keyValueParameters = new Dictionary<string,string>();
-            List<string> files = new List<string>();
+            var switches = new List<string>();
+            var keyValueParameters = new Dictionary<string,string>();
+            var files = new List<string>();
 
 			foreach (string arg in args)
 			{
@@ -54,7 +54,7 @@ namespace ProjectConverter
             foreach (string file in files)
             {
                 string fileExt = Path.GetExtension(file).ToLowerInvariant();
-                foreach (Converter converter in converters)
+                foreach (Converter converter in Converters)
                 {
                     if (switches.Contains(converter.Postfix.ToLowerInvariant()))
                     {

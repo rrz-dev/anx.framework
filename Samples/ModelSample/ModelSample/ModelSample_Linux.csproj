@@ -140,7 +140,7 @@
       <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3.csproj">
+    <ProjectReference Include="..\..\..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3_Linux.csproj">
       <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
       <Name>ANX.RenderSystem.GL3</Name>
     </ProjectReference>
