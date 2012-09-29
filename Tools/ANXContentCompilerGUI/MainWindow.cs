@@ -258,6 +258,13 @@ namespace ANX.ContentCompiler.GUI
                                       TargetProfile = _contentProject.Profile,
                                       CompressContent = false
                                   };
+            foreach (var bI in _contentProject.BuildItems)
+            {
+                if (String.IsNullOrEmpty(bI.ImporterName))
+                {
+                    bI.ImporterName = ImporterManager.GuessImporterByFileExtension(bI.SourceFilename);
+                }
+            }
             try
             {
                 foreach (var dir in _contentProject.BuildItems.Select(buildItem => Path.GetDirectoryName(buildItem.OutputFilename)).Where(dir => !Directory.Exists(dir)))
