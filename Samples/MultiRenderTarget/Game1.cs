@@ -67,21 +67,11 @@ namespace MultiRenderTarget
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.SetRenderTargets(renderTargets[0], renderTargets[1], renderTargets[2], renderTargets[3]);
-            //GraphicsDevice.Clear(Color.Black);
-            //effect.CurrentTechnique.Passes[0].Apply();
-            //GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, primitives, 0, 2);
+            GraphicsDevice.SetRenderTargets(renderTargets[0], renderTargets[1], renderTargets[2], renderTargets[3]);
+            GraphicsDevice.Clear(Color.Black);
+            effect.CurrentTechnique.Passes[0].Apply();
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, primitives, 0, 2);
 
-            //GraphicsDevice.SetRenderTarget(null);
-
-            //TODO: the code above should work but it looks like there's a problem with DrawUserPrimitives
-
-            GraphicsDevice.SetRenderTarget(renderTargets[0]);
-            GraphicsDevice.Clear(Color.Green);
-            GraphicsDevice.SetRenderTarget(renderTargets[1]);
-            GraphicsDevice.Clear(Color.Blue);
-            GraphicsDevice.SetRenderTarget(renderTargets[2]);
-            GraphicsDevice.Clear(Color.Yellow);
             GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin();

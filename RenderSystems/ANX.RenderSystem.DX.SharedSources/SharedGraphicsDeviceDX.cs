@@ -124,6 +124,11 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
 		#endregion
 
+        protected void CreateDepthStencilBuffer(Format depthFormat)
+        {
+            CreateDepthStencilBuffer(depthFormat, this.backBuffer.Description.Width, this.backBuffer.Description.Height, true);
+        }
+
 		#region GetBackBufferData (TODO)
 		public void GetBackBufferData<T>(Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
 		{

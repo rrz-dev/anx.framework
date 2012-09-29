@@ -16,6 +16,7 @@ using SharpDX.DXGI;
 // For details see: http://anxframework.codeplex.com/license
 
 using Device = SharpDX.Direct3D11.Device;
+using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
@@ -26,10 +27,9 @@ namespace ANX.RenderSystem.Windows.DX11
         private RenderTargetView renderView;
         private RenderTargetView[] renderTargetView = new RenderTargetView[1];
         private DepthStencilView depthStencilView;
-        private SharpDX.Direct3D11.Texture2D depthStencilBuffer;
-        private SharpDX.Direct3D11.Texture2D backBuffer;
+        private Dx11.Texture2D depthStencilBuffer;
+        private Dx11.Texture2D backBuffer;
         internal EffectDX currentEffect;
-        private SharpDX.Direct3D11.Viewport currentViewport;
 		#endregion
 
 		#region CreateDevice
@@ -61,34 +61,22 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region CreateRenderView
 		protected void CreateRenderView()
 		{
-			backBuffer = SharpDX.Direct3D11.Texture2D.FromSwapChain<SharpDX.Direct3D11.Texture2D>(swapChain, 0);
+			backBuffer = Dx11.Texture2D.FromSwapChain<Dx11.Texture2D>(swapChain, 0);
 			renderView = new RenderTargetView(nativeDevice.Device, backBuffer);
             nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 		}
 		#endregion
 
 		#region CreateDepthStencilBuffer
-		protected void CreateDepthStencilBuffer(Format depthFormat)
+        protected void CreateDepthStencilBuffer(Format depthFormat, int width, int height, bool setAndClearTarget)
         {
             if (this.depthStencilBuffer != null &&
                 this.depthStencilBuffer.Description.Format == depthFormat &&
-                this.depthStencilBuffer.Description.Width == this.backBuffer.Description.Width &&
-                this.depthStencilBuffer.Description.Height == this.backBuffer.Description.Height)
+                this.depthStencilBuffer.Description.Width == width &&
+                this.depthStencilBuffer.Description.Height == height)
             {
                 // a DepthStencilBuffer with the right format and the right size already exists -> nothing to do
                 return;
-            }
-
-            if (this.depthStencilView != null)
-            {
-                this.depthStencilView.Dispose();
-                this.depthStencilView = null;
-            }
-
-            if (this.depthStencilBuffer != null)
-            {
-                this.depthStencilBuffer.Dispose();
-                this.depthStencilBuffer = null;
             }
 
             if (depthFormat == Format.Unknown)
@@ -104,8 +92,8 @@ namespace ANX.RenderSystem.Windows.DX11
 
             Texture2DDescription depthStencilTextureDesc = new Texture2DDescription()
             {
-                Width = this.backBuffer.Description.Width,
-                Height = this.backBuffer.Description.Height,
+                Width = width,
+                Height = height,
                 MipLevels = 1,
                 ArraySize = 1,
                 Format = depthFormat,
@@ -115,12 +103,16 @@ namespace ANX.RenderSystem.Windows.DX11
                 CpuAccessFlags = CpuAccessFlags.None,
                 OptionFlags = ResourceOptionFlags.None
             };
-			this.depthStencilBuffer = new SharpDX.Direct3D11.Texture2D(nativeDevice.Device, depthStencilTextureDesc);
+			this.depthStencilBuffer = new Dx11.Texture2D(nativeDevice.Device, depthStencilTextureDesc);
 
 			this.depthStencilView = new DepthStencilView(nativeDevice.Device, this.depthStencilBuffer);
-            nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
-            Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, ANX.Framework.Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
+            if (setAndClearTarget)
+            {
+                nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+                Clear(ClearOptions.DepthBuffer | ClearOptions.Stencil, ANX.Framework.Vector4.Zero, 1.0f, 0);  //TODO: this workaround is working but maybe not the best solution to issue #472
+            }
         }
 		#endregion
 
@@ -207,11 +199,11 @@ namespace ANX.RenderSystem.Windows.DX11
             if (primitiveCount <= 0) throw new ArgumentOutOfRangeException("primitiveCount is less than or equal to zero. When drawing, at least one primitive must be drawn.");
             if (this.currentVertexBuffer == null || this.currentVertexBufferCount <= 0) throw new InvalidOperationException("you have to set a valid vertex buffer before drawing.");
 
-            SharpDX.Direct3D11.EffectTechnique technique = SetupEffectForDraw();
+            Dx11.EffectTechnique technique = SetupEffectForDraw();
             int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-            nativeDevice.Rasterizer.SetViewports(currentViewport);
+            //nativeDevice.Rasterizer.SetViewports(currentViewport);
             //nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             if (indexBuffer != null)
@@ -233,15 +225,14 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region DrawPrimitives
 		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
 		{
-			SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+			Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
 			SetupEffectForDraw(out pass, out technique, out passSignature);
 
 			var layout = SetupInputLayout(passSignature);
 
 			// Prepare All the stages
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-			nativeDevice.Rasterizer.SetViewports(currentViewport);
-
+			//nativeDevice.Rasterizer.SetViewports(currentViewport);
 			//nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
 			for (int i = 0; i < technique.Description.PassCount; ++i)
@@ -258,11 +249,11 @@ namespace ANX.RenderSystem.Windows.DX11
         #region DrawInstancedPrimitives
         public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
         {
-            SharpDX.Direct3D11.EffectTechnique technique = SetupEffectForDraw();
+            Dx11.EffectTechnique technique = SetupEffectForDraw();
             int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
 
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-            nativeDevice.Rasterizer.SetViewports(currentViewport);
+            //nativeDevice.Rasterizer.SetViewports(currentViewport);
             //nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             if (indexBuffer != null)
@@ -316,11 +307,11 @@ namespace ANX.RenderSystem.Windows.DX11
 			DxVertexBuffer vb11 = new DxVertexBuffer(nativeDevice.Device, vertexDeclaration, vertexCount, BufferUsage.None);
             vb11.SetData<T>(null, vertexData);
 
-            SharpDX.Direct3D11.VertexBufferBinding nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
+            Dx11.VertexBufferBinding nativeVertexBufferBindings = new Dx11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
 
 			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
 
-            SharpDX.Direct3D11.EffectPass pass; SharpDX.Direct3D11.EffectTechnique technique; ShaderBytecode passSignature;
+            Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
             SetupEffectForDraw(out pass, out technique, out passSignature);
 
 			var layout = CreateInputLayout(nativeDevice.Device, passSignature, vertexDeclaration);
@@ -328,8 +319,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			nativeDevice.InputAssembler.InputLayout = layout;
             // Prepare All the stages
 			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-			nativeDevice.Rasterizer.SetViewports(currentViewport);
-
+			//nativeDevice.Rasterizer.SetViewports(currentViewport);
             //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
 
             for (int i = 0; i < technique.Description.PassCount; ++i)
@@ -345,7 +335,7 @@ namespace ANX.RenderSystem.Windows.DX11
         #endregion // DrawUserPrimitives<T>
 
 		#region SetupEffectForDraw
-		private void SetupEffectForDraw(out SharpDX.Direct3D11.EffectPass pass, out SharpDX.Direct3D11.EffectTechnique technique,
+		private void SetupEffectForDraw(out Dx11.EffectPass pass, out Dx11.EffectTechnique technique,
 			out ShaderBytecode passSignature)
         {
             // get the current effect
@@ -360,7 +350,7 @@ namespace ANX.RenderSystem.Windows.DX11
             passSignature = pass.Description.Signature;
         }
 
-        private SharpDX.Direct3D11.EffectTechnique SetupEffectForDraw()
+        private Dx11.EffectTechnique SetupEffectForDraw()
         {
             //TODO: check for currentEffect null and throw exception
             // TODO: check for null's and throw exceptions
@@ -421,7 +411,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 this.currentVertexBuffer[i] = vertexBuffers[i].VertexBuffer;
             }
 
-            var nativeVertexBufferBindings = new SharpDX.Direct3D11.VertexBufferBinding[vertexBuffers.Length];
+            var nativeVertexBufferBindings = new Dx11.VertexBufferBinding[vertexBuffers.Length];
             for (int i = 0; i < vertexBuffers.Length; i++)
             {
                 ANX.Framework.Graphics.VertexBufferBinding anxVertexBufferBinding = vertexBuffers[i];
@@ -430,7 +420,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 if (nativeVertexBuffer != null)
                 {
                     int vertexStride = anxVertexBufferBinding.VertexBuffer.VertexDeclaration.VertexStride;
-                    nativeVertexBufferBindings[i] = new SharpDX.Direct3D11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexStride, anxVertexBufferBinding.VertexOffset * vertexStride);
+                    nativeVertexBufferBindings[i] = new Dx11.VertexBufferBinding(nativeVertexBuffer.NativeBuffer, vertexStride, anxVertexBufferBinding.VertexOffset * vertexStride);
                 }
                 else
                 {
@@ -445,9 +435,14 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region SetViewport
 		protected void SetViewport(int x, int y, int width, int height, float minDepth, float maxDepth)
 		{
-			currentViewport = new SharpDX.Direct3D11.Viewport(x, y, width, height, minDepth, maxDepth);
+            nativeDevice.Rasterizer.SetViewports(new Dx11.Viewport(x, y, width, height, minDepth, maxDepth));
 		}
-		#endregion
+
+        protected void SetViewport(params Dx11.Viewport[] viewports)
+        {
+            nativeDevice.Rasterizer.SetViewports(viewports);
+        }
+        #endregion
 
 		#region CreateInputLayout
         private InputLayout CreateInputLayout(Device device, ShaderBytecode passSignature, params VertexDeclaration[] vertexDeclaration)
@@ -512,6 +507,11 @@ namespace ANX.RenderSystem.Windows.DX11
             if (renderTargets == null)
             {
                 // reset the RenderTarget to backbuffer
+                CreateDepthStencilBuffer(this.depthStencilBuffer.Description.Format, this.backBuffer.Description.Width, this.backBuffer.Description.Height, false);
+				nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+                nativeDevice.Rasterizer.SetViewports(new Dx11.Viewport(0, 0, this.backBuffer.Description.Width, this.backBuffer.Description.Height));
+
+                // dispose the old views
                 for (int i = 0; i < renderTargetView.Length; i++)
                 {
                     if (renderTargetView[i] != null)
@@ -520,30 +520,30 @@ namespace ANX.RenderSystem.Windows.DX11
                         renderTargetView[i] = null;
                     }
                 }
-
-                //deviceContext.OutputMerger.SetRenderTargets(1, new RenderTargetView[] { this.renderView }, this.depthStencilView);
-				nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
             }
             else
             {
                 int renderTargetCount = renderTargets.Length;
+                RenderTargetView[] renderTargetsToDelete = new RenderTargetView[renderTargetView.Length];
+                Array.Copy(renderTargetView, renderTargetsToDelete, renderTargetView.Length);
+                Dx11.Viewport[] rtViewports = new Dx11.Viewport[renderTargetCount];
+
                 if (this.renderTargetView.Length != renderTargetCount)
                 {
-                    for (int i = 0; i < renderTargetView.Length; i++)
-                    {
-                        if (renderTargetView[i] != null)
-                        {
-                            renderTargetView[i].Dispose();
-                            renderTargetView[i] = null;
-                        }
-                    }
-
                     this.renderTargetView = new RenderTargetView[renderTargetCount];
                 }
+
+                int width = this.backBuffer.Description.Width;
+                int height = this.backBuffer.Description.Height;
 
                 for (int i = 0; i < renderTargetCount; i++)
                 {
                     RenderTarget2D renderTarget = renderTargets[i].RenderTarget as RenderTarget2D;
+
+                    //TODO: check if all render Targets have the same size
+                    width = renderTarget.Width;
+                    height = renderTarget.Height;
+
                     if (renderTarget != null)
                     {
                         RenderTarget2D_DX11 nativeRenderTarget = renderTarget.NativeRenderTarget as RenderTarget2D_DX11;
@@ -553,13 +553,26 @@ namespace ANX.RenderSystem.Windows.DX11
                             renderTargetView[i].Dispose();
                         }
 
-						renderTargetView[i] = new RenderTargetView(nativeDevice.Device,
-							((DxTexture2D)nativeRenderTarget).NativeShaderResourceView.Resource);
+						renderTargetView[i] = new RenderTargetView(nativeDevice.Device, ((DxTexture2D)nativeRenderTarget).NativeShaderResourceView.Resource);
+                        rtViewports[i] = new Dx11.Viewport(0, 0, width, height);
                     }
                 }
 
-                //deviceContext.OutputMerger.SetRenderTargets(renderTargetCount, renderTargetView, this.depthStencilView);
+                CreateDepthStencilBuffer(this.depthStencilBuffer.Description.Format, width, height, false);
+
 				nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderTargetView);
+
+                nativeDevice.Rasterizer.SetViewports(rtViewports);
+
+                // free the old render target views...
+                for (int i = 0; i < renderTargetsToDelete.Length; i++)
+                {
+                    if (renderTargetsToDelete[i] != null)
+                    {
+                        renderTargetsToDelete[i].Dispose();
+                        renderTargetsToDelete[i] = null;
+                    }
+                }
             }
         }
 		#endregion
