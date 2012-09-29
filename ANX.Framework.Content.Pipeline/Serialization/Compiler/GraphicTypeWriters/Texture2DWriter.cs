@@ -28,8 +28,6 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         protected internal override void Write(ContentWriter output, Texture2DContent value)
         {
-            System.Diagnostics.Debugger.Break();
-
             BitmapContent bitmapContent = value.Faces[0][0];
             SurfaceFormat format;
             if (!bitmapContent.TryGetFormat(out format))

@@ -42,7 +42,6 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             {
                 T[] row = GetRow(i);
 
-                BitCopier.Copy<T, byte>(this.GetRow(i), 0, PixelBitmapContent<T>.pixelSize, array, i * num, PixelBitmapContent<T>.pixelSize, PixelBitmapContent<T>.pixelSize, base.Width);
             }
             return array;
         }
