@@ -16,22 +16,16 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Public
-		public string FriendlyName
-		{
-			get
-			{
-				return friendlyName;
-			}
-		}
+	    public string FriendlyName
+	    {
+	        get { return friendlyName; }
+	    }
 
-		public string RendererId
-		{
-			get
-			{
-				return rendererId;
-			}
-		}
-		#endregion
+	    public string RendererId
+	    {
+	        get { return rendererId; }
+	    }
+	    #endregion
 		
 		#region Constructor
 		internal RendererDetail(string setFriendlyName, string setRendererId)
@@ -66,10 +60,8 @@ namespace ANX.Framework.Audio
 		#region Equality
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is RendererDetail)
-			{
+			if (obj is RendererDetail)
 				return this == (RendererDetail)obj;
-			}
 
 			return false;
 		}

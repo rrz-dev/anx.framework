@@ -165,6 +165,12 @@ namespace ANX.SoundSystem.OpenAL
             throw new NotImplementedException();
         }
 
+        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
+        {
+            PreventSystemChange();
+            throw new NotImplementedException();
+        }
+
 		private static void PreventSystemChange()
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);

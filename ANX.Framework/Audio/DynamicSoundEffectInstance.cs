@@ -1,5 +1,7 @@
 ﻿using System;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.SoundSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,82 +9,75 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(0)]
-	public sealed class DynamicSoundEffectInstance : SoundEffectInstance
-	{
-		#region Events
-		public event EventHandler<EventArgs> BufferNeeded;
-		#endregion
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    public sealed class DynamicSoundEffectInstance : SoundEffectInstance
+    {
+        private IDynamicSoundEffectInstance nativeDynamicInstance;
+        private readonly AudioChannels channels;
+        private readonly int sampleRate;
 
-		#region Public
-		public override bool IsLooped
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public event EventHandler<EventArgs> BufferNeeded;
 
-		public int PendingBufferCount
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		#endregion
+        #region Public
+        public int PendingBufferCount
+        {
+            get { return nativeDynamicInstance.PendingBufferCount; }
+        }
+        #endregion
 
-		#region Constructor
-		public DynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region Constructor
+        public DynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
+        {
+            this.sampleRate = sampleRate;
+            this.channels = channels;
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            nativeDynamicInstance = creator.CreateDynamicSoundEffectInstance();
+            nativeDynamicInstance.BufferNeeded += OnBufferNeeded;
+            SetNativeInstance(nativeDynamicInstance);
+        }
+        #endregion
 
-		#region GetSampleDuration
-		public TimeSpan GetSampleDuration(int sizeInBytes)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        private void OnBufferNeeded(object sender, EventArgs args)
+        {
+            BufferNeeded.Invoke(this, EventArgs.Empty);
+        }
 
-		#region GetSampleSizeInBytes
-		public int GetSampleSizeInBytes(TimeSpan duration)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region GetSampleDuration
+        public TimeSpan GetSampleDuration(int sizeInBytes)
+        {
+            float sizeMulBlockAlign = (float)sizeInBytes / ((int)channels * 2);
+            return TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / sampleRate);
+        }
+        #endregion
 
-		#region Play
-		public override void Play()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region GetSampleSizeInBytes
+        public int GetSampleSizeInBytes(TimeSpan duration)
+        {
+            int timeMulSamples = (int)(duration.TotalMilliseconds * (sampleRate / 1000f));
+            return (timeMulSamples + timeMulSamples % (int)channels) * ((int)channels * 2);
+        }
+        #endregion
+        
+        public void SubmitBuffer(byte[] buffer)
+        {
+            nativeDynamicInstance.SubmitBuffer(buffer);
+        }
 
-		#region SubmitBuffer
-		public void SubmitBuffer(byte[] buffer)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        public void SubmitBuffer(byte[] buffer, int offset, int count)
+        {
+            nativeDynamicInstance.SubmitBuffer(buffer, offset, count);
+        }
 
-		#region SubmitBuffer
-		public void SubmitBuffer(byte[] buffer, int offset, int count)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-
-		#region Dispose
-		protected override void Dispose(bool disposing)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-	}
+        protected override void Dispose(bool disposing)
+        {
+            if (nativeDynamicInstance != null)
+            {
+                nativeDynamicInstance.BufferNeeded -= OnBufferNeeded;
+            }
+            nativeDynamicInstance = null;
+            base.Dispose(true);
+        }
+    }
 }

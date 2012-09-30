@@ -1,13 +1,13 @@
 ﻿using System;
-using ANX.Framework.Audio;
 using System.IO;
 using System.Runtime.InteropServices;
+using ANX.Framework.Audio;
 
 namespace ANX.Framework.Content
 {
 	internal class SoundEffectReader : ContentTypeReader<SoundEffect>
 	{
-		private struct WAVEFORMATEX
+		private struct WaveFormatEx
 		{
 			public ushort wFormatTag;
 			public ushort nChannels;
@@ -23,11 +23,11 @@ namespace ANX.Framework.Content
 			int formatCount = input.ReadInt32();
 			byte[] header = input.ReadBytes(formatCount);
 
-			WAVEFORMATEX headerStruct;
+			WaveFormatEx headerStruct;
 			unsafe
 			{
 				fixed(byte* ptr = &header[0])
-					headerStruct = (WAVEFORMATEX)Marshal.PtrToStructure((IntPtr)ptr, typeof(WAVEFORMATEX));
+					headerStruct = (WaveFormatEx)Marshal.PtrToStructure((IntPtr)ptr, typeof(WaveFormatEx));
 			}
 
 			int dataCount = input.ReadInt32();
@@ -38,10 +38,10 @@ namespace ANX.Framework.Content
 
 			int duration = input.ReadInt32();
 
-			byte[] soundData = null;
-			using (MemoryStream mStream = new MemoryStream(20 + header.Length + 8 + data.Length))
+			byte[] soundData;
+			using (var mStream = new MemoryStream(20 + header.Length + 8 + data.Length))
 			{
-				BinaryWriter writer = new BinaryWriter(mStream);
+				var writer = new BinaryWriter(mStream);
 				writer.Write("RIFF".ToCharArray());
 				writer.Write(20 + header.Length + data.Length);
 				writer.Write("WAVE".ToCharArray());

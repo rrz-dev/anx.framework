@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using ANX.Framework.Audio.XactParser;
-using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.PlatformSystem;
 
@@ -44,17 +43,12 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Constructor (TODO)
-		public AudioEngine(string settingsFile)
-		{
-			// TODO: get renderer details
-			RendererDetails = new ReadOnlyCollection<RendererDetail>(new List<RendererDetail>());
+        public AudioEngine(string settingsFile)
+            : this(settingsFile, TimeSpan.FromMilliseconds(250.0), String.Empty)
+        {
+        }
 
-			Stream loadingStream = PlatformSystem.Instance.OpenReadFilestream(settingsFile);
-			generalSettings = new XactGeneralSettings(loadingStream);
-			loadingStream.Dispose();
-		}
-
-		public AudioEngine(string settingsFile, TimeSpan lookAheadTime, string rendererId)
+	    public AudioEngine(string settingsFile, TimeSpan lookAheadTime, string rendererId)
 		{
 			// TODO: get renderer details
 			RendererDetails = new ReadOnlyCollection<RendererDetail>(new List<RendererDetail>());

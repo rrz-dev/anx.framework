@@ -15,7 +15,7 @@ namespace ANX.Framework.Audio
 	public class SoundEffectInstance : IDisposable
 	{
 		#region Private
-		private ISoundEffectInstance nativeInstance;
+        internal ISoundEffectInstance NativeInstance { get; private set; }
 	    internal bool IsFireAndForget { get; private set; }
 	    #endregion
 
@@ -24,31 +24,31 @@ namespace ANX.Framework.Audio
 
 	    public virtual bool IsLooped
 	    {
-	        get { return nativeInstance.IsLooped; }
-	        set { nativeInstance.IsLooped = value; }
+	        get { return NativeInstance.IsLooped; }
+	        set { NativeInstance.IsLooped = value; }
 	    }
 
 	    public float Pan
 	    {
-	        get { return nativeInstance.Pan; }
-	        set { nativeInstance.Pan = value; }
+	        get { return NativeInstance.Pan; }
+	        set { NativeInstance.Pan = value; }
 	    }
 
 	    public float Pitch
 	    {
-	        get { return nativeInstance.Pitch; }
-	        set { nativeInstance.Pitch = value; }
+	        get { return NativeInstance.Pitch; }
+	        set { NativeInstance.Pitch = value; }
 	    }
 
 	    public SoundState State
 	    {
-	        get { return nativeInstance.State; }
+	        get { return NativeInstance.State; }
 	    }
 
 	    public float Volume
 	    {
-	        get { return nativeInstance.Volume; }
-	        set { nativeInstance.Volume = value; }
+	        get { return NativeInstance.Volume; }
+	        set { NativeInstance.Volume = value; }
 	    }
 		#endregion
 
@@ -60,7 +60,7 @@ namespace ANX.Framework.Audio
 	    internal SoundEffectInstance(SoundEffect setParent, bool setIsFireAndForget)
 		{
 			IsFireAndForget = setIsFireAndForget;
-			nativeInstance = GetCreator().CreateSoundEffectInstance(setParent.NativeSoundEffect);
+			NativeInstance = GetCreator().CreateSoundEffectInstance(setParent.NativeSoundEffect);
 		}
 
 		~SoundEffectInstance()
@@ -68,6 +68,11 @@ namespace ANX.Framework.Audio
 			Dispose();
 		}
 		#endregion
+
+        internal void SetNativeInstance(IDynamicSoundEffectInstance dynamicInstance)
+        {
+            NativeInstance = dynamicInstance;
+        }
 
 		#region GetCreator
 		private static ISoundSystemCreator GetCreator()
@@ -84,28 +89,28 @@ namespace ANX.Framework.Audio
 
 		public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)
 		{
-			nativeInstance.Apply3D(listeners, emitter);
+			NativeInstance.Apply3D(listeners, emitter);
 		}
 		#endregion
 
 		#region Pause
 		public void Pause()
 		{
-			nativeInstance.Pause();
+			NativeInstance.Pause();
 		}
 		#endregion
 
 		#region Play
 		public virtual void Play()
 		{
-			nativeInstance.Play();
+			NativeInstance.Play();
 		}
 		#endregion
 
 		#region Resume
 		public void Resume()
 		{
-			nativeInstance.Resume();
+			NativeInstance.Resume();
 		}
 		#endregion
 
@@ -117,7 +122,7 @@ namespace ANX.Framework.Audio
 
 		public void Stop(bool immediate)
 		{
-			nativeInstance.Stop(immediate);
+			NativeInstance.Stop(immediate);
 		}
 		#endregion
 
@@ -129,10 +134,10 @@ namespace ANX.Framework.Audio
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (nativeInstance != null)
+			if (NativeInstance != null)
 			{
-				nativeInstance.Dispose();
-				nativeInstance = null;
+				NativeInstance.Dispose();
+				NativeInstance = null;
 			}
 
 			IsDisposed = true;
