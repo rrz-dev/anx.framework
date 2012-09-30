@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using ANX.Framework.NonXNA;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,11 +13,16 @@ using System.Collections;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public sealed class EffectParameterCollection : IEnumerable<EffectParameter>
     {
+        #region Private Members
         private Effect parentEffect;
         private INativeEffect nativeEffect;
         private List<EffectParameter> parameters;
+        #endregion
 
         internal EffectParameterCollection(Effect parentEffect, INativeEffect nativeEffect)
         {
@@ -61,23 +67,31 @@ namespace ANX.Framework.Graphics
 
         public EffectParameter GetParameterBySemantic(string semantic)
         {
-            throw new NotImplementedException();
+            foreach (EffectParameter parameter in parameters)
+            {
+                if (string.Equals(parameter.Semantic, semantic, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return parameter;
+                }
+            }
+
+            return null;
         }
 
-				IEnumerator<EffectParameter> IEnumerable<EffectParameter>.GetEnumerator()
-				{
-					return parameters.GetEnumerator();
-				}
+		IEnumerator<EffectParameter> IEnumerable<EffectParameter>.GetEnumerator()
+		{
+			return parameters.GetEnumerator();
+		}
 
-				IEnumerator IEnumerable.GetEnumerator()
-				{
-					return parameters.GetEnumerator();
-				}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return parameters.GetEnumerator();
+		}
 
-				public List<EffectParameter>.Enumerator GetEnumerator()
-				{
-					return parameters.GetEnumerator();
-				}
+		public List<EffectParameter>.Enumerator GetEnumerator()
+		{
+			return parameters.GetEnumerator();
+		}
 
         public int Count
         {
@@ -86,5 +100,5 @@ namespace ANX.Framework.Graphics
                 return this.parameters.Count;
             }
         }
-		}
+    }
 }
