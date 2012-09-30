@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,58 +11,63 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
     public interface INativeEffectParameter
     {
         string Name { get; }
 
-				#region GetValue
-				bool GetValueBoolean();
+        string Semantic { get; }
 
-				bool[] GetValueBooleanArray(int count);
+        #region GetValue
+        bool GetValueBoolean();
 
-				int GetValueInt32();
+        bool[] GetValueBooleanArray(int count);
 
-				int[] GetValueInt32Array(int count);
+        int GetValueInt32();
 
-				Matrix GetValueMatrix();
+        int[] GetValueInt32Array(int count);
 
-				Matrix[] GetValueMatrixArray(int count);
+        Matrix GetValueMatrix();
 
-				Matrix GetValueMatrixTranspose();
+        Matrix[] GetValueMatrixArray(int count);
 
-				Matrix[] GetValueMatrixTransposeArray(int count);
+        Matrix GetValueMatrixTranspose();
 
-				Quaternion GetValueQuaternion();
+        Matrix[] GetValueMatrixTransposeArray(int count);
 
-				Quaternion[] GetValueQuaternionArray(int count);
+        Quaternion GetValueQuaternion();
 
-				float GetValueSingle();
+        Quaternion[] GetValueQuaternionArray(int count);
 
-				float[] GetValueSingleArray(int count);
+        float GetValueSingle();
 
-				string GetValueString();
+        float[] GetValueSingleArray(int count);
 
-				Texture2D GetValueTexture2D();
+        string GetValueString();
 
-				Texture3D GetValueTexture3D();
+        Texture2D GetValueTexture2D();
 
-				TextureCube GetValueTextureCube();
+        Texture3D GetValueTexture3D();
 
-				Vector2 GetValueVector2();
+        TextureCube GetValueTextureCube();
 
-				Vector2[] GetValueVector2Array(int count);
+        Vector2 GetValueVector2();
 
-				Vector3 GetValueVector3();
+        Vector2[] GetValueVector2Array(int count);
 
-				Vector3[] GetValueVector3Array(int count);
+        Vector3 GetValueVector3();
 
-				Vector4 GetValueVector4();
+        Vector3[] GetValueVector3Array(int count);
 
-				Vector4[] GetValueVector4Array(int count);
-				#endregion
+        Vector4 GetValueVector4();
 
-				#region SetValue
-				void SetValue(bool value);
+        Vector4[] GetValueVector4Array(int count);
+        #endregion
+
+        #region SetValue
+        void SetValue(bool value);
 
         void SetValue(bool[] value);
 
@@ -69,7 +75,7 @@ namespace ANX.Framework.NonXNA
 
         void SetValue(int[] value);
 
-				void SetValue(Matrix value, bool transpose);
+        void SetValue(Matrix value, bool transpose);
 
         void SetValue(Matrix[] value, bool transpose);
 
@@ -91,11 +97,11 @@ namespace ANX.Framework.NonXNA
 
         void SetValue(Vector4 value);
 
-				void SetValue(Vector4[] value);
+        void SetValue(Vector4[] value);
 
-				void SetValue(string value);
+        void SetValue(string value);
 
         void SetValue(Texture value);
-				#endregion
-		}
+        #endregion
+    }
 }

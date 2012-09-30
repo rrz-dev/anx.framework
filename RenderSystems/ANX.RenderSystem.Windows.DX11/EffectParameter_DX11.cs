@@ -3,6 +3,7 @@ using ANX.Framework;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using Dx11 = SharpDX.Direct3D11;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,7 +11,10 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-	public class EffectParameter_DX11 : INativeEffectParameter
+    [PercentageComplete(60)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
+    public class EffectParameter_DX11 : INativeEffectParameter
 	{
 		#region Public
 		public Dx11.EffectVariable NativeParameter
@@ -26,6 +30,14 @@ namespace ANX.RenderSystem.Windows.DX11
 				return NativeParameter.Description.Name;
 			}
 		}
+
+        public string Semantic
+        {
+            get
+            {
+                return NativeParameter.Description.Semantic;
+            }
+        }
 		#endregion
 
 		#region SetValue (bool)

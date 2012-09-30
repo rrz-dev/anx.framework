@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 
 #endregion // Using Statements
@@ -10,51 +11,35 @@ using System;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
+    [Developer("???, Glatzemann")]
     public class BoundingFrustum : IEquatable<BoundingFrustum>
     {
         #region fields
         public const int CornerCount = 8;
-        #endregion
 
-        #region properties
         private Vector3[] corners;
-
+        private Plane[] planes = new Plane[6];
         private Matrix matrix;
-        public Matrix Matrix 
-        { 
-            get { return this.matrix; } 
-            set 
-            { 
-                this.matrix = value;
-                this.CreatePlanes();
-                this.CreateCorners();
-            } 
+
+        private enum PlanePosition : int
+        {
+            Near = 0,
+            Far = 1,
+            Left = 2,
+            Right = 3,
+            Top = 4,
+            Bottom = 5,
         }
 
-        private Plane near;
-        public Plane Near { get { return this.near; } }
-
-        private Plane far;
-        public Plane Far { get { return this.far; } }
-
-        private Plane top;
-        public Plane Top { get { return this.top; } }
-
-        private Plane bottom;
-        public Plane Bottom { get { return this.bottom; } }
-
-        private Plane right;
-        public Plane Right { get { return this.right; } }
-
-        private Plane left;
-        public Plane Left { get { return this.left; } }
         #endregion
 
         #region constructors
         public BoundingFrustum(Matrix value)
         {
-            corners = new Vector3[CornerCount];
             this.matrix = value;
+
             CreatePlanes();
             CreateCorners();
         }
@@ -70,244 +55,54 @@ namespace ANX.Framework
 
         public void Contains(ref BoundingBox box, out ContainmentType result)
         {
-            Vector3[] boxCorners = box.GetCorners();
-
-            result = ContainmentType.Contains;
-
-            Plane plane = Bottom;
-            Vector3 normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            float planeDistance = plane.D;
-
-            Vector3 pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            float tempDistP;
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            float distanceP = tempDistP - planeDistance;
-
-            Vector3 nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            float tempDistN;
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            float distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
+            bool flag = false;
+            Plane[] array = this.planes;
+            for (int i = 0; i < array.Length; i++)
             {
-                result = ContainmentType.Disjoint;
-                return;
+                Plane plane = array[i];
+                PlaneIntersectionType planeIntersectionType = box.Intersects(plane);
+                if (planeIntersectionType == PlaneIntersectionType.Front)
+                {
+                    result = ContainmentType.Disjoint;
+                    return;
+                }
+                if (planeIntersectionType == PlaneIntersectionType.Intersecting)
+                {
+                    flag = true;
+                }
             }
-            else if (distanceN < 0 || distanceP < 0)
+
+            if (!flag)
             {
-                result = ContainmentType.Intersects;
-                return;
-            } 
-            
-            plane = Top;
-            normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            planeDistance = plane.D;
-
-            pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            distanceP = tempDistP - planeDistance;
-
-            nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
-            {
-                result = ContainmentType.Disjoint;
-                return;
-            }
-            else if (distanceN < 0 || distanceP < 0)
-            {
-                result = ContainmentType.Intersects;
+                result = ContainmentType.Contains;
                 return;
             }
 
-            plane = Left;
-            normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            planeDistance = plane.D;
-
-            pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            distanceP = tempDistP - planeDistance;
-
-            nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
-            {
-                result = ContainmentType.Disjoint;
-                return;
-            }
-            else if (distanceN < 0 || distanceP < 0)
-            {
-                result = ContainmentType.Intersects;
-                return;
-            }
-
-            plane = Right;
-            normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            planeDistance = plane.D;
-
-            pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            distanceP = tempDistP - planeDistance;
-
-            nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
-            {
-                result = ContainmentType.Disjoint;
-                return;
-            }
-            else if (distanceN < 0 || distanceP < 0)
-            {
-                result = ContainmentType.Intersects;
-                return;
-            }
-
-            plane = Near;
-            normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            planeDistance = plane.D;
-
-            pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            distanceP = tempDistP - planeDistance;
-
-            nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
-            {
-                result = ContainmentType.Disjoint;
-                return;
-            }
-            else if (distanceN < 0 || distanceP < 0)
-            {
-                result = ContainmentType.Intersects;
-                return;
-            }
-
-            plane = Far;
-            normal = plane.Normal;
-            //Vector3.Negate(ref normal, out normal);
-            planeDistance = plane.D;
-
-            pVertex = box.Min;
-            if (normal.X >= 0)
-                pVertex.X = box.Max.X;
-            if (normal.Y >= 0)
-                pVertex.Y = box.Max.Y;
-            if (normal.Z < 0)
-                pVertex.Z = box.Max.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistP);
-            distanceP = tempDistP - planeDistance;
-
-            nVertex = box.Max;
-            if (normal.X >= 0)
-                nVertex.X = box.Min.X;
-            if (normal.Y >= 0)
-                nVertex.Y = box.Min.Y;
-            if (normal.Z < 0)
-                nVertex.Z = box.Min.Z;
-
-            Vector3.Dot(ref normal, ref pVertex, out tempDistN);
-            distanceN = tempDistN - planeDistance;
-
-            if (distanceN < 0 && distanceP < 0)
-            {
-                result = ContainmentType.Disjoint;
-                return;
-            }
-            else if (distanceN < 0 || distanceP < 0)
-            {
-                result = ContainmentType.Intersects;
-                return;
-            }
+            result = ContainmentType.Intersects;
         }
 
         public ContainmentType Contains(BoundingFrustum frustum)
         {
-            throw new NotImplementedException();
+            if (frustum == null)
+            {
+                throw new ArgumentNullException("frustum");
+            }
+
+            ContainmentType result = ContainmentType.Disjoint;
+            if (this.Intersects(frustum))
+            {
+                result = ContainmentType.Contains;
+                for (int i = 0; i < this.corners.Length; i++)
+                {
+                    if (this.Contains(frustum.corners[i]) == ContainmentType.Disjoint)
+                    {
+                        result = ContainmentType.Intersects;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
         public ContainmentType Contains(BoundingSphere sphere)
@@ -522,10 +317,12 @@ namespace ANX.Framework
             {
                 throw new ArgumentNullException("corners");
             }
+
             if (corners.Length < 8)
             {
                 throw new ArgumentOutOfRangeException("corners", "The array to be filled with corner vertices needs at least have a length of 8 Vector3");
             }
+
             this.corners.CopyTo(corners, 0);
         }
 
@@ -773,27 +570,79 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{Near:" + Near.ToString() +
-						" Far:" + Far.ToString() +
-						" Left:" + Left.ToString() +
-						" Right:" + Right.ToString() +
-						" Top:" + Top.ToString() +
-						" Bottom:" + Bottom.ToString() + "}";
+		{
+			// This may look a bit more ugly, but String.Format should
+			// be avoided cause of it's bad performance!
+			return "{Near:"   + Near.ToString()   +
+				   " Far:"    + Far.ToString()    +
+				   " Left:"   + Left.ToString()   +
+				   " Right:"  + Right.ToString()  +
+				   " Top:"    + Top.ToString()    +
+				   " Bottom:" + Bottom.ToString() + "}";
+        }
+        #endregion
 
-					////source: monoxna
-					//  var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
-					//  return string.Format(currentCulture, "{{Near:{0} Far:{1} Left:{2} Right:{3} Top:{4} Bottom:{5}}}", new object[]
-					//{
-					//  this.Near.ToString(), 
-					//  this.Far.ToString(), 
-					//  this.Left.ToString(), 
-					//  this.Right.ToString(), 
-					//  this.Top.ToString(), 
-					//  this.Bottom.ToString()
-					//});
+        #region public properties
+        public Matrix Matrix
+        {
+            get
+            {
+                return this.matrix;
+            }
+            set
+            {
+                this.matrix = value;
+                this.CreatePlanes();
+                this.CreateCorners();
+            }
+        }
+
+        public Plane Near
+        {
+            get
+            {
+                return this.planes[0];
+            }
+        }
+
+        public Plane Far
+        {
+            get
+            {
+                return this.planes[1];
+            }
+        }
+
+        public Plane Top
+        {
+            get
+            {
+                return this.planes[4];
+            }
+        }
+
+        public Plane Bottom
+        {
+            get
+            {
+                return this.planes[5];
+            }
+        }
+
+        public Plane Right
+        {
+            get
+            {
+                return this.planes[3];
+            }
+        }
+
+        public Plane Left
+        {
+            get
+            {
+                return this.planes[2];
+            }
         }
         #endregion
 
@@ -801,52 +650,68 @@ namespace ANX.Framework
         //algorithm based on but normals were pointing to outside instead of inside: http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf
         private void CreatePlanes()
         {
-            this.near.Normal.X   = -this.matrix.M13;
-            this.near.Normal.Y   = -this.matrix.M23;
-            this.near.Normal.Z   = -this.matrix.M33;
-            this.near.D          = -this.matrix.M43;
+            int idx;
 
-            this.far.Normal.X    = this.matrix.M14 - this.matrix.M13;
-            this.far.Normal.Y    = this.matrix.M24 - this.matrix.M23;
-            this.far.Normal.Z    = this.matrix.M34 - this.matrix.M33;
-            this.far.D           = this.matrix.M44 - this.matrix.M43;
+            idx = (int)PlanePosition.Near;
+            this.planes[idx].Normal.X = -this.matrix.M13;
+            this.planes[idx].Normal.Y = -this.matrix.M23;
+            this.planes[idx].Normal.Z = -this.matrix.M33;
+            this.planes[idx].D        = -this.matrix.M43;
 
-            this.left.Normal.X    = -this.matrix.M14 - this.matrix.M11;
-            this.left.Normal.Y    = -this.matrix.M24 - this.matrix.M21;
-            this.left.Normal.Z    = -this.matrix.M34 - this.matrix.M31;
-            this.left.D           = -this.matrix.M44 - this.matrix.M41;
+            idx = (int)PlanePosition.Far;
+            this.planes[idx].Normal.X = -this.matrix.M14 + this.matrix.M13;
+            this.planes[idx].Normal.Y = -this.matrix.M24 + this.matrix.M23;
+            this.planes[idx].Normal.Z = -this.matrix.M34 + this.matrix.M33;
+            this.planes[idx].D        = -this.matrix.M44 + this.matrix.M43;
 
-            this.right.Normal.X   = -this.matrix.M14 + this.matrix.M11;
-            this.right.Normal.Y   = -this.matrix.M24 + this.matrix.M21;
-            this.right.Normal.Z   = -this.matrix.M34 + this.matrix.M31;
-            this.right.D          = -this.matrix.M44 + this.matrix.M41;
+            idx = (int)PlanePosition.Left;
+            this.planes[idx].Normal.X = -this.matrix.M14 - this.matrix.M11;
+            this.planes[idx].Normal.Y = -this.matrix.M24 - this.matrix.M21;
+            this.planes[idx].Normal.Z = -this.matrix.M34 - this.matrix.M31;
+            this.planes[idx].D        = -this.matrix.M44 - this.matrix.M41;
 
-            this.top.Normal.X    = -this.matrix.M14 + this.matrix.M12;
-            this.top.Normal.Y    = -this.matrix.M24 + this.matrix.M22;
-            this.top.Normal.Z    = -this.matrix.M34 + this.matrix.M32;
-            this.top.D           = -this.matrix.M44 + this.matrix.M42;
+            idx = (int)PlanePosition.Right;
+            this.planes[idx].Normal.X = -this.matrix.M14 + this.matrix.M11;
+            this.planes[idx].Normal.Y = -this.matrix.M24 + this.matrix.M21;
+            this.planes[idx].Normal.Z = -this.matrix.M34 + this.matrix.M31;
+            this.planes[idx].D        = -this.matrix.M44 + this.matrix.M41;
 
-            this.bottom.Normal.X = -this.matrix.M14 - this.matrix.M12;
-            this.bottom.Normal.Y = -this.matrix.M24 - this.matrix.M22;
-            this.bottom.Normal.Z = -this.matrix.M34 - this.matrix.M32;
-            this.bottom.D        = -this.matrix.M44 - this.matrix.M42;
+            idx = (int)PlanePosition.Top;
+            this.planes[idx].Normal.X = -this.matrix.M14 + this.matrix.M12;
+            this.planes[idx].Normal.Y = -this.matrix.M24 + this.matrix.M22;
+            this.planes[idx].Normal.Z = -this.matrix.M34 + this.matrix.M32;
+            this.planes[idx].D        = -this.matrix.M44 + this.matrix.M42;
 
-            NormalizePlane(ref this.left);
-            NormalizePlane(ref this.right);
-            NormalizePlane(ref this.bottom);
-            NormalizePlane(ref this.top);
-            NormalizePlane(ref this.near);
-            NormalizePlane(ref this.far);
+            idx = (int)PlanePosition.Bottom;
+            this.planes[idx].Normal.X = -this.matrix.M14 - this.matrix.M12;
+            this.planes[idx].Normal.Y = -this.matrix.M24 - this.matrix.M22;
+            this.planes[idx].Normal.Z = -this.matrix.M34 - this.matrix.M32;
+            this.planes[idx].D        = -this.matrix.M44 - this.matrix.M42;
+
+            for (int i = 0; i < this.planes.Length; i++)
+            {
+                this.planes[i].Normalize();
+            }
         }
 
-        //source: monoxna
-        private void NormalizePlane(ref Plane p)
+        private void CreateCorners()
         {
-            float factor = 1f / p.Normal.Length();
-            p.Normal.X *= factor;
-            p.Normal.Y *= factor;
-            p.Normal.Z *= factor;
-            p.D *= factor;
+            Ray rnl = BoundingFrustum.EdgeIntersection(ref this.planes[(int)PlanePosition.Near], ref this.planes[(int)PlanePosition.Left]);
+            Ray rrn = BoundingFrustum.EdgeIntersection(ref this.planes[(int)PlanePosition.Right], ref this.planes[(int)PlanePosition.Near]);
+            Ray rlf = BoundingFrustum.EdgeIntersection(ref this.planes[(int)PlanePosition.Left], ref this.planes[(int)PlanePosition.Far]);
+            Ray rfr = BoundingFrustum.EdgeIntersection(ref this.planes[(int)PlanePosition.Far], ref this.planes[(int)PlanePosition.Right]);
+
+            this.corners = new[]
+            {
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Top], ref rnl),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Top], ref rrn),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Bottom], ref rrn),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Bottom], ref rnl),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Top], ref rlf),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Top], ref rfr),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Bottom], ref rfr),
+                BoundingFrustum.PointIntersection(ref this.planes[(int)PlanePosition.Bottom], ref rlf),
+            };
         }
 
         //source: monoxna
@@ -870,19 +735,21 @@ namespace ANX.Framework
             return vec / f;
         }
 
-        //source: monoxna
-        private void CreateCorners()
+        private static Ray EdgeIntersection(ref Plane p1, ref Plane p2)
         {
-            this.corners = new Vector3[8];
-            this.corners[0] = IntersectionPoint(ref this.near, ref this.left, ref this.top);
-            this.corners[1] = IntersectionPoint(ref this.near, ref this.right, ref this.top);
-            this.corners[2] = IntersectionPoint(ref this.near, ref this.right, ref this.bottom);
-            this.corners[3] = IntersectionPoint(ref this.near, ref this.left, ref this.bottom);
-            this.corners[4] = IntersectionPoint(ref this.far, ref this.left, ref this.top);
-            this.corners[5] = IntersectionPoint(ref this.far, ref this.right, ref this.top);
-            this.corners[6] = IntersectionPoint(ref this.far, ref this.right, ref this.bottom);
-            this.corners[7] = IntersectionPoint(ref this.far, ref this.left, ref this.bottom);
+            Ray result = default(Ray);
+            result.Direction = Vector3.Cross(p1.Normal, p2.Normal);
+            float divider = result.Direction.LengthSquared();
+            result.Position = Vector3.Cross(-p1.D * p2.Normal + p2.D * p1.Normal, result.Direction) / divider;
+            return result;
         }
+
+        private static Vector3 PointIntersection(ref Plane plane, ref Ray ray)
+        {
+            float scaleFactor = (-plane.D - Vector3.Dot(plane.Normal, ray.Position)) / Vector3.Dot(plane.Normal, ray.Direction);
+            return ray.Position + ray.Direction * scaleFactor;
+        }
+
         #endregion
 
         #region IEquatable implementation
@@ -910,6 +777,7 @@ namespace ANX.Framework
         {
             return object.Equals(a, b);
         }
+
         public static bool operator !=(BoundingFrustum a, BoundingFrustum b)
         {
             return !object.Equals(a, b);

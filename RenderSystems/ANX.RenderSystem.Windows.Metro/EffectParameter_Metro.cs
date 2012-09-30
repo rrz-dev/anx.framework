@@ -25,6 +25,14 @@ namespace ANX.RenderSystem.Windows.Metro
 				return nativeParameter.Name;
 			}
 		}
+
+        public string Semantic
+        {
+            get
+            {
+                return nativeParameter.Semantic;
+            }
+        }
 		#endregion
 
 		#region Constructor

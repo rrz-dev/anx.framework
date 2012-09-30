@@ -29,6 +29,14 @@ namespace ANX.RenderSystem.GL3
 			private set;
 		}
 
+        public string Semantic
+        {
+            get
+            {
+                throw new NotSupportedException();
+            }
+        }
+
 		/// <summary>
 		/// The index of the uniform.
 		/// </summary>

@@ -11,6 +11,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(60)]
 	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
 	public sealed class EffectParameter
 	{
 		#region Public (TODO)
@@ -76,7 +77,7 @@ namespace ANX.Framework.Graphics
 		{
 			get
 			{
-				throw new NotImplementedException();
+                return this.NativeParameter.Semantic;
 			}
 		}
 

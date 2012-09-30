@@ -95,10 +95,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaBox);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxBox);
 
-            if ((int)containsXNA == (int)containsANX)
-                Assert.Pass("ContainsBoundingBox passed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString());
-            else
-                Assert.Fail(String.Format("ContainsBoundingBox failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
+            AssertHelper.ConvertEquals(containsXNA, containsANX, "ContainsBoundingBox");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -119,10 +116,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum1.Contains(xnaFrustum2);
             ANX.Framework.ContainmentType containsANX = anxFrustum1.Contains(anxFrustum2);
 
-            if ((int)containsXNA == (int)containsANX)
-                Assert.Pass("ContainsBoundingFrustum passed");
-            else
-                Assert.Fail(String.Format("ContainsBoundingFrustum failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
+            AssertHelper.ConvertEquals(containsXNA, containsANX, "ContainsBoundingFrustum");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -144,10 +138,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaSphere);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxSphere);
 
-            if ((int)containsXNA == (int)containsANX)
-                Assert.Pass("ContainsBoundingSphere passed");
-            else
-                Assert.Fail(String.Format("ContainsBoundingSphere failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
+            AssertHelper.ConvertEquals(containsXNA, containsANX, "ContainsBoundingSphere");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -167,10 +158,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.ContainmentType containsXNA = xnaFrustum.Contains(xnaPoint);
             ANX.Framework.ContainmentType containsANX = anxFrustum.Contains(anxPoint);
 
-            if ((int)containsXNA == (int)containsANX)
-                Assert.Pass("ContainsPoint passed");
-            else
-                Assert.Fail(String.Format("ContainsPoint failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
+            AssertHelper.ConvertEquals(containsXNA, containsANX, "ContainsPoint");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -231,49 +219,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector3[] xna = xnaFrustum.GetCorners();
             ANXVector3[] anx = anxFrustum.GetCorners();
 
-            if (xna[0].X == anx[0].X &&
-                xna[0].Y == anx[0].Y &&
-                xna[0].Z == anx[0].Z &&
-                xna[1].X == anx[1].X &&
-                xna[1].Y == anx[1].Y &&
-                xna[1].Z == anx[1].Z &&
-                xna[2].X == anx[2].X &&
-                xna[2].Y == anx[2].Y &&
-                xna[2].Z == anx[2].Z &&
-                xna[3].X == anx[3].X &&
-                xna[3].Y == anx[3].Y &&
-                xna[3].Z == anx[3].Z &&
-                xna[4].X == anx[4].X &&
-                xna[4].Y == anx[4].Y &&
-                xna[4].Z == anx[4].Z &&
-                xna[5].X == anx[5].X &&
-                xna[5].Y == anx[5].Y &&
-                xna[5].Z == anx[5].Z &&
-                xna[6].X == anx[6].X &&
-                xna[6].Y == anx[6].Y &&
-                xna[6].Z == anx[6].Z &&
-                xna[7].X == anx[7].X &&
-                xna[7].Y == anx[7].Y &&
-                xna[7].Z == anx[7].Z)
-                Assert.Pass("GetCorners passed");
-            else
-                Assert.Fail("GetCorners failed: xna(" + 
-                    xna[0].ToString() + " " +
-                    xna[1].ToString() + " " +
-                    xna[2].ToString() + " " +
-                    xna[3].ToString() + " " +
-                    xna[4].ToString() + " " +
-                    xna[5].ToString() + " " +
-                    xna[6].ToString() +  " " +
-                    xna[7].ToString() + ") anx(" +
-                    anx[0].ToString() + " " +
-                    anx[1].ToString() + " " +
-                    anx[2].ToString() + " " +
-                    anx[3].ToString() + " " +
-                    anx[4].ToString() + " " +
-                    anx[5].ToString() + " " +
-                    anx[6].ToString() + " " +
-                    anx[7].ToString() + ")");
+            AssertHelper.ConvertEquals(xna, anx, "GetCorners");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -312,10 +258,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool containsXNA = xnaFrustum.Intersects(xnaBox);
             bool containsANX = anxFrustum.Intersects(anxBox);
 
-            if (containsXNA.Equals(containsANX))
-                Assert.Pass("IntersectsBoundingBox passed");
-            else
-                Assert.Fail(String.Format("IntersectsBoundingBox failed: xna({0}) anx({1})", containsXNA.ToString(), containsANX.ToString()));
+            AssertHelper.ConvertEquals(containsXNA, containsANX, "IntersectsBoundingBox");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -336,10 +279,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaFrustum1.Intersects(xnaFrustum2);
             bool anx = anxFrustum1.Intersects(anxFrustum2);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsBoundingFrustum passed");
-            else
-                Assert.Fail(String.Format("IntersectsBoundingFrustum failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsBoundingFrustum");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -361,10 +301,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaFrustum.Intersects(xnaSphere);
             bool anx = anxFrustum.Intersects(anxSphere);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsBoundingSphere passed");
-            else
-                Assert.Fail(String.Format("IntersectsBoundingSphere failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsBoundingSphere");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -384,10 +321,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             Microsoft.Xna.Framework.PlaneIntersectionType xna = xnaFrustum.Intersects(xnaPlane);
             ANX.Framework.PlaneIntersectionType anx = anxFrustum.Intersects(anxPlane);
 
-            if ((int)xna == (int)anx)
-                Assert.Pass("IntersectsPlane passed");
-            else
-                Assert.Fail(String.Format("IntersectsPlane failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsPlane");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -407,10 +341,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             float? xna = xnaFrustum.Intersects(xnaRay);
             float? anx = anxFrustum.Intersects(anxRay);
 
-            if (xna.Equals(anx))
-                Assert.Pass("IntersectsRay passed");
-            else
-                Assert.Fail(String.Format("IntersectsRay failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+            AssertHelper.ConvertEquals(xna, anx, "IntersectsRay");
         }
         #endregion
 
@@ -537,14 +468,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaFrustum1 == xnaFrustum2;
             bool anx = anxFrustum1 == anxFrustum2;
 
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("EqualsOperator passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("EqualsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xna, anx, "EqualsOperator");
         }
 
         [Test, TestCaseSource("thirtytwofloats")]
@@ -565,14 +489,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             bool xna = xnaFrustum1 != xnaFrustum2;
             bool anx = anxFrustum1 != anxFrustum2;
 
-            if (xna.Equals(anx))
-            {
-                Assert.Pass("UnequalsOperator passed");
-            }
-            else
-            {
-                Assert.Fail(String.Format("UnequalsOperator failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
-            }
+            AssertHelper.ConvertEquals(xna, anx, "UnequalsOperator");
         }
         #endregion
     }

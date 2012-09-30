@@ -144,7 +144,7 @@ namespace ANX.Framework.TestCenter
     class AssertHelper
     {
         private const float epsilon = 0.0000001f;
-        private const int complementBits = 5;
+        private const int complementBits = 8;
  
         #region Compare
 
@@ -253,6 +253,30 @@ namespace ANX.Framework.TestCenter
         #endregion
 
         #region ConvertEquals
+        public static void ConvertEquals(Microsoft.Xna.Framework.PlaneIntersectionType xna, ANX.Framework.PlaneIntersectionType anx, String test)
+        {
+            if ((int)xna == (int)anx)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
+        public static void ConvertEquals(Microsoft.Xna.Framework.ContainmentType xna, ANX.Framework.ContainmentType anx, String test)
+        {
+            if ((int)xna == (int)anx)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+            }
+        }
+
         public static void ConvertEquals(float xna, float anx, String test)
         {
             if (AssertHelper.AlmostEqual2sComplement(xna, anx, complementBits) ||
