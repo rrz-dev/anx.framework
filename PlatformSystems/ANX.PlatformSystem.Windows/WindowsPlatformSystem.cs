@@ -70,12 +70,15 @@ namespace ANX.PlatformSystem.Windows
 		}
 		#endregion
 
-		#region GetAvailableMediaSources (TODO)
-		public IList<MediaSource> GetAvailableMediaSources()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+		#region GetAvailableMediaSources
+        public IList<MediaSource> GetAvailableMediaSources()
+        {
+            return new[]
+            {
+                new MediaSource("Local Windows Media Player Library", MediaSourceType.LocalDevice)
+            };
+        }
+	    #endregion
 
 		#region OpenReadFilestream
 		public Stream OpenReadFilestream(string filepath)

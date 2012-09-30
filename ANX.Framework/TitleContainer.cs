@@ -9,45 +9,26 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
-	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
-	[Developer("AstrorEnales")]
-	public static class TitleContainer
-	{
-		private static INativeTitleContainer nativeImplementation;
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    public static class TitleContainer
+    {
+        private static readonly INativeTitleContainer nativeImplementation;
 
-		static TitleContainer()
-		{
-            try
-            {
-                nativeImplementation = PlatformSystem.Instance.CreateTitleContainer();
-            }
-            catch (PlatformSystemInstanceException ex)
-            {
-                //TODO: error handling
-            }
-		}
-		
-		public static Stream OpenStream(string name)
-		{
-            if (nativeImplementation == null)
-            {
-                //TODO: error handling
-                return null;
-            }
+        static TitleContainer()
+        {
+            nativeImplementation = PlatformSystem.Instance.CreateTitleContainer();
+        }
 
-			return nativeImplementation.OpenStream(name);
-		}
+        public static Stream OpenStream(string name)
+        {
+            return nativeImplementation.OpenStream(name);
+        }
 
-		internal static string GetCleanPath(string path)
-		{
-            if (nativeImplementation == null)
-            {
-                //TODO: error handling
-                return null;
-            }
-
-			return nativeImplementation.GetCleanPath(path);
-		}
-	}
+        internal static string GetCleanPath(string path)
+        {
+            return nativeImplementation.GetCleanPath(path);
+        }
+    }
 }

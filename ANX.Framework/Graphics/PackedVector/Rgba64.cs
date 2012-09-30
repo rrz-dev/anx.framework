@@ -11,8 +11,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics.PackedVector
 {
     [PercentageComplete(100)]
-    [Developer("???")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct Rgba64 : IPackedVector<ulong>, IEquatable<Rgba64>, IPackedVector
     {
         private ulong packedValue;

@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Runtime.InteropServices;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.Runtime.InteropServices;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     internal class HalfTypeHelper
     {
         [StructLayout(LayoutKind.Explicit)]

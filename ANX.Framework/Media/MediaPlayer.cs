@@ -17,6 +17,7 @@ namespace ANX.Framework.Media
         public static event EventHandler<EventArgs> MediaStateChanged;
         #endregion
 
+        private static bool isShuffled;
         private static bool isRepeating;
         private static float volume;
         private static MediaState currentState;
@@ -26,7 +27,15 @@ namespace ANX.Framework.Media
         }
 
         #region Public
-        public static bool IsShuffled { get; set; }
+        public static bool IsShuffled
+        {
+            get { return isShuffled; }
+            set
+            {
+                isShuffled = value;
+                Queue.UpdateOrder();
+            }
+        }
 
         public static bool IsRepeating
         {
@@ -79,7 +88,7 @@ namespace ANX.Framework.Media
             isRepeating = false;
             IsMuted = false;
             IsVisualizationEnabled = false;
-            IsShuffled = false;
+            isShuffled = false;
             Queue = new MediaQueue();
             FrameworkDispatcher.OnUpdate += Tick;
         }

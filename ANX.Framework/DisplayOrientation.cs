@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,8 @@ using System;
 namespace ANX.Framework
 {
     [Flags]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public enum DisplayOrientation
     {
         Default = 0,

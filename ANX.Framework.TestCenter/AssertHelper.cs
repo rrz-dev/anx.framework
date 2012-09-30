@@ -45,6 +45,9 @@ using ANXPlane = ANX.Framework.Plane;
 using XNARect = Microsoft.Xna.Framework.Rectangle;
 using ANXRect = ANX.Framework.Rectangle;
 
+using XNAAlpha8 = Microsoft.Xna.Framework.Graphics.PackedVector.Alpha8;
+using ANXAlpha8 = ANX.Framework.Graphics.PackedVector.Alpha8;
+
 using XNABgr565 = Microsoft.Xna.Framework.Graphics.PackedVector.Bgr565;
 using ANXBgr565 = ANX.Framework.Graphics.PackedVector.Bgr565;
 
@@ -423,6 +426,18 @@ namespace ANX.Framework.TestCenter
             else
             {
                 Assert.Fail(String.Format("{0} failed: HalfVector4 XNA: ({1}) HalfVector4 ANX: ({2})", test, lhs, rhs));
+            }
+        }
+
+        public static void ConvertEquals(XNAAlpha8 lhs, ANXAlpha8 rhs, String test)
+        {
+            if (lhs.PackedValue == rhs.PackedValue)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format("{0} failed: Rg32 XNA: ({1}) Rg32 ANX: ({2})", test, lhs, rhs));
             }
         }
 

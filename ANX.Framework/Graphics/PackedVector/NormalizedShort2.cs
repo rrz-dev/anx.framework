@@ -11,8 +11,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics.PackedVector
 {
     [PercentageComplete(100)]
-    [Developer("???")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct NormalizedShort2 : IPackedVector<uint>, IEquatable<NormalizedShort2>, IPackedVector
     {
         private uint packedValue;

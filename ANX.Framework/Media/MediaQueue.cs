@@ -13,7 +13,9 @@ namespace ANX.Framework.Media
     [Developer("AstrorEnales")]
 	public sealed class MediaQueue
 	{
-		private readonly List<Song> queue;
+        private readonly List<Song> queue;
+        private readonly List<Song> shuffledQueue;
+        private int activeSongIndex;
 
 		#region Public
 	    public int Count
@@ -21,16 +23,28 @@ namespace ANX.Framework.Media
 	        get { return queue.Count; }
 	    }
 
-	    public int ActiveSongIndex { get; set; }
+        public int ActiveSongIndex
+        {
+            get { return activeSongIndex; }
+            set
+            {
+                if (Count <= 0)
+                    return;
 
-	    public Song ActiveSong
+                ActiveSong.Stop();
+                activeSongIndex = Math.Min(value, queue.Count);
+                ActiveSong.Play();
+            }
+        }
+
+        public Song ActiveSong
 	    {
-            get { return queue.Count <= 0 ? null : queue[ActiveSongIndex]; }
+            get { return shuffledQueue.Count <= 0 ? null : shuffledQueue[ActiveSongIndex]; }
 	    }
 
 	    public Song this[int index]
 	    {
-	        get { return queue[index]; }
+            get { return shuffledQueue[index]; }
 	    }
 	    #endregion
 
@@ -38,11 +52,13 @@ namespace ANX.Framework.Media
 		internal MediaQueue()
 		{
 			queue = new List<Song>();
+		    shuffledQueue = new List<Song>();
 		}
 
         ~MediaQueue()
         {
             queue.Clear();
+            shuffledQueue.Clear();
         }
 		#endregion
 
@@ -54,6 +70,7 @@ namespace ANX.Framework.Media
 
             Clear();
 			queue.Add(song);
+            shuffledQueue.Add(song);
             ActiveSong.Play();
 		}
 
@@ -64,9 +81,7 @@ namespace ANX.Framework.Media
 
             Clear();
             queue.AddRange(songCollection);
-            // TODO: check if the shuffle is calculated after each finished song or like this!
-            if (MediaPlayer.IsShuffled)
-		        Shuffle();
+            UpdateOrder();
             ActiveSong.Play();
 		}
 
@@ -78,18 +93,34 @@ namespace ANX.Framework.Media
             Clear();
             ActiveSongIndex = index;
             queue.AddRange(songCollection);
-            // TODO: check if the shuffle is calculated after each finished song or like this!
-            if (MediaPlayer.IsShuffled)
-		        Shuffle();
+            UpdateOrder();
             ActiveSong.Play();
         }
         #endregion
+
+        internal void UpdateOrder()
+        {
+            if (Count <= 0)
+                return;
+
+            Song currentPlayingSong = ActiveSong;
+            if (MediaPlayer.IsShuffled)
+                Shuffle();
+            else
+            {
+                shuffledQueue.Clear();
+                shuffledQueue.AddRange(queue.ToArray());
+            }
+
+            activeSongIndex = shuffledQueue.IndexOf(currentPlayingSong);
+        }
 
         private void Clear()
         {
             Stop();
             ActiveSongIndex = 0;
             queue.Clear();
+            shuffledQueue.Clear();
         }
         
         internal void Stop()
@@ -106,9 +137,9 @@ namespace ANX.Framework.Media
             {
                 int k = rand.Next(n);
                 n--;
-                Song value = queue[k];
-                queue[k] = queue[n];
-                queue[n] = value;
+                Song value = shuffledQueue[k];
+                shuffledQueue[k] = shuffledQueue[n];
+                shuffledQueue[n] = value;
             }
         }
 
