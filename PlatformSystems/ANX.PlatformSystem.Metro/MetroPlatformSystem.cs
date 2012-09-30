@@ -71,7 +71,7 @@ namespace ANX.PlatformSystem.Metro
 			throw new NotImplementedException();
 		}
 
-		public INativeMediaLibrary CreateMediaPlayer()
+        public INativeMediaLibrary CreateMediaLibrary()
 		{
 			throw new NotImplementedException();
 		}

@@ -10,31 +10,21 @@ namespace ANX.Framework.Media
 {
 	public sealed class ArtistCollection : IEnumerable<Artist>, IEnumerable, IDisposable
 	{
-		private List<Artist> artists;
+		private readonly List<Artist> artists;
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    public bool IsDisposed { get; private set; }
 
-		public int Count
-		{
-			get
-			{
-				return artists.Count;
-			}
-		}
+	    public int Count
+	    {
+	        get { return artists.Count; }
+	    }
 
-		public Artist this[int index]
-		{
-			get
-			{
-				return artists[index];
-			}
-		}
+	    public Artist this[int index]
+	    {
+	        get { return artists[index]; }
+	    }
 
-		internal ArtistCollection()
+	    internal ArtistCollection()
 		{
 			artists = new List<Artist>();
 			IsDisposed = false;

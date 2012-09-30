@@ -70,7 +70,7 @@ namespace ANX.Framework.Input
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == typeof(GamePadDPad))
+            if (obj is GamePadDPad)
                 return this == (GamePadDPad)obj;
 
             return false;

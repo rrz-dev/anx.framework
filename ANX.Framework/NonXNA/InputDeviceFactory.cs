@@ -82,9 +82,10 @@ namespace ANX.Framework.NonXNA
 		public ITouchPanel GetDefaultTouchPanel()
 		{
 			ValidateWindowHandle();
-
 			var touchPanel = GetDefaultCreator<ITouchPanelCreator>().CreateDevice();
-			touchPanel.WindowHandle = WindowHandle;
+#if !WINDOWSMETRO
+            touchPanel.WindowHandle = WindowHandle;
+#endif
 			return touchPanel;
 		}
 		#endregion
@@ -99,11 +100,8 @@ namespace ANX.Framework.NonXNA
 		#region CreateDefaultMouse
 		public IMouse CreateDefaultMouse()
 		{
-#if !WINDOWSMETRO
             ValidateWindowHandle();
-#endif
             var mouse = GetDefaultCreator<IMouseCreator>().CreateDevice();
-
 #if !WINDOWSMETRO
             mouse.WindowHandle = WindowHandle;
 #endif
@@ -139,7 +137,7 @@ namespace ANX.Framework.NonXNA
 			{
 				var creators = deviceCreators[creatorType];
 				if (creators.Count > 0)
-					return (T)creators.Values.First<IInputDeviceCreator>();
+					return (T)creators.Values.First();
 			}
 
 			throw new Exception("Unable to find a default creator for type " + creatorType);
@@ -149,8 +147,10 @@ namespace ANX.Framework.NonXNA
 		#region ValidateWindowHandle
 		private void ValidateWindowHandle()
 		{
+#if !WINDOWSMETRO
 			if (WindowHandle == IntPtr.Zero)
-				throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
+                throw new Exception("Unable to create a mouse instance because the WindowHandle was not set.");
+#endif
 		}
 		#endregion
 	}

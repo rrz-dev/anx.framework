@@ -20,7 +20,7 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 
 		Stream OpenReadFilestream(string filepath);
 
-		INativeMediaLibrary CreateMediaPlayer();
+		INativeMediaLibrary CreateMediaLibrary();
 		IList<MediaSource> GetAvailableMediaSources();
 	}
 }

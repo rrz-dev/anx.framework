@@ -6,118 +6,125 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.InputSystem.Standard
 {
-	public class Creator : IInputSystemCreator
-	{
-		private IKeyboard keyboard;
-		private IMouse mouse;
-		private IGamePad gamePad;
-		private ITouchPanel touchPanel;
-
-		public string Name
-		{
-			get
-			{
-				return "Standard";
-			}
-		}
-
-		public int Priority
-		{
-			get
-			{
-				return 0;
-			}
-		}
-
-		public bool IsSupported
-		{
-			get
-			{
-				return true;
-			}
-		}
-
-		public ITouchPanel TouchPanel
-		{
-			get
-			{
-				if (touchPanel == null)
-				{
-					Logger.Info("Creating a new TouchPanel device.");
-					PreventSystemChange();
-					touchPanel = InputDeviceFactory.Instance.GetDefaultTouchPanel();
-				}
-
-				return touchPanel;
-			}
-		}
-
-		public IGamePad GamePad
-		{
-			get
-			{
-				if (gamePad == null)
-				{
-					Logger.Info("Creating a new GamePad device.");
-					PreventSystemChange();
-					gamePad = InputDeviceFactory.Instance.CreateDefaultGamePad();
-				}
-
-				return gamePad;
-			}
-		}
-
-		public IMouse Mouse
-		{
-			get
-			{
-				if (mouse == null)
-				{
-					mouse = InputDeviceFactory.Instance.CreateDefaultMouse();
-					if (mouse == null)
-						throw new NoInputDeviceException("Couldn't find a default mouse device creator. Unable to create a mouse instance.");
-
-					Logger.Info("created a new Mouse device");
-					PreventSystemChange();
-				}
-
-				return this.mouse;
-			}
-		}
-
-		public IKeyboard Keyboard
-		{
-			get
-			{
-				if (keyboard == null)
-				{
-					keyboard = InputDeviceFactory.Instance.CreateDefaultKeyboard();
-					if (keyboard == null)
-						throw new NoInputDeviceException("Couldn't find a default keyboard device creator. Unable to create a keyboard instance.");
-
-					Logger.Info("created a new Keyboard device");
-					PreventSystemChange();
-				}
-
-				return this.keyboard;
-			}
-		}
+    public class Creator : IInputSystemCreator
+    {
+        private const string CreationLogMessage = "Creating a new {0} device.";
+        private const string CreationThrowMessage =
+            "Couldn't find a default {0} device creator. Unable to create a {0} instance.";
 
 #if XNAEXT
-		public IMotionSensingDevice MotionSensingDevice
-		{
-			get
-			{
-				Logger.Info("Creating a new MotionSensingDevice device.");
-				PreventSystemChange();
-				return InputDeviceFactory.Instance.CreateDefaultMotionSensingDevice();
-			}
-		}
+        private IMotionSensingDevice motionSensingDevice;
+#endif
+        private IKeyboard keyboard;
+        private IMouse mouse;
+        private IGamePad gamePad;
+        private ITouchPanel touchPanel;
+
+        public string Name
+        {
+            get { return "Standard"; }
+        }
+
+        public int Priority
+        {
+            get { return 0; }
+        }
+
+        public bool IsSupported
+        {
+            get { return true; }
+        }
+
+        public ITouchPanel TouchPanel
+        {
+            get
+            {
+                if (touchPanel == null)
+                {
+                    Logger.Info(string.Format(CreationLogMessage, "TouchPanel"));
+                    PreventSystemChange();
+                    touchPanel = InputDeviceFactory.Instance.GetDefaultTouchPanel();
+                    if (touchPanel == null)
+                        throw new NoInputDeviceException(string.Format(CreationThrowMessage, "touchPanel"));
+                }
+
+                return touchPanel;
+            }
+        }
+
+        public IGamePad GamePad
+        {
+            get
+            {
+                if (gamePad == null)
+                {
+                    Logger.Info(string.Format(CreationLogMessage, "GamePad"));
+                    PreventSystemChange();
+                    gamePad = InputDeviceFactory.Instance.CreateDefaultGamePad();
+                    if (gamePad == null)
+                        throw new NoInputDeviceException(string.Format(CreationThrowMessage, "gamePad"));
+                }
+
+                return gamePad;
+            }
+        }
+
+        public IMouse Mouse
+        {
+            get
+            {
+                if (mouse == null)
+                {
+                    Logger.Info(string.Format(CreationLogMessage, "Mouse"));
+                    PreventSystemChange();
+                    mouse = InputDeviceFactory.Instance.CreateDefaultMouse();
+                    if (mouse == null)
+                        throw new NoInputDeviceException(string.Format(CreationThrowMessage, "mouse"));
+                }
+
+                return mouse;
+            }
+        }
+
+        public IKeyboard Keyboard
+        {
+            get
+            {
+                if (keyboard == null)
+                {
+                    Logger.Info(string.Format(CreationLogMessage, "Keyboard"));
+                    PreventSystemChange();
+                    keyboard = InputDeviceFactory.Instance.CreateDefaultKeyboard();
+                    if (keyboard == null)
+                        throw new NoInputDeviceException(string.Format(CreationThrowMessage, "keyboard"));
+                }
+
+                return keyboard;
+            }
+        }
+
+#if XNAEXT
+        public IMotionSensingDevice MotionSensingDevice
+        {
+            get
+            {
+                if (motionSensingDevice == null)
+                {
+                    Logger.Info(string.Format(CreationLogMessage, "MotionSensing"));
+                    PreventSystemChange();
+                    motionSensingDevice = InputDeviceFactory.Instance.CreateDefaultMotionSensingDevice();
+                    if (motionSensingDevice == null)
+                        throw new NoInputDeviceException(string.Format(CreationThrowMessage, "motionSensing"));
+                }
+
+                return motionSensingDevice;
+            }
+        }
 #endif
 
-		private void PreventSystemChange()
-		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
-		}
-	}
+        private static void PreventSystemChange()
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
+        }
+    }
 }

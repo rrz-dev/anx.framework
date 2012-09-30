@@ -12,22 +12,15 @@ namespace ANX.Framework.Input
 	[TestState(TestStateAttribute.TestState.Tested)]
 	public static class Keyboard
 	{
-		private static IKeyboard keyboard;
+		private static readonly IKeyboard keyboard;
 
-		internal static IntPtr WindowHandle
-		{
-			get
-			{
-				return keyboard != null ? keyboard.WindowHandle : IntPtr.Zero;
-			}
-			set
-			{
-				if (keyboard != null)
-					keyboard.WindowHandle = value;
-			}
-		}
+	    internal static IntPtr WindowHandle
+	    {
+	        get { return keyboard.WindowHandle; }
+	        set { keyboard.WindowHandle = value; }
+	    }
 
-		static Keyboard()
+	    static Keyboard()
 		{
 			keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
 		}

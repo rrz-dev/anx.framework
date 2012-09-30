@@ -11,7 +11,7 @@ namespace ANX.Framework.Input
 	[TestState(TestStateAttribute.TestState.Tested)]
 	public static class GamePad
 	{
-		private static IGamePad gamePad;
+		private static readonly IGamePad gamePad;
 
 		static GamePad()
 		{

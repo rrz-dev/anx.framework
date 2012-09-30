@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -13,94 +12,61 @@ namespace ANX.Framework.Media
 	{
 		private INativeMediaLibrary nativeLibrary;
 
-		#region Public
-		public MediaSource MediaSource
-		{
-			get;
-			private set;
-		}
+        #region Public
+        public bool IsDisposed { get; private set; }
+	    public MediaSource MediaSource { get; private set; }
 
-		public PictureCollection Pictures
-		{
-			get
-			{
-				return nativeLibrary.GetPictures();
-			}
-		}
-		
-		public PictureAlbum RootPictureAlbum
-		{
-			get
-			{
-				return nativeLibrary.GetRootPictureAlbum();
-			}
-		}
-		
-		public PictureCollection SavedPictures
-		{
-			get
-			{
-				return nativeLibrary.GetSavedPictures();
-			}
-		}
-		
-		public SongCollection Songs
-		{
-			get
-			{
-				return nativeLibrary.GetSongs();
-			}
-		}
-		
-		public ArtistCollection Artists
-		{
-			get
-			{
-				return nativeLibrary.GetArtists();
-			}
-		}
-		
-		public AlbumCollection Albums
-		{
-			get
-			{
-				return nativeLibrary.GetAlbums();
-			}
-		}
-		
-		public PlaylistCollection Playlists
-		{
-			get
-			{
-				return nativeLibrary.GetPlaylists();
-			}
-		}
-		
-		public GenreCollection Genres
-		{
-			get
-			{
-				return nativeLibrary.GetGenres();
-			}
-		}
+	    public PictureCollection Pictures
+	    {
+	        get { return nativeLibrary.GetPictures(); }
+	    }
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
-		#endregion
+	    public PictureAlbum RootPictureAlbum
+	    {
+	        get { return nativeLibrary.GetRootPictureAlbum(); }
+	    }
+
+	    public PictureCollection SavedPictures
+	    {
+	        get { return nativeLibrary.GetSavedPictures(); }
+	    }
+
+	    public SongCollection Songs
+	    {
+	        get { return nativeLibrary.GetSongs(); }
+	    }
+
+	    public ArtistCollection Artists
+	    {
+	        get { return nativeLibrary.GetArtists(); }
+	    }
+
+	    public AlbumCollection Albums
+	    {
+	        get { return nativeLibrary.GetAlbums(); }
+	    }
+
+	    public PlaylistCollection Playlists
+	    {
+	        get { return nativeLibrary.GetPlaylists(); }
+	    }
+
+	    public GenreCollection Genres
+	    {
+	        get { return nativeLibrary.GetGenres(); }
+	    }
+	    #endregion
 
 		#region Constructor
 		public MediaLibrary()
 		{
-			nativeLibrary = PlatformSystem.Instance.CreateMediaPlayer();
+			nativeLibrary = PlatformSystem.Instance.CreateMediaLibrary();
 			MediaSource = MediaSource.GetAvailableMediaSources()[0];
 		}
 
 		public MediaLibrary(MediaSource setSource)
 		{
-			nativeLibrary = PlatformSystem.Instance.CreateMediaPlayer();
+			nativeLibrary = PlatformSystem.Instance.CreateMediaLibrary();
 			MediaSource = setSource;
 		}
 
@@ -113,13 +79,12 @@ namespace ANX.Framework.Media
 		#region Dispose
 		public void Dispose()
 		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
+		    if (IsDisposed)
+		        return;
 
-				nativeLibrary.Dispose();
-				nativeLibrary = null;
-			}
+		    IsDisposed = true;
+		    nativeLibrary.Dispose();
+		    nativeLibrary = null;
 		}
 		#endregion
 

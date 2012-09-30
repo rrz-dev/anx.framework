@@ -6,11 +6,11 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input.Touch
 {
-	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Tested)]
-	public struct TouchPanelCapabilities
-	{
-		public bool IsConnected { get; set; }
-		public int MaximumTouchCount { get; set; }
-	}
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    public struct TouchPanelCapabilities
+    {
+        public bool IsConnected { get; set; }
+        public int MaximumTouchCount { get; set; }
+    }
 }

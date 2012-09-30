@@ -15,39 +15,22 @@ namespace ANX.Framework.Input.MotionSensing
 {
     public class MotionSensingDevice
     {
-        private static IMotionSensingDevice motionSensingDevice;
-
-        static MotionSensingDevice()
-        {
-            motionSensingDevice = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().MotionSensingDevice;
-        }
+        private static readonly IMotionSensingDevice motionSensingDevice;
 
         public static GraphicsDevice GraphicsDevice
         {
-            get
-            {
-                if (motionSensingDevice != null)
-                {
-                    return motionSensingDevice.GraphicsDevice;
-                }
-
-                return null;
-            }
-            set
-            {
-                if (motionSensingDevice != null)
-                {
-                    motionSensingDevice.GraphicsDevice = value;
-                }
-            }
+            get { return motionSensingDevice.GraphicsDevice; }
+            set { motionSensingDevice.GraphicsDevice = value; }
         }
 
         public static MotionSensingDeviceType DeviceType
         {
-            get
-            {
-                return motionSensingDevice.DeviceType; 
-            }
+            get { return motionSensingDevice.DeviceType; }
+        }
+
+        static MotionSensingDevice()
+        {
+            motionSensingDevice = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().MotionSensingDevice;
         }
 
         public static MotionSensingDeviceState GetState() 

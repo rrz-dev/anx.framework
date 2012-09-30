@@ -12,35 +12,27 @@ namespace ANX.Framework.Input
 	[TestState(TestStateAttribute.TestState.Tested)]
     public static class Mouse
     {
-		private static IMouse mouse;
+		private static readonly IMouse mouse;
 
-		public static IntPtr WindowHandle
-		{
-			get
-			{
-				return mouse != null ? mouse.WindowHandle : IntPtr.Zero;
-			}
-			set
-			{
-				if (mouse != null)
-					mouse.WindowHandle = value;
-			}
-		}
+	    public static IntPtr WindowHandle
+	    {
+	        get { return mouse.WindowHandle; }
+	        set { mouse.WindowHandle = value; }
+	    }
 
-        static Mouse()
+	    static Mouse()
         {
             mouse = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse;
         }
 
         public static MouseState GetState() 
         {
-            return (mouse != null) ? mouse.GetState() : new MouseState();
+            return mouse.GetState();
         }
 
         public static void SetPosition(int x, int y)
         {
-            if (mouse != null)
-                mouse.SetPosition(x, y);
+            mouse.SetPosition(x, y);
         }
     }
 }

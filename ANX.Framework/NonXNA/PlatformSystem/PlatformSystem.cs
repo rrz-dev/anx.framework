@@ -165,14 +165,14 @@ namespace ANX.Framework.NonXNA.PlatformSystem
             return runtimeInstance.OpenReadFilestream(filepath);
         }
 
-        public INativeMediaLibrary CreateMediaPlayer()
+        public INativeMediaLibrary CreateMediaLibrary()
         {
             if (runtimeInstance == null)
             {
                 throw new PlatformSystemInstanceException();
             }
 
-            return runtimeInstance.CreateMediaPlayer();
+            return runtimeInstance.CreateMediaLibrary();
         }
 
         public IList<MediaSource> GetAvailableMediaSources()

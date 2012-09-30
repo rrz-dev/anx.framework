@@ -67,7 +67,7 @@ namespace ANX.PlatformSystem.PsVita
 		#endregion
 
 		#region CreateMediaPlayer (TODO)
-		public INativeMediaLibrary CreateMediaPlayer()
+		public INativeMediaLibrary CreateMediaLibrary()
 		{
 			throw new NotImplementedException();
 		}

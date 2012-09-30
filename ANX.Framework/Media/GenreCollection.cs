@@ -10,31 +10,21 @@ namespace ANX.Framework.Media
 {
 	public sealed class GenreCollection : IEnumerable<Genre>, IEnumerable, IDisposable
 	{
-		private List<Genre> genres;
+		private readonly List<Genre> genres;
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    public bool IsDisposed { get; private set; }
 
-		public int Count
-		{
-			get
-			{
-				return genres.Count;
-			}
-		}
+	    public int Count
+	    {
+	        get { return genres.Count; }
+	    }
 
-		public Genre this[int index]
-		{
-			get
-			{
-				return genres[index];
-			}
-		}
+	    public Genre this[int index]
+	    {
+	        get { return genres[index]; }
+	    }
 
-		internal GenreCollection()
+	    internal GenreCollection()
 		{
 			genres = new List<Genre>();
 			IsDisposed = false;

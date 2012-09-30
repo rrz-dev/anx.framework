@@ -9,34 +9,31 @@ namespace ANX.Framework.Media
 {
 	public sealed class VideoPlayer : IDisposable
 	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    private float volume;
+        internal float VolumeToUse
+        {
+            get { return IsMuted ? 0f : volume; }
+        }
 
-		public TimeSpan PlayPosition
+        public Video Video { get; private set; }
+        public bool IsMuted { get; set; }
+	    public bool IsDisposed { get; private set; }
+
+	    public TimeSpan PlayPosition
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return Video == null ? TimeSpan.Zero : Video.PlayPosition; }
 		}
 
 		public float Volume
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+			get { return volume; }
+            set
+            {
+                if (value < 0f || value > 1f)
+                    throw new ArgumentOutOfRangeException("value");
 
-		public bool IsMuted
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+                volume = value;
+            }
 		}
 
 		public bool IsLooped
@@ -46,15 +43,7 @@ namespace ANX.Framework.Media
 				throw new NotImplementedException();
 			}
 		}
-
-		public Video Video
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
+        
 		public MediaState State
 		{
 			get
@@ -65,6 +54,8 @@ namespace ANX.Framework.Media
 
 		public VideoPlayer()
 		{
+		    IsMuted = false;
+		    volume = 1f;
 			IsDisposed = false;
 		}
 
@@ -75,31 +66,38 @@ namespace ANX.Framework.Media
 
 		public void Dispose()
 		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
+		    if (IsDisposed)
+		        return;
+
+		    IsDisposed = true;
+		    Video = null;
 		}
 
 		public void Play(Video video)
-		{
-			throw new NotImplementedException();
+        {
+            if (video == null)
+                throw new ArgumentNullException("video");
+
+		    Video = video;
+		    video.Play();
 		}
 
 		public void Pause()
-		{
-			throw new NotImplementedException();
+        {
+            if (Video != null)
+                Video.Pause();
 		}
 
 		public void Resume()
-		{
-			throw new NotImplementedException();
+        {
+            if (Video != null)
+                Video.Resume();
 		}
 
 		public void Stop()
-		{
-			throw new NotImplementedException();
+        {
+            if (Video != null)
+                Video.Stop();
 		}
 
 		public Texture2D GetTexture()

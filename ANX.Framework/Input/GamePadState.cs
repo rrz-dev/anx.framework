@@ -86,7 +86,7 @@ namespace ANX.Framework.Input
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == typeof(GamePadState))
+            if (obj is GamePadState)
                 return this == (GamePadState)obj;
 
             return false;
