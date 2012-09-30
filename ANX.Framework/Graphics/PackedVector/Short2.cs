@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,21 +10,28 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Short2 : IPackedVector<uint>, IEquatable<Short2>, IPackedVector
     {
         private uint packedValue;
 
-        private const float max = (float)(65535 >> 1);
+        public uint PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
+
+        private const float max = 65535 >> 1;
         private const float min = -max - 1f;
-        private const float oneOverMax = 1f / max;
-        private const uint mask = (uint)(65536 >> 1);
 
         public Short2(float x, float y)
         {
             uint b1 = (uint)(((int)MathHelper.Clamp(x, min, max) & 65535) <<  0);
             uint b2 = (uint)(((int)MathHelper.Clamp(y, min, max) & 65535) << 16);
 
-            this.packedValue = (uint)(b1 | b2);
+            this.packedValue = b1 | b2;
         }
 
         public Short2(Vector2 vector)
@@ -31,19 +39,7 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b1 = (uint)(((int)MathHelper.Clamp(vector.X, min, max) & 65535) <<  0);
             uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y, min, max) & 65535) << 16);
 
-            this.packedValue = (uint)(b1 | b2);
-        }
-
-        public uint PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            this.packedValue = b1 | b2;
         }
 
         public Vector2 ToVector2()
@@ -59,7 +55,7 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b1 = (uint)(((int)MathHelper.Clamp(vector.X, min, max) & 65535) <<  0);
             uint b2 = (uint)(((int)MathHelper.Clamp(vector.Y, min, max) & 65535) << 16);
 
-            this.packedValue = (uint)(b1 | b2);
+            this.packedValue = b1 | b2;
         }
 
         Vector4 IPackedVector.ToVector4()
@@ -70,12 +66,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Short2)obj;
-            }
-
-            return false;
+            return obj is Short2 && this == (Short2)obj;
         }
 
         public bool Equals(Short2 other)

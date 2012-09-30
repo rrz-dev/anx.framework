@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,16 +10,25 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Rg32 : IPackedVector<uint>, IEquatable<Rg32>, IPackedVector
     {
         private uint packedValue;
+
+        public uint PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Rg32(float x, float y)
         {
             uint r = (uint)(MathHelper.Clamp(x, 0f, 1f) * 65535.0f) <<  0;
             uint g = (uint)(MathHelper.Clamp(y, 0f, 1f) * 65535.0f) << 16;
 
-            this.packedValue = (uint)r | g;
+            this.packedValue = r | g;
         }
 
         public Rg32(Vector2 vector)
@@ -26,19 +36,7 @@ namespace ANX.Framework.Graphics.PackedVector
             uint r = (uint)(MathHelper.Clamp(vector.X, 0f, 1f) * 65535.0f) << 0;
             uint g = (uint)(MathHelper.Clamp(vector.Y, 0f, 1f) * 65535.0f) << 16;
 
-            this.packedValue = (uint)r | g;
-        }
-
-        public uint PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            this.packedValue = r | g;
         }
 
         public Vector2 ToVector2()
@@ -49,8 +47,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         Vector4 IPackedVector.ToVector4()
         {
-            Vector2 val = this.ToVector2();
-            return new Vector4(val.X, val.Y, 0f, 1f);
+            return new Vector4(ToVector2(), 0f, 1f);
         }
 
         void IPackedVector.PackFromVector4(Vector4 vector)
@@ -60,12 +57,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Rg32)obj;
-            }
-
-            return false;
+            return obj is Rg32 && this == (Rg32)obj;
         }
 
         public bool Equals(Rg32 other)

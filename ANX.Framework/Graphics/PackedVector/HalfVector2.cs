@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct HalfVector2 : IPackedVector<uint>, IEquatable<HalfVector2>, IPackedVector
     {
         private uint packedValue;
+
+        public uint PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public HalfVector2(float x, float y)
         {
@@ -21,18 +31,6 @@ namespace ANX.Framework.Graphics.PackedVector
         public HalfVector2(Vector2 vector)
         {
             packedValue = HalfTypeHelper.convert(vector.X) | (uint)HalfTypeHelper.convert(vector.Y) << 16;
-        }
-
-        public uint PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
         }
 
         public Vector2 ToVector2()
@@ -53,12 +51,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (HalfVector2)obj;
-            }
-
-            return false;
+            return obj is HalfVector2 && this == (HalfVector2)obj;
         }
 
         public bool Equals(HalfVector2 other)

@@ -11,10 +11,11 @@ namespace ANX.Framework.Audio
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [Serializable]
 #endif
-	[PercentageComplete(100)]
+    [PercentageComplete(99)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class InstancePlayLimitException : ExternalException
 	{
-		#region Constructor
 		public InstancePlayLimitException()
 		{
 		}
@@ -28,6 +29,5 @@ namespace ANX.Framework.Audio
 			: base(message, innerException)
 		{
 		}
-		#endregion
 	}
 }

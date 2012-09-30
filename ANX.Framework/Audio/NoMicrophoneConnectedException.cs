@@ -7,11 +7,12 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
 	public sealed class NoMicrophoneConnectedException : Exception
 	{
 		public NoMicrophoneConnectedException()
-			: base()
 		{
 		}
 

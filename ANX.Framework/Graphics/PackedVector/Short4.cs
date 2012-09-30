@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,14 +10,21 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Short4 : IPackedVector<ulong>, IEquatable<Short4>, IPackedVector
     {
         private ulong packedValue;
 
-        private const float max = (float)(65535 >> 1);
+        public ulong PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
+
+        private const float max = 65535 >> 1;
         private const float min = -max - 1f;
-        private const float oneOverMax = 1f / max;
-        private const uint mask = (uint)(65536 >> 1);
 
         public Short4(float x, float y, float z, float w)
         {
@@ -25,7 +33,7 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b3 = (ulong)(((long)MathHelper.Clamp(z, min, max) & 65535) << 32);
             ulong b4 = (ulong)(((long)MathHelper.Clamp(w, min, max) & 65535) << 48);
 
-            this.packedValue = (ulong)(b1 | b2 | b3 | b4);
+            this.packedValue = b1 | b2 | b3 | b4;
         }
 
         public Short4(Vector4 vector)
@@ -35,19 +43,7 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b3 = (ulong)(((long)MathHelper.Clamp(vector.Z, min, max) & 65535) << 32);
             ulong b4 = (ulong)(((long)MathHelper.Clamp(vector.W, min, max) & 65535) << 48);
 
-            this.packedValue = (ulong)(b1 | b2 | b3 | b4);
-        }
-
-        public ulong PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            this.packedValue = b1 | b2 | b3 | b4;
         }
 
         public Vector4 ToVector4()
@@ -67,7 +63,7 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b3 = (ulong)(((long)MathHelper.Clamp(vector.Z, -max, max) & 65535) << 32);
             ulong b4 = (ulong)(((long)MathHelper.Clamp(vector.W, -max, max) & 65535) << 48);
 
-            this.packedValue = (ulong)(b1 | b2 | b3 | b4);
+            this.packedValue = b1 | b2 | b3 | b4;
         }
 
         Vector4 IPackedVector.ToVector4()
@@ -77,12 +73,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Short4)obj;
-            }
-
-            return false;
+            return obj is Short4 && this == (Short4)obj;
         }
 
         public bool Equals(Short4 other)

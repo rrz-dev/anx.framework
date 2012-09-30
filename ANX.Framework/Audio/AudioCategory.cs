@@ -8,7 +8,8 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(30)]
+    [PercentageComplete(30)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public struct AudioCategory : IEquatable<AudioCategory>
 	{
 		#region Internal helper enums

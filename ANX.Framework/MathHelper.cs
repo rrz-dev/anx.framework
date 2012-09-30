@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -36,6 +37,9 @@ SOFTWARE.
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public static class MathHelper
     {
         public const float E = (float)Math.E;
@@ -111,8 +115,8 @@ namespace ANX.Framework
             // It is expected that 0 < amount < 1
             // If amount < 0, return value1
             // If amount > 1, return value2
-            float result = MathHelper.Clamp(amount, 0f, 1f);
-            result = MathHelper.Hermite(value1, 0f, value2, 0f, result);
+            float result = Clamp(amount, 0f, 1f);
+            result = Hermite(value1, 0f, value2, 0f, result);
             return result;
         }
 

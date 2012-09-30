@@ -10,8 +10,8 @@ using ANX.Framework.NonXNA.SoundSystem;
 namespace ANX.Framework.Audio
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.InProgress)]
-	[Developer("AstrorEnales")]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
 	public class SoundEffectInstance : IDisposable
 	{
 		#region Private

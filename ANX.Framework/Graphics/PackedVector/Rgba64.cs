@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Rgba64 : IPackedVector<ulong>, IEquatable<Rgba64>, IPackedVector
     {
         private ulong packedValue;
+
+        public ulong PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Rgba64(float x, float y, float z, float w)
         {
@@ -20,7 +30,7 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b = (ulong)(MathHelper.Clamp(z, 0f, 1f) * 65535f) << 32;
             ulong a = (ulong)(MathHelper.Clamp(w, 0f, 1f) * 65535f) << 48;
 
-            this.packedValue = (ulong)(r | g | b | a);
+            this.packedValue = r | g | b | a;
         }
 
         public Rgba64(Vector4 vector)
@@ -30,19 +40,7 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b = (ulong)(MathHelper.Clamp(vector.Z, 0f, 1f) * 65535f) << 32;
             ulong a = (ulong)(MathHelper.Clamp(vector.W, 0f, 1f) * 65535f) << 48;
 
-            this.packedValue = (ulong)(r | g | b | a);
-        }
-
-        public ulong PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            this.packedValue = r | g | b | a;
         }
 
         public Vector4 ToVector4()
@@ -60,17 +58,12 @@ namespace ANX.Framework.Graphics.PackedVector
             ulong b = (ulong)(MathHelper.Clamp(vector.Z, 0f, 1f) * 65535f) << 32;
             ulong a = (ulong)(MathHelper.Clamp(vector.W, 0f, 1f) * 65535f) << 48;
 
-            this.packedValue = (ulong)(r | g | b | a);
+            this.packedValue = r | g | b | a;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Rgba64)obj;
-            }
-
-            return false;
+            return obj is Rgba64 && this == (Rgba64)obj;
         }
 
         public bool Equals(Rgba64 other)

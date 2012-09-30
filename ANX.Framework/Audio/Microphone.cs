@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using ANX.Framework.NonXNA.SoundSystem;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.SoundSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,14 +10,14 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(90)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class Microphone
 	{
 		#region Private
-		private static int defaultMicrophone;
-		private static ReadOnlyCollection<Microphone> allMicrophones;
-
-		private IMicrophone nativeMicrophone;
+		private static readonly int defaultMicrophone;
+        private IMicrophone nativeMicrophone;
 		#endregion
 
 		#region Events
@@ -25,67 +25,43 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Public
-		public static ReadOnlyCollection<Microphone> All
-		{
-			get
-			{
-				return allMicrophones;
-			}
-		}
+        public static ReadOnlyCollection<Microphone> All { get; private set; }
 
-		public static Microphone Default
-		{
-			get
-			{
-				return allMicrophones[defaultMicrophone];
-			}
-		}
+        public static Microphone Default
+        {
+            get { return All[defaultMicrophone]; }
+        }
 
-		public readonly string Name;
+        public readonly string Name;
 
-		public TimeSpan BufferDuration
-		{
-			get
-			{
-				return nativeMicrophone.BufferDuration;
-			}
-			set
-			{
-				nativeMicrophone.BufferDuration = value;
-			}
-		}
+        public TimeSpan BufferDuration
+        {
+            get { return nativeMicrophone.BufferDuration; }
+            set { nativeMicrophone.BufferDuration = value; }
+        }
 
-		public bool IsHeadset
-		{
-			get
-			{
-				return nativeMicrophone.IsHeadset;
-			}
-		}
+        public bool IsHeadset
+        {
+            get { return nativeMicrophone.IsHeadset; }
+        }
 
-		public int SampleRate
-		{
-			get
-			{
-				return nativeMicrophone.SampleRate;
-			}
-		}
+        public int SampleRate
+        {
+            get { return nativeMicrophone.SampleRate; }
+        }
 
-		public MicrophoneState State
-		{
-			get
-			{
-				return nativeMicrophone.State;
-			}
-		}
-		#endregion
+        public MicrophoneState State
+        {
+            get { return nativeMicrophone.State; }
+        }
+        #endregion
 
 		#region Constructor
 		static Microphone()
 		{
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
-			allMicrophones = creator.GetAllMicrophones();
-			defaultMicrophone = creator.GetDefaultMicrophone(allMicrophones);
+			All = creator.GetAllMicrophones();
+			defaultMicrophone = creator.GetDefaultMicrophone(All);
 		}
 
 		internal Microphone(string setName)
@@ -93,15 +69,17 @@ namespace ANX.Framework.Audio
 			Name = setName;
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
 			nativeMicrophone = creator.CreateMicrophone(this);
+		    nativeMicrophone.BufferReady += BufferReady;
 		}
 
 		~Microphone()
 		{
-			if (nativeMicrophone != null)
-			{
-				nativeMicrophone.Dispose();
-				nativeMicrophone = null;
-			}
+		    if (nativeMicrophone == null)
+		        return;
+
+            nativeMicrophone.BufferReady -= BufferReady;
+		    nativeMicrophone.Dispose();
+		    nativeMicrophone = null;
 		}
 		#endregion
 
@@ -138,9 +116,7 @@ namespace ANX.Framework.Audio
 		{
 			return nativeMicrophone.GetData(buffer);
 		}
-		#endregion
 
-		#region GetData
 		public int GetData(byte[] buffer, int offset, int count)
 		{
 			return nativeMicrophone.GetData(buffer, offset, count);

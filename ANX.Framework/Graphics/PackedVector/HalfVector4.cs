@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct HalfVector4 : IPackedVector<ulong>, IEquatable<HalfVector4>, IPackedVector
     {
         private ulong packedValue;
+
+        public ulong PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public HalfVector4(float x, float y, float z, float w)
         {
@@ -27,18 +37,6 @@ namespace ANX.Framework.Graphics.PackedVector
                              | (ulong)HalfTypeHelper.convert(vector.Y) << 16
                              | (ulong)HalfTypeHelper.convert(vector.Z) << 32
                              | (ulong)HalfTypeHelper.convert(vector.W) << 48;
-        }
-
-        public ulong PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
         }
 
         public Vector4 ToVector4()
@@ -57,12 +55,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (HalfVector4)obj;
-            }
-
-            return false;
+            return obj is HalfVector4 && this == (HalfVector4)obj;
         }
 
         public bool Equals(HalfVector4 other)

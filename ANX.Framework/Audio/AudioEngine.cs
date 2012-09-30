@@ -13,7 +13,9 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(50)]
+    [PercentageComplete(50)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class AudioEngine : IDisposable
 	{
 		#region Constants

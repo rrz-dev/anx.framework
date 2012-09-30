@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,12 +11,18 @@ using System.Globalization;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Alpha8 : IPackedVector<byte>, IEquatable<Alpha8>, IPackedVector
     {
-        #region Private Members
         private byte packedValue;
 
-        #endregion // Private Members
+        public byte PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Alpha8(float alpha)
         {
@@ -32,25 +39,13 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public float ToAlpha()
         {
-            float value = (float)(packedValue & 255);
+            float value = packedValue & 255;
             return value / 255f;
         }
 
         Vector4 IPackedVector.ToVector4()
         {
-            return new Vector4(0f, 0f, 0f, this.ToAlpha());
-        }
-
-        public byte PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            return new Vector4(0f, 0f, 0f, ToAlpha());
         }
 
         public override string ToString()
@@ -65,22 +60,22 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            return ((obj is Alpha8) && this.Equals((Alpha8)obj));
+            return obj is Alpha8 && this == (Alpha8)obj;
         }
 
         public bool Equals(Alpha8 other)
         {
-            return this.packedValue.Equals(other.packedValue);
+            return this.packedValue == other.packedValue;
         }
 
-        public static bool operator ==(Alpha8 a, Alpha8 b)
+        public static bool operator ==(Alpha8 lhs, Alpha8 rhs)
         {
-            return a.Equals(b);
+            return lhs.packedValue == rhs.packedValue;
         }
 
-        public static bool operator !=(Alpha8 a, Alpha8 b)
+        public static bool operator !=(Alpha8 lhs, Alpha8 rhs)
         {
-            return !a.Equals(b);
+            return lhs.packedValue != rhs.packedValue;
         }
     }
 }

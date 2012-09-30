@@ -11,11 +11,12 @@ namespace ANX.Framework.Audio
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [SerializableAttribute]
 #endif
-	[PercentageComplete(100)]
+    [PercentageComplete(99)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class NoAudioHardwareException : ExternalException
 	{
 		public NoAudioHardwareException()
-			: base()
 		{
 		}
 

@@ -8,81 +8,47 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(100)]
-	public class AudioEmitter
-	{
-		#region Private
-		private IAudioEmitter nativeEmitter;
-		#endregion
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public class AudioEmitter
+    {
+        private readonly IAudioEmitter nativeEmitter;
 
-		#region Public
-		public float DopplerScale
-		{
-			get
-			{
-				return nativeEmitter.DopplerScale;
-			}
-			set
-			{
-				nativeEmitter.DopplerScale = value;
-			}
-		}
+        public float DopplerScale
+        {
+            get { return nativeEmitter.DopplerScale; }
+            set { nativeEmitter.DopplerScale = value; }
+        }
 
-		public Vector3 Forward
-		{
-			get
-			{
-				return nativeEmitter.Forward;
-			}
-			set
-			{
-				nativeEmitter.Forward = value;
-			}
-		}
+        public Vector3 Forward
+        {
+            get { return nativeEmitter.Forward; }
+            set { nativeEmitter.Forward = value; }
+        }
 
-		public Vector3 Position
-		{
-			get
-			{
-				return nativeEmitter.Position;
-			}
-			set
-			{
-				nativeEmitter.Position = value;
-			}
-		}
+        public Vector3 Position
+        {
+            get { return nativeEmitter.Position; }
+            set { nativeEmitter.Position = value; }
+        }
 
-		public Vector3 Up
-		{
-			get
-			{
-				return nativeEmitter.Up;
-			}
-			set
-			{
-				nativeEmitter.Up = value;
-			}
-		}
+        public Vector3 Up
+        {
+            get { return nativeEmitter.Up; }
+            set { nativeEmitter.Up = value; }
+        }
 
-		public Vector3 Velocity
-		{
-			get
-			{
-				return nativeEmitter.Velocity;
-			}
-			set
-			{
-				nativeEmitter.Velocity = value;
-			}
-		}
-		#endregion
+        public Vector3 Velocity
+        {
+            get { return nativeEmitter.Velocity; }
+            set { nativeEmitter.Velocity = value; }
+        }
 
-		#region Constructor
-		public AudioEmitter()
-		{
-			var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
-			nativeEmitter = creator.CreateAudioEmitter();
-		}
-		#endregion
-	}
+        public AudioEmitter()
+        {
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            nativeEmitter = creator.CreateAudioEmitter();
+        }
+    }
 }

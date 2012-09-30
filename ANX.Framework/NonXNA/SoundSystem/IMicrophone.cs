@@ -14,6 +14,8 @@ namespace ANX.Framework.NonXNA.SoundSystem
 		bool IsHeadset { get; }
 		TimeSpan BufferDuration { get; set; }
 
+        event EventHandler<EventArgs> BufferReady;
+
 		void Stop();
 		void Start();
 

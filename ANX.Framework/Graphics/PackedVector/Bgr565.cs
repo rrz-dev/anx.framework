@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Bgr565 : IPackedVector<UInt16>, IEquatable<Bgr565>, IPackedVector
     {
         private UInt16 packedValue;
+
+        public ushort PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Bgr565(float x, float y, float z)
         {
@@ -29,18 +39,6 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 31.0f);
 
             this.packedValue = (ushort)((r | g) | b);
-        }
-
-        public ushort PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
         }
 
         public Vector3 ToVector3()
@@ -61,17 +59,12 @@ namespace ANX.Framework.Graphics.PackedVector
 
         Vector4 IPackedVector.ToVector4()
         {
-            return new Vector4(this.ToVector3(), 1f);
+            return new Vector4(ToVector3(), 1f);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Bgr565)obj;
-            }
-
-            return false;
+            return obj is Bgr565 && this == (Bgr565)obj;
         }
 
         public bool Equals(Bgr565 other)

@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,13 +10,22 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct NormalizedByte2 : IPackedVector<ushort>, IEquatable<NormalizedByte2>, IPackedVector
     {
         private ushort packedValue;
 
-        private const float max = (float)(255 >> 1);
+        public ushort PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
+
+        private const float max = 255 >> 1;
         private const float oneOverMax = 1f / max;
-        private const uint mask = (uint)(256 >> 1);
+        private const uint mask = 256 >> 1;
 
         public NormalizedByte2(float x, float y)
         {
@@ -31,18 +41,6 @@ namespace ANX.Framework.Graphics.PackedVector
             ushort b2 = (ushort)(((int)MathHelper.Clamp(vector.Y * max, -max, max) & 255) << 8);
 
             this.packedValue = (UInt16)(b1 | b2);
-        }
-
-        public ushort PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
         }
 
         public Vector2 ToVector2()
@@ -87,12 +85,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (NormalizedByte2)obj;
-            }
-
-            return false;
+            return obj is NormalizedByte2 && this == (NormalizedByte2)obj;
         }
 
         public bool Equals(NormalizedByte2 other)

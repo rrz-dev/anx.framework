@@ -10,8 +10,8 @@ using ANX.Framework.NonXNA.SoundSystem;
 namespace ANX.Framework.Audio
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class DynamicSoundEffectInstance : SoundEffectInstance
     {
         private IDynamicSoundEffectInstance nativeDynamicInstance;

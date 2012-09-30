@@ -7,12 +7,14 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public struct RendererDetail
 	{
 		#region Private
-		private string friendlyName;
-		private string rendererId;
+		private readonly string friendlyName;
+		private readonly string rendererId;
 		#endregion
 
 		#region Public
@@ -38,22 +40,9 @@ namespace ANX.Framework.Audio
 		#region GetHashCode
 		public override int GetHashCode()
 		{
-			int hash1 = String.IsNullOrEmpty(friendlyName) ?
-				0 :
-				friendlyName.GetHashCode();
-
-			int hash2 = String.IsNullOrEmpty(rendererId) ?
-				0 :
-				rendererId.GetHashCode();
-
+			int hash1 = String.IsNullOrEmpty(friendlyName) ? 0 : friendlyName.GetHashCode();
+			int hash2 = String.IsNullOrEmpty(rendererId) ? 0 : rendererId.GetHashCode();
 			return hash1 ^ hash2;
-		}
-		#endregion
-
-		#region ToString
-		public override string ToString()
-		{
-			return base.ToString();
 		}
 		#endregion
 		

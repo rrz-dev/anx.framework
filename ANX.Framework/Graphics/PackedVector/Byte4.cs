@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Byte4 : IPackedVector<uint>, IEquatable<Byte4>, IPackedVector
     {
         private uint packedValue;
+
+        public uint PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Byte4(float x, float y, float z, float w)
         {
@@ -31,18 +41,6 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b4 = (uint)MathHelper.Clamp(vector.W, 0f, 255f) << 24;
 
             this.packedValue = (uint)(b1 | b2 | b3 | b4);
-        }
-
-        public uint PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
         }
 
         void IPackedVector.PackFromVector4(Vector4 vector)
@@ -65,13 +63,7 @@ namespace ANX.Framework.Graphics.PackedVector
 
         public override bool Equals(object obj)
         {
-            if (obj != null &&
-							obj is Byte4)
-            {
-                return this == (Byte4)obj;
-            }
-
-            return false;
+            return obj is Byte4 && this == (Byte4)obj;
         }
 
         public bool Equals(Byte4 other)

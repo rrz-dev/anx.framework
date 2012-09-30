@@ -1,4 +1,5 @@
 ﻿using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,11 +7,14 @@
 
 namespace ANX.Framework.Audio
 {
-	[Flags]
-	public enum SoundState
-	{
-		Playing = 0,
-		Paused = 1,
-		Stopped = 2,
-	}
+    [Flags]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    public enum SoundState
+    {
+        Playing = 0,
+        Paused = 1,
+        Stopped = 2,
+    }
 }

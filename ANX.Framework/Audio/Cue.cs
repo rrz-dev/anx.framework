@@ -7,7 +7,8 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Audio
 {
-	[PercentageComplete(5)]
+    [PercentageComplete(5)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class Cue : IDisposable
 	{
 		#region Events

@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,9 +10,18 @@ using System;
 
 namespace ANX.Framework.Graphics.PackedVector
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct Rgba1010102 : IPackedVector<uint>, IEquatable<Rgba1010102>, IPackedVector
     {
         private uint packedValue;
+
+        public uint PackedValue
+        {
+            get { return packedValue; }
+            set { packedValue = value; }
+        }
 
         public Rgba1010102(float x, float y, float z, float w)
         {
@@ -20,7 +30,7 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b = (uint)(MathHelper.Clamp(z, 0f, 1f) * 1023f) << 20;
             uint a = (uint)(MathHelper.Clamp(w, 0f, 1f) *    3f) << 30;
 
-            this.packedValue = (uint)(r | g | b | a);
+            this.packedValue = r | g | b | a;
         }
 
         public Rgba1010102(Vector4 vector)
@@ -30,19 +40,7 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 1023f) << 20;
             uint a = (uint)(MathHelper.Clamp(vector.W, 0f, 1f) *    3f) << 30;
 
-            this.packedValue = (uint)(r | g | b | a);
-        }
-
-        public uint PackedValue
-        {
-            get
-            {
-                return this.packedValue;
-            }
-            set
-            {
-                this.packedValue = value;
-            }
+            this.packedValue = r | g | b | a;
         }
 
         public Vector4 ToVector4()
@@ -60,17 +58,12 @@ namespace ANX.Framework.Graphics.PackedVector
             uint b = (uint)(MathHelper.Clamp(vector.Z, 0f, 1f) * 1023f) << 20;
             uint a = (uint)(MathHelper.Clamp(vector.W, 0f, 1f) * 3f) << 30;
 
-            this.packedValue = (uint)(r | g | b | a);
+            this.packedValue = r | g | b | a;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == this.GetType())
-            {
-                return this == (Rgba1010102)obj;
-            }
-
-            return false;
+            return obj is Rgba1010102 && this == (Rgba1010102)obj;
         }
 
         public bool Equals(Rgba1010102 other)
