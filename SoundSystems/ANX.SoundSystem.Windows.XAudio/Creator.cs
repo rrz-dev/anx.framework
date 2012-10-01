@@ -59,8 +59,22 @@ namespace ANX.SoundSystem.Windows.XAudio
 
 	    public float MasterVolume
 	    {
-	        get { return MasteringVoice.Volume; }
-	        set { MasteringVoice.SetVolume(value, 0); }
+	        get 
+            {
+                if (MasteringVoice != null)
+                {
+                    return MasteringVoice.Volume;
+                }
+
+                return 0.0f;
+            }
+	        set 
+            {
+                if (MasteringVoice != null)
+                {
+                    MasteringVoice.SetVolume(value, 0);
+                }
+            }
 	    }
 
 	    public float SpeedOfSound
@@ -80,8 +94,20 @@ namespace ANX.SoundSystem.Windows.XAudio
 		    distanceScale = 1f;
             dopplerScale = 1f;
             speedOfSound = 343.5f;
-			device = new XAudio2();
-            MasteringVoice = new MasteringVoice(device, XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
+            try
+            {
+                device = new XAudio2();
+            }
+            catch (Exception ex)
+            {
+                device = null;
+                //TODO: error handling
+                System.Diagnostics.Debugger.Break();
+            }
+            if (device != null)
+            {
+                MasteringVoice = new MasteringVoice(device, XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
+            }
         }
 
         ~Creator()

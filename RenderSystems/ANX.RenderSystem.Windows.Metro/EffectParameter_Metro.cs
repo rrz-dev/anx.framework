@@ -30,7 +30,7 @@ namespace ANX.RenderSystem.Windows.Metro
         {
             get
             {
-                return nativeParameter.Semantic;
+                throw new NotSupportedException();
             }
         }
 		#endregion

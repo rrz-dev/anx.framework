@@ -186,22 +186,24 @@ namespace ANX.RenderSystem.Windows.DX11
 					//ga.SupportedDisplayModes = ;
 					ga.VendorId = adapter.Description.VendorId;
 
-					using (Output adapterOutput = adapter.GetOutput(0))
-					{
-						foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
-						{
-							DisplayMode displayMode = new DisplayMode()
-							{
-								Format = DxFormatConverter.Translate(modeDescription.Format),
-								Width = modeDescription.Width,
-								Height = modeDescription.Height,
-								AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
-								TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
-							};
+                    foreach (Output adapterOutput in adapter.Outputs)
+                    {
+                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
+                        {
+                            DisplayMode displayMode = new DisplayMode()
+                            {
+                                Format = DxFormatConverter.Translate(modeDescription.Format),
+                                Width = modeDescription.Width,
+                                Height = modeDescription.Height,
+                                AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
+                                TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
+                            };
 
-							displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
-						}
-					}
+                            displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
+                        }
+
+                        break; //TODO: for the moment only adapter output 0 is interesting...
+                    }
 
 					ga.SupportedDisplayModes = displayModeCollection;
 

@@ -76,7 +76,8 @@
     <property name="project.anx.metro" value="true" />
     <property name="project.anx.platform" value="Windows 8 / Metro" />
     <property name="build.platform" value="x86" />
-
+    <property name="build.dir" value="${build.dir}/ModernUI" />
+    
     <property name="project.anx.directives" value="${project.anx.directives} WINDOWSMETRO" />
     
     <call target="generate_project_files" />
@@ -470,7 +471,10 @@
 
     <if test="${project.anx.metro}">
       <fileset id="sample_files" basedir="../Samples/">
+        <!--
         <include name="**/*_WindowsMetro.csproj" />
+        -->
+        <exclude name="*" />
       </fileset>
     </if>
 
@@ -555,6 +559,7 @@
           <exclude name="**/*ANXStatusComparer*.csproj" if="${project.anx.metro}" />
           <exclude name="**/*StockShaderCodeGenerator*.csproj" if="${project.anx.metro}" />
           <exclude name="**/*XNBInspector*.csproj" if="${project.anx.metro}" />
+          <exclude name="**/*OnlineStatusGenerator*.csproj" if="${project.anx.metro}" />
         </items>
       </in>
       <do>
@@ -657,11 +662,11 @@
       <include name="InputSystems/**/*.csproj" />
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
-      <include name="Samples/**/*.csproj" />
+      <include name="Samples/**/*.csproj" unless="${project.anx.metro}"/>
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
-
+      
 <!--
     <exclude name="Samples/**/*.csproj" if="${project.anx.metro}" />
 -->

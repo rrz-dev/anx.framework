@@ -69,7 +69,7 @@ namespace ANX.Framework.Graphics
         {
             foreach (EffectParameter parameter in parameters)
             {
-                if (string.Equals(parameter.Semantic, semantic, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(parameter.Semantic.ToLowerInvariant(), semantic.ToLowerInvariant()))
                 {
                     return parameter;
                 }
