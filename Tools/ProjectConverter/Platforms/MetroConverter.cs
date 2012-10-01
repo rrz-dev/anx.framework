@@ -46,22 +46,31 @@ namespace ProjectConverter.Platforms
 		#endregion
 
 		#region ConvertProjectReference
+        private static String[] IgnoreAssemblies = new[] { "ANX.RenderSystem.Windows.DX10",
+                                                           "ANX.RenderSystem.GL3",
+                                                           "ANX.PlatformSystem.Windows",
+                                                           "ANX.RenderSystem.Windows.DX11",
+                                                           "ANX.SoundSystem.OpenAL",
+                                                           "ANX.InputDevices.Windows.XInput",
+                                                           "System.Windows.Forms",
+                                                         };
+
 		protected override void ConvertProjectReference(XElement element)
 		{
 			XAttribute includeAttribute = element.Attribute("Include");
 			if (includeAttribute != null)
 			{
-				string value = includeAttribute.Value;
-				if (value.Contains("ANX.RenderSystem.Windows.DX10") ||
-					value.Contains("ANX.RenderSystem.GL3") ||
-					value.Contains("ANX.PlatformSystem.Windows") ||
-					value.Contains("ANX.RenderSystem.Windows.DX11") ||
-					value.Contains("ANX.SoundSystem.OpenAL"))
-				{
-					element.Remove();
-				}
+                string value = includeAttribute.Value;
+                foreach (string ignoreAssembly in IgnoreAssemblies)
+                {
+                    if (value.Contains(ignoreAssembly))
+                    {
+                        element.Remove();
+                    }
+                }
 			}
 		}
+
 		#endregion
 
 		#region ConvertMainPropertyGroup

@@ -13,7 +13,7 @@ namespace ANX.InputDevices.Windows.ModernUI
             {
                 return new PlatformName[]
 				{
-					PlatformName.Windows8
+					PlatformName.Windows8ModernUI
 				};
             }
         }

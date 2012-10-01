@@ -268,9 +268,9 @@ namespace ANX.InputDevices.Windows.XInput
 					return GamePadType.DancePad;
 				case DeviceSubType.DrumKit:
 					return GamePadType.DrumKit;
-				case DeviceSubType.FlightSick:
+                case DeviceSubType.FlightSick:
 					return GamePadType.FlightStick;
-				case DeviceSubType.Gamepad:
+                case DeviceSubType.Gamepad:
 					return GamePadType.GamePad;
 				case DeviceSubType.Guitar:
 					return GamePadType.Guitar;

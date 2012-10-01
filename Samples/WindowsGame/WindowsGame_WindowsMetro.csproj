@@ -98,10 +98,6 @@
       <Project>{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75}</Project>
       <Name>ANX.InputDevices.OpenTK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Recording\ANX.InputSystem.Recording_WindowsMetro.csproj">
       <Project>{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}</Project>
       <Name>ANX.InputSystem.Recording</Name>

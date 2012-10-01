@@ -192,7 +192,7 @@
     </foreach>
   </target>
   
-  <target name="rendersystem" description="Build ANX.Framework InputSystems">
+  <target name="rendersystem" description="Build ANX.Framework RenderSystems">
     <!-- default windows fileset -->
     <fileset id="rendersystem_files" basedir="../RenderSystems/">
       <include name="**/*.csproj" />
@@ -664,14 +664,9 @@
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
       <include name="Samples/**/*.csproj" />
-      <include name="Samples/**/SimpleNoContent.csproj" if="${project.anx.metro}" />
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
-      
-<!--
-    <exclude name="Samples/**/*.csproj" if="${project.anx.metro}" />
--->
   </fileset>
 
     <foreach item="File" property="projectFile">
