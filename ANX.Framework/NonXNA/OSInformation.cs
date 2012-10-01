@@ -27,7 +27,7 @@ namespace ANX.Framework.NonXNA
 		public static PlatformName GetName()
 		{
 #if WINDOWSMETRO
-			return PlatformName.Windows8;
+			return PlatformName.Windows8ModernUI;
 #elif PSVITA
 			return PlatformName.PSVita;
 #elif ANDROID
@@ -88,8 +88,12 @@ namespace ANX.Framework.NonXNA
 						{
 							return PlatformName.WindowsVista;
 						}
+                        else if (osVersion.Minor == 2)
+                        {
+                            return PlatformName.Windows8;
+                        }
 
-						return PlatformName.Windows7;
+                        return PlatformName.Windows7;
 					}
 
 					return PlatformName.WindowsXP;

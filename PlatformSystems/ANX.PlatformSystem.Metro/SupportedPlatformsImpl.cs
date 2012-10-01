@@ -15,7 +15,7 @@ namespace ANX.PlatformSystem.Metro
 			{
 				return new PlatformName[]
 				{
-					PlatformName.Windows8,
+					PlatformName.Windows8ModernUI,
 				};
 			}
 		}

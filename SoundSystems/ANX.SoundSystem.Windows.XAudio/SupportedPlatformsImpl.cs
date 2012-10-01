@@ -19,6 +19,7 @@ namespace ANX.SoundSystem.Windows.XAudio
 					PlatformName.WindowsXP,
 					PlatformName.WindowsVista,
 					PlatformName.Windows8,
+                    PlatformName.Windows8ModernUI,
 				};
 			}
 		}

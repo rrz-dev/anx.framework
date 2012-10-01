@@ -31,6 +31,8 @@ namespace ProjectConverter
 			// For testing only
             //args = new[] { "/linux", "/psvita", "/windowsmetro", "../../ANX.Framework.sln" };
 
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+
             var switches = new List<string>();
             var keyValueParameters = new Dictionary<string,string>();
             var files = new List<string>();

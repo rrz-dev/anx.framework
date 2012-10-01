@@ -11,6 +11,7 @@ namespace ANX.Framework.NonXNA
 		WindowsVista,
 		Windows7,
 		Windows8,
+        Windows8ModernUI,
 		Linux,
 		MacOSX,
 		Android,

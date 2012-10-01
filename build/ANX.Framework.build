@@ -1,6 +1,7 @@
 <project name="ANX.Framework Build" default="build" basedir="./">
   <property name="build.platform" value="Any CPU" />
   <property name="build.dir" value="../../bin" />
+  <property name="build.dir.base" value="${build.dir}" />
   <property name="build.dir.tools" value="../bin" />
   <property name="build.solution_dir" value="../" />  
 
@@ -474,7 +475,7 @@
         <!--
         <include name="**/*_WindowsMetro.csproj" />
         -->
-        <exclude name="*" />
+        <include name="**/SimpleNoContent_WindowsMetro.csproj" />
       </fileset>
     </if>
 
@@ -516,7 +517,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
@@ -569,7 +570,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
@@ -662,7 +663,8 @@
       <include name="InputSystems/**/*.csproj" />
       <include name="PlatformSystems/**/*.csproj" />
       <include name="SoundSystems/**/*.csproj" />
-      <include name="Samples/**/*.csproj" unless="${project.anx.metro}"/>
+      <include name="Samples/**/*.csproj" />
+      <include name="Samples/**/SimpleNoContent.csproj" if="${project.anx.metro}" />
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />

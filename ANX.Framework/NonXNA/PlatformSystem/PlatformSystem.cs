@@ -68,6 +68,7 @@ namespace ANX.Framework.NonXNA.PlatformSystem
         {
             switch (platform)
             {
+                case PlatformName.Windows8:
                 case PlatformName.Windows7:
                 case PlatformName.WindowsVista:
                 case PlatformName.WindowsXP:
@@ -75,7 +76,7 @@ namespace ANX.Framework.NonXNA.PlatformSystem
                 case PlatformName.Linux:
                 case PlatformName.PSVita:
                     return prefix + platform.ToString() + suffix;
-                case PlatformName.Windows8:
+                case PlatformName.Windows8ModernUI:
                     return prefix + "Metro";
                 default:
                     throw new PlatformSystemInstanceException("couldn't solve assembly name for platform '" + platform.ToString() + "'");
