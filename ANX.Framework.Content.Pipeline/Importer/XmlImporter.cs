@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using System.Xml.Linq;
 using ANX.Framework.Content.Pipeline.Serialization;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Reflection;
@@ -13,9 +14,10 @@ namespace ANX.Framework.Content.Pipeline.Importer
 {
     [ContentImporter(new string[] {".xml"})]
     [Developer("SilentWarrior / Eagle Eye Studios")]
-    [PercentageComplete(20)]
+    [PercentageComplete(50)]
     public class XmlImporter : ContentImporter<object>
     {
+        private XDocument _doc;
         public override object Import(string filename, ContentImporterContext context)
         {
             object result;
@@ -26,111 +28,110 @@ namespace ANX.Framework.Content.Pipeline.Importer
             context.Logger.LogMessage("Starting analysis of the XML file.");
             using (XmlReader xml = XmlReader.Create(filename))
             {
+                _doc = XDocument.Load(filename);
                 //Check if XML contains XnaContent or AnxContent root element
                 context.Logger.LogMessage("Checking for root element.");
-                if (!xml.CheckForElement("XnaContent") && !xml.CheckForElement("AnxContent"))
-                    throw new InvalidContentException(
-                        "The given XML file does not contain Xna or Anx readable content! Did you forget the \"<XnaContent>\" or \"<AnxContent>\"?");
-
-                //Check which type is beeing described in the XML
-                var type = GetType(xml, context.Logger);
-
+                var tag = _doc.Element("XnaContent");
+                if (tag == null)
+                {
+                    tag = _doc.Element("AnxContent");
+                    if (tag == null)
+                        throw new InvalidContentException(
+                            "The Xml file does not contain a valid XnaContent or AnxContent tag.");
+                }
+                //Check which type is beeing described in the XML by grabbing the Asset node
+                var assetNode = _doc.Descendants("Asset").ToArray()[0];
+                if (assetNode == null)
+                    throw new InvalidContentException("Xml document does not contain an asset definition.");
+                Type type = null;
+                foreach (var attrib in assetNode.Attributes().Where(attrib => attrib.Name == "Type"))
+                {
+                    type = GetType(attrib.Value, context.Logger);
+                }
+                if (type == null)
+                    throw new InvalidContentException("There is no assembly within the search path that contains such type.");
                 //Create an instance of that type and fill it with the appropriate stuff
-                result = ReadObject(xml, type, context.Logger);
+                result = ReadObject(type, context.Logger);
             }
             return result;
         }
 
-        private Type GetType(XmlReader xml, ContentBuildLogger logger)
+        private Type GetType(string typeString, ContentBuildLogger logger)
         {
-            logger.LogMessage("Moving reader to type attribute of the first asset node.");
-            xml.ReadStartElement();
-            if (xml.MoveToContent() == XmlNodeType.Element && xml.Name == "Asset")
+            logger.LogMessage("Trying to read a type from the Xml file");
+            //Check every assembly in the current working dir for type
+            foreach (
+                var file in
+                    Directory.GetFiles(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), "*.dll"))
             {
-                xml.MoveToAttribute("Type");
-                logger.LogMessage("Trying to read a type from the Xml file");
-                //Check every assembly in the current working dir for type
-                foreach (
-                    var file in
-                        Directory.GetFiles(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), "*.dll"))
+                try
                 {
-                    try
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    foreach (Type type in TypeHelper.SafelyExtractTypesFrom(assembly))
                     {
-                        Assembly assembly = Assembly.LoadFrom(file);
-                        foreach (Type type in TypeHelper.SafelyExtractTypesFrom(assembly))
+                        if (type.FullName == typeString)
                         {
-                            if (type.FullName == xml.ReadContentAsString())
-                            {
-                                logger.LogImportantMessage("Type is" + type);
-                                return type;
-                            }
+                            logger.LogImportantMessage("Type is" + type);
+                            return type;
                         }
                     }
-                    catch (Exception ex)
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debugger.Break(); //Go and check whats wrong
+                }
+            }
+            return null;
+        }
+
+        private object ReadObject(Type type, ContentBuildLogger logger)
+        {
+            var props = new Dictionary<string, object>();
+
+            var assetNode = _doc.Descendants("Asset").ToArray()[0]; //Get first node again, can not be null cause we checked it before
+            var nodes = assetNode.Descendants();
+
+            foreach (var xElement in nodes.Where(xElement => xElement.Name != "Item" && xElement.Name != "Key" && xElement.Name != "Value")) //Reserved keywords
+            {
+                if (!xElement.HasElements) //Normal node
+                {
+                    if (xElement.HasAttributes) //Not a string, we need to convert.
                     {
-                        System.Diagnostics.Debugger.Break(); //Go and check whats wrong
+                        string key = xElement.Name.LocalName;
+                        object value = XmlContentToObject(xElement.Value);
+                        props.Add(key, value);
+                    }
+                    else //String, just pass it.
+                    {
+                        string key = xElement.Name.LocalName;
+                        object value = xElement.Value;
+                        props.Add(key, value);
+                    }
+                }
+                else //List or Dictionary
+                {
+                    if (xElement.Descendants().Contains(new XElement("Item")))
+                    {
+                        if (xElement.Descendants("Item").ToArray()[0].Descendants().Contains(new XElement("Key")) && xElement.Descendants("Item").ToArray()[0].Descendants().Contains(new XElement("Value"))) // is a dictionary
+                        {
+                            var dic = new Dictionary<string, object>();
+                            foreach (var item in xElement.Descendants("Item"))
+                            {
+                                var key = item.Descendants("Key").ToArray()[0].Value;
+                                object value = XmlContentToObject(item.Descendants("Value").ToArray()[0].Value);
+                                dic.Add(key, value);
+                            }
+                            props.Add(xElement.Name.LocalName, dic);
+                        }
+                        else //must be a list
+                        {
+                            var list = xElement.Descendants("Item").Select(item => XmlContentToObject(item.Value)).ToList();
+                            props.Add(xElement.Name.LocalName, list);
+                        }
                     }
                 }
             }
-            throw new InvalidContentException(
-                "Error during deserialization: Type is null. Is there a valid Type attribute in the Asset section of your Xml file and can the assembly conataining the type be found?");
-        }
-
-        private object ReadObject(XmlReader reader, Type type, ContentBuildLogger logger)
-        {
-            //TODO: Get all other elements from the xml file and add them to a dictionary.
-            var props = new Dictionary<string, object>();
-            string lastNode = "";
-            bool isDict = false;
-            Dictionary<string, object> dict = null;
-            string attrib = "";
-            while (!reader.EOF)
-            {
-                    if (reader.Name != "Item" && reader.Name != "Key" && reader.Name != "Value" && reader.NodeType == XmlNodeType.Element)
-                    {
-                        if (isDict)
-                            isDict = false;
-                        if (!reader.IsEmptyElement)
-                        {
-                            try
-                            {
-                                props.Add(reader.Name, reader.ReadElementContentAsObject());
-                            }
-                            catch (Exception ex)
-                            {
-                                logger.LogWarning("", null, "Could not add element to properties.", ex);
-                            }
-                        }
-                    }
-                    else
-                    {
-                       /* if (reader.Name == "Item" && reader.NodeType == XmlNodeType.Element)
-                        {
-                            if (!isDict)
-                            {
-                                isDict = true;
-                                dict = new Dictionary<string, object>();
-                                props.Add(lastNode, dict);
-                            }
-                            reader.ReadStartElement();
-                            reader.ReadStartElement();
-                            var key = reader.ReadContentAsString();
-                            reader.ReadEndElement();
-                            var typeBlah = ResolveType(attrib); //TODO: Reading type attributes does not work! Think of a solution!
-                            var value = reader.ReadContentAs(typeBlah, null); 
-                            reader.ReadEndElement();
-                            dict.Add(key, value);
-                        }*/
-                        //if (reader.NodeType == XmlNodeType.Attribute && reader.Name == "Type")
-                          //  attrib = reader.ReadContentAsString();
-                    }
-                    lastNode = reader.Name;
-                reader.Read();
-            }
-
-            //Debugger.Break();
-            //TODO: Get all public properties of the class via reflection
-
+            //TODO: Get all fields of the class via reflection
             //Activate instance
             var constructors = type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
             var result = constructors[0].Invoke(new object[] {});
@@ -158,9 +159,10 @@ namespace ANX.Framework.Content.Pipeline.Importer
             return result;
         }
 
-        private Type ResolveType(string type)
+        private object XmlContentToObject(string xmlContent)
         {
-            return Type.GetType(type, true);
+            Debugger.Break();
+            throw new NotImplementedException();
         }
 
     }
