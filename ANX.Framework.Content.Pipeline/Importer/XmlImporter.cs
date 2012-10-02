@@ -58,7 +58,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
             return result;
         }
 
-        private Type GetType(string typeString)
+        private static Type GetType(string typeString)
         {
             //TODO: Implement custom assembly path checking
             //Check every assembly in the current working dir for type
@@ -151,7 +151,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
             return result;
         }
 
-        private object XmlContentToObject(XElement item)
+        public static object XmlContentToObject(XElement item)
         {
             if (!item.HasAttributes && !item.HasElements) // String
             {
@@ -164,7 +164,14 @@ namespace ANX.Framework.Content.Pipeline.Importer
                 var type = GetType(typeString);
                 if (type == typeof(Single))
                     return Convert.ToSingle(item.Value);
-                
+                if (type == typeof(Int32))
+                    return Convert.ToInt32(item.Value);
+                if (type == typeof(Int64))
+                    return Convert.ToInt64(item.Value);
+                if (type == typeof(Double))
+                    return Convert.ToDouble(item.Value);
+                if (type == typeof(Boolean))
+                    return Convert.ToBoolean(item.Value);
                 throw new NotSupportedException("Sorry, conversion of type \"" + type + "\" is currently not supported.");
             }
             throw new NotSupportedException("Conversion of nested stuff is not supported! If you have the time, go ahead and implement it! :P");
