@@ -6,15 +6,15 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
-using ANX.Framework.Content.Pipeline.Serialization;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Reflection;
 
 namespace ANX.Framework.Content.Pipeline.Importer
 {
-    [ContentImporter(new string[] {".xml"})]
+    [ContentImporter(new[] {".xml"})]
     [Developer("SilentWarrior / Eagle Eye Studios")]
-    [PercentageComplete(50)]
+    [PercentageComplete(90)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public class XmlImporter : ContentImporter<object>
     {
         private XDocument _doc;
@@ -46,19 +46,21 @@ namespace ANX.Framework.Content.Pipeline.Importer
                 Type type = null;
                 foreach (var attrib in assetNode.Attributes().Where(attrib => attrib.Name == "Type"))
                 {
-                    type = GetType(attrib.Value, context.Logger);
+                    type = GetType(attrib.Value);
                 }
                 if (type == null)
                     throw new InvalidContentException("There is no assembly within the search path that contains such type.");
+                context.Logger.LogImportantMessage("Type is " + type);
                 //Create an instance of that type and fill it with the appropriate stuff
                 result = ReadObject(type, context.Logger);
+                context.Logger.LogMessage("XmlImporter has finished.");
             }
             return result;
         }
 
-        private Type GetType(string typeString, ContentBuildLogger logger)
+        private Type GetType(string typeString)
         {
-            logger.LogMessage("Trying to read a type from the Xml file");
+            //TODO: Implement custom assembly path checking
             //Check every assembly in the current working dir for type
             foreach (
                 var file in
@@ -71,17 +73,17 @@ namespace ANX.Framework.Content.Pipeline.Importer
                     {
                         if (type.FullName == typeString)
                         {
-                            logger.LogImportantMessage("Type is" + type);
                             return type;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debugger.Break(); //Go and check whats wrong
+                    Debugger.Break(); //Go and check whats wrong
                 }
             }
-            return null;
+            Type t = Type.GetType(typeString);
+            return t;
         }
 
         private object ReadObject(Type type, ContentBuildLogger logger)
@@ -95,48 +97,38 @@ namespace ANX.Framework.Content.Pipeline.Importer
             {
                 if (!xElement.HasElements) //Normal node
                 {
-                    if (xElement.HasAttributes) //Not a string, we need to convert.
-                    {
-                        string key = xElement.Name.LocalName;
-                        object value = XmlContentToObject(xElement.Value);
-                        props.Add(key, value);
-                    }
-                    else //String, just pass it.
-                    {
-                        string key = xElement.Name.LocalName;
-                        object value = xElement.Value;
-                        props.Add(key, value);
-                    }
+                    string key = xElement.Name.LocalName;
+                    object value = XmlContentToObject(xElement);
+                    props.Add(key, value);
                 }
                 else //List or Dictionary
                 {
-                    if (xElement.Descendants().Contains(new XElement("Item")))
+                    var theItem = xElement.Descendants("Item");
+                    if (theItem.Any())
                     {
-                        if (xElement.Descendants("Item").ToArray()[0].Descendants().Contains(new XElement("Key")) && xElement.Descendants("Item").ToArray()[0].Descendants().Contains(new XElement("Value"))) // is a dictionary
+                        if (theItem.Descendants("Key").Any() && theItem.Descendants("Value").Any()) // is a dictionary
                         {
                             var dic = new Dictionary<string, object>();
                             foreach (var item in xElement.Descendants("Item"))
                             {
                                 var key = item.Descendants("Key").ToArray()[0].Value;
-                                object value = XmlContentToObject(item.Descendants("Value").ToArray()[0].Value);
+                                object value = XmlContentToObject(item.Descendants("Value").ToArray()[0]);
                                 dic.Add(key, value);
                             }
                             props.Add(xElement.Name.LocalName, dic);
                         }
                         else //must be a list
                         {
-                            var list = xElement.Descendants("Item").Select(item => XmlContentToObject(item.Value)).ToList();
+                            var list = xElement.Descendants("Item").Select(XmlContentToObject).ToList();
                             props.Add(xElement.Name.LocalName, list);
                         }
                     }
                 }
             }
-            //TODO: Get all fields of the class via reflection
             //Activate instance
             var constructors = type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
             var result = constructors[0].Invoke(new object[] {});
 
-            //TODO: Match every property with its value
             var properties = type.GetFields(BindingFlags.Instance | BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Public);
             foreach (var property in properties)
             {
@@ -159,10 +151,23 @@ namespace ANX.Framework.Content.Pipeline.Importer
             return result;
         }
 
-        private object XmlContentToObject(string xmlContent)
+        private object XmlContentToObject(XElement item)
         {
-            Debugger.Break();
-            throw new NotImplementedException();
+            if (!item.HasAttributes && !item.HasElements) // String
+            {
+                return item.Value;
+            }
+            else if (item.HasAttributes && !item.HasElements)
+            {
+                var stuffs = item.Attributes("Type").ToArray();
+                string typeString = stuffs[0].Value;
+                var type = GetType(typeString);
+                if (type == typeof(Single))
+                    return Convert.ToSingle(item.Value);
+                
+                throw new NotSupportedException("Sorry, conversion of type \"" + type + "\" is currently not supported.");
+            }
+            throw new NotSupportedException("Conversion of nested stuff is not supported! If you have the time, go ahead and implement it! :P");
         }
 
     }
