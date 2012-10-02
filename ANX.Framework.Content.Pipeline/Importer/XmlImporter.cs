@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using ANX.Framework.Content.Pipeline.Serialization;
@@ -102,7 +104,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
                     }
                     else
                     {
-                        if (reader.Name == "Item" && reader.NodeType == XmlNodeType.Element)
+                       /* if (reader.Name == "Item" && reader.NodeType == XmlNodeType.Element)
                         {
                             if (!isDict)
                             {
@@ -114,27 +116,43 @@ namespace ANX.Framework.Content.Pipeline.Importer
                             reader.ReadStartElement();
                             var key = reader.ReadContentAsString();
                             reader.ReadEndElement();
-                            var typeBlah = ResolveType(attrib);
-                            var value = reader.ReadContentAs(typeBlah, null);
+                            var typeBlah = ResolveType(attrib); //TODO: Reading type attributes does not work! Think of a solution!
+                            var value = reader.ReadContentAs(typeBlah, null); 
                             reader.ReadEndElement();
                             dict.Add(key, value);
-                        }
-                        if (reader.NodeType == XmlNodeType.Attribute && reader.Name == "Type")
-                            attrib = reader.ReadContentAsString();
+                        }*/
+                        //if (reader.NodeType == XmlNodeType.Attribute && reader.Name == "Type")
+                          //  attrib = reader.ReadContentAsString();
                     }
                     lastNode = reader.Name;
                 reader.Read();
             }
 
-            System.Diagnostics.Debugger.Break();
+            //Debugger.Break();
             //TODO: Get all public properties of the class via reflection
 
             //Activate instance
-            var result = Activator.CreateInstance(type);
-
-            //TODO: Check if there is a pendant for every entry
+            var constructors = type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
+            var result = constructors[0].Invoke(new object[] {});
 
             //TODO: Match every property with its value
+            var properties = type.GetFields(BindingFlags.Instance | BindingFlags.SetField | BindingFlags.NonPublic | BindingFlags.Public);
+            foreach (var property in properties)
+            {
+                var attribs = property.GetCustomAttributes(typeof (ContentSerializerAttribute), true);
+                if (attribs.Length == 0)
+                    continue;
+                if (props.ContainsKey(((ContentSerializerAttribute)attribs[0]).ElementName))
+                {
+                    property.SetValue(result, props[((ContentSerializerAttribute)attribs[0]).ElementName]);
+                    props.Remove(((ContentSerializerAttribute)attribs[0]).ElementName);
+                }
+            }
+            if (props.Count > 0)
+            {
+                logger.LogWarning("", null, "There are unset properties left!", result);
+                Debugger.Break();
+            }
 
             //Return the whole construct
             return result;
