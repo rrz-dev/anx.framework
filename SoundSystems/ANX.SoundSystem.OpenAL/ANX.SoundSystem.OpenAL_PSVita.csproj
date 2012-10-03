@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Creator.cs" />
     <Compile Include="OpenALAudioListener.cs" />
+    <Compile Include="OpenALSong.cs" />
     <Compile Include="OpenALSoundEffect.cs" />
     <Compile Include="OpenALSoundEffectInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Support\OggUtils\OggUtils_PSVita.csproj">
+      <Project>{ABECEC14-6BF4-4432-833C-69714EB4E8E6}</Project>
+      <Name>OggUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Support\WaveUtils\WaveUtils_PSVita.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>

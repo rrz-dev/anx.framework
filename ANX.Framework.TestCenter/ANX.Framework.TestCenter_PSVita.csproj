@@ -63,6 +63,7 @@
     <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Alpha8Test.cs" />
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
     <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />
     <Compile Include="Strukturen\Design\TypeConverterTest.cs" />

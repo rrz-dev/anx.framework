@@ -17,15 +17,12 @@ namespace ProjectConverter.Platforms
 
 		private bool isCurrentProjectExecutable;
 
-		public override string Postfix
-		{
-			get
-			{
-				return "WindowsMetro";
-			}
-		}
+	    public override string Postfix
+	    {
+	        get { return "WindowsMetro"; }
+	    }
 
-		#region ConvertImport
+	    #region ConvertImport
 		protected override void ConvertImport(XElement element, XAttribute projectAttribute)
 		{
 			if (projectAttribute != null)

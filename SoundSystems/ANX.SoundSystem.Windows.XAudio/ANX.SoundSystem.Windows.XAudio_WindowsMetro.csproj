@@ -23,6 +23,7 @@
     <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
@@ -43,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
+    <Compile Include="XAudioOggInputStream.cs" />
+    <Compile Include="XAudioSong.cs" />
     <Compile Include="XAudioSoundEffectInstance.cs" />
     <Compile Include="XAudioSoundEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +56,10 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Support\OggUtils\OggUtils_WindowsMetro.csproj">
+      <Project>{ABECEC14-6BF4-4432-833C-69714EB4E8E6}</Project>
+      <Name>OggUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />

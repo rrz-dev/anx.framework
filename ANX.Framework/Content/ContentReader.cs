@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Reflection;
 
@@ -462,6 +463,28 @@ namespace ANX.Framework.Content
                 throw new ContentLoadException("Graphics device missing");
             }
             return device;
+        }
+
+        internal string GetAbsolutePathToReference(string referenceName)
+        {
+            referenceName = GetPathToReference(referenceName);
+            referenceName = Path.Combine(ContentManager.RootDirectory, referenceName);
+
+            Assembly assembly = Assembly.GetEntryAssembly();
+            if (assembly == null)
+                assembly = Assembly.GetCallingAssembly();
+            string titleLocationPath = Path.GetDirectoryName(assembly.Location);
+            referenceName = Path.Combine(titleLocationPath, referenceName);
+            return TitleContainer.GetCleanPath(referenceName);
+        }
+
+        private string GetPathToReference(string referenceName)
+        {
+            int num = AssetName.LastIndexOfAny(new[] { '\\', '/', Path.DirectorySeparatorChar });
+            string path = "";
+            if (num != -1)
+                path = AssetName.Substring(0, num);
+            return Path.Combine(path, referenceName);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace ANX.SoundSystem.Windows.XAudio
 {
 	public class Creator : ISoundSystemCreator
     {
-		private XAudio2 device;
 	    private float distanceScale;
 	    private float dopplerScale;
         private float speedOfSound;
+	    private XAudio2 device;
         internal static MasteringVoice MasteringVoice { get; private set; }
 
 		#region Public
@@ -34,7 +34,7 @@ namespace ANX.SoundSystem.Windows.XAudio
 
 	    public bool IsSupported
 	    {
-	        get { return OSInformation.IsWindows; }
+	        get { return OSInformation.IsWindows || OSInformation.GetName() == PlatformName.Windows8ModernUI; }
 	    }
 
 	    public float DistanceScale
@@ -59,21 +59,11 @@ namespace ANX.SoundSystem.Windows.XAudio
 
 	    public float MasterVolume
 	    {
-	        get 
-            {
-                if (MasteringVoice != null)
-                {
-                    return MasteringVoice.Volume;
-                }
-
-                return 0.0f;
-            }
+            get { return MasteringVoice != null ? MasteringVoice.Volume : 0f; }
 	        set 
             {
                 if (MasteringVoice != null)
-                {
                     MasteringVoice.SetVolume(value, 0);
-                }
             }
 	    }
 
@@ -89,28 +79,27 @@ namespace ANX.SoundSystem.Windows.XAudio
 		#endregion
 
 		#region Constructor
-		public Creator()
+        public Creator()
         {
-		    distanceScale = 1f;
+            distanceScale = 1f;
             dopplerScale = 1f;
             speedOfSound = 343.5f;
             try
             {
                 device = new XAudio2();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 device = null;
                 //TODO: error handling
                 System.Diagnostics.Debugger.Break();
             }
+
             if (device != null)
-            {
                 MasteringVoice = new MasteringVoice(device, XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
-            }
         }
 
-        ~Creator()
+	    ~Creator()
         {
             if (MasteringVoice != null)
             {
@@ -161,6 +150,12 @@ namespace ANX.SoundSystem.Windows.XAudio
 		}
 		#endregion
 
+        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
+        {
+            PreventSystemChange();
+            throw new NotImplementedException();
+        }
+
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
         {
             PreventSystemChange();
@@ -179,17 +174,19 @@ namespace ANX.SoundSystem.Windows.XAudio
 			throw new NotImplementedException();
 		}
 
+        #region CreateSong
         public ISong CreateSong(Song parentSong, Uri uri)
         {
             PreventSystemChange();
-            throw new NotImplementedException();
+            return new XAudioSong(device, uri);
         }
 
-        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
+        public ISong CreateSong(Song parentSong, string filepath, int duration)
         {
             PreventSystemChange();
-            throw new NotImplementedException();
+            return new XAudioSong(device, filepath, duration);
         }
+        #endregion
 
 		private static void PreventSystemChange()
 		{

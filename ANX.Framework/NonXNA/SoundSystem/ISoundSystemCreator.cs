@@ -36,6 +36,7 @@ namespace ANX.Framework.NonXNA.SoundSystem
 		int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones);
 
         ISong CreateSong(Song parentSong, Uri uri);
+        ISong CreateSong(Song parentSong, string filepath, int duration);
 
 	    IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance();
 	}

@@ -101,6 +101,7 @@
     <Compile Include="Content\MathTypeReaders\RectangleReader.cs" />
     <Compile Include="Content\MathTypeReaders\Vector2Reader.cs" />
     <Compile Include="Content\MathTypeReaders\Vector3Reader.cs" />
+    <Compile Include="Content\MediaTypeReaders\SongReader.cs" />
     <Compile Include="Content\MediaTypeReaders\SoundEffectReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\BooleanReader.cs" />
     <Compile Include="Content\PrimitiveTypeReaders\ByteReader.cs" />

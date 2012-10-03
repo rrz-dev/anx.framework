@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -8,6 +9,9 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class MediaLibrary : IDisposable
 	{
 		private INativeMediaLibrary nativeLibrary;

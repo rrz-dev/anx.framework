@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the

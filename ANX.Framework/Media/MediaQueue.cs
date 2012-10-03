@@ -144,7 +144,7 @@ namespace ANX.Framework.Media
         }
 
         #region MoveNext
-        internal bool MoveNext(bool stopIfEnded)
+        internal bool MoveNext(bool isRepeating)
 		{
 		    if (Count <= 0)
 		        return false;
@@ -156,7 +156,7 @@ namespace ANX.Framework.Media
             else
             {
                 ActiveSongIndex = 0;
-                if (stopIfEnded)
+                if (isRepeating == false)
                     return false;
             }
 

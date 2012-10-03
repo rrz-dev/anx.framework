@@ -162,7 +162,13 @@ namespace ANX.SoundSystem.OpenAL
         public ISong CreateSong(Song parentSong, Uri uri)
         {
             PreventSystemChange();
-            throw new NotImplementedException();
+            return new OpenALSong(parentSong, uri);
+        }
+
+        public ISong CreateSong(Song parentSong, string filepath, int duration)
+        {
+            PreventSystemChange();
+            return new OpenALSong(parentSong, filepath, duration);
         }
 
         public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()

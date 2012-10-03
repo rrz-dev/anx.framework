@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA3DF4D7-F072-47B5-B88C-20140B5F704A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SimpleNoContent</RootNamespace>
+    <AssemblyName>SimpleNoContent</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game1.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_PSVita.csproj">
+      <Project>{60d08399-244f-46a3-91f1-4cfd26d961a3}</Project>
+      <Name>ANX.InputDevices.Windows.XInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_PSVita.csproj">
+      <Project>{49066074-3b7b-4a55-b122-6bd33ab73558}</Project>
+      <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_PSVita.csproj">
+      <Project>{068eb2e9-963c-4e1b-8831-e25011f11ffe}</Project>
+      <Name>ANX.PlatformSystem.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11_PSVita.csproj">
+      <Project>{b30de9c2-0926-46b6-8351-9af276c472d5}</Project>
+      <Name>ANX.RenderSystem.Windows.DX11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_PSVita.csproj">
+      <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>
+      <Name>ANX.SoundSystem.Windows.XAudio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

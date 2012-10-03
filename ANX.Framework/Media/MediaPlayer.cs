@@ -8,8 +8,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Media
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public static class MediaPlayer
     {
         #region Events
@@ -61,7 +61,8 @@ namespace ANX.Framework.Media
                     return;
 
                 currentState = value;
-                MediaStateChanged(null, EventArgs.Empty);
+                if (MediaStateChanged != null)
+                    MediaStateChanged(null, EventArgs.Empty);
             }
         }
 
@@ -157,6 +158,8 @@ namespace ANX.Framework.Media
                 return;
             }
 
+            Queue.ActiveSong.NativeSong.Update();
+
             State = Queue.ActiveSong.State;
             if (Queue.ActiveSong.State != MediaState.Stopped)
                 return;
@@ -164,7 +167,8 @@ namespace ANX.Framework.Media
             if (Queue.MoveNext(isRepeating))
                 State = MediaState.Playing;
 
-            ActiveSongChanged(null, EventArgs.Empty);
+            if (ActiveSongChanged != null)
+                ActiveSongChanged(null, EventArgs.Empty);
         }
         #endregion
 

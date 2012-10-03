@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\ModernUI</OutputPath>
     <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\ModernUI</OutputPath>
     <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -64,6 +64,7 @@
     <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
+    <Compile Include="Strukturen\Graphics\PackedVector\Alpha8Test.cs" />
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
     <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />
     <Compile Include="Strukturen\Design\TypeConverterTest.cs" />
@@ -130,10 +131,6 @@
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_WindowsMetro.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
     </ProjectReference>
     <ProjectReference Include="..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>

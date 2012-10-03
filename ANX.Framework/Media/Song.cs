@@ -89,11 +89,20 @@ namespace ANX.Framework.Media
 
 		#region Constructor
 		internal Song(string setName, Uri uri)
-		{
-            NativeSong = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>().CreateSong(this, uri);
+        {
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            NativeSong = creator.CreateSong(this, uri);
 			Name = setName;
 			IsDisposed = false;
 		}
+
+        internal Song(string setName, string filename, int duration)
+        {
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            NativeSong = creator.CreateSong(this, filename, duration);
+            Name = setName;
+            IsDisposed = false;
+        }
 
 		~Song()
 		{
@@ -108,15 +117,15 @@ namespace ANX.Framework.Media
 
 		public bool Equals(Song other)
 		{
-			throw new NotImplementedException();
+            return other != null && Name == other.Name;
 		}
 
 		public override bool Equals(object obj)
 		{
-			if (obj is Song)
-				return Equals(obj as Song);
+            if (ReferenceEquals(this, obj) == false)
+                return Equals((Song)obj);
 
-			return base.Equals(obj);
+		    return base.Equals(obj);
 		}
 
 		public void Dispose()
@@ -167,13 +176,13 @@ namespace ANX.Framework.Media
 
 		#region Operator overloading
 		public static bool operator ==(Song first, Song second)
-		{
-			return first != null && first.Equals(second);
+        {
+            return object.Equals(first, second);
 		}
 
 		public static bool operator !=(Song first, Song second)
-		{
-			return first == null || first.Equals(second) == false;
+        {
+            return !(first == second);
 		}
 		#endregion
 	}

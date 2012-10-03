@@ -172,6 +172,12 @@ namespace ANX.SoundSystem.PsVita
             throw new NotImplementedException();
         }
 
+        public ISong CreateSong(Song parentSong, string filepath, int duration)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+            throw new NotImplementedException();
+        }
+
         public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
         {
             AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
