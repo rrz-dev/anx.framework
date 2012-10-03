@@ -55,6 +55,7 @@ namespace ProjectConverter
 			XName definesName = XName.Get("DefineConstants", namespaceName);
 			XName referenceName = XName.Get("Reference", namespaceName);
 			XName projectReferenceName = XName.Get("ProjectReference", namespaceName);
+            XName outputPathName = XName.Get("OutputPath", namespaceName);
 
 			var groups = project.Root.Elements().ToList();
 			foreach (var group in groups)
@@ -67,6 +68,12 @@ namespace ProjectConverter
 						definesNode.Value =
 							DefinesConverter.ConvertDefines(definesNode.Value, Postfix);
 					}
+
+                    XElement outputPathNode = group.Element(outputPathName);
+                    if (outputPathNode != null)
+                    {
+                        outputPathNode.Value = ConvertOutputPath(outputPathNode.Value);
+                    }
 
 					if (group.Element(rootNamespaceName) != null)
 					{
@@ -141,8 +148,15 @@ namespace ProjectConverter
 		}
 		#endregion
 
-		#region PostConvert
-		protected virtual void PostConvert()
+        #region ConvertOutputPath
+        protected virtual string ConvertOutputPath(string path)
+        {
+            return path;
+        }
+        #endregion
+
+        #region PostConvert
+        protected virtual void PostConvert()
 		{
 		}
 		#endregion

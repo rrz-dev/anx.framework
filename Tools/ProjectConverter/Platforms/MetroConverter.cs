@@ -45,7 +45,14 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
-		#region ConvertProjectReference
+        #region ConvertOutputPath
+        protected override string ConvertOutputPath(string path)
+        {
+            return Path.Combine(base.ConvertOutputPath(path), "ModernUI");
+        }
+        #endregion
+
+        #region ConvertProjectReference
         private static String[] IgnoreAssemblies = new[] { "ANX.RenderSystem.Windows.DX10",
                                                            "ANX.RenderSystem.GL3",
                                                            "ANX.PlatformSystem.Windows",
@@ -84,7 +91,7 @@ namespace ProjectConverter.Platforms
 
 			// TODO: generate cert
 			ChangeOrCreateNodeValue(element, "PackageCertificateKeyFile",
-				"Test_TemporaryKey.pfx");
+                "Test_TemporaryKey.pfx");
 			
 			DeleteNodeIfExists(element, "TargetFrameworkVersion");
 			DeleteNodeIfExists(element, "TargetPlatformVersion");
@@ -146,36 +153,35 @@ namespace ProjectConverter.Platforms
 					noneNode.Remove();
 				}
 			}
-            XName referenceName = XName.Get("Reference", element.Name.NamespaceName);
 
-            var referenceElements = element.Elements(referenceName);
-            foreach (XElement referenceNode in referenceElements)
-            {
-                if (referenceNode.Value.Contains("Standard-net20"))
-                {
-                   var attribute=  referenceNode.Attribute("Include");
-                   attribute.Value = attribute.Value.Split(',').First();
-                   foreach (var nodeElement in referenceNode.Elements().ToList())
-                   {
-
-                       if (nodeElement.Name.LocalName=="SpecificVersion")
-                       {
-                           nodeElement.Remove();
-                       }
-                       if (nodeElement.Name.LocalName=="HintPath")
-                       {
-                           nodeElement.Value = nodeElement.Value.Replace("Standard-net20", "Win8Metro");
-                       }
-
-                   }                    
-                }
-            }
 			if (element.IsEmpty)
 			{
 				element.Remove();
 			}
 		}
 		#endregion
+
+        protected override void ConvertReference(XElement element)
+        {
+            if (element.Value.Contains("Standard-net20"))
+            {
+                var attribute = element.Attribute("Include");
+                attribute.Value = attribute.Value.Split(',').First();
+                foreach (var nodeElement in element.Elements().ToList())
+                {
+
+                    if (nodeElement.Name.LocalName == "SpecificVersion")
+                    {
+                        nodeElement.Remove();
+                    }
+                    if (nodeElement.Name.LocalName == "HintPath")
+                    {
+                        nodeElement.Value = nodeElement.Value.Replace("Standard-net20", "Win8Metro");
+                    }
+
+                }
+            }
+        }
 
 		#region ConvertPropertyGroup
 		protected override void ConvertPropertyGroup(XElement element)
@@ -239,7 +245,7 @@ namespace ProjectConverter.Platforms
 
 			XName noneName = XName.Get("None", namespaceName);
 			XElement noneGroup = new XElement(noneName);
-			noneGroup.Add(new XAttribute("Include", "Test_TemporaryKey.pfx"));
+            noneGroup.Add(new XAttribute("Include", "Test_TemporaryKey.pfx"));
 			newItemGroup.Add(noneGroup);
 
 			GenerateAppxManifest(newItemGroup);
@@ -252,9 +258,9 @@ namespace ProjectConverter.Platforms
 		#region GenerateAppxManifest
 		private void GenerateAppxManifest(XElement itemGroup)
 		{
-			AppxManifest manifest = new AppxManifest(CurrentProject);
-			manifest.AddNode(itemGroup);
-			manifest.Save();
+            AppxManifest manifest = new AppxManifest(CurrentProject);
+            manifest.AddNode(itemGroup);
+            manifest.Save();
 		}
 		#endregion
 

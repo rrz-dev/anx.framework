@@ -94,7 +94,7 @@
     
     <call target="generate_project_files" />
   </target>
-    
+
   <target name="build">
     <echo message="===================================================" />
     <echo message="ANX.Framework build script" />
