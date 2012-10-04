@@ -106,16 +106,14 @@ namespace ANX.SoundSystem.OpenAL
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
 			PreventSystemChange();
-			return new OpenALSoundEffect(parent, stream);
+			return new OpenALSoundEffect(stream);
 		}
-		#endregion
 
-		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
 			PreventSystemChange();
-			return new OpenALSoundEffect(parent, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
+			return new OpenALSoundEffect(buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 		#endregion
 

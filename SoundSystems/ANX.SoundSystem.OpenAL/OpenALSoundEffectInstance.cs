@@ -1,5 +1,6 @@
 ﻿using System;
 using ANX.Framework.Audio;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
 using OpenTK.Audio.OpenAL;
 
@@ -9,6 +10,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace ANX.SoundSystem.OpenAL
 {
+    [Developer("AstrorEnales")]
 	public class OpenALSoundEffectInstance : ISoundEffectInstance
 	{
 		#region Private
@@ -70,7 +72,7 @@ namespace ANX.SoundSystem.OpenAL
 			parent = setParent;
 			State = SoundState.Stopped;
 			handle = AL.GenSource();
-			AL.Source(handle, ALSourcei.Buffer, parent.bufferHandle);
+			AL.Source(handle, ALSourcei.Buffer, parent.BufferHandle);
 			IsLooped = false;
 			Pitch = 1f;
 			Volume = 1f;

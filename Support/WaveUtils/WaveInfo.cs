@@ -24,8 +24,8 @@ namespace WaveUtils
 		/// </summary>
 		public TimeSpan CalculateDuration()
 		{
-			float sizeMulBlockAlign = Data.Length / ((int)Channels * 2);
-			return TimeSpan.FromMilliseconds((double)(sizeMulBlockAlign * 1000f / (float)SampleRate));
+			float sizeMulBlockAlign = Data.Length / (Channels * 2f);
+			return TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / SampleRate);
 		}
 
 		public WaveInfo()

@@ -29,7 +29,8 @@ namespace ANX.SoundSystem.Windows.XAudio
 
         public XAudioSong(XAudio2 device, Uri uri)
         {
-            Init(device, uri.AbsolutePath);
+            string path = uri.AbsolutePath.Replace("%20", "");
+            Init(device, path);
             // TODO: duration
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ANX.Framework.Audio;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
 using OpenTK.Audio.OpenAL;
 using WaveUtils;
@@ -12,45 +13,47 @@ using ALFormat = OpenTK.Audio.OpenAL.ALFormat;
 
 namespace ANX.SoundSystem.OpenAL
 {
+    [Developer("AstrorEnales")]
 	public class OpenALSoundEffect : ISoundEffect
 	{
 		#region Private
-		internal SoundEffect parent;
 		private WaveInfo waveInfo;
 		private TimeSpan duration;
-		internal int bufferHandle;
+        internal int BufferHandle { get; private set; }
 		#endregion
 
 		#region Public
-		public TimeSpan Duration
-		{
-			get
-			{
-				return duration;
-			}
-		}
-		#endregion
+	    public TimeSpan Duration
+	    {
+	        get { return duration; }
+	    }
+	    #endregion
 
 		#region Constructor
-		internal OpenALSoundEffect(SoundEffect setParent, Stream stream)
+		internal OpenALSoundEffect(Stream stream)
 		{
-			parent = setParent;
 			CreateFromStream(stream);
 		}
 
-		internal OpenALSoundEffect(SoundEffect setParent, byte[] buffer, int offset, int count, int sampleRate,
-			AudioChannels channels, int loopStart, int loopLength)
+		internal OpenALSoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels,
+            int loopStart, int loopLength)
 		{
-			parent = setParent;
+            // TODO: loopStart and loopLength
 
-			using (MemoryStream stream = new MemoryStream())
-			{
-				BinaryWriter writer = new BinaryWriter(stream);
-				writer.Write(buffer, offset, count);
-				stream.Position = 0;
+            byte[] subBuffer = new byte[count];
+            Array.Copy(buffer, offset, subBuffer, 0, count);
+            BufferHandle = AL.GenBuffer();
 
-				CreateFromStream(stream);
-			}
+            // TODO: evaluate if 8bit or 16bit!!
+		    ALFormat format = channels == AudioChannels.Mono ? ALFormat.Mono8 : ALFormat.Stereo8;
+            AL.BufferData(BufferHandle, format, subBuffer, count, sampleRate);
+
+            float sizeMulBlockAlign = count / ((int)channels * 2f);
+            duration = TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / sampleRate);
+
+            ALError error = AL.GetError();
+            if (error != ALError.NoError)
+                throw new Exception("OpenAL error " + error + ": " + AL.GetErrorString(error));
 		}
 		#endregion
 
@@ -60,14 +63,14 @@ namespace ANX.SoundSystem.OpenAL
 			waveInfo = WaveFile.LoadData(stream);
 			if (waveInfo.WaveFormat != WaveFormat.PCM)
 			{
-				WaveConverter converter = new WaveConverter(waveInfo);
+				var converter = new WaveConverter(waveInfo);
 				converter.ConvertToPcm();
 			}
 
 			duration = waveInfo.CalculateDuration();
 
-			bufferHandle = AL.GenBuffer();
-			AL.BufferData(bufferHandle, (ALFormat)waveInfo.ALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
+			BufferHandle = AL.GenBuffer();
+			AL.BufferData(BufferHandle, (ALFormat)waveInfo.ALFormat, waveInfo.Data, waveInfo.Data.Length, waveInfo.SampleRate);
 
 			ALError error = AL.GetError();
 			if (error != ALError.NoError)
@@ -79,8 +82,7 @@ namespace ANX.SoundSystem.OpenAL
 		public void Dispose()
 		{
 			waveInfo = null;
-
-			AL.DeleteBuffer(bufferHandle);
+			AL.DeleteBuffer(BufferHandle);
 		}
 		#endregion
 	}

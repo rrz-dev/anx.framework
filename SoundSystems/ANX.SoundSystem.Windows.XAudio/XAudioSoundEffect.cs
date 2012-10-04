@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ANX.Framework.Audio;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
 using SharpDX.Multimedia;
 using SharpDX.XAudio2;
@@ -11,10 +12,10 @@ using SharpDX.XAudio2;
 
 namespace ANX.SoundSystem.Windows.XAudio
 {
+    [Developer("AstrorEnales")]
 	public class XAudioSoundEffect : ISoundEffect
 	{
 		#region Private
-		internal SoundEffect Parent;
 		private TimeSpan duration;
 		internal WaveFormat WaveFormat;
 		internal AudioBuffer AudioBuffer;
@@ -29,24 +30,16 @@ namespace ANX.SoundSystem.Windows.XAudio
 	    #endregion
 
 		#region Constructor
-		internal XAudioSoundEffect(SoundEffect setParent, Stream stream)
+		internal XAudioSoundEffect(Stream stream)
 		{
-			Parent = setParent;
 			CreateFromStream(stream);
 		}
 
-		internal XAudioSoundEffect(SoundEffect setParent, byte[] buffer, int offset, int count, int sampleRate,
-			AudioChannels channels, int loopStart, int loopLength)
+		internal XAudioSoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels,
+            int loopStart, int loopLength)
 		{
-			Parent = setParent;
-
-			using (var stream = new MemoryStream())
-			{
-				var writer = new BinaryWriter(stream);
-				writer.Write(buffer, offset, count);
-				stream.Position = 0;
-				CreateFromStream(stream);
-			}
+            // TODO: the buffer already contains the pcm data to be played!
+			throw new NotImplementedException();
 		}
 
 		~XAudioSoundEffect()

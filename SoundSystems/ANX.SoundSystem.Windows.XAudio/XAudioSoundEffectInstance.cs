@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework;
 using ANX.Framework.Audio;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
 using SharpDX.XAudio2;
 
@@ -10,6 +11,7 @@ using SharpDX.XAudio2;
 
 namespace ANX.SoundSystem.Windows.XAudio
 {
+    [Developer("AstrorEnales")]
     public class XAudioSoundEffectInstance : ISoundEffectInstance
     {
         #region Private

@@ -13,7 +13,7 @@ namespace ANX.SoundSystem.OpenAL
 		{
 			get
 			{
-				return new PlatformName[]
+				return new[]
 				{
 					PlatformName.Windows7,
 					PlatformName.WindowsXP,

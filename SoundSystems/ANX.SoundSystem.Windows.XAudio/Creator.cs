@@ -131,14 +131,14 @@ namespace ANX.SoundSystem.Windows.XAudio
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
 			PreventSystemChange();
-			return new XAudioSoundEffect(parent, stream);
+			return new XAudioSoundEffect(stream);
 		}
 
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
 			PreventSystemChange();
-			return new XAudioSoundEffect(parent, buffer, offset, count, sampleRate, channels, loopStart, loopLength);
+			return new XAudioSoundEffect(buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 		#endregion
 

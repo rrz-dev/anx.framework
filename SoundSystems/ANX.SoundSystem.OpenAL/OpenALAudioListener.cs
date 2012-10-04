@@ -1,5 +1,6 @@
 ﻿using System;
 using ANX.Framework;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
 using OpenTK.Audio.OpenAL;
 
@@ -9,6 +10,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace ANX.SoundSystem.OpenAL
 {
+    [Developer("AstrorEnales")]
 	public class OpenALAudioListener : IAudioListener
 	{
 		#region Private

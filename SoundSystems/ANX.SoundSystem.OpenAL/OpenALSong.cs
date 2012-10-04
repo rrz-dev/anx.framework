@@ -30,8 +30,9 @@ namespace ANX.SoundSystem.OpenAL
 
         public OpenALSong(Song setParent, Uri uri)
         {
+            string path = uri.AbsolutePath.Replace("%20", "");
             parent = setParent;
-            Init(uri.AbsolutePath);
+            Init(path);
             // TODO: duration
         }
 
