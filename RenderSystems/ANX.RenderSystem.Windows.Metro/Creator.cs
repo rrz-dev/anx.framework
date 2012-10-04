@@ -34,7 +34,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		{
 			get
 			{
-				return OSInformation.GetName() == PlatformName.Windows8;
+				return OSInformation.GetName() == PlatformName.Windows8ModernUI;
 			}
 		}
 		#endregion

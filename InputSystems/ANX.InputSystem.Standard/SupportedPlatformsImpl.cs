@@ -23,7 +23,8 @@ namespace ANX.InputSystem.Standard
 					PlatformName.WindowsXP,
 					PlatformName.WindowsVista,
 					PlatformName.Windows7,
-					PlatformName.Windows8
+					PlatformName.Windows8,
+					PlatformName.Windows8ModernUI
 				};
 			}
 		}
