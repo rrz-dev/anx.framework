@@ -470,21 +470,29 @@ namespace ANX.Framework.Content
             referenceName = GetPathToReference(referenceName);
             referenceName = Path.Combine(ContentManager.RootDirectory, referenceName);
 
-            Assembly assembly = Assembly.GetEntryAssembly();
+            Assembly assembly = null;
+            string titleLocationPath = null;
+
+#if !WINDOWSMETRO
+            assembly = Assembly.GetEntryAssembly();
             if (assembly == null)
+            {
                 assembly = Assembly.GetCallingAssembly();
-            string titleLocationPath = Path.GetDirectoryName(assembly.Location);
+            }
+
+            titleLocationPath = Path.GetDirectoryName(assembly.Location);
+#else
+            throw new NotImplementedException();
+            //TODO: find solution for metro
+#endif
+
             referenceName = Path.Combine(titleLocationPath, referenceName);
             return TitleContainer.GetCleanPath(referenceName);
         }
 
         private string GetPathToReference(string referenceName)
         {
-            int num = AssetName.LastIndexOfAny(new[] { '\\', '/', Path.DirectorySeparatorChar });
-            string path = "";
-            if (num != -1)
-                path = AssetName.Substring(0, num);
-            return Path.Combine(path, referenceName);
+            return Path.Combine(Path.GetDirectoryName(AssetName), referenceName);
         }
     }
 }

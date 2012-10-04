@@ -47,30 +47,37 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             {
                 throw new ArgumentNullException("output");
             }
+
             if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
+
             if (!Enum.IsDefined(typeof(TargetPlatform), targetPlatform))
             {
                 throw new ArgumentOutOfRangeException("targetPlatform");
             }
+
             if (!Enum.IsDefined(typeof(GraphicsProfile), targetProfile))
             {
                 throw new ArgumentOutOfRangeException("targetProfile");
             }
+
             if (string.IsNullOrEmpty(rootDirectory))
             {
                 throw new ArgumentNullException("rootDirectory");
             }
+
             if (string.IsNullOrEmpty(referenceRelocationPath))
             {
                 throw new ArgumentNullException("referenceRelocationPath");
             }
+
             if (compressContent)
             {
                 compressContent = this.ShouldCompressContent(targetPlatform, value);
             }
+
             using (ContentWriter contentWriter = new ContentWriter(this, output, compressContent, rootDirectory, referenceRelocationPath) { TargetPlatform = targetPlatform, TargetProfile = targetProfile })
             {
                 contentWriter.WriteObject<object>(value);
@@ -83,6 +90,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             {
                 throw new ArgumentNullException("type");
             }
+
             ContentTypeWriter typeWriterInternal = this.GetTypeWriterInternal(type);
             //TODO: this.RecordDependency(typeWriterInternal.TargetType);
             return typeWriterInternal;
@@ -97,6 +105,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                 //this.AddTypeWriter(contentTypeWriter);
                 //this.InitializeTypeWriter(contentTypeWriter);
             }
+
             return contentTypeWriter;
         }
 
@@ -106,7 +115,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             {
                 return false;
             }
+
             ContentTypeWriter typeWriterInternal = this.GetTypeWriterInternal(value.GetType());
+            
             return typeWriterInternal.ShouldCompressContent(targetPlatform, value);
         }
     }
