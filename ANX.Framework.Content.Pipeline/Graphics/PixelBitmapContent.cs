@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.IO;
 
 #endregion
 
@@ -17,16 +18,18 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     public class PixelBitmapContent<T> : BitmapContent where T : struct, IEquatable<T>
     {
         private T[,] pixels;
+        private int pixelSize;
 
         protected PixelBitmapContent()
         {
-
+            this.pixelSize = Marshal.SizeOf(typeof(T));
         }
 
         public PixelBitmapContent(int width, int height)
             : base(width, height)
         {
             pixels = new T[width, height];
+            this.pixelSize = Marshal.SizeOf(typeof(T));
         }
 
         public T GetPixel(int x, int y)
@@ -38,12 +41,37 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         {
             int rowSize = Marshal.SizeOf(typeof(T)) * base.Width;
             byte[] array = new byte[rowSize * base.Height];
+
+            int destinationIndex = 0;
             for (int i = 0; i < base.Height; i++)
             {
                 T[] row = GetRow(i);
 
+                for (int x = 0; x < row.Length; x++)
+                {
+                    Array.Copy(GetBytes<T>(row[x]), 0, array, destinationIndex, pixelSize);
+                    destinationIndex += pixelSize;
+                }
             }
+
             return array;
+        }
+
+        private static byte[] GetBytes<T>(T value)
+        {
+            byte[] buffer = new byte[Marshal.SizeOf(typeof(T))];
+
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            try
+            {
+                Marshal.StructureToPtr(value, handle.AddrOfPinnedObject(), false);
+            }
+            finally
+            {
+                handle.Free();
+            }
+
+            return buffer;
         }
 
         public T[] GetRow(int y)
