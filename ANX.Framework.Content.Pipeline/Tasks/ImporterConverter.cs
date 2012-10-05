@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Linq;
 using System.ComponentModel;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
@@ -22,7 +23,8 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(new StringCollection()); //TODO: Implement correct call to get available Importers
+            var iManager = new ImporterManager(); //<- No, thats not a new apple product :-)
+            return new StandardValuesCollection(iManager.AvailableImporters.Select(availableImporter => availableImporter.Key).ToArray()); //TODO: Implement correct call to get available Importers
         }
     }
 }

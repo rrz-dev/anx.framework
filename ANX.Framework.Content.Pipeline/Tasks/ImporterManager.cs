@@ -87,5 +87,13 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
             return String.Empty;
         }
+
+        public IEnumerable<KeyValuePair<string, Type>> AvailableImporters
+        {
+            get 
+            {
+                return importerTypes;
+            }
+        }
     }
 }
