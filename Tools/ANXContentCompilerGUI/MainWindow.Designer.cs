@@ -70,7 +70,7 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerMenuLayout.Panel1.SuspendLayout();
             this.splitContainerMenuLayout.Panel2.SuspendLayout();
             this.splitContainerMenuLayout.SuspendLayout();
-#if !LINUX
+#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).BeginInit();
@@ -573,7 +573,7 @@ namespace ANX.ContentCompiler.GUI
             this.splitContainerFileTree.Panel1.ResumeLayout(false);
             this.splitContainerFileTree.Panel2.ResumeLayout(false);
             this.splitContainerFileTree.ResumeLayout(false);
-#if !LINUX
+#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxErrorLog)).EndInit();

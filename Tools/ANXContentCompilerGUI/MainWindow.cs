@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -33,6 +34,9 @@ namespace ANX.ContentCompiler.GUI
         private bool _mouseDown;
         private readonly string[] _args;
         private int _showCounter = 0;
+
+        private ImporterManager iManager;
+        private ProcessorManager pManager;
         #endregion
 
         #region Properties
@@ -74,6 +78,8 @@ namespace ANX.ContentCompiler.GUI
             treeViewItemDelete.MouseEnter += TreeViewItemMouseEnter;
             treeViewItemRename.MouseEnter += TreeViewItemMouseEnter;
             SetUpColors();
+            iManager = new ImporterManager();
+            pManager = new ProcessorManager();
         }
 
         private void MainWindowShown(object sender, EventArgs e)
@@ -264,6 +270,11 @@ namespace ANX.ContentCompiler.GUI
                 {
                     bI.ImporterName = ImporterManager.GuessImporterByFileExtension(bI.SourceFilename);
                 }
+
+                if (String.IsNullOrEmpty(bI.ProcessorName))
+                {
+                    bI.ProcessorName = pManager.GetProcessorForImporter(iManager.GetInstance(bI.ImporterName));
+                }
             }
             try
             {
@@ -340,8 +351,8 @@ namespace ANX.ContentCompiler.GUI
                                OutputFilename =
                                    ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
                                    Path.GetFileNameWithoutExtension(file) + ".xnb",   //<- Change this if you want some other extension (i.e. to annoy modders or whatever)
-                               ImporterName = ImporterManager.GuessImporterByFileExtension(file)//,
-                               //ProcessorName = ProcessorManager.GuessImporterByFileExtension(file) //<- This still needs to be implemented, Pipeline devs! *poke*
+                               ImporterName = ImporterManager.GuessImporterByFileExtension(file),
+                               ProcessorName = pManager.GetProcessorForImporter(iManager.GetInstance(ImporterManager.GuessImporterByFileExtension(file)))
                            };
             _contentProject.BuildItems.Add(item);
         }

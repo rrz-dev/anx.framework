@@ -31,7 +31,7 @@
             this.labelText = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-#if !LINUX
+#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 #endif
@@ -109,7 +109,7 @@
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
-#if !LINUX
+#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 #endif

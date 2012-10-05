@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -28,12 +29,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             set;
         }
 
+        [TypeConverter(typeof(ImporterConverter))]
         public string ImporterName
         {
             get;
             set;
         }
 
+        [TypeConverter(typeof(ProcessorConverter))]
         public string ProcessorName
         {
             get;
