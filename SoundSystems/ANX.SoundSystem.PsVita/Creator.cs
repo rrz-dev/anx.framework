@@ -103,8 +103,7 @@ namespace ANX.SoundSystem.PsVita
 		#endregion
 
 		#region CreateSoundEffectInstance
-		public ISoundEffectInstance CreateSoundEffectInstance(
-			ISoundEffect nativeSoundEffect)
+		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
 		{
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
 			throw new NotImplementedException();
@@ -178,10 +177,10 @@ namespace ANX.SoundSystem.PsVita
             throw new NotImplementedException();
         }
 
-        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
+        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
         {
             AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
             throw new NotImplementedException();
         }
-	}
+    }
 }

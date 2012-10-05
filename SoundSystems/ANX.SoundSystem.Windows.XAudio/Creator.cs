@@ -148,13 +148,15 @@ namespace ANX.SoundSystem.Windows.XAudio
 			PreventSystemChange();
 			return new XAudioSoundEffectInstance(device, nativeSoundEffect as XAudioSoundEffect);
 		}
-		#endregion
+        #endregion
 
-        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
+        #region CreateDynamicSoundEffectInstance
+        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
         {
             PreventSystemChange();
-            throw new NotImplementedException();
+            return new XAudioDynamicSoundEffectInstance(device, sampleRate, channels);
         }
+        #endregion
 
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
         {

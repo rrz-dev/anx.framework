@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -9,37 +9,26 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Storage
 {
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class StorageContainer : IDisposable
 	{
-		private INativeStorageContainer nativeImplementation;
+		private readonly INativeStorageContainer nativeImplementation;
 
 		#region Public
 		public event EventHandler<EventArgs> Disposing;
 
-		public string DisplayName
-		{
-			get;
-			protected set;
-		}
+	    public string DisplayName { get; protected set; }
+	    public StorageDevice StorageDevice { get; protected set; }
+	    public bool IsDisposed { get; protected set; }
+	    #endregion
 
-		public StorageDevice StorageDevice
-		{
-			get;
-			protected set;
-		}
-
-		public bool IsDisposed
-		{
-			get;
-			protected set;
-		}
-		#endregion
-
-		internal StorageContainer(StorageDevice device, PlayerIndex player,
-			string displayName)
+		internal StorageContainer(StorageDevice device, PlayerIndex player, string displayName)
 		{
 			StorageDevice = device;
 			DisplayName = displayName;
+
+            // TODO: player!
 
             nativeImplementation = PlatformSystem.Instance.CreateStorageContainer(this);
 		}
@@ -117,7 +106,8 @@ namespace ANX.Framework.Storage
 
 		public void Dispose()
 		{
-			Disposing(this, EventArgs.Empty);
+            if (Disposing != null)
+			    Disposing(this, EventArgs.Empty);
 			IsDisposed = true;
 		}
 	}

@@ -115,7 +115,15 @@ namespace ANX.SoundSystem.OpenAL
 			PreventSystemChange();
 			return new OpenALSoundEffect(buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
-		#endregion
+        #endregion
+
+        #region CreateDynamicSoundEffectInstance
+        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
+        {
+            PreventSystemChange();
+            return new OpenALDynamicSoundEffectInstance(sampleRate, channels);
+        }
+        #endregion
 
 		#region CreateAudioListener
 		public IAudioListener CreateAudioListener()
@@ -133,7 +141,7 @@ namespace ANX.SoundSystem.OpenAL
 		}
 		#endregion
 
-		#region CreateMicrophone
+		#region CreateMicrophone (TODO)
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
 		{
 			PreventSystemChange();
@@ -141,22 +149,23 @@ namespace ANX.SoundSystem.OpenAL
 		}
 		#endregion
 
-		#region GetAllMicrophones
-		public ReadOnlyCollection<Microphone> GetAllMicrophones()
+        #region GetAllMicrophones (TODO)
+        public ReadOnlyCollection<Microphone> GetAllMicrophones()
 		{
 			PreventSystemChange();
 			throw new NotImplementedException();
 		}
 		#endregion
 
-		#region GetDefaultMicrophone
-		public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
+        #region GetDefaultMicrophone (TODO)
+        public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
 		{
 			PreventSystemChange();
 			throw new NotImplementedException();
 		}
         #endregion
 
+        #region CreateSong
         public ISong CreateSong(Song parentSong, Uri uri)
         {
             PreventSystemChange();
@@ -168,12 +177,7 @@ namespace ANX.SoundSystem.OpenAL
             PreventSystemChange();
             return new OpenALSong(parentSong, filepath, duration);
         }
-
-        public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance()
-        {
-            PreventSystemChange();
-            throw new NotImplementedException();
-        }
+        #endregion
 
 		private static void PreventSystemChange()
 		{

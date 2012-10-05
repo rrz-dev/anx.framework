@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,8 @@ using System.Runtime.Serialization;
 
 namespace ANX.Framework.Storage
 {
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class StorageDeviceNotConnectedException : ExternalException
     {
         public StorageDeviceNotConnectedException()

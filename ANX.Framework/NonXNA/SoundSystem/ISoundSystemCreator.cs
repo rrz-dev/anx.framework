@@ -38,6 +38,6 @@ namespace ANX.Framework.NonXNA.SoundSystem
         ISong CreateSong(Song parentSong, Uri uri);
         ISong CreateSong(Song parentSong, string filepath, int duration);
 
-	    IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance();
+        IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance(int sampleRate, AudioChannels channels);
 	}
 }

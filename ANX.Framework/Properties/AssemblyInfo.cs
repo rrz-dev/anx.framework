@@ -50,6 +50,6 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.Metro")]
 [assembly: InternalsVisibleTo("ANX.PlatformSystem.PsVita")]
 [assembly: InternalsVisibleTo("ANX.SoundSystem.Windows.XAudio")]
-[assembly: InternalsVisibleTo("ANX.SoundSystem.Windows.OpenAL")]
+[assembly: InternalsVisibleTo("ANX.SoundSystem.OpenAL")]
 [assembly: InternalsVisibleTo("ANX.Tools.XNBInspector")]
 [assembly: InternalsVisibleTo("ANX.Framework.Content.Pipeline")]

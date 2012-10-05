@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.PlatformSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -9,6 +9,8 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Storage
 {
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class StorageDevice
 	{
 		#region Private

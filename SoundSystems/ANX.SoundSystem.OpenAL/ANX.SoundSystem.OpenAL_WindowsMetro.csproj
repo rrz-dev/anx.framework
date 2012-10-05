@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Creator.cs" />
     <Compile Include="OpenALAudioListener.cs" />
+    <Compile Include="OpenALDynamicSoundEffectInstance.cs" />
     <Compile Include="OpenALSong.cs" />
     <Compile Include="OpenALSoundEffect.cs" />
     <Compile Include="OpenALSoundEffectInstance.cs" />

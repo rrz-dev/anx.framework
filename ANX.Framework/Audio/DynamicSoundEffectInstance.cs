@@ -33,7 +33,7 @@ namespace ANX.Framework.Audio
             this.sampleRate = sampleRate;
             this.channels = channels;
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
-            nativeDynamicInstance = creator.CreateDynamicSoundEffectInstance();
+            nativeDynamicInstance = creator.CreateDynamicSoundEffectInstance(sampleRate, channels);
             nativeDynamicInstance.BufferNeeded += OnBufferNeeded;
             SetNativeInstance(nativeDynamicInstance);
         }

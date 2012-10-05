@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
+    <Compile Include="XAudioDynamicSoundEffectInstance.cs" />
     <Compile Include="XAudioOggInputStream.cs" />
     <Compile Include="XAudioSong.cs" />
     <Compile Include="XAudioSoundEffectInstance.cs" />
