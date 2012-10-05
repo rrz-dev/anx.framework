@@ -1,12 +1,16 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
 using System.ComponentModel;
+using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
     /// <summary>
     /// Class for enabling a dropdown list containing all available Importers for the PropertyGrid.
     /// </summary>
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class ImporterConverter : StringConverter
     {
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
