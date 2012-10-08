@@ -25,69 +25,46 @@ namespace ANX.Framework.Media
 	        get { return Rating > 0; }
 	    }
 
-	    public Artist Artist
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public Artist Artist { get; internal set; }
+        public Album Album { get; internal set; }
+        public Genre Genre { get; internal set; }
 
-		public Album Album
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public Genre Genre
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public TimeSpan Duration
+        public TimeSpan Duration
 		{
 			get { return NativeSong.Duration; }
 		}
 
-		public int Rating
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public int Rating
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public int PlayCount
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public int PlayCount
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public int TrackNumber
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public int TrackNumber
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public bool IsProtected
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+        public bool IsProtected
+        {
+            get { throw new NotImplementedException(); }
         }
         #endregion
 
 		#region Constructor
+        internal Song(string setName)
+        {
+            // TODO
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            //NativeSong = creator.CreateSong(this, uri);
+            Name = setName;
+            IsDisposed = false;
+        }
+
 		internal Song(string setName, Uri uri)
         {
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
@@ -115,7 +92,8 @@ namespace ANX.Framework.Media
 		    return new Song(name, uri);
 		}
 
-		public bool Equals(Song other)
+        #region Equals
+        public bool Equals(Song other)
 		{
             return other != null && Name == other.Name;
 		}
@@ -127,8 +105,10 @@ namespace ANX.Framework.Media
 
 		    return base.Equals(obj);
 		}
+        #endregion
 
-		public void Dispose()
+        #region Dispose
+        public void Dispose()
 		{
 		    if (IsDisposed)
 		        return;
@@ -139,6 +119,7 @@ namespace ANX.Framework.Media
                 NativeSong.Dispose();
 		    NativeSong = null;
 		}
+        #endregion
 
         internal void Play()
         {

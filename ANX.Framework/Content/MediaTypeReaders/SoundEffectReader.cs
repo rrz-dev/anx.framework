@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.Development;
@@ -40,33 +39,12 @@ namespace ANX.Framework.Content
 
 			int dataCount = input.ReadInt32();
 			byte[] data = input.ReadBytes(dataCount);
-
 			int loopStart = input.ReadInt32();
 			int loopLength = input.ReadInt32();
-
 			int duration = input.ReadInt32();
 
-			byte[] soundData;
-			using (var mStream = new MemoryStream(20 + header.Length + 8 + data.Length))
-			{
-				var writer = new BinaryWriter(mStream);
-				writer.Write("RIFF".ToCharArray());
-				writer.Write(20 + header.Length + data.Length);
-				writer.Write("WAVE".ToCharArray());
-
-				writer.Write("fmt ".ToCharArray());
-				writer.Write(header.Length);
-				writer.Write(header);
-
-				writer.Write("data".ToCharArray());
-				writer.Write(data.Length);
-				writer.Write(data);
-
-				soundData = mStream.ToArray();
-			}
-
-			return new SoundEffect(soundData, 0, soundData.Length, headerStruct.nSamplesPerSec,
-				(AudioChannels)headerStruct.nChannels, loopStart, loopLength);
+            return new SoundEffect(data, 0, data.Length, headerStruct.nSamplesPerSec, (AudioChannels)headerStruct.nChannels,
+                loopStart, loopLength);
 		}
 	}
 }

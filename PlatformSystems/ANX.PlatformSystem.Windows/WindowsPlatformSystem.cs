@@ -63,10 +63,10 @@ namespace ANX.PlatformSystem.Windows
 		}
 		#endregion
 
-		#region CreateMediaPlayer (TODO)
+		#region CreateMediaPlayer
 		public INativeMediaLibrary CreateMediaLibrary()
 		{
-			throw new NotImplementedException();
+		    return new WindowsMediaLibrary();
 		}
 		#endregion
 

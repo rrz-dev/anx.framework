@@ -3,6 +3,7 @@ using System.IO;
 using ANX.Framework.Audio;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.SoundSystem;
+using SharpDX;
 using SharpDX.Multimedia;
 using SharpDX.XAudio2;
 
@@ -37,9 +38,26 @@ namespace ANX.SoundSystem.Windows.XAudio
 
 		internal XAudioSoundEffect(byte[] buffer, int offset, int count, int sampleRate, AudioChannels channels,
             int loopStart, int loopLength)
-		{
-            // TODO: the buffer already contains the pcm data to be played!
-			throw new NotImplementedException();
+        {
+            WaveFormat = new WaveFormat(sampleRate, (int)channels);
+		    AudioBuffer = new AudioBuffer
+		    {
+                LoopBegin = loopStart,
+                LoopLength = loopLength,
+                AudioBytes = count,
+		        Flags = BufferFlags.EndOfStream
+		    };
+		    
+            IntPtr handle;
+		    unsafe
+		    {
+                fixed (byte* ptr = &buffer[0])
+                    handle = (IntPtr)(ptr + offset);
+		    }
+            AudioBuffer.Stream = new DataStream(handle, count, false, false);
+
+            float sizeMulBlockAlign = (float)count / (WaveFormat.Channels * 2);
+            duration = TimeSpan.FromMilliseconds(sizeMulBlockAlign * 1000f / WaveFormat.SampleRate);
 		}
 
 		~XAudioSoundEffect()

@@ -8,36 +8,25 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
-	public sealed class SongCollection
-		: IEnumerable<Song>, IEnumerable, IDisposable
+	public sealed class SongCollection : IEnumerable<Song>, IEnumerable, IDisposable
 	{
-		private List<Song> songs;
+		private readonly List<Song> songs;
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    public bool IsDisposed { get; private set; }
 
-		public int Count
-		{
-			get
-			{
-				return songs.Count;
-			}
-		}
+	    public int Count
+	    {
+	        get { return songs.Count; }
+	    }
 
-		public Song this[int index]
-		{
-			get
-			{
-				return songs[index];
-			}
-		}
+	    public Song this[int index]
+	    {
+	        get { return songs[index]; }
+	    }
 
-		internal SongCollection()
+	    internal SongCollection(IEnumerable<Song> allSongs)
 		{
-			songs = new List<Song>();
+            songs = new List<Song>(allSongs);
 			IsDisposed = false;
 		}
 
