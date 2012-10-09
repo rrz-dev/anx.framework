@@ -853,60 +853,62 @@ namespace ANX.Framework
         }
 
 				#region Lerp
-				public static Color Lerp(Color value1, Color value2, float amount)
+        public static Color Lerp(Color value1, Color value2, float amount)
         {
             Color color;
 
-            byte r1 = (byte)value1.packedValue;
-            byte g1 = (byte)(value1.packedValue >> 8);
-            byte b1 = (byte)(value1.packedValue >> 16);
-            byte a1 = (byte)(value1.packedValue >> 24);
+            byte r1 = (byte) value1.packedValue;
+            byte g1 = (byte) (value1.packedValue >> 8);
+            byte b1 = (byte) (value1.packedValue >> 16);
+            byte a1 = (byte) (value1.packedValue >> 24);
 
-            byte r2 = (byte)value2.packedValue;
-            byte g2 = (byte)(value2.packedValue >> 8);
-            byte b2 = (byte)(value2.packedValue >> 16);
-            byte a2 = (byte)(value2.packedValue >> 24);
-            
-            int factor = (int)PackUNormal(65536f, amount);
+            byte r2 = (byte) value2.packedValue;
+            byte g2 = (byte) (value2.packedValue >> 8);
+            byte b2 = (byte) (value2.packedValue >> 16);
+            byte a2 = (byte) (value2.packedValue >> 24);
 
-            int r3 = r1 + (((r2 - r1) * factor) >> 16);
-            int g3 = g1 + (((g2 - g1) * factor) >> 16);
-            int b3 = b1 + (((b2 - b1) * factor) >> 16);
-            int a3 = a1 + (((a2 - a1) * factor) >> 16);
+            int factor = (int) PackUNormal(65536f, amount);
 
-            color.packedValue = (uint)(((r3 | (g3 << 8)) | (b3 << 16)) | (a3 << 24));
+            int r3 = r1 + (((r2 - r1)*factor) >> 16);
+            int g3 = g1 + (((g2 - g1)*factor) >> 16);
+            int b3 = b1 + (((b2 - b1)*factor) >> 16);
+            int a3 = a1 + (((a2 - a1)*factor) >> 16);
+
+            color.packedValue = (uint) (((r3 | (g3 << 8)) | (b3 << 16)) | (a3 << 24));
 
             return color;
-				}
-				#endregion
+        }
 
-				#region Multiply
-				public static Color Multiply(Color value, float scale)
+        #endregion
+
+		#region Multiply
+        public static Color Multiply(Color value, float scale)
         {
             Color color;
 
-            uint r = (byte)value.packedValue;
-            uint g = (byte)(value.packedValue >> 8);
-            uint b = (byte)(value.packedValue >> 16);
-            uint a = (byte)(value.packedValue >> 24);
-            
-            uint uintScale = (uint)MathHelper.Clamp(scale * 65536f, 0, 0xffffff);
+            uint r = (byte) value.packedValue;
+            uint g = (byte) (value.packedValue >> 8);
+            uint b = (byte) (value.packedValue >> 16);
+            uint a = (byte) (value.packedValue >> 24);
 
-            r = (r * uintScale) >> 16;
-            g = (g * uintScale) >> 16;
-            b = (b * uintScale) >> 16;
-            a = (a * uintScale) >> 16;
+            uint uintScale = (uint) MathHelper.Clamp(scale*65536f, 0, 0xffffff);
+
+            r = (r*uintScale) >> 16;
+            g = (g*uintScale) >> 16;
+            b = (b*uintScale) >> 16;
+            a = (a*uintScale) >> 16;
 
             r = r > 255 ? 255 : r;
             g = g > 255 ? 255 : g;
             b = b > 255 ? 255 : b;
             a = a > 255 ? 255 : a;
-            
+
             color.packedValue = ((r | (g << 8)) | (b << 0x10)) | (a << 0x18);
 
             return color;
         }
-				#endregion
+
+        #endregion
 
         public static Color operator *(Color a, float scale)
         {
@@ -914,7 +916,7 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-				{
+		{
 					// This may look a bit more ugly, but String.Format should
 					// be avoided cause of it's bad performance!
 					return "{R:" + R + " G:" + G + " B:" + B + " A:" + A + "}";
