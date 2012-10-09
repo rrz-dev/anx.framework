@@ -811,21 +811,31 @@ namespace ANX.Framework
         {
             Color color;
 
-            r = r * a;
-            g = g * a;
-            b = b * a;
+            r = ClampValue((long)r * a / 255L);
+            g = ClampValue((long)g * a / 255L);
+            b = ClampValue((long)b * a / 255L);
 
+            /* //What the heck is this? Anyway it does not work!
             if (((((r | g) | b) | a) & -256) != 0)
             {
                 r = r < 0 ? 0 : (r > 255 ? 255 : r);
                 g = g < 0 ? 0 : (g > 255 ? 255 : g);
                 b = b < 0 ? 0 : (b > 255 ? 255 : b);
                 a = a < 0 ? 0 : (a > 255 ? 255 : a);
-            }
+            }*/
 
             color.packedValue = (uint)(((r | g << 8) | b << 16) | a << 24);
 
             return color;
+        }
+
+        private static int ClampValue(long value)
+        {
+            if (value < 0L)
+                return 0;
+            if (value > 255L)
+                return 255;
+            return (int) value;
         }
 
         public static Color FromNonPremultiplied(Vector4 vector)
