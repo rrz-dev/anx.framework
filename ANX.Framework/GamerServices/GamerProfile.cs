@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,9 @@ using System.Globalization;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GamerProfile : IDisposable
     {
         public void Dispose()

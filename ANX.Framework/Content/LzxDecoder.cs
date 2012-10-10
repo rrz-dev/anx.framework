@@ -46,7 +46,9 @@ using System;
 namespace ANX.Framework.Content
 {
     using System.IO;
+    using ANX.Framework.NonXNA.Development;
 
+    [Developer("GinieDP")]
     internal class LzxDecoder
     {
         public static uint[] position_base = null;

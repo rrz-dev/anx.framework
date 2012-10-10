@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Reflection;
+using ANX.Framework.NonXNA.Development;
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -11,6 +12,7 @@ namespace ANX.Framework.Content
 {
 #if !WINDOWSMETRO
 
+    [Developer("GinieDP")]
     public class ReflectiveReader<T> : ContentTypeReader
     {
         private int typeVersion;

@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,9 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct LeaderboardIdentity
     {
         public static LeaderboardIdentity Create(LeaderboardKey key)

@@ -1,4 +1,5 @@
 ﻿using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,7 +7,8 @@
 
 namespace ANX.Framework.Content
 {
-	public class AlphaTestEffectReader : ContentTypeReader<AlphaTestEffect>
+    [Developer("GinieDP")]
+    public class AlphaTestEffectReader : ContentTypeReader<AlphaTestEffect>
 	{
 		protected internal override AlphaTestEffect Read(ContentReader input, AlphaTestEffect existingInstance)
 		{

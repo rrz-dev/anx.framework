@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -14,6 +15,9 @@ using System.Collections;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectTechniqueCollection : IEnumerable<EffectTechnique>, IEnumerable
     {
         #region Private Members

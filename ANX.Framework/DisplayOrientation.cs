@@ -12,6 +12,7 @@ namespace ANX.Framework
 {
     [Flags]
     [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public enum DisplayOrientation
     {

@@ -7,6 +7,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 using System.Text;
 using ANX.Framework.NonXNA.Reflection;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -17,7 +18,7 @@ using ANX.Framework.NonXNA.Reflection;
 namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-
+    [Developer("GinieDP")]
     public class MathTypeConverter : ExpandableObjectConverter
     {
         protected PropertyDescriptorCollection propertyDescriptions;

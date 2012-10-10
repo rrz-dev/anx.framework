@@ -9,7 +9,7 @@ namespace ANX.Framework
 {
 	[PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Untested)]
-    [Developer("???")]
+    [Developer("Glatzemann")]
 	public class LaunchParameters : Dictionary<string, string>
 	{
 	}

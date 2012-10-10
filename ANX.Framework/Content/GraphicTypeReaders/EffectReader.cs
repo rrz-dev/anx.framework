@@ -4,6 +4,7 @@ using System.IO;
 using ANX.Framework.ContentPipeline;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -13,6 +14,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
 	internal class EffectReader : ContentTypeReader<Effect>
 	{
 		protected internal override Effect Read(ContentReader input, Effect existingInstance)

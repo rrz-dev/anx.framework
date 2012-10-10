@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,6 +13,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class Texture3DReader : ContentTypeReader<Texture3D>
     {
         protected internal override Texture3D Read(ContentReader input, Texture3D existingInstance)

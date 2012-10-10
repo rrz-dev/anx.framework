@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,7 +11,7 @@ using System.Globalization;
 namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-
+    [Developer("GinieDP")]
     public class Vector3Converter : MathTypeConverter
     {
         public Vector3Converter()

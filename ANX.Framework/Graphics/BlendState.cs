@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,9 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class BlendState : GraphicsResource
     {
         #region Private Members

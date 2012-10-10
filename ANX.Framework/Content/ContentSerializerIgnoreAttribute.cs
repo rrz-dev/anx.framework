@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,7 @@ using System;
 namespace ANX.Framework.Content
 {
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    [Developer("GinieDP")]
 	public sealed class ContentSerializerIgnoreAttribute : Attribute
 	{
 	}

@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,9 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(80)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class DynamicIndexBuffer : IndexBuffer, IDynamicGraphicsResource
     {
         public virtual event EventHandler<EventArgs> ContentLost;

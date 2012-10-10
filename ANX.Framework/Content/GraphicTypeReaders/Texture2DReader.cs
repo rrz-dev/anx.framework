@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +9,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class Texture2DReader : ContentTypeReader<Texture2D>
     {
         protected internal override Texture2D Read(ContentReader input, Texture2D existingInstance)

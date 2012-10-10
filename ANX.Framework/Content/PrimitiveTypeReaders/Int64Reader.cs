@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,7 @@ using System;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class Int64Reader : ContentTypeReader<Int64>
     {
         protected internal override Int64 Read(ContentReader input, Int64 existingInstance)
@@ -17,6 +19,7 @@ namespace ANX.Framework.Content
         }
     }
 
+    [Developer("GinieDP")]
     internal class UInt64Reader : ContentTypeReader<UInt64>
     {
         protected internal override UInt64 Read(ContentReader input, UInt64 existingInstance)

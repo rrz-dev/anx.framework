@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,7 @@ using System;
 namespace ANX.Framework.Content
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [Developer("GinieDP")]
     public sealed class ContentSerializerRuntimeTypeAttribute : Attribute
     {
         public string RuntimeType

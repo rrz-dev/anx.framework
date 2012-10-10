@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,9 @@ using System.Collections;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class AchievementCollection : IList<Achievement>, ICollection<Achievement>,
 			IEnumerable<Achievement>, IEnumerable, IDisposable
     {

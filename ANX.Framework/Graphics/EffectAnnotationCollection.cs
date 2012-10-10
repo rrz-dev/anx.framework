@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,9 @@ using System.Collections;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectAnnotationCollection : IEnumerable<EffectAnnotation>
     {
         public EffectAnnotation this[int index]

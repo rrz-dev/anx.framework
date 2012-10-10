@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,7 +11,10 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.GamerServices
 {
-	public static class Guide
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public static class Guide
 	{
 		public static bool IsTrialMode
 		{

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 
 #endregion // Using Statements
@@ -10,6 +11,7 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class VertexDeclarationReader : ContentTypeReader<VertexDeclaration>
     {
         protected internal override VertexDeclaration Read(ContentReader input, VertexDeclaration existingInstance)

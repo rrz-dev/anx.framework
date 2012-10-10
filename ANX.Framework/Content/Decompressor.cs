@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -38,6 +39,7 @@ SOFTWARE.
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal static class Decompressor
     {
         public static Stream DecompressStream(BinaryReader reader, Stream input, int num)

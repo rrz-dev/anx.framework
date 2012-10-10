@@ -10,7 +10,7 @@ namespace ANX.Framework.Graphics
 {
 #if XNAEXT
 
-    [PercentageComplete(10)]
+    [PercentageComplete(25)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
     public class ConstantBuffer : GraphicsResource, IGraphicsResource

@@ -2,6 +2,7 @@
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.PlatformSystem;
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion
 
@@ -13,6 +14,7 @@ namespace ANX.Framework
 {
     //TODO: this class is public on Windows Phone
 
+    [Developer("Glatzemann")]
 	internal class GameTimer
 	{
 		private INativeGameTimer nativeImplementation;

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,7 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public class DualTextureEffectReader : ContentTypeReader<DualTextureEffect>
     {
         protected internal override DualTextureEffect Read(ContentReader input, DualTextureEffect existingInstance)

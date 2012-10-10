@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,7 +10,10 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
-	public sealed class SignedInGamerCollection : GamerCollection<SignedInGamer>
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class SignedInGamerCollection : GamerCollection<SignedInGamer>
 	{
 		public SignedInGamer this[PlayerIndex playerIndex]
 		{

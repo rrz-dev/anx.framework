@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Runtime.Serialization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.Runtime.Serialization;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class NetworkException : Exception
     {
         public NetworkException()

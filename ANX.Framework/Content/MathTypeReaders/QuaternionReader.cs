@@ -7,8 +7,10 @@
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class QuaternionReader : ContentTypeReader<Quaternion>
     {
         protected internal override Quaternion Read(ContentReader input, Quaternion existingInstance)

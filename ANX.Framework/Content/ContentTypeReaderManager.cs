@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 
 #endregion // Using Statements
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public sealed class ContentTypeReaderManager
     {
         private ContentReader contentReader;

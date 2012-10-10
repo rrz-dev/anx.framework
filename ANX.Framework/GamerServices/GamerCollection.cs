@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,7 +13,10 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.GamerServices
 {
-	public class GamerCollection<T> : ReadOnlyCollection<T>,
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public class GamerCollection<T> : ReadOnlyCollection<T>,
 		IEnumerable<Gamer>, IEnumerable where T : Gamer
 	{
 		#region GamerCollectionEnumerator

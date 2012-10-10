@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,7 +10,10 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
-	public class Effect : GraphicsResource, IGraphicsResource
+    [PercentageComplete(90)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public class Effect : GraphicsResource, IGraphicsResource
 	{
 		#region Private
 		private INativeEffect nativeEffect;

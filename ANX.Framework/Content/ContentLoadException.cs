@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Runtime.Serialization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -13,6 +14,7 @@ namespace ANX.Framework.Content
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [SerializableAttribute]
 #endif
+    [Developer("GinieDP")]
     public class ContentLoadException : Exception
     {
         /// <summary>

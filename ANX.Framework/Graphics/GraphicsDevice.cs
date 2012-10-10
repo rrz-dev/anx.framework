@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,7 +10,10 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 namespace ANX.Framework.Graphics
 {
-	public class GraphicsDevice : IDisposable
+    [PercentageComplete(75)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public class GraphicsDevice : IDisposable
 	{
 		#region Private Members
 		private IndexBuffer indexBuffer;

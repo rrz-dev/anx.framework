@@ -2,6 +2,7 @@
 using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public class ModelReader : ContentTypeReader<Model>
     {
         protected internal override Model Read(ContentReader input, Model existingInstance)

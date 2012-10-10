@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.IO;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class Achievement
 	{
 		public bool DisplayBeforeEarned

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 
 #endregion // Using Statements
@@ -10,6 +11,7 @@ using System;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public abstract class ContentTypeReader
     {
         /// <summary>

@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using ANX.Framework;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct AvatarExpression
     {
         public AvatarEye LeftEye { get; set; }

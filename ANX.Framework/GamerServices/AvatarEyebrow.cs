@@ -11,6 +11,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.GamerServices
 {
     [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public enum AvatarEyebrow
     {

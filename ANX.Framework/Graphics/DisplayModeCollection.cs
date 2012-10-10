@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,6 +12,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(30)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class DisplayModeCollection : IEnumerable<DisplayMode>, IEnumerable
     {
         private List<DisplayMode> displayModes = new List<DisplayMode>();

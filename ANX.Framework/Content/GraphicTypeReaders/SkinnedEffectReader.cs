@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,7 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public class SkinnedEffectReader : ContentTypeReader<SkinnedEffect>
     {
         protected internal override SkinnedEffect Read(ContentReader input, SkinnedEffect existingInstance)

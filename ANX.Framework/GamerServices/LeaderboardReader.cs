@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,7 +12,10 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.GamerServices
 {
-	public sealed class LeaderboardReader : IDisposable
+    [PercentageComplete(10)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class LeaderboardReader : IDisposable
 	{
 		public LeaderboardIdentity LeaderboardIdentity
 		{

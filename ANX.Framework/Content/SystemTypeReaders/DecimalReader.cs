@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,7 @@ using System;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class DecimalReader : ContentTypeReader<Decimal>
     {
         protected internal override Decimal Read(ContentReader input, Decimal existingInstance)

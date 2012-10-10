@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Reflection;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -14,6 +15,7 @@ using ANX.Framework.NonXNA.Reflection;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     public sealed class ContentReader : BinaryReader
     {
         private GraphicsProfile graphicsProfile;

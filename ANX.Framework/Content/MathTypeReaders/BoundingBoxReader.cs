@@ -7,8 +7,10 @@
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class BoundingBoxReader : ContentTypeReader<BoundingBox>
     {
         protected internal override BoundingBox Read(ContentReader input, BoundingBox existingInstance)

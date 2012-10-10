@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Content
 {
+    [Developer("GinieDP")]
     internal class DictionaryReader<TKey, TValue> : ContentTypeReader<Dictionary<TKey, TValue>>
     {
         private ContentTypeReader keyTypeReader;

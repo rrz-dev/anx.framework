@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,6 +11,9 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(75)]
+    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GraphicsAdapter
     {
 		public static ReadOnlyCollection<GraphicsAdapter> Adapters
