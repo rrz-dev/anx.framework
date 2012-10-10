@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,24 +7,17 @@ using System;
 
 namespace ANX.Framework.Net
 {
-	public class HostChangedEventArgs : EventArgs
-	{
-		public NetworkGamer OldHost
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    public class HostChangedEventArgs : EventArgs
+    {
+        public NetworkGamer OldHost { get; private set; }
+        public NetworkGamer NewHost { get; private set; }
 
-		public NetworkGamer NewHost
-		{
-			get;
-			private set;
-		}
-
-		public HostChangedEventArgs(NetworkGamer oldHost, NetworkGamer newHost)
-		{
-			OldHost = oldHost;
-			NewHost = newHost;
-		}
-	}
+        public HostChangedEventArgs(NetworkGamer oldHost, NetworkGamer newHost)
+        {
+            OldHost = oldHost;
+            NewHost = newHost;
+        }
+    }
 }

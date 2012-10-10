@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +9,8 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class AvailableNetworkSessionCollection :
 		ReadOnlyCollection<AvailableNetworkSession>, IDisposable
 	{

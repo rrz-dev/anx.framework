@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,8 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class InviteAcceptedEventArgs : EventArgs
     {
         public InviteAcceptedEventArgs(SignedInGamer gamer, bool isCurrentSession)
@@ -17,16 +20,7 @@ namespace ANX.Framework.GamerServices
             this.IsCurrentSession = isCurrentSession;
         }
 
-        public SignedInGamer Gamer
-        {
-            get;
-            private set;
-        }
-
-        public bool IsCurrentSession
-        {
-            get;
-            private set;
-        }
+        public SignedInGamer Gamer { get; private set; }
+        public bool IsCurrentSession { get; private set; }
     }
 }

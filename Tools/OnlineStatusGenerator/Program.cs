@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 using ANX.Framework.NonXNA.Development;
 
 namespace OnlineStatusGenerator
 {
     class Program
     {
+        private const string GreenColor = "#A5DE94";
+        private const string RedColor = "#AD0000";
+        private const string YellowColor = "#FFFF9C";
+
         static void Main(string[] args)
         {
             var assembly = Assembly.LoadFile(Path.GetFullPath("ANX.Framework.dll"));
@@ -34,21 +38,9 @@ namespace OnlineStatusGenerator
                 foreach (Type type in namespaces[space])
                 {
                     result += "\n<tr><td>" + type.Name + "</td>";
-                    object[] percentageAttributes = type.GetCustomAttributes(typeof(PercentageCompleteAttribute), false);
-                    var percentageAttribute = percentageAttributes.Length > 0 ?
-                        percentageAttributes[0] as PercentageCompleteAttribute : null;
-                    result += "<td align=center>" + (percentageAttribute != null ? percentageAttribute.Percentage.ToString() : "---") + "</td>";
-
-                    object[] developerAttributes = type.GetCustomAttributes(typeof(DeveloperAttribute), false);
-                    var developerAttribute = developerAttributes.Length > 0 ?
-                        developerAttributes[0] as DeveloperAttribute : null;
-                    result += "<td align=center>" + (developerAttribute != null ? developerAttribute.Developer : "---") + "</td>";
-
-                    object[] testAttributes = type.GetCustomAttributes(typeof(TestStateAttribute), false);
-                    var testAttribute = testAttributes.Length > 0 ?
-                        testAttributes[0] as TestStateAttribute : null;
-                    result += "<td align=center>" + (testAttribute != null ? testAttribute.State.ToString() : "---") + "</td>";
-
+                    result += GetPercentageCompleteBox(type);
+                    result += GetDeveloperBox(type);
+                    result += GetTestStateBox(type);
                     result += "</tr>";
                 }
             }
@@ -56,6 +48,39 @@ namespace OnlineStatusGenerator
 
             File.WriteAllText("Report.html", result);
             System.Diagnostics.Process.Start("Report.html");
+        }
+
+        private static string GetPercentageCompleteBox(Type type)
+        {
+            var percentageAttribute = GetAttribute<PercentageCompleteAttribute>(type);
+            int percent = percentageAttribute != null ? percentageAttribute.Percentage : -1;
+            string result = percent != -1 ? percent.ToString() : "---";
+            string bgColor = percent == -1 ? RedColor : (percent == 100 ? GreenColor : YellowColor);
+            return "<td align=\"center\" style=\"background-color:" + bgColor + ";\">" + result + "</td>";
+        }
+
+        private static string GetTestStateBox(Type type)
+        {
+            var testAttribute = GetAttribute<TestStateAttribute>(type);
+            string result = testAttribute != null ? testAttribute.State.ToString() : "---";
+            string bgColor = testAttribute == null ? RedColor :
+                (testAttribute.State == TestStateAttribute.TestState.Tested ? GreenColor : YellowColor);
+            return "<td align=\"center\" style=\"background-color:" + bgColor + ";\">" + result + "</td>";
+        }
+
+        private static string GetDeveloperBox(Type type)
+        {
+            var developerAttribute = GetAttribute<DeveloperAttribute>(type);
+            string result = developerAttribute != null ? developerAttribute.Developer : "---";
+            string bgColor = developerAttribute == null ? RedColor :
+                (developerAttribute.Developer != "???" ? "white" : YellowColor);
+            return "<td align=\"center\" style=\"background-color:" + bgColor + ";\">" + result + "</td>";
+        }
+
+        private static T GetAttribute<T>(Type type) where T : Attribute
+        {
+            object[] attributes = type.GetCustomAttributes(typeof(T), false);
+            return attributes.Length > 0 ? attributes[0] as T : null;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using ANX.Framework.GamerServices;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +9,8 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class NetworkSession : IDisposable
 	{
 		public const int MaxSupportedGamers = 31;
@@ -245,43 +248,37 @@ namespace ANX.Framework.Net
 			throw new NotImplementedException();
 		}
 
-		public static NetworkSession Create(NetworkSessionType sessionType,
-			int maxLocalGamers, int maxGamers)
+		public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static NetworkSession Create(NetworkSessionType sessionType,
-			int maxLocalGamers, int maxGamers, int privateGamerSlots,
-			NetworkSessionProperties sessionProperties)
+		public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers,
+            int privateGamerSlots, NetworkSessionProperties sessionProperties)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static NetworkSession Create(NetworkSessionType sessionType,
-			IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots,
-			NetworkSessionProperties sessionProperties)
+		public static NetworkSession Create(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers,
+            int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginCreate(NetworkSessionType sessionType,
-			int maxLocalGamers, int maxGamers, AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginCreate(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers,
+            AsyncCallback callback, object asyncState)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginCreate(NetworkSessionType sessionType,
-			int maxLocalGamers, int maxGamers, int privateGamerSlots,
-			NetworkSessionProperties sessionProperties, AsyncCallback callback,
-			object asyncState)
+		public static IAsyncResult BeginCreate(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers,
+            int privateGamerSlots, NetworkSessionProperties sessionProperties, AsyncCallback callback, object asyncState)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginCreate(NetworkSessionType sessionType,
-			IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots,
-			NetworkSessionProperties sessionProperties, AsyncCallback callback,
+		public static IAsyncResult BeginCreate(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers,
+            int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties, AsyncCallback callback,
 			object asyncState)
 		{
 			throw new NotImplementedException();
@@ -292,28 +289,26 @@ namespace ANX.Framework.Net
 			throw new NotImplementedException();
 		}
 
-		public static AvailableNetworkSessionCollection Find(NetworkSessionType sessionType,
-			int maxLocalGamers, NetworkSessionProperties searchProperties)
+		public static AvailableNetworkSessionCollection Find(NetworkSessionType sessionType, int maxLocalGamers,
+            NetworkSessionProperties searchProperties)
 		{
 			throw new NotImplementedException();
 		}
 
 		public static AvailableNetworkSessionCollection Find(NetworkSessionType sessionType,
-			IEnumerable<SignedInGamer> localGamers, NetworkSessionProperties searchProperties)
+            IEnumerable<SignedInGamer> localGamers, NetworkSessionProperties searchProperties)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginFind(NetworkSessionType sessionType,
-			int maxLocalGamers, NetworkSessionProperties searchProperties,
-			AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginFind(NetworkSessionType sessionType, int maxLocalGamers,
+            NetworkSessionProperties searchProperties, AsyncCallback callback, object asyncState)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginFind(NetworkSessionType sessionType,
-			IEnumerable<SignedInGamer> localGamers, NetworkSessionProperties searchProperties,
-			AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginFind(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers,
+            NetworkSessionProperties searchProperties, AsyncCallback callback, object asyncState)
 		{
 			throw new NotImplementedException();
 		}
@@ -328,8 +323,8 @@ namespace ANX.Framework.Net
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginJoin(AvailableNetworkSession availableSession,
-			AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginJoin(AvailableNetworkSession availableSession, AsyncCallback callback,
+            object asyncState)
 		{
 			throw new NotImplementedException();
 		}
@@ -349,14 +344,13 @@ namespace ANX.Framework.Net
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginJoinInvited(int maxLocalGamers,
-			AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginJoinInvited(int maxLocalGamers, AsyncCallback callback, object asyncState)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static IAsyncResult BeginJoinInvited(IEnumerable<SignedInGamer> localGamers,
-			AsyncCallback callback, object asyncState)
+		public static IAsyncResult BeginJoinInvited(IEnumerable<SignedInGamer> localGamers, AsyncCallback callback,
+            object asyncState)
 		{
 			throw new NotImplementedException();
 		}

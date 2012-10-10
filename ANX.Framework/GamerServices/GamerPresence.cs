@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,30 +10,20 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GamerPresence
     {
-			public GamerPresenceMode PresenceMode
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
-			
-			public int PresenceValue
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
+        public GamerPresenceMode PresenceMode
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int PresenceValue
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

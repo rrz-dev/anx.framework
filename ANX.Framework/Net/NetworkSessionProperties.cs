@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +9,8 @@ using System.Collections;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class NetworkSessionProperties : IList<int?>, ICollection<int?>,
 		IEnumerable<int?>, IEnumerable
 	{

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,6 +8,8 @@ using System.Runtime.Serialization;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class NetworkException : Exception
 	{
 		public NetworkException()
@@ -24,8 +27,7 @@ namespace ANX.Framework.Net
 		}
 
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-		protected NetworkException(SerializationInfo info,
-			StreamingContext context)
+		protected NetworkException(SerializationInfo info, StreamingContext context)
 			: base(info, context)
 		{
 		}

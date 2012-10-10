@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,8 @@ using System;
 
 namespace ANX.Framework.Input.Touch
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct GestureSample
     {
         #region Private
@@ -18,58 +21,40 @@ namespace ANX.Framework.Input.Touch
 		#endregion
 
 		#region Public
-		public Vector2 Delta
-		{
-			get
-			{
-				return this.delta;
-			}
-		}
+        public Vector2 Delta
+        {
+            get { return this.delta; }
+        }
 
-		public Vector2 Delta2
-		{
-			get
-			{
-				return this.delta2;
-			}
-		}
+        public Vector2 Delta2
+        {
+            get { return this.delta2; }
+        }
 
-		public GestureType GestureType
-		{
-			get
-			{
-				return this.gestureType;
-			}
-		}
+        public GestureType GestureType
+        {
+            get { return this.gestureType; }
+        }
 
-		public Vector2 Position
-		{
-			get
-			{
-				return this.position;
-			}
-		}
+        public Vector2 Position
+        {
+            get { return this.position; }
+        }
 
-		public Vector2 Position2
-		{
-			get
-			{
-				return this.position2;
-			}
-		}
+        public Vector2 Position2
+        {
+            get { return this.position2; }
+        }
 
-		public TimeSpan Timestamp
-		{
-			get
-			{
-				return this.timestamp;
-			}
-		}
-		#endregion
+        public TimeSpan Timestamp
+        {
+            get { return this.timestamp; }
+        }
+        #endregion
 
 		#region Constructor
-		public GestureSample(GestureType gestureType, TimeSpan timestamp, Vector2 position,
-			Vector2 position2, Vector2 delta, Vector2 delta2)
+		public GestureSample(GestureType gestureType, TimeSpan timestamp, Vector2 position, Vector2 position2,
+            Vector2 delta, Vector2 delta2)
         {
             this.gestureType = gestureType;
             this.timestamp = timestamp;

@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Net;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,133 +11,27 @@ using System.Net;
 
 namespace ANX.Framework.Net
 {
-	public sealed class AvailableNetworkSession
-	{
-        private NetworkSessionType sessionType;
-        private int openPublicGamerSlots;
-        private QualityOfService qualityOfService;
-        private NetworkSessionProperties sessionProperties;
-#if !WINDOWSMETRO      //TODO: search replacement for Win8
-        private IPEndPoint endPoint;
-        private IPEndPoint internalendPoint;
-#endif
-        private int _currentGameCount;
-        private string hostGamertag;
-        private int openPrivateGamerSlots;
-
-        public AvailableNetworkSession() 
-        { 
-            qualityOfService = new QualityOfService(); 
-        }		
-        
-        public int CurrentGamerCount 
-        { 
-            get 
-            { 
-                return _currentGameCount; 
-            } 
-            internal set 
-            { 
-                _currentGameCount = value; 
-            } 
-        }		
-        
-        public string HostGamertag 
-        { 
-            get 
-            { 
-                return hostGamertag; 
-            } 
-            internal set 
-            { 
-                hostGamertag = value; 
-            } 
-        }		
-        
-         public int OpenPrivateGamerSlots 
-         { 
-             get 
-             { 
-                 return openPrivateGamerSlots; 
-             } 
-             internal set 
-             { 
-                 openPrivateGamerSlots = value; 
-             } 
-         }		
-        
-        public int OpenPublicGamerSlots 
-        { 
-            get 
-            { 
-                return openPublicGamerSlots; 
-            } 
-            internal set 
-            { 
-                openPublicGamerSlots = value; 
-            } 
-        }
-
-        public QualityOfService QualityOfService 
-        { 
-            get 
-            { 
-                return qualityOfService; 
-            } 
-            internal set 
-            { 
-                qualityOfService = value; 
-            } 
-        }		
-        
-        public NetworkSessionProperties SessionProperties 
-        { 
-            get 
-            { 
-                return sessionProperties; 
-            } 
-            internal set 
-            { 
-                sessionProperties = value; 
-            } 
-        }
-        
-#if !WINDOWSMETRO      //TODO: search replacement for Win8
-        internal IPEndPoint EndPoint 
-        { 
-            get 
-            { 
-                return endPoint; 
-            } 
-            set 
-            { 
-                endPoint = value; 
-            } 
-        }
-        
-        internal IPEndPoint InternalEndpont 
-        { 
-            get 
-            { 
-                return internalendPoint; 
-            } 
-            set 
-            { 
-                internalendPoint = value; 
-            } 
-        }        
-#endif
-        
-        internal NetworkSessionType SessionType 
+    [PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class AvailableNetworkSession
+    {
+        public AvailableNetworkSession()
         {
-            get
-            {
-                return this.sessionType;
-            }
-            set
-            {
-                this.sessionType = value;
-            }
+            QualityOfService = new QualityOfService();
         }
+
+        public int CurrentGamerCount { get; internal set; }
+        public string HostGamertag { get; internal set; }
+        public int OpenPrivateGamerSlots { get; internal set; }
+        public int OpenPublicGamerSlots { get; internal set; }
+        public QualityOfService QualityOfService { get; internal set; }
+        public NetworkSessionProperties SessionProperties { get; internal set; }
+
+#if !WINDOWSMETRO //TODO: search replacement for Win8
+        internal IPEndPoint EndPoint { get; set; }
+        internal IPEndPoint InternalEndpont { get; set; }
+#endif
+
+        internal NetworkSessionType SessionType { get; set; }
     }
 }

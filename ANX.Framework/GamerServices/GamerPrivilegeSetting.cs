@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,6 +10,8 @@ using System;
 
 namespace ANX.Framework.GamerServices
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public enum GamerPrivilegeSetting
     {
         Blocked = 0,

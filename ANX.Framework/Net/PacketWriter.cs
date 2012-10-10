@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,29 +8,22 @@ using System.IO;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class PacketWriter : BinaryWriter
 	{
-		public int Length
-		{
-			get
-			{
-				return (int)BaseStream.Length;
-			}
-		}
+        public int Length
+        {
+            get { return (int)BaseStream.Length; }
+        }
 
-		public int Position
-		{
-			get
-			{
-				return (int)BaseStream.Position;
-			}
-			set
-			{
-				BaseStream.Position = (long)value;
-			}
-		}
+        public int Position
+        {
+            get { return (int)BaseStream.Position; }
+            set { BaseStream.Position = value; }
+        }
 
-		public PacketWriter()
+        public PacketWriter()
 			: this(0)
 		{
 		}
@@ -37,16 +31,6 @@ namespace ANX.Framework.Net
 		public PacketWriter(int capacity)
 			: base(new MemoryStream(capacity))
 		{
-		}
-
-		public override void Write(float value)
-		{
-			Write(value);
-		}
-
-		public override void Write(double value)
-		{
-			Write(value);
 		}
 
 		public void Write(Vector2 value)

@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,17 +7,15 @@ using System;
 
 namespace ANX.Framework.Net
 {
-	public class GamerLeftEventArgs : EventArgs
-	{
-		public NetworkGamer Gamer
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    public class GamerLeftEventArgs : EventArgs
+    {
+        public NetworkGamer Gamer { get; private set; }
 
-		public GamerLeftEventArgs(NetworkGamer gamer)
-		{
-			Gamer = gamer;
-		}
-	}
+        public GamerLeftEventArgs(NetworkGamer gamer)
+        {
+            Gamer = gamer;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,29 +8,22 @@ using System.IO;
 
 namespace ANX.Framework.Net
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class PacketReader : BinaryReader
 	{
-		public int Length
-		{
-			get
-			{
-				return (int)BaseStream.Length;
-			}
-		}
+        public int Length
+        {
+            get { return (int)BaseStream.Length; }
+        }
 
-		public int Position
-		{
-			get
-			{
-				return (int)BaseStream.Position;
-			}
-			set
-			{
-				BaseStream.Position = (long)value;
-			}
-		}
+        public int Position
+        {
+            get { return (int)BaseStream.Position; }
+            set { BaseStream.Position = value; }
+        }
 
-		public PacketReader()
+        public PacketReader()
 			: this(0)
 		{
 		}
@@ -37,16 +31,6 @@ namespace ANX.Framework.Net
 		public PacketReader(int capacity)
 			: base(new MemoryStream(capacity))
 		{
-		}
-
-		public override float ReadSingle()
-		{
-			return ReadSingle();
-		}
-
-		public override double ReadDouble()
-		{
-			return ReadDouble();
 		}
 
 		public Vector2 ReadVector2()
