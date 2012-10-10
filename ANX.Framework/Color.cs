@@ -811,9 +811,10 @@ namespace ANX.Framework
         {
             Color color;
 
-            r = ClampValue((long)r * a / 255L);
-            g = ClampValue((long)g * a / 255L);
-            b = ClampValue((long)b * a / 255L);
+            r = ClampValue64((long)r * a / 255L);
+            g = ClampValue64((long)g * a / 255L);
+            b = ClampValue64((long)b * a / 255L);
+            a = ClampValue32(a);
 
             /* //What the heck is this? Anyway it does not work!
             if (((((r | g) | b) | a) & -256) != 0)
@@ -829,13 +830,22 @@ namespace ANX.Framework
             return color;
         }
 
-        private static int ClampValue(long value)
+        private static int ClampValue64(long value)
         {
             if (value < 0L)
                 return 0;
             if (value > 255L)
                 return 255;
             return (int) value;
+        }
+
+        public static int ClampValue32(int value)
+        {
+            if (value < 0)
+                return 0;
+            if (value > 255)
+                return 255;
+            return value;
         }
 
         public static Color FromNonPremultiplied(Vector4 vector)

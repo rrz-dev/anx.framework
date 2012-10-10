@@ -404,6 +404,20 @@ namespace ANX.Framework.TestCenter.Strukturen
             AssertHelper.ConvertEquals(xna, anx, "FromNonPremultipliedIntStatic2");
         }
 
+        [Test]
+        public void FromNonPremultipliedIntRandom()
+        {
+            Random rand = new Random();
+            int r = rand.Next(255);
+            int g = rand.Next(255);
+            int b = rand.Next(255);
+            int a = 255;
+            XNAColor xna = XNAColor.FromNonPremultiplied(r, g, b, a);
+            ANXColor anx = ANXColor.FromNonPremultiplied(r, g, b, a);
+
+            AssertHelper.ConvertEquals(xna, anx, "FromNonPremultipliedIntStatic2");
+        }
+
         [Test, TestCaseSource("fourfloats")]
         public void FromNonPremultipliedVector4Static(float r, float g, float b, float a)
         {
