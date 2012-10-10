@@ -42,7 +42,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNAHalfSingle xnaVal = new XNAHalfSingle(single);
             ANXHalfSingle anxVal = new ANXHalfSingle(single);
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor1");
         }
 
         [Test, TestCaseSource("floats")]

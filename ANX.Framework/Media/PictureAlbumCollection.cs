@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,33 +9,26 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
 	public sealed class PictureAlbumCollection : IEnumerable<PictureAlbum>, IEnumerable, IDisposable
 	{
-		private List<PictureAlbum> pictureAlbums;
+		private readonly List<PictureAlbum> pictureAlbums;
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    public bool IsDisposed { get; private set; }
 
-		public int Count
-		{
-			get
-			{
-				return pictureAlbums.Count;
-			}
-		}
+	    public int Count
+	    {
+	        get { return pictureAlbums.Count; }
+	    }
 
-		public PictureAlbum this[int index]
-		{
-			get
-			{
-				return pictureAlbums[index];
-			}
-		}
+	    public PictureAlbum this[int index]
+	    {
+	        get { return pictureAlbums[index]; }
+	    }
 
-		internal PictureAlbumCollection()
+	    internal PictureAlbumCollection()
 		{
 			pictureAlbums = new List<PictureAlbum>();
 			IsDisposed = false;

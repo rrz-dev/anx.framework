@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,87 +7,49 @@ using System;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class Playlist : IEquatable<Playlist>, IDisposable
-	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+    {
+        internal string Id { get; private set; }
 
-		public string Name
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+	    public bool IsDisposed { get; private set; }
+        public string Name { get; internal set; }
+        public SongCollection Songs { get; internal set; }
+        public TimeSpan Duration { get; internal set; }
 
-		public SongCollection Songs
+		internal Playlist(string setId)
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public TimeSpan Duration
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		#region Constructor
-		private Playlist()
-		{
+		    Id = setId;
 			IsDisposed = false;
 		}
 
-		~Playlist()
+        public bool Equals(Playlist other)
 		{
-			Dispose();
-		}
-		#endregion
-
-		public bool Equals(Playlist other)
-		{
-			throw new NotImplementedException();
+		    return Id == other.Id;
 		}
 
 		public override bool Equals(object obj)
-		{
-			if (obj is Playlist)
-				return Equals(obj as Playlist);
-
-			return base.Equals(obj);
+        {
+            return obj is Playlist ? Equals(obj as Playlist) : base.Equals(obj);
 		}
 
-		public void Dispose()
-		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
-		}
+        public void Dispose()
+        {
+            IsDisposed = true;
+        }
 
-		#region ToString
 		public override string ToString()
 		{
 			return Name;
 		}
-		#endregion
 
-		#region GetHashCode
 		public override int GetHashCode()
 		{
 			return Name.GetHashCode();
 		}
-		#endregion
 		
-		#region Operator overloading
 		public static bool operator ==(Playlist first, Playlist second)
 		{
 			return first.Equals(second);
@@ -96,6 +59,5 @@ namespace ANX.Framework.Media
 		{
 			return first.Equals(second) == false;
 		}
-		#endregion
 	}
 }

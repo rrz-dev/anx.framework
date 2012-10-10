@@ -74,6 +74,7 @@
     <Compile Include="Strukturen\Input\KeyboardStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseTest.cs" />
+    <Compile Include="Strukturen\Media\MediaLibraryTests.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
     <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />
     <Compile Include="Strukturen\BoundingBoxTest.cs" />
@@ -118,7 +119,6 @@
     <Folder Include="Strukturen\Design\GamerServices\" />
     <Folder Include="Strukturen\Input\MotionSensing\" />
     <Folder Include="Strukturen\Input\Touch\" />
-    <Folder Include="Strukturen\Media\" />
     <Folder Include="Strukturen\Net\" />
     <Folder Include="Strukturen\NonXNA\InputSystem\" />
     <Folder Include="Strukturen\NonXNA\RenderSystem\" />
@@ -141,6 +141,10 @@
     <ProjectReference Include="..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows.csproj">
       <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio.csproj">
+      <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
+      <Name>ANX.SoundSystem.Windows.XAudio</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -42,7 +42,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNABgra5551 xnaVal = new XNABgra5551(r, g, b, a);
             ANXBgra5551 anxVal = new ANXBgra5551(r, g, b, a);
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor1");
         }
 
         [Test, TestCaseSource("fourfloats")]
@@ -52,7 +52,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNABgra5551 xnaVal = new XNABgra5551(new XNAVector4(r, g, b, a));
             ANXBgra5551 anxVal = new ANXBgra5551(new ANXVector4(r, g, b, a));
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor2");
         }
 
         [Test, TestCaseSource("fourfloats")]

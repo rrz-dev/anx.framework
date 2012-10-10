@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,104 +7,58 @@ using System;
 
 namespace ANX.Framework.Media
 {
-	public sealed class PictureAlbum : IEquatable<PictureAlbum>, IDisposable
-	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(50)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class PictureAlbum : IEquatable<PictureAlbum>, IDisposable
+    {
+        internal string Id { get; private set; }
 
-		public string Name
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool IsDisposed { get; private set; }
+        public string Name { get; private set; }
+        public PictureAlbumCollection Albums { get; private set; }
+        public PictureCollection Pictures { get; private set; }
+        public PictureAlbum Parent { get; private set; }
 
-		public PictureAlbumCollection Albums
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        internal PictureAlbum(string setId)
+        {
+            Id = setId;
+            IsDisposed = false;
+        }
 
-		public PictureCollection Pictures
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool Equals(PictureAlbum other)
+        {
+            return Id == other.Id;
+        }
 
-		public PictureAlbum Parent
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public override bool Equals(object obj)
+        {
+            return obj is PictureAlbum ? Equals(obj as PictureAlbum) : base.Equals(obj);
+        }
 
-		#region Constructor
-		private PictureAlbum()
-		{
-			IsDisposed = false;
-		}
+        public void Dispose()
+        {
+            IsDisposed = true;
+        }
 
-		~PictureAlbum()
-		{
-			Dispose();
-		}
-		#endregion
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public bool Equals(PictureAlbum other)
-		{
-			throw new NotImplementedException();
-		}
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (obj is PictureAlbum)
-				return Equals(obj as PictureAlbum);
+        public static bool operator ==(PictureAlbum first, PictureAlbum second)
+        {
+            return first.Equals(second);
+        }
 
-			return base.Equals(obj);
-		}
-
-		public void Dispose()
-		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
-		}
-
-		#region ToString
-		public override string ToString()
-		{
-			return Name;
-		}
-		#endregion
-
-		#region GetHashCode
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
-		}
-		#endregion
-
-		#region Operator overloading
-		public static bool operator ==(PictureAlbum first, PictureAlbum second)
-		{
-			return first.Equals(second);
-		}
-
-		public static bool operator !=(PictureAlbum first, PictureAlbum second)
-		{
-			return first.Equals(second) == false;
-		}
-		#endregion
-	}
+        public static bool operator !=(PictureAlbum first, PictureAlbum second)
+        {
+            return first.Equals(second) == false;
+        }
+    }
 }

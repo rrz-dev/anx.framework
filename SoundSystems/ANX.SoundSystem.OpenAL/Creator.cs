@@ -169,13 +169,13 @@ namespace ANX.SoundSystem.OpenAL
         public ISong CreateSong(Song parentSong, Uri uri)
         {
             PreventSystemChange();
-            return new OpenALSong(parentSong, uri);
+            return new OpenALSong(uri);
         }
 
         public ISong CreateSong(Song parentSong, string filepath, int duration)
         {
             PreventSystemChange();
-            return new OpenALSong(parentSong, filepath, duration);
+            return new OpenALSong(filepath, duration);
         }
         #endregion
 

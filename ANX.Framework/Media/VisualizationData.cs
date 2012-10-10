@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,9 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class VisualizationData
     {
         internal readonly float[] FrequencyData;

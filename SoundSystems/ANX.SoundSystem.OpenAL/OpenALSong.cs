@@ -16,35 +16,37 @@ namespace ANX.SoundSystem.OpenAL
     [Developer("AstrorEnales")]
     public class OpenALSong : ISong
     {
-        private Song parent;
         private FileStream oggFileStream;
         private OggInputStream oggStream;
         private int[] bufferHandles;
         private int sourceHandle = InvalidHandle;
         private const int InvalidHandle = -1;
-        private static readonly byte[] streamReadBuffer = new byte[4096 * 8];
+        private static readonly byte[] StreamReadBuffer = new byte[4096 * 8];
+        private string filepath;
+        private bool isInitialized;
 
         public TimeSpan Duration { get; private set; }
         public TimeSpan PlayPosition { get; private set; }
         public MediaState State { get; private set; }
 
-        public OpenALSong(Song setParent, Uri uri)
+        public OpenALSong(Uri uri)
         {
-            string path = uri.AbsolutePath.Replace("%20", "");
-            parent = setParent;
-            Init(path);
+            filepath = uri.AbsolutePath.Replace("%20", "");
             // TODO: duration
         }
 
-        public OpenALSong(Song setParent, string filepath, int duration)
+        public OpenALSong(string filepath, int duration)
         {
-            parent = setParent;
-            Init(filepath);
+            this.filepath = filepath;
             Duration = new TimeSpan(0, 0, 0, 0, duration);
         }
 
-        private void Init(string filepath)
+        private void Init()
         {
+            if (Path.GetExtension(filepath).ToLower() != ".ogg")
+                throw new NotImplementedException("Currently only ogg playback is implemented!");
+
+            isInitialized = true;
             PlayPosition = TimeSpan.Zero;
 
             State = MediaState.Stopped;
@@ -56,6 +58,9 @@ namespace ANX.SoundSystem.OpenAL
 
         public void Play()
         {
+            if (isInitialized == false)
+                Init();
+
             if (State == MediaState.Playing)
                 return;
 
@@ -141,14 +146,14 @@ namespace ANX.SoundSystem.OpenAL
 
         internal bool Stream(int bufferHandle)
         {
-            int size = oggStream.Read(streamReadBuffer);
+            int size = oggStream.Read(StreamReadBuffer);
             bool dataAvailable = size > 0;
             if (dataAvailable)
             {
                 var channels = (AudioChannels)oggStream.Channels;
                 PlayPosition = PlayPosition.Add(SoundEffect.GetSampleDuration(size, oggStream.SampleRate, channels));
                 ALFormat format = oggStream.Channels > 1 ? ALFormat.Stereo16 : ALFormat.Mono16;
-                AL.BufferData(bufferHandle, format, streamReadBuffer, size, oggStream.SampleRate);
+                AL.BufferData(bufferHandle, format, StreamReadBuffer, size, oggStream.SampleRate);
             }
 
             return dataAvailable;

@@ -9,116 +9,109 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Media
 {
-    [PercentageComplete(50)]
+    [PercentageComplete(100)]
     [Developer("AstrorEnales")]
-	public sealed class Song : IEquatable<Song>, IDisposable
-	{
+    [TestState(TestStateAttribute.TestState.InProgress)]
+    public sealed class Song : IEquatable<Song>, IDisposable
+    {
+        internal string Id { get; private set; }
         internal ISong NativeSong { get; private set; }
-        internal MediaState State { get { return NativeSong.State; } }
+        internal MediaState State
+        {
+            get { return NativeSong.State; }
+        }
 
         #region Public
         public bool IsDisposed { get; private set; }
-	    public string Name { get; private set; }
-
-	    public bool IsRated
-	    {
-	        get { return Rating > 0; }
-	    }
-
+        public string Name { get; private set; }
+        public int Rating { get; internal set; }
+        public int TrackNumber { get; internal set; }
+        public int PlayCount { get; internal set; }
+        public bool IsProtected { get; internal set; }
         public Artist Artist { get; internal set; }
         public Album Album { get; internal set; }
         public Genre Genre { get; internal set; }
 
+        public bool IsRated
+        {
+            get { return Rating > 0; }
+        }
+
         public TimeSpan Duration
-		{
-			get { return NativeSong.Duration; }
-		}
-
-        public int Rating
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        public int PlayCount
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public int TrackNumber
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public bool IsProtected
-        {
-            get { throw new NotImplementedException(); }
+            get { return NativeSong.Duration; }
         }
         #endregion
 
-		#region Constructor
-        internal Song(string setName)
+        #region Constructor
+        internal Song(string setName, string setId, string filename, int duration)
         {
-            // TODO
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
-            //NativeSong = creator.CreateSong(this, uri);
+            NativeSong = creator.CreateSong(this, filename, duration);
+            Id = setId;
             Name = setName;
             IsDisposed = false;
         }
 
-		internal Song(string setName, Uri uri)
+        internal Song(string setName, Uri uri)
         {
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
             NativeSong = creator.CreateSong(this, uri);
-			Name = setName;
-			IsDisposed = false;
-		}
+            Id = "-1";
+            Name = setName;
+            IsDisposed = false;
+        }
 
         internal Song(string setName, string filename, int duration)
         {
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
             NativeSong = creator.CreateSong(this, filename, duration);
+            Id = "-1";
             Name = setName;
             IsDisposed = false;
         }
 
-		~Song()
-		{
-			Dispose();
-		}
-		#endregion
+        ~Song()
+        {
+            Dispose();
+        }
+        #endregion
 
-		public static Song FromUri(string name, Uri uri)
-		{
-		    return new Song(name, uri);
-		}
+        public static Song FromUri(string name, Uri uri)
+        {
+            return new Song(name, uri);
+        }
 
         #region Equals
         public bool Equals(Song other)
-		{
-            return other != null && Name == other.Name;
-		}
+        {
+            if (other == null || Id != other.Id)
+                return false;
 
-		public override bool Equals(object obj)
-		{
-            if (ReferenceEquals(this, obj) == false)
+            return Id != "-1" || ReferenceEquals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Song && ReferenceEquals(this, obj) == false)
                 return Equals((Song)obj);
 
-		    return base.Equals(obj);
-		}
+            return base.Equals(obj);
+        }
         #endregion
 
         #region Dispose
         public void Dispose()
-		{
-		    if (IsDisposed)
-		        return;
+        {
+            if (IsDisposed)
+                return;
 
-		    IsDisposed = true;
+            IsDisposed = true;
 
-            if(NativeSong != null)
+            if (NativeSong != null)
                 NativeSong.Dispose();
-		    NativeSong = null;
-		}
+            NativeSong = null;
+        }
         #endregion
 
         internal void Play()
@@ -141,30 +134,30 @@ namespace ANX.Framework.Media
             NativeSong.Resume();
         }
 
-		#region ToString
-		public override string ToString()
-		{
-			return Name;
-		}
-		#endregion
+        #region ToString
+        public override string ToString()
+        {
+            return Name;
+        }
+        #endregion
 
-		#region GetHashCode
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
-		}
-		#endregion
+        #region GetHashCode
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+        #endregion
 
-		#region Operator overloading
-		public static bool operator ==(Song first, Song second)
+        #region Operator overloading
+        public static bool operator ==(Song first, Song second)
         {
             return object.Equals(first, second);
-		}
+        }
 
-		public static bool operator !=(Song first, Song second)
+        public static bool operator !=(Song first, Song second)
         {
             return !(first == second);
-		}
-		#endregion
-	}
+        }
+        #endregion
+    }
 }

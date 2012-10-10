@@ -42,7 +42,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNAHalfVector2 xnaVal = new XNAHalfVector2(x, y);
             ANXHalfVector2 anxVal = new ANXHalfVector2(x, y);
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor1");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor1");
         }
 
         [Test, TestCaseSource("twofloats")]
@@ -51,7 +51,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNAHalfVector2 xnaVal = new XNAHalfVector2(new XNAVector2(x, y));
             ANXHalfVector2 anxVal = new ANXHalfVector2(new ANXVector2(x, y));
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor2");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor2");
         }
 
         [Test, TestCaseSource("twofloats")]

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,130 +8,70 @@ using System.IO;
 
 namespace ANX.Framework.Media
 {
-	public sealed class Album : IEquatable<Album>, IDisposable
-	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(70)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class Album : IEquatable<Album>, IDisposable
+    {
+        internal string Id { get; private set; }
 
-		public string Name
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool IsDisposed { get; private set; }
+        public string Name { get; internal set; }
+        public TimeSpan Duration { get; internal set; }
+        public bool HasArt { get; internal set; }
+        public Artist Artist { get; internal set; }
+        public SongCollection Songs { get; internal set; }
+        public Genre Genre { get; internal set; }
 
-		public TimeSpan Duration
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        internal Album(string setId)
+        {
+            Id = setId;
+            IsDisposed = false;
+        }
 
-		public bool HasArt
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public Stream GetAlbumArt()
+        {
+            throw new NotImplementedException();
+        }
 
-		public Artist Artist
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public Stream GetThumbnail()
+        {
+            throw new NotImplementedException();
+        }
 
-		public SongCollection Songs
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public void Dispose()
+        {
+            IsDisposed = true;
+        }
 
-		public Genre Genre
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool Equals(Album other)
+        {
+            return Id == other.Id;
+        }
 
-		#region Constructor
-		private Album()
-		{
-			IsDisposed = false;
-		}
+        public override bool Equals(object obj)
+        {
+            return obj is Album ? Equals(obj as Album) : base.Equals(obj);
+        }
 
-		~Album()
-		{
-			Dispose();
-		}
-		#endregion
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public Stream GetAlbumArt()
-		{
-			throw new NotImplementedException();
-		}
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
-		public Stream GetThumbnail()
-		{
-			throw new NotImplementedException();
-		}
+        public static bool operator ==(Album first, Album second)
+        {
+            return first.Equals(second);
+        }
 
-		public void Dispose()
-		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
-		}
-
-		public bool Equals(Album other)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (obj is Album)
-				return Equals(obj as Album);
-
-			return base.Equals(obj);
-		}
-
-		#region ToString
-		public override string ToString()
-		{
-			return Name;
-		}
-		#endregion
-
-		#region GetHashCode
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
-		}
-		#endregion
-
-		#region Operator overloading
-		public static bool operator ==(Album first, Album second)
-		{
-			return first.Equals(second);
-		}
-
-		public static bool operator !=(Album first, Album second)
-		{
-			return first.Equals(second) == false;
-		}
-		#endregion
-	}
+        public static bool operator !=(Album first, Album second)
+        {
+            return first.Equals(second) == false;
+        }
+    }
 }

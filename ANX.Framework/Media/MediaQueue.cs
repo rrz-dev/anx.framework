@@ -9,8 +9,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Media
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class MediaQueue
 	{
         private readonly List<Song> queue;

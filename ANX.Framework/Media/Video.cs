@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,9 @@ using System;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(10)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class Video
 	{
 	    internal TimeSpan PlayPosition

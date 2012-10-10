@@ -22,6 +22,9 @@ namespace ANX.SoundSystem.Windows.XAudio
         private SourceVoice source;
         private readonly AudioBuffer[] buffers = new AudioBuffer[2];
         private int nextBufferIndex;
+        private XAudio2 device;
+        private string filepath;
+        private bool isInitialized;
 
         public TimeSpan Duration { get; private set; }
         public TimeSpan PlayPosition { get; private set; }
@@ -29,19 +32,24 @@ namespace ANX.SoundSystem.Windows.XAudio
 
         public XAudioSong(XAudio2 device, Uri uri)
         {
-            string path = uri.AbsolutePath.Replace("%20", "");
-            Init(device, path);
+            filepath = uri.AbsolutePath.Replace("%20", "");
+            this.device = device;
             // TODO: duration
         }
 
         public XAudioSong(XAudio2 device, string filepath, int duration)
         {
-            Init(device, filepath);
+            this.filepath = filepath;
+            this.device = device;
             Duration = new TimeSpan(0, 0, 0, 0, duration);
         }
 
-        private void Init(XAudio2 device, string filepath)
+        private void Init()
         {
+            if (Path.GetExtension(filepath).ToLower() != ".ogg")
+                throw new NotImplementedException("Currently only ogg playback is implemented!");
+
+            isInitialized = true;
             PlayPosition = TimeSpan.Zero;
             State = MediaState.Stopped;
 
@@ -63,6 +71,9 @@ namespace ANX.SoundSystem.Windows.XAudio
 
         public void Play()
         {
+            if (isInitialized == false)
+                Init();
+
             if (State == MediaState.Playing)
                 return;
 

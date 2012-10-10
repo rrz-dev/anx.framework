@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,122 +8,69 @@ using System.IO;
 
 namespace ANX.Framework.Media
 {
-	public sealed class Picture : IEquatable<Picture>, IDisposable
-	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(70)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public sealed class Picture : IEquatable<Picture>, IDisposable
+    {
+        internal string Id { get; private set; }
 
-		public string Name
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool IsDisposed { get; private set; }
+        public string Name { get; internal set; }
+        public PictureAlbum Album { get; internal set; }
+        public int Width { get; internal set; }
+        public int Height { get; internal set; }
+        public DateTime Date { get; internal set; }
 
-		public PictureAlbum Album
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        internal Picture(string setId)
+        {
+            Id = setId;
+            IsDisposed = false;
+        }
 
-		public int Width
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public Stream GetImage()
+        {
+            throw new NotImplementedException();
+        }
 
-		public int Height
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public Stream GetThumbnail()
+        {
+            throw new NotImplementedException();
+        }
 
-		public DateTime Date
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool Equals(Picture other)
+        {
+            return Id == other.Id;
+        }
 
-		#region Constructor
-		private Picture()
-		{
-			IsDisposed = false;
-		}
+        public override bool Equals(object obj)
+        {
+            return obj is Picture ? Equals(obj as Picture) : base.Equals(obj);
+        }
 
-		~Picture()
-		{
-			Dispose();
-		}
-		#endregion
+        public void Dispose()
+        {
+            IsDisposed = true;
+        }
 
-		public Stream GetImage()
-		{
-			throw new NotImplementedException();
-		}
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public Stream GetThumbnail()
-		{
-			throw new NotImplementedException();
-		}
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
-		public bool Equals(Picture other)
-		{
-			throw new NotImplementedException();
-		}
+        public static bool operator ==(Picture first, Picture second)
+        {
+            return first.Equals(second);
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (obj is Picture)
-				return Equals(obj as Picture);
-
-			return base.Equals(obj);
-		}
-
-		public void Dispose()
-		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
-		}
-
-		#region ToString
-		public override string ToString()
-		{
-			return Name;
-		}
-		#endregion
-
-		#region GetHashCode
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
-		}
-		#endregion
-
-		#region Operator overloading
-		public static bool operator ==(Picture first, Picture second)
-		{
-			return first.Equals(second);
-		}
-
-		public static bool operator !=(Picture first, Picture second)
-		{
-			return first.Equals(second) == false;
-		}
-		#endregion
-	}
+        public static bool operator !=(Picture first, Picture second)
+        {
+            return first.Equals(second) == false;
+        }
+    }
 }

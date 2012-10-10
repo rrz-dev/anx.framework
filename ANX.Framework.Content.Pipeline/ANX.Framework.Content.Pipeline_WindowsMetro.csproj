@@ -16,23 +16,23 @@
     <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\ModernUI</OutputPath>
     <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\ModernUI</OutputPath>
     <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -188,7 +188,9 @@
     <Compile Include="Tasks\BuildContent.cs" />
     <Compile Include="Tasks\BuildItem.cs" />
     <Compile Include="Tasks\ContentProject.cs" />
+    <Compile Include="Tasks\ImporterConverter.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />
+    <Compile Include="Tasks\ProcessorConverter.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="VideoContent.cs" />
     <Compile Include="Serialization\XmlReaderExtensions.cs" />

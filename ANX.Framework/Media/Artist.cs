@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,96 +7,55 @@ using System;
 
 namespace ANX.Framework.Media
 {
-	public sealed class Artist : IEquatable<Artist>, IDisposable
-	{
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
+    public sealed class Artist : IEquatable<Artist>, IDisposable
+    {
+        public bool IsDisposed { get; private set; }
+        public string Name { get; private set; }
+        public SongCollection Songs { get; internal set; }
+        public AlbumCollection Albums { get; internal set; }
 
-		public string Name
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        internal Artist(string setName)
+        {
+            Name = setName;
+            IsDisposed = false;
+        }
 
-		public SongCollection Songs
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public bool Equals(Artist other)
+        {
+            return Name == other.Name;
+        }
 
-		public AlbumCollection Albums
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public override bool Equals(object obj)
+        {
+            return obj is Artist ? Equals(obj as Artist) : base.Equals(obj);
+        }
 
-		#region Constructor
-		private Artist()
-		{
-			IsDisposed = false;
-		}
+        public void Dispose()
+        {
+            IsDisposed = true;
+        }
 
-		~Artist()
-		{
-			Dispose();
-		}
-		#endregion
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public bool Equals(Artist other)
-		{
-			throw new NotImplementedException();
-		}
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (obj is Artist)
-				return Equals(obj as Artist);
+        public static bool operator ==(Artist first, Artist second)
+        {
+            return first.Equals(second);
+        }
 
-			return base.Equals(obj);
-		}
-
-		public void Dispose()
-		{
-			if (IsDisposed == false)
-			{
-				IsDisposed = true;
-				throw new NotImplementedException();
-			}
-		}
-
-		#region ToString
-		public override string ToString()
-		{
-			return Name;
-		}
-		#endregion
-
-		#region GetHashCode
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
-		}
-		#endregion
-
-		#region Operator overloading
-		public static bool operator ==(Artist first, Artist second)
-		{
-			return first.Equals(second);
-		}
-
-		public static bool operator !=(Artist first, Artist second)
-		{
-			return first.Equals(second) == false;
-		}
-		#endregion
-	}
+        public static bool operator !=(Artist first, Artist second)
+        {
+            return first.Equals(second) == false;
+        }
+    }
 }

@@ -30,7 +30,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics.PackedVector
             XNAAlpha8 xnaVal = new XNAAlpha8(alpha);
             ANXAlpha8 anxVal = new ANXAlpha8(alpha);
 
-            AssertHelper.ConvertEquals(xnaVal, anxVal, "Constructor");
+            AssertHelper.ConvertEqualsPackedVector(xnaVal, anxVal, "Constructor");
         }
 
         [Test, TestCaseSource("floats")]

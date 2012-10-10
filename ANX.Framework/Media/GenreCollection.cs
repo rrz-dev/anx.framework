@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +9,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
 	public sealed class GenreCollection : IEnumerable<Genre>, IEnumerable, IDisposable
 	{
 		private readonly List<Genre> genres;
@@ -24,9 +28,9 @@ namespace ANX.Framework.Media
 	        get { return genres[index]; }
 	    }
 
-	    internal GenreCollection()
+	    internal GenreCollection(IEnumerable<Genre> setGenres)
 		{
-			genres = new List<Genre>();
+            genres = new List<Genre>(setGenres);
 			IsDisposed = false;
 		}
 

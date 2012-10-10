@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,34 +9,26 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Media
 {
-	public sealed class PlaylistCollection
-		: IEnumerable<Playlist>, IEnumerable, IDisposable
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
+	public sealed class PlaylistCollection : IEnumerable<Playlist>, IEnumerable, IDisposable
 	{
-		private List<Playlist> playlists;
+		private readonly List<Playlist> playlists;
 
-		public bool IsDisposed
-		{
-			get;
-			private set;
-		}
+	    public bool IsDisposed { get; private set; }
 
-		public int Count
-		{
-			get
-			{
-				return playlists.Count;
-			}
-		}
+	    public int Count
+	    {
+	        get { return playlists.Count; }
+	    }
 
-		public Playlist this[int index]
-		{
-			get
-			{
-				return playlists[index];
-			}
-		}
+	    public Playlist this[int index]
+	    {
+	        get { return playlists[index]; }
+	    }
 
-		internal PlaylistCollection()
+	    internal PlaylistCollection()
 		{
 			playlists = new List<Playlist>();
 			IsDisposed = false;
