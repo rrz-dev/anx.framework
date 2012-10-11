@@ -10,26 +10,31 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class BasicEffectReader : ContentTypeReader<BasicEffect>
     {
         protected internal override BasicEffect Read(ContentReader input, BasicEffect existingInstance)
         {
             var graphics = input.ResolveGraphicsDevice();
-            var effect = new BasicEffect(graphics);
-            Texture2D texture = input.ReadExternalReference<Texture2D>();
-            // TODO: enable parameter setup when basic effect is implemented
-            //if (texture != null)
-            //{
-            //    effect.Texture = texture;
-            //    effect.TextureEnabled = true;
-            //}
-            /*effect.DiffuseColor = */input.ReadVector3();
-            /*effect.EmissiveColor = */input.ReadVector3();
-            /*effect.SpecularColor = */input.ReadVector3();
-            /*effect.SpecularPower = */input.ReadSingle();
-            /*effect.Alpha = */input.ReadSingle();
-            /*effect.VertexColorEnabled = */input.ReadBoolean();
+            var texture = input.ReadExternalReference<Texture2D>();
+            var effect = new BasicEffect(graphics)
+            {
+                DiffuseColor = input.ReadVector3(),
+                EmissiveColor = input.ReadVector3(),
+                SpecularColor = input.ReadVector3(),
+                SpecularPower = input.ReadSingle(),
+                Alpha = input.ReadSingle(),
+                VertexColorEnabled = input.ReadBoolean()
+            };
+
+            if (texture != null)
+            {
+                effect.Texture = texture;
+                effect.TextureEnabled = true;
+            }
+
             return effect;
         }
     }

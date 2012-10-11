@@ -7,21 +7,25 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class AlphaTestEffectReader : ContentTypeReader<AlphaTestEffect>
 	{
 		protected internal override AlphaTestEffect Read(ContentReader input, AlphaTestEffect existingInstance)
 		{
 			var graphics = input.ResolveGraphicsDevice();
-			var effect = new AlphaTestEffect(graphics);
+			var effect = new AlphaTestEffect(graphics)
+			{
+			    Texture = input.ReadExternalReference<Texture2D>(),
+			    AlphaFunction = (CompareFunction)input.ReadInt32(),
+			    ReferenceAlpha = input.ReadInt32(),
+			    DiffuseColor = input.ReadVector3(),
+			    Alpha = input.ReadSingle(),
+			    VertexColorEnabled = input.ReadBoolean()
+			};
 
-			effect.Texture = input.ReadExternalReference<Texture2D>();
-			effect.AlphaFunction = (CompareFunction)input.ReadInt32();
-			effect.ReferenceAlpha = input.ReadInt32();
-			effect.DiffuseColor = input.ReadVector3();
-			effect.Alpha = input.ReadSingle();
-			effect.VertexColorEnabled = input.ReadBoolean();
-			return effect;
+		    return effect;
 		}
 	}
 }

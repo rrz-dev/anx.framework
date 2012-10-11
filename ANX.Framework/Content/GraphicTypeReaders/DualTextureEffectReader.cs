@@ -10,19 +10,23 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class DualTextureEffectReader : ContentTypeReader<DualTextureEffect>
     {
         protected internal override DualTextureEffect Read(ContentReader input, DualTextureEffect existingInstance)
         {
             var graphics = input.ResolveGraphicsDevice();
-            var effect = new DualTextureEffect(graphics);
+            var effect = new DualTextureEffect(graphics)
+            {
+                Texture = input.ReadExternalReference<Texture2D>(),
+                Texture2 = input.ReadExternalReference<Texture2D>(),
+                DiffuseColor = input.ReadVector3(),
+                Alpha = input.ReadSingle(),
+                VertexColorEnabled = input.ReadBoolean()
+            };
 
-            effect.Texture =input.ReadExternalReference<Texture2D>();
-            effect.Texture2 = input.ReadExternalReference<Texture2D>();
-            effect.DiffuseColor = input.ReadVector3();
-            effect.Alpha = input.ReadSingle();
-            effect.VertexColorEnabled = input.ReadBoolean();
             return effect;
         }
     }

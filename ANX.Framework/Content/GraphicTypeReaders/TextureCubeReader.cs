@@ -1,8 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -13,38 +12,30 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
-    [Developer("GinieDP")]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     internal class TextureCubeReader : ContentTypeReader<TextureCube>
     {
         protected internal override TextureCube Read(ContentReader input, TextureCube existingInstance)
         {
-            IServiceProvider service = input.ContentManager.ServiceProvider;
-
-            var rfc = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
-            if (rfc == null)
-            {
-                throw new ContentLoadException("Service not found IRenderFrameworkCreator");
-            }
-
             GraphicsDevice graphics = input.ResolveGraphicsDevice();
             SurfaceFormat surfaceFormat = (SurfaceFormat)input.ReadInt32();
             int size = input.ReadInt32();
             int mipCount = input.ReadInt32();
 
-            List<byte> colorData = new List<byte>();
-
-            // for each cube face: +x, -x, +y, -y, +z, -z
+            var textureCube = new TextureCube(graphics, size, mipCount > 1, surfaceFormat);
             for (int face = 0; face < 6; face++)
             {
-                for (int i = 0; i < mipCount; i++)
+                for (int index = 0; index < mipCount; index++)
                 {
                     int dataSize = input.ReadInt32();
-                    colorData.AddRange(input.ReadBytes(dataSize));
+                    byte[] data = input.ReadBytes(dataSize);
+                    textureCube.SetData((CubeMapFace)face, index, null, data, 0, dataSize);
                 }
             }
 
-            throw new NotImplementedException();
-            //return rfc.CreateTexture(graphics, surfaceFormat, size, mipCount, colorData.ToArray());
+            return textureCube;
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -13,19 +12,13 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
-    [Developer("GinieDP")]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     internal class Texture3DReader : ContentTypeReader<Texture3D>
     {
         protected internal override Texture3D Read(ContentReader input, Texture3D existingInstance)
         {
-            IServiceProvider service = input.ContentManager.ServiceProvider;
-
-            var rfc = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
-            if (rfc == null)
-            {
-                throw new ContentLoadException("Service not found IRenderFrameworkCreator");
-            }
-
             GraphicsDevice graphics = input.ResolveGraphicsDevice();
             SurfaceFormat surfaceFormat = (SurfaceFormat)input.ReadInt32();
             int width = input.ReadInt32();
@@ -33,16 +26,18 @@ namespace ANX.Framework.Content
             int depth = input.ReadInt32();
             int mipCount = input.ReadInt32();
 
-            List<byte> colorData = new List<byte>();
-
-            for (int i = 0; i < mipCount; i++)
+            var texture3D = new Texture3D(graphics, width, height, depth, mipCount > 1, surfaceFormat);
+            for (int index = 0; index < mipCount; index++)
             {
                 int size = input.ReadInt32();
-                colorData.AddRange(input.ReadBytes(size));
+                byte[] data = input.ReadBytes(size);
+                texture3D.SetData(index, 0, 0, width, height, 0, depth, data, 0, size);
+                width = Math.Max(width >> 1, 1);
+                height = Math.Max(height >> 1, 1);
+                depth = Math.Max(depth >> 1, 1);
             }
 
-            throw new NotImplementedException();
-            //return rfc.CreateTexture(graphics, surfaceFormat, width, height, mipCount, depth, colorData.ToArray();
+            return texture3D;
         }
     }
 }

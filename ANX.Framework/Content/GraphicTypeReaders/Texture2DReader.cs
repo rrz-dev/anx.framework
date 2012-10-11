@@ -1,6 +1,5 @@
 ﻿using System;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -9,7 +8,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
-    [Developer("GinieDP")]
+    [PercentageComplete(100)]
+    [Developer("GinieDP, AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     internal class Texture2DReader : ContentTypeReader<Texture2D>
     {
         protected internal override Texture2D Read(ContentReader input, Texture2D existingInstance)
@@ -24,7 +25,7 @@ namespace ANX.Framework.Content
 			{
                 int size = input.ReadInt32();
 				byte[] data = input.ReadBytes(size);
-				texture2D.SetData<byte>(level, null, data, 0, size);
+				texture2D.SetData(level, null, data, 0, size);
 			}
 			return texture2D;
         }
