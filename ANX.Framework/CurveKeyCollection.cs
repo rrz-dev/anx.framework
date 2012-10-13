@@ -10,8 +10,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [Developer("???, AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
 	public class CurveKeyCollection : ICollection<CurveKey>, IEnumerable<CurveKey>, IEnumerable
 	{
 		#region Private
@@ -19,23 +19,17 @@ namespace ANX.Framework
 		#endregion
 
 		#region Public
-		public int Count
-		{
-			get
-			{
-				return keys.Count;
-			}
-		}
+        public int Count
+        {
+            get { return keys.Count; }
+        }
 
-		public bool IsReadOnly
-		{
-			get
-			{
-				return false;
-			}
-		}
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
 
-		public CurveKey this[int index]
+        public CurveKey this[int index]
 		{
 			get
 			{
@@ -48,6 +42,7 @@ namespace ANX.Framework
 
                 if (index >= keys.Count)
                     throw new IndexOutOfRangeException();
+
                 //if fitting add here
                 if (keys[index].Position == value.Position)
                     keys[index] = value;
@@ -55,7 +50,7 @@ namespace ANX.Framework
                 {
                     //if not let it be sorted
                     keys.RemoveAt(index);
-                    keys.Add(value);
+                    Add(value);
                 }
 
 			}
@@ -73,42 +68,61 @@ namespace ANX.Framework
         public void Add(CurveKey item)
         {
             if (item == null)
-            {
                 throw new ArgumentNullException();
-            }
-            // keys.Add(item);
 
-            if (this.keys.Count == 0)
+            // If the list is empty or the item is bigger than the max, just add it
+            if (keys.Count == 0 || item.CompareTo(keys[Count - 1]) > 0)
             {
-                //No list items
-                this.keys.Add(item);
+                keys.Add(item);
                 return;
             }
-            if (item.CompareTo(this[Count - 1]) > 0)
+
+            int index = keys.BinarySearch(item);
+            if(index == -1)
             {
-                //Bigger than Max
-                this.keys.Add(item);
+                index = ~index;
+                keys.Insert(index, item);
                 return;
             }
-            int min = 0;
-            int max = Count - 1;
-            while ((max - min) > 1)
+
+            while (index < keys.Count)
             {
-                //Find half point
-                int half = min + ((max - min) / 2);
-                //Compare if it's bigger or smaller than the current item.
-                int comp = item.CompareTo(this[half]);
-                if (comp == 0)
-                {
-                    //Item is equal to half point
-                    this.keys.Insert(half+1, item);
-                    return;
-                }
-                else if (comp < 0) max = half;   //Item is smaller
-                else min = half;   //Item is bigger
+                if (item.Position != keys[index].Position)
+                    break;
+
+                index++;
             }
-            if (item.CompareTo(this[min]) <= 0) this.keys.Insert(min, item);
-            else this.keys.Insert(min + 1, item);
+
+            keys.Insert(index, item);
+
+            // Old broken code with own binary search implementation.
+            // Just in case the binary search isn't available on any system, this can be fixed:
+            //int min = 0;
+            //int max = Count - 1;
+            //while ((max - min) > 1)
+            //{
+            //    //Find half point
+            //    int half = min + ((max - min) / 2);
+            //    //Compare if it's bigger or smaller than the current item.
+            //    int comp = item.CompareTo(keys[half]);
+            //    if (comp == 0)
+            //    {
+            //        // Item is equal to half point
+            //        keys.Insert(half + 1, item);
+            //        return;
+            //    }
+
+            //    // If the item is smaller, move the max to half, otherwise move the min to half.
+            //    if (comp == -1)
+            //        max = half;
+            //    else
+            //        min = half;
+            //}
+
+            //if (item.CompareTo(keys[min]) <= 0)
+            //    keys.Insert(min, item);
+            //else
+            //    keys.Insert(min + 1, item);
         }
 
         #endregion
@@ -158,12 +172,11 @@ namespace ANX.Framework
 
 		#region Clone
 		public CurveKeyCollection Clone()
-		{
-            CurveKeyCollection result = new CurveKeyCollection();
-            foreach (CurveKey key in this.keys)
-                result.Add(key);
-            return result;
-
+        {
+            return new CurveKeyCollection
+            {
+                keys = new List<CurveKey>(keys),
+            };
 		}
 		#endregion
 

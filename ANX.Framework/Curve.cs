@@ -12,7 +12,7 @@ namespace ANX.Framework
 #endif
     [PercentageComplete(100)]
     [Developer("floAr")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class Curve
     {
         public CurveLoopType PreLoop { get; set; }

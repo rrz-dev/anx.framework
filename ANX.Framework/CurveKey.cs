@@ -9,40 +9,16 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [Developer("???")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
 	public class CurveKey : IEquatable<CurveKey>, IComparable<CurveKey>
 	{
 		#region Public
-		public float Position
-		{
-			get;
-			private set;
-		}
-
-		public float Value
-		{
-			get;
-			set;
-		}
-
-		public float TangentIn
-		{
-			get;
-			set;
-		}
-
-		public float TangentOut
-		{
-			get;
-			set;
-		}
-
-		public CurveContinuity Continuity
-		{
-			get;
-			set;
-		}
-		#endregion
+        public float Position { get; private set; }
+        public float Value { get; set; }
+        public float TangentIn { get; set; }
+        public float TangentOut { get; set; }
+        public CurveContinuity Continuity { get; set; }
+        #endregion
 
 		#region Constructor
 		public CurveKey(float position, float value)
@@ -50,14 +26,12 @@ namespace ANX.Framework
 		{
 		}
 
-		public CurveKey(float position, float value, float tangentIn,
-			float tangentOut)
+		public CurveKey(float position, float value, float tangentIn, float tangentOut)
 			: this(position, value, tangentIn, tangentOut, CurveContinuity.Smooth)
 		{
 		}
 
-		public CurveKey(float position, float value, float tangentIn,
-			float tangentOut, CurveContinuity continuity)
+		public CurveKey(float position, float value, float tangentIn, float tangentOut, CurveContinuity continuity)
 		{
 			Position = position;
 			Value = value;
@@ -91,14 +65,9 @@ namespace ANX.Framework
 
 		public override bool Equals(object obj)
 		{
-			if (obj == null && obj.GetType() == typeof(CurveKey))
-			{
-                return this == (CurveKey)obj;
-			}
-
-			return false;
+		    return obj is CurveKey && this == (CurveKey)obj;
 		}
-		#endregion
+        #endregion
 
 		#region GetHashCode
 		public override int GetHashCode()
@@ -113,14 +82,10 @@ namespace ANX.Framework
 		public static bool operator ==(CurveKey a, CurveKey b)
 		{
             if (null == a as Object)
-            {
                 return null == b as Object;
-            }
 
             if (null == b as Object)
-            {
-                return null == a as Object;
-            }
+                return false;
 
             return a.Position == b.Position &&
                    a.Value == b.Value &&
@@ -134,14 +99,10 @@ namespace ANX.Framework
 		public static bool operator !=(CurveKey a, CurveKey b)
 		{
             if (null == a as Object)
-            {
                 return null != b as Object;
-            }
 
             if (null == b as Object)
-            {
-                return null != a as Object;
-            }
+                return true;
 
 			return a.Position != b.Position ||
 			  	   a.Value != b.Value ||
@@ -152,17 +113,13 @@ namespace ANX.Framework
 		#endregion
 
 		#region CompareTo
-		public int CompareTo(CurveKey other)
-		{
-			if (Position == other.Position)
-			{
-				return 0;
-			}
+        public int CompareTo(CurveKey other)
+        {
+            if (Position == other.Position)
+                return 0;
 
-			return Position >= other.Position ?
-				1 :
-				-1;
-		}
-		#endregion
+            return Position >= other.Position ? 1 : -1;
+        }
+        #endregion
 	}
 }
