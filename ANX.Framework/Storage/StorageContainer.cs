@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Storage
 {
+    [PercentageComplete(100)]
     [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class StorageContainer : IDisposable
@@ -18,17 +19,17 @@ namespace ANX.Framework.Storage
 		#region Public
 		public event EventHandler<EventArgs> Disposing;
 
-	    public string DisplayName { get; protected set; }
-	    public StorageDevice StorageDevice { get; protected set; }
-	    public bool IsDisposed { get; protected set; }
+	    public string DisplayName { get; private set; }
+        public StorageDevice StorageDevice { get; private set; }
+        public bool IsDisposed { get; private set; }
+        internal PlayerIndex PlayerIndex { get; private set; }
 	    #endregion
 
 		internal StorageContainer(StorageDevice device, PlayerIndex player, string displayName)
 		{
 			StorageDevice = device;
 			DisplayName = displayName;
-
-            // TODO: player!
+		    PlayerIndex = player;
 
             nativeImplementation = PlatformSystem.Instance.CreateStorageContainer(this);
 		}
@@ -98,8 +99,7 @@ namespace ANX.Framework.Storage
 			return OpenFile(file, fileMode, fileAccess, FileShare.None);
 		}
 
-		public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess,
-			FileShare fileShare)
+		public Stream OpenFile(string file, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
 		{
 			return nativeImplementation.OpenFile(file, fileMode, fileAccess, fileShare);
 		}

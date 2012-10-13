@@ -19,6 +19,7 @@ namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class MathTypeConverter : ExpandableObjectConverter
     {
         protected PropertyDescriptorCollection propertyDescriptions;

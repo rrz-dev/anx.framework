@@ -11,27 +11,12 @@ namespace ANX.Framework.Graphics
     [TestState(TestStateAttribute.TestState.Untested)]
     public abstract class Texture : GraphicsResource
     {
-        protected internal int levelCount;
-        protected internal SurfaceFormat format;
-		protected internal INativeTexture nativeTexture;
+        internal INativeTexture nativeTexture;
 
-		public int LevelCount
-		{
-			get
-			{
-				return this.levelCount;
-			}
-		}
+        public int LevelCount { get; internal set; }
+        public SurfaceFormat Format { get; internal set; }
 
-		public SurfaceFormat Format
-		{
-			get
-			{
-				return this.format;
-			}
-		}
-
-		internal INativeTexture NativeTexture
+        internal INativeTexture NativeTexture
 		{
 			get
 			{
@@ -44,7 +29,7 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
-        public Texture(GraphicsDevice graphicsDevice)
+        internal Texture(GraphicsDevice graphicsDevice)
             : base(graphicsDevice)
         {
             base.GraphicsDevice.ResourceCreated += GraphicsDevice_ResourceCreated;

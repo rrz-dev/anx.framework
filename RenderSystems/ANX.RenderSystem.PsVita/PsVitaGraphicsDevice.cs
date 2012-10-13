@@ -29,17 +29,22 @@ namespace ANX.RenderSystem.PsVita
 		#endregion
 
 		#region Public
-		public bool VSync
-		{
-			get
-			{
-				return true;
-			}
-			set
-			{
-			}
-		}
-		#endregion
+	    public bool VSync
+	    {
+	        get { return true; }
+	        set { }
+	    }
+
+	    public Rectangle ScissorRectangle
+	    {
+	        get
+	        {
+	            var rect = NativeContext.GetScissor();
+	            return new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+	        }
+	        set { NativeContext.SetScissor(value.X, value.Y, value.Width, value.Height); }
+	    }
+	    #endregion
 
 		#region Constructor
 		public PsVitaGraphicsDevice(PresentationParameters presentationParameters)

@@ -628,5 +628,11 @@ namespace ANX.RenderSystem.Windows.DX11
                 return this.nativeDevice;
             }
         }
+
+        public Rectangle ScissorRectangle
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

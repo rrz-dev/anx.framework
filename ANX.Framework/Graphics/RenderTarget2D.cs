@@ -31,8 +31,8 @@ namespace ANX.Framework.Graphics
 			OneOverWidth = 1f / width;
 			OneOverHeight = 1f / height;
 
-			base.levelCount = 1;
-			base.format = SurfaceFormat.Color;
+			base.LevelCount = 1;
+			base.Format = SurfaceFormat.Color;
 
 			this.DepthStencilFormat = DepthFormat.None;
 			this.MultiSampleCount = 0;
@@ -53,8 +53,8 @@ namespace ANX.Framework.Graphics
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
-            base.levelCount = 1;
-            base.format = preferredFormat;
+            base.LevelCount = 1;
+            base.Format = preferredFormat;
 
 			this.DepthStencilFormat = preferredDepthFormat;
 			this.MultiSampleCount = 0;
@@ -76,8 +76,8 @@ namespace ANX.Framework.Graphics
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
-            base.levelCount = 1;
-            base.format = preferredFormat;
+            base.LevelCount = 1;
+            base.Format = preferredFormat;
 
 			this.DepthStencilFormat = preferredDepthFormat;
 			this.MultiSampleCount = preferredMultiSampleCount;

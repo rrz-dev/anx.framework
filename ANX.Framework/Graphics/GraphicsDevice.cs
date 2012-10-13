@@ -600,14 +600,8 @@ namespace ANX.Framework.Graphics
 
 		public Rectangle ScissorRectangle
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
+			get { return NativeDevice.ScissorRectangle; }
+			set { NativeDevice.ScissorRectangle = value; }
 		}
 
 		public GraphicsDeviceStatus GraphicsDeviceStatus

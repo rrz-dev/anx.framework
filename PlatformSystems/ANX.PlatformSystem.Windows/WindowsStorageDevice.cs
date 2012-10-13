@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using ANX.Framework;
 using ANX.Framework.NonXNA.PlatformSystem;
 using ANX.Framework.Storage;
@@ -12,9 +13,8 @@ namespace ANX.PlatformSystem.Windows
 {
 	public class WindowsStorageDevice : INativeStorageDevice
 	{
-		private string storagePath;
-		private StorageDevice parent;
-		private DriveInfo storageDrive;
+		private readonly StorageDevice parent;
+		private readonly DriveInfo storageDrive;
 
 		#region Public
 		public long FreeSpace
@@ -47,54 +47,61 @@ namespace ANX.PlatformSystem.Windows
 			}
 		}
 
-		public bool IsConnected
-		{
-			get
-			{
-				return storageDrive.IsReady;
-			}
-		}
-		#endregion
+	    public bool IsConnected
+	    {
+	        get { return storageDrive.IsReady; }
+	    }
 
-		#region Constructor
-		public WindowsStorageDevice(StorageDevice setParent, PlayerIndex player,
-			int sizeInBytes, int directoryCount)
+        public string StoragePath { get; private set; }
+	    #endregion
+
+		public WindowsStorageDevice(StorageDevice setParent, PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
 			parent = setParent;
-
-			string playerPath;
-			switch (player)
-			{
-				case PlayerIndex.One:
-					playerPath = "Player1";
-					break;
-				case PlayerIndex.Two:
-					playerPath = "Player2";
-					break;
-				case PlayerIndex.Three:
-					playerPath = "Player3";
-					break;
-				case PlayerIndex.Four:
-					playerPath = "Player4";
-					break;
-				default:
-					playerPath = "AllPlayers";
-					break;
-			}
-
-			string myDocsPath = Environment.GetFolderPath(
-				Environment.SpecialFolder.MyDocuments);
-			storagePath = Path.Combine(myDocsPath, "SavedGames", playerPath);
-			storagePath = Path.GetFullPath(storagePath);
-			storageDrive = new DriveInfo(Path.GetPathRoot(myDocsPath).Substring(0, 1));
+            StoragePath = GetDirectoryForContainer(player);
+            storageDrive = new DriveInfo(Path.GetPathRoot(StoragePath).Substring(0, 1));
 		}
-		#endregion
 
-		#region DeleteContainer
+        private string GetDirectoryForContainer(PlayerIndex player)
+        {
+            string result = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames");
+            result = Path.Combine(result, GetGameTitle());
+            //result = Path.Combine(result, StorageContainer.DisplayName);
+            string playerSubDir;
+            switch (player)
+            {
+                case PlayerIndex.One:
+                    playerSubDir = "Player1";
+                    break;
+                case PlayerIndex.Two:
+                    playerSubDir = "Player2";
+                    break;
+                case PlayerIndex.Three:
+                    playerSubDir = "Player3";
+                    break;
+                case PlayerIndex.Four:
+                    playerSubDir = "Player4";
+                    break;
+                default:
+                    playerSubDir = "AllPlayers";
+                    break;
+            }
+
+            return Path.Combine(result, playerSubDir);
+        }
+
+        private static string GetGameTitle()
+        {
+            var entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly != null)
+                return Path.GetFileNameWithoutExtension(entryAssembly.Location);
+
+            throw new InvalidOperationException();
+        }
+
 		public void DeleteContainer(string titleName)
 		{
 			Directory.Delete(Path.Combine(parent.StoragePath, titleName), true);
 		}
-		#endregion
-	}
+    }
 }

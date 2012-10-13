@@ -1,5 +1,4 @@
 using System;
-using ANX.Framework.Storage;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,21 +8,11 @@ namespace ANX.Framework.NonXNA.PlatformSystem
 {
 	public interface INativeStorageDevice
 	{
-		long FreeSpace
-		{
-			get;
-		}
+	    long FreeSpace { get; }
+	    long TotalSpace { get; }
+	    bool IsConnected { get; }
+	    string StoragePath { get; }
 
-		long TotalSpace
-		{
-			get;
-		}
-
-		bool IsConnected
-		{
-			get;
-		}
-
-		void DeleteContainer(string titleName);
+	    void DeleteContainer(string titleName);
 	}
 }

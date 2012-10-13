@@ -12,19 +12,16 @@ namespace ANX.PlatformSystem.Windows
 {
 	public class WindowsStorageContainer : INativeStorageContainer
 	{
-		private StorageContainer parent;
-		private DirectoryInfo baseDirectory;
+		private readonly StorageContainer parent;
+		private readonly DirectoryInfo baseDirectory;
 
 		public WindowsStorageContainer(StorageContainer setParent)
 		{
 			parent = setParent;
-
-			string fullPath = Path.Combine(parent.StorageDevice.StoragePath,
-				parent.DisplayName);
-			baseDirectory = new DirectoryInfo(fullPath);
+            baseDirectory = new DirectoryInfo(parent.StorageDevice.StoragePath);
 			// fails silently if directory exists
 			baseDirectory.Create();
-		}
+        }
 
 		#region CreateDirectory
 		public void CreateDirectory(string directory)

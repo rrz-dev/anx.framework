@@ -44,6 +44,12 @@ namespace ANX.RenderSystem.Windows.Metro
 				this.vSyncEnabled = value;
 			}
 		}
+
+        public Rectangle ScissorRectangle
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 		#endregion
 
 		#region Constructor

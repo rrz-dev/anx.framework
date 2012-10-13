@@ -47,5 +47,6 @@ namespace ANX.Framework.NonXNA
 		void ResizeBuffers(PresentationParameters presentationParameters);
 
 		bool VSync { get; set; }
+        Rectangle ScissorRectangle { get; set; }
 	}
 }

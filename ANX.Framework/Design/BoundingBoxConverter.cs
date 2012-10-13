@@ -12,6 +12,7 @@ namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class BoundingBoxConverter : MathTypeConverter
     {
         public BoundingBoxConverter()

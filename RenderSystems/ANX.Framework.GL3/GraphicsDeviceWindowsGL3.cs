@@ -53,6 +53,18 @@ namespace ANX.RenderSystem.GL3
 	        get { return nativeContext.VSync; }
 	        set { nativeContext.VSync = value; }
 	    }
+
+        public Rectangle ScissorRectangle
+        {
+            get
+            {
+                // TODO: test
+                var boxParams = new int[4];
+                GL.GetInteger(GetPName.ScissorBox, boxParams);
+                return new Rectangle(boxParams[0], boxParams[1], boxParams[2], boxParams[3]);
+            }
+            set { GL.Scissor(value.X, value.Y, value.Width, value.Height); }
+        }
 		#endregion
 
 		#region Constructor

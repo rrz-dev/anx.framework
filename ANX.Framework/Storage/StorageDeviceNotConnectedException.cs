@@ -12,6 +12,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Storage
 {
+    [PercentageComplete(95)]
     [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public class StorageDeviceNotConnectedException : ExternalException

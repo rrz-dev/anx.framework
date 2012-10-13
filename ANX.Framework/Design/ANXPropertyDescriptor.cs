@@ -11,6 +11,7 @@ namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO
     [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class ANXPropertyDescriptor : PropertyDescriptor
     {
 		private PropertyInfo property;

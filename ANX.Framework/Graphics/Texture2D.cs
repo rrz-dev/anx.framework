@@ -75,8 +75,8 @@ namespace ANX.Framework.Graphics
 			OneOverWidth = 1f / width;
 			OneOverHeight = 1f / height;
 
-			base.levelCount = 1;
-			base.format = SurfaceFormat.Color;
+			base.LevelCount = 1;
+			base.Format = SurfaceFormat.Color;
 
 			CreateNativeTextureSurface();
 		}
@@ -91,8 +91,8 @@ namespace ANX.Framework.Graphics
 			OneOverHeight = 1f / height;
 
 			// TODO: pass the mipmap parameter to the creation of the texture to let the graphics card generate mipmaps!
-			base.levelCount = 1;
-			base.format = format;
+			base.LevelCount = 1;
+			base.Format = format;
 
 			CreateNativeTextureSurface();
 		}
@@ -105,8 +105,8 @@ namespace ANX.Framework.Graphics
 			OneOverWidth = 1f / width;
 			OneOverHeight = 1f / height;
 
-			base.levelCount = mipCount;
-			base.format = format;
+			base.LevelCount = mipCount;
+			base.Format = format;
 
 			CreateNativeTextureSurface();
 		}
@@ -196,7 +196,7 @@ namespace ANX.Framework.Graphics
 		private void CreateNativeTextureSurface()
 		{
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			nativeTexture2D = creator.CreateTexture(GraphicsDevice, format, width, height, levelCount);
+			nativeTexture2D = creator.CreateTexture(GraphicsDevice, Format, width, height, LevelCount);
 			base.nativeTexture = nativeTexture2D;
 		}
 		#endregion

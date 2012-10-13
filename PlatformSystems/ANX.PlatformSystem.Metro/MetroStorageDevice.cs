@@ -33,9 +33,14 @@ namespace ANX.PlatformSystem.Metro
 			}
 		}
 
+        public string StoragePath
+        {
+            get { throw new NotImplementedException(); }
+        }
+
 		public void DeleteContainer(string titleName)
 		{
 			throw new NotImplementedException();
 		}
-	}
+    }
 }

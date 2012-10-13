@@ -9,15 +9,17 @@ using ANX.Framework.NonXNA.PlatformSystem;
 
 namespace ANX.Framework.Storage
 {
+    [PercentageComplete(100)]
     [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class StorageDevice
 	{
-		#region Private
-		private INativeStorageDevice nativeImplementation;
+        #region Private
+        private readonly PlayerIndex playerIndex;
+		private readonly INativeStorageDevice nativeImplementation;
 
-		private static Func<PlayerIndex, int, int, StorageDevice> openDeviceDelegate = null;
-		private Func<string, StorageContainer> openContainerDelegate = null;
+		private static Func<PlayerIndex, int, int, StorageDevice> openDeviceDelegate;
+		private Func<string, StorageContainer> openContainerDelegate;
 		#endregion
 
 		#region Public
@@ -25,57 +27,40 @@ namespace ANX.Framework.Storage
 		public static event EventHandler<EventArgs> DeviceChanged;
 #pragma warning restore 0067
 
-		public long FreeSpace
-		{
-			get
-			{
-				return nativeImplementation.FreeSpace;
-			}
-		}
+        public long FreeSpace
+        {
+            get { return nativeImplementation.FreeSpace; }
+        }
 
-		public bool IsConnected
-		{
-			get
-			{
-				return nativeImplementation.IsConnected;
-			}
-		}
+        public bool IsConnected
+        {
+            get { return nativeImplementation.IsConnected; }
+        }
 
-		public long TotalSpace
-		{
-			get
-			{
-				return nativeImplementation.TotalSpace;
-			}
-		}
+        public long TotalSpace
+        {
+            get { return nativeImplementation.TotalSpace; }
+        }
 
-		internal string StoragePath
-		{
-			get;
-			private set;
-		}
-
-		internal PlayerIndex PlayerIndex
-		{
-			get;
-			private set;
-		}
-		#endregion
+        internal string StoragePath
+        {
+            get { return nativeImplementation.StoragePath; }
+        }
+        #endregion
 
 		#region Constructor
 		internal StorageDevice(PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
+		    playerIndex = player;
 			nativeImplementation = PlatformSystem.Instance.CreateStorageDevice(this, player, sizeInBytes, directoryCount);
 		}
 		#endregion
 
 		#region BeginOpenContainer
-		public IAsyncResult BeginOpenContainer(string displayName,
-			AsyncCallback callback, Object state)
+		public IAsyncResult BeginOpenContainer(string displayName, AsyncCallback callback, Object state)
 		{
 			if (openContainerDelegate != null)
-				throw new InvalidOperationException(
-					"There is currently a StorageContainer request pending. " +
+				throw new InvalidOperationException("There is currently a StorageContainer request pending. " +
 					"Please let this request finish.");
 
 			openContainerDelegate = OpenStorageContainer;
@@ -88,35 +73,26 @@ namespace ANX.Framework.Storage
 		{
 			return BeginShowSelector(PlayerIndex.One, 0, 0, callback, state);
 		}
-		#endregion
 
-		#region BeginShowSelector
-		public static IAsyncResult BeginShowSelector(int sizeInBytes, int directoryCount,
-			AsyncCallback callback, Object state)
+		public static IAsyncResult BeginShowSelector(int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
 		{
-			return BeginShowSelector(PlayerIndex.One, sizeInBytes, directoryCount,
-				callback, state);
+			return BeginShowSelector(PlayerIndex.One, sizeInBytes, directoryCount, callback, state);
 		}
-		#endregion
 
-		#region BeginShowSelector
-		public static IAsyncResult BeginShowSelector(PlayerIndex player,
-			AsyncCallback callback, Object state)
+		public static IAsyncResult BeginShowSelector(PlayerIndex player, AsyncCallback callback, Object state)
 		{
 			return BeginShowSelector(player, 0, 0, callback, state);
 		}
-		#endregion
 
-		#region BeginShowSelector
-		public static IAsyncResult BeginShowSelector(PlayerIndex player,
-			int sizeInBytes, int directoryCount, AsyncCallback callback, Object state)
+		public static IAsyncResult BeginShowSelector(PlayerIndex player, int sizeInBytes, int directoryCount,
+            AsyncCallback callback, Object state)
 		{
 			if (openDeviceDelegate != null)
-				throw new InvalidOperationException("There is currently a StorageDevice request pending. Please let this request finish.");
+				throw new InvalidOperationException(
+                    "There is currently a StorageDevice request pending. Please let this request finish.");
 
 			openDeviceDelegate = OpenStorageDevice;
-			return openDeviceDelegate.BeginInvoke(player, sizeInBytes, directoryCount,
-				callback, state);
+			return openDeviceDelegate.BeginInvoke(player, sizeInBytes, directoryCount, callback, state);
 		}
 		#endregion
 
@@ -162,8 +138,7 @@ namespace ANX.Framework.Storage
 		#endregion
 
 		#region OpenStorageDevice
-		private static StorageDevice OpenStorageDevice(PlayerIndex player,
-			int sizeInBytes, int directoryCount)
+		private static StorageDevice OpenStorageDevice(PlayerIndex player, int sizeInBytes, int directoryCount)
 		{
 			return new StorageDevice(player, sizeInBytes, directoryCount);
 		}
@@ -172,7 +147,7 @@ namespace ANX.Framework.Storage
 		#region OpenStorageContainer
 		private StorageContainer OpenStorageContainer(string displayName)
 		{
-			return new StorageContainer(this, PlayerIndex, displayName);
+			return new StorageContainer(this, playerIndex, displayName);
 		}
 		#endregion
 	}
