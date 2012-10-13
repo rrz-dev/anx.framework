@@ -16,7 +16,7 @@ namespace ANX.RenderSystem.Windows.DX10
 {
 	public class EffectTechnique_DX10 : INativeEffectTechnique
 	{
-		private Effect parentEffect;
+		private readonly Effect parentEffect;
 
 		public EffectTechnique_DX10(Effect parentEffect, Dx10.EffectTechnique nativeTechnique)
 		{
@@ -51,5 +51,10 @@ namespace ANX.RenderSystem.Windows.DX10
 				}
 			}
 		}
+
+        public EffectAnnotationCollection Annotations
+        {
+            get { throw new NotImplementedException(); }
+        }
 	}
 }

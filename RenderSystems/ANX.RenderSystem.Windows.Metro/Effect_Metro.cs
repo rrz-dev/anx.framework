@@ -101,11 +101,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			parameters = new List<EffectParameter>();
 
 			foreach (ExtendedShaderParameter parameter in shader.Parameters)
-			{
-				EffectParameter newParam = new EffectParameter();
-				newParam.NativeParameter = new EffectParameter_Metro(this, parameter);
-				parameters.Add(newParam);
-			}
+				parameters.Add(new EffectParameter(new EffectParameter_Metro(this, parameter)));
 
             paramBuffer = new ParameterBuffer(this, NativeDxDevice.Current);
 		}

@@ -16,7 +16,7 @@ namespace ANX.RenderSystem.Windows.DX11
 {
 	public class EffectTechnique_DX11 : INativeEffectTechnique
 	{
-		private Effect parentEffect;
+		private readonly Effect parentEffect;
 
 		public EffectTechnique_DX11(Effect parentEffect, Dx11.EffectTechnique nativeTechnique)
 		{
@@ -51,5 +51,10 @@ namespace ANX.RenderSystem.Windows.DX11
 				}
 			}
 		}
-	}
+
+        public EffectAnnotationCollection Annotations
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
@@ -34,25 +35,23 @@ namespace ANX.RenderSystem.GL3
 		#endregion
 
 		#region Public
-		/// <summary>
-		/// The name of the effect technique.
-		/// </summary>
-		public string Name
-		{
-			get;
-			private set;
-		}
+	    /// <summary>
+	    /// The name of the effect technique.
+	    /// </summary>
+	    public string Name { get; private set; }
 
-		/// <summary>
-		/// The passes of the technique.
-		/// </summary>
-		public IEnumerable<EffectPass> Passes
-		{
-			get
-			{
-				yield return pass;
-			}
-		}
+	    /// <summary>
+	    /// The passes of the technique.
+	    /// </summary>
+	    public IEnumerable<EffectPass> Passes
+	    {
+	        get { yield return pass; }
+	    }
+
+	    public EffectAnnotationCollection Annotations
+        {
+            get { throw new NotImplementedException(); }
+        }
 		#endregion
 
 		#region Constructor

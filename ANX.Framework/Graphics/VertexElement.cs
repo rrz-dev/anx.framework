@@ -89,13 +89,10 @@ namespace ANX.Framework.Graphics
 
         public override bool Equals(object obj)
         {
-			if (obj != null && obj is VertexElement)
-                return this == (VertexElement)obj;
-
-            return false;
+            return obj is VertexElement && this == (VertexElement)obj;
         }
 
-        public static bool operator ==(VertexElement lhs, VertexElement rhs)
+	    public static bool operator ==(VertexElement lhs, VertexElement rhs)
         {
             return lhs.offset == rhs.offset && lhs.elementFormat == rhs.elementFormat && lhs.elementUsage == rhs.elementUsage &&
 				lhs.usageIndex == rhs.usageIndex;

@@ -8,7 +8,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(90)]
+    [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectTechnique
@@ -22,10 +22,7 @@ namespace ANX.Framework.Graphics
 
         public EffectAnnotationCollection Annotations
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return NativeTechnique.Annotations; }
 		}
 
         public EffectPassCollection Passes { get; private set; }

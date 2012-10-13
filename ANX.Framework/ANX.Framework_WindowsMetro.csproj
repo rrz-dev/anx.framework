@@ -448,6 +448,7 @@
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeConstantBuffer.cs" />
     <Compile Include="NonXNA\RenderSystem\IOcclusionQuery.cs" />
+    <Compile Include="NonXNA\RenderSystem\INativeEffectAnnotation.cs" />
     <Compile Include="NonXNA\RenderSystem\VertexTypeHelper.cs" />
     <Compile Include="NonXNA\SoundSystem\IDynamicSoundEffectInstance.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />

@@ -14,7 +14,7 @@ namespace ANX.Framework.NonXNA
     public interface INativeEffectTechnique
     {
         string Name { get; }
-
         IEnumerable<EffectPass> Passes { get; }
+        EffectAnnotationCollection Annotations { get; }
     }
 }

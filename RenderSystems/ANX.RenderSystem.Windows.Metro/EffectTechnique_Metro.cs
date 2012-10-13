@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
@@ -41,12 +42,14 @@ namespace ANX.RenderSystem.Windows.Metro
 			}
 		}
 
-        public EffectPass_Metro this[int index]
+	    public EffectPass_Metro this[int index]
+	    {
+	        get { return passes[index]; }
+	    }
+
+	    public EffectAnnotationCollection Annotations
         {
-            get
-            {
-                return passes[index];
-            }
+            get { throw new NotImplementedException(); }
         }
 		#endregion
 

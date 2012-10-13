@@ -22,6 +22,9 @@ namespace ANX.Framework.NonXNA
         int RowCount { get; }
         EffectParameterClass ParameterClass { get; }
         EffectParameterType ParameterType { get; }
+        EffectAnnotationCollection Annotations { get; }
+        EffectParameterCollection Elements { get; }
+        EffectParameterCollection StructureMembers { get; }
 
         #region GetValue
         bool GetValueBoolean();

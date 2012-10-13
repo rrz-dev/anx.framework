@@ -42,15 +42,14 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			get
 			{
-				for (int i = 0; i < NativeEffect.Description.GlobalVariableCount; i++)
-				{
-					EffectParameter_DX10 parDx10 = new EffectParameter_DX10();
-					parDx10.NativeParameter = NativeEffect.GetVariableByIndex(i);
-
-					EffectParameter par = new EffectParameter();
-					par.NativeParameter = parDx10;
-					yield return par;
-				}
+                for (int i = 0; i < NativeEffect.Description.GlobalVariableCount; i++)
+                {
+                    var parDx10 = new EffectParameter_DX10
+                    {
+                        NativeParameter = NativeEffect.GetVariableByIndex(i)
+                    };
+                    yield return new EffectParameter(parDx10);
+                }
 			}
 		}
 		#endregion

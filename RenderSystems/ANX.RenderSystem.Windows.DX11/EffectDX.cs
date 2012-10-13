@@ -42,12 +42,11 @@ namespace ANX.RenderSystem.Windows.DX11
 			{
 				for (int i = 0; i < NativeEffect.Description.GlobalVariableCount; i++)
 				{
-					EffectParameter_DX11 parDx11 = new EffectParameter_DX11();
-					parDx11.NativeParameter = NativeEffect.GetVariableByIndex(i);
-
-					EffectParameter par = new EffectParameter();
-					par.NativeParameter = parDx11;
-					yield return par;
+				    var parDx11 = new EffectParameter_DX11
+				    {
+				        NativeParameter = NativeEffect.GetVariableByIndex(i)
+				    };
+                    yield return new EffectParameter(parDx11);
 				}
 			}
 		}

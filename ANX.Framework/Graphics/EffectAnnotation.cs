@@ -1,5 +1,6 @@
 using System;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,97 +8,86 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(10)]
-    [Developer("Glatzemann")]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectAnnotation
-	{
+    {
+        private readonly INativeEffectAnnotation nativeAnnotation;
+
 		public int ColumnCount
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.ColumnCount; }
 		}
 
 		public string Name
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.Name; }
 		}
 
 		public EffectParameterClass ParameterClass
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.ParameterClass; }
 		}
 
 		public EffectParameterType ParameterType
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.ParameterType; }
 		}
 
 		public int RowCount
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.RowCount; }
 		}
 
 		public string Semantic
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return nativeAnnotation.Semantic; }
 		}
+
+        internal EffectAnnotation(INativeEffectAnnotation setNativeAnnotation)
+        {
+            nativeAnnotation = setNativeAnnotation;
+        }
 
         public bool GetValueBoolean()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueBoolean();
         }
 
         public int GetValueInt32()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueInt32();
         }
 
         public Matrix GetValueMatrix()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueMatrix();
         }
 
         public float GetValueSingle()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueSingle();
         }
 
         public string GetValueString()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueString();
         }
 
         public Vector2 GetValueVector2()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueVector2();
         }
 
         public Vector3 GetValueVector3()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueVector3();
         }
 
         public Vector4 GetValueVector4()
         {
-            throw new NotImplementedException();
+            return nativeAnnotation.GetValueVector4();
         }
     }
 }

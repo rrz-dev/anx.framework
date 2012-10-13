@@ -12,25 +12,10 @@ namespace ANX.Framework.Graphics
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectPass
     {
-        private string name;
-        private EffectAnnotationCollection annotations;
-		private Effect parentEffect;
+        private readonly Effect parentEffect;
 
-		public string Name
-		{
-			get
-			{
-				return this.name;
-			}
-		}
-
-		public EffectAnnotationCollection Annotations
-		{
-			get
-			{
-				return this.annotations;
-			}
-		}
+        public string Name { get; private set; }
+        public EffectAnnotationCollection Annotations { get; private set; }
 
         internal EffectPass(Effect parentEffect)
         {
@@ -43,7 +28,7 @@ namespace ANX.Framework.Graphics
         public void Apply()
         {
 			parentEffect.PreBindSetParameters();
-            parentEffect.NativeEffect.Apply(this.parentEffect.GraphicsDevice);
+            parentEffect.NativeEffect.Apply(parentEffect.GraphicsDevice);
         }
     }
 }

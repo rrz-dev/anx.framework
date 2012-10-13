@@ -48,6 +48,21 @@ namespace ANX.RenderSystem.Windows.DX10
         {
             get { return DxFormatConverter.Translate(NativeParameter.TypeInfo.Description.Type); }
         }
+
+        public EffectAnnotationCollection Annotations
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterCollection Elements
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterCollection StructureMembers
+        {
+            get { throw new NotImplementedException(); }
+        }
         #endregion
 
 		#region SetValue (bool)

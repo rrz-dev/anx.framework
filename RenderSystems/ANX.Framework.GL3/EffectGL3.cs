@@ -214,12 +214,10 @@ namespace ANX.RenderSystem.GL3
 		#endregion
 
 		#region AddParametersFrom
-		private void AddParametersFrom(int programHandle, List<string> parameterNames,
-			EffectTechniqueGL3 technique)
+		private void AddParametersFrom(int programHandle, List<string> parameterNames, EffectTechniqueGL3 technique)
 		{
 			int uniformCount;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms,
-				out uniformCount);
+			GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms, out uniformCount);
 			ErrorHelper.Check("GetProgram ActiveUniforms");
 
 			for (int index = 0; index < uniformCount; index++)
@@ -231,13 +229,8 @@ namespace ANX.RenderSystem.GL3
 				{
 					parameterNames.Add(name);
 					int uniformIndex = GL.GetUniformLocation(programHandle, name);
-					ErrorHelper.Check("GetUniformLocation name=" + name +
-						" uniformIndex=" + uniformIndex);
-					parameters.Add(new EffectParameter()
-					{
-						NativeParameter =
-							new EffectParameterGL3(technique, name, uniformIndex),
-					});
+					ErrorHelper.Check("GetUniformLocation name=" + name + " uniformIndex=" + uniformIndex);
+				    parameters.Add(new EffectParameter(new EffectParameterGL3(technique, name, uniformIndex)));
 				}
 			}
 		}

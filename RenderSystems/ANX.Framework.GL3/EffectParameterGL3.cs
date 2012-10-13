@@ -54,6 +54,21 @@ namespace ANX.RenderSystem.GL3
         {
             get { throw new NotImplementedException(); }
         }
+
+        public EffectAnnotationCollection Annotations
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterCollection Elements
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterCollection StructureMembers
+        {
+            get { throw new NotImplementedException(); }
+        }
 		#endregion
 
 		#region Constructor
