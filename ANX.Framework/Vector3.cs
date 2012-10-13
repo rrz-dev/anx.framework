@@ -12,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("xToast, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Vector3 : IEquatable<Vector3>
     {
@@ -714,8 +714,7 @@ namespace ANX.Framework
         public override string ToString()
         {
             var culture = CultureInfo.CurrentCulture;
-            // This may look a bit more ugly, but String.Format should
-            // be avoided cause of it's bad performance!
+            // This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
             return "{X:" + X.ToString(culture) +
                     " Y:" + Y.ToString(culture) +
                     " Z:" + Z.ToString(culture) + "}";

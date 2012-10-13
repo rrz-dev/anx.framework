@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("Glatzemann, SilentWarrior")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Color : IPackedVector<uint>, IPackedVector, IEquatable<Color>
     {

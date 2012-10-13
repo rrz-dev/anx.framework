@@ -13,7 +13,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.InProgress)]
-    [Developer("???, Glatzemann")]
+    [Developer("xToast, Glatzemann")]
     public class BoundingFrustum : IEquatable<BoundingFrustum>
     {
         #region fields

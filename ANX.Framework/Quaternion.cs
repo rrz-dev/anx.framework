@@ -12,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("floAr, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Quaternion : IEquatable<Quaternion>
     {

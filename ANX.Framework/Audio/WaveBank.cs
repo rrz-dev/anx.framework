@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Audio
 {
     [PercentageComplete(0)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class WaveBank : IDisposable
 	{

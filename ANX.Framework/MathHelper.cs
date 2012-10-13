@@ -38,7 +38,7 @@ SOFTWARE.
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("Glatzemann, rene87")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public static class MathHelper
     {

@@ -12,11 +12,11 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     [Developer("Glatzemann")]
     public class GameServiceContainer : IServiceProvider
     {
-        private Dictionary<Type, Object> services;
+        private readonly Dictionary<Type, Object> services;
 
         public GameServiceContainer()
         {
@@ -44,7 +44,7 @@ namespace ANX.Framework
                 throw new ArgumentNullException("type");
             }
 
-            Object obj = null;
+            Object obj;
             this.services.TryGetValue(type, out obj);
             return obj;
         }

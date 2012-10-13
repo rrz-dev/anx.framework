@@ -12,6 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public abstract class ContentTypeReader
     {
         /// <summary>
@@ -55,6 +56,8 @@ namespace ANX.Framework.Content
         protected internal abstract object Read(ContentReader input, object existingInstance);
     }
 
+    [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public abstract class ContentTypeReader<T> : ContentTypeReader
     {
         /// <summary>

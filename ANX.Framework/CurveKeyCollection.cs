@@ -10,7 +10,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???, AstrorEnales")]
+    [Developer("floAr, AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
 	public class CurveKeyCollection : ICollection<CurveKey>, IEnumerable<CurveKey>, IEnumerable
 	{

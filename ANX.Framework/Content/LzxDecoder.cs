@@ -780,7 +780,7 @@ namespace ANX.Framework.Content
     }
 
     /* EXCEPTIONS */
-    public class UnsupportedWindowSizeRange : Exception
+    internal class UnsupportedWindowSizeRange : Exception
     {
     }
 }

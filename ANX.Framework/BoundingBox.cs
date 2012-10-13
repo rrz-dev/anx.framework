@@ -12,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("xToast, Glatzemann")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct BoundingBox : IEquatable<BoundingBox>
     {

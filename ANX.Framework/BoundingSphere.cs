@@ -13,7 +13,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("xToast")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct BoundingSphere : IEquatable<BoundingSphere>
     {
@@ -416,16 +416,14 @@ namespace ANX.Framework
         }
 				#endregion
 
-				#region ToString
-				public override string ToString()
-				{
-					var culture = CultureInfo.CurrentCulture;
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{Center:" + Center.ToString() +
-						" Radius:" + Radius.ToString(culture) + "}";
-				}
-				#endregion
+        #region ToString
+        public override string ToString()
+        {
+            var culture = CultureInfo.CurrentCulture;
+            // This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
+            return "{Center:" + Center.ToString() + " Radius:" + Radius.ToString(culture) + "}";
+        }
+        #endregion
 
         #region IEquatable implementation
         public override bool Equals(Object obj)

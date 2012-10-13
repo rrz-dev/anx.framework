@@ -12,7 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(70)]
-    [Developer("???")]
+    [Developer("Glatzemann, GinieDp, rene87, floAr")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Matrix : IEquatable<Matrix>
     {

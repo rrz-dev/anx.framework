@@ -8,7 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("floAr, Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
 	public class CurveKey : IEquatable<CurveKey>, IComparable<CurveKey>
 	{

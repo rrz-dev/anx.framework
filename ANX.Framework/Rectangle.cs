@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [Developer("???")]
+    [Developer("Glatzemann, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Rectangle : IEquatable<Rectangle>
     {
