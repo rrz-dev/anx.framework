@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Audio
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-    [SerializableAttribute]
+    [Serializable]
 #endif
     [PercentageComplete(99)]
     [Developer("AstrorEnales")]

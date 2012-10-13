@@ -56,20 +56,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseScene.cs" />
+    <Compile Include="LightingMode.cs" />
     <Compile Include="Scenes\DiffuseFogScene.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Scenes\DiffuseNoFogScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Scenes\VertexLightingDiffuseNoFogScene.cs" />
-    <Compile Include="Scenes\VertexLightingDiffuseFogScene.cs" />
+    <Compile Include="Scenes\LitVertexColorTextureFogScene.cs" />
+    <Compile Include="Scenes\LitVertexColorTextureNoFogScene.cs" />
+    <Compile Include="Scenes\LitTextureFogScene.cs" />
+    <Compile Include="Scenes\LitTextureNoFogScene.cs" />
+    <Compile Include="Scenes\LitVertexColorFogScene.cs" />
+    <Compile Include="Scenes\LitVertexColorNoFogScene.cs" />
+    <Compile Include="Scenes\LitDiffuseNoFogScene.cs" />
+    <Compile Include="Scenes\LitDiffuseFogScene.cs" />
     <Compile Include="Scenes\VertexColorTextureNoFogScene.cs" />
     <Compile Include="Scenes\VertexColorTextureFogScene.cs" />
     <Compile Include="Scenes\TextureNoFogScene.cs" />
     <Compile Include="Scenes\TextureFogScene.cs" />
     <Compile Include="Scenes\VertexColorNoFogScene.cs" />
     <Compile Include="Scenes\VertexColorFogScene.cs" />
+    <Compile Include="VertexTypes\VertexPositionNormalColorTexture.cs" />
+    <Compile Include="VertexTypes\VertexPositionNormalColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

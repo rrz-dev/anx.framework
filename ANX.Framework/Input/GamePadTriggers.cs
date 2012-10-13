@@ -33,13 +33,10 @@ namespace ANX.Framework.Input
 
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj.GetType() == typeof(GamePadTriggers))
-				return this == (GamePadTriggers)obj;
-
-			return false;
+		    return obj is GamePadTriggers && this == (GamePadTriggers)obj;
 		}
 
-		public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
+	    public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
 		{
 			return lhs.Left == rhs.Left && lhs.Right == rhs.Right;
 		}

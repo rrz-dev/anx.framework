@@ -28,19 +28,16 @@ namespace ANX.Framework.Input
 
         public GamePadThumbSticks (Vector2 leftThumbstick, Vector2 rightThumbstick)
         {
-            this.left = Vector2.Clamp(leftThumbstick, -Vector2.One, Vector2.One);
-            this.right = Vector2.Clamp(rightThumbstick, -Vector2.One, Vector2.One);
+            left = Vector2.Clamp(leftThumbstick, -Vector2.One, Vector2.One);
+            right = Vector2.Clamp(rightThumbstick, -Vector2.One, Vector2.One);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == typeof(GamePadThumbSticks))
-                return this == (GamePadThumbSticks)obj;
-
-            return false;
+            return obj is GamePadThumbSticks && this == (GamePadThumbSticks)obj;
         }
 
-        public static bool operator ==(GamePadThumbSticks lhs, GamePadThumbSticks rhs)
+	    public static bool operator ==(GamePadThumbSticks lhs, GamePadThumbSticks rhs)
         {
             return lhs.left == rhs.left && lhs.right == rhs.right;
         }
@@ -52,7 +49,7 @@ namespace ANX.Framework.Input
 
         public override int GetHashCode()
         {
-            return this.left.GetHashCode() ^ this.right.GetHashCode();
+            return left.GetHashCode() ^ right.GetHashCode();
         }
 
         public override string ToString()

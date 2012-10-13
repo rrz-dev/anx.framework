@@ -18,7 +18,7 @@ namespace BasicEffectSample
 
 		KeyboardState lastState;
 
-		BaseScene[] allScenes =
+	    private readonly BaseScene[] allScenes =
 		{
 			// Basic
 			new DiffuseNoFogScene(),
@@ -31,37 +31,37 @@ namespace BasicEffectSample
 			new VertexColorTextureFogScene(),
 
 			// Vertex Lighting
-			new VertexLightingDiffuseNoFogScene(),
-			new VertexLightingDiffuseFogScene(),
-			//new VertexLightingVertexColorNoFogScene(),
-			//new VertexLightingVertexColorFogScene(),
-			//new VertexLightingTextureNoFogScene(),
-			//new VertexLightingTextureFogScene(),
-			//new VertexLightingVertexColorTextureNoFogScene(),
-			//new VertexLightingVertexColorTextureFogScene(),
+			new LitDiffuseNoFogScene(LightingMode.VertexLighting),
+			new LitDiffuseFogScene(LightingMode.VertexLighting),
+			new LitVertexColorNoFogScene(LightingMode.VertexLighting),
+			new LitVertexColorFogScene(LightingMode.VertexLighting),
+			new LitTextureNoFogScene(LightingMode.VertexLighting),
+            new LitTextureFogScene(LightingMode.VertexLighting),
+			new LitVertexColorTextureNoFogScene(LightingMode.VertexLighting),
+			new LitVertexColorTextureFogScene(LightingMode.VertexLighting),
 			
 			// One Light
-			//new OneLightNoFogScene(),
-			//new OneLightFogScene(),
-			//new OneLightVertexColorNoFogScene(),
-			//new OneLightVertexColorFogScene(),
-			//new OneLightTextureNoFogScene(),
-			//new OneLightTextureFogScene(),
-			//new OneLightVertexColorTextureNoFogScene(),
-			//new OneLightVertexColorTextureFogScene(),
+			new LitDiffuseNoFogScene(LightingMode.OneLight),
+			new LitDiffuseFogScene(LightingMode.OneLight),
+			new LitVertexColorNoFogScene(LightingMode.OneLight),
+			new LitVertexColorFogScene(LightingMode.OneLight),
+			new LitTextureNoFogScene(LightingMode.OneLight),
+			new LitTextureFogScene(LightingMode.OneLight),
+			new LitVertexColorTextureNoFogScene(LightingMode.OneLight),
+			new LitVertexColorTextureFogScene(LightingMode.OneLight),
 			
 			// Pixel Lighting
-			//new PixelLightingNoFogScene(),
-			//new PixelLightingFogScene(),
-			//new PixelLightingVertexColorNoFogScene(),
-			//new PixelLightingVertexColorFogScene(),
-			//new PixelLightingTextureNoFogScene(),
-			//new PixelLightingTextureFogScene(),
-			//new PixelLightingVertexColorTextureNoFogScene(),
-			//new PixelLightingVertexColorTextureFogScene(),
+			new LitDiffuseNoFogScene(LightingMode.PixelLighting),
+			new LitDiffuseFogScene(LightingMode.PixelLighting),
+			new LitVertexColorNoFogScene(LightingMode.PixelLighting),
+			new LitVertexColorFogScene(LightingMode.PixelLighting),
+			new LitTextureNoFogScene(LightingMode.PixelLighting),
+			new LitTextureFogScene(LightingMode.PixelLighting),
+			new LitVertexColorTextureNoFogScene(LightingMode.PixelLighting),
+			new LitVertexColorTextureFogScene(LightingMode.PixelLighting),
 		};
 
-		int currentSceneIndex = 0;
+		int currentSceneIndex;
 
 		public Game1()
 		{

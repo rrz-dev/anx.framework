@@ -9,25 +9,25 @@ using ANX.Framework;
 
 namespace BasicEffectSample.Scenes
 {
-	public class VertexLightingDiffuseFogScene : BaseScene
+	public class LitDiffuseNoFogScene : BaseScene
 	{
-		public override string Name
-		{
-			get
-			{
-				return "VertexLighting with DiffuseColor and Fog";
-			}
-		}
+	    public override string Name
+	    {
+	        get { return mode + " with DiffuseColor"; }
+	    }
 
-		private BasicEffect effect;
-		private VertexBuffer vertices;
-		private IndexBuffer indices;
+	    private readonly LightingMode mode;
+
+        public LitDiffuseNoFogScene(LightingMode setMode)
+        {
+            mode = setMode;
+        }
 
 		public override void Initialize(ContentManager content, GraphicsDevice graphicsDevice)
 		{
 			effect = new BasicEffect(graphicsDevice);
 
-			var elements = new VertexElement[]
+			var elements = new[]
 			{
 				new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
 				new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
@@ -35,7 +35,7 @@ namespace BasicEffectSample.Scenes
 			var declaration = new VertexDeclaration(24, elements);
 
 			vertices = new VertexBuffer(graphicsDevice, declaration, 6, BufferUsage.WriteOnly);
-			vertices.SetData<Vector3>(new Vector3[]
+			vertices.SetData(new[]
 			{
 				new Vector3(0f, 0f, -5f), new Vector3(-1f, 0f, 0f),
 				new Vector3(0f, 0f, 5f), new Vector3(-1f, 0f, 0f),
@@ -46,24 +46,17 @@ namespace BasicEffectSample.Scenes
 			});
 
 			indices = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, 12, BufferUsage.WriteOnly);
-			indices.SetData<ushort>(new ushort[] { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3 });
+			indices.SetData(new ushort[] { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3 });
 		}
 
 		public override void Draw(GraphicsDevice graphicsDevice)
-		{
-			effect.FogStart = 1f;
-			effect.FogEnd = 15f;
-			effect.FogColor = Color.Gray.ToVector3();
-			effect.World = Camera.World;
-			effect.View = Camera.View;
-			effect.Projection = Camera.Projection;
+        {
+            SetCameraMatrices();
 			effect.DiffuseColor = Color.LightGreen.ToVector3();
-			effect.EmissiveColor = Color.Black.ToVector3();
-			effect.LightingEnabled = true;
-			effect.PreferPerPixelLighting = false;
-			effect.FogEnabled = true;
+            effect.EmissiveColor = Color.Black.ToVector3();
+            ToggleFog(false);
 
-			effect.EnableDefaultLighting();
+            EnableLightingMode(mode);
 
 			effect.CurrentTechnique.Passes[0].Apply();
 

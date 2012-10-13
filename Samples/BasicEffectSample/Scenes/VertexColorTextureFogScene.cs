@@ -11,17 +11,11 @@ namespace BasicEffectSample.Scenes
 {
 	public class VertexColorTextureFogScene : BaseScene
 	{
-		public override string Name
-		{
-			get
-			{
-				return "VertexColor with Texture and Fog";
-			}
-		}
+	    public override string Name
+	    {
+	        get { return "VertexColor with Texture and Fog"; }
+	    }
 
-		private BasicEffect effect;
-		private VertexBuffer vertices;
-		private IndexBuffer indices;
 		private Texture2D texture;
 
 		public override void Initialize(ContentManager content, GraphicsDevice graphicsDevice)
@@ -30,7 +24,7 @@ namespace BasicEffectSample.Scenes
 			effect = new BasicEffect(graphicsDevice);
 
 			vertices = new VertexBuffer(graphicsDevice, VertexPositionColorTexture.VertexDeclaration, 4, BufferUsage.WriteOnly);
-			vertices.SetData<VertexPositionColorTexture>(new[]
+			vertices.SetData(new[]
 			{
 				new VertexPositionColorTexture(new Vector3(-5f, 0f, -5f), Color.Red, new Vector2(0, 0)),
 				new VertexPositionColorTexture(new Vector3(-5f, 0f, 5f), Color.Green, new Vector2(0, 1)),
@@ -39,23 +33,18 @@ namespace BasicEffectSample.Scenes
 			});
 
 			indices = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, 6, BufferUsage.WriteOnly);
-			indices.SetData<ushort>(new ushort[] { 0, 2, 1, 0, 3, 2 });
+			indices.SetData(new ushort[] { 0, 2, 1, 0, 3, 2 });
 		}
 
 		public override void Draw(GraphicsDevice graphicsDevice)
-		{
-			effect.FogStart = 1f;
-			effect.FogEnd = 15f;
-			effect.FogColor = Color.Gray.ToVector3();
-			effect.World = Camera.World;
-			effect.View = Camera.View;
-			effect.Projection = Camera.Projection;
+        {
+            ToggleFog(true);
+            SetCameraMatrices();
 			effect.VertexColorEnabled = true;
 			effect.EmissiveColor = Color.Black.ToVector3();
 			effect.LightingEnabled = false;
 			effect.TextureEnabled = true;
 			effect.Texture = texture;
-			effect.FogEnabled = true;
 			effect.CurrentTechnique.Passes[0].Apply();
 
 			graphicsDevice.Indices = indices;

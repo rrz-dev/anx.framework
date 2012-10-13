@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.InProgress)]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	[Developer("AstrorEnales")]
     public class BasicEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
 	{

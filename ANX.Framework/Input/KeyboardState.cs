@@ -13,18 +13,15 @@ namespace ANX.Framework.Input
     public struct KeyboardState
     {
         #region Private
-        private KeyState[] keyState;
+        private readonly KeyState[] keyState;
 		#endregion
 
-		public KeyState this[Keys key]
-		{
-			get
-			{
-				return keyState[(int)key];
-			}
-		}
+	    public KeyState this[Keys key]
+	    {
+	        get { return keyState[(int)key]; }
+	    }
 
-        public KeyboardState(params Keys[] keys)
+	    public KeyboardState(params Keys[] keys)
         {
             keyState = new KeyState[255];
             for (int i = 0; i < keys.Length; i++)
@@ -48,13 +45,10 @@ namespace ANX.Framework.Input
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == typeof(KeyboardState))
-                return this == (KeyboardState)obj;
-
-            return false;
+            return obj is KeyboardState && this == (KeyboardState)obj;
         }
 
-        public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
+	    public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
         {
             if (lhs.keyState.Length != rhs.keyState.Length)
                 return false;

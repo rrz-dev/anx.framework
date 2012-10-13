@@ -11,24 +11,17 @@ namespace BasicEffectSample.Scenes
 {
 	public class VertexColorNoFogScene : BaseScene
 	{
-		public override string Name
-		{
-			get
-			{
-				return "VertexColor";
-			}
-		}
-
-		private BasicEffect effect;
-		private VertexBuffer vertices;
-		private IndexBuffer indices;
+	    public override string Name
+	    {
+	        get { return "VertexColor"; }
+	    }
 
 		public override void Initialize(ContentManager content, GraphicsDevice graphicsDevice)
 		{
 			effect = new BasicEffect(graphicsDevice);
 
 			vertices = new VertexBuffer(graphicsDevice, VertexPositionColor.VertexDeclaration, 4, BufferUsage.WriteOnly);
-			vertices.SetData<VertexPositionColor>(new[]
+			vertices.SetData(new[]
 			{
 				new VertexPositionColor(new Vector3(-5f, 0f, -5f), Color.Red),
 				new VertexPositionColor(new Vector3(-5f, 0f, 5f), Color.Green),
@@ -41,14 +34,12 @@ namespace BasicEffectSample.Scenes
 		}
 
 		public override void Draw(GraphicsDevice graphicsDevice)
-		{
-			effect.World = Camera.World;
-			effect.View = Camera.View;
-			effect.Projection = Camera.Projection;
+        {
+            SetCameraMatrices();
 			effect.VertexColorEnabled = true;
 			effect.LightingEnabled = false;
-			effect.EmissiveColor = Color.Black.ToVector3();
-			effect.FogEnabled = false;
+            effect.EmissiveColor = Color.Black.ToVector3();
+            ToggleFog(false);
 			effect.CurrentTechnique.Passes[0].Apply();
 
 			graphicsDevice.Indices = indices;

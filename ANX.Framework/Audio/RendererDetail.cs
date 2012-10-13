@@ -49,13 +49,10 @@ namespace ANX.Framework.Audio
 		#region Equality
 		public override bool Equals(object obj)
 		{
-			if (obj is RendererDetail)
-				return this == (RendererDetail)obj;
-
-			return false;
+		    return obj is RendererDetail && this == (RendererDetail)obj;
 		}
 
-		public static bool operator ==(RendererDetail lhs, RendererDetail rhs)
+        public static bool operator ==(RendererDetail lhs, RendererDetail rhs)
 		{
 			return lhs.friendlyName.Equals(rhs.friendlyName) &&
 				lhs.rendererId.Equals(rhs.rendererId);
