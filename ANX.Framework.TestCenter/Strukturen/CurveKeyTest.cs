@@ -32,8 +32,6 @@ namespace ANX.Framework.TestCenter.Strukturen
     [TestFixture]
     public class CurveKeyTest
     {
-
-
         #region Testdata
         static object[] sixteenfloats =
         {

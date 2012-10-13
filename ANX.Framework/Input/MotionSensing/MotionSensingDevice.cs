@@ -2,6 +2,7 @@
 using System;
 using ANX.Framework.NonXNA;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -13,7 +14,9 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.Input.MotionSensing
 {
-    public class MotionSensingDevice
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
+    public static class MotionSensingDevice
     {
         private static readonly IMotionSensingDevice motionSensingDevice;
 
@@ -30,7 +33,8 @@ namespace ANX.Framework.Input.MotionSensing
 
         static MotionSensingDevice()
         {
-            motionSensingDevice = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().MotionSensingDevice;
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>();
+            motionSensingDevice = creator.MotionSensingDevice;
         }
 
         public static MotionSensingDeviceState GetState() 

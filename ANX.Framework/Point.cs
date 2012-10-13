@@ -8,9 +8,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
-	[PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [PercentageComplete(100)]
     [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Point : IEquatable<Point>
 	{
 		#region Constants

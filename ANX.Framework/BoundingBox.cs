@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct BoundingBox : IEquatable<BoundingBox>
     {
         #region public fields

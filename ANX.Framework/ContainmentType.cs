@@ -7,6 +7,7 @@
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public enum ContainmentType
     {

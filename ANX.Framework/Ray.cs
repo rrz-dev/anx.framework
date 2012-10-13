@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -6,6 +7,9 @@ using System;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Ray : IEquatable<Ray>
     {
         #region fields
@@ -20,7 +24,6 @@ namespace ANX.Framework
         public Vector3 Position;
         #endregion
 
-
         #region constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="Ray"/> struct.
@@ -33,7 +36,6 @@ namespace ANX.Framework
             this.Position = position;
         }
         #endregion
-
 
         #region public methods
         /// <summary>
@@ -179,7 +181,6 @@ namespace ANX.Framework
         }
         #endregion
 
-
         #region operator overloading
         /// <summary>
         /// Implements the operator ==.
@@ -206,7 +207,6 @@ namespace ANX.Framework
             return a.Direction != b.Direction || a.Position != b.Position;
         }
         #endregion
-
 
         #region IEquatable implementation
         /// <summary>

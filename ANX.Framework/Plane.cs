@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,13 +11,15 @@ using System.Globalization;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Plane : IEquatable<Plane>
     {
         #region fields
         public float D;
         public Vector3 Normal;
         #endregion
-
 
         #region constructors
         public Plane(float a, float b, float c, float d)
@@ -42,7 +45,6 @@ namespace ANX.Framework
             this.Normal = new Vector3(value.X, value.Y, value.Z);
         }
         #endregion
-
 
         #region public methods
         public float Dot(Vector4 value)
@@ -343,7 +345,6 @@ namespace ANX.Framework
         }
         #endregion
 
-
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
@@ -355,7 +356,6 @@ namespace ANX.Framework
             return this.D == other.D && Normal.Equals(other.Normal);
         }
         #endregion
-
 
         #region operator overloading
         public static bool operator ==(Plane lhs, Plane rhs)

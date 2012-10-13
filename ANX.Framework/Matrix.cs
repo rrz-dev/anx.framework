@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.Globalization;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(70)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Matrix : IEquatable<Matrix>
     {
         #region Public Fields

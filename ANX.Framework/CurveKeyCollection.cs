@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,8 +9,10 @@ using System.Collections.Generic;
 
 namespace ANX.Framework
 {
-	public class CurveKeyCollection : ICollection<CurveKey>,
-		IEnumerable<CurveKey>, IEnumerable
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
+	public class CurveKeyCollection : ICollection<CurveKey>, IEnumerable<CurveKey>, IEnumerable
 	{
 		#region Private
 		private List<CurveKey> keys;

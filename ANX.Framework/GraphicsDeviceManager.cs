@@ -15,6 +15,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class GraphicsDeviceManager : IGraphicsDeviceManager, IDisposable, IGraphicsDeviceService
 	{
 		#region Constants

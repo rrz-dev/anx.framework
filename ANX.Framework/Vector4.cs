@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -10,6 +11,9 @@ using System.Globalization;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Vector4 : IEquatable<Vector4>
     {
         #region Fields
@@ -625,7 +629,7 @@ namespace ANX.Framework
 
         public override bool Equals(Object obj)
         {
-            return (obj is Vector4) ? this.Equals((Vector4)obj) : false;
+            return (obj is Vector4) && this.Equals((Vector4)obj);
 
         }
 

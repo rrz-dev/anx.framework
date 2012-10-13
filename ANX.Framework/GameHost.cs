@@ -11,6 +11,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public abstract class GameHost
 	{
 		internal event EventHandler<EventArgs> Activated;

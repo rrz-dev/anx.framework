@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -11,41 +12,40 @@ using ANX.Framework.Graphics;
 #if XNAEXT
 namespace ANX.Framework.Input.MotionSensing
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public struct MotionSensingDeviceState
     {
-        private bool connected;
+        private readonly bool connected;
 
-        private Texture2D pRGB;
-        private Texture2D pDepth;
+        private readonly Texture2D pRGB;
+        private readonly Texture2D pDepth;
 
-        private Vector3 pHipCenter;
-        private Vector3 pSpine;
-        private Vector3 pShoulderCenter;
-        private Vector3 pHead;
-        private Vector3 pShoulderLeft;
-        private Vector3 pElbowLeft;
-        private Vector3 pWristLeft;
-        private Vector3 pHandLeft;
-        private Vector3 pShoulderRight;
-        private Vector3 pElbowRight;
-        private Vector3 pWristRight;
-        private Vector3 pHandRight;
-        private Vector3 pHipLeft;
-        private Vector3 pKneeLeft;
-        private Vector3 pAnkleLeft;
-        private Vector3 pFootLeft;
-        private Vector3 pHipRight;
-        private Vector3 pKneeRight;
-        private Vector3 pAnkleRight;
-        private Vector3 pFootRight;
-        private Vector3 pCount;
+        private readonly Vector3 pHipCenter;
+        private readonly Vector3 pSpine;
+        private readonly Vector3 pShoulderCenter;
+        private readonly Vector3 pHead;
+        private readonly Vector3 pShoulderLeft;
+        private readonly Vector3 pElbowLeft;
+        private readonly Vector3 pWristLeft;
+        private readonly Vector3 pHandLeft;
+        private readonly Vector3 pShoulderRight;
+        private readonly Vector3 pElbowRight;
+        private readonly Vector3 pWristRight;
+        private readonly Vector3 pHandRight;
+        private readonly Vector3 pHipLeft;
+        private readonly Vector3 pKneeLeft;
+        private readonly Vector3 pAnkleLeft;
+        private readonly Vector3 pFootLeft;
+        private readonly Vector3 pHipRight;
+        private readonly Vector3 pKneeRight;
+        private readonly Vector3 pAnkleRight;
+        private readonly Vector3 pFootRight;
+        private readonly Vector3 pCount;
 
         public bool Connected
         {
-            get
-            {
-                return this.connected;
-            }
+            get { return this.connected; }
         }
 
         public Texture2D RGB { get { return this.pRGB; } }
@@ -73,37 +73,39 @@ namespace ANX.Framework.Input.MotionSensing
         public Vector3 FootRight { get { return this.pFootRight; } }
         public Vector3 Count { get { return this.pCount; } }
 
-        public MotionSensingDeviceState(bool connected, Texture2D _RGB, Texture2D _Depth, Vector3 _HipCenter, Vector3 _Spine, Vector3 _ShoulderCenter, Vector3 _Head, Vector3 _ShoulderLeft,
- Vector3 _ElbowLeft, Vector3 _WristLeft, Vector3 _HandLeft, Vector3 _ShoulderRight, Vector3 _ElbowRight, Vector3 _WristRight, Vector3 _HandRight, Vector3 _HipLeft, Vector3 _KneeLeft, Vector3 _AnkleLeft, Vector3 _FootLeft, Vector3 _HipRight, Vector3 _KneeRight, Vector3 _AnkleRight, Vector3 _FootRight, Vector3 _Count)
+        public MotionSensingDeviceState(bool connected, Texture2D rgbTexture, Texture2D depthTe, Vector3 hipCenter,
+            Vector3 spine, Vector3 shoulderCenter, Vector3 head, Vector3 shoulderLeft, Vector3 elbowLeft, Vector3 wristLeft,
+            Vector3 handLeft, Vector3 shoulderRight, Vector3 elbowRight, Vector3 wristRight, Vector3 handRight,
+            Vector3 hipLeft, Vector3 kneeLeft, Vector3 ankleLeft, Vector3 footLeft, Vector3 hipRight, Vector3 kneeRight,
+            Vector3 ankleRight, Vector3 footRight, Vector3 count)
         {
             this.connected = connected;
 
-            pRGB = _RGB;
-            pDepth = _Depth;
+            pRGB = rgbTexture;
+            pDepth = depthTe;
 
-            pHipCenter = _HipCenter;
-            pSpine = _Spine;
-            pShoulderCenter = _ShoulderCenter;
-            pHead = _Head;
-            pShoulderLeft = _ShoulderLeft;
-            pElbowLeft=_ElbowLeft;
-            pWristLeft=_WristLeft;
-            pHandLeft=_HandLeft;
-            pShoulderRight=_ShoulderRight;
-            pElbowRight=_ElbowRight;
-            pWristRight=_WristRight;
-            pHandRight=_HandRight;
-            pHipLeft=_HipLeft;
-            pKneeLeft=_KneeLeft;
-            pAnkleLeft=_AnkleLeft;
-            pFootLeft=_FootLeft;
-            pHipRight=_HipRight;
-            pKneeRight=_KneeRight;
-            pAnkleRight=_AnkleRight;
-            pFootRight=_FootRight;
-            pCount=_Count;
+            pHipCenter = hipCenter;
+            pSpine = spine;
+            pShoulderCenter = shoulderCenter;
+            pHead = head;
+            pShoulderLeft = shoulderLeft;
+            pElbowLeft = elbowLeft;
+            pWristLeft = wristLeft;
+            pHandLeft = handLeft;
+            pShoulderRight = shoulderRight;
+            pElbowRight = elbowRight;
+            pWristRight = wristRight;
+            pHandRight = handRight;
+            pHipLeft = hipLeft;
+            pKneeLeft = kneeLeft;
+            pAnkleLeft = ankleLeft;
+            pFootLeft = footLeft;
+            pHipRight = hipRight;
+            pKneeRight = kneeRight;
+            pAnkleRight = ankleRight;
+            pFootRight = footRight;
+            pCount = count;
         }
-
     }
 }
 

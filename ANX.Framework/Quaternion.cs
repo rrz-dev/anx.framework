@@ -1,6 +1,8 @@
 #region Using Statements
 using System;
 using System.Globalization;
+using ANX.Framework.NonXNA.Development;
+
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -9,6 +11,9 @@ using System.Globalization;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public struct Quaternion : IEquatable<Quaternion>
     {
         #region fields
@@ -418,7 +423,7 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is Quaternion) ? this.Equals((Quaternion)obj) : false;
+            return (obj is Quaternion) && this.Equals((Quaternion)obj);
         }
         public bool Equals(Quaternion other)
         {
