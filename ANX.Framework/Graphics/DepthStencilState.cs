@@ -114,16 +114,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation CounterClockwiseStencilDepthBufferFail
         {
-            get
-            {
-                return this.counterClockwiseStencilDepthBufferFail;
-            }
+            get { return this.counterClockwiseStencilDepthBufferFail; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.counterClockwiseStencilDepthBufferFail = value;
                 this.nativeDepthStencilState.CounterClockwiseStencilDepthBufferFail = value;
@@ -132,16 +126,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation CounterClockwiseStencilFail
         {
-            get
-            {
-                return this.counterClockwiseStencilFail;
-            }
+            get { return this.counterClockwiseStencilFail; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.counterClockwiseStencilFail = value;
                 this.nativeDepthStencilState.CounterClockwiseStencilFail = value;
@@ -150,16 +138,10 @@ namespace ANX.Framework.Graphics
 
         public CompareFunction CounterClockwiseStencilFunction
         {
-            get
-            {
-                return this.counterClockwiseStencilFunction;
-            }
+            get { return this.counterClockwiseStencilFunction; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.counterClockwiseStencilFunction = value;
                 this.nativeDepthStencilState.CounterClockwiseStencilFunction = value;
@@ -168,16 +150,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation CounterClockwiseStencilPass
         {
-            get
-            {
-                return this.counterClockwiseStencilPass;
-            }
+            get { return this.counterClockwiseStencilPass; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.counterClockwiseStencilPass = value;
                 this.nativeDepthStencilState.CounterClockwiseStencilPass = value;
@@ -186,16 +162,10 @@ namespace ANX.Framework.Graphics
 
         public bool DepthBufferEnable
         {
-            get
-            {
-                return this.depthBufferEnable;
-            }
+            get { return this.depthBufferEnable; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.depthBufferEnable = value;
                 this.nativeDepthStencilState.DepthBufferEnable = value;
@@ -204,16 +174,10 @@ namespace ANX.Framework.Graphics
 
         public CompareFunction DepthBufferFunction
         {
-            get
-            {
-                return this.depthBufferFunction;
-            }
+            get { return this.depthBufferFunction; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.depthBufferFunction = value;
                 this.nativeDepthStencilState.DepthBufferFunction = value;
@@ -222,16 +186,10 @@ namespace ANX.Framework.Graphics
 
         public bool DepthBufferWriteEnable
         {
-            get
-            {
-                return this.depthBufferWriteEnable;
-            }
+            get { return this.depthBufferWriteEnable; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.depthBufferWriteEnable = value;
                 this.nativeDepthStencilState.DepthBufferWriteEnable = value;
@@ -240,16 +198,10 @@ namespace ANX.Framework.Graphics
 
         public int ReferenceStencil
         {
-            get
-            {
-                return this.referenceStencil;
-            }
+            get { return this.referenceStencil; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.referenceStencil = value;
                 this.nativeDepthStencilState.ReferenceStencil = value;
@@ -258,16 +210,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation StencilDepthBufferFail
         {
-            get
-            {
-                return this.stencilDepthBufferFail;
-            }
+            get { return this.stencilDepthBufferFail; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilDepthBufferFail = value;
                 this.nativeDepthStencilState.StencilDepthBufferFail = value;
@@ -276,16 +222,10 @@ namespace ANX.Framework.Graphics
 
         public bool StencilEnable
         {
-            get
-            {
-                return this.stencilEnable;
-            }
+            get { return this.stencilEnable; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilEnable = value;
                 this.nativeDepthStencilState.StencilEnable = value;
@@ -294,16 +234,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation StencilFail
         {
-            get
-            {
-                return this.stencilFail;
-            }
+            get { return this.stencilFail; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilFail = value;
                 this.nativeDepthStencilState.StencilFail = value;
@@ -312,16 +246,10 @@ namespace ANX.Framework.Graphics
 
         public CompareFunction StencilFunction
         {
-            get
-            {
-                return this.stencilFunction;
-            }
+            get { return this.stencilFunction; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilFunction = value;
                 this.nativeDepthStencilState.StencilFunction = value;
@@ -330,16 +258,10 @@ namespace ANX.Framework.Graphics
 
         public int StencilMask
         {
-            get
-            {
-                return this.stencilMask;
-            }
+            get { return this.stencilMask; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilMask = value;
                 this.nativeDepthStencilState.StencilMask = value;
@@ -348,16 +270,10 @@ namespace ANX.Framework.Graphics
 
         public StencilOperation StencilPass
         {
-            get
-            {
-                return this.stencilPass;
-            }
+            get { return this.stencilPass; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilPass = value;
                 this.nativeDepthStencilState.StencilPass = value;
@@ -366,16 +282,10 @@ namespace ANX.Framework.Graphics
 
         public int StencilWriteMask
         {
-            get
-            {
-                return this.stencilWriteMask;
-            }
+            get { return this.stencilWriteMask; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.stencilWriteMask = value;
                 this.nativeDepthStencilState.StencilWriteMask = value;
@@ -384,20 +294,21 @@ namespace ANX.Framework.Graphics
 
         public bool TwoSidedStencilMode
         {
-            get
-            {
-                return this.twoSidedStencilMode;
-            }
+            get { return this.twoSidedStencilMode; }
             set
             {
-                if (this.nativeDepthStencilState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.twoSidedStencilMode = value;
                 this.nativeDepthStencilState.TwoSidedStencilMode = value;
             }
+        }
+
+        private void ThrowIfBound()
+        {
+            if (nativeDepthStencilState.IsBound)
+                throw new InvalidOperationException(
+                    "You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
         }
 
         public override void Dispose()

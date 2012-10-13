@@ -25,13 +25,13 @@ namespace ANX.Framework.Graphics
         public DynamicVertexBuffer(GraphicsDevice graphicsDevice, Type vertexType, int vertexCount, BufferUsage usage)
             : base(graphicsDevice, vertexType, vertexCount, usage)
         {
-            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+            graphicsDevice.DeviceReset += graphicsDevice_DeviceReset;
         }
 
         public DynamicVertexBuffer(GraphicsDevice graphicsDevice, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
             : base(graphicsDevice, vertexDeclaration, vertexCount, usage)
         {
-            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+            graphicsDevice.DeviceReset += graphicsDevice_DeviceReset;
         }
 
         ~DynamicVertexBuffer()

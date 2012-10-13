@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -12,48 +13,46 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(10)]
-    [Developer("Glatzemann")]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectAnnotationCollection : IEnumerable<EffectAnnotation>
     {
+        private readonly List<EffectAnnotation> annotations;
+
+        public int Count
+        {
+            get { return annotations.Count; }
+        }
+
         public EffectAnnotation this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return index >= 0 && index < annotations.Count ? annotations[index] : null; }
         }
 
         public EffectAnnotation this[string name]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return annotations.FirstOrDefault(annotation => annotation.Name == name); }
+        }
+
+        internal EffectAnnotationCollection()
+        {
+            annotations = new List<EffectAnnotation>();
         }
 
         IEnumerator<EffectAnnotation> IEnumerable<EffectAnnotation>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return annotations.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return annotations.GetEnumerator();
         }
 
         public List<EffectAnnotation>.Enumerator GetEnumerator()
         {
-            throw new NotImplementedException();
-        }
-
-        public int Count
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            return annotations.GetEnumerator();
         }
     }
 }

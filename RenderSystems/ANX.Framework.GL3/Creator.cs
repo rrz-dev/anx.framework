@@ -255,12 +255,11 @@ namespace ANX.RenderSystem.GL3
 			
 			var result = new List<GraphicsAdapter>();
 			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
-			{
-				var displayModeCollection = new DisplayModeCollection();
+            {
+                var resultingModes = new List<DisplayMode>();
 				foreach (string format in Enum.GetNames(typeof(SurfaceFormat)))
 				{
-					SurfaceFormat surfaceFormat =
-						(SurfaceFormat)Enum.Parse(typeof(SurfaceFormat), format);
+					SurfaceFormat surfaceFormat = (SurfaceFormat)Enum.Parse(typeof(SurfaceFormat), format);
 
 					// TODO: device.BitsPerPixel
 					if (surfaceFormat != SurfaceFormat.Color)//adapter.Supports(surfaceFormat) == false)
@@ -268,12 +267,10 @@ namespace ANX.RenderSystem.GL3
 						continue;
 					}
 
-					var modes = new List<DisplayMode>();
-
 					foreach (DisplayResolution res in device.AvailableResolutions)
 					{
 						float aspect = (float)res.Width / (float)res.Height;
-						modes.Add(new DisplayMode
+                        resultingModes.Add(new DisplayMode
 						{
 							AspectRatio = aspect,
 							Width = res.Width,
@@ -282,13 +279,11 @@ namespace ANX.RenderSystem.GL3
 							Format = surfaceFormat,
 						});
 					}
-
-					displayModeCollection[surfaceFormat] = modes.ToArray();
 				}
 
-				GraphicsAdapter newAdapter = new GraphicsAdapter
+				var newAdapter = new GraphicsAdapter
 				{
-					SupportedDisplayModes = displayModeCollection,
+                    SupportedDisplayModes = new DisplayModeCollection(resultingModes),
 					IsDefaultAdapter = device.IsPrimary,
 
 					// TODO:

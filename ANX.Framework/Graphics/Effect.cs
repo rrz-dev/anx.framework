@@ -10,17 +10,14 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(90)]
+    [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public class Effect : GraphicsResource, IGraphicsResource
 	{
 		#region Private
 		private INativeEffect nativeEffect;
-		private EffectTechniqueCollection techniqueCollection;
-		private EffectTechnique currentTechnique;
-		private EffectParameterCollection parameterCollection;
-		private byte[] byteCode;
+        private readonly byte[] byteCode;
 		private EffectSourceLanguage sourceLanguage;
 		#endregion
 
@@ -38,34 +35,10 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
-		public EffectTechnique CurrentTechnique
-		{
-			get
-			{
-				return this.currentTechnique;
-			}
-			set
-			{
-				this.currentTechnique = value;
-			}
-		}
-
-		public EffectParameterCollection Parameters
-		{
-			get
-			{
-				return this.parameterCollection;
-			}
-		}
-
-		public EffectTechniqueCollection Techniques
-		{
-			get
-			{
-				return this.techniqueCollection;
-			}
-		}
-		#endregion
+        public EffectTechnique CurrentTechnique { get; set; }
+        public EffectParameterCollection Parameters { get; private set; }
+        public EffectTechniqueCollection Techniques { get; private set; }
+        #endregion
 
 		#region Constructor
 		protected Effect(Effect cloneSource)
@@ -89,7 +62,7 @@ namespace ANX.Framework.Graphics
 
 			CreateNativeEffect(sourceLanguage);
 
-			this.currentTechnique = this.techniqueCollection[0];
+			this.CurrentTechnique = this.Techniques[0];
 
 			this.sourceLanguage = sourceLanguage;
 		}
@@ -126,10 +99,10 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		#region Clone (TODO)
+		#region Clone
 		public virtual Effect Clone()
 		{
-			throw new NotImplementedException();
+		    return new Effect(this);
 		}
 		#endregion
 
@@ -142,7 +115,7 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		#region Dispose (TODO)
+		#region Dispose
 		public override void Dispose()
 		{
 			if (nativeEffect != null)
@@ -154,7 +127,14 @@ namespace ANX.Framework.Graphics
 
 		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
 		{
-			throw new NotImplementedException();
+			try
+			{
+			    Dispose();
+			}
+			finally
+			{
+				base.Dispose(false);
+			}
 		}
 		#endregion
 
@@ -166,8 +146,8 @@ namespace ANX.Framework.Graphics
 			if (creator.IsLanguageSupported(sourceLanguage))
 			{
 				this.nativeEffect = creator.CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
-				this.techniqueCollection = new EffectTechniqueCollection(this, this.nativeEffect);
-				this.parameterCollection = new EffectParameterCollection(this, this.nativeEffect);
+				this.Techniques = new EffectTechniqueCollection(this, this.nativeEffect);
+				this.Parameters = new EffectParameterCollection(this, this.nativeEffect);
 			}
 			else
 				throw new InvalidOperationException("couldn't create " + sourceLanguage + " native effect using RenderSystem " +

@@ -1,3 +1,4 @@
+using System;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -6,11 +7,12 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class SamplerStateCollection
     {
-        private SamplerState[] samplerStates;
-        private GraphicsDevice graphics;
+        private readonly SamplerState[] samplerStates;
+        private readonly GraphicsDevice graphics;
 
         public SamplerStateCollection(GraphicsDevice graphics, int maxSamplers)
         {
@@ -25,6 +27,9 @@ namespace ANX.Framework.Graphics
         {
             get
             {
+                if (index < 0 || index >= samplerStates.Length)
+                    throw new ArgumentOutOfRangeException("index");
+
                 return samplerStates[index];
             }
             set

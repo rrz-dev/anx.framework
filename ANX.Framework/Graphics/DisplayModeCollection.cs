@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -12,43 +13,33 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(30)]
-    [Developer("Glatzemann")]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public class DisplayModeCollection : IEnumerable<DisplayMode>, IEnumerable
     {
-        private List<DisplayMode> displayModes = new List<DisplayMode>();
-
-        public IEnumerator<DisplayMode> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        private readonly List<DisplayMode> displayModes;
 
         public IEnumerable<DisplayMode> this[SurfaceFormat format]
         {
             get
             {
-                foreach (DisplayMode mode in displayModes)
-                {
-                    if (mode.Format == format)
-                    {
-                        yield return mode;
-                    }
-                }
-            }
-            set
-            {
-                foreach (DisplayMode mode in value)
-                {
-                    displayModes.Add(mode);
-                }
+                return displayModes.Where(current => current.Format == format).ToList();
             }
         }
 
+        internal DisplayModeCollection(List<DisplayMode> displayModes)
+        {
+            this.displayModes = displayModes;
+        }
+
+        public IEnumerator<DisplayMode> GetEnumerator()
+        {
+            return displayModes.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

@@ -172,10 +172,10 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			PreventSystemChange();
 
-			SharpDX.DXGI.Factory factory = new Factory();
+			var factory = new Factory();
 
-			List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
-			DisplayModeCollection displayModeCollection = new DisplayModeCollection();
+			var adapterList = new List<GraphicsAdapter>();
+		    var resultingModes = new List<DisplayMode>();
 
 			for (int i = 0; i < factory.GetAdapterCount(); i++)
 			{
@@ -196,7 +196,8 @@ namespace ANX.RenderSystem.Windows.DX10
 
 					using (Output adapterOutput = adapter.Outputs[0])
 					{
-						var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
+						var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm,
+                            DisplayModeEnumerationFlags.Interlaced);
 						foreach (ModeDescription modeDescription in modeList)
 						{
 							DisplayMode displayMode = new DisplayMode()
@@ -208,11 +209,11 @@ namespace ANX.RenderSystem.Windows.DX10
 								TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
 							};
 
-							displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
+							resultingModes.Add(displayMode);
 						}
 					}
 
-					ga.SupportedDisplayModes = displayModeCollection;
+                    ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
 
 					adapterList.Add(ga);
 				}

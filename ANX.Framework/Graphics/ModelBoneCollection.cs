@@ -1,8 +1,9 @@
 #region Using Statements
 using System;
-using System.Collections.ObjectModel;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,9 +13,12 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("???, AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelBoneCollection : ReadOnlyCollection<ModelBone>
     {
-        private ModelBone[] modelBones;
+        private readonly ModelBone[] modelBones;
 
         internal ModelBoneCollection(ModelBone[] modelBones)
             : base(modelBones)
@@ -29,21 +33,23 @@ namespace ANX.Framework.Graphics
 
         public struct Enumerator : IEnumerator<ModelBone>, IDisposable, IEnumerator
         {
-            private ModelBone[] wrappedArray;
+            private readonly ModelBone[] wrappedArray;
             private int position;
+
+            public ModelBone Current
+            {
+                get { return this.wrappedArray[this.position]; }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
 
             internal Enumerator(ModelBone[] wrappedArray)
             {
                 this.wrappedArray = wrappedArray;
                 this.position = -1;
-            }
-
-            public ModelBone Current
-            {
-                get
-                {
-                    return this.wrappedArray[this.position];
-                }
             }
 
             public bool MoveNext()
@@ -65,26 +71,36 @@ namespace ANX.Framework.Graphics
             public void Dispose()
             {
             }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return this.Current;
-                }
-            }
         }
 
-        public bool TryGetValue (string boneName, out ModelBone value)
+        public bool TryGetValue(string boneName, out ModelBone value)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(boneName))
+                throw new ArgumentNullException("boneName");
+
+            for (int index = 0; index < Items.Count; index++)
+            {
+                ModelBone modelBone = Items[index];
+                if (String.Compare(modelBone.Name, boneName, StringComparison.Ordinal) == 0)
+                {
+                    value = modelBone;
+                    return true;
+                }
+            }
+
+            value = null;
+            return false;
         }
 
         public ModelBone this[string boneName]
         {
             get
             {
-                throw new NotImplementedException();
+                ModelBone result;
+                if (TryGetValue(boneName, out result) == false)
+                    throw new KeyNotFoundException();
+
+                return result;
             }
         }
 

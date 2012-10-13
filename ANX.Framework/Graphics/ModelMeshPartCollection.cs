@@ -14,7 +14,7 @@ namespace ANX.Framework.Graphics
 	[TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelMeshPartCollection : ReadOnlyCollection<ModelMeshPart>
     {
-        private ModelMeshPart[] modelMeshParts;
+        private readonly ModelMeshPart[] modelMeshParts;
 
         internal ModelMeshPartCollection(ModelMeshPart[] modelMeshParts)
             : base(modelMeshParts)
@@ -29,7 +29,7 @@ namespace ANX.Framework.Graphics
 
         public struct Enumerator : IEnumerator<ModelMeshPart>, IDisposable, IEnumerator
         {
-            private ModelMeshPart[] wrappedArray;
+            private readonly ModelMeshPart[] wrappedArray;
 			private int position;
 
 			public ModelMeshPart Current

@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,9 +13,12 @@ using System.Collections;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("???, AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelMeshCollection : ReadOnlyCollection<ModelMesh>
     {
-        private ModelMesh[] modelMeshes;
+        private readonly ModelMesh[] modelMeshes;
 
         internal ModelMeshCollection(ModelMesh[] modelMeshes)
             : base(modelMeshes)
@@ -29,7 +33,7 @@ namespace ANX.Framework.Graphics
 
         public struct Enumerator : IEnumerator<ModelMesh>, IDisposable, IEnumerator
         {
-            private ModelMesh[] wrappedArray;
+            private readonly ModelMesh[] wrappedArray;
             private int position;
 
             internal Enumerator(ModelMesh[] wrappedArray)
@@ -77,16 +81,34 @@ namespace ANX.Framework.Graphics
 
         public bool TryGetValue(string meshName, out ModelMesh value)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(meshName))
+                throw new ArgumentNullException("meshName");
+
+            for (int index = 0; index < Items.Count; index++)
+            {
+                ModelMesh modelMesh = Items[index];
+                if (String.Compare(modelMesh.Name, meshName, StringComparison.Ordinal) == 0)
+                {
+                    value = modelMesh;
+                    return true;
+                }
+            }
+
+            value = null;
+            return false;
         }
 
         public ModelMesh this[string meshName]
         {
             get
             {
-                throw new NotImplementedException();
+                ModelMesh result;
+                if (TryGetValue(meshName, out result) == false)
+                {
+                    throw new KeyNotFoundException();
+                }
+                return result;
             }
         }
-
     }
 }

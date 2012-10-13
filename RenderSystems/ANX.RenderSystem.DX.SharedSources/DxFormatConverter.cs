@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.Graphics;
+using SharpDX.D3DCompiler;
 using SharpDX.Direct3D;
 using SharpDX.DXGI;
 
@@ -174,29 +175,32 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region Translate (VertexElement)
 		public static string Translate(ref VertexElement element)
 		{
-			//TODO: map the other Usages
+		    //TODO: map the other Usages
 			if (element.VertexElementUsage == VertexElementUsage.TextureCoordinate)
 				return "TEXCOORD";
-			else
-				return element.VertexElementUsage.ToString().ToUpperInvariant();
+
+		    return element.VertexElementUsage.ToString().ToUpperInvariant();
 		}
-		#endregion
+	    #endregion
 		
 		#region CalculateVertexCount
 		public static int CalculateVertexCount(PrimitiveType type, int primitiveCount)
 		{
-			if (type == PrimitiveType.TriangleList)
-				return primitiveCount * 3;
-			else if (type == PrimitiveType.LineList)
-				return primitiveCount * 2;
-			else if (type == PrimitiveType.LineStrip)
-				return primitiveCount + 1;
-			else if (type == PrimitiveType.TriangleStrip)
-				return primitiveCount + 2;
+		    switch (type)
+		    {
+		        case PrimitiveType.TriangleList:
+		            return primitiveCount * 3;
+		        case PrimitiveType.LineList:
+		            return primitiveCount * 2;
+		        case PrimitiveType.LineStrip:
+		            return primitiveCount + 1;
+		        case PrimitiveType.TriangleStrip:
+		            return primitiveCount + 2;
+		    }
 
-			throw new NotImplementedException("Couldn't calculate vertex count for PrimitiveType '" + type + "'.");
+		    throw new NotImplementedException("Couldn't calculate vertex count for PrimitiveType '" + type + "'.");
 		}
-		#endregion
+	    #endregion
 
 		#region ConvertVertexElementFormat
 		public static Format ConvertVertexElementFormat(VertexElementFormat format)
@@ -222,6 +226,57 @@ namespace ANX.RenderSystem.Windows.DX11
 
 			throw new Exception("Can't map '" + format + "' to DXGI.Format in Dx10 CreateInputElementFromVertexElement.");
 		}
-		#endregion
+        #endregion
+
+        #region Translate (ShaderVariableType)
+        public static EffectParameterType Translate(ShaderVariableType type)
+        {
+            switch (type)
+            {
+                case ShaderVariableType.Bool:
+                    return EffectParameterType.Bool;
+                case ShaderVariableType.Texture1D:
+                    return EffectParameterType.Texture1D;
+                case ShaderVariableType.Texture2D:
+                    return EffectParameterType.Texture2D;
+                case ShaderVariableType.Texture3D:
+                    return EffectParameterType.Texture3D;
+                case ShaderVariableType.Texture:
+                    return EffectParameterType.Texture;
+                case ShaderVariableType.Void:
+                    return EffectParameterType.Void;
+                case ShaderVariableType.Int:
+                    return EffectParameterType.Int32;
+                case ShaderVariableType.Float:
+                    return EffectParameterType.Single;
+                case ShaderVariableType.String:
+                    return EffectParameterType.String;
+                case ShaderVariableType.TextureCube:
+                    return EffectParameterType.TextureCube;
+            }
+
+            return EffectParameterType.Void;
+        }
+        #endregion
+
+        #region Translate (ShaderVariableType)
+        public static EffectParameterClass Translate(ShaderVariableClass type)
+        {
+            switch (type)
+            {
+                case ShaderVariableClass.Scalar:
+                    return EffectParameterClass.Scalar;
+                case ShaderVariableClass.Vector:
+                    return EffectParameterClass.Vector;
+                case ShaderVariableClass.Struct:
+                    return EffectParameterClass.Struct;
+                case ShaderVariableClass.MatrixRows:
+                case ShaderVariableClass.MatrixColumns:
+                    return EffectParameterClass.Matrix;
+            }
+
+            return EffectParameterClass.Object;
+        }
+        #endregion
 	}
 }

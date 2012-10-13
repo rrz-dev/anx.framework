@@ -17,8 +17,11 @@ namespace ANX.Framework.NonXNA
     public interface INativeEffectParameter
     {
         string Name { get; }
-
         string Semantic { get; }
+        int ColumnCount { get; }
+        int RowCount { get; }
+        EffectParameterClass ParameterClass { get; }
+        EffectParameterType ParameterType { get; }
 
         #region GetValue
         bool GetValueBoolean();

@@ -35,6 +35,11 @@ namespace ANX.Framework.Graphics
 
         #endregion // Private Members
 
+        public static readonly BlendState Opaque;
+        public static readonly BlendState AlphaBlend;
+        public static readonly BlendState Additive;
+        public static readonly BlendState NonPremultiplied;
+
         public BlendState()
         {
             this.nativeBlendState = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().CreateBlendState();
@@ -52,11 +57,6 @@ namespace ANX.Framework.Graphics
             this.ColorWriteChannels3 = ColorWriteChannels.All;
             this.MultiSampleMask = -1;
         }
-
-        public static readonly BlendState Opaque;
-        public static readonly BlendState AlphaBlend;
-        public static readonly BlendState Additive;
-        public static readonly BlendState NonPremultiplied;
 
         private BlendState(Blend sourceBlend, Blend destinationBlend, string name)
         {
@@ -96,16 +96,10 @@ namespace ANX.Framework.Graphics
 
         public BlendFunction AlphaBlendFunction
         {
-            get
-            {
-                return this.alphaBlendFunction;
-            }
+            get { return this.alphaBlendFunction; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.alphaBlendFunction = value;
                 this.nativeBlendState.AlphaBlendFunction = value;
@@ -114,16 +108,10 @@ namespace ANX.Framework.Graphics
 
         public Blend AlphaDestinationBlend
         {
-            get
-            {
-                return this.alphaDestinationBlend;
-            }
+            get { return this.alphaDestinationBlend; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.alphaDestinationBlend = value;
                 this.nativeBlendState.AlphaDestinationBlend = value;
@@ -132,16 +120,10 @@ namespace ANX.Framework.Graphics
 
         public Blend AlphaSourceBlend
         {
-            get
-            {
-                return this.alphaSourceBlend;
-            }
+            get { return this.alphaSourceBlend; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.alphaSourceBlend = value;
                 this.nativeBlendState.AlphaSourceBlend = value;
@@ -150,16 +132,10 @@ namespace ANX.Framework.Graphics
 
         public Color BlendFactor
         {
-            get
-            {
-                return this.blendFactor;
-            }
+            get { return this.blendFactor; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.blendFactor = value;
                 this.nativeBlendState.BlendFactor = value;
@@ -168,16 +144,10 @@ namespace ANX.Framework.Graphics
 
         public BlendFunction ColorBlendFunction
         {
-            get
-            {
-                return this.colorBlendFunction;
-            }
+            get { return this.colorBlendFunction; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorBlendFunction = value;
                 this.nativeBlendState.ColorBlendFunction = value;
@@ -186,16 +156,10 @@ namespace ANX.Framework.Graphics
 
         public Blend ColorDestinationBlend
         {
-            get
-            {
-                return this.colorDestinationBlend;
-            }
+            get { return this.colorDestinationBlend; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorDestinationBlend = value;
                 this.nativeBlendState.ColorDestinationBlend = value;
@@ -204,16 +168,10 @@ namespace ANX.Framework.Graphics
 
         public Blend ColorSourceBlend
         {
-            get
-            {
-                return this.colorSourceBlend;
-            }
+            get { return this.colorSourceBlend; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorSourceBlend = value;
                 this.nativeBlendState.ColorSourceBlend = value;
@@ -222,16 +180,10 @@ namespace ANX.Framework.Graphics
 
         public ColorWriteChannels ColorWriteChannels
         {
-            get
-            {
-                return this.colorWriteChannels0;
-            }
+            get { return this.colorWriteChannels0; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorWriteChannels0 = value;
                 this.nativeBlendState.ColorWriteChannels = value;
@@ -240,16 +192,10 @@ namespace ANX.Framework.Graphics
 
         public ColorWriteChannels ColorWriteChannels1
         {
-            get
-            {
-                return this.colorWriteChannels1;
-            }
+            get { return this.colorWriteChannels1; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorWriteChannels1 = value;
                 this.nativeBlendState.ColorWriteChannels1 = value;
@@ -258,16 +204,10 @@ namespace ANX.Framework.Graphics
 
         public ColorWriteChannels ColorWriteChannels2
         {
-            get
-            {
-                return this.colorWriteChannels2;
-            }
+            get { return this.colorWriteChannels2; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorWriteChannels2 = value;
                 this.nativeBlendState.ColorWriteChannels2 = value;
@@ -276,16 +216,10 @@ namespace ANX.Framework.Graphics
 
         public ColorWriteChannels ColorWriteChannels3
         {
-            get
-            {
-                return this.colorWriteChannels3;
-            }
+            get { return this.colorWriteChannels3; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.colorWriteChannels3 = value;
                 this.nativeBlendState.ColorWriteChannels3 = value;
@@ -294,20 +228,21 @@ namespace ANX.Framework.Graphics
 
         public int MultiSampleMask
         {
-            get
-            {
-                return this.multiSampleMask;
-            }
+            get { return this.multiSampleMask; }
             set
             {
-                if (this.nativeBlendState.IsBound)
-                {
-                    throw new InvalidOperationException("You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
-                }
+                ThrowIfBound();
 
                 this.multiSampleMask = value;
                 this.nativeBlendState.MultiSampleMask = value;
             }
+        }
+
+        private void ThrowIfBound()
+        {
+            if (nativeBlendState.IsBound)
+                throw new InvalidOperationException(
+                    "You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
         }
 
         public override void Dispose()

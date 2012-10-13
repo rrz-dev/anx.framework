@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Collections;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -12,9 +13,12 @@ using System.Collections;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelEffectCollection : ReadOnlyCollection<Effect>
     {
-        private List<Effect> effects;
+        private readonly List<Effect> effects;
 
         internal ModelEffectCollection()
             : base(new List<Effect>())
@@ -39,7 +43,7 @@ namespace ANX.Framework.Graphics
 
         public struct Enumerator : IEnumerator<Effect>, IDisposable, IEnumerator
         {
-            private List<Effect> wrappedArray;
+            private readonly List<Effect> wrappedArray;
             private int position;
 
             internal Enumerator(List<Effect> wrappedArray)

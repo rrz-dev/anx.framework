@@ -25,13 +25,13 @@ namespace ANX.Framework.Graphics
         public DynamicIndexBuffer(GraphicsDevice graphicsDevice, IndexElementSize indexElementSize, int indexCount, BufferUsage usage)
             : base(graphicsDevice, indexElementSize, indexCount, usage)
         {
-            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+            graphicsDevice.DeviceReset += graphicsDevice_DeviceReset;
         }
 
         public DynamicIndexBuffer(GraphicsDevice graphicsDevice, Type indexType, int indexCount, BufferUsage usage)
             : base(graphicsDevice, indexType, indexCount, usage)
         {
-            graphicsDevice.DeviceReset += new EventHandler<EventArgs>(graphicsDevice_DeviceReset);
+            graphicsDevice.DeviceReset += graphicsDevice_DeviceReset;
         }
 
         ~DynamicIndexBuffer()

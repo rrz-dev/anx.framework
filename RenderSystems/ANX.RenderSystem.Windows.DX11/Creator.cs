@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
 using SharpDX.DXGI;
 using ANX.Framework.NonXNA.Development;
+using System.Collections.ObjectModel;
 
 #endregion
 
@@ -160,14 +161,14 @@ namespace ANX.RenderSystem.Windows.DX11
 		#endregion
 
 		#region GetAdapterList
-		public System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
 		{
 			PreventSystemChange();
 
 			var factory = new Factory();
 
-			List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
-			DisplayModeCollection displayModeCollection = new DisplayModeCollection();
+            var adapterList = new List<GraphicsAdapter>();
+            var resultingModes = new List<DisplayMode>();
 
 			for (int i = 0; i < factory.GetAdapterCount(); i++)
 			{
@@ -190,7 +191,7 @@ namespace ANX.RenderSystem.Windows.DX11
                     {
                         foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
                         {
-                            DisplayMode displayMode = new DisplayMode()
+                            var displayMode = new DisplayMode
                             {
                                 Format = DxFormatConverter.Translate(modeDescription.Format),
                                 Width = modeDescription.Width,
@@ -199,13 +200,13 @@ namespace ANX.RenderSystem.Windows.DX11
                                 TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
                             };
 
-                            displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
+                            resultingModes.Add(displayMode);
                         }
 
                         break; //TODO: for the moment only adapter output 0 is interesting...
                     }
 
-					ga.SupportedDisplayModes = displayModeCollection;
+                    ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
 
 					adapterList.Add(ga);
 				}

@@ -20,31 +20,40 @@ namespace ANX.RenderSystem.GL3
 		#endregion
 
 		#region Public
-		/// <summary>
-		/// The name of the effect parameter.
-		/// </summary>
-		public string Name
-		{
-			get;
-			private set;
-		}
+	    /// <summary>
+	    /// The name of the effect parameter.
+	    /// </summary>
+	    public string Name { get; private set; }
+
+	    /// <summary>
+	    /// The index of the uniform.
+	    /// </summary>
+        public int UniformIndex { get; private set; }
 
         public string Semantic
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
-		/// <summary>
-		/// The index of the uniform.
-		/// </summary>
-		public int UniformIndex
-		{
-			get;
-			private set;
-		}
+	    public int ColumnCount
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public int RowCount
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterClass ParameterClass
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterType ParameterType
+        {
+            get { throw new NotImplementedException(); }
+        }
 		#endregion
 
 		#region Constructor

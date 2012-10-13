@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ANX.Framework.NonXNA;
 using System.Collections;
 using ANX.Framework.NonXNA.Development;
@@ -24,6 +25,21 @@ namespace ANX.Framework.Graphics
         private List<EffectParameter> parameters;
         #endregion
 
+        public EffectParameter this[int index]
+        {
+            get { return index >= 0 && index < parameters.Count ? parameters[index] : null; }
+        }
+
+        public EffectParameter this[string name]
+        {
+            get { return parameters.FirstOrDefault(t => t.Name == name); }
+        }
+
+        public int Count
+        {
+            get { return parameters.Count; }
+        }
+
         internal EffectParameterCollection(Effect parentEffect, INativeEffect nativeEffect)
         {
             this.parentEffect = parentEffect;
@@ -33,35 +49,6 @@ namespace ANX.Framework.Graphics
             foreach (EffectParameter p in nativeEffect.Parameters)
             {
                 this.parameters.Add(p);
-            }
-        }
-
-        public EffectParameter this[int index]
-        {
-            get
-            {
-                if (index >= parameters.Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-
-                return parameters[index];
-            }
-        }
-
-        public EffectParameter this[string name]
-        {
-            get
-            {
-                for (int i = 0; i < parameters.Count; i++)
-                {
-                    if (parameters[i].Name == name)
-                    {
-                        return parameters[i];
-                    }
-                }
-
-                return null;
             }
         }
 
@@ -92,13 +79,5 @@ namespace ANX.Framework.Graphics
 		{
 			return parameters.GetEnumerator();
 		}
-
-        public int Count
-        {
-            get
-            {
-                return this.parameters.Count;
-            }
-        }
     }
 }

@@ -11,34 +11,44 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    [PercentageComplete(70)]
+    [PercentageComplete(50)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
     public class EffectParameter_DX10 : INativeEffectParameter
 	{
 		#region Public
-		public Dx10.EffectVariable NativeParameter
-		{
-			get;
-			internal set;
-		}
+        public Dx10.EffectVariable NativeParameter { get; internal set; }
 
-		public string Name
-		{
-			get
-			{
-				return NativeParameter.Description.Name;
-			}
-		}
+        public string Name
+        {
+            get { return NativeParameter.Description.Name; }
+        }
 
         public string Semantic
         {
-            get
-            {
-                return NativeParameter.Description.Semantic;
-            }
+            get { return NativeParameter.Description.Semantic; }
         }
-		#endregion
+
+        public int ColumnCount
+        {
+            get { return NativeParameter.TypeInfo.Description.Columns; }
+        }
+
+        public int RowCount
+        {
+            get { return NativeParameter.TypeInfo.Description.Rows; }
+        }
+
+        public EffectParameterClass ParameterClass
+        {
+            get { return DxFormatConverter.Translate(NativeParameter.TypeInfo.Description.Class); }
+        }
+
+        public EffectParameterType ParameterType
+        {
+            get { return DxFormatConverter.Translate(NativeParameter.TypeInfo.Description.Type); }
+        }
+        #endregion
 
 		#region SetValue (bool)
 		public void SetValue(bool value)

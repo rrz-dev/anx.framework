@@ -33,6 +33,26 @@ namespace ANX.RenderSystem.Windows.Metro
                 throw new NotSupportedException();
             }
         }
+
+        public int ColumnCount
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public int RowCount
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterClass ParameterClass
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public EffectParameterType ParameterType
+        {
+            get { throw new NotImplementedException(); }
+        }
 		#endregion
 
 		#region Constructor

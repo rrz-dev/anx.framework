@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-	[PercentageComplete(60)]
+	[PercentageComplete(80)]
 	[TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
 	public sealed class EffectParameter
@@ -25,69 +25,51 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
+        public EffectParameterCollection Elements
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public EffectParameterCollection StructureMembers
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
 		public int ColumnCount
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			get { return NativeParameter.ColumnCount; }
 		}
 
-		public EffectParameterCollection Elements
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+	    public string Name
+	    {
+	        get { return NativeParameter.Name; }
+	    }
 
-		public string Name
-		{
-			get
-			{
-				return this.NativeParameter.Name;
-			}
-		}
+	    public EffectParameterClass ParameterClass
+	    {
+	        get { return NativeParameter.ParameterClass; }
+	    }
 
-		public EffectParameterClass ParameterClass
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+	    public EffectParameterType ParameterType
+	    {
+	        get { return NativeParameter.ParameterType; }
+	    }
 
-		public EffectParameterType ParameterType
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+	    public int RowCount
+	    {
+	        get { return NativeParameter.RowCount; }
+	    }
 
-		public int RowCount
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public string Semantic
-		{
-			get
-			{
-                return this.NativeParameter.Semantic;
-			}
-		}
-
-		public EffectParameterCollection StructureMembers
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+	    public string Semantic
+	    {
+	        get { return NativeParameter.Semantic; }
+	    }
 		#endregion
 
 		#region GetValue

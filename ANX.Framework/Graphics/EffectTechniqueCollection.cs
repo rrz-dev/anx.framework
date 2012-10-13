@@ -16,7 +16,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
-    [Developer("Glatzemann")]
+    [Developer("Glatzemann, AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectTechniqueCollection : IEnumerable<EffectTechnique>, IEnumerable
     {
@@ -26,6 +26,21 @@ namespace ANX.Framework.Graphics
         private List<EffectTechnique> techniques;
 
         #endregion // Private Members
+
+        public EffectTechnique this[int index]
+        {
+            get { return index >= 0 && index < techniques.Count ? techniques[index] : null; }
+        }
+
+        public EffectTechnique this[string name]
+        {
+            get { return techniques.FirstOrDefault(t => t.Name == name); }
+        }
+
+        public int Count
+        {
+            get { return techniques.Count; }
+        }
 
         internal EffectTechniqueCollection(Effect parentEffect, INativeEffect nativeEffect)
         {
@@ -39,58 +54,19 @@ namespace ANX.Framework.Graphics
             }
         }
 
-        public EffectTechnique this[int index]
-        {
-            get
-            {
-                if (index >= techniques.Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-
-                return techniques[index];
-            }
-        }
-
-        public EffectTechnique this[string name]
-        {
-            get
-            {
-                foreach (EffectTechnique teq in techniques)
-                {
-                    if (teq.Name.Equals(name))
-                    {
-                        return teq;
-                    }
-                }
-
-                throw new ArgumentException("No technique with name '" + name + "' found.");
-            }
-		}
-
 		IEnumerator<EffectTechnique> IEnumerable<EffectTechnique>.GetEnumerator()
-		{
-			throw new NotImplementedException();
+        {
+            return techniques.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
-		{
-			throw new NotImplementedException();
+        {
+            return techniques.GetEnumerator();
 		}
 
 		public List<EffectTechnique>.Enumerator GetEnumerator()
-		{
-			throw new NotImplementedException();
-		}
-
-        public int Count
         {
-            get
-            {
-                return this.techniques.Count;
-            }
-        }
-
-
+            return techniques.GetEnumerator();
+		}
     }
 }

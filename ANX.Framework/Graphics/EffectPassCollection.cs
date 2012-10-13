@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
@@ -14,7 +15,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
-    [Developer("Glatzemann")]
+    [Developer("Glatzemann, AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectPassCollection : IEnumerable<EffectPass>
     {
@@ -22,9 +23,24 @@ namespace ANX.Framework.Graphics
         private Effect parentEffect;
         private INativeEffect nativeEffect;
         private INativeEffectTechnique parentTechnique;
-        private List<EffectPass> passes;
+        private readonly List<EffectPass> passes;
 
         #endregion // Private Members
+
+        public EffectPass this[int index]
+        {
+            get { return index >= 0 && index < passes.Count ? passes[index] : null; }
+        }
+
+        public EffectPass this[string name]
+        {
+            get { return passes.FirstOrDefault(pass => pass.Name == name); }
+        }
+
+        public int Count
+        {
+            get { return passes.Count; }
+        }
 
         internal EffectPassCollection(Effect parentEffect, INativeEffect nativeEffect, INativeEffectTechnique parentTechnique)
         {
@@ -39,48 +55,19 @@ namespace ANX.Framework.Graphics
             }
         }
 
-        public EffectPass this[int index]
-        {
-            get
-            {
-                if (index >= passes.Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-
-                return passes[index];
-            }
-        }
-
-        public EffectPass this[string name]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-		}
-
 		IEnumerator<EffectPass> IEnumerable<EffectPass>.GetEnumerator()
 		{
-            return (IEnumerator<EffectPass>)this.passes.GetEnumerator();
+            return passes.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-            return (IEnumerator)this.passes.GetEnumerator();
+            return passes.GetEnumerator();
 		}
 
 		public List<EffectPass>.Enumerator GetEnumerator()
 		{
-            return this.passes.GetEnumerator();
+            return passes.GetEnumerator();
 		}
-
-        public int Count
-        {
-            get
-            {
-                return this.passes.Count;
-            }
-        }
     }
 }
