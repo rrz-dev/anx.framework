@@ -8,20 +8,14 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
+    [Developer("???")]
 	[TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class ModelMeshPart
 	{
 		#region Private
 		internal ModelMesh parentMesh;
 		private Effect effect;
-		private IndexBuffer indexBuffer;
-		private int numVertices;
-		private int primitiveCount;
-		private int startIndex;
-		private Object tag;
-		private VertexBuffer vertexBuffer;
-		private int vertexOffset;
-		#endregion
+	    #endregion
 
 		#region Public
 		public Effect Effect
@@ -38,54 +32,22 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
-		public IndexBuffer IndexBuffer
-		{
-			get { return indexBuffer; }
-			internal set { this.indexBuffer = value; }
-		}
-
-		public int NumVertices
-		{
-			get { return numVertices; }
-		}
-
-		public int PrimitiveCount
-		{
-			get { return primitiveCount; }
-		}
-
-		public int StartIndex
-		{
-			get { return startIndex; }
-		}
-
-		public Object Tag
-		{
-			get { return tag; }
-			set { tag = value; }
-		}
-
-
-		public VertexBuffer VertexBuffer
-		{
-			get { return vertexBuffer; }
-			internal set { this.vertexBuffer = value; }
-		}
-
-
-		public int VertexOffset
-		{
-			get { return vertexOffset; }
-		}
-		#endregion
+	    public IndexBuffer IndexBuffer { get; internal set; }
+	    public int NumVertices { get; private set; }
+	    public int PrimitiveCount { get; private set; }
+	    public int StartIndex { get; private set; }
+	    public object Tag { get; set; }
+	    public VertexBuffer VertexBuffer { get; internal set; }
+	    public int VertexOffset { get; private set; }
+	    #endregion
 
 		internal ModelMeshPart(int vertexOffset, int numVertices, int startIndex, int primitiveCount, object tag)
 		{
-			this.vertexOffset = vertexOffset;
-			this.numVertices = numVertices;
-			this.startIndex = startIndex;
-			this.primitiveCount = primitiveCount;
-			this.tag = tag;
+			this.VertexOffset = vertexOffset;
+			this.NumVertices = numVertices;
+			this.StartIndex = startIndex;
+			this.PrimitiveCount = primitiveCount;
+			this.Tag = tag;
 		}
 	}
 }

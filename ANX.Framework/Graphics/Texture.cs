@@ -1,3 +1,4 @@
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -6,6 +7,8 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public abstract class Texture : GraphicsResource
     {
         protected internal int levelCount;

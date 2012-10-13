@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class VertexDeclaration : GraphicsResource
 	{
 		private VertexElement[] elements;

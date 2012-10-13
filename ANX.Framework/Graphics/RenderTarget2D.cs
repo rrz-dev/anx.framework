@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.RenderSystem;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,59 +10,19 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(70)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class RenderTarget2D : Texture2D, IDynamicGraphicsResource
 	{
 		public event EventHandler<EventArgs> ContentLost;
 
-		#region Private
-		private DepthFormat depthStencilFormat;
-		private int multiSampleCount;
-		private RenderTargetUsage usage;
-		private bool isContentLost;
-		private INativeRenderTarget2D nativeRenderTarget;
-		#endregion
+        internal INativeRenderTarget2D NativeRenderTarget { get; private set; }
+        public DepthFormat DepthStencilFormat { get; private set; }
+        public bool IsContentLost { get; private set; }
+        public int MultiSampleCount { get; private set; }
+        public RenderTargetUsage RenderTargetUsage { get; private set; }
 
-		internal INativeRenderTarget2D NativeRenderTarget
-		{
-			get
-			{
-				return this.nativeRenderTarget;
-			}
-		}
-
-		public DepthFormat DepthStencilFormat
-		{
-			get
-			{
-				return this.depthStencilFormat;
-			}
-		}
-
-		public bool IsContentLost
-		{
-			get
-			{
-				return this.isContentLost;
-			}
-		}
-
-		public int MultiSampleCount
-		{
-			get
-			{
-				return this.multiSampleCount;
-			}
-		}
-
-		public RenderTargetUsage RenderTargetUsage
-		{
-			get
-			{
-				return this.usage;
-			}
-		}
-
-		#region Constructor
+        #region Constructor
 		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
 			: base(graphicsDevice)
 		{
@@ -73,14 +34,14 @@ namespace ANX.Framework.Graphics
 			base.levelCount = 1;
 			base.format = SurfaceFormat.Color;
 
-			this.depthStencilFormat = DepthFormat.None;
-			this.multiSampleCount = 0;
-			this.usage = RenderTargetUsage.DiscardContents;
+			this.DepthStencilFormat = DepthFormat.None;
+			this.MultiSampleCount = 0;
+			this.RenderTargetUsage = RenderTargetUsage.DiscardContents;
 
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
-				this.depthStencilFormat, this.multiSampleCount, this.usage);
-			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+			this.NativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.DepthStencilFormat, this.MultiSampleCount, this.RenderTargetUsage);
+			base.nativeTexture = this.NativeRenderTarget as INativeTexture2D;
 		}
 
 		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height,
@@ -95,14 +56,14 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;
             base.format = preferredFormat;
 
-			this.depthStencilFormat = preferredDepthFormat;
-			this.multiSampleCount = 0;
-			this.usage = RenderTargetUsage.DiscardContents;
+			this.DepthStencilFormat = preferredDepthFormat;
+			this.MultiSampleCount = 0;
+			this.RenderTargetUsage = RenderTargetUsage.DiscardContents;
 
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
-				this.depthStencilFormat, this.multiSampleCount, this.usage);
-			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+			this.NativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.DepthStencilFormat, this.MultiSampleCount, this.RenderTargetUsage);
+			base.nativeTexture = this.NativeRenderTarget as INativeTexture2D;
 		}
 
 		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height,
@@ -118,14 +79,14 @@ namespace ANX.Framework.Graphics
             base.levelCount = 1;
             base.format = preferredFormat;
 
-			this.depthStencilFormat = preferredDepthFormat;
-			this.multiSampleCount = preferredMultiSampleCount;
-			this.usage = usage;
+			this.DepthStencilFormat = preferredDepthFormat;
+			this.MultiSampleCount = preferredMultiSampleCount;
+			this.RenderTargetUsage = usage;
 
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			this.nativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
-				this.depthStencilFormat, this.multiSampleCount, this.usage);
-			base.nativeTexture = this.nativeRenderTarget as INativeTexture2D;
+			this.NativeRenderTarget = creator.CreateRenderTarget(graphicsDevice, width, height, false, SurfaceFormat.Color,
+				this.DepthStencilFormat, this.MultiSampleCount, this.RenderTargetUsage);
+			base.nativeTexture = this.NativeRenderTarget as INativeTexture2D;
 		}
 		#endregion
 
@@ -136,7 +97,7 @@ namespace ANX.Framework.Graphics
 
 		void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
 		{
-			this.isContentLost = isContentLost;
+			this.IsContentLost = isContentLost;
 			if (isContentLost)
 				raise_ContentLost(this, EventArgs.Empty);
 

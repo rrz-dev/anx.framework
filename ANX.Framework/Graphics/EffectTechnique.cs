@@ -8,32 +8,19 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(100)]
+    [PercentageComplete(90)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectTechnique
     {
-        private Effect parentEffect;
-        private INativeEffectTechnique nativeTechnique;
-		private EffectPassCollection effectPassCollection;
+        internal INativeEffectTechnique NativeTechnique { get; private set; }
 
-		internal INativeEffectTechnique NativeTechnique
-		{
-			get
-			{
-				return this.nativeTechnique;
-			}
-		}
+        public string Name
+        {
+            get { return NativeTechnique.Name; }
+        }
 
-		public string Name
-		{
-			get
-			{
-				return nativeTechnique.Name;
-			}
-		}
-
-		public EffectAnnotationCollection Annotations
+        public EffectAnnotationCollection Annotations
 		{
 			get
 			{
@@ -41,19 +28,12 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
-		public EffectPassCollection Passes
-		{
-			get
-			{
-				return this.effectPassCollection;
-			}
-		}
+        public EffectPassCollection Passes { get; private set; }
 
         internal EffectTechnique(Effect parentEffect, INativeEffectTechnique nativeTechnique)
         {
-            this.parentEffect = parentEffect;
-            this.nativeTechnique = nativeTechnique;
-            this.effectPassCollection = new EffectPassCollection(parentEffect, parentEffect.NativeEffect, nativeTechnique);
+            this.NativeTechnique = nativeTechnique;
+            this.Passes = new EffectPassCollection(parentEffect, parentEffect.NativeEffect, nativeTechnique);
         }
     }
 }

@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(0)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class TextureCube : Texture, IGraphicsResource
 	{
 		public int Size

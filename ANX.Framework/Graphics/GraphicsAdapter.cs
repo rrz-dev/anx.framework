@@ -11,26 +11,19 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(75)]
+    [PercentageComplete(50)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GraphicsAdapter
     {
-		public static ReadOnlyCollection<GraphicsAdapter> Adapters
-		{
-			get;
-			private set;
-		}
+        public static ReadOnlyCollection<GraphicsAdapter> Adapters { get; private set; }
 
-		public static GraphicsAdapter DefaultAdapter
-		{
-			get
-			{
-				return Adapters.Where(a => a.IsDefaultAdapter).First<GraphicsAdapter>();
-			}
-		}
+        public static GraphicsAdapter DefaultAdapter
+        {
+            get { return Adapters.First(a => a.IsDefaultAdapter); }
+        }
 
-		public static bool UseNullDevice { get; set; }
+        public static bool UseNullDevice { get; set; }
 		public static bool UseReferenceDevice { get; set; }
 		public int DeviceId { get; set; }
 		public string DeviceName { get; set; }

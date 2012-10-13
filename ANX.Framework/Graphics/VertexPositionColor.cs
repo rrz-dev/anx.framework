@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(95)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public struct VertexPositionColor : IVertexType
 	{
 		public Vector3 Position;

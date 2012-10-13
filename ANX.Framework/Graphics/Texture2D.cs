@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
 
 // This file is part of the ANX.Framework created by the
@@ -10,6 +11,8 @@ using ANX.Framework.NonXNA.RenderSystem;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(70)]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class Texture2D : Texture, IGraphicsResource
 	{
 		#region Private

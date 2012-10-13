@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 
@@ -9,46 +10,22 @@ using System;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelBone
     {
-        private ModelBoneCollection children;
-        public ModelBoneCollection Children
-        { 
-            get { return children; }
-            internal set { children = value; }
-        }
-
-        private int index;
-        public int Index 
-        {
-            get { return index; }
-        }
-
-        private string name;
-        public string Name 
-        {
-            get { return name; }
-        }
-
-        private ModelBone parent;
-        public ModelBone Parent 
-        { 
-            get { return parent; }
-            internal set { parent = value; }
-        }
-
-        private Matrix transform;
-        public Matrix Transform 
-        { 
-            get { return transform; }
-            set { transform = value; }
-        }
+        public ModelBoneCollection Children { get; internal set; }
+        public int Index { get; private set; }
+        public string Name { get; private set; }
+        public ModelBone Parent { get; internal set; }
+        public Matrix Transform { get; set; }
 
         public ModelBone(string name, Matrix transform, int index)
         {
-            this.name = name;
-            this.transform = transform;
-            this.index = index;
+            this.Name = name;
+            this.Transform = transform;
+            this.Index = index;
         }
     }
 }

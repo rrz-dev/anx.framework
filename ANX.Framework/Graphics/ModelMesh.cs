@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ANX.Framework.NonXNA.Development;
+
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -10,6 +12,9 @@ using System.Collections.Generic;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("???")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ModelMesh
     {
         private BoundingSphere boundingSphere;
@@ -19,57 +24,27 @@ namespace ANX.Framework.Graphics
             get { return boundingSphere; }
         }
 
-        private ModelEffectCollection effects;
-
-        public ModelEffectCollection Effects
-        {
-            get { return effects; }
-        }
-
-        private ModelMeshPartCollection meshParts;
-
-        public ModelMeshPartCollection MeshParts
-        {
-            get { return meshParts; }
-        }
-
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-        }
-
-        private ModelBone parentBone;
-
-        public ModelBone ParentBone
-        {
-            get { return parentBone; }
-        }
-
-        private Object tag;
-
-        public Object Tag
-        {
-            get { return tag; }
-            set { this.tag = value; }
-        }
+        public ModelEffectCollection Effects { get; private set; }
+        public ModelMeshPartCollection MeshParts { get; private set; }
+        public string Name { get; private set; }
+        public ModelBone ParentBone { get; private set; }
+        public object Tag { get; set; }
 
         public ModelMesh(string name, ModelBone bone, BoundingSphere sphere, ModelMeshPart[] meshParts, Object tag)
         {
-            this.name = name;
-            this.parentBone = bone;
+            this.Name = name;
+            this.ParentBone = bone;
             this.boundingSphere = sphere;
-            this.tag = tag;
-            this.meshParts = new ModelMeshPartCollection(meshParts);
-            this.effects = new ModelEffectCollection();
+            this.Tag = tag;
+            this.MeshParts = new ModelMeshPartCollection(meshParts);
+            this.Effects = new ModelEffectCollection();
 
-            foreach (var item in this.meshParts)
+            foreach (var item in this.MeshParts)
             {
                 item.parentMesh = this;
-                if (item.Effect != null && !this.effects.Contains(item.Effect))
+                if (item.Effect != null && !this.Effects.Contains(item.Effect))
                 {
-                    this.effects.Add(item.Effect);
+                    this.Effects.Add(item.Effect);
                 }
             }
         }
@@ -79,7 +54,7 @@ namespace ANX.Framework.Graphics
             bool oldEffectIsInUse = false;
             bool newEffectIsKnown = false;
 
-            foreach (var item in meshParts)
+            foreach (var item in MeshParts)
             {
                 if (object.ReferenceEquals(item, part))
                 {
@@ -99,18 +74,18 @@ namespace ANX.Framework.Graphics
 
             if (oldEffect != null && !oldEffectIsInUse)
             {
-                effects.Remove(oldEffect);
+                Effects.Remove(oldEffect);
             }
 
             if (newEffect != null && !newEffectIsKnown)
             {
-                effects.Add(newEffect);
+                Effects.Add(newEffect);
             }
         }
 
         public void Draw()
         {
-            foreach (var part in meshParts)
+            foreach (var part in MeshParts)
             {
                 foreach (var pass in part.Effect.CurrentTechnique.Passes)
                 {

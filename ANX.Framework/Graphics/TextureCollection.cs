@@ -1,5 +1,6 @@
 using System;
 using ANX.Framework.NonXNA;
+using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,9 +8,12 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class TextureCollection
 	{
-		private Texture[] textures;
+		private readonly Texture[] textures;
 
 		public Texture this[int index]
 		{
