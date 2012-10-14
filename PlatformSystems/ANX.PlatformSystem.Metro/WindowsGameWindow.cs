@@ -36,7 +36,7 @@ namespace ANX.PlatformSystem.Metro
 			}
 		}
 
-		public override bool IsMinimized
+        internal override bool IsMinimized
 		{
 			get
 			{

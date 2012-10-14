@@ -29,7 +29,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             var xna = new XNAGameComponentCollectionEventArgs(null);
             var anx = new ANXGameComponentCollectionEventArgs(null);
-
+            
             Assert.AreEqual(xna.GameComponent, anx.GameComponent);
         }
     }

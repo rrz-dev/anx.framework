@@ -30,7 +30,7 @@ namespace ANX.PlatformSystem.Linux
 		#endregion
 
 		#region IsMinimized
-		public override bool IsMinimized
+		internal override bool IsMinimized
 		{
 			get
 			{

@@ -22,7 +22,7 @@ namespace ANX.PlatformSystem.PsVita
 		#endregion
 
 		#region IsMinimized
-		public override bool IsMinimized
+		internal override bool IsMinimized
 		{
 			get
 			{

@@ -14,6 +14,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(60)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class GraphicsDeviceManager : IGraphicsDeviceManager, IDisposable, IGraphicsDeviceService

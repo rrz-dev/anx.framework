@@ -10,7 +10,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, SilentWarrior")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct Color : IPackedVector<uint>, IPackedVector, IEquatable<Color>
     {
         #region Private Members
@@ -791,24 +791,19 @@ namespace ANX.Framework
             return this.packedValue.Equals(other.packedValue);
         }
 
-        public override bool Equals(Object other)
+        public override bool Equals(object obj)
         {
-            if (other is Color)
-            {
-                return this.Equals((Color)other);
-            }
-
-            return false;
+            return obj is Color && Equals((Color)obj);
         }
 
         public static bool operator ==(Color a, Color b)
         {
-					return a.packedValue == b.packedValue;
+            return a.packedValue == b.packedValue;
         }
 
         public static bool operator !=(Color a, Color b)
         {
-					return a.packedValue != b.packedValue;
+            return a.packedValue != b.packedValue;
         }
 
         public static Color FromNonPremultiplied(int r, int g, int b, int a)
@@ -834,24 +829,6 @@ namespace ANX.Framework
             return color;
         }
 
-        private static int ClampValue64(long value)
-        {
-            if (value < 0L)
-                return 0;
-            if (value > 255L)
-                return 255;
-            return (int) value;
-        }
-
-        public static int ClampValue32(int value)
-        {
-            if (value < 0)
-                return 0;
-            if (value > 255)
-                return 255;
-            return value;
-        }
-
         public static Color FromNonPremultiplied(Vector4 vector)
         {
             Color color;
@@ -866,7 +843,7 @@ namespace ANX.Framework
             return this.packedValue.GetHashCode();
         }
 
-				#region Lerp
+        #region Lerp
         public static Color Lerp(Color value1, Color value2, float amount)
         {
             Color color;
@@ -892,7 +869,6 @@ namespace ANX.Framework
 
             return color;
         }
-
         #endregion
 
 		#region Multiply
@@ -930,12 +906,9 @@ namespace ANX.Framework
         }
 
         public override string ToString()
-		{
-					// This may look a bit more ugly, but String.Format should
-					// be avoided cause of it's bad performance!
-					return "{R:" + R + " G:" + G + " B:" + B + " A:" + A + "}";
-
-					//return string.Format(CultureInfo.CurrentCulture, "{{R:{0} G:{1} B:{2} A:{3}}}", new object[] { this.R, this.G, this.B, this.A });
+        {
+            // This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
+            return "{R:" + R + " G:" + G + " B:" + B + " A:" + A + "}";
         }
 
         public Vector3 ToVector3()
@@ -1032,6 +1005,24 @@ namespace ANX.Framework
         #endregion // Properties
 
         #region Helper
+        private static int ClampValue64(long value)
+        {
+            if (value < 0L)
+                return 0;
+            if (value > 255L)
+                return 255;
+            return (int)value;
+        }
+
+        private static int ClampValue32(int value)
+        {
+            if (value < 0)
+                return 0;
+            if (value > 255)
+                return 255;
+            return value;
+        }
+
         private static uint ColorPack(float r, float g, float b, float a)
         {
             uint pr = PackUNormal(255f, r);

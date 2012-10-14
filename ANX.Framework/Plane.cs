@@ -34,7 +34,7 @@ namespace ANX.Framework
         }
         public Plane(Vector3 point1, Vector3 point2, Vector3 point3)
         {
-            // calculate 2 vectos spanning the plane and cross them to get the normal, then normalize
+            // calculate 2 vectors spanning the plane and cross them to get the normal, then normalize
             this.Normal = Vector3.Normalize(Vector3.Cross(Vector3.Subtract(point2, point1), Vector3.Subtract(point3, point1)));
             // now calculate d
             this.D = Vector3.Dot(point1, this.Normal);
@@ -51,6 +51,7 @@ namespace ANX.Framework
         {
             return this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D * value.W;
         }
+
         public void Dot(ref Vector4 value, out float result)
         {
             result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D * value.W;
@@ -60,6 +61,7 @@ namespace ANX.Framework
         {
             return this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D;
         }
+
         public void DotCoordinate(ref Vector3 value, out float result)
         {
             result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z + this.D;
@@ -69,6 +71,7 @@ namespace ANX.Framework
         {
             return this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z;
         }
+
         public void DotNormal(ref Vector3 value, out float result)
         {
             result = this.Normal.X * value.X + this.Normal.Y * value.Y + this.Normal.Z * value.Z;
@@ -123,9 +126,10 @@ namespace ANX.Framework
             this.Intersects(ref frustum, out result);
             return result; ;
         }
+
         public void Intersects(ref BoundingFrustum frustum, out PlaneIntersectionType result)
         {
-            throw new Exception("method has not yet been implemented");
+            throw new NotImplementedException("method has not yet been implemented");
         }
 
         public PlaneIntersectionType Intersects(BoundingSphere sphere)
@@ -134,6 +138,7 @@ namespace ANX.Framework
             this.Intersects(ref sphere, out result);
             return result;
         }
+
         public void Intersects(ref BoundingSphere sphere, out PlaneIntersectionType result)
         {
             float distanceSquared_Sphere_Origin = Vector3.DistanceSquared(Vector3.Zero, sphere.Center);
@@ -203,59 +208,60 @@ namespace ANX.Framework
 
         public void Normalize()
         {
-            float l = Normal.X * Normal.X + Normal.Y * Normal.Y + Normal.Z * Normal.Z;
-            if (Math.Abs(1.0f - l) < float.Epsilon)
+            float lengthSquare = Normal.X * Normal.X + Normal.Y * Normal.Y + Normal.Z * Normal.Z;
+            if (Math.Abs(1.0f - lengthSquare) < float.Epsilon)
             {
                 return;
             }
-            l = 1.0f / (float)Math.Sqrt(l);
-            Normal.X = Normal.X * l;
-            Normal.Y = Normal.Y * l;
-            Normal.Z = Normal.Z * l;
-            this.D = this.D * l;
+
+            float oneOverLength = 1.0f / (float)Math.Sqrt(lengthSquare);
+            Normal.X = Normal.X * oneOverLength;
+            Normal.Y = Normal.Y * oneOverLength;
+            Normal.Z = Normal.Z * oneOverLength;
+            this.D = this.D * oneOverLength;
         }
 
         public static Plane Normalize(Plane value)
         {
-            Vector3 n = value.Normal;
-            float l = n.X * n.X + n.Y * n.Y + n.Z * n.Z;
-            if (Math.Abs(1.0f - l) < float.Epsilon)
+            Vector3 normal = value.Normal;
+            float lengthSquare = normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z;
+            if (Math.Abs(1.0f - lengthSquare) < float.Epsilon)
             {
-                return new Plane(n, value.D);
+                return new Plane(normal, value.D);
             }
-            l = 1.0f / (float)Math.Sqrt(l);
+
+            float oneOverLength = 1.0f / (float)Math.Sqrt(lengthSquare);
             Plane result;
-            result.Normal.X = value.Normal.X * l;
-            result.Normal.Y = value.Normal.Y * l;
-            result.Normal.Z = value.Normal.Z * l;
-            result.D = value.D * l;
+            result.Normal.X = value.Normal.X * oneOverLength;
+            result.Normal.Y = value.Normal.Y * oneOverLength;
+            result.Normal.Z = value.Normal.Z * oneOverLength;
+            result.D = value.D * oneOverLength;
             return result;
         }
 
         public static void Normalize(ref Plane value, out Plane result)
         {
-            Vector3 n = value.Normal;
-            float l = n.X * n.X + n.Y * n.Y + n.Z * n.Z;
-            if (Math.Abs(1.0f - l) < float.Epsilon)
+            Vector3 normal = value.Normal;
+            float lengthSquare = normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z;
+            if (Math.Abs(1.0f - lengthSquare) < float.Epsilon)
             {
-                result.Normal = n;
+                result.Normal = normal;
                 result.D = value.D;
                 return;
             }
-            l = 1.0f / (float)Math.Sqrt(l);
-            result.Normal.X = value.Normal.X * l;
-            result.Normal.Y = value.Normal.Y * l;
-            result.Normal.Z = value.Normal.Z * l;
-            result.D = value.D * l;
+
+            float oneOverLength = 1.0f / (float)Math.Sqrt(lengthSquare);
+            result.Normal.X = value.Normal.X * oneOverLength;
+            result.Normal.Y = value.Normal.Y * oneOverLength;
+            result.Normal.Z = value.Normal.Z * oneOverLength;
+            result.D = value.D * oneOverLength;
         }
 
         public override string ToString()
         {
             var culture = CultureInfo.CurrentCulture;
-            // This may look a bit more ugly, but String.Format should
-            // be avoided cause of it's bad performance!
-            return "{Normal:" + Normal.ToString() +
-                    " D:" + D.ToString(culture) + "}";
+            // This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
+            return "{Normal:" + Normal.ToString() + " D:" + D.ToString(culture) + "}";
         }
 
         public static Plane Transform(Plane plane, Matrix matrix)
@@ -348,12 +354,12 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is Plane) ? this.Equals((Plane)obj) : false;
+            return obj is Plane && Equals((Plane)obj);
         }
 
         public bool Equals(Plane other)
         {
-            return this.D == other.D && Normal.Equals(other.Normal);
+            return D == other.D && Normal.Equals(other.Normal);
         }
         #endregion
 

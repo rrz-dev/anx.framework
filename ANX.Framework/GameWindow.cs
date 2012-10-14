@@ -10,6 +10,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public abstract class GameWindow
@@ -51,37 +52,13 @@ namespace ANX.Framework
 		}
 		#endregion
 
-		public abstract bool AllowUserResizing
-		{
-			get;
-			set;
-		}
-
-		public abstract Rectangle ClientBounds
-		{
-			get;
-		}
-
-		public abstract string ScreenDeviceName
-		{
-			get;
-		}
-
-		public abstract DisplayOrientation CurrentOrientation
-		{
-			get;
-		}
-
-		public abstract IntPtr Handle
-		{
-			get;
-		}
-
-		public abstract bool IsMinimized
-		{
-			get;
-		}
-		#endregion
+        public abstract bool AllowUserResizing { get; set; }
+        public abstract Rectangle ClientBounds { get; }
+        public abstract string ScreenDeviceName { get; }
+        public abstract DisplayOrientation CurrentOrientation { get; }
+        public abstract IntPtr Handle { get; }
+        internal abstract bool IsMinimized { get; }
+        #endregion
 
 		#region BeginScreenDeviceChange (abstract)
 		public abstract void BeginScreenDeviceChange(bool willBeFullScreen);

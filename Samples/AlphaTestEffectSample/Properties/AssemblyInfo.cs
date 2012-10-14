@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BasicEffectSample")]
-[assembly: AssemblyProduct("BasicEffectSample")]
+[assembly: AssemblyTitle("AlphaTestEffectSample")]
+[assembly: AssemblyProduct("AlphaTestEffectSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("ANX Developer Team")]
 [assembly: AssemblyCopyright("Copyright © ANX Developer Team 2012")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid("8446cda4-2e70-4402-8ccd-61476a6980db")]
+[assembly: Guid("54ca10e1-a4e0-40b9-bf97-934b85b2887d")]
 
 // Version information for an assembly consists of the following four values:
 //

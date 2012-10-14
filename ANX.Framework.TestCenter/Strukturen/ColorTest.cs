@@ -1,8 +1,6 @@
 #region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NUnit.Framework;
 
 #endregion // Using Statements
 
@@ -15,8 +13,6 @@ using ANXColor = ANX.Framework.Color;
 
 using XNAVector3 = Microsoft.Xna.Framework.Vector3;
 using ANXVector3 = ANX.Framework.Vector3;
-
-using NUnit.Framework;
 
 namespace ANX.Framework.TestCenter.Strukturen
 {
@@ -129,75 +125,75 @@ namespace ANX.Framework.TestCenter.Strukturen
             new Object[] { XNAColor.LightSteelBlue, ANXColor.LightSteelBlue, "Color.LightSteelBlue" },
             new Object[] { XNAColor.LightYellow, ANXColor.LightYellow, "Color.LightYellow" },
             new Object[] { XNAColor.Lime, ANXColor.Lime, "Color.Lime" },
-            new Object[] { XNAColor.LimeGreen, ANXColor.LimeGreen, "" },
-            new Object[] { XNAColor.Linen, ANXColor.Linen, "" },
-            new Object[] { XNAColor.Magenta, ANXColor.Magenta, "" },
-            new Object[] { XNAColor.Maroon, ANXColor.Maroon, "" },
-            new Object[] { XNAColor.MediumAquamarine, ANXColor.MediumAquamarine, "" },
-            new Object[] { XNAColor.MediumBlue, ANXColor.MediumBlue, "" },
-            new Object[] { XNAColor.MediumOrchid, ANXColor.MediumOrchid, "" },
-            new Object[] { XNAColor.MediumPurple, ANXColor.MediumPurple, "" },
-            new Object[] { XNAColor.MediumSeaGreen, ANXColor.MediumSeaGreen, "" },
-            new Object[] { XNAColor.MediumSlateBlue, ANXColor.MediumSlateBlue, "" },
-            new Object[] { XNAColor.MediumSpringGreen, ANXColor.MediumSpringGreen, "" },
-            new Object[] { XNAColor.MediumTurquoise, ANXColor.MediumTurquoise, "" },
-            new Object[] { XNAColor.MediumVioletRed, ANXColor.MediumVioletRed, "" },
-            new Object[] { XNAColor.MidnightBlue, ANXColor.MidnightBlue, "" },
-            new Object[] { XNAColor.MintCream, ANXColor.MintCream, "" },
-            new Object[] { XNAColor.MistyRose, ANXColor.MistyRose, "" },
-            new Object[] { XNAColor.Moccasin, ANXColor.Moccasin, "" },
-            new Object[] { XNAColor.NavajoWhite, ANXColor.NavajoWhite, "" },
-            new Object[] { XNAColor.Navy, ANXColor.Navy, "" },
-            new Object[] { XNAColor.OldLace, ANXColor.OldLace, "" },
-            new Object[] { XNAColor.Olive, ANXColor.Olive, "" },
-            new Object[] { XNAColor.OliveDrab, ANXColor.OliveDrab, "" },
-            new Object[] { XNAColor.Orange, ANXColor.Orange, "" },
-            new Object[] { XNAColor.OrangeRed, ANXColor.OrangeRed, "" },
-            new Object[] { XNAColor.Orchid, ANXColor.Orchid, "" },
-            new Object[] { XNAColor.PaleGoldenrod, ANXColor.PaleGoldenrod, "" },
-            new Object[] { XNAColor.PaleGreen, ANXColor.PaleGreen, "" },
-            new Object[] { XNAColor.PaleTurquoise, ANXColor.PaleTurquoise, "" },
-            new Object[] { XNAColor.PaleVioletRed, ANXColor.PaleVioletRed, "" },
-            new Object[] { XNAColor.PapayaWhip, ANXColor.PapayaWhip, "" },
-            new Object[] { XNAColor.PeachPuff, ANXColor.PeachPuff, "" },
-            new Object[] { XNAColor.Peru, ANXColor.Peru, "" },
-            new Object[] { XNAColor.Pink, ANXColor.Pink, "" },
-            new Object[] { XNAColor.Plum, ANXColor.Plum, "" },
-            new Object[] { XNAColor.PowderBlue, ANXColor.PowderBlue, "" },
-            new Object[] { XNAColor.Purple, ANXColor.Purple, "" },
-            new Object[] { XNAColor.Red, ANXColor.Red, "" },
-            new Object[] { XNAColor.RosyBrown, ANXColor.RosyBrown, "" },
-            new Object[] { XNAColor.RoyalBlue, ANXColor.RoyalBlue, "" },
-            new Object[] { XNAColor.SaddleBrown, ANXColor.SaddleBrown, "" },
-            new Object[] { XNAColor.Salmon, ANXColor.Salmon, "" },
-            new Object[] { XNAColor.SandyBrown, ANXColor.SandyBrown, "" },
-            new Object[] { XNAColor.SeaGreen, ANXColor.SeaGreen, "" },
-            new Object[] { XNAColor.SeaShell, ANXColor.SeaShell, "" },
-            new Object[] { XNAColor.Sienna, ANXColor.Sienna, "" },
-            new Object[] { XNAColor.Silver, ANXColor.Silver, "" },
-            new Object[] { XNAColor.SkyBlue, ANXColor.SkyBlue, "" },
-            new Object[] { XNAColor.SlateBlue, ANXColor.SlateBlue, "" },
-            new Object[] { XNAColor.SlateGray, ANXColor.SlateGray, "" },
-            new Object[] { XNAColor.Snow, ANXColor.Snow, "" },
-            new Object[] { XNAColor.SpringGreen, ANXColor.SpringGreen, "" },
-            new Object[] { XNAColor.SteelBlue, ANXColor.SteelBlue, "" },
-            new Object[] { XNAColor.Tan, ANXColor.Tan, "" },
-            new Object[] { XNAColor.Teal, ANXColor.Teal, "" },
-            new Object[] { XNAColor.Thistle, ANXColor.Thistle, "" },
-            new Object[] { XNAColor.Tomato, ANXColor.Tomato, "" },
-            new Object[] { XNAColor.Transparent, ANXColor.Transparent, "" },
-            new Object[] { XNAColor.Turquoise, ANXColor.Turquoise, "" },
-            new Object[] { XNAColor.Violet, ANXColor.Violet, "" },
-            new Object[] { XNAColor.Wheat, ANXColor.Wheat, "" },
-            new Object[] { XNAColor.White, ANXColor.White, "" },
-            new Object[] { XNAColor.WhiteSmoke, ANXColor.WhiteSmoke, "" },
-            new Object[] { XNAColor.Yellow, ANXColor.Yellow, "" },
-            new Object[] { XNAColor.YellowGreen, ANXColor.YellowGreen, "" },
+            new Object[] { XNAColor.LimeGreen, ANXColor.LimeGreen, "Color.LimeGreen" },
+            new Object[] { XNAColor.Linen, ANXColor.Linen, "Color.Linen" },
+            new Object[] { XNAColor.Magenta, ANXColor.Magenta, "Color.Magenta" },
+            new Object[] { XNAColor.Maroon, ANXColor.Maroon, "Color.Maroon" },
+            new Object[] { XNAColor.MediumAquamarine, ANXColor.MediumAquamarine, "Color.MediumAquamarine" },
+            new Object[] { XNAColor.MediumBlue, ANXColor.MediumBlue, "Color.MediumBlue" },
+            new Object[] { XNAColor.MediumOrchid, ANXColor.MediumOrchid, "Color.MediumOrchid" },
+            new Object[] { XNAColor.MediumPurple, ANXColor.MediumPurple, "Color.MediumPurple" },
+            new Object[] { XNAColor.MediumSeaGreen, ANXColor.MediumSeaGreen, "Color.MediumSeaGreen" },
+            new Object[] { XNAColor.MediumSlateBlue, ANXColor.MediumSlateBlue, "Color.MediumSlateBlue" },
+            new Object[] { XNAColor.MediumSpringGreen, ANXColor.MediumSpringGreen, "Color.MediumSpringGreen" },
+            new Object[] { XNAColor.MediumTurquoise, ANXColor.MediumTurquoise, "Color.MediumTurquoise" },
+            new Object[] { XNAColor.MediumVioletRed, ANXColor.MediumVioletRed, "Color.MediumVioletRed" },
+            new Object[] { XNAColor.MidnightBlue, ANXColor.MidnightBlue, "Color.MidnightBlue" },
+            new Object[] { XNAColor.MintCream, ANXColor.MintCream, "Color.MintCream" },
+            new Object[] { XNAColor.MistyRose, ANXColor.MistyRose, "Color.MistyRose" },
+            new Object[] { XNAColor.Moccasin, ANXColor.Moccasin, "Color.Moccasin" },
+            new Object[] { XNAColor.NavajoWhite, ANXColor.NavajoWhite, "Color.NavajoWhite" },
+            new Object[] { XNAColor.Navy, ANXColor.Navy, "Color.Navy" },
+            new Object[] { XNAColor.OldLace, ANXColor.OldLace, "Color.OldLace" },
+            new Object[] { XNAColor.Olive, ANXColor.Olive, "Color.Olive" },
+            new Object[] { XNAColor.OliveDrab, ANXColor.OliveDrab, "Color.OliveDrab" },
+            new Object[] { XNAColor.Orange, ANXColor.Orange, "Color.Orange" },
+            new Object[] { XNAColor.OrangeRed, ANXColor.OrangeRed, "Color.OrangeRed" },
+            new Object[] { XNAColor.Orchid, ANXColor.Orchid, "Color.Orchid" },
+            new Object[] { XNAColor.PaleGoldenrod, ANXColor.PaleGoldenrod, "Color.PaleGoldenrod" },
+            new Object[] { XNAColor.PaleGreen, ANXColor.PaleGreen, "Color.PaleGreen" },
+            new Object[] { XNAColor.PaleTurquoise, ANXColor.PaleTurquoise, "Color.PaleTurquoise" },
+            new Object[] { XNAColor.PaleVioletRed, ANXColor.PaleVioletRed, "Color.PaleVioletRed" },
+            new Object[] { XNAColor.PapayaWhip, ANXColor.PapayaWhip, "Color.PapayaWhip" },
+            new Object[] { XNAColor.PeachPuff, ANXColor.PeachPuff, "Color.PeachPuff" },
+            new Object[] { XNAColor.Peru, ANXColor.Peru, "Color.Peru" },
+            new Object[] { XNAColor.Pink, ANXColor.Pink, "Color.Pink" },
+            new Object[] { XNAColor.Plum, ANXColor.Plum, "Color.Plum" },
+            new Object[] { XNAColor.PowderBlue, ANXColor.PowderBlue, "Color.PowderBlue" },
+            new Object[] { XNAColor.Purple, ANXColor.Purple, "Color.Purple" },
+            new Object[] { XNAColor.Red, ANXColor.Red, "Color.Red" },
+            new Object[] { XNAColor.RosyBrown, ANXColor.RosyBrown, "Color.RosyBrown" },
+            new Object[] { XNAColor.RoyalBlue, ANXColor.RoyalBlue, "Color.RoyalBlue" },
+            new Object[] { XNAColor.SaddleBrown, ANXColor.SaddleBrown, "Color.SaddleBrown" },
+            new Object[] { XNAColor.Salmon, ANXColor.Salmon, "Color.Salmon" },
+            new Object[] { XNAColor.SandyBrown, ANXColor.SandyBrown, "Color.SandyBrown" },
+            new Object[] { XNAColor.SeaGreen, ANXColor.SeaGreen, "Color.SeaGreen" },
+            new Object[] { XNAColor.SeaShell, ANXColor.SeaShell, "Color.SeaShell" },
+            new Object[] { XNAColor.Sienna, ANXColor.Sienna, "Color.Sienna" },
+            new Object[] { XNAColor.Silver, ANXColor.Silver, "Color.Silver" },
+            new Object[] { XNAColor.SkyBlue, ANXColor.SkyBlue, "Color.SkyBlue" },
+            new Object[] { XNAColor.SlateBlue, ANXColor.SlateBlue, "Color.SlateBlue" },
+            new Object[] { XNAColor.SlateGray, ANXColor.SlateGray, "Color.SlateGray" },
+            new Object[] { XNAColor.Snow, ANXColor.Snow, "Color.Snow" },
+            new Object[] { XNAColor.SpringGreen, ANXColor.SpringGreen, "Color.SpringGreen" },
+            new Object[] { XNAColor.SteelBlue, ANXColor.SteelBlue, "Color.SteelBlue" },
+            new Object[] { XNAColor.Tan, ANXColor.Tan, "Color.Tan" },
+            new Object[] { XNAColor.Teal, ANXColor.Teal, "Color.Teal" },
+            new Object[] { XNAColor.Thistle, ANXColor.Thistle, "Color.Thistle" },
+            new Object[] { XNAColor.Tomato, ANXColor.Tomato, "Color.Tomato" },
+            new Object[] { XNAColor.Transparent, ANXColor.Transparent, "Color.Transparent" },
+            new Object[] { XNAColor.Turquoise, ANXColor.Turquoise, "Color.Turquoise" },
+            new Object[] { XNAColor.Violet, ANXColor.Violet, "Color.Violet" },
+            new Object[] { XNAColor.Wheat, ANXColor.Wheat, "Color.Wheat" },
+            new Object[] { XNAColor.White, ANXColor.White, "Color.White" },
+            new Object[] { XNAColor.WhiteSmoke, ANXColor.WhiteSmoke, "Color.WhiteSmoke" },
+            new Object[] { XNAColor.Yellow, ANXColor.Yellow, "Color.Yellow" },
+            new Object[] { XNAColor.YellowGreen, ANXColor.YellowGreen, "Color.YellowGreen" },
         };
 
         #region Constructors
         [Test]
-        public void constructor0()
+        public void Constructor0()
         {
             XNAColor xna = new XNAColor();
             ANXColor anx = new ANXColor();
@@ -206,7 +202,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor1(float r, float g, float b, float a)
+        public void Constructor1(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor(new Microsoft.Xna.Framework.Vector3(r, g, b));
             ANXColor anx = new ANXColor(new ANX.Framework.Vector3(r, g, b));
@@ -215,7 +211,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor2(float r, float g, float b, float a)
+        public void Constructor2(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor(new Microsoft.Xna.Framework.Vector4(r, g, b, a));
             ANXColor anx = new ANXColor(new ANX.Framework.Vector4(r, g, b, a));
@@ -224,7 +220,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor3(float r, float g, float b, float a)
+        public void Constructor3(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor(r, g, b);
             ANXColor anx = new ANXColor(r, g, b);
@@ -233,7 +229,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor4(float r, float g, float b, float a)
+        public void Constructor4(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor((int)(r * 255), (int)(g * 255), (int)(b * 255));
             ANXColor anx = new ANXColor((int)(r * 255), (int)(g * 255), (int)(b * 255));
@@ -242,7 +238,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor5(float r, float g, float b, float a)
+        public void Constructor5(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor(r, g, b) * a;
             ANXColor anx = new ANXColor(r, g, b) * a;
@@ -251,7 +247,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor6(float r, float g, float b, float a)
+        public void Constructor6(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
             ANXColor anx = new ANXColor((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
@@ -260,7 +256,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test]
-        public void constructor7()
+        public void Constructor7()
         {
             XNAColor xna = new XNAColor(512, 512, 512);
             ANXColor anx = new ANXColor(512, 512, 512);
@@ -269,7 +265,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("fourfloats")]
-        public void constructor8(float r, float g, float b, float a)
+        public void Constructor8(float r, float g, float b, float a)
         {
             XNAColor xna = new XNAColor(r, g, b, a);
             ANXColor anx = new ANXColor(r, g, b, a);
@@ -278,7 +274,7 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test]
-        public void constructor9()
+        public void Constructor9()
         {
             XNAColor xna = new XNAColor(512, 512, 512, 512);
             ANXColor anx = new ANXColor(512, 512, 512, 512);
@@ -531,6 +527,24 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANX.Framework.Vector4 anx = anxColor.ToVector4();
 
             AssertHelper.ConvertEquals(xna, anx, "ToVector4");
+        }
+
+        [Test, TestCaseSource("fourfloats")]
+        public void ToString(float r, float g, float b, float a)
+        {
+            XNAColor xnaColor = new XNAColor(r, g, b) * a;
+            ANXColor anxColor = new ANXColor(r, g, b) * a;
+
+            AssertHelper.ConvertEquals(xnaColor.ToString(), anxColor.ToString(), "ToString");
+        }
+
+        [Test, TestCaseSource("fourfloats")]
+        public void GetHashCode(float r, float g, float b, float a)
+        {
+            XNAColor xnaColor = new XNAColor(r, g, b) * a;
+            ANXColor anxColor = new ANXColor(r, g, b) * a;
+
+            AssertHelper.ConvertEquals(xnaColor.GetHashCode(), anxColor.GetHashCode(), "GetHashCode");
         }
 
         #endregion // Methods

@@ -9,7 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	[Developer("AstrorEnales")]
     public class AlphaTestEffect : Effect, IEffectMatrices, IEffectFog, IGraphicsResource
 	{

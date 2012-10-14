@@ -6,3 +6,4 @@ The following media is copyright by Roland "Glatzemann" Rosenkranz. You may not 
 
 1.) chest.png
 2.) stone_tile.png
+3.) alpha_test.png

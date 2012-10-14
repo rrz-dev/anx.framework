@@ -1,10 +1,11 @@
 ﻿using System;
 using ANX.Framework.Audio;
+using ANX.Framework.GamerServices;
 using ANX.Framework.Graphics;
-using ANX.Framework.Net;
-using NUnit.Framework;
 using ANX.Framework.Input;
 using ANX.Framework.Media;
+using ANX.Framework.Net;
+using NUnit.Framework;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -69,6 +70,17 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionState), typeof(NetworkSessionState) },
             new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionType), typeof(NetworkSessionType) },
             new object[] { typeof(Microsoft.Xna.Framework.Net.SendDataOptions), typeof(SendDataOptions) },
+            
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.ControllerSensitivity), typeof(ControllerSensitivity) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.GameDifficulty), typeof(GameDifficulty) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.GamerPresenceMode), typeof(GamerPresenceMode) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.GamerPrivilegeSetting), typeof(GamerPrivilegeSetting) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.GamerZone), typeof(GamerZone) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.LeaderboardKey), typeof(LeaderboardKey) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.LeaderboardOutcome), typeof(LeaderboardOutcome) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.MessageBoxIcon), typeof(MessageBoxIcon) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.NotificationPosition), typeof(NotificationPosition) },
+            new object[] { typeof(Microsoft.Xna.Framework.GamerServices.RacingCameraAngle), typeof(RacingCameraAngle) },
         };
         
         [TestCaseSource("EnumPairs")]

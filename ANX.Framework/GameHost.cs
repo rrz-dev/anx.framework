@@ -10,6 +10,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework
 {
+    [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public abstract class GameHost
