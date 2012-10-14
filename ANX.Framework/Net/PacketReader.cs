@@ -9,7 +9,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Net
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
 	public class PacketReader : BinaryReader
 	{
         public int Length

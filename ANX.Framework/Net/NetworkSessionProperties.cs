@@ -9,97 +9,93 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Net
 {
-    [PercentageComplete(0)]
-    [TestState(TestStateAttribute.TestState.Untested)]
-	public class NetworkSessionProperties : IList<int?>, ICollection<int?>,
-		IEnumerable<int?>, IEnumerable
-	{
-		#region IList<int?> Member
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
+	public class NetworkSessionProperties : IList<int?>, ICollection<int?>, IEnumerable<int?>, IEnumerable
+    {
+        private const int DataCount = 8;
 
-		public int IndexOf(int? item)
-		{
-			throw new NotImplementedException();
+        private readonly int?[] data = new int?[DataCount];
+
+        public int Count
+        {
+            get { return DataCount; }
+        }
+
+        bool ICollection<int?>.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public int? this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= DataCount)
+                    throw new ArgumentOutOfRangeException("index");
+
+                return data[index];
+            }
+            set
+            {
+                if (index < 0 || index >= DataCount)
+                    throw new ArgumentOutOfRangeException("index");
+
+                data[index] = value;
+            }
+        }
+
+        public int IndexOf(int? item)
+        {
+            return ((IList<int?>)data).IndexOf(item);
 		}
 
-		public void Insert(int index, int? item)
-		{
-			throw new NotImplementedException();
-		}
+        bool ICollection<int?>.Contains(int? item)
+        {
+            return ((IList<int?>)data).Contains(item);
+        }
 
-		public void RemoveAt(int index)
-		{
-			throw new NotImplementedException();
-		}
+        void ICollection<int?>.CopyTo(int?[] array, int arrayIndex)
+        {
+            data.CopyTo(array, arrayIndex);
+        }
 
-		public int? this[int index]
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public IEnumerator<int?> GetEnumerator()
+        {
+            return ((IList<int?>)data).GetEnumerator();
+        }
 
-		#endregion
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return data.GetEnumerator();
+        }
 
-		#region ICollection<int?> Member
+        #region Unsupported Methods
+        void IList<int?>.Insert(int index, int? item)
+        {
+            throw new NotSupportedException();
+        }
 
-		public void Add(int? item)
-		{
-			throw new NotImplementedException();
-		}
+        void ICollection<int?>.Add(int? item)
+        {
+            throw new NotSupportedException();
+        }
 
-		public void Clear()
-		{
-			throw new NotImplementedException();
-		}
+        void ICollection<int?>.Clear()
+        {
+            throw new NotSupportedException();
+        }
 
-		public bool Contains(int? item)
-		{
-			throw new NotImplementedException();
-		}
+        bool ICollection<int?>.Remove(int? item)
+        {
+            throw new NotSupportedException();
+        }
 
-		public void CopyTo(int?[] array, int arrayIndex)
-		{
-			throw new NotImplementedException();
-		}
-
-		public int Count
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public bool IsReadOnly
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public bool Remove(int? item)
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region IEnumerable<int?> Member
-
-		public IEnumerator<int?> GetEnumerator()
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region IEnumerable Member
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
+        void IList<int?>.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+        #endregion
 	}
 }

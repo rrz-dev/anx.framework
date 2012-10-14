@@ -1,6 +1,7 @@
 ﻿using System;
 using ANX.Framework.Audio;
 using ANX.Framework.Graphics;
+using ANX.Framework.Net;
 using NUnit.Framework;
 using ANX.Framework.Input;
 using ANX.Framework.Media;
@@ -62,6 +63,12 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { typeof(Microsoft.Xna.Framework.Input.Keys), typeof(Keys) },
             new object[] { typeof(Microsoft.Xna.Framework.Media.MediaSourceType), typeof(MediaSourceType) },
             new object[] { typeof(Microsoft.Xna.Framework.Media.MediaState), typeof(MediaState) },
+            
+            new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionEndReason), typeof(NetworkSessionEndReason) },
+            new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionJoinError), typeof(NetworkSessionJoinError) },
+            new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionState), typeof(NetworkSessionState) },
+            new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionType), typeof(NetworkSessionType) },
+            new object[] { typeof(Microsoft.Xna.Framework.Net.SendDataOptions), typeof(SendDataOptions) },
         };
         
         [TestCaseSource("EnumPairs")]

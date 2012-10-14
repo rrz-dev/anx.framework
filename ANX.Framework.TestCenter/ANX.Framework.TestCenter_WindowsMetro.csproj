@@ -41,6 +41,7 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="nunit.framework">
       <HintPath>..\lib\NUnit-2.6.1\bin\nunit.framework.dll</HintPath>
@@ -82,6 +83,10 @@
     <Compile Include="Strukturen\Input\MouseTest.cs" />
     <Compile Include="Strukturen\GameComponentCollectionTest.cs" />
     <Compile Include="Strukturen\Media\MediaLibraryTests.cs" />
+    <Compile Include="Strukturen\Net\NetworkSessionPropertiesTest.cs" />
+    <Compile Include="Strukturen\Net\PacketReaderTest.cs" />
+    <Compile Include="Strukturen\Net\PacketWriterTest.cs" />
+    <Compile Include="Strukturen\Net\QualityOfServiceTest.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
     <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />
     <Compile Include="Strukturen\BoundingBoxTest.cs" />
@@ -125,7 +130,6 @@
     <Folder Include="Strukturen\Content\SystemTypeReaders\" />
     <Folder Include="Strukturen\Input\MotionSensing\" />
     <Folder Include="Strukturen\Input\Touch\" />
-    <Folder Include="Strukturen\Net\" />
     <Folder Include="Strukturen\NonXNA\InputSystem\" />
     <Folder Include="Strukturen\NonXNA\RenderSystem\" />
     <Folder Include="Strukturen\NonXNA\SoundSystem\" />

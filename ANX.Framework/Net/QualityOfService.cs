@@ -8,13 +8,28 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Net
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class QualityOfService
     {
-        public bool IsAvailable { get; internal set; }
-        public int BytesPerSecondUpstream { get; internal set; }
-        public int BytesPerSecondDownstream { get; internal set; }
-        public TimeSpan AverageRoundtripTime { get; internal set; }
-        public TimeSpan MinimumRoundtripTime { get; internal set; }
+        public bool IsAvailable { get; private set; }
+        public int BytesPerSecondUpstream { get; private set; }
+        public int BytesPerSecondDownstream { get; private set; }
+        public TimeSpan AverageRoundtripTime { get; private set; }
+        public TimeSpan MinimumRoundtripTime { get; private set; }
+
+        internal QualityOfService()
+        {
+        }
+
+        internal QualityOfService(int bytesPerSecondUpstream, int bytesPerSecondDownstream, TimeSpan averageRoundtripTime,
+            TimeSpan minimumRoundtripTime)
+        {
+            BytesPerSecondUpstream = bytesPerSecondUpstream;
+            BytesPerSecondDownstream = bytesPerSecondDownstream;
+            AverageRoundtripTime = averageRoundtripTime;
+            MinimumRoundtripTime = minimumRoundtripTime;
+            IsAvailable = true;
+        }
     }
 }

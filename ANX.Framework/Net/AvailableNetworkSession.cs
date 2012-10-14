@@ -11,11 +11,11 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Net
 {
-    [PercentageComplete(0)]
+    [PercentageComplete(95)]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class AvailableNetworkSession
     {
-        public AvailableNetworkSession()
+        internal AvailableNetworkSession()
         {
             QualityOfService = new QualityOfService();
         }

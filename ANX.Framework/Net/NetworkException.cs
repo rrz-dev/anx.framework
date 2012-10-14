@@ -8,7 +8,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Net
 {
-    [PercentageComplete(0)]
+    [PercentageComplete(95)]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class NetworkException : Exception
 	{
