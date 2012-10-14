@@ -64,6 +64,7 @@
     <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
+    <Compile Include="Strukturen\EnumValidationTest.cs" />
     <Compile Include="Strukturen\EventArgsTest.cs" />
     <Compile Include="Strukturen\GameServiceContainerTest.cs" />
     <Compile Include="Strukturen\Graphics\PackedVector\Alpha8Test.cs" />

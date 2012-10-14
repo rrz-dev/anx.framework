@@ -428,7 +428,7 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is BoundingSphere) ? this.Equals((BoundingSphere)obj) : false;
+            return obj is BoundingSphere && Equals((BoundingSphere)obj);
         }
         public bool Equals(BoundingSphere other)
         {

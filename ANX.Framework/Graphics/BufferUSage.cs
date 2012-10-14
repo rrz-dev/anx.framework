@@ -10,7 +10,7 @@ namespace ANX.Framework.Graphics
     [Flags]
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public enum BufferUsage
     {
         None,

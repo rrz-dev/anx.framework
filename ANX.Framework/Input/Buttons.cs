@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
     [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
     [Flags]
     public enum Buttons

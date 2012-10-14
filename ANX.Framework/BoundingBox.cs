@@ -490,7 +490,7 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is BoundingBox) ? this.Equals((BoundingBox)obj) : false;
+            return obj is BoundingBox && Equals((BoundingBox)obj);
         }
         public bool Equals(BoundingBox other)
         {

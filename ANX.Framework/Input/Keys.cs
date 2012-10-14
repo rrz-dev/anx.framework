@@ -7,8 +7,9 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
     [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
-	public enum Keys : byte
+	public enum Keys
 	{
 		None = 0,
 		Back = 8,

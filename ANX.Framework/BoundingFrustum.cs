@@ -2,7 +2,6 @@
 using System;
 using ANX.Framework.NonXNA.Development;
 
-
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -756,19 +755,12 @@ namespace ANX.Framework
         public override bool Equals(Object obj)
         {
             var frustum = obj as BoundingFrustum;
-            if (frustum != null)
-            {
-                return this.Matrix == frustum.Matrix;
-            }
-            return false;
+            return frustum != null && this.Matrix == frustum.Matrix;
         }
+
         public bool Equals(BoundingFrustum other)
         {
-            if (other != null)
-            {
-                return this.Matrix == other.Matrix;
-            }
-            return false;
+            return other != null && this.Matrix == other.Matrix;
         }
         #endregion
 

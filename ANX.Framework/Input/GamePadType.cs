@@ -7,8 +7,9 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
     [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
-	public enum GamePadType : short
+	public enum GamePadType
 	{
 		Unknown,
 		GamePad,
