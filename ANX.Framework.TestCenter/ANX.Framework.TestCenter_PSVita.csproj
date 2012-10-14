@@ -64,6 +64,7 @@
     <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
+    <Compile Include="Strukturen\EventArgsTest.cs" />
     <Compile Include="Strukturen\GameServiceContainerTest.cs" />
     <Compile Include="Strukturen\Graphics\PackedVector\Alpha8Test.cs" />
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Strukturen\Input\KeyboardStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseTest.cs" />
+    <Compile Include="Strukturen\GameComponentCollectionTest.cs" />
     <Compile Include="Strukturen\Media\MediaLibraryTests.cs" />
     <Compile Include="Strukturen\Storage\StorageContainerTest.cs" />
     <Compile Include="Strukturen\Storage\StorageDeviceTest.cs" />

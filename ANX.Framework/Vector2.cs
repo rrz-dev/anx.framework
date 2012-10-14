@@ -10,7 +10,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [Developer("xToast, GinieDp")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct Vector2 : IEquatable<Vector2>
     {
         #region fields
@@ -91,12 +91,11 @@ namespace ANX.Framework
         public static Vector2 Add(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Add(ref value1, ref value2, out result);
+            Add(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Add(ref Vector2 value1, ref Vector2 value2,
-                    out Vector2 result)
+        public static void Add(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
         {
             result.X = value1.X + value2.X;
             result.Y = value1.Y + value2.Y;
@@ -104,16 +103,15 @@ namespace ANX.Framework
         #endregion
 
         #region Barycentric
-        public static Vector2 Barycentric(Vector2 value1, Vector2 value2,
-            Vector2 value3, float amount1, float amount2)
+        public static Vector2 Barycentric(Vector2 value1, Vector2 value2, Vector2 value3, float amount1, float amount2)
         {
             Vector2 result;
-            Vector2.Barycentric(ref value1, ref value2, ref value3, amount1, amount2, out result);
+            Barycentric(ref value1, ref value2, ref value3, amount1, amount2, out result);
             return result;
         }
 
-        public static void Barycentric(ref Vector2 value1, ref Vector2 value2,
-                    ref Vector2 value3, float amount1, float amount2, out Vector2 result)
+        public static void Barycentric(ref Vector2 value1, ref Vector2 value2, ref Vector2 value3, float amount1,
+            float amount2, out Vector2 result)
         {
             result.X = MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2);
             result.Y = MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2);
@@ -121,16 +119,15 @@ namespace ANX.Framework
         #endregion
 
         #region CatmullRom
-        public static Vector2 CatmullRom(Vector2 value1, Vector2 value2,
-            Vector2 value3, Vector2 value4, float amount)
+        public static Vector2 CatmullRom(Vector2 value1, Vector2 value2, Vector2 value3, Vector2 value4, float amount)
         {
             Vector2 result;
-            Vector2.CatmullRom(ref value1, ref value2, ref value3, ref value4, amount, out result);
+            CatmullRom(ref value1, ref value2, ref value3, ref value4, amount, out result);
             return result;
         }
 
-        public static void CatmullRom(ref Vector2 value1, ref Vector2 value2,
-                    ref Vector2 value3, ref Vector2 value4, float amount, out Vector2 result)
+        public static void CatmullRom(ref Vector2 value1, ref Vector2 value2, ref Vector2 value3, ref Vector2 value4,
+            float amount, out Vector2 result)
         {
             result.X = MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount);
             result.Y = MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount);
@@ -141,7 +138,7 @@ namespace ANX.Framework
         public static Vector2 Clamp(Vector2 value1, Vector2 min, Vector2 max)
         {
             Vector2 result;
-            Vector2.Clamp(ref value1, ref min, ref max, out result);
+            Clamp(ref value1, ref min, ref max, out result);
             return result;
         }
 
@@ -157,15 +154,14 @@ namespace ANX.Framework
         public static float Distance(Vector2 value1, Vector2 value2)
         {
             float result;
-            Vector2.Distance(ref value1, ref value2, out result);
+            Distance(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Distance(ref Vector2 value1, ref Vector2 value2,
-                    out float result)
+        public static void Distance(ref Vector2 value1, ref Vector2 value2, out float result)
         {
             Vector2 tmp;
-            Vector2.Subtract(ref value1, ref value2, out tmp);
+            Subtract(ref value1, ref value2, out tmp);
             result = tmp.Length();
         }
         #endregion
@@ -174,15 +170,14 @@ namespace ANX.Framework
         public static float DistanceSquared(Vector2 value1, Vector2 value2)
         {
             float result;
-            Vector2.DistanceSquared(ref value1, ref value2, out result);
+            DistanceSquared(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void DistanceSquared(ref Vector2 value1,
-                    ref Vector2 value2, out float result)
+        public static void DistanceSquared(ref Vector2 value1, ref Vector2 value2, out float result)
         {
             Vector2 tmp;
-            Vector2.Subtract(ref value1, ref value2, out tmp);
+            Subtract(ref value1, ref value2, out tmp);
             result = tmp.LengthSquared();
         }
         #endregion
@@ -191,12 +186,11 @@ namespace ANX.Framework
         public static Vector2 Divide(Vector2 value1, float divider)
         {
             Vector2 result;
-            Vector2.Divide(ref value1, divider, out result);
+            Divide(ref value1, divider, out result);
             return result;
         }
 
-        public static void Divide(ref Vector2 value1, float divider,
-                    out Vector2 result)
+        public static void Divide(ref Vector2 value1, float divider, out Vector2 result)
         {
             divider = 1f / divider;
             result.X = value1.X * divider;
@@ -206,12 +200,11 @@ namespace ANX.Framework
         public static Vector2 Divide(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Divide(ref value1, ref value2, out result);
+            Divide(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Divide(ref Vector2 value1, ref Vector2 value2,
-                    out Vector2 result)
+        public static void Divide(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
         {
             result.X = value1.X / value2.X;
             result.Y = value1.Y / value2.Y;
@@ -224,8 +217,7 @@ namespace ANX.Framework
             return value1.X * value2.X + value1.Y * value2.Y;
         }
 
-        public static void Dot(ref Vector2 value1, ref Vector2 value2,
-                    out float result)
+        public static void Dot(ref Vector2 value1, ref Vector2 value2, out float result)
         {
             result = value1.X * value2.X + value1.Y * value2.Y;
         }
@@ -239,23 +231,18 @@ namespace ANX.Framework
         #endregion
 
         #region Hermite
-        public static Vector2 Hermite(Vector2 value1, Vector2 tangent1,
-            Vector2 value2, Vector2 tangent2, float amount)
+        public static Vector2 Hermite(Vector2 value1, Vector2 tangent1, Vector2 value2, Vector2 tangent2, float amount)
         {
             Vector2 result;
-            Vector2.Hermite(ref value1, ref tangent1, ref value2, ref tangent2,
-                            amount, out result);
+            Hermite(ref value1, ref tangent1, ref value2, ref tangent2, amount, out result);
             return result;
         }
 
-        public static void Hermite(ref Vector2 value1, ref Vector2 tangent1,
-                    ref Vector2 value2, ref Vector2 tangent2, float amount,
-                    out Vector2 result)
+        public static void Hermite(ref Vector2 value1, ref Vector2 tangent1, ref Vector2 value2, ref Vector2 tangent2,
+            float amount, out Vector2 result)
         {
-            result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X,
-                            tangent2.X, amount);
-            result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y,
-                            tangent2.Y, amount);
+            result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
+            result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
         }
         #endregion
 
@@ -277,7 +264,7 @@ namespace ANX.Framework
         public static Vector2 Lerp(Vector2 value1, Vector2 value2, float amount)
         {
             Vector2 result;
-            Vector2.Lerp(ref value1, ref value2, amount, out result);
+            Lerp(ref value1, ref value2, amount, out result);
             return result;
         }
 
@@ -293,12 +280,11 @@ namespace ANX.Framework
         public static Vector2 Max(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Max(ref value1, ref value2, out result);
+            Max(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Max(ref Vector2 value1, ref Vector2 value2,
-                    out Vector2 result)
+        public static void Max(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
         {
             result.X = (value1.X > value2.X) ? value1.X : value2.X;
             result.Y = (value1.Y > value2.Y) ? value1.Y : value2.Y;
@@ -309,12 +295,11 @@ namespace ANX.Framework
         public static Vector2 Min(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Min(ref value1, ref value2, out result);
+            Min(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Min(ref Vector2 value1, ref Vector2 value2,
-                    out Vector2 result)
+        public static void Min(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
         {
             result.X = (value1.X < value2.X) ? value1.X : value2.X;
             result.Y = (value1.Y < value2.Y) ? value1.Y : value2.Y;
@@ -325,12 +310,11 @@ namespace ANX.Framework
         public static Vector2 Multiply(Vector2 value1, float scaleFactor)
         {
             Vector2 result;
-            Vector2.Multiply(ref value1, scaleFactor, out result);
+            Multiply(ref value1, scaleFactor, out result);
             return result;
         }
 
-        public static void Multiply(ref Vector2 value1, float scaleFactor,
-                    out Vector2 result)
+        public static void Multiply(ref Vector2 value1, float scaleFactor, out Vector2 result)
         {
             result.X = value1.X * scaleFactor;
             result.Y = value1.Y * scaleFactor;
@@ -339,12 +323,11 @@ namespace ANX.Framework
         public static Vector2 Multiply(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Multiply(ref value1, ref value2, out result);
+            Multiply(ref value1, ref value2, out result);
             return result;
         }
 
-        public static void Multiply(ref Vector2 value1, ref Vector2 value2,
-                    out Vector2 result)
+        public static void Multiply(ref Vector2 value1, ref Vector2 value2, out Vector2 result)
         {
             result.X = value1.X * value2.X;
             result.Y = value1.Y * value2.Y;
@@ -369,7 +352,7 @@ namespace ANX.Framework
         #region Normalize
         public void Normalize()
         {
-            float divider = 1f / this.Length();
+            float divider = 1f / Length();
             this.X *= divider;
             this.Y *= divider;
         }
@@ -389,36 +372,34 @@ namespace ANX.Framework
         #endregion
 
         /*
-				 Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
-				 Formula from : http://www.gamedev.net/topic/165537-2d-vector-reflection-/
-				 */
+		Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
+		Formula from : http://www.gamedev.net/topic/165537-2d-vector-reflection-/
+		*/
         #region Reflect
         public static Vector2 Reflect(Vector2 vector, Vector2 normal)
         {
             Vector2 result;
-            Vector2.Reflect(ref vector, ref normal, out result);
+            Reflect(ref vector, ref normal, out result);
             return result;
         }
 
         public static void Reflect(ref Vector2 vector, ref Vector2 normal, out Vector2 result)
         {
-            float sub = 2 * Vector2.Dot(vector, normal);
+            float sub = 2 * Dot(vector, normal);
             result.X = vector.X - (sub * normal.X);
             result.Y = vector.Y - (sub * normal.Y);
         }
         #endregion
 
         #region SmoothStep
-        public static Vector2 SmoothStep(Vector2 value1, Vector2 value2,
-            float amount)
+        public static Vector2 SmoothStep(Vector2 value1, Vector2 value2, float amount)
         {
             Vector2 result;
-            Vector2.SmoothStep(ref value1, ref value2, amount, out result);
+            SmoothStep(ref value1, ref value2, amount, out result);
             return result;
         }
 
-        public static void SmoothStep(ref Vector2 value1, ref Vector2 value2,
-                    float amount, out Vector2 result)
+        public static void SmoothStep(ref Vector2 value1, ref Vector2 value2, float amount, out Vector2 result)
         {
             result.X = MathHelper.SmoothStep(value1.X, value2.X, amount);
             result.Y = MathHelper.SmoothStep(value1.Y, value2.Y, amount);
@@ -429,7 +410,7 @@ namespace ANX.Framework
         public static Vector2 Subtract(Vector2 value1, Vector2 value2)
         {
             Vector2 result;
-            Vector2.Subtract(ref value1, ref value2, out result);
+            Subtract(ref value1, ref value2, out result);
             return result;
         }
 
@@ -457,8 +438,7 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Transform(ref Vector2 position, ref Matrix matrix,
-                    out Vector2 result)
+        public static void Transform(ref Vector2 position, ref Matrix matrix, out Vector2 result)
         {
             result.X = (position.X * matrix.M11) + (position.Y * matrix.M21) + matrix.M41;
             result.Y = (position.X * matrix.M12) + (position.Y * matrix.M22) + matrix.M42;
@@ -471,8 +451,7 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void Transform(ref Vector2 value, ref Quaternion rotation,
-                    out Vector2 result)
+        public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector2 result)
         {
             float x = 2 * (-rotation.Z * value.Y);
             float y = 2 * (rotation.Z * value.X);
@@ -482,32 +461,27 @@ namespace ANX.Framework
             result.Y = value.Y + y * rotation.W + (rotation.Z * x - rotation.X * z);
         }
 
-        public static void Transform(Vector2[] sourceArray, int sourceIndex,
-                    ref Matrix matrix, Vector2[] destinationArray, int destinationIndex,
-                    int length)
+        public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix,
+            Vector2[] destinationArray, int destinationIndex, int length)
         {
             length += sourceIndex;
             for (int i = sourceIndex; i < length; i++, destinationIndex++)
             {
-                Transform(ref sourceArray[i], ref matrix,
-                    out destinationArray[destinationIndex]);
+                Transform(ref sourceArray[i], ref matrix, out destinationArray[destinationIndex]);
             }
         }
 
-        public static void Transform(Vector2[] sourceArray, int sourceIndex,
-                    ref Quaternion rotation, Vector2[] destinationArray,
-                    int destinationIndex, int length)
+        public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Quaternion rotation,
+            Vector2[] destinationArray, int destinationIndex, int length)
         {
             length += sourceIndex;
             for (int i = sourceIndex; i < length; i++, destinationIndex++)
             {
-                Transform(ref sourceArray[i], ref rotation,
-                    out destinationArray[destinationIndex]);
+                Transform(ref sourceArray[i], ref rotation, out destinationArray[destinationIndex]);
             }
         }
 
-        public static void Transform(Vector2[] sourceArray, ref Matrix matrix,
-                    Vector2[] destinationArray)
+        public static void Transform(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
         {
             for (int i = 0; i < sourceArray.Length; i++)
             {
@@ -515,8 +489,7 @@ namespace ANX.Framework
             }
         }
 
-        public static void Transform(Vector2[] sourceArray, ref Quaternion rotation,
-                    Vector2[] destinationArray)
+        public static void Transform(Vector2[] sourceArray, ref Quaternion rotation, Vector2[] destinationArray)
         {
             for (int i = 0; i < sourceArray.Length; i++)
             {
@@ -533,32 +506,27 @@ namespace ANX.Framework
             return result;
         }
 
-        public static void TransformNormal(ref Vector2 normal, ref Matrix matrix,
-                    out Vector2 result)
+        public static void TransformNormal(ref Vector2 normal, ref Matrix matrix, out Vector2 result)
         {
             result.X = (normal.X * matrix.M11) + (normal.Y * matrix.M21);
             result.Y = (normal.X * matrix.M12) + (normal.Y * matrix.M22);
         }
 
-        public static void TransformNormal(Vector2[] sourceArray,
-                    int sourceIndex, ref Matrix matrix, Vector2[] destinationArray,
-                    int destinationIndex, int length)
+        public static void TransformNormal(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix,
+            Vector2[] destinationArray, int destinationIndex, int length)
         {
             length += sourceIndex;
             for (int i = sourceIndex; i < length; i++, destinationIndex++)
             {
-                TransformNormal(ref sourceArray[i], ref matrix,
-                    out destinationArray[destinationIndex]);
+                TransformNormal(ref sourceArray[i], ref matrix, out destinationArray[destinationIndex]);
             }
         }
 
-        public static void TransformNormal(Vector2[] sourceArray,
-                    ref Matrix matrix, Vector2[] destinationArray)
+        public static void TransformNormal(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
         {
             for (int i = 0; i < sourceArray.Length; i++)
             {
-                TransformNormal(ref sourceArray[i], ref matrix,
-                    out destinationArray[i]);
+                TransformNormal(ref sourceArray[i], ref matrix, out destinationArray[i]);
             }
         }
         #endregion
@@ -567,7 +535,7 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is Vector2) ? this.Equals((Vector2)obj) : false;
+            return obj is Vector2 && Equals((Vector2)obj);
         }
         public bool Equals(Vector2 other)
         {
@@ -583,9 +551,10 @@ namespace ANX.Framework
 
         public static Vector2 operator /(Vector2 value1, float divider)
         {
-            float factor = 1.0f / divider;
+            float factor = 1f / divider;
             return new Vector2(value1.X * factor, value1.Y * factor);
         }
+
         public static Vector2 operator /(Vector2 value1, Vector2 value2)
         {
             return new Vector2(value1.X / value2.X, value1.Y / value2.Y);
@@ -595,6 +564,7 @@ namespace ANX.Framework
         {
             return (value1.X == value2.X) && (value1.Y == value2.Y);
         }
+
         public static bool operator !=(Vector2 value1, Vector2 value2)
         {
             return (value1.X != value2.X) || (value1.Y != value2.Y);
@@ -604,10 +574,12 @@ namespace ANX.Framework
         {
             return new Vector2(value.X * scaleFactor, value.Y * scaleFactor);
         }
+
         public static Vector2 operator *(Vector2 value, float scaleFactor)
         {
             return new Vector2(value.X * scaleFactor, value.Y * scaleFactor);
         }
+
         public static Vector2 operator *(Vector2 value1, Vector2 value2)
         {
             return new Vector2(value1.X * value2.X, value1.Y * value2.Y);
@@ -617,6 +589,7 @@ namespace ANX.Framework
         {
             return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
         }
+
         public static Vector2 operator -(Vector2 value)
         {
             return new Vector2(-value.X, -value.Y);

@@ -1,18 +1,14 @@
 #region UsingStatements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NUnit.Framework;
+
+using XNAPoint = Microsoft.Xna.Framework.Point;
+using ANXPoint = ANX.Framework.Point;
 #endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
-
-using XNAPoint = Microsoft.Xna.Framework.Point;
-using ANXPoint = ANX.Framework.Point;
-
-using NUnit.Framework;
 
 namespace ANX.Framework.TestCenter.Strukturen
 {
@@ -35,27 +31,22 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { RandomInt, RandomInt },
             new object[] { RandomInt, RandomInt },
         };
-
-
-        
         #endregion
 
         #region Constructors
         [Test]
-        public void constructor0()
+        public void Constructor0()
         {
             XNAPoint xna = new XNAPoint();
-
             ANXPoint anx = new ANXPoint();
 
             AssertHelper.ConvertEquals(xna, anx, "constructor0");
         }
 
         [Test, TestCaseSource("twoint")]
-        public void constructor1(int x, int y)
+        public void Constructor1(int x, int y)
         {
             XNAPoint xna = new XNAPoint(x, y);
-
             ANXPoint anx = new ANXPoint(x, y);
 
             AssertHelper.ConvertEquals(xna, anx, "constructor1");
@@ -67,7 +58,6 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void X(int x, int y)
         {
             XNAPoint xnaPoint = new XNAPoint(x, y);
-
             ANXPoint anxPoint = new ANXPoint(x, y);
 
             int xna = xnaPoint.X;
@@ -76,14 +66,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             if (xna.Equals(anx))
                 Assert.Pass("X passed");
             else
-                Assert.Fail(String.Format("X failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+                Assert.Fail("X failed: xna({0}) anx({1})", xna, anx);
         }
 
         [Test, TestCaseSource("twoint")]
         public void Y(int x, int y)
         {
             XNAPoint xnaPoint = new XNAPoint(x, y);
-
             ANXPoint anxPoint = new ANXPoint(x, y);
 
             int xna = xnaPoint.Y;
@@ -92,7 +81,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             if (xna.Equals(anx))
                 Assert.Pass("Y passed");
             else
-                Assert.Fail(String.Format("Y failed: xna({0}) anx({1})", xna.ToString(), anx.ToString()));
+                Assert.Fail("Y failed: xna({0}) anx({1})", xna, anx);
         }
 
         [Test]
@@ -122,6 +111,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "OpUnEqual");
         }
+
         [TestCaseSource("twoint")]
         public void Equals(int x, int y)
         {
@@ -132,6 +122,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xna.Equals(xna2), anx.Equals(anx2), "Equals");
         }
+
         [TestCaseSource("twoint")]
         public void Equals2(int x, int y)
         {
@@ -140,6 +131,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xna.Equals(null), anx.Equals(null), "Equals2");
         }
+
         [TestCaseSource("twoint")]
         public void ToString(int x, int y)
         {
@@ -148,6 +140,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "ToString");
         }
+
         [TestCaseSource("twoint")]
         public void GetHashCode(int x, int y)
         {

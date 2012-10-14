@@ -11,17 +11,13 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
 	[PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     [Developer("Glatzemann")]
 	public class PreparingDeviceSettingsEventArgs : EventArgs
 	{
-		public GraphicsDeviceInformation GraphicsDeviceInformation
-		{
-			get;
-			private set;
-		}
+	    public GraphicsDeviceInformation GraphicsDeviceInformation { get; private set; }
 
-		public PreparingDeviceSettingsEventArgs(GraphicsDeviceInformation graphicsDeviceInformation)
+	    public PreparingDeviceSettingsEventArgs(GraphicsDeviceInformation graphicsDeviceInformation)
 		{
 			GraphicsDeviceInformation = graphicsDeviceInformation;
 		}

@@ -13,24 +13,10 @@ namespace ANX.Framework
 	public class GraphicsDeviceInformation
 	{
 		#region Public
-		public GraphicsAdapter Adapter
-		{
-			get;
-			set;
-		}
-
-		public GraphicsProfile GraphicsProfile
-		{
-			get;
-			set;
-		}
-
-		public PresentationParameters PresentationParameters
-		{
-			get;
-			set;
-		}
-		#endregion
+	    public GraphicsAdapter Adapter { get; set; }
+	    public GraphicsProfile GraphicsProfile { get; set; }
+	    public PresentationParameters PresentationParameters { get; set; }
+	    #endregion
 
 		#region Constructor
 		public GraphicsDeviceInformation()

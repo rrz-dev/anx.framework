@@ -1,9 +1,5 @@
 #region Using Statements
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 
 using XNAVector2 = Microsoft.Xna.Framework.Vector2;
@@ -54,10 +50,7 @@ namespace ANX.Framework.TestCenter.Strukturen
 
         #endregion
 
-        #region Test
-
         #region Properties
-
         [Test]
         public void One()
         {
@@ -81,35 +74,31 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             AssertHelper.ConvertEquals(XNAVector2.Zero, ANXVector2.Zero, "Zero");
         }
-
         #endregion
 
         #region Constructors
-
         [Test, TestCaseSource("ninefloats")]
-        public void contructor1(float x, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void Contructor1(float x, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7,
+            float nop8)
         {
             XNAVector2 xnaR = new XNAVector2(x);
-
             ANXVector2 anxR = new ANXVector2(x);
 
             AssertHelper.ConvertEquals(xnaR, anxR, "Constructor1");
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void contructor2(float x, float y, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void Contructor2(float x, float y, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7,
+            float nop8)
         {
             XNAVector2 xnaR = new XNAVector2(x, y);
-
             ANXVector2 anxR = new ANXVector2(x, y);
 
             AssertHelper.ConvertEquals(xnaR, anxR, "Constructor2");
         }
-
         #endregion
 
         #region Public Methods
-
         [Test, TestCaseSource("ninefloats")]
         public void Add(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
@@ -132,11 +121,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xna2 = new XNAVector2(x2, y2);
             XNAVector2 xna3 = new XNAVector2(x3, y3);
 
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anx2 = new ANXVector2(x2, y2);
             ANXVector2 anx3 = new ANXVector2(x3, y3);
-
 
             XNAVector2 xnaR = XNAVector2.Barycentric(xna1, xna2, xna3, amount1, amount2);
             ANXVector2 anxR = ANXVector2.Barycentric(anx1, anx2, anx3, amount1, amount2);
@@ -169,12 +156,10 @@ namespace ANX.Framework.TestCenter.Strukturen
             XNAVector2 xna1 = new XNAVector2(x1, y1);
             XNAVector2 xna2 = new XNAVector2(x2, y2);
             XNAVector2 xna3 = new XNAVector2(x3, y3);
-            XNAVector2 xna4 = new XNAVector2(x4, y4);
 
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anx2 = new ANXVector2(x2, y2);
             ANXVector2 anx3 = new ANXVector2(x3, y3);
-            ANXVector2 anx4 = new ANXVector2(x4, y4);
 
             XNAVector2 xnaR = XNAVector2.Clamp(xna1, xna2, xna3);
             ANXVector2 anxR = ANXVector2.Clamp(anx1, anx2, anx3);
@@ -191,14 +176,12 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anx2 = new ANXVector2(x2, y2);
 
-            float xnaR = XNAVector2.Distance(xna1, xna2);
-            float anxR = ANXVector2.Distance(anx1, anx2);
-
-            Assert.AreEqual(xnaR, anxR);
+            AssertHelper.ConvertEquals(XNAVector2.Distance(xna1, xna2), ANXVector2.Distance(anx1, anx2), "Distance");
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void DistanceSquared(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void DistanceSquared(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7,
+            float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
             XNAVector2 xna2 = new XNAVector2(x2, y2);
@@ -213,22 +196,19 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void DivideVectorDivider(float x1, float y1, float divider, float nop1, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void DivideVectorDivider(float x1, float y1, float divider, float nop1, float nop4, float nop5, float nop6,
+            float nop7, float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
-
-            XNAVector2 xnaR = XNAVector2.Divide(xna1, divider);
-            ANXVector2 anxR = ANXVector2.Divide(anx1, divider);
-
-            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorDivider");
+            AssertHelper.ConvertEquals(XNAVector2.Divide(xna1, divider), ANXVector2.Divide(anx1, divider),
+                "DivideVectorDivider");
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void DivideVectorVector(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void DivideVectorVector(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7,
+            float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
             XNAVector2 xna2 = new XNAVector2(x2, y2);
@@ -236,10 +216,7 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anx2 = new ANXVector2(x2, y2);
 
-            XNAVector2 xnaR = XNAVector2.Divide(xna1, xna2);
-            ANXVector2 anxR = ANXVector2.Divide(anx1, anx2);
-
-            AssertHelper.ConvertEquals(xnaR, anxR, "DivideVectorVector");
+            AssertHelper.ConvertEquals(XNAVector2.Divide(xna1, xna2), ANXVector2.Divide(anx1, anx2), "DivideVectorVector");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -251,25 +228,17 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anx2 = new ANXVector2(x2, y2);
 
-            float xnaR = XNAVector2.Dot(xna1, xna2);
-            float anxR = ANXVector2.Dot(anx1, anx2);
-
-            Assert.AreEqual(xnaR, anxR);
+            AssertHelper.ConvertEquals(XNAVector2.Dot(xna1, xna2), ANXVector2.Dot(anx1, anx2), "Dot");
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void GetHashCode(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void GetHashCode(float x1, float y1, float x2, float y2, float nop4, float nop5, float nop6, float nop7,
+            float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
-
-            float xnaR = xna1.GetHashCode();
-            float anxR = anx1.GetHashCode();
-
-            Assert.AreEqual(xnaR, anxR);
+            AssertHelper.ConvertEquals(xna1.GetHashCode(), anx1.GetHashCode(), "GetHashCode");
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -354,10 +323,10 @@ namespace ANX.Framework.TestCenter.Strukturen
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void MultiplyVectorFloat(float x1, float y1, float scale, float nop, float nop4, float nop5, float nop6, float nop7, float nop8)
+        public void MultiplyVectorFloat(float x1, float y1, float scale, float nop, float nop4, float nop5, float nop6,
+            float nop7, float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
             XNAVector2 xnaR = XNAVector2.Multiply(xna1, scale);
@@ -385,7 +354,6 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void Negate(float x1, float y1, float nop1, float nop2, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
             XNAVector2 xnaR = XNAVector2.Negate(xna1);
@@ -398,7 +366,6 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void NormalizeInstanz(float x1, float y1, float nop1, float nop2, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
             XNAVector2 xnaR = new XNAVector2(x1, y1);
-
             ANXVector2 anxR = new ANXVector2(x1, y1);
 
             xnaR.Normalize();
@@ -411,7 +378,6 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void NormalizeStatic(float x1, float y1, float nop1, float nop2, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
             XNAVector2 xnaR = XNAVector2.Normalize(xna1);
@@ -469,13 +435,9 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void ToString(float x1, float y1, float nop1, float nop2, float nop4, float nop5, float nop6, float nop7, float nop8)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-
             ANXVector2 anx1 = new ANXVector2(x1, y1);
 
-            String xnaR = xna1.ToString();
-            String anxR = anx1.ToString();
-
-            Assert.AreEqual(xnaR, anxR);
+            Assert.AreEqual(xna1.ToString(), anx1.ToString());
         }
 
         [Test, TestCaseSource("ninefloats")]
@@ -483,11 +445,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
             XNAVector2 xnaResult;
-            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) * XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) *
+                XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
 
             ANXVector2 anx1 = new ANXVector2(x1, y1);
             ANXVector2 anxResult;
-            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) *
+                ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
 
             XNAVector2.Transform(ref xna1, ref xnaMatrix, out xnaResult);
             ANXVector2.Transform(ref anx1, ref anxMatrix, out anxResult);
@@ -499,21 +463,25 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void StaticTransform2(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3, float nop4, float nop5)
         {
             XNAVector2 xna1 = new XNAVector2(x1, y1);
-            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) * XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
+            XNAMatrix xnaMatrix = XNAMatrix.CreateRotationX(nop1) * XNAMatrix.CreateRotationY(nop2) *
+                XNAMatrix.CreateRotationZ(nop3) * XNAMatrix.CreateTranslation(nop4, nop5, nop1);
             XNAVector2 xnaResult = XNAVector2.Transform(xna1, xnaMatrix);
 
             ANXVector2 anx1 = new ANXVector2(x1, y1);
-            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) *
+                ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
             ANXVector2 anxResult = ANXVector2.Transform(anx1, anxMatrix);
 
             AssertHelper.ConvertEquals(xnaResult, anxResult, "StaticTransform2");
         }
 
         [Test, TestCaseSource("ninefloats")]
-        public void StaticTransform3_ANXonly(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3, float nop4, float nop5)
+        public void StaticTransform3_ANXonly(float x1, float y1, float x2, float y2, float nop1, float nop2, float nop3,
+            float nop4, float nop5)
         {
             ANXVector2 anx1 = new ANXVector2(x1, y1);
-            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) * ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
+            ANXMatrix anxMatrix = ANXMatrix.CreateRotationX(nop1) * ANXMatrix.CreateRotationY(nop2) *
+                ANXMatrix.CreateRotationZ(nop3) * ANXMatrix.CreateTranslation(nop4, nop5, nop1);
 
             ANXVector2 anxResult1 = ANXVector2.Transform(anx1, anxMatrix);
             ANXVector2 anxResult2;
@@ -522,44 +490,6 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(anxResult1, anxResult2, "StaticTransform3_ANXonly");
         }
-
-/*
-        public static Vector2 Transform(Vector2 position, Matrix matrix)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(ref Vector2 position, ref Matrix matrix, out Vector2 result)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static Vector2 Transform(Vector2 value, Quaternion rotation)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vector2 result)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Matrix matrix, Vector2[] destinationArray, int destinationIndex, int length)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(Vector2[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector2[] destinationArray, int destinationIndex, int length)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(Vector2[] sourceArray, ref Matrix matrix, Vector2[] destinationArray)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        public static void Transform(Vector2[] sourceArray, ref Quaternion rotation, Vector2[] destinationArray)
-        {
-            throw new Exception("method has not yet been implemented");
-        }
-        #endregion
-
-*/
-
         #endregion
 
         #region Operators
@@ -699,7 +629,8 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("twentytwoFloats")]
         public void TransformStaticMatrix(
             float x, float y, float z,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44,
             float nop0, float nop1, float nop2)
         {
             XNAVector2 xnaVector = new XNAVector2(x, y);
@@ -718,7 +649,8 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void TransformStaticQuaternion(
             float x, float y, float z,
             float xQ, float yQ, float zQ, float wQ,
-            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11, float nop12, float nop13, float nop14)
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8,
+            float nop9, float nop10, float nop11, float nop12, float nop13, float nop14)
         {
             XNAVector2 xnaVector = new XNAVector2(x, y);
             XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
@@ -736,12 +668,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         public static void TransformStaticMatrixToDestination(
             float x1, float y1, float z1,
             float x2, float y2, float z2,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -757,12 +690,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float x1, float y1, float z1,
             float x2, float y2, float z2,
             float xQ, float yQ, float zQ, float wQ,
-            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8,
+            float nop9, float nop10, float nop11)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -777,12 +711,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         public static void TransformStaticMatrixToDestinationWithIndex(
             float x1, float y1, float z1,
             float x2, float y2, float z2,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -798,12 +733,13 @@ namespace ANX.Framework.TestCenter.Strukturen
             float x1, float y1, float z1,
             float x2, float y2, float z2,
             float xQ, float yQ, float zQ, float wQ,
-            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8, float nop9, float nop10, float nop11)
+            float nop0, float nop1, float nop2, float nop3, float nop4, float nop5, float nop6, float nop7, float nop8,
+            float nop9, float nop10, float nop11)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAQuaternion xnaQuaternion = new XNAQuaternion(xQ, yQ, zQ, wQ);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXQuaternion anxQuaternion = new ANXQuaternion(xQ, yQ, zQ, wQ);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -817,7 +753,8 @@ namespace ANX.Framework.TestCenter.Strukturen
         [Test, TestCaseSource("twentytwoFloats")]
         public void TransformNormalStatic(
             float x, float y, float z,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44,
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44,
             float nop0, float nop1, float nop2)
         {
             XNAVector2 xnaVector = new XNAVector2(x, y);
@@ -836,12 +773,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void TransformNormalStaticToDestination(
             float x1, float y1, float z1,
             float x2, float y2, float z2,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -856,12 +794,13 @@ namespace ANX.Framework.TestCenter.Strukturen
         public void TransformNormalStaticToDestinationWithIndex(
             float x1, float y1, float z1,
             float x2, float y2, float z2,
-            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+            float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32,
+            float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            XNAVector2[] xnaVector = new XNAVector2[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
+            XNAVector2[] xnaVector = new[] { new XNAVector2(x1, y1), new XNAVector2(x2, y2) };
             XNAMatrix xnaMatrix = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
-            ANXVector2[] anxVector = new ANXVector2[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
+            ANXVector2[] anxVector = new[] { new ANXVector2(x1, y1), new ANXVector2(x2, y2) };
             ANXMatrix anxMatrix = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
             XNAVector2[] xna = new XNAVector2[2];
@@ -871,8 +810,6 @@ namespace ANX.Framework.TestCenter.Strukturen
 
             AssertHelper.ConvertEquals(xna, anx, "TransformNormalStaticToDestinationWithIndex");
         }
-        #endregion
-
         #endregion
     }
 }

@@ -8,7 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
 	[PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     [Developer("Glatzemann")]
 	public class LaunchParameters : Dictionary<string, string>
 	{

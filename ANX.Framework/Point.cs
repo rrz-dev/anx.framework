@@ -10,7 +10,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct Point : IEquatable<Point>
 	{
 		#region Constants
@@ -47,19 +47,15 @@ namespace ANX.Framework
 		public override string ToString()
 		{
 			var culture = CultureInfo.CurrentCulture;
-			// This may look a bit more ugly, but String.Format should
-			// be avoided cause of it's bad performance!
-			return "{X:" + X.ToString(culture) +
-				" Y:" + Y.ToString(culture) + "}";
+			// This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
+			return "{X:" + X.ToString(culture) + " Y:" + Y.ToString(culture) + "}";
 		}
 		#endregion
 
 		#region Equals
 		public override bool Equals(Object obj)
 		{
-			return (obj is Point) ?
-				this.Equals((Point)obj) :
-				false;
+			return obj is Point && this.Equals((Point)obj);
 		}
 
 		public bool Equals(Point other)

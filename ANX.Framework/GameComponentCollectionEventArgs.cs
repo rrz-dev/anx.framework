@@ -2,7 +2,6 @@
 using System;
 using ANX.Framework.NonXNA.Development;
 
-
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -12,20 +11,15 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     [Developer("Glatzemann")]
     public class GameComponentCollectionEventArgs : EventArgs
     {
+        public IGameComponent GameComponent { get; private set; }
+
         public GameComponentCollectionEventArgs(IGameComponent gameComponent)
         {
-            this.GameComponent = gameComponent;
-        }
-
-        public IGameComponent GameComponent
-        {
-            get;
-            private set;
+            GameComponent = gameComponent;
         }
     }
-
 }

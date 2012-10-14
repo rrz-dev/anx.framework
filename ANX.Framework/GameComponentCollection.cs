@@ -12,49 +12,46 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
-    [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann, AstrorEnales")]
     public sealed class GameComponentCollection : Collection<IGameComponent>
     {
         #region Events
         public event EventHandler<GameComponentCollectionEventArgs> ComponentAdded;
         public event EventHandler<GameComponentCollectionEventArgs> ComponentRemoved;
-
         #endregion
-
-        public GameComponentCollection()
-        {
-            // nothing to do here
-        }
-
+        
         protected override void ClearItems()
         {
-            for (int i = 0; i < base.Count; i++)
+            for (int i = 0; i < Count; i++)
                 OnComponentRemoved(base[i]);
 
-            base.Clear();
+            base.ClearItems();
         }
 
-        protected new void InsertItem(int index, IGameComponent item)
+        protected override void InsertItem(int index, IGameComponent item)
         {
-            if (item == null)
-                throw new ArgumentNullException("item");
+            if (IndexOf(item) != -1)
+                throw new ArgumentException(
+                    "Cannot add the same game component to a game component collection multiple times.");
 
-            base.Insert(index, item);
-            OnComponentAdded(item);
+            base.InsertItem(index, item);
+            if(item != null)
+                OnComponentAdded(item);
         }
 
-        protected new void RemoveItem(int index)
+        protected override void RemoveItem(int index)
         {
             IGameComponent component = base[index];
-            base.Remove(component);
-            OnComponentRemoved(component);
+            base.RemoveItem(index);
+            if (component != null)
+                OnComponentRemoved(component);
         }
 
         protected override void SetItem(int index, IGameComponent item)
         {
-            base[index] = item;
-            OnComponentAdded(item);
+            throw new NotSupportedException(
+                "Cannot set a value using operator[] on GameComponentCollection. Use Add/Remove instead.");
         }
 
         private void OnComponentAdded(IGameComponent component)

@@ -10,7 +10,7 @@ namespace ANX.Framework
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, GinieDp")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct Rectangle : IEquatable<Rectangle>
     {
         #region fields
@@ -142,9 +142,9 @@ namespace ANX.Framework
         public void Contains(ref Rectangle value, out bool result)
         {
             result = value.X >= this.X &&
-						value.X + value.Width <= this.Right &&
-            value.Y >= this.Y &&
-            value.Y + this.Height <= this.Bottom;
+                value.X + value.Width <= this.Right &&
+                value.Y >= this.Y &&
+                value.Y + this.Height <= this.Bottom;
         }
 
         public override int GetHashCode()
@@ -193,20 +193,18 @@ namespace ANX.Framework
         {
             this.X += offsetX;
             this.Y += offsetY;
-
         }
+
         public void Offset(Point amount)
         {
             this.X += amount.X;
             this.Y += amount.Y;
-
         }
 
         public override string ToString()
         {
             var culture = CultureInfo.CurrentCulture;
-            // This may look a bit more ugly, but String.Format should
-            // be avoided cause of it's bad performance!
+            // This may look a bit more ugly, but String.Format should be avoided cause of it's bad performance!
             return "{X:" + X.ToString(culture) +
                 " Y:" + Y.ToString(culture) +
                 " Width:" + Width.ToString(culture) +
@@ -321,9 +319,9 @@ namespace ANX.Framework
                 }
             }
 
-            result = new Rectangle(x, y, w-x, h-y);
-
+            result = new Rectangle(x, y, w - x, h - y);
         }
+
         public static Rectangle Union(Rectangle value1, Rectangle value2)
         {
             Rectangle result;
@@ -349,14 +347,15 @@ namespace ANX.Framework
         #region IEquatable implementation
         public override bool Equals(Object obj)
         {
-            return (obj is Rectangle) ? this.Equals((Rectangle)obj) : false;
+            return obj is Rectangle && Equals((Rectangle)obj);
         }
+
         public bool Equals(Rectangle other)
         {
             return this.Height == other.Height &&
-							this.Width == other.Width &&
-							this.X == other.X &&
-							this.Y == other.Y;
+                this.Width == other.Width &&
+                this.X == other.X &&
+                this.Y == other.Y;
         }
         #endregion
 
@@ -369,6 +368,7 @@ namespace ANX.Framework
                 a.X == b.X &&
                 a.Y == b.Y;
         }
+
         public static bool operator !=(Rectangle a, Rectangle b)
         {
             // NOTE: Duplicated code is better than copying 4 floats around!
