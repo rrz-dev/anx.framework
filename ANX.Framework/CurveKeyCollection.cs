@@ -78,7 +78,7 @@ namespace ANX.Framework
             }
 
             int index = keys.BinarySearch(item);
-            if(index == -1)
+            if(index < 0)
             {
                 index = ~index;
                 keys.Insert(index, item);
