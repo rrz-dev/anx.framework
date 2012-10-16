@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -8,13 +9,12 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input
 {
-	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct KeyboardState
     {
-        #region Private
         private readonly KeyState[] keyState;
-		#endregion
 
 	    public KeyState this[Keys key]
 	    {
@@ -40,7 +40,16 @@ namespace ANX.Framework.Input
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            var results = new uint[8];
+            for (int index = 0; index < keyState.Length; index++)
+                if (keyState[index] == KeyState.Down)
+                {
+                    uint num = 1u << index;
+                    int resultIndex = index >> 5;
+                    results[resultIndex] |= num & 4294967295u;
+                }
+
+            return results.Aggregate(0, (current, u) => current ^ u.GetHashCode());
         }
 
         public override bool Equals(object obj)
@@ -49,32 +58,16 @@ namespace ANX.Framework.Input
         }
 
 	    public static bool operator ==(KeyboardState lhs, KeyboardState rhs)
+	    {
+	        return lhs.keyState.Length == rhs.keyState.Length && !lhs.keyState.Where((t, i) => t != rhs.keyState[i]).Any();
+	    }
+
+	    public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
         {
-            if (lhs.keyState.Length != rhs.keyState.Length)
-                return false;
-
-            for (int i = 0; i < lhs.keyState.Length; i++)
-                if (lhs.keyState[i] != rhs.keyState[i])
-                    return false;
-
-            return true;
+            return lhs.keyState.Length != rhs.keyState.Length || lhs.keyState.Where((t, i) => t != rhs.keyState[i]).Any();
         }
 
-        public static bool operator !=(KeyboardState lhs, KeyboardState rhs)
-		{
-			if (lhs.keyState.Length == rhs.keyState.Length)
-			{
-				for (int i = 0; i < lhs.keyState.Length; i++)
-					if (lhs.keyState[i] != rhs.keyState[i])
-						return true;
-
-				return false;
-			}
-
-			return true;
-        }
-
-        public Keys[] GetPressedKeys()
+	    public Keys[] GetPressedKeys()
         {
             var result = new List<Keys>();
             for (int i = 0; i < keyState.Length; ++i)
@@ -93,6 +86,5 @@ namespace ANX.Framework.Input
         {
             this.keyState[(int)key] = KeyState.Up;
         }
-
     }
 }

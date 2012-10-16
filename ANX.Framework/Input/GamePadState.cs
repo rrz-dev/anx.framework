@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -8,7 +9,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct GamePadState
     {
         #region Private
@@ -31,22 +33,14 @@ namespace ANX.Framework.Input
 			get { return this.dPad; }
 		}
 
-		public bool IsConnected
-		{
-			get;
-			internal set;
-		}
+	    public bool IsConnected { get; internal set; }
+	    public int PacketNumber { get; internal set; }
 
-		public int PacketNumber
-		{
-			get;
-			internal set;
-		}
-
-		public GamePadThumbSticks ThumbSticks
+	    public GamePadThumbSticks ThumbSticks
 		{
 			get { return this.thumbSticks; }
 		}
+
 		public GamePadTriggers Triggers
 		{
 			get { return this.triggers; }
@@ -60,9 +54,32 @@ namespace ANX.Framework.Input
             this.triggers = triggers;
             this.buttons = buttons;
 			this.dPad = dPad;
-			this.buttonsValue = this.buttons.Buttons | this.dPad.Buttons;
+
+            AddToBitfieldIfPressed(Input.Buttons.A, buttons.A);
+            AddToBitfieldIfPressed(Input.Buttons.B, buttons.B);
+            AddToBitfieldIfPressed(Input.Buttons.X, buttons.X);
+            AddToBitfieldIfPressed(Input.Buttons.Y, buttons.Y);
+            AddToBitfieldIfPressed(Input.Buttons.BigButton, buttons.BigButton);
+            AddToBitfieldIfPressed(Input.Buttons.Back, buttons.Back);
+            AddToBitfieldIfPressed(Input.Buttons.Start, buttons.Start);
+            AddToBitfieldIfPressed(Input.Buttons.RightStick, buttons.RightStick);
+            AddToBitfieldIfPressed(Input.Buttons.LeftStick, buttons.LeftStick);
+            AddToBitfieldIfPressed(Input.Buttons.RightShoulder, buttons.RightShoulder);
+            AddToBitfieldIfPressed(Input.Buttons.LeftShoulder, buttons.LeftShoulder);
+
+		    AddToBitfieldIfPressed(Input.Buttons.DPadUp, dPad.Up);
+		    AddToBitfieldIfPressed(Input.Buttons.DPadDown, dPad.Down);
+		    AddToBitfieldIfPressed(Input.Buttons.DPadLeft, dPad.Left);
+		    AddToBitfieldIfPressed(Input.Buttons.DPadRight, dPad.Right);
+		    
             this.IsConnected = true;
             this.PacketNumber = 0;
+        }
+
+        private void AddToBitfieldIfPressed(Buttons button, ButtonState state)
+        {
+            if (state == ButtonState.Pressed)
+                buttonsValue |= button;
         }
 
         public GamePadState(Vector2 leftThumbStick, Vector2 rightThumbStick, float leftTrigger, float rightTrigger,
@@ -72,11 +89,9 @@ namespace ANX.Framework.Input
             this.thumbSticks = new GamePadThumbSticks(leftThumbStick, rightThumbStick);
             this.triggers = new GamePadTriggers(leftTrigger, rightTrigger);
 
-            Buttons buttonField = 0;
-            for (int i = 0; i < buttons.Length; i++)
-                buttonField |= buttons[i];
-            
-			this.buttonsValue = buttonField;
+            Buttons buttonField = buttons.Aggregate<Buttons, Buttons>(0, (current, t) => current | t);
+
+            this.buttonsValue = buttonField;
             this.IsConnected = true;
             this.PacketNumber = 0;
 
@@ -86,25 +101,27 @@ namespace ANX.Framework.Input
 
         public override bool Equals(object obj)
         {
-            if (obj is GamePadState)
-                return this == (GamePadState)obj;
-
-            return false;
+            return obj is GamePadState && this == (GamePadState)obj;
         }
 
-        public static bool operator ==(GamePadState lhs, GamePadState rhs)
+	    public static bool operator ==(GamePadState lhs, GamePadState rhs)
         {
-            return lhs.buttonsValue == rhs.buttonsValue;
+            return lhs.IsConnected == rhs.IsConnected && lhs.PacketNumber == rhs.PacketNumber &&
+                lhs.thumbSticks == rhs.thumbSticks && lhs.triggers == rhs.triggers && lhs.buttons == rhs.buttons &&
+                lhs.dPad == rhs.dPad;
         }
 
         public static bool operator !=(GamePadState lhs, GamePadState rhs)
         {
-            return lhs.buttonsValue != rhs.buttonsValue;
+            return lhs.IsConnected != rhs.IsConnected || lhs.PacketNumber != rhs.PacketNumber ||
+                lhs.thumbSticks != rhs.thumbSticks || lhs.triggers != rhs.triggers || lhs.buttons != rhs.buttons ||
+                lhs.dPad != rhs.dPad;
         }
 
         public override int GetHashCode()
         {
-            return (int)buttonsValue;
+            return thumbSticks.GetHashCode() ^ triggers.GetHashCode() ^ (buttons.GetHashCode() ^ IsConnected.GetHashCode()) ^
+                (dPad.GetHashCode() ^ PacketNumber.GetHashCode());
         }
 
         public override string ToString()
@@ -114,12 +131,12 @@ namespace ANX.Framework.Input
 
 		public bool IsButtonDown(Buttons button)
 		{
-			return (this.buttonsValue & button) == button;
+			return (buttonsValue & button) == button;
 		}
 
 		public bool IsButtonUp(Buttons button)
 		{
-			return (this.buttonsValue & button) != button;
+			return (buttonsValue & button) != button;
 		}
     }
 }

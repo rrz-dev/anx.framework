@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -7,60 +8,69 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input
 {
-	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct GamePadDPad
-    {
-		public ButtonState Down { get; private set; }
-		public ButtonState Left { get; private set; }
-		public ButtonState Right { get; private set; }
-		public ButtonState Up { get; private set; }
-		internal Buttons Buttons { get; private set; }
+	{
+        private readonly ButtonState up;
+        private readonly ButtonState right;
+        private readonly ButtonState down;
+        private readonly ButtonState left;
+
+	    public ButtonState Down
+	    {
+	        get { return down; }
+	    }
+
+        public ButtonState Left
+        {
+            get { return left; }
+        }
+
+        public ButtonState Right
+        {
+            get { return right; }
+        }
+
+        public ButtonState Up
+        {
+            get { return up; }
+        }
 
         public GamePadDPad(ButtonState upValue, ButtonState downValue, ButtonState leftValue, ButtonState rightValue)
-			: this()
         {
-			Up = upValue;
-            Down = downValue;
-            Left = leftValue;
-            Right = rightValue;
-			AddToButtonsIfPressed(upValue, Buttons.DPadUp);
-			AddToButtonsIfPressed(downValue, Buttons.DPadDown);
-			AddToButtonsIfPressed(leftValue, Buttons.DPadLeft);
-			AddToButtonsIfPressed(rightValue, Buttons.DPadRight);
+			up = upValue;
+            down = downValue;
+            left = leftValue;
+            right = rightValue;
         }
 
 		internal GamePadDPad(Buttons buttons)
-			: this()
+            : this()
         {
-			Buttons = buttons;
-			Up = GetButtonStateFrom(Buttons.DPadUp);
-			Left = GetButtonStateFrom(Buttons.DPadLeft);
-			Down = GetButtonStateFrom(Buttons.DPadDown);
-			Right = GetButtonStateFrom(Buttons.DPadRight);
+			up = GetButtonStateFrom(buttons, Buttons.DPadUp);
+			left = GetButtonStateFrom(buttons, Buttons.DPadLeft);
+			down = GetButtonStateFrom(buttons, Buttons.DPadDown);
+			right = GetButtonStateFrom(buttons, Buttons.DPadRight);
         }
 
-		private ButtonState GetButtonStateFrom(Buttons button)
+        private ButtonState GetButtonStateFrom(Buttons buttons, Buttons button)
 		{
-			return (Buttons & button) == button ? ButtonState.Pressed : ButtonState.Released;
-		}
-
-		private void AddToButtonsIfPressed(ButtonState state, Buttons button)
-		{
-			Buttons |= (state == ButtonState.Pressed ? button : 0);
+            return (buttons & button) == button ? ButtonState.Pressed : ButtonState.Released;
 		}
 
         public override int GetHashCode()
         {
-            return (int)Buttons;
+            return HashHelper.GetGCHandleHashCode(this);
         }
 
         public override string ToString()
         {
-            string buttons = Up == ButtonState.Pressed ? "Up" : "";
-            buttons += Down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
-            buttons += Left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
-            buttons += Right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
+            string buttons = up == ButtonState.Pressed ? "Up" : "";
+            buttons += down == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Down" : "";
+            buttons += left == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Left" : "";
+            buttons += right == ButtonState.Pressed ? (buttons.Length > 0 ? " " : "") + "Right" : "";
 
             if (String.IsNullOrEmpty(buttons))
                 buttons = "None";
@@ -70,20 +80,17 @@ namespace ANX.Framework.Input
 
         public override bool Equals(object obj)
         {
-            if (obj is GamePadDPad)
-                return this == (GamePadDPad)obj;
-
-            return false;
+            return obj is GamePadDPad && this == (GamePadDPad)obj;
         }
 
-        public static bool operator ==(GamePadDPad lhs, GamePadDPad rhs)
+	    public static bool operator ==(GamePadDPad lhs, GamePadDPad rhs)
         {
-			return lhs.Buttons == rhs.Buttons;
+            return lhs.up == rhs.up && lhs.down == rhs.down && lhs.left == rhs.left && lhs.right == rhs.right;
         }
 
         public static bool operator !=(GamePadDPad lhs, GamePadDPad rhs)
         {
-			return lhs.Buttons != rhs.Buttons;
+            return lhs.up != rhs.up || lhs.down != rhs.down || lhs.left != rhs.left || lhs.right != rhs.right;
         }
     }
 }

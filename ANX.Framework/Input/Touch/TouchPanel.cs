@@ -8,7 +8,8 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input.Touch
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
 	[TestState(TestStateAttribute.TestState.Untested)]
 	public static class TouchPanel
 	{

@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -8,58 +9,114 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct GamePadButtons
-    {
+	{
+	    private readonly ButtonState a;
+        private readonly ButtonState b;
+        private readonly ButtonState back;
+        private readonly ButtonState big;
+        private readonly ButtonState leftShoulder;
+        private readonly ButtonState leftStick;
+        private readonly ButtonState rightShoulder;
+        private readonly ButtonState rightStick;
+        private readonly ButtonState start;
+        private readonly ButtonState x;
+        private readonly ButtonState y;
+
         #region Public
-		public ButtonState A { get; private set; }
-		public ButtonState B { get; private set; }
-		public ButtonState Back { get; private set; }
-		public ButtonState BigButton { get; private set; }
-		public ButtonState LeftShoulder { get; private set; }
-		public ButtonState LeftStick { get; private set; }
-		public ButtonState RightShoulder { get; private set; }
-		public ButtonState RightStick { get; private set; }
-		public ButtonState Start { get; private set; }
-		public ButtonState X { get; private set; }
-		public ButtonState Y { get; private set; }
-		internal Buttons Buttons { get; private set; }
+	    public ButtonState A
+	    {
+            get { return a; }
+	    }
+
+        public ButtonState B
+        {
+            get { return b; }
+        }
+
+        public ButtonState Back
+        {
+            get { return back; }
+        }
+
+        public ButtonState BigButton
+        {
+            get { return big; }
+        }
+
+        public ButtonState LeftShoulder
+        {
+            get { return leftShoulder; }
+        }
+
+        public ButtonState LeftStick
+        {
+            get { return leftStick; }
+        }
+
+        public ButtonState RightShoulder
+        {
+            get { return rightShoulder; }
+        }
+
+        public ButtonState RightStick
+        {
+            get { return rightStick; }
+        }
+
+        public ButtonState Start
+        {
+            get { return start; }
+        }
+
+        public ButtonState X
+        {
+            get { return x; }
+        }
+
+        public ButtonState Y
+        {
+            get { return y; }
+        }
 		#endregion
 
         public GamePadButtons(Buttons buttons)
 			: this()
         {
-            A = GetButtonState(buttons, Buttons.A);
-            B = GetButtonState(buttons, Buttons.B);
-            X = GetButtonState(buttons, Buttons.X);
-            Y = GetButtonState(buttons, Buttons.Y);
-			LeftStick = GetButtonState(buttons, Buttons.LeftStick);
-			RightStick = GetButtonState(buttons, Buttons.RightStick);
-			LeftShoulder = GetButtonState(buttons, Buttons.LeftShoulder);
-			RightShoulder = GetButtonState(buttons, Buttons.RightShoulder);
-			Back = GetButtonState(buttons, Buttons.Back);
-            Start = GetButtonState(buttons, Buttons.Start);
-			BigButton = GetButtonState(buttons, Buttons.BigButton);
-
-			Buttons = buttons;
+            a = GetButtonState(buttons, Buttons.A);
+            b = GetButtonState(buttons, Buttons.B);
+            x = GetButtonState(buttons, Buttons.X);
+            y = GetButtonState(buttons, Buttons.Y);
+			leftStick = GetButtonState(buttons, Buttons.LeftStick);
+			rightStick = GetButtonState(buttons, Buttons.RightStick);
+			leftShoulder = GetButtonState(buttons, Buttons.LeftShoulder);
+			rightShoulder = GetButtonState(buttons, Buttons.RightShoulder);
+			back = GetButtonState(buttons, Buttons.Back);
+            start = GetButtonState(buttons, Buttons.Start);
+			big = GetButtonState(buttons, Buttons.BigButton);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType() == typeof(GamePadButtons))
-                return this == (GamePadButtons)obj;
-
-            return false;
+            return obj is GamePadButtons && this == (GamePadButtons)obj;
         }
 
-        public static bool operator ==(GamePadButtons lhs, GamePadButtons rhs)
+	    public static bool operator ==(GamePadButtons lhs, GamePadButtons rhs)
         {
-			return lhs.Buttons == rhs.Buttons;
+            return lhs.a == rhs.a && lhs.b == rhs.b && lhs.x == rhs.x && lhs.y == rhs.y &&
+                lhs.leftShoulder == rhs.leftShoulder && lhs.leftStick == rhs.leftStick &&
+                lhs.rightShoulder == rhs.rightShoulder && lhs.rightStick == rhs.rightStick &&
+                lhs.back == rhs.back && lhs.start == rhs.start && lhs.big == rhs.big;
         }
 
         public static bool operator !=(GamePadButtons lhs, GamePadButtons rhs)
         {
-			return lhs.Buttons != rhs.Buttons;
+            return lhs.a != rhs.a || lhs.b != rhs.b || lhs.x != rhs.x || lhs.y != rhs.y ||
+                lhs.leftShoulder != rhs.leftShoulder || lhs.leftStick != rhs.leftStick ||
+                lhs.rightShoulder != rhs.rightShoulder || lhs.rightStick != rhs.rightStick ||
+                lhs.back != rhs.back || lhs.start != rhs.start || lhs.big != rhs.big;
         }
 
         private static ButtonState GetButtonState(Buttons buttons, Buttons button)
@@ -69,7 +126,7 @@ namespace ANX.Framework.Input
 
         public override int GetHashCode()
         {
-			return (int)Buttons;
+            return HashHelper.GetGCHandleHashCode(this);
         }
 
         public override string ToString()

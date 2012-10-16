@@ -1,7 +1,5 @@
 #region Using Statements
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
 using NUnit.Framework;
 #endregion // Using Statements
 
@@ -13,7 +11,6 @@ using ANXButtons = ANX.Framework.Input.Buttons;
 
 using XNAButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using ANXButtonState = ANX.Framework.Input.ButtonState;
-
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -147,14 +144,14 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             AssertHelper.ConvertEquals(xna.ToString(), anx.ToString(), "Start");
         }
 
-        //[TestCaseSource("buttonSample")]
-        //public void GetHashCode(int buttons)
-        //{
-        //    XNAGamePadButtons xna = new XNAGamePadButtons((XNAButtons)buttons);
-        //    ANXGamePadButtons anx = new ANXGamePadButtons((ANXButtons)buttons);
+        [TestCaseSource("buttonSample")]
+        public void GetHashCode(int buttons)
+        {
+            XNAGamePadButtons xna = new XNAGamePadButtons((XNAButtons)buttons);
+            ANXGamePadButtons anx = new ANXGamePadButtons((ANXButtons)buttons);
 
-        //    AssertHelper.ConvertEquals(xna.GetHashCode(), anx.GetHashCode(), "GetHashCode");
-        //}
+            AssertHelper.ConvertEquals(xna.GetHashCode(), anx.GetHashCode(), "GetHashCode");
+        }
 
         [TestCaseSource("buttonSample")]
         public void Equals(int buttons)

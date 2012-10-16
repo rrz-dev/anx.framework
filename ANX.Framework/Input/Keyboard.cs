@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
 	[PercentageComplete(100)]
+    [Developer("AstrorEnales")]
 	[TestState(TestStateAttribute.TestState.Tested)]
 	public static class Keyboard
 	{

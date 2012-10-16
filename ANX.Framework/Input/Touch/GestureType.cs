@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input.Touch
 {
     [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
 	[Flags]
 	public enum GestureType

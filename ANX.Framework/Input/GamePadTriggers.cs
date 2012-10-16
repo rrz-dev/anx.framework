@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -8,27 +9,37 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
 	public struct GamePadTriggers
-	{
-		public float Left { get; private set; }
-		public float Right { get; private set; }
+    {
+        private readonly float left;
+        private readonly float right;
+
+        public float Left
+        {
+            get { return left; }
+        }
+
+        public float Right
+        {
+            get { return right; }
+        }
 
 		public GamePadTriggers(float leftTrigger, float rightTrigger)
-			: this()
 		{
-			Left = MathHelper.Clamp(leftTrigger, 0f, 1f);
-			Right = MathHelper.Clamp(rightTrigger, 0f, 1f);
+            left = MathHelper.Clamp(leftTrigger, 0f, 1f);
+            right = MathHelper.Clamp(rightTrigger, 0f, 1f);
 		}
 
 		public override int GetHashCode()
-		{
-			return Left.GetHashCode() ^ Right.GetHashCode();
+        {
+            return HashHelper.GetGCHandleHashCode(this);
 		}
 
 		public override string ToString()
 		{
-			return String.Format("{{Left:{0} Right:{1}}}", Left, Right);
+            return String.Format("{{Left:{0} Right:{1}}}", left, right);
 		}
 
 		public override bool Equals(object obj)
@@ -38,12 +49,12 @@ namespace ANX.Framework.Input
 
 	    public static bool operator ==(GamePadTriggers lhs, GamePadTriggers rhs)
 		{
-			return lhs.Left == rhs.Left && lhs.Right == rhs.Right;
+            return lhs.left == rhs.left && lhs.right == rhs.right;
 		}
 
 		public static bool operator !=(GamePadTriggers lhs, GamePadTriggers rhs)
 		{
-			return lhs.Left != rhs.Left || lhs.Right != rhs.Right;
+            return lhs.left != rhs.left || lhs.right != rhs.right;
 		}
 	}
 }

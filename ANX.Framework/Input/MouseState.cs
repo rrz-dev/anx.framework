@@ -11,7 +11,8 @@ namespace ANX.Framework.Input
 	[Serializable]
 #endif
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	public struct MouseState
 	{
 		public ButtonState LeftButton { get; private set; }
@@ -63,13 +64,10 @@ namespace ANX.Framework.Input
 
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is MouseState)
-				return this == (MouseState)obj;
-
-			return false;
+		    return obj is MouseState && this == (MouseState)obj;
 		}
 
-		public override int GetHashCode()
+	    public override int GetHashCode()
 		{
 			return X.GetHashCode() ^ Y.GetHashCode() ^ LeftButton.GetHashCode() ^ RightButton.GetHashCode() ^
 				MiddleButton.GetHashCode() ^ XButton1.GetHashCode() ^ XButton2.GetHashCode() ^ ScrollWheelValue.GetHashCode();

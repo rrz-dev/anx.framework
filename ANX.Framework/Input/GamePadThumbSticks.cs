@@ -1,4 +1,5 @@
 using System;
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 // This file is part of the ANX.Framework created by the
@@ -7,14 +8,13 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input
 {
-	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [PercentageComplete(100)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct GamePadThumbSticks
     {
-        #region Private
-        private Vector2 left;
-        private Vector2 right;
-		#endregion
+        private readonly Vector2 left;
+        private readonly Vector2 right;
 
 		public Vector2 Left
 		{
@@ -49,7 +49,7 @@ namespace ANX.Framework.Input
 
         public override int GetHashCode()
         {
-            return left.GetHashCode() ^ right.GetHashCode();
+            return HashHelper.GetGCHandleHashCode(this);
         }
 
         public override string ToString()

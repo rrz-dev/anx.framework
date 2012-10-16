@@ -421,6 +421,7 @@
     <Compile Include="NonXNA\Development\TestStateAttribute.cs" />
     <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
     <Compile Include="NonXNA\EffectSourceLanguage.cs" />
+    <Compile Include="NonXNA\HashHelper.cs" />
     <Compile Include="NonXNA\InputDeviceFactory.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePadCreator.cs" />
     <Compile Include="NonXNA\InputSystem\IKeyboard.cs" />

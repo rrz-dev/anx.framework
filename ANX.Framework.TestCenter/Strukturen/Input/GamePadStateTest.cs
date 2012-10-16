@@ -1,9 +1,6 @@
 #region Using Statements
 using System;
-using System.IO;
-using ANX.Framework.NonXNA;
 using NUnit.Framework;
-using ANX.Framework; 
 #endregion // Using Statements
 
 #region Using TestStatements
@@ -63,36 +60,92 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
         #endregion
 
         [TestCaseSource("Stats16")]
-        public void IsButtonDown(int i1,float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
+        public void IsButtonDown(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue,
+            ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2,
+            XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
         {
-            XNAGamePadState xna = new XNAGamePadState(new XNAGamePadThumbSticks(new XNAVector2(f1,f2),new XNAVector2(f3,f4)),new XNAGamePadTriggers(f5,f6),new XNAGamePadButtons((XNAButtons)i1),new XNAGamePadDPad(upValue2,downValue2,leftValue2,rightValue2));
-            ANXGamePadState anx = new ANXGamePadState(new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)), new ANXGamePadTriggers(f5, f6), new ANXGamePadButtons((ANXButtons)i1), new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
+            var xna = new XNAGamePadState(
+                new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)),
+                new XNAGamePadTriggers(f5, f6),
+                new XNAGamePadButtons((XNAButtons)i1),
+                new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
+
+            var anx = new ANXGamePadState(
+                new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)),
+                new ANXGamePadTriggers(f5, f6),
+                new ANXGamePadButtons((ANXButtons)i1),
+                new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
 
             AssertHelper.ConvertEquals(xna.IsButtonDown(XNAButtons.A), anx.IsButtonDown(ANXButtons.A), "IsButtonDown");
         }
+
         [TestCaseSource("Stats16")]
-        public void IsButtonUp(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
+        public void IsButtonUp(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue,
+            ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2,
+            XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
         {
-            XNAGamePadState xna = new XNAGamePadState(new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)), new XNAGamePadTriggers(f5, f6), new XNAGamePadButtons((XNAButtons)i1), new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
-            ANXGamePadState anx = new ANXGamePadState(new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)), new ANXGamePadTriggers(f5, f6), new ANXGamePadButtons((ANXButtons)i1), new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
+            var xna = new XNAGamePadState(
+                new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)),
+                new XNAGamePadTriggers(f5, f6),
+                new XNAGamePadButtons((XNAButtons)i1),
+                new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
+
+            var anx = new ANXGamePadState(
+                new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)),
+                new ANXGamePadTriggers(f5, f6),
+                new ANXGamePadButtons((ANXButtons)i1),
+                new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
 
             AssertHelper.ConvertEquals(xna.IsButtonUp(XNAButtons.A), anx.IsButtonUp(ANXButtons.A), "IsButtonUp");
         }
+
         [TestCaseSource("Stats16")]
-        public void IsConnected(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue, ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2, XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
+        public void IsConnected(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue,
+            ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2,
+            XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
         {
-            XNAGamePadState xna = new XNAGamePadState(new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)), new XNAGamePadTriggers(f5, f6), new XNAGamePadButtons((XNAButtons)i1), new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
-            ANXGamePadState anx = new ANXGamePadState(new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)), new ANXGamePadTriggers(f5, f6), new ANXGamePadButtons((ANXButtons)i1), new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
+            var xna = new XNAGamePadState(
+                new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)),
+                new XNAGamePadTriggers(f5, f6),
+                new XNAGamePadButtons((XNAButtons)i1),
+                new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
+
+            var anx = new ANXGamePadState(
+                new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)),
+                new ANXGamePadTriggers(f5, f6),
+                new ANXGamePadButtons((ANXButtons)i1),
+                new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
 
             AssertHelper.ConvertEquals(xna.IsConnected, anx.IsConnected, "IsConnected");
         }
+
         [Test]
         public void IsConnected2()
         {
-            XNAGamePadState xna = new XNAGamePadState();
-            ANXGamePadState anx = new ANXGamePadState();
+            var xna = new XNAGamePadState();
+            var anx = new ANXGamePadState();
 
             AssertHelper.ConvertEquals(xna.IsConnected, anx.IsConnected, "IsConnected2");
+        }
+
+        [TestCaseSource("Stats16")]
+        public void GetHashCode(int i1, float f1, float f2, float f3, float f4, float f5, float f6, ANXButtonState upValue,
+            ANXButtonState downValue, ANXButtonState leftValue, ANXButtonState rightValue, XNAButtonState upValue2,
+            XNAButtonState downValue2, XNAButtonState leftValue2, XNAButtonState rightValue2)
+        {
+            var xna = new XNAGamePadState(
+                new XNAGamePadThumbSticks(new XNAVector2(f1, f2), new XNAVector2(f3, f4)),
+                new XNAGamePadTriggers(f5, f6),
+                new XNAGamePadButtons((XNAButtons)i1),
+                new XNAGamePadDPad(upValue2, downValue2, leftValue2, rightValue2));
+
+            var anx = new ANXGamePadState(
+                new ANXGamePadThumbSticks(new ANXVector2(f1, f2), new ANXVector2(f3, f4)),
+                new ANXGamePadTriggers(f5, f6),
+                new ANXGamePadButtons((ANXButtons)i1),
+                new ANXGamePadDPad(upValue, downValue, leftValue, rightValue));
+
+            AssertHelper.ConvertEquals(xna.GetHashCode(), anx.GetHashCode(), "GetHashCode");
         }
     }
 }
