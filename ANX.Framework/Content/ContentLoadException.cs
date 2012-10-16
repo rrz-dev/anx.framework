@@ -14,7 +14,9 @@ namespace ANX.Framework.Content
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
     [SerializableAttribute]
 #endif
+    [PercentageComplete(95)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class ContentLoadException : Exception
     {
         /// <summary>

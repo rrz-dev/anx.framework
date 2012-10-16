@@ -16,6 +16,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ContentReader : BinaryReader
     {
         private GraphicsProfile graphicsProfile;

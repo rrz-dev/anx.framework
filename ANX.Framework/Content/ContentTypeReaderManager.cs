@@ -13,6 +13,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ContentTypeReaderManager
     {
         private ContentReader contentReader;

@@ -11,15 +11,13 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ContentSerializerTypeVersionAttribute : Attribute
     {
-        public int TypeVersion
-        {
-            get;
-            private set;
-        }
-        
+        public int TypeVersion { get; private set; }
+
         public ContentSerializerTypeVersionAttribute(int typeVersion)
         {
             this.TypeVersion = typeVersion;

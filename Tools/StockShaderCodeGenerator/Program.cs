@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Diagnostics;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -22,13 +21,14 @@ namespace StockShaderCodeGenerator
                 }
             }
 
-            Program.TraceListener.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " + Assembly.GetExecutingAssembly().GetName().Version);
+            TraceListener.WriteLine("ANX.Framework StockShaderCodeGenerator (sscg) Version " +
+                Assembly.GetExecutingAssembly().GetName().Version);
 
             string buildFile;
 
             if (args.Length < 1)
             {
-                Program.TraceListener.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
+                TraceListener.WriteLine("No command line arguments provided. Trying to load build.xml from current directory.");
                 buildFile = "build.xml";
             }
             else
@@ -36,7 +36,7 @@ namespace StockShaderCodeGenerator
                 buildFile = args[0];
             }
 
-            Program.TraceListener.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
+            TraceListener.WriteLine("Creating configuration using '{0}' configuration file.", buildFile);
 
             Configuration.LoadConfiguration(buildFile);
 
@@ -48,7 +48,7 @@ namespace StockShaderCodeGenerator
                 }
                 else
                 {
-                    Program.TraceListener.WriteLine("error while compiling shaders. Code generation skipped...");
+                    TraceListener.WriteLine("error while compiling shaders. Code generation skipped...");
                 }
             }
         }

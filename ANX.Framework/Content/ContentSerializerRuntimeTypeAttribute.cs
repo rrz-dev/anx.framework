@@ -11,14 +11,12 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ContentSerializerRuntimeTypeAttribute : Attribute
     {
-        public string RuntimeType
-        {
-            get;
-            private set;
-        }
+        public string RuntimeType { get; private set; }
 
         public ContentSerializerRuntimeTypeAttribute(string runtimeType)
         {

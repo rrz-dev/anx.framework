@@ -13,6 +13,7 @@ namespace ANX.Framework.Content
 #if !WINDOWSMETRO
 
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class ReflectiveReader<T> : ContentTypeReader
     {
         private int typeVersion;

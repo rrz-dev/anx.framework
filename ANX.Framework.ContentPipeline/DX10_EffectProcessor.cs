@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using ANX.Framework.NonXNA.RenderSystem;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using ANX.RenderSystem.Windows.DX10;
 

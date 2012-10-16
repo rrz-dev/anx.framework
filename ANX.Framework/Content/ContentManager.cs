@@ -11,6 +11,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class ContentManager : IDisposable
 	{
 		#region Constants

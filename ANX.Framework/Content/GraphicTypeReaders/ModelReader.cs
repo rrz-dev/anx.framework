@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using System;
 using ANX.Framework.Graphics;
-using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -12,25 +11,13 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class ModelReader : ContentTypeReader<Model>
     {
         protected internal override Model Read(ContentReader input, Model existingInstance)
         {
-            IServiceProvider service = input.ContentManager.ServiceProvider;
-
-            var rfc = service.GetService(typeof(IRenderSystemCreator)) as IRenderSystemCreator;
-            if (rfc == null)
-            {
-                throw new ContentLoadException("Service not found IRenderFrameworkCreator");
-            }
-
-            var gds = service.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
-            if (gds == null)
-            {
-                throw new ContentLoadException("Service not found IGraphicsDeviceService");
-            }
-
             ModelBoneCollection bones = ReadBones(input);
             ModelMeshCollection meshes = ReadMeshes(input, bones);
             ModelBone rootBone = ReadBoneReference(input, bones);
@@ -69,15 +56,7 @@ namespace ANX.Framework.Content
 
         private int ReadBoneIndex(ContentReader reader, int bones)
         {
-            int index = 0;
-            if (bones < 255)
-            {
-                index = (int)reader.ReadByte();
-            }
-            else
-            {
-                index = (int)reader.ReadInt32();
-            }
+            int index = bones < 255 ? reader.ReadByte() : reader.ReadInt32();
             return index - 1;
         }
 

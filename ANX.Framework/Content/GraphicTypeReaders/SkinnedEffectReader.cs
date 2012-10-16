@@ -10,7 +10,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class SkinnedEffectReader : ContentTypeReader<SkinnedEffect>
     {
         protected internal override SkinnedEffect Read(ContentReader input, SkinnedEffect existingInstance)

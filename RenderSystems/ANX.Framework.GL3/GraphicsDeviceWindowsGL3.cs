@@ -246,7 +246,12 @@ namespace ANX.RenderSystem.GL3
 		#region DrawIndexedPrimitives
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
 			int startIndex, int primitiveCount, IndexBuffer indexBuffer)
-		{
+        {
+            if (indexBuffer != null)
+            {
+                SetIndexBuffer(indexBuffer);
+            }
+
 			// TODO: baseVertex, minVertexIndex, numVertices, startIndex
 			DrawElementsType elementsType = boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
 				DrawElementsType.UnsignedShort :
@@ -264,7 +269,12 @@ namespace ANX.RenderSystem.GL3
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
 				int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
-		{
+        {
+            if (indexBuffer != null)
+            {
+                SetIndexBuffer(indexBuffer);
+            }
+
 			//GL.DrawArraysInstanced(
 			//  DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
 			//  baseVertex, numVertices, instanceCount);

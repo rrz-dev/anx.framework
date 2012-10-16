@@ -10,8 +10,10 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class ContentSerializerIgnoreAttribute : Attribute
 	{
 	}

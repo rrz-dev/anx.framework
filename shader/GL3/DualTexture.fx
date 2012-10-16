@@ -6,7 +6,7 @@ vertexglobal
 {
 	uniform vec4 DiffuseColor;
 	uniform vec4 FogVector;
-    uniform mat4 WorldViewProj;
+  uniform mat4 WorldViewProj;
 }
 
 vertexshaders
@@ -24,7 +24,7 @@ vertexshaders
     void main( )
     {
       gl_Position = WorldViewProj * pos;
-	  diffuse = DiffuseColor;
+      diffuse = DiffuseColor;
       specular = vec4(0, 0, 0, saturate(dot(pos, FogVector)));
       diffuseTexCoord = tex;
       diffuseTexCoord2 = tex2;
@@ -43,7 +43,7 @@ vertexshaders
     void main( )
     {
       gl_Position = WorldViewProj * pos;
-	  diffuse = DiffuseColor;
+      diffuse = DiffuseColor;
       diffuseTexCoord = tex;
       diffuseTexCoord2 = tex2;
     }
@@ -63,7 +63,7 @@ vertexshaders
     void main( )
     {
       gl_Position = WorldViewProj * pos;
-	  diffuse = DiffuseColor * col;
+      diffuse = DiffuseColor * col;
       specular = vec4(0, 0, 0, saturate(dot(pos, FogVector)));
       diffuseTexCoord = tex;
       diffuseTexCoord2 = tex2;
@@ -83,7 +83,7 @@ vertexshaders
     void main( )
     {
       gl_Position = WorldViewProj * pos;
-	  diffuse = DiffuseColor * col;
+      diffuse = DiffuseColor * col;
       diffuseTexCoord = tex;
       diffuseTexCoord2 = tex2;
     }
@@ -107,11 +107,11 @@ fragmentshaders
     varying vec2 diffuseTexCoord2;
     void main( )
     {
-	  vec4 color = texture2D(Texture, diffuseTexCoord);
-	  vec4 overlay = texture2D(Texture2, diffuseTexCoord2);
-	  color.rgb *= 2;
-	  color *= overlay * diffuse;
-	  color.rgb = lerp(color.rgb, FogColor * color.a, specular.w);
+      vec4 color = texture2D(Texture, diffuseTexCoord);
+      vec4 overlay = texture2D(Texture2, diffuseTexCoord2);
+      color.rgb *= 2;
+      color *= overlay * diffuse;
+      color.rgb = lerp(color.rgb, FogColor * color.a, specular.w);
       gl_FragColor = color;
     }
   }
@@ -123,10 +123,10 @@ fragmentshaders
     varying vec2 diffuseTexCoord2;
     void main( )
     {
-	  vec4 color = texture2D(Texture, diffuseTexCoord);
-	  vec4 overlay = texture2D(Texture2, diffuseTexCoord2);
-	  color.rgb *= 2;
-	  color *= overlay * diffuse;
+      vec4 color = texture2D(Texture, diffuseTexCoord);
+      vec4 overlay = texture2D(Texture2, diffuseTexCoord2);
+      color.rgb *= 2;
+      color *= overlay * diffuse;
       gl_FragColor = color;
     }
   }

@@ -11,7 +11,9 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class ContentSerializerAttribute : Attribute
     {
         public string ElementName { get; set; }
@@ -20,25 +22,22 @@ namespace ANX.Framework.Content
 
         public bool Optional { get; set; }
 
-        private bool allowNull = true;
-        public bool AllowNull
-        {
-            get { return this.allowNull; }
-            set { this.allowNull = value; }
-        }
+        public bool AllowNull { get; set; }
 
         public bool SharedResource { get; set; }
 
         private string collectionItemName;
+
+        public ContentSerializerAttribute()
+        {
+            AllowNull = true;
+        }
+
         public string CollectionItemName
         {
             get
             {
-                if (string.IsNullOrEmpty(this.collectionItemName))
-                {
-                    return "Item";
-                }
-                return this.collectionItemName;
+                return string.IsNullOrEmpty(this.collectionItemName) ? "Item" : this.collectionItemName;
             }
             set
             {
@@ -65,7 +64,7 @@ namespace ANX.Framework.Content
                 ElementName = this.ElementName,
                 FlattenContent = this.FlattenContent,
                 Optional = this.Optional,
-                allowNull = this.allowNull,
+                AllowNull = this.AllowNull,
                 SharedResource = this.SharedResource,
                 collectionItemName = this.collectionItemName
             };

@@ -10,7 +10,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(70)]
+    [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class RenderTarget2D : Texture2D, IDynamicGraphicsResource
 	{
@@ -90,18 +90,16 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			throw new NotImplementedException();
-		}
+        protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+        {
+            base.Dispose(false);
+        }
 
-		void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
+        void IDynamicGraphicsResource.SetContentLost(bool isContentLost)
 		{
 			this.IsContentLost = isContentLost;
 			if (isContentLost)
 				raise_ContentLost(this, EventArgs.Empty);
-
-			throw new NotImplementedException();
 		}
 
 		protected void raise_ContentLost(object sender, EventArgs args)

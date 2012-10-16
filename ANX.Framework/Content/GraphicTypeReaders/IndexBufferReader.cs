@@ -2,7 +2,6 @@
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
 
-
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
@@ -11,7 +10,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class IndexBufferReader : ContentTypeReader<IndexBuffer>
     {
         protected internal override IndexBuffer Read(ContentReader input, IndexBuffer existingInstance)

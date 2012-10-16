@@ -7,27 +7,21 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
-	[AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class)]
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class ContentSerializerCollectionItemNameAttribute : Attribute
 	{
-		private string collectionItemName;
+	    public string CollectionItemName { get; private set; }
 
-		public string CollectionItemName
-		{
-			get
-			{
-				return this.collectionItemName;
-			}
-		}
-
-		public ContentSerializerCollectionItemNameAttribute(string collectionItemName)
+	    public ContentSerializerCollectionItemNameAttribute(string collectionItemName)
 		{
 			if (string.IsNullOrEmpty(collectionItemName))
 			{
 				throw new ArgumentNullException("collectionItemName");
 			}
-			this.collectionItemName = collectionItemName;
+			this.CollectionItemName = collectionItemName;
 		}
 	}
 }

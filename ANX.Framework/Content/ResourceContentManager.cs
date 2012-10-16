@@ -9,13 +9,14 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(80)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
 	public class ResourceContentManager : ContentManager
 	{
-		private ResourceManager resource;
+		private readonly ResourceManager resource;
 
-		public ResourceContentManager(IServiceProvider servicesProvider,
-			ResourceManager resource)
+		public ResourceContentManager(IServiceProvider servicesProvider, ResourceManager resource)
 			: base(servicesProvider)
 		{
 			if (resource == null)

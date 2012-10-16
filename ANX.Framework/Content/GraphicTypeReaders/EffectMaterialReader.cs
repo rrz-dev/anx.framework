@@ -12,7 +12,9 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content
 {
+    [PercentageComplete(100)]
     [Developer("GinieDP")]
+    [TestState(TestStateAttribute.TestState.Untested)]
     public class EffectMaterialReader : ContentTypeReader<EffectMaterial>
     {
         protected internal override EffectMaterial Read(ContentReader input, EffectMaterial existingInstance)
