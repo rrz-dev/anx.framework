@@ -1,5 +1,9 @@
+#region Using Statements
+using System;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.RenderSystem;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -8,6 +12,7 @@ using ANX.Framework.NonXNA.RenderSystem;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public abstract class Texture : GraphicsResource
     {

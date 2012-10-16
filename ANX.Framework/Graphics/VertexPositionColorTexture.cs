@@ -1,5 +1,9 @@
+#region Using Statements
 using System;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,19 +11,26 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(95)]
+    [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public struct VertexPositionColorTexture : IVertexType
-	{
-		public Vector3 Position;
+    {
+        #region Private Members
+        public Vector3 Position;
 		public Color Color;
 		public Vector2 TextureCoordinate;
 
-		public static readonly VertexDeclaration VertexDeclaration;
+        #endregion
+
+        public static readonly VertexDeclaration VertexDeclaration;
 
 		VertexDeclaration IVertexType.VertexDeclaration
 		{
-			get { return VertexDeclaration; }
+			get 
+            { 
+                return VertexDeclaration; 
+            }
 		}
 
 		public VertexPositionColorTexture(Vector3 position, Color color, Vector2 textureCoordinate)
@@ -44,7 +55,7 @@ namespace ANX.Framework.Graphics
 
 		public override int GetHashCode()
 		{
-			throw new NotImplementedException();
+            return HashHelper.GetGCHandleHashCode(this);
 		}
 
 		public override string ToString()
@@ -54,22 +65,26 @@ namespace ANX.Framework.Graphics
 
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is VertexPositionColorTexture)
-				return this == (VertexPositionColorTexture)obj;
+            if (obj != null && obj is VertexPositionColorTexture)
+            {
+                return this == (VertexPositionColorTexture)obj;
+            }
 
 			return false;
 		}
 
 		public static bool operator ==(VertexPositionColorTexture lhs, VertexPositionColorTexture rhs)
 		{
-			return lhs.Color.Equals(rhs.Color) && lhs.Position.Equals(rhs.Position) &&
-				lhs.TextureCoordinate.Equals(rhs.TextureCoordinate);
+			return lhs.Color.Equals(rhs.Color) && 
+                   lhs.Position.Equals(rhs.Position) &&
+				   lhs.TextureCoordinate.Equals(rhs.TextureCoordinate);
 		}
 
 		public static bool operator !=(VertexPositionColorTexture lhs, VertexPositionColorTexture rhs)
 		{
-			return lhs.Color.Equals(rhs.Color) == false || lhs.Position.Equals(rhs.Position) == false ||
-				lhs.TextureCoordinate.Equals(rhs.TextureCoordinate) == false;
+			return lhs.Color.Equals(rhs.Color) == false || 
+                   lhs.Position.Equals(rhs.Position) == false ||
+				   lhs.TextureCoordinate.Equals(rhs.TextureCoordinate) == false;
 		}
 	}
 }

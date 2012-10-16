@@ -21,6 +21,7 @@ namespace ANX.Framework.TestCenter
         {
             return createFullTestSet<T>(numberOfElements, 0);
         }
+
         public static object[] createFullTestSet<T>(int numberOfElements, int numberOfRandomSets) where T : struct, IComparable<T>, IEquatable<T>, IConvertible
         {
             T maxValue = ReadStaticField<T>("MaxValue");
@@ -161,7 +162,11 @@ namespace ANX.Framework.TestCenter
         {
             return r.Next(min, max);
         }
-        //*/
+
+        public static int RandomInt
+        {
+            get { return r.Next(int.MaxValue); }
+        }
         #endregion
     }
 }

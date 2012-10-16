@@ -8,6 +8,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Net
 {
     [PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public class GamerJoinedEventArgs : EventArgs
     {

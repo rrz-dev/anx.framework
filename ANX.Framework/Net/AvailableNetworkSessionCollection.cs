@@ -10,6 +10,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Net
 {
     [PercentageComplete(0)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public sealed class AvailableNetworkSessionCollection :
 		ReadOnlyCollection<AvailableNetworkSession>, IDisposable

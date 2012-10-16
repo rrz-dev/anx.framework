@@ -94,7 +94,9 @@ namespace ANX.Framework.TestCenter
     {
         private const float epsilon = 0.0000001f;
         private const int complementBits = 8;
- 
+
+        private const string defaultFailText = "{0} failed: xna: ({1}) anx: ({2})";
+
         #region Compare
 
 /*
@@ -202,6 +204,23 @@ namespace ANX.Framework.TestCenter
         #endregion
 
         #region ConvertEquals
+        public static void ConvertEquals(Microsoft.Xna.Framework.Graphics.Viewport xna, ANX.Framework.Graphics.Viewport anx, String test)
+        {
+            if (xna.X == anx.X &&
+                xna.Y == anx.Y &&
+                xna.Width == anx.Width &&
+                xna.Height == anx.Height &&
+                xna.MinDepth == anx.MinDepth &&
+                xna.MaxDepth == anx.MaxDepth)
+            {
+                Assert.Pass(test + " passed");
+            }
+            else
+            {
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
+            }
+        }
+
         public static void ConvertEquals(Microsoft.Xna.Framework.PlaneIntersectionType xna, ANX.Framework.PlaneIntersectionType anx, String test)
         {
             if ((int)xna == (int)anx)
@@ -210,7 +229,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -222,7 +241,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -236,7 +255,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -251,7 +270,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -263,7 +282,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -275,7 +294,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna, anx));
+                Assert.Fail(String.Format(defaultFailText, test, xna, anx));
             }
         }
 
@@ -287,7 +306,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna: ({1}) anx: ({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -323,7 +342,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -377,7 +396,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
+                Assert.Fail(string.Format(defaultFailText, test, xnaString, anxString));
             }
         }
 
@@ -420,7 +439,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
+                Assert.Fail(string.Format(defaultFailText, test, xnaString, anxString));
             }
         }
 
@@ -465,7 +484,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(string.Format("{0} failed: xna({1}) anx({2})", test, xnaString, anxString));
+                Assert.Fail(string.Format(defaultFailText, test, xnaString, anxString));
             }
         }
 
@@ -482,7 +501,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -497,7 +516,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -532,7 +551,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -559,7 +578,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -574,7 +593,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -586,7 +605,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -598,7 +617,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -610,7 +629,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -622,7 +641,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -634,7 +653,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -646,7 +665,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
         
@@ -658,7 +677,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
         
@@ -670,7 +689,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -678,13 +697,13 @@ namespace ANX.Framework.TestCenter
         {
             if (!(AlmostEqual2sComplement(xna.Length, anx.Length, complementBits)))
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
             for (int i = 0; i < xna.Length; i++)
             {
                 if (!(Compare(xna[i], anx[i])))
                 {
-                    Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                    Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
                 }
             }
             Assert.Pass(test + " passed");
@@ -699,7 +718,7 @@ namespace ANX.Framework.TestCenter
             }
             else
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
             }
         }
 
@@ -707,13 +726,13 @@ namespace ANX.Framework.TestCenter
         {
             if (xna.Length!=anx.Length)
             {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.Length.ToString(), anx.Length.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.Length.ToString(), anx.Length.ToString()));
             }
             for (int i = 0; i < xna.Length; i++)
             {
                 if ((int)xna[i]!=(int)anx[i])
                 {
-                     Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna[i].ToString(), anx[i].ToString()));
+                     Assert.Fail(String.Format(defaultFailText, test, xna[i].ToString(), anx[i].ToString()));
                 }
             }
             Assert.Pass(test + " passed");
@@ -725,7 +744,7 @@ namespace ANX.Framework.TestCenter
                 xna.Y == anx.Y)
                 Assert.Pass(String.Format("{0} passed", test));
             else
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, xna.ToString(), anx.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, xna.ToString(), anx.ToString()));
         }
         public static void ConvertEquals(ANXMouseState referenz, ANXMouseState toTest, String test)
         {
@@ -734,7 +753,7 @@ namespace ANX.Framework.TestCenter
                 Assert.Pass(String.Format("{0} passed", test));
             }
             else {
-                Assert.Fail(String.Format("{0} failed: xna({1}) anx({2})", test, referenz.ToString(), toTest.ToString()));
+                Assert.Fail(String.Format(defaultFailText, test, referenz.ToString(), toTest.ToString()));
             }
         }
         #endregion

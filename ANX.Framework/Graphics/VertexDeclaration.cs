@@ -1,6 +1,9 @@
+#region Using Statements
 using System;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA.Development;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -9,6 +12,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class VertexDeclaration : GraphicsResource
 	{
@@ -24,8 +28,10 @@ namespace ANX.Framework.Graphics
 		{
 			this.elements = elements;
 
-			for (int i = 0; i < this.elements.Length; i++)
-				VertexStride += GetElementStride(this.elements[i].VertexElementFormat);
+            for (int i = 0; i < this.elements.Length; i++)
+            {
+                VertexStride += GetElementStride(this.elements[i].VertexElementFormat);
+            }
 		}
 
 		public VertexDeclaration(int vertexStride, params VertexElement[] elements)
