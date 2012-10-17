@@ -42,6 +42,7 @@
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Input.Touch, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="nunit.framework">
@@ -84,6 +85,8 @@
     <Compile Include="Strukturen\Input\MouseStateTest.cs" />
     <Compile Include="Strukturen\Input\MouseTest.cs" />
     <Compile Include="Strukturen\GameComponentCollectionTest.cs" />
+    <Compile Include="Strukturen\Input\Touch\TouchCollectionTest.cs" />
+    <Compile Include="Strukturen\Input\Touch\TouchLocationTest.cs" />
     <Compile Include="Strukturen\Media\MediaLibraryTests.cs" />
     <Compile Include="Strukturen\Net\NetworkSessionPropertiesTest.cs" />
     <Compile Include="Strukturen\Net\PacketReaderTest.cs" />
@@ -131,7 +134,6 @@
     <Folder Include="Strukturen\Content\PrimitiveTypeReaders\" />
     <Folder Include="Strukturen\Content\SystemTypeReaders\" />
     <Folder Include="Strukturen\Input\MotionSensing\" />
-    <Folder Include="Strukturen\Input\Touch\" />
     <Folder Include="Strukturen\NonXNA\InputSystem\" />
     <Folder Include="Strukturen\NonXNA\RenderSystem\" />
     <Folder Include="Strukturen\NonXNA\SoundSystem\" />

@@ -10,7 +10,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input.Touch
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
 	public struct TouchCollection : IList<TouchLocation>, ICollection<TouchLocation>, IEnumerable<TouchLocation>, IEnumerable
 	{
 		#region Enumerator (helper struct)
@@ -19,23 +20,17 @@ namespace ANX.Framework.Input.Touch
 			private TouchCollection collection;
 			private int position;
 
-			public TouchLocation Current
-			{
-				get
-				{
-					return this.collection[this.position];
-				}
-			}
+		    public TouchLocation Current
+		    {
+		        get { return this.collection[this.position]; }
+		    }
 
-			object IEnumerator.Current
-			{
-				get
-				{
-					return this.Current;
-				}
-			}
+		    object IEnumerator.Current
+		    {
+		        get { return this.Current; }
+		    }
 
-			internal Enumerator(TouchCollection collection)
+		    internal Enumerator(TouchCollection collection)
 			{
 				this.collection = collection;
 				this.position = -1;
@@ -63,125 +58,128 @@ namespace ANX.Framework.Input.Touch
 		}
 		#endregion
 
-		#region Private
-		private List<TouchLocation> locations;
-		#endregion
+	    private readonly TouchLocation[] locations;
+	    private readonly int numberOfUsedTouches;
+	    private readonly bool isConnected;
 
 		#region Public
-		public TouchLocation this[int index]
-		{
-			get
-			{
-				return locations[index];
-			}
-			set
-			{
-				locations[index] = value;
-			}
-		}
+	    public TouchLocation this[int index]
+	    {
+            get
+            {
+                if (index < 0 || index >= numberOfUsedTouches)
+                    throw new ArgumentOutOfRangeException("index");
 
-		public int Count
-		{
-			get
-			{
-				return locations.Count;
-			}
-		}
+                return locations[index];
+            }
+	        set { throw new NotSupportedException(); }
+	    }
 
-		public bool IsConnected
-		{
-			get
-			{
-				return true;
-			}
-		}
+	    public int Count
+	    {
+            get { return numberOfUsedTouches; }
+	    }
 
-		public bool IsReadOnly
-		{
-			get
-			{
-				return true;
-			}
-		}
-		#endregion
+	    public bool IsConnected
+	    {
+            get { return isConnected; }
+	    }
+
+	    public bool IsReadOnly
+	    {
+	        get { return true; }
+	    }
+	    #endregion
 
 		#region Constructor
 		public TouchCollection(TouchLocation[] touches)
-		{
-			locations = new List<TouchLocation>(touches);
-		}
+            : this()
+        {
+            if (touches == null)
+                throw new ArgumentNullException("touches");
+
+            if (touches.Length > 8)
+                throw new ArgumentOutOfRangeException("touches");
+
+            locations = new TouchLocation[8];
+
+            for (int index = 0; index < touches.Length; index++)
+                locations[index] = touches[index];
+
+		    isConnected = true;
+		    numberOfUsedTouches = touches.Length;
+
+            for (int index = numberOfUsedTouches; index < locations.Length; index++)
+                locations[index] = default(TouchLocation);
+        }
 		#endregion
 
 		#region IndexOf
 		public int IndexOf(TouchLocation item)
-		{
-			return locations.IndexOf(item);
+        {
+            for (int index = 0; index < numberOfUsedTouches; index++)
+                if (this[index] == item)
+                    return index;
+
+            return -1;
 		}
 		#endregion
 
-		#region Insert
+		#region Unsupported Methods
 		public void Insert(int index, TouchLocation item)
-		{
-			locations.Insert(index, item);
+        {
+            throw new NotSupportedException();
 		}
-		#endregion
 
-		#region RemoveAt
 		public void RemoveAt(int index)
-		{
-			locations.RemoveAt(index);
+        {
+            throw new NotSupportedException();
 		}
-		#endregion
 
-		#region Add
 		public void Add(TouchLocation item)
-		{
-			locations.Add(item);
+        {
+            throw new NotSupportedException();
 		}
-		#endregion
 
-		#region Clear
 		public void Clear()
-		{
-			locations.Clear();
+        {
+            throw new NotSupportedException();
 		}
+
+        public bool Remove(TouchLocation item)
+        {
+            throw new NotSupportedException();
+        }
 		#endregion
 
 		#region Contains
 		public bool Contains(TouchLocation item)
-		{
-			return locations.Contains(item);
+        {
+            return IndexOf(item) >= 0;
 		}
 		#endregion
 
 		#region CopyTo
 		public void CopyTo(TouchLocation[] array, int arrayIndex)
 		{
-			locations.CopyTo(array, arrayIndex);
+            Array.Copy(locations, 0, array, arrayIndex, Math.Min(locations.Length, array.Length));
 		}
 		#endregion
 
 		#region FindById
 		public bool FindById(int id, out TouchLocation touchLocation)
-		{
-			foreach (var location in locations)
-			{
-				if (location.Id == id)
-				{
-					touchLocation = location;
-					return true;
-				}
-			}
+        {
+            for (int index = 0; index < numberOfUsedTouches; index++)
+            {
+                if (this[index].Id == id)
+                {
+                    touchLocation = this[index];
+                    return true;
+                }
+            }
 
 			touchLocation = default(TouchLocation);
 			return false;
-		}
-		#endregion
-
-		#region Remove
-		public bool Remove(TouchLocation item)
-		{
-			return locations.Remove(item);
 		}
 		#endregion
 

@@ -8,7 +8,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input.Touch
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+	[TestState(TestStateAttribute.TestState.Tested)]
     public struct TouchLocation : IEquatable<TouchLocation>
     {
         #region Private
@@ -20,30 +21,21 @@ namespace ANX.Framework.Input.Touch
 		#endregion
 
 		#region Public
-		public int Id
-		{
-			get
-			{
-				return this.id;
-			}
-		}
+	    public int Id
+	    {
+	        get { return id; }
+	    }
 
-		public Vector2 Position
-		{
-			get
-			{
-				return this.pos;
-			}
-		}
+	    public Vector2 Position
+	    {
+	        get { return pos; }
+	    }
 
-		public TouchLocationState State
-		{
-			get
-			{
-				return this.state;
-			}
-		}
-		#endregion
+	    public TouchLocationState State
+	    {
+	        get { return state; }
+	    }
+	    #endregion
 
 		#region Constructor
 		public TouchLocation(int id, TouchLocationState state, Vector2 position)
@@ -93,31 +85,26 @@ namespace ANX.Framework.Input.Touch
 		#region ToString
         public override string ToString()
         {
-            return string.Format("{{Position:{0}}}", this.pos);
+            return string.Format("{{Position:{0}}}", pos);
         }
 		#endregion
 		
 		#region GetHashCode
         public override int GetHashCode()
         {
-            return this.id.GetHashCode() + this.pos.X.GetHashCode() + this.pos.Y.GetHashCode();
+            return id.GetHashCode() + pos.X.GetHashCode() + pos.Y.GetHashCode();
         }
 		#endregion
 		
 		#region Equals
-        public override bool Equals(Object other)
+        public override bool Equals(object other)
         {
-            if (other != null && other is TouchLocation)
-            {
-                return this == (TouchLocation)other;
-            }
-
-            return false;
+            return other is TouchLocation && this == (TouchLocation)other;
         }
 
-        public bool Equals(TouchLocation other)
+	    public bool Equals(TouchLocation other)
         {
-            return this.id == other.id && this.pos == other.pos && this.prevPos == other.prevPos;
+            return id == other.id && pos == other.pos && prevPos == other.prevPos;
         }
 		#endregion
 
