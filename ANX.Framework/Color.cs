@@ -14,10 +14,10 @@ namespace ANX.Framework
     public struct Color : IPackedVector<uint>, IPackedVector, IEquatable<Color>
     {
         #region Private Members
-			/// <summary>
-			/// Marcel NOTE: I made this internal and befriend the ANX.Framework
-			/// with the OGL Module so the datatype conversion can be made faster.
-			/// </summary>
+		/// <summary>
+		/// Marcel NOTE: I made this internal and befriend the ANX.Framework
+		/// with the OGL Module so the datatype conversion can be made faster.
+		/// </summary>
         internal uint packedValue;
 
         #endregion // Private Members

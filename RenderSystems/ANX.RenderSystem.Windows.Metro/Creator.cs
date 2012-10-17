@@ -184,56 +184,49 @@ namespace ANX.RenderSystem.Windows.Metro
 					IsDefaultAdapter = true
 				}
 			});
-			/*
-				SharpDX.DXGI.Factory factory = new Factory();
+            /*
+                SharpDX.DXGI.Factory factory = new Factory();
 
-				List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
-				DisplayModeCollection displayModeCollection = new DisplayModeCollection();
+                List<GraphicsAdapter> adapterList = new List<GraphicsAdapter>();
+                DisplayModeCollection displayModeCollection = new DisplayModeCollection();
 
-				for (int i = 0; i < factory.GetAdapterCount(); i++)
-				{
-						using (Adapter adapter = factory.GetAdapter(i))
-						{
-								GraphicsAdapter ga = new GraphicsAdapter();
-								//ga.CurrentDisplayMode = ;
-								//ga.Description = ;
-								ga.DeviceId = adapter.Description.DeviceId;
-								ga.DeviceName = adapter.Description.Description;
-								ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
-								//ga.IsWideScreen = ;
-								//ga.MonitorHandle = ;
-								ga.Revision = adapter.Description.Revision;
-								ga.SubSystemId = adapter.Description.SubsystemId;
-								//ga.SupportedDisplayModes = ;
-								ga.VendorId = adapter.Description.VendorId;
+                for (int i = 0; i < factory.GetAdapterCount(); i++)
+                {
+                        using (Adapter adapter = factory.GetAdapter(i))
+                        {
+                                GraphicsAdapter ga = new GraphicsAdapter();
+                                //ga.CurrentDisplayMode = ;
+                                //ga.Description = ;
+                                ga.DeviceId = adapter.Description.DeviceId;
+                                ga.DeviceName = adapter.Description.Description;
+                                ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
+                                //ga.IsWideScreen = ;
+                                //ga.MonitorHandle = ;
+                                ga.Revision = adapter.Description.Revision;
+                                ga.SubSystemId = adapter.Description.SubsystemId;
+                                //ga.SupportedDisplayModes = ;
+                                ga.VendorId = adapter.Description.VendorId;
 
-								using (Output adapterOutput = adapter.GetOutput(0))
-								{
-										foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
-										{
-												DisplayMode displayMode = new DisplayMode()
-												{
-														Format = FormatConverter.Translate(modeDescription.Format),
-														Width = modeDescription.Width,
-														Height = modeDescription.Height,
-														AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
-														TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
-												};
+                                using (Output adapterOutput = adapter.GetOutput(0))
+                                {
+                                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
+                                        {
+                                                var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height,
+                                                    DxFormatConverter.Translate(modeDescription.Format));
+                                                displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
+                                        }
+                                }
 
-												displayModeCollection[displayMode.Format] = new DisplayMode[] { displayMode };
-										}
-								}
+                                ga.SupportedDisplayModes = displayModeCollection;
 
-								ga.SupportedDisplayModes = displayModeCollection;
+                                adapterList.Add(ga);
+                        }
+                }
 
-								adapterList.Add(ga);
-						}
-				}
+                factory.Dispose();
 
-				factory.Dispose();
-
-				return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);*/
-		}
+                return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);*/
+        }
 		#endregion
 
 		#region CreateRenderTarget

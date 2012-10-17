@@ -189,17 +189,11 @@ namespace ANX.RenderSystem.Windows.DX11
 
                     foreach (Output adapterOutput in adapter.Outputs)
                     {
-                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced))
+                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm,
+                            DisplayModeEnumerationFlags.Interlaced))
                         {
-                            var displayMode = new DisplayMode
-                            {
-                                Format = DxFormatConverter.Translate(modeDescription.Format),
-                                Width = modeDescription.Width,
-                                Height = modeDescription.Height,
-                                AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
-                                TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
-                            };
-
+                            var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height,
+                                DxFormatConverter.Translate(modeDescription.Format));
                             resultingModes.Add(displayMode);
                         }
 

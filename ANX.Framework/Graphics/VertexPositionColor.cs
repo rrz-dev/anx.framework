@@ -11,9 +11,12 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+#if !WINDOWSMETRO      //TODO: search replacement for Win8
+    [Serializable]
+#endif
 	[PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
 	public struct VertexPositionColor : IVertexType
 	{
 		public Vector3 Position;
@@ -40,8 +43,10 @@ namespace ANX.Framework.Graphics
 				new VertexElement(12, VertexElementFormat.Color, VertexElementUsage.Color, 0),
 			};
 
-			VertexDeclaration = new VertexDeclaration(16, elements);
-			VertexDeclaration.Name = "VertexPositionColor.VertexDeclaration";
+		    VertexDeclaration = new VertexDeclaration(16, elements)
+		    {
+		        Name = "VertexPositionColor.VertexDeclaration"
+		    };
 		}
 
 		public override int GetHashCode()
@@ -56,13 +61,10 @@ namespace ANX.Framework.Graphics
 
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is VertexPositionColor)
-				return this == (VertexPositionColor)obj;
-
-			return false;
+		    return obj is VertexPositionColor && this == (VertexPositionColor)obj;
 		}
 
-		public static bool operator ==(VertexPositionColor lhs, VertexPositionColor rhs)
+	    public static bool operator ==(VertexPositionColor lhs, VertexPositionColor rhs)
 		{
 			return lhs.Color.Equals(rhs.Color) && lhs.Position.Equals(rhs.Position);
 		}

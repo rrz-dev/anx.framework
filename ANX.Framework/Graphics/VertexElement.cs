@@ -13,7 +13,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct VertexElement
     {
         #region Private
@@ -24,54 +24,30 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region Public
-		public int Offset
-		{
-			get
-			{
-				return this.offset;
-			}
-			set
-			{
-				this.offset = value;
-			}
-		}
+	    public int Offset
+	    {
+	        get { return this.offset; }
+	        set { this.offset = value; }
+	    }
 
-		public VertexElementFormat VertexElementFormat
-		{
-			get
-			{
-				return this.elementFormat;
-			}
-			set
-			{
-				this.elementFormat = value;
-			}
-		}
+	    public VertexElementFormat VertexElementFormat
+	    {
+	        get { return this.elementFormat; }
+	        set { this.elementFormat = value; }
+	    }
 
-		public VertexElementUsage VertexElementUsage
-		{
-			get
-			{
-				return this.elementUsage;
-			}
-			set
-			{
-				this.elementUsage = value;
-			}
-		}
+	    public VertexElementUsage VertexElementUsage
+	    {
+	        get { return this.elementUsage; }
+	        set { this.elementUsage = value; }
+	    }
 
-		public int UsageIndex
-		{
-			get
-			{
-				return this.usageIndex;
-			}
-			set
-			{
-				this.usageIndex = value;
-			}
-		}
-		#endregion
+	    public int UsageIndex
+	    {
+	        get { return this.usageIndex; }
+	        set { this.usageIndex = value; }
+	    }
+	    #endregion
 
         public VertexElement(int offset, VertexElementFormat elementFormat, VertexElementUsage elementUsage, int usageIndex)
         {

@@ -1,14 +1,9 @@
 ﻿#region Using Statements
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NUnit.Framework;
 
 using XNAViewport = Microsoft.Xna.Framework.Graphics.Viewport;
 using ANXViewport = ANX.Framework.Graphics.Viewport;
-
-using NUnit.Framework;
 
 #endregion // Using Statements
 

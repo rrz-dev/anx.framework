@@ -200,15 +200,8 @@ namespace ANX.RenderSystem.Windows.DX10
                             DisplayModeEnumerationFlags.Interlaced);
 						foreach (ModeDescription modeDescription in modeList)
 						{
-							DisplayMode displayMode = new DisplayMode()
-							{
-								Format = DxFormatConverter.Translate(modeDescription.Format),
-								Width = modeDescription.Width,
-								Height = modeDescription.Height,
-								AspectRatio = (float)modeDescription.Width / (float)modeDescription.Height,
-								TitleSafeArea = new Rectangle(0, 0, modeDescription.Width, modeDescription.Height), //TODO: calculate this for real
-							};
-
+						    var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height,
+                                DxFormatConverter.Translate(modeDescription.Format));
 							resultingModes.Add(displayMode);
 						}
 					}

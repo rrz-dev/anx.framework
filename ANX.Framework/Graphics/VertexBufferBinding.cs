@@ -16,39 +16,33 @@ namespace ANX.Framework.Graphics
     public struct VertexBufferBinding
     {
         #region Private
-        private VertexBuffer vertexBuffer;
-        private int instanceFrequency;
-        private int vertexOffset;
+        private readonly VertexBuffer vertexBuffer;
+        private readonly int instanceFrequency;
+        private readonly int vertexOffset;
 		#endregion
 
 		#region Public
-		public VertexBuffer VertexBuffer
-		{
-			get
-			{
-				return this.vertexBuffer;
-			}
-		}
+	    public VertexBuffer VertexBuffer
+	    {
+	        get { return this.vertexBuffer; }
+	    }
 
-		public int InstanceFrequency
-		{
-			get
-			{
-				return this.instanceFrequency;
-			}
-		}
+	    public int InstanceFrequency
+	    {
+	        get { return this.instanceFrequency; }
+	    }
 
-		public int VertexOffset
-		{
-			get
-			{
-				return this.vertexOffset;
-			}
-		}
-		#endregion
+	    public int VertexOffset
+	    {
+	        get { return this.vertexOffset; }
+	    }
+	    #endregion
 
         public VertexBufferBinding(VertexBuffer vertexBuffer)
         {
+            if (vertexBuffer == null)
+                throw new ArgumentNullException("vertexBuffer");
+
             this.vertexBuffer = vertexBuffer;
             this.vertexOffset = 0;
             this.instanceFrequency = 0;
@@ -56,6 +50,12 @@ namespace ANX.Framework.Graphics
 
         public VertexBufferBinding(VertexBuffer vertexBuffer, int vertexOffset)
         {
+            if (vertexBuffer == null)
+                throw new ArgumentNullException("vertexBuffer");
+
+            if (vertexOffset < 0 || vertexOffset >= vertexBuffer.VertexCount)
+                throw new ArgumentOutOfRangeException("vertexOffset");
+
             this.vertexBuffer = vertexBuffer;
             this.vertexOffset = vertexOffset;
             this.instanceFrequency = 0;
@@ -63,6 +63,15 @@ namespace ANX.Framework.Graphics
 
         public VertexBufferBinding(VertexBuffer vertexBuffer, int vertexOffset, int instanceFrequency)
         {
+            if (vertexBuffer == null)
+                throw new ArgumentNullException("vertexBuffer");
+            
+            if (vertexOffset < 0 || vertexOffset >= vertexBuffer.VertexCount)
+                throw new ArgumentOutOfRangeException("vertexOffset");
+            
+            if (instanceFrequency < 0)
+                throw new ArgumentOutOfRangeException("instanceFrequency");
+
             this.vertexBuffer = vertexBuffer;
             this.vertexOffset = vertexOffset;
             this.instanceFrequency = instanceFrequency;

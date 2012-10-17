@@ -16,33 +16,33 @@ namespace ANX.Framework.Graphics
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class VertexDeclaration : GraphicsResource
 	{
-		private VertexElement[] elements;
+		private readonly VertexElement[] elements;
 
-		public int VertexStride
-		{
-			get;
-			private set;
-		}
+	    public int VertexStride { get; private set; }
 
-		public VertexDeclaration(params VertexElement[] elements)
+	    public VertexDeclaration(params VertexElement[] elements)
 		{
+            if (elements == null || elements.Length == 0)
+                throw new ArgumentNullException("elements");
+
 			this.elements = elements;
 
             for (int i = 0; i < this.elements.Length; i++)
-            {
                 VertexStride += GetElementStride(this.elements[i].VertexElementFormat);
-            }
 		}
 
 		public VertexDeclaration(int vertexStride, params VertexElement[] elements)
-		{
+        {
+            if (elements == null || elements.Length == 0)
+                throw new ArgumentNullException("elements");
+
 			this.elements = elements;
 			VertexStride = vertexStride;
 		}
 
 		public VertexElement[] GetVertexElements()
 		{
-			return (elements != null) ? (elements.Clone() as VertexElement[]) : null;
+			return elements != null ? (elements.Clone() as VertexElement[]) : null;
 		}
 
 		public override void Dispose()

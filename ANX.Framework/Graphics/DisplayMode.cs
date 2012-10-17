@@ -9,15 +9,24 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
-	[TestState(TestStateAttribute.TestState.Untested)]
-	[Developer("AstrorEnales")]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class DisplayMode
     {
-		public float AspectRatio { get; set; }
-		public SurfaceFormat Format { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
-		public Rectangle TitleSafeArea { get; set; }
+        public SurfaceFormat Format { get; private set; }
+        public int Height { get; private set; }
+        public int Width { get; private set; }
+        public float AspectRatio { get; private set; }
+        public Rectangle TitleSafeArea { get; private set; }
+
+        internal DisplayMode(int width, int height, SurfaceFormat format)
+        {
+            this.Width = width;
+            this.Height = height;
+            this.Format = format;
+            AspectRatio = (height == 0 || width == 0) ? 0f : (float)width / height;
+            TitleSafeArea = new Rectangle(0, 0, width, height);
+        }
 
         public override string ToString()
 		{

@@ -11,17 +11,17 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+#if !WINDOWSMETRO      //TODO: search replacement for Win8
+    [Serializable]
+#endif
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
 	public struct VertexPositionColorTexture : IVertexType
     {
-        #region Private Members
         public Vector3 Position;
 		public Color Color;
 		public Vector2 TextureCoordinate;
-
-        #endregion
 
         public static readonly VertexDeclaration VertexDeclaration;
 
@@ -49,8 +49,10 @@ namespace ANX.Framework.Graphics
 				new VertexElement(16, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
 			};
 
-			VertexDeclaration = new VertexDeclaration(24, elements);
-			VertexDeclaration.Name = "VertexPositionColorTexture.VertexDeclaration";
+		    VertexDeclaration = new VertexDeclaration(24, elements)
+		    {
+		        Name = "VertexPositionColorTexture.VertexDeclaration"
+		    };
 		}
 
 		public override int GetHashCode()
@@ -65,15 +67,10 @@ namespace ANX.Framework.Graphics
 
 		public override bool Equals(object obj)
 		{
-            if (obj != null && obj is VertexPositionColorTexture)
-            {
-                return this == (VertexPositionColorTexture)obj;
-            }
-
-			return false;
+		    return obj is VertexPositionColorTexture && this == (VertexPositionColorTexture)obj;
 		}
 
-		public static bool operator ==(VertexPositionColorTexture lhs, VertexPositionColorTexture rhs)
+        public static bool operator ==(VertexPositionColorTexture lhs, VertexPositionColorTexture rhs)
 		{
 			return lhs.Color.Equals(rhs.Color) && 
                    lhs.Position.Equals(rhs.Position) &&

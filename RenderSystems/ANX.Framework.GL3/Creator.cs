@@ -268,17 +268,7 @@ namespace ANX.RenderSystem.GL3
 					}
 
 					foreach (DisplayResolution res in device.AvailableResolutions)
-					{
-						float aspect = (float)res.Width / (float)res.Height;
-                        resultingModes.Add(new DisplayMode
-						{
-							AspectRatio = aspect,
-							Width = res.Width,
-							Height = res.Height,
-							TitleSafeArea = new Rectangle(0, 0, res.Width, res.Height),
-							Format = surfaceFormat,
-						});
-					}
+					    resultingModes.Add(new DisplayMode(res.Width, res.Height, surfaceFormat));
 				}
 
 				var newAdapter = new GraphicsAdapter

@@ -8,19 +8,17 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Input.Touch
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [Developer("AstrorEnales")]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct GestureSample
     {
-        #region Private
-        private GestureType gestureType;
-        private TimeSpan timestamp;
-        private Vector2 position;
-        private Vector2 position2;
-        private Vector2 delta;
-        private Vector2 delta2;
-		#endregion
+        private readonly GestureType gestureType;
+        private readonly TimeSpan timestamp;
+        private readonly Vector2 position;
+        private readonly Vector2 position2;
+        private readonly Vector2 delta;
+        private readonly Vector2 delta2;
 
-		#region Public
         public Vector2 Delta
         {
             get { return this.delta; }
@@ -50,10 +48,8 @@ namespace ANX.Framework.Input.Touch
         {
             get { return this.timestamp; }
         }
-        #endregion
 
-		#region Constructor
-		public GestureSample(GestureType gestureType, TimeSpan timestamp, Vector2 position, Vector2 position2,
+        public GestureSample(GestureType gestureType, TimeSpan timestamp, Vector2 position, Vector2 position2,
             Vector2 delta, Vector2 delta2)
         {
             this.gestureType = gestureType;
@@ -63,6 +59,5 @@ namespace ANX.Framework.Input.Touch
             this.delta = delta;
             this.delta2 = delta2;
         }
-		#endregion
     }
 }

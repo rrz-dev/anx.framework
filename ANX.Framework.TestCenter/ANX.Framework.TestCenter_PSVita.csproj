@@ -70,7 +70,13 @@
     <Compile Include="Strukturen\EnumValidationTest.cs" />
     <Compile Include="Strukturen\EventArgsTest.cs" />
     <Compile Include="Strukturen\GameServiceContainerTest.cs" />
+    <Compile Include="Strukturen\Graphics\DisplayModeTest.cs" />
+    <Compile Include="Strukturen\Graphics\VertexPositionNormalTextureTest.cs" />
+    <Compile Include="Strukturen\Graphics\VertexPositionColorTextureTest.cs" />
+    <Compile Include="Strukturen\Graphics\VertexPositionTextureTest.cs" />
     <Compile Include="Strukturen\Graphics\PackedVector\Alpha8Test.cs" />
+    <Compile Include="Strukturen\Graphics\VertexElementTest.cs" />
+    <Compile Include="Strukturen\Graphics\VertexPositionColorTest.cs" />
     <Compile Include="Strukturen\Graphics\ViewportTest.cs" />
     <Compile Include="Strukturen\Input\GamePadButtonsTest.cs" />
     <Compile Include="Strukturen\Input\GamePadDPadTest.cs" />

@@ -157,6 +157,15 @@ namespace ANX.Framework.TestCenter
             return intDiff <= (1 << maxDeltaBits);
         }
 
+        public static bool Compare(Microsoft.Xna.Framework.Graphics.VertexElement xna,
+            ANX.Framework.Graphics.VertexElement anx)
+        {
+            return (xna.Offset == anx.Offset &&
+                xna.UsageIndex == anx.UsageIndex &&
+                (int)xna.VertexElementFormat == (int)anx.VertexElementFormat &&
+                (int)xna.VertexElementUsage == (int)anx.VertexElementUsage);
+        }
+
         private static bool Compare(XNACurve xna, ANXCurve anx)
         {
             return (xna.IsConstant == anx.IsConstant) && (Compare(xna.Keys, anx.Keys)) && (Compare(xna.PreLoop, anx.PreLoop)) && (Compare(xna.PostLoop, anx.PostLoop));

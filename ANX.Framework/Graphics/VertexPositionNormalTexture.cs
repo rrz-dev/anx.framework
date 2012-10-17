@@ -11,9 +11,12 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
+#if !WINDOWSMETRO      //TODO: search replacement for Win8
+    [Serializable]
+#endif
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public struct VertexPositionNormalTexture : IVertexType
     {
         public Vector3 Position;
@@ -36,14 +39,16 @@ namespace ANX.Framework.Graphics
 
         static VertexPositionNormalTexture()
         {
-            VertexElement[] elements = new VertexElement[]
+            VertexElement[] elements =
 			{
 				new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
 				new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
 				new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
 			};
-			VertexDeclaration = new VertexDeclaration(32, elements);
-			VertexDeclaration.Name = "VertexPositionNormalTexture.VertexDeclaration";
+            VertexDeclaration = new VertexDeclaration(32, elements)
+            {
+                Name = "VertexPositionNormalTexture.VertexDeclaration"
+            };
         }
 
         public override int GetHashCode()
@@ -58,10 +63,7 @@ namespace ANX.Framework.Graphics
 
         public override bool Equals(object obj)
         {
-			if (obj != null && obj is VertexPositionNormalTexture)
-                return this == (VertexPositionNormalTexture)obj;
-
-            return false;
+            return obj is VertexPositionNormalTexture && this == (VertexPositionNormalTexture)obj;
         }
 
         public static bool operator ==(VertexPositionNormalTexture lhs, VertexPositionNormalTexture rhs)

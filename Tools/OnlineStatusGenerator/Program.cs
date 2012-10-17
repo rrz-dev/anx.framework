@@ -30,6 +30,8 @@ namespace OnlineStatusGenerator
 
             var sortedKeys = new List<string>(namespaces.Keys);
             sortedKeys.Sort();
+            foreach (string space in sortedKeys)
+                namespaces[space].Sort((o1, o2) => String.Compare(o1.Name, o2.Name, StringComparison.Ordinal));
 
             string result = "<table border=1 cellspacing=0>";
             foreach (string space in sortedKeys)
