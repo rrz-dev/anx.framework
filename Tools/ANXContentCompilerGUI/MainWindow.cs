@@ -876,7 +876,13 @@ namespace ANX.ContentCompiler.GUI
         #region ShowPreview
         internal void ShowPreview()
         {
-            using (var preview = new PreviewScreen())
+            BuildItem buildItem = null;
+            foreach (var item in _contentProject.BuildItems.Where(item => item.AssetName == treeView.SelectedNode.Text))
+            {
+                buildItem = item;
+            }
+
+            using (var preview = new PreviewScreen(buildItem))
             {
                 if ((string)treeView.SelectedNode.Tag == "File")
                     preview.ShowDialog();

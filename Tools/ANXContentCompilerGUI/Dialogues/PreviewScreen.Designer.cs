@@ -31,6 +31,8 @@
             this.buttonQuit = new System.Windows.Forms.Button();
             this.labelTitle = new System.Windows.Forms.Label();
             this.drawSurface = new System.Windows.Forms.Panel();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.drawSurface.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -69,10 +71,20 @@
             // 
             // drawSurface
             // 
+            this.drawSurface.Controls.Add(this.labelStatus);
             this.drawSurface.Location = new System.Drawing.Point(12, 27);
             this.drawSurface.Name = "drawSurface";
             this.drawSurface.Size = new System.Drawing.Size(595, 410);
             this.drawSurface.TabIndex = 4;
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.Location = new System.Drawing.Point(129, 166);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(337, 78);
+            this.labelStatus.TabIndex = 0;
+            this.labelStatus.Text = "Loading Preview...";
+            this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PreviewScreen
             // 
@@ -90,6 +102,8 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Preview";
+            this.Load += new System.EventHandler(this.PreviewScreenLoad);
+            this.drawSurface.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -99,5 +113,6 @@
         private System.Windows.Forms.Button buttonQuit;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Panel drawSurface;
+        private System.Windows.Forms.Label labelStatus;
     }
 }

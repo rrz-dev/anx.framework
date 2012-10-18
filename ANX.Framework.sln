@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework", "ANX.Framework\ANX.Framework.csproj", "{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter", "ANX.Framework.TestCenter\ANX.Framework.TestCenter.csproj", "{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}"
@@ -248,17 +248,21 @@ Global
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Any CPU.Build.0 = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|ARM.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|ARM.Build.0 = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x64.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x64.Build.0 = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x86.ActiveCfg = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x86.Build.0 = Debug|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Any CPU.ActiveCfg = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Any CPU.Build.0 = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|ARM.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|ARM.Build.0 = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Mixed Platforms.Build.0 = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x64.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x64.Build.0 = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.ActiveCfg = Release|x86
 		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.Build.0 = Release|x86
 		{9D8DC781-2E0D-4348-BAD9-745F91428A3F}.Debug|Any CPU.ActiveCfg = Debug|x86
