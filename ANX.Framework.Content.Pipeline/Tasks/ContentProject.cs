@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -29,12 +30,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// <summary>
         /// Major version of the project format
         /// </summary>
+        [Browsable(false)]
         public int VersionMajor { get { return 1; } }
 
         /// <summary>
         /// Minor version of the project format.
         /// Used to keep backwards compatibility
         /// </summary>
+        [Browsable(false)]
         public int VersionMinor { get { return 2; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
 
         /// <summary>
@@ -81,6 +84,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// <summary>
         /// The configuration. Can be "Debug" or "Release".
         /// </summary>
+        [TypeConverter(typeof(BuildModeConverter))]
         public String Configuration { get; set; }
 
         /// <summary>
