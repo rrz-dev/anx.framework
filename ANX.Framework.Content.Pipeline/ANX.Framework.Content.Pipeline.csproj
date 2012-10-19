@@ -106,6 +106,7 @@
     <Compile Include="Graphics\VertexContent.cs" />
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
+    <Compile Include="Importer\FontDescriptionImporter.cs" />
     <Compile Include="Importer\TextureImporter.cs" />
     <Compile Include="Importer\WavImporter.cs" />
     <Compile Include="Importer\XmlImporter.cs" />

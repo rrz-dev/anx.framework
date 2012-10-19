@@ -12,6 +12,7 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Graphics
 {
+    [Flags]
     public enum FontDescriptionStyle
     {
         Bold,

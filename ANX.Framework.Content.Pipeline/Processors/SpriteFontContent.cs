@@ -11,16 +11,16 @@ namespace ANX.Framework.Content.Pipeline.Processors
     public sealed class SpriteFontContent
     {
 		[ContentSerializer(ElementName = "Texture", AllowNull = false)]
-		internal Texture2DContent Texture { get; private set; }
+		internal Texture2DContent Texture { get; set; }
 
 		[ContentSerializer(ElementName = "Glyphs", AllowNull = false)]
-		internal List<Rectangle> Glyphs { get; private set; }
+		internal List<Rectangle> Glyphs { get; set; }
 
 		[ContentSerializer(ElementName = "Cropping", AllowNull = false)]
-		internal List<Rectangle> Cropping { get; private set; }
+		internal List<Rectangle> Cropping { get; set; }
 
 		[ContentSerializer(ElementName = "CharacterMap", AllowNull = false)]
-		internal List<char> CharacterMap { get; private set; }
+		internal List<char> CharacterMap { get; set; }
 
 		[ContentSerializer(ElementName = "LineSpacing", AllowNull = false)]
 		internal int LineSpacing { get; set; }
