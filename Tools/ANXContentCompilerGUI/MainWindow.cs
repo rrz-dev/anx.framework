@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using Statements
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -10,6 +10,12 @@ using ANX.ContentCompiler.GUI.Properties;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.NonXNA.Development;
+#endregion
+
+// This file is part of the EES Content Compiler 4,
+// © 2008 - 2012 by Eagle Eye Studios.
+// The EES Content Compiler 4 is released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.ContentCompiler.GUI
 {
@@ -35,8 +41,9 @@ namespace ANX.ContentCompiler.GUI
         private readonly string[] _args;
         private int _showCounter = 0;
 
-        private ImporterManager iManager;
-        private ProcessorManager pManager;
+        private readonly ImporterManager _iManager;
+        private readonly ProcessorManager _pManager;
+        private PreviewScreen _previewScreen;
         #endregion
 
         #region Properties
@@ -78,8 +85,8 @@ namespace ANX.ContentCompiler.GUI
             treeViewItemDelete.MouseEnter += TreeViewItemMouseEnter;
             treeViewItemRename.MouseEnter += TreeViewItemMouseEnter;
             SetUpColors();
-            iManager = new ImporterManager();
-            pManager = new ProcessorManager();
+            _iManager = new ImporterManager();
+            _pManager = new ProcessorManager();
         }
 
         private void MainWindowShown(object sender, EventArgs e)
@@ -273,7 +280,7 @@ namespace ANX.ContentCompiler.GUI
 
                 if (String.IsNullOrEmpty(bI.ProcessorName))
                 {
-                    bI.ProcessorName = pManager.GetProcessorForImporter(iManager.GetInstance(bI.ImporterName));
+                    bI.ProcessorName = _pManager.GetProcessorForImporter(_iManager.GetInstance(bI.ImporterName));
                 }
             }
             try
@@ -352,7 +359,7 @@ namespace ANX.ContentCompiler.GUI
                                    ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
                                    Path.GetFileNameWithoutExtension(file) + ".xnb",   //<- Change this if you want some other extension (i.e. to annoy modders or whatever)
                                ImporterName = ImporterManager.GuessImporterByFileExtension(file),
-                               ProcessorName = pManager.GetProcessorForImporter(iManager.GetInstance(ImporterManager.GuessImporterByFileExtension(file)))
+                               ProcessorName = _pManager.GetProcessorForImporter(_iManager.GetInstance(ImporterManager.GuessImporterByFileExtension(file)))
                            };
             _contentProject.BuildItems.Add(item);
         }
@@ -687,6 +694,11 @@ namespace ANX.ContentCompiler.GUI
                             buildItem => buildItem.AssetName.Equals(treeView.SelectedNode.Name)))
                 {
                     propertyGrid.SelectedObject = buildItem;
+
+                    if (_previewScreen != null)
+                    {
+                        _previewScreen.SetFile(buildItem);
+                    }
                 }
             }
         }
@@ -882,11 +894,11 @@ namespace ANX.ContentCompiler.GUI
                 buildItem = item;
             }
 
-            using (var preview = new PreviewScreen(buildItem))
-            {
-                if ((string)treeView.SelectedNode.Tag == "File")
-                    preview.ShowDialog();
-            }
+            if (_previewScreen == null)
+                _previewScreen = new PreviewScreen();
+            if ((string) treeView.SelectedNode.Tag != "File") return;
+            _previewScreen.Show();
+            _previewScreen.SetFile(buildItem);
         }
         #endregion
     }

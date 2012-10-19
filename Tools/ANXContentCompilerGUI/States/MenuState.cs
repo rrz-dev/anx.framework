@@ -1,8 +1,15 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.NonXNA.Development;
+#endregion
+
+// This file is part of the EES Content Compiler 4,
+// © 2008 - 2012 by Eagle Eye Studios.
+// The EES Content Compiler 4 is released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.ContentCompiler.GUI.States
 {

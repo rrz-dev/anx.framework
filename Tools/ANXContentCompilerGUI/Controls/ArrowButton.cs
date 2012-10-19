@@ -1,7 +1,14 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using ANX.Framework.NonXNA.Development;
+#endregion
+
+// This file is part of the EES Content Compiler 4,
+// © 2008 - 2012 by Eagle Eye Studios.
+// The EES Content Compiler 4 is released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.ContentCompiler.GUI.Controls
 {
@@ -15,13 +22,16 @@ namespace ANX.ContentCompiler.GUI.Controls
             InitializeComponent();
         }
 
+        #region Properties
         [EditorBrowsable(EditorBrowsableState.Always)]
         public String Content
         {
             get { return labelText.Text; }
             set { labelText.Text = value; }
         }
+        #endregion
 
+        #region Private
         private void ArrowButtonMouseEnter(object sender, EventArgs e)
         {
             BorderStyle = BorderStyle.FixedSingle;
@@ -62,5 +72,6 @@ namespace ANX.ContentCompiler.GUI.Controls
             BackColor = Settings.MainColor;
             ForeColor = Settings.ForeColor;
         }
+        #endregion
     }
 }

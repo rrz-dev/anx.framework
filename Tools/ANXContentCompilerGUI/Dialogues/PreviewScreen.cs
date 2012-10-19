@@ -1,30 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿#region Using Statements
+using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using ANX.Framework.Content;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA.Development;
 using Timer = System.Windows.Forms.Timer;
+#endregion
+
+// This file is part of the EES Content Compiler 4,
+// © 2008 - 2012 by Eagle Eye Studios.
+// The EES Content Compiler 4 is released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
+    [PercentageComplete(50)]
+    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class PreviewScreen : Form
     {
         #region Fields
         private Point _lastPos;
         private bool _mouseDown;
-        private readonly BuildItem _item;
+        private BuildItem _item;
         private Thread _loaderThread;
-        private readonly string _outputFile;
-        private readonly string _outputDir;
+        private string _outputFile;
+        private string _outputDir;
         private volatile bool _started;
         private volatile bool _error;
         private volatile string _errorMessage;
@@ -35,12 +40,10 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         private SpriteBatch _batch;
         #endregion
 
-        public PreviewScreen(BuildItem item)
+        #region Constructor
+        public PreviewScreen()
         {
             InitializeComponent();
-            _item = item;
-            _outputFile = Path.GetTempFileName();
-            _outputDir = Path.GetTempPath();
             _graphicsDevice = new GraphicsDevice(
                 GraphicsAdapter.DefaultAdapter,
                 GraphicsProfile.HiDef,
@@ -53,6 +56,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                     PresentationInterval = PresentInterval.Default,
                 });
         }
+        #endregion
 
         #region WindowMoveMethods
 
@@ -79,12 +83,54 @@ namespace ANX.ContentCompiler.GUI.Dialogues
 
         #endregion
 
+        #region Events
         private void ButtonQuitClick(object sender, EventArgs e)
         {
             Close();
             DialogResult = DialogResult.Cancel;
         }
 
+
+        void CheckThread(object sender, EventArgs e)
+        {
+            if (!_started)
+            {
+                ((Timer)sender).Interval = 100;
+                _loaderThread = new Thread(CompileFile);
+                _loaderThread.Start();
+                _started = true;
+            }
+            else
+            {
+                if (_loaderThread.IsAlive)
+                    return;
+                if (_error)
+                {
+                    labelStatus.Text = "Loading of Preview failed with: \n" + _errorMessage;
+                    return;
+                }
+                labelStatus.Text = "Loading successful";
+                labelStatus.Hide();
+                _tickTimer = new Timer { Interval = 120 };
+                _tickTimer.Tick += Tick;
+                _batch = new SpriteBatch(_graphicsDevice);
+                _tickTimer.Start();
+            }
+        }
+
+        void Tick(object sender, EventArgs e)
+        {
+            _graphicsDevice.Clear(Framework.Color.CornflowerBlue);
+            if (_processor == "TextureProcessor")
+            {
+                _batch.Begin();
+
+                _batch.End();
+            }
+        }
+        #endregion
+
+        #region Public methods
         public void CompileFile()
         {
             var builderTask = new BuildContent
@@ -117,49 +163,16 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             }
         }
 
-        private void PreviewScreenLoad(object sender, EventArgs e)
+        public void SetFile(BuildItem item)
         {
-            _checkTimer = new Timer {Interval = 1000};
+            labelStatus.Text = "Loading Preview...";
+            _item = item;
+            _outputFile = Path.GetTempFileName();
+            _outputDir = Path.GetTempPath();
+            _checkTimer = new Timer { Interval = 1000 };
             _checkTimer.Tick += CheckThread;
             _checkTimer.Start();
         }
-
-        void CheckThread(object sender, EventArgs e)
-        {
-            if (!_started)
-            {
-                ((Timer) sender).Interval = 100;
-                _loaderThread = new Thread(CompileFile);
-                _loaderThread.Start();
-                _started = true;
-            }
-            else
-            {
-                if (_loaderThread.IsAlive)
-                    return;
-                if (_error)
-                {
-                    labelStatus.Text = "Loading of Preview failed with: \n" + _errorMessage;
-                    return;
-                }
-                labelStatus.Text = "Loading successful";
-                labelStatus.Hide();
-                _tickTimer = new Timer {Interval = 120};
-                _tickTimer.Tick += Tick;
-                _batch = new SpriteBatch(_graphicsDevice);
-                _tickTimer.Start();
-            }
-        }
-
-        void Tick(object sender, EventArgs e)
-        {
-            _graphicsDevice.Clear(Framework.Color.CornflowerBlue);
-            if (_processor == "TextureProcessor")
-            {
-                _batch.Begin();
-
-                _batch.End();
-            }
-        }
+        #endregion
     }
 }
