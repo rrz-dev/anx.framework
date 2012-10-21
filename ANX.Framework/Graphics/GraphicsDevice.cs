@@ -59,6 +59,7 @@ namespace ANX.Framework.Graphics
 			this.textureCollection = new TextureCollection(16);
 			this.vertexTextureCollection = new TextureCollection(16);
 
+            samplerStateCollection.InitializeDeviceState();
 			this.BlendState = BlendState.Opaque;
 			this.DepthStencilState = DepthStencilState.Default;
 			this.RasterizerState = RasterizerState.CullCounterClockwise;
@@ -365,6 +366,8 @@ namespace ANX.Framework.Graphics
 			NativeDevice.ResizeBuffers(presentationParameters);
 			this.viewport = new Graphics.Viewport(0, 0, presentationParameters.BackBufferWidth,
 				presentationParameters.BackBufferHeight);
+
+            samplerStateCollection.InitializeDeviceState();
 
 			raise_DeviceReset(this, EventArgs.Empty);
 		}

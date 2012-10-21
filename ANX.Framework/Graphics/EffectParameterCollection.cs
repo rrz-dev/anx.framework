@@ -15,8 +15,8 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class EffectParameterCollection : IEnumerable<EffectParameter>
     {
         #region Private Members

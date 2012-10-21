@@ -12,7 +12,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class ModelBone
     {
         public ModelBoneCollection Children { get; internal set; }
@@ -21,7 +21,7 @@ namespace ANX.Framework.Graphics
         public ModelBone Parent { get; internal set; }
         public Matrix Transform { get; set; }
 
-        public ModelBone(string name, Matrix transform, int index)
+        internal ModelBone(string name, Matrix transform, int index)
         {
             this.Name = name;
             this.Transform = transform;

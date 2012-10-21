@@ -106,6 +106,7 @@
     <Compile Include="Graphics\VertexContent.cs" />
     <Compile Include="IContentImporter.cs" />
     <Compile Include="IContentProcessor.cs" />
+    <Compile Include="Importer\FontDescriptionImporter.cs" />
     <Compile Include="Importer\TextureImporter.cs" />
     <Compile Include="Importer\WavImporter.cs" />
     <Compile Include="Importer\XmlImporter.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="TargetPlatform.cs" />
     <Compile Include="Tasks\BuildContent.cs" />
     <Compile Include="Tasks\BuildItem.cs" />
+    <Compile Include="Tasks\BuildModeConverter.cs" />
     <Compile Include="Tasks\ContentProject.cs" />
     <Compile Include="Tasks\ImporterConverter.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />

@@ -15,7 +15,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class ModelEffectCollection : ReadOnlyCollection<Effect>
     {
         private readonly List<Effect> effects;
@@ -46,18 +46,20 @@ namespace ANX.Framework.Graphics
             private readonly List<Effect> wrappedArray;
             private int position;
 
+            public Effect Current
+            {
+                get { return this.wrappedArray[this.position]; }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
+
             internal Enumerator(List<Effect> wrappedArray)
             {
                 this.wrappedArray = wrappedArray;
                 this.position = -1;
-            }
-
-            public Effect Current
-            {
-                get
-                {
-                    return this.wrappedArray[this.position];
-                }
             }
 
             public bool MoveNext()
@@ -78,14 +80,6 @@ namespace ANX.Framework.Graphics
 
             public void Dispose()
             {
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return this.Current;
-                }
             }
         }
     }

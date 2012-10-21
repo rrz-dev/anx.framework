@@ -33,6 +33,14 @@ namespace ANX.Framework.NonXNA.Reflection
 			"Sce.PlayStation.Core.dll",
 			"wrap_oal.dll",
 			"OpenAL32.dll",
+            "nunit.framework.dll",
+            "OggUtils.dll",
+            "Microsoft.Research.Kinect.dll",
+            "Microsoft.Xna.Framework.Graphics.dll",
+            "Microsoft.Xna.Framework.Game.dll",
+            "Microsoft.Xna.Framework.Content.Pipeline.dll",
+            "OggUtils.dll",
+            "OggUtils.dll",
 		};
 		#endregion
 

@@ -72,6 +72,17 @@
     <Compile Include="Strukturen\EventArgsTest.cs" />
     <Compile Include="Strukturen\GameServiceContainerTest.cs" />
     <Compile Include="Strukturen\Graphics\DisplayModeTest.cs" />
+    <Compile Include="Strukturen\Graphics\DisplayModeCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\EffectAnnotationCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\EffectParameterCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\EffectPassCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\EffectTechniqueCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelBoneCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelBoneTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelEffectCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelMeshCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelMeshPartCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\SamplerStateCollectionTest.cs" />
     <Compile Include="Strukturen\Graphics\VertexPositionNormalTextureTest.cs" />
     <Compile Include="Strukturen\Graphics\VertexPositionColorTextureTest.cs" />
     <Compile Include="Strukturen\Graphics\VertexPositionTextureTest.cs" />

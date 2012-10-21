@@ -15,7 +15,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class ModelMeshCollection : ReadOnlyCollection<ModelMesh>
     {
         private readonly ModelMesh[] modelMeshes;

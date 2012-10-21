@@ -17,7 +17,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class EffectTechniqueCollection : IEnumerable<EffectTechnique>, IEnumerable
     {
         #region Private Members

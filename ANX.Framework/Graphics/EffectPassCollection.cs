@@ -16,7 +16,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class EffectPassCollection : IEnumerable<EffectPass>
     {
         #region Private Members
@@ -50,9 +50,7 @@ namespace ANX.Framework.Graphics
             this.passes = new List<EffectPass>();
 
             foreach (EffectPass pass in parentTechnique.Passes)
-            {
                 this.passes.Add(pass);
-            }
         }
 
 		IEnumerator<EffectPass> IEnumerable<EffectPass>.GetEnumerator()

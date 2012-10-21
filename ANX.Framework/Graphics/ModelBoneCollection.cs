@@ -15,15 +15,46 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("???, AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class ModelBoneCollection : ReadOnlyCollection<ModelBone>
     {
         private readonly ModelBone[] modelBones;
+
+        public ModelBone this[string boneName]
+        {
+            get
+            {
+                ModelBone result;
+                if (TryGetValue(boneName, out result) == false)
+                    throw new KeyNotFoundException();
+
+                return result;
+            }
+        }
 
         internal ModelBoneCollection(ModelBone[] modelBones)
             : base(modelBones)
         {
             this.modelBones = modelBones;
+        }
+
+        public bool TryGetValue(string boneName, out ModelBone value)
+        {
+            if (String.IsNullOrEmpty(boneName))
+                throw new ArgumentNullException("boneName");
+
+            for (int index = 0; index < Items.Count; index++)
+            {
+                ModelBone modelBone = Items[index];
+                if (String.Compare(modelBone.Name, boneName, StringComparison.Ordinal) == 0)
+                {
+                    value = modelBone;
+                    return true;
+                }
+            }
+
+            value = null;
+            return false;
         }
 
         public new Enumerator GetEnumerator()
@@ -72,37 +103,5 @@ namespace ANX.Framework.Graphics
             {
             }
         }
-
-        public bool TryGetValue(string boneName, out ModelBone value)
-        {
-            if (String.IsNullOrEmpty(boneName))
-                throw new ArgumentNullException("boneName");
-
-            for (int index = 0; index < Items.Count; index++)
-            {
-                ModelBone modelBone = Items[index];
-                if (String.Compare(modelBone.Name, boneName, StringComparison.Ordinal) == 0)
-                {
-                    value = modelBone;
-                    return true;
-                }
-            }
-
-            value = null;
-            return false;
-        }
-
-        public ModelBone this[string boneName]
-        {
-            get
-            {
-                ModelBone result;
-                if (TryGetValue(boneName, out result) == false)
-                    throw new KeyNotFoundException();
-
-                return result;
-            }
-        }
-
     }
 }

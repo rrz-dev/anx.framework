@@ -3,6 +3,7 @@ using ANX.Framework.Audio;
 using ANX.Framework.GamerServices;
 using ANX.Framework.Graphics;
 using ANX.Framework.Input;
+using ANX.Framework.Input.Touch;
 using ANX.Framework.Media;
 using ANX.Framework.Net;
 using NUnit.Framework;
@@ -64,6 +65,9 @@ namespace ANX.Framework.TestCenter.Strukturen
             new object[] { typeof(Microsoft.Xna.Framework.Input.Keys), typeof(Keys) },
             new object[] { typeof(Microsoft.Xna.Framework.Media.MediaSourceType), typeof(MediaSourceType) },
             new object[] { typeof(Microsoft.Xna.Framework.Media.MediaState), typeof(MediaState) },
+            
+            new object[] { typeof(Microsoft.Xna.Framework.Input.Touch.GestureType), typeof(GestureType) },
+            new object[] { typeof(Microsoft.Xna.Framework.Input.Touch.TouchLocationState), typeof(TouchLocationState) },
             
             new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionEndReason), typeof(NetworkSessionEndReason) },
             new object[] { typeof(Microsoft.Xna.Framework.Net.NetworkSessionJoinError), typeof(NetworkSessionJoinError) },

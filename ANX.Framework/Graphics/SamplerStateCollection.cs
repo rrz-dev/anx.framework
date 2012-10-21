@@ -12,19 +12,16 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class SamplerStateCollection
     {
         private readonly SamplerState[] samplerStates;
         private readonly GraphicsDevice graphics;
 
-        public SamplerStateCollection(GraphicsDevice graphics, int maxSamplers)
+        internal SamplerStateCollection(GraphicsDevice graphics, int maxSamplers)
         {
             this.graphics = graphics;
-            this.samplerStates = new SamplerState[maxSamplers];
-
-            for (int i = 0; i < samplerStates.Length; i++)
-                samplerStates[i] = SamplerState.LinearWrap;
+            samplerStates = new SamplerState[maxSamplers];
         }
 
         public SamplerState this[int index]
@@ -38,12 +35,24 @@ namespace ANX.Framework.Graphics
             }
             set
             {
+                if (index < 0 || index >= samplerStates.Length)
+                    throw new ArgumentOutOfRangeException("index");
+
+                if (value == null)
+                    throw new ArgumentNullException("value");
+
                 if (samplerStates[index] != value)
                 {
                     samplerStates[index] = value;
                     samplerStates[index].NativeSamplerState.Apply(graphics, index);
                 }
             }
+        }
+
+        internal void InitializeDeviceState()
+        {
+            for (int i = 0; i < samplerStates.Length; i++)
+                samplerStates[i] = SamplerState.LinearWrap;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class EffectAnnotationCollection : IEnumerable<EffectAnnotation>
     {
         private readonly List<EffectAnnotation> annotations;

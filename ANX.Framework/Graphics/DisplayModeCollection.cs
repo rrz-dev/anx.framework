@@ -15,17 +15,14 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public class DisplayModeCollection : IEnumerable<DisplayMode>, IEnumerable
     {
         private readonly List<DisplayMode> displayModes;
 
         public IEnumerable<DisplayMode> this[SurfaceFormat format]
         {
-            get
-            {
-                return displayModes.Where(current => current.Format == format).ToList();
-            }
+            get { return displayModes.Where(current => current.Format == format).ToList(); }
         }
 
         internal DisplayModeCollection(List<DisplayMode> displayModes)
@@ -37,6 +34,7 @@ namespace ANX.Framework.Graphics
         {
             return displayModes.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
