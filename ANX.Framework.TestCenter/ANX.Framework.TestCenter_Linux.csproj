@@ -80,6 +80,8 @@
     <Compile Include="Strukturen\Graphics\ModelEffectCollectionTest.cs" />
     <Compile Include="Strukturen\Graphics\ModelMeshCollectionTest.cs" />
     <Compile Include="Strukturen\Graphics\ModelMeshPartCollectionTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelMeshPartTest.cs" />
+    <Compile Include="Strukturen\Graphics\ModelMeshTest.cs" />
     <Compile Include="Strukturen\Graphics\SamplerStateCollectionTest.cs" />
     <Compile Include="Strukturen\Graphics\VertexPositionNormalTextureTest.cs" />
     <Compile Include="Strukturen\Graphics\VertexPositionColorTextureTest.cs" />

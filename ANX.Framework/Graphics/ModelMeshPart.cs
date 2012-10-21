@@ -12,7 +12,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
     [Developer("Glatzemann")]
-	[TestState(TestStateAttribute.TestState.Untested)]
+	[TestState(TestStateAttribute.TestState.InProgress)]
 	public sealed class ModelMeshPart
 	{
 		#region Private

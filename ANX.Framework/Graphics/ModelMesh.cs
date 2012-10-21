@@ -1,7 +1,5 @@
 #region Using Statements
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
@@ -14,10 +12,10 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public sealed class ModelMesh
     {
-        private BoundingSphere boundingSphere;
+        private readonly BoundingSphere boundingSphere;
          
         public BoundingSphere BoundingSphere
         {
@@ -30,7 +28,7 @@ namespace ANX.Framework.Graphics
         public ModelBone ParentBone { get; private set; }
         public object Tag { get; set; }
 
-        public ModelMesh(string name, ModelBone bone, BoundingSphere sphere, ModelMeshPart[] meshParts, Object tag)
+        internal ModelMesh(string name, ModelBone bone, BoundingSphere sphere, ModelMeshPart[] meshParts, Object tag)
         {
             this.Name = name;
             this.ParentBone = bone;
@@ -42,10 +40,8 @@ namespace ANX.Framework.Graphics
             foreach (var item in this.MeshParts)
             {
                 item.parentMesh = this;
-                if (item.Effect != null && !this.Effects.Contains(item.Effect))
-                {
-                    this.Effects.Add(item.Effect);
-                }
+                if (item.Effect != null && Effects.Contains(item.Effect) == false)
+                    Effects.Add(item.Effect);
             }
         }
 
@@ -56,31 +52,21 @@ namespace ANX.Framework.Graphics
 
             foreach (var item in MeshParts)
             {
-                if (object.ReferenceEquals(item, part))
-                {
+                if (ReferenceEquals(item, part))
                     continue;
-                }
 
-                if (object.ReferenceEquals(item.Effect, oldEffect))
-                {
+                if (ReferenceEquals(item.Effect, oldEffect))
                     oldEffectIsInUse = true;
-                }
 
-                if (object.ReferenceEquals(item.Effect, newEffect))
-                {
+                if (ReferenceEquals(item.Effect, newEffect))
                     newEffectIsKnown = true;
-                }
             }
 
             if (oldEffect != null && !oldEffectIsInUse)
-            {
                 Effects.Remove(oldEffect);
-            }
 
             if (newEffect != null && !newEffectIsKnown)
-            {
                 Effects.Add(newEffect);
-            }
         }
 
         public void Draw()
@@ -94,7 +80,8 @@ namespace ANX.Framework.Graphics
                     GraphicsDevice graphics = part.VertexBuffer.GraphicsDevice;
                     graphics.SetVertexBuffer(part.VertexBuffer, part.VertexOffset);
                     graphics.Indices = part.IndexBuffer;
-                    graphics.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
+                    graphics.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, part.NumVertices, part.StartIndex,
+                        part.PrimitiveCount);
                 }
             }
         }

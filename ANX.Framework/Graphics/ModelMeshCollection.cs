@@ -15,68 +15,27 @@ namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
     [Developer("Glatzemann, AstrorEnales")]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class ModelMeshCollection : ReadOnlyCollection<ModelMesh>
     {
         private readonly ModelMesh[] modelMeshes;
+
+        public ModelMesh this[string meshName]
+        {
+            get
+            {
+                ModelMesh result;
+                if (TryGetValue(meshName, out result) == false)
+                    throw new KeyNotFoundException();
+                
+                return result;
+            }
+        }
 
         internal ModelMeshCollection(ModelMesh[] modelMeshes)
             : base(modelMeshes)
         {
             this.modelMeshes = modelMeshes;
-        }
-
-        public new Enumerator GetEnumerator()
-        {
-            return new Enumerator(this.modelMeshes);
-        }
-
-        public struct Enumerator : IEnumerator<ModelMesh>, IDisposable, IEnumerator
-        {
-            private readonly ModelMesh[] wrappedArray;
-            private int position;
-
-            internal Enumerator(ModelMesh[] wrappedArray)
-            {
-                this.wrappedArray = wrappedArray;
-                this.position = -1;
-            }
-
-            public ModelMesh Current
-            {
-                get
-                {
-                    return this.wrappedArray[this.position];
-                }
-            }
-
-            public bool MoveNext()
-            {
-                this.position++;
-                if (this.position >= this.wrappedArray.Length)
-                {
-                    this.position = this.wrappedArray.Length;
-                    return false;
-                }
-                return true;
-            }
-
-            void IEnumerator.Reset()
-            {
-                this.position = -1;
-            }
-
-            public void Dispose()
-            {
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return this.Current;
-                }
-            }
         }
 
         public bool TryGetValue(string meshName, out ModelMesh value)
@@ -98,16 +57,50 @@ namespace ANX.Framework.Graphics
             return false;
         }
 
-        public ModelMesh this[string meshName]
+        public new Enumerator GetEnumerator()
         {
-            get
+            return new Enumerator(this.modelMeshes);
+        }
+
+        public struct Enumerator : IEnumerator<ModelMesh>, IDisposable, IEnumerator
+        {
+            private readonly ModelMesh[] wrappedArray;
+            private int position;
+
+            public ModelMesh Current
             {
-                ModelMesh result;
-                if (TryGetValue(meshName, out result) == false)
+                get { return this.wrappedArray[this.position]; }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
+
+            internal Enumerator(ModelMesh[] wrappedArray)
+            {
+                this.wrappedArray = wrappedArray;
+                this.position = -1;
+            }
+
+            public bool MoveNext()
+            {
+                this.position++;
+                if (this.position >= this.wrappedArray.Length)
                 {
-                    throw new KeyNotFoundException();
+                    this.position = this.wrappedArray.Length;
+                    return false;
                 }
-                return result;
+                return true;
+            }
+
+            void IEnumerator.Reset()
+            {
+                this.position = -1;
+            }
+
+            public void Dispose()
+            {
             }
         }
     }

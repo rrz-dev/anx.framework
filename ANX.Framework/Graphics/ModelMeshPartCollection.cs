@@ -33,21 +33,15 @@ namespace ANX.Framework.Graphics
             private readonly ModelMeshPart[] wrappedArray;
 			private int position;
 
-			public ModelMeshPart Current
-			{
-				get
-				{
-					return this.wrappedArray[this.position];
-				}
-			}
+            public ModelMeshPart Current
+            {
+                get { return this.wrappedArray[this.position]; }
+            }
 
-			object IEnumerator.Current
-			{
-				get
-				{
-					return this.Current;
-				}
-			}
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
 
             internal Enumerator(ModelMeshPart[] wrappedArray)
             {
