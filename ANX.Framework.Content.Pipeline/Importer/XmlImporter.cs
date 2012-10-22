@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +9,11 @@ using System.Xml;
 using System.Xml.Linq;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Reflection;
+#endregion
+
+// This file is part of the ANX.Framework created by the
+// "ANX.Framework developer group" and released under the Ms-PL license.
+// For details see: http://anxframework.codeplex.com/license
 
 namespace ANX.Framework.Content.Pipeline.Importer
 {

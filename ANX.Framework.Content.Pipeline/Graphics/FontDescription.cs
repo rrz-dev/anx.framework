@@ -42,7 +42,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         public ICollection<char> Characters
         {
             get;
-            private set;
+            set;
         }
 
         [ContentSerializerAttribute]

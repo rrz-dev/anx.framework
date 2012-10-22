@@ -21,7 +21,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     [PercentageComplete(90)]
     [Developer("SilentWarrior/Eagle Eye Studios")]
-    [TestState(TestStateAttribute.TestState.Untested)] //due to missing importer
+    [TestState(TestStateAttribute.TestState.Untested)] //due to missing importer's font character enumeration
     [ContentProcessor]
     public class FontDescriptionProcessor : ContentProcessor<FontDescription, SpriteFontContent>
     {
