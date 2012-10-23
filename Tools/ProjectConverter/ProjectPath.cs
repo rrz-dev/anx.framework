@@ -58,21 +58,36 @@ namespace ProjectConverter
 			}
 		}
 
-		public ProjectPath(Converter converter, string relativeSourcePath, string basePath)
+		public ProjectPath(Converter converter, string relativeSourcePath, string basePath, string destinationPath)
 		{
 			RelativeSourcePath = relativeSourcePath;
 			FullSourcePath = Path.Combine(basePath, relativeSourcePath);
 
-			RelativeDestinationPath = BuildTargetFilepath(converter);
+            if (string.IsNullOrEmpty(destinationPath))
+            {
+                RelativeDestinationPath = BuildTargetFilepath(converter);
+            }
+            else
+            {
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+
+                RelativeDestinationPath = Path.Combine(destinationPath, Path.GetFileName(relativeSourcePath));
+            }
+
 			FullDestinationPath = Path.Combine(basePath, RelativeDestinationPath);
 
-			try
-			{
+            //TODO: never ever ignore all exceptions without proper handling
+
+			//try
+			//{
 				LoadProjectFile();
-			}
-			catch
-			{
-			}
+			//}
+			//catch
+			//{
+			//}
 		}
 
 		#region Save
@@ -92,7 +107,10 @@ namespace ProjectConverter
 				filename = filename.Substring(0, filename.IndexOf('_'));
 			}
 
-			filename += "_" + converter.Postfix;
+            if (!string.IsNullOrEmpty(converter.Postfix))
+            {
+                filename += "_" + converter.Postfix;
+            }
 
 			return Path.Combine(basePath, filename + ".csproj");
 		}
@@ -121,18 +139,18 @@ namespace ProjectConverter
 				string testRelativeSourcePath = "ANX.Framework.csproj";
 
 				var projPath = new ProjectPath(new PsVitaConverter(),
-					testRelativeSourcePath, testBasePath);
+					testRelativeSourcePath, testBasePath, string.Empty);
 				Assert.AreEqual(projPath.RelativeDestinationPath,
 					"ANX.Framework_PSVita.csproj");
 
 				projPath = new ProjectPath(new LinuxConverter(),
-					"ANX.Framework_IOS.csproj", testBasePath);
+					"ANX.Framework_IOS.csproj", testBasePath, string.Empty);
 
 				Assert.AreEqual(projPath.RelativeDestinationPath,
 					"ANX.Framework_Linux.csproj");
 
 				projPath = new ProjectPath(new MetroConverter(),
-					"ANX.Framework_IOS_Android_WindowsXNA.csproj", testBasePath);
+					"ANX.Framework_IOS_Android_WindowsXNA.csproj", testBasePath, string.Empty);
 				Assert.AreEqual(projPath.RelativeDestinationPath,
 					"ANX.Framework_WindowsMetro.csproj");
 			}

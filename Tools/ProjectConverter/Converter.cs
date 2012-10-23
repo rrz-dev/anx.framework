@@ -31,9 +31,9 @@ namespace ProjectConverter
         public abstract string Name { get; }
 
 		#region ConvertAllProjects
-		public void ConvertAllProjects(string solutionFilepath)
+		public void ConvertAllProjects(string solutionFilepath, string destinationPath)
 		{
-			ProjectPath[] allProjects = CollectAllProjects(solutionFilepath);
+			ProjectPath[] allProjects = CollectAllProjects(solutionFilepath, destinationPath);
 
 			for (int index = 0; index < allProjects.Length; index++)
 			{
@@ -45,9 +45,9 @@ namespace ProjectConverter
 		#endregion
 
 		#region ConvertProject
-        public void ConvertProject(string projectFilePath)
+        public void ConvertProject(string projectFilePath, string destinationPath)
         {
-            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".");
+            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".", destinationPath);
             ConvertProject(projectPath);
         }
 
@@ -220,7 +220,11 @@ namespace ProjectConverter
 				string referencePath = includeAttribute.Value;
 				if (referencePath.EndsWith(".csproj"))
 				{
-					referencePath = referencePath.Replace(".csproj", "_" + Postfix + ".csproj");
+                    if (!string.IsNullOrEmpty(Postfix))
+                    {
+                        referencePath = referencePath.Replace(".csproj", "_" + Postfix + ".csproj");
+                    }
+
 					string basePath = Path.GetDirectoryName(CurrentProject.FullSourcePath);
 					string fullReferencePath = Path.Combine(basePath, referencePath);
 					if (File.Exists(fullReferencePath))
@@ -233,7 +237,7 @@ namespace ProjectConverter
 		#endregion
 
 		#region CollectAllProjects
-		private ProjectPath[] CollectAllProjects(string solutionFilepath)
+		private ProjectPath[] CollectAllProjects(string solutionFilepath, string destinationPath)
 		{
 			var solution = VsSolution.Load(solutionFilepath);
 			var result = new List<ProjectPath>();
@@ -242,7 +246,7 @@ namespace ProjectConverter
 
 			foreach (var project in solution.Projects)
 				if (project.IsCsProject && project.RelativePath.Contains("Tools") == false)
-					result.Add(new ProjectPath(this, project.RelativePath, basePath));
+					result.Add(new ProjectPath(this, project.RelativePath, basePath, destinationPath));
 
 			return result.ToArray();
 		}
@@ -282,7 +286,7 @@ namespace ProjectConverter
 			{
 				const string filepath = @"D:\code\csharp\ANX.Framework\ANX.Framework.sln";
 				var converter = new MetroConverter();
-				ProjectPath[] result = converter.CollectAllProjects(filepath);
+				ProjectPath[] result = converter.CollectAllProjects(filepath, string.Empty);
 				
 				Assert.Greater(result.Length, 0);
 			}
@@ -294,7 +298,7 @@ namespace ProjectConverter
 			{
 				const string filepath = @"D:\code\csharp\ANX.Framework\ANX.Framework.sln";
 				var converter = new MetroConverter();
-				converter.ConvertAllProjects(filepath);
+				converter.ConvertAllProjects(filepath, string.Empty);
 			}
 			#endregion
 
@@ -304,7 +308,7 @@ namespace ProjectConverter
 			{
 				const string filepath = @"D:\code\csharp\ANX.Framework\ANX.Framework.sln";
 				var converter = new PsVitaConverter();
-				converter.ConvertAllProjects(filepath);
+				converter.ConvertAllProjects(filepath, string.Empty);
 			}
 			#endregion
 
@@ -314,7 +318,7 @@ namespace ProjectConverter
 			{
 				const string filepath = @"D:\code\csharp\ANX.Framework\ANX.Framework.sln";
 				var converter = new LinuxConverter();
-				converter.ConvertAllProjects(filepath);
+				converter.ConvertAllProjects(filepath, string.Empty);
 			}
 			#endregion
 		}
