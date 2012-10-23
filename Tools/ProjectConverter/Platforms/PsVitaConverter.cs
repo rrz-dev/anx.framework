@@ -11,11 +11,14 @@ namespace ProjectConverter.Platforms
 	{
 		public override string Postfix
 		{
-			get
-			{
-				return "PSVita";
-			}
+			get { return "PSVita"; }
 		}
+
+
+        public override string Name
+        {
+            get { return "PSVita"; }
+        }
 
 		#region ConvertImport
 		protected override void ConvertImport(XElement element, XAttribute projectAttribute)

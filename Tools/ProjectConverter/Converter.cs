@@ -19,7 +19,16 @@ namespace ProjectConverter
 			"Microsoft.Xna.GameStudio.ContentPipelineExtensions.targets";
 
 		protected ProjectPath CurrentProject { get; private set; }
+
+        /// <summary>
+        /// The Postfix is used as a extension for a project file name
+        /// </summary>
 		public abstract string Postfix { get; }
+
+        /// <summary>
+        /// The Name is used to identify the converter
+        /// </summary>
+        public abstract string Name { get; }
 
 		#region ConvertAllProjects
 		public void ConvertAllProjects(string solutionFilepath)

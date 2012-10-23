@@ -3,8 +3,8 @@ setlocal
 set ProgRoot=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set ProgRoot=%ProgramFiles(x86)%
 
-if EXIST "%ProgRoot%\Microsoft Visual Studio 11.0" goto vs2011
-if EXIST "%ProgRoot%\Microsoft Visual Studio 10.0" goto vs2010
+if EXIST "%ProgRoot%\Microsoft Visual Studio 11.0\vc\vcvarsall.bat" goto vs2011
+if EXIST "%ProgRoot%\Microsoft Visual Studio 10.0\vc\vcvarsall.bat" goto vs2010
 goto error_msg
 
 :vs2011

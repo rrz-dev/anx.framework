@@ -22,6 +22,11 @@ namespace ProjectConverter.Platforms
 	        get { return "WindowsMetro"; }
 	    }
 
+        public override string Name
+        {
+            get { return "windowsmetro"; }
+        }
+
 	    #region ConvertImport
 		protected override void ConvertImport(XElement element, XAttribute projectAttribute)
 		{

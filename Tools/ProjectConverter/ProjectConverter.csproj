@@ -48,6 +48,9 @@
     <Compile Include="AssemblyInfoFixer.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="DefinesConverter.cs" />
+    <Compile Include="Platforms\AbstractXna2AnxConverter.cs" />
+    <Compile Include="Platforms\AnxConverter.cs" />
+    <Compile Include="Platforms\XnaConverter.cs" />
     <Compile Include="Platforms\LinuxConverter.cs" />
     <Compile Include="Platforms\MetroConverter.cs" />
     <Compile Include="Platforms\Metro\AppxManifest.cs" />

@@ -18,7 +18,9 @@ namespace ProjectConverter
 		{
 			new LinuxConverter(),
 			new MetroConverter(),
-			new PsVitaConverter()
+			new PsVitaConverter(),
+            new AnxConverter(),
+            new XnaConverter(),
 		};
 
 		[STAThread]
@@ -58,7 +60,7 @@ namespace ProjectConverter
                 string fileExt = Path.GetExtension(file).ToLowerInvariant();
                 foreach (Converter converter in Converters)
                 {
-                    if (switches.Contains(converter.Postfix.ToLowerInvariant()))
+                    if (switches.Contains(converter.Name.ToLowerInvariant()))
                     {
                         switch (fileExt)
                         {
