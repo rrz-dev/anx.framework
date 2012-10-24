@@ -48,6 +48,7 @@
     <Compile Include="AssemblyInfoFixer.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="DefinesConverter.cs" />
+    <Compile Include="NamespaceMapper.cs" />
     <Compile Include="Platforms\AbstractXna2AnxConverter.cs" />
     <Compile Include="Platforms\AnxConverter.cs" />
     <Compile Include="Platforms\XnaConverter.cs" />

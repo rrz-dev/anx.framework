@@ -2,40 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
+using System.IO;
 
 namespace ProjectConverter.Platforms
 {
     public class AnxConverter : AbstractXna2AnxConverter
     {
-        private readonly string[] xnaNamespaces = new string[] { "Microsoft.XNA.Framework",
-                                                                 "Microsoft.XNA.Framework.Avatar",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.AudioImporters",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.EffectImporter",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.FBXImporter",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.TextureImporter",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.VideoImporters",
-                                                                 "Microsoft.XNA.Framework.Content.Pipeline.XImporter",
-                                                                 "Microsoft.XNA.Framework.Game",
-                                                                 "Microsoft.XNA.Framework.GamerServices",
-                                                                 "Microsoft.XNA.Framework.Graphics",
-                                                                 "Microsoft.XNA.Framework.Input",
-                                                                 "Microsoft.XNA.Framework.Input.Touch",
-                                                                 "Microsoft.XNA.Framework.Net",
-                                                                 "Microsoft.XNA.Framework.Storage",
-                                                                 "Microsoft.XNA.Framework.Video",
-                                                                 "Microsoft.XNA.Framework.Xact",
-                                                               };
+        public AnxConverter()
+        {
+            // add default XNA references
+            assemblyReferencesToAdd.Add("Microsoft.Xna.Framework");
+            assemblyReferencesToAdd.Add("Microsoft.Xna.Framework.Game");
+            assemblyReferencesToAdd.Add("Microsoft.Xna.Framework.Input");
+            assemblyReferencesToAdd.Add("Microsoft.Xna.Framework.Graphics");
+        }
 
         public override string Name
         {
             get { return "anx2xna"; }
         }
 
-        protected override void ConvertUsingDirectives(string file, ref string target)
+        protected internal override MappingDirection MappingDirection
         {
-            string content = System.IO.File.ReadAllText(System.IO.Path.Combine(CurrentProject.FullSourceDirectoryPath, file));
-            ConvertUsingDirectivesImpl(ref content, ref target, "Microsoft.XNA.Framework", "ANX.Framework", xnaNamespaces);
+            get { return ProjectConverter.MappingDirection.Anx2Xna; }
+        }
+
+        protected override void ConvertProjectReference(XElement element)
+        {
+            XAttribute includeAttribute = element.Attribute("Include");
+            if (includeAttribute != null)
+            {
+                string reference = Path.GetFileNameWithoutExtension(includeAttribute.Value);    // sometimes the node contains a relative path to the reference
+
+                if (NamespaceMapper.IsProjectReference(MappingDirection, reference))
+                {
+                    string referenceAssembly = NamespaceMapper.GetReferencingAssemblyName(MappingDirection, reference);
+                    if (!string.IsNullOrEmpty(referenceAssembly))
+                    {
+                        assemblyReferencesToAdd.Add(referenceAssembly);
+                    }
+
+                    element.Remove();
+                }
+            }
+        }
+
+        protected internal override string ReplaceInlineNamespaces(string input)
+        {
+            return input.Replace("ANX.Framework.Game", "Microsoft.Xna.Framework.Game");
         }
     }
 }
