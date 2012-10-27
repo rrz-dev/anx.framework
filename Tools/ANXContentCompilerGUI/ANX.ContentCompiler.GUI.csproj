@@ -192,9 +192,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeViewExtensions.cs" />
-    <EmbeddedResource Include="Dialogues\PreviewScreen.resx">
-      <DependentUpon>PreviewScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
