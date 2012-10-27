@@ -50,7 +50,9 @@
     <Compile Include="DefinesConverter.cs" />
     <Compile Include="NamespaceMapper.cs" />
     <Compile Include="Platforms\AbstractXna2AnxConverter.cs" />
+    <Compile Include="Platforms\AnxContentProjectConverter.cs" />
     <Compile Include="Platforms\AnxConverter.cs" />
+    <Compile Include="Platforms\XnaContentProjectConverter.cs" />
     <Compile Include="Platforms\XnaConverter.cs" />
     <Compile Include="Platforms\LinuxConverter.cs" />
     <Compile Include="Platforms\MetroConverter.cs" />
@@ -66,6 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
+      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
+      <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

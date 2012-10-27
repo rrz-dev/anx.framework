@@ -30,6 +30,30 @@ namespace ProjectConverter
         /// </summary>
         public abstract string Name { get; }
 
+        /// <summary>
+        /// When set to false the source project file will not be written to disk after conversion
+        /// </summary>
+        public virtual bool WriteSourceProjectToDestination
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Nex extension to use for the target file
+        /// </summary>
+        public virtual string TargetFileExtension
+        {
+            get { return string.Empty; }
+        }
+
+        public virtual string ProjectFileTemplate 
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+
 		#region ConvertAllProjects
 		public void ConvertAllProjects(string solutionFilepath, string destinationPath)
 		{
@@ -44,16 +68,27 @@ namespace ProjectConverter
 		}
 		#endregion
 
-		#region ConvertProject
+        #region ConvertAnxContentProject
+        public void ConvertAnxContentProject(string projectFilePath, string destinationPath)
+        {
+            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".", destinationPath, TargetFileExtension, ProjectFileTemplate);
+            ConvertProject(projectPath);
+        }
+
+        #endregion
+
+        #region ConvertProject
         public void ConvertProject(string projectFilePath, string destinationPath)
         {
-            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".", destinationPath);
+            ProjectPath projectPath = new ProjectPath(this, projectFilePath, ".", destinationPath, TargetFileExtension);
             ConvertProject(projectPath);
         }
 
 		public void ConvertProject(ProjectPath project)
 		{
 			CurrentProject = project;
+
+            PreConvert();
 
 			string namespaceName = project.Root.Name.NamespaceName;
 			XName importName = XName.Get("Import", namespaceName);
@@ -67,7 +102,10 @@ namespace ProjectConverter
             XName outputPathName = XName.Get("OutputPath", namespaceName);
 
 			var groups = project.Root.Elements().ToList();
-			foreach (var group in groups)
+            
+            ConvertProject(project.Root);
+			
+            foreach (var group in groups)
 			{
 				if (group.Name == propertyGroupName)
 				{
@@ -93,31 +131,32 @@ namespace ProjectConverter
 						ConvertPropertyGroup(group);
 					}
 				}
-				else if (group.Name == importName)
-				{
-					XAttribute projectAttribute = group.Attribute("Project");
-					ConvertImport(group, projectAttribute);
-				}
-				else if (group.Name == itemGroupName)
-				{
-					var allReferences = group.Elements(referenceName).ToList();
-					foreach (var reference in allReferences)
-						ConvertReference(reference);
+                else if (group.Name == importName)
+                {
+                    XAttribute projectAttribute = group.Attribute("Project");
+                    ConvertImport(group, projectAttribute);
+                }
+                else if (group.Name == itemGroupName)
+                {
+                    var allReferences = group.Elements(referenceName).ToList();
+                    foreach (var reference in allReferences)
+                        ConvertReference(reference);
 
-					var allProjectReferences = group.Elements(projectReferenceName).ToList();
-					foreach (var projectReference in allProjectReferences)
-					{
-						FixProjectReferencePath(projectReference);
-						ConvertProjectReference(projectReference);
-					}
+                    var allProjectReferences = group.Elements(projectReferenceName).ToList();
+                    foreach (var projectReference in allProjectReferences)
+                    {
+                        FixProjectReferencePath(projectReference);
+                        ConvertProjectReference(projectReference);
+                    }
 
-					ConvertItemGroup(group);
-				}
+                    ConvertItemGroup(group);
+                }
 			}
 
 			PostConvert();
 
-			project.Save();
+            if (WriteSourceProjectToDestination)
+			    project.Save();
 		}
 		#endregion
 
@@ -151,8 +190,14 @@ namespace ProjectConverter
 		}
 		#endregion
 
-		#region ConvertImport
-		protected virtual void ConvertImport(XElement element, XAttribute projectAttribute)
+        #region ConvertProject
+        protected virtual void ConvertProject(XElement element)
+        {
+        }
+        #endregion
+
+        #region ConvertImport
+        protected virtual void ConvertImport(XElement element, XAttribute projectAttribute)
 		{
 		}
 		#endregion
@@ -164,14 +209,20 @@ namespace ProjectConverter
         }
         #endregion
 
+        #region PreConvert
+        protected virtual void PreConvert()
+        {
+        }
+        #endregion
+
         #region PostConvert
         protected virtual void PostConvert()
 		{
 		}
 		#endregion
 
-		#region DeleteNodeIfExists
-		protected void DeleteNodeIfExists(XElement group, string nodeName)
+        #region DeleteNodeIfExists
+        protected void DeleteNodeIfExists(XElement group, string nodeName)
 		{
 			XName name = XName.Get(nodeName, group.Name.NamespaceName);
 			XElement element = group.Element(name);
@@ -246,7 +297,7 @@ namespace ProjectConverter
 
 			foreach (var project in solution.Projects)
 				if (project.IsCsProject && project.RelativePath.Contains("Tools") == false)
-					result.Add(new ProjectPath(this, project.RelativePath, basePath, destinationPath));
+					result.Add(new ProjectPath(this, project.RelativePath, basePath, destinationPath, string.Empty));
 
 			return result.ToArray();
 		}

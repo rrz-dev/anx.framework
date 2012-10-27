@@ -112,6 +112,8 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// <param name="path">The path to save the project</param>
         public void Save(string path)
         {
+            //TODO: check file extension and throw exception when wrong (or silently change it?)
+
             if (!Directory.Exists(Path.GetDirectoryName(path)))
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             XmlWriter writer = XmlTextWriter.Create(path, new XmlWriterSettings() {Encoding = Encoding.UTF8, Indent = true, NewLineHandling = NewLineHandling.Entitize} );
@@ -183,7 +185,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             //          <Parameter Name="DoThis">True</Parameter>
             //      <ProcessorParams>
             //  </BuildItem>
-            //</BuildItems
+            //</BuildItems>
             writer.WriteStartElement("BuildItems");
             foreach (var buildItem in BuildItems)
             {
@@ -360,7 +362,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                 lastBuildItem.SourceFilename = reader.ReadElementContentAsString();
                         }
                         break;
-                    case "ProcessorParameter":
+                    case "Parameter":
                         if (versionMajor == 1 && versionMinor >= 0)
                         {
                             string key;

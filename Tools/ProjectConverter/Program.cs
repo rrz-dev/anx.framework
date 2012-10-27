@@ -21,6 +21,8 @@ namespace ProjectConverter
 			new PsVitaConverter(),
             new AnxConverter(),
             new XnaConverter(),
+            new XnaContentProjectConverter(),
+            new AnxContentProjectConverter(),
 		};
 
         private static readonly List<string> switches = new List<string>();
@@ -39,21 +41,22 @@ namespace ProjectConverter
 
 			foreach (string arg in args)
 			{
-				if (arg.StartsWith("/") || arg.StartsWith("-"))
+                string larg = arg.Trim();
+				if (larg.StartsWith("/") || larg.StartsWith("-"))
 				{
-                    if (arg.Contains("="))
+                    if (larg.Contains("="))
                     {
-                        string[] parts = arg.Split('=');
+                        string[] parts = larg.Split('=');
                         keyValueParameters[parts[0].Trim().ToLowerInvariant()] = parts[1].Trim().ToLowerInvariant();
                     }
                     else
                     {
-                        switches.Add(arg.Substring(1).Trim().ToLowerInvariant());
+                        switches.Add(larg.Substring(1).Trim().ToLowerInvariant());
                     }
 				}
-                else if (File.Exists(arg))
+                else if (File.Exists(larg))
                 {
-                    files.Add(arg);
+                    files.Add(larg);
                 }
 			}
 
@@ -70,7 +73,11 @@ namespace ProjectConverter
                                 converter.ConvertAllProjects(file, TryGetDestinationPath());
                                 break;
                             case ".csproj":
+                            case ".contentproj":
                                 converter.ConvertProject(file, TryGetDestinationPath());
+                                break;
+                            case ".cproj":
+                                converter.ConvertAnxContentProject(file, TryGetDestinationPath());
                                 break;
                             default:
                                 throw new NotImplementedException("unsupported file type '" + fileExt + "'");
@@ -86,7 +93,7 @@ namespace ProjectConverter
             {
                 if (string.Equals(kvp.Key, "/O", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return kvp.Value;
+                    return Path.GetDirectoryName(kvp.Value);
                 }
             }
 
