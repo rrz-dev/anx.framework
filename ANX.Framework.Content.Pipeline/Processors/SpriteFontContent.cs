@@ -29,7 +29,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
 		internal float Spacing { get; set; }
 
 		[ContentSerializer(ElementName = "Kerning", AllowNull = false)]
-		internal List<Vector3> Kerning { get; private set; }
+		internal List<Vector3> Kerning { get; set; }
 
 		[ContentSerializer(ElementName = "DefaultCharacter", AllowNull = true)]
 		internal char? DefaultCharacter { get; set; }

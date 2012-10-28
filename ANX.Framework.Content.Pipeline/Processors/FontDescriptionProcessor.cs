@@ -22,11 +22,12 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [PercentageComplete(90)]
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [TestState(TestStateAttribute.TestState.Untested)] //due to missing importer's font character enumeration
-    [ContentProcessor]
+    [ContentProcessor(DisplayName = "FontDescription Processor - ANX Framework")]
     public class FontDescriptionProcessor : ContentProcessor<FontDescription, SpriteFontContent>
     {
         public override SpriteFontContent Process(FontDescription input, ContentProcessorContext context)
         {
+            context.Logger.LogMessage("Processing of FontDescription started.");
             if (input == null)
             {
                 throw new ArgumentNullException("input");
@@ -104,20 +105,21 @@ namespace ANX.Framework.Content.Pipeline.Processors
                     spriteFontContent.Texture = ConvertBitmap(bitmap);
                     spriteFontContent.CharacterMap = input.Characters.ToList();
                     spriteFontContent.DefaultCharacter = input.DefaultCharacter;
-                    spriteFontContent.Glyphs = CreateOutputGlyphs();
-                    for (int i = 0; i < input.Characters.Count; i++)
+                    spriteFontContent.Glyphs = spriteFontContent.Cropping;
+                    spriteFontContent.Kerning = new List<Vector3>();
+                    for (var i = 0; i < input.Characters.Count; i++)
                     {
-                        Vector3 value = spriteFontContent.Kerning[i];
-                        if (!input.UseKerning)
+                        var value = Vector3.Zero;
+                        if (input.UseKerning)
+                        {
+                        }
+                        else
                         {
                             value.Y = spriteFontContent.Cropping[i].Width;
-                        }
-                        if (!input.UseKerning)
-                        {
                             value.X = 0f;
                             value.Z = 0f;
                         }
-                        spriteFontContent.Kerning[i] = value;
+                        spriteFontContent.Kerning.Add(value);
                     }
                     spriteFontContent.LineSpacing = (int) Math.Ceiling(font.GetHeight());
                     spriteFontContent.Spacing = input.Spacing;
@@ -129,7 +131,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                 foreach (Bitmap bitmap in bitmaps)
                     bitmap.Dispose();
             }
-
+            context.Logger.LogMessage("Processing of FontDescription finished.");
             return spriteFontContent;
         }
 
@@ -241,9 +243,9 @@ namespace ANX.Framework.Content.Pipeline.Processors
             var bitmapContent = new PixelBitmapContent<Color>(bitmap.Width, bitmap.Height);
             var destColor = new Color();
 
-            for (int x = bitmap.Width; x > 0; x--)
+            for (int x = 0; x < bitmap.Width; x++)
             {
-                for (int y = bitmap.Height; y > 0; y--)
+                for (int y = 0; y < bitmap.Height; y++)
                 {
                     System.Drawing.Color sourceColor = bitmap.GetPixel(x, y);
 

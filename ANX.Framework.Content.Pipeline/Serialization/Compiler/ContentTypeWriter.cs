@@ -1,5 +1,7 @@
 ﻿#region Using Statements
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 #endregion
@@ -12,53 +14,116 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 {
     public abstract class ContentTypeWriter
     {
-        private bool canDeserializeIntoExistingObject;
-        private Type targetType;
+        private List<ContentTypeWriter> _genericArgumentWriters;
         internal readonly bool TargetIsValueType;
+
+        #region CFPlatformDesc
+        private static readonly NetCfPlatformDescription[] NetCfDescs = new[]
+		{
+			new NetCfPlatformDescription(TargetPlatform.XBox360, new byte[]
+			{
+				132,
+				44,
+				248,
+				190,
+				29,
+				229,
+				5,
+				83
+			}, new string[]
+			{
+				"mscorlib",
+				"System",
+				"System.Xml"
+			}, new byte[]
+			{
+				28,
+				158,
+				37,
+				150,
+				134,
+				249,
+				33,
+				224
+			}, new Version(3, 7, 0, 0)),
+			new NetCfPlatformDescription(TargetPlatform.WindowsPhone, new byte[]
+			{
+				132,
+				44,
+				248,
+				190,
+				29,
+				229,
+				5,
+				83
+			}, new string[]
+			{
+				"mscorlib",
+				"System",
+				"System.Xml"
+			}, new byte[]
+			{
+				150,
+				157,
+				184,
+				5,
+				61,
+				51,
+				34,
+				172
+			}, new Version(3, 7, 0, 0))
+		};
+        #endregion
+
+        #region PublicKeyToken
+        private static readonly byte[] WindowsPublicKeyToken = new byte[]
+		{
+			132,
+			44,
+			248,
+			190,
+			29,
+			229,
+			5,
+			83
+		};
+        #endregion
 
         protected ContentTypeWriter(Type targetType)
         {
-            this.targetType = targetType;
+            TargetType = targetType;
+            TargetIsValueType = targetType.IsValueType;
         }
 
         internal static string GetStrongTypeName(Type type, TargetPlatform targetPlatform)
         {
-            string text = ContentTypeWriter.GetTypeName(type);
+            string text = GetTypeName(type);
             if (!string.IsNullOrEmpty(type.Namespace))
             {
                 text = type.Namespace + '.' + text;
             }
-            return text + ", " + ContentTypeWriter.GetAssemblyFullName(type.Assembly, targetPlatform);
+            return text + ", " + GetAssemblyFullName(type.Assembly, targetPlatform);
         }
 
         internal static string GetAssemblyFullName(Assembly assembly, TargetPlatform targetPlatform)
         {
             AssemblyName assemblyName = assembly.GetName();
-            //ContentTypeWriter.NetCFPlatformDescription[] netCFDescs = ContentTypeWriter.NetCFDescs;
-            //for (int i = 0; i < netCFDescs.Length; i++)
-            //{
-            //    ContentTypeWriter.NetCFPlatformDescription netCFPlatformDescription = netCFDescs[i];
-            //    if (netCFPlatformDescription.TargetPlatform == targetPlatform)
-            //    {
-            //        assemblyName = (AssemblyName)assemblyName.Clone();
-            //        if (ContentTypeWriter.KeysAreEqual(assemblyName.GetPublicKeyToken(), ContentTypeWriter.WindowsPublicKeyToken))
-            //        {
-            //            assemblyName.SetPublicKeyToken(netCFPlatformDescription.PublicKeyToken);
-            //            break;
-            //        }
-            //        string[] netCFAssemblies = netCFPlatformDescription.NetCFAssemblies;
-            //        for (int j = 0; j < netCFAssemblies.Length; j++)
-            //        {
-            //            string value = netCFAssemblies[j];
-            //            if (assemblyName.Name.Equals(value, StringComparison.InvariantCulture))
-            //            {
-            //                assemblyName.Version = netCFPlatformDescription.NetCFAssemblyVersion;
-            //                assemblyName.SetPublicKeyToken(netCFPlatformDescription.NetCFPublicKeyToken);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
+            NetCfPlatformDescription[] netCfDescs = NetCfDescs;
+            foreach (var netCfPlatformDescription in netCfDescs.Where(netCfPlatformDescription => netCfPlatformDescription.TargetPlatform == targetPlatform))
+            {
+                assemblyName = (AssemblyName)assemblyName.Clone();
+                if (ContentTypeWriter.KeysAreEqual(assemblyName.GetPublicKeyToken(), WindowsPublicKeyToken))
+                {
+                    assemblyName.SetPublicKeyToken(netCfPlatformDescription.PublicKeyToken);
+                    break;
+                }
+                var netCfAssemblies = netCfPlatformDescription.NetCfAssemblies;
+                if (netCfAssemblies.Any(value => assemblyName.Name.Equals(value, StringComparison.InvariantCulture)))
+                {
+                    assemblyName.Version = netCfPlatformDescription.NetCfAssemblyVersion;
+                    assemblyName.SetPublicKeyToken(netCfPlatformDescription.NetCfPublicKeyToken);
+                }
+            }
             return assemblyName.FullName;
         }
 
@@ -68,50 +133,86 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             Type declaringType = type.DeclaringType;
             if (declaringType != null)
             {
-                text = ContentTypeWriter.GetTypeName(declaringType) + '+' + text;
+                text = GetTypeName(declaringType) + '+' + text;
             }
             return text;
+        }
+
+        private static bool KeysAreEqual(byte[] a, byte[] b)
+        {
+            if (a.Length != b.Length)
+            {
+                return false;
+            }
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] != b[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         internal string GetGenericArgumentRuntimeTypes(TargetPlatform targetPlatform)
         {
             //TODO: implement
-            System.Diagnostics.Debugger.Break();
-            return "";
+            //System.Diagnostics.Debugger.Break();
+            //return "";
 
-            //if (this.genericArgumentWriters == null)
-            //{
-            //    return string.Empty;
-            //}
-            //string text = string.Empty;
-            //for (int i = 0; i < this.genericArgumentWriters.Count; i++)
-            //{
-            //    if (i > 0)
-            //    {
-            //        text += ',';
-            //    }
-            //    object obj = text;
-            //    text = string.Concat(new object[]
-            //    {
-            //        obj,
-            //        '[',
-            //        this.genericArgumentWriters[i].GetRuntimeType(targetPlatform),
-            //        ']'
-            //    });
-            //}
-            //return '[' + text + ']';
+            if (_genericArgumentWriters == null)
+            {
+                return string.Empty;
+            }
+            var text = string.Empty;
+            for (var i = 0; i < _genericArgumentWriters.Count; i++)
+            {
+                if (i > 0)
+                {
+                    text += ',';
+                }
+                object obj = text;
+                text = string.Concat(new[]
+                {
+                    obj,
+                    '[',
+                    _genericArgumentWriters[i].GetRuntimeType(targetPlatform),
+                    ']'
+                });
+            }
+            return '[' + text + ']';
+        }
+
+        internal void DoInitialize(ContentCompiler compiler)
+        {
+            Initialize(compiler);
+            if (TargetType.IsGenericType)
+            {
+                _genericArgumentWriters = new List<ContentTypeWriter>();
+                Type[] genericArguments = TargetType.GetGenericArguments();
+                foreach (var type in genericArguments)
+                {
+                    _genericArgumentWriters.Add(compiler.GetTypeWriter(type));
+                }
+            }
         }
 
         public abstract string GetRuntimeReader(TargetPlatform targetPlatform);
 
         public virtual string GetRuntimeType(TargetPlatform targetPlatform)
         {
-            throw new NotImplementedException();
+            var text = GetTypeName(TargetType);
+            if (!string.IsNullOrEmpty(TargetType.Namespace))
+            {
+                text = TargetType.Namespace + '.' + text;
+            }
+            text += GetGenericArgumentRuntimeTypes(targetPlatform);
+            return text + ", " + GetAssemblyFullName(TargetType.Assembly, targetPlatform);
         }
 
         protected virtual void Initialize(ContentCompiler compiler)
         {
-            throw new NotImplementedException();
+            
         }
 
         protected internal virtual bool ShouldCompressContent(TargetPlatform targetPlatform, Object value)
@@ -121,20 +222,16 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         protected internal abstract void Write(ContentWriter output, Object value);
 
-        public virtual bool CanDeserializeIntoExistingObject 
+        public virtual bool CanDeserializeIntoExistingObject
         {
-            get
-            {
-                return canDeserializeIntoExistingObject;
-            }
+            get; 
+            set;
         }
 
         public Type TargetType
         {
-            get
-            {
-                return this.targetType;
-            }
+            get; 
+            set; 
         }
 
         public virtual int TypeVersion
@@ -142,6 +239,23 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             get
             {
                 return 0;
+            }
+        }
+
+        internal class NetCfPlatformDescription
+        {
+            public TargetPlatform TargetPlatform;
+            public byte[] PublicKeyToken;
+            public string[] NetCfAssemblies;
+            public byte[] NetCfPublicKeyToken;
+            public Version NetCfAssemblyVersion;
+            public NetCfPlatformDescription(TargetPlatform targetPlatform, byte[] publicKeyToken, string[] netCfAssemblies, byte[] netCfPublicKeyToken, Version netCfAssemblyVersion)
+            {
+                TargetPlatform = targetPlatform;
+                PublicKeyToken = publicKeyToken;
+                NetCfAssemblies = netCfAssemblies;
+                NetCfPublicKeyToken = netCfPublicKeyToken;
+                NetCfAssemblyVersion = netCfAssemblyVersion;
             }
         }
     }
