@@ -608,7 +608,7 @@
     <property name="build.output.release_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.zip"/>
     
     <zip ziplevel="9" zipfile="${build.output.release_package}">
-      <fileset basedir="${build.dir}/${build.configuration}/">
+      <fileset basedir="../bin/${build.configuration}/">
         <include name="*.dll" />
         <include name="*.config" />
         <include name="../../doc/license.txt" />
