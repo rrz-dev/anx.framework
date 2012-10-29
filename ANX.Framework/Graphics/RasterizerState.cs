@@ -10,7 +10,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
-    [Developer("AstrorEnales, Glatzemann")]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class RasterizerState : GraphicsResource
 	{

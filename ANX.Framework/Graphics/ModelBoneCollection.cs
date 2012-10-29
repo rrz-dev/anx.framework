@@ -14,7 +14,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
-    [Developer("???, AstrorEnales")]
+    [Developer("Glatzemann, GinieDP, AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public sealed class ModelBoneCollection : ReadOnlyCollection<ModelBone>
     {

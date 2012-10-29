@@ -8,7 +8,8 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-	[PercentageComplete(0)]
+	[PercentageComplete(10)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class TextureCube : Texture, IGraphicsResource
 	{

@@ -7,7 +7,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
     [PercentageComplete(100)]
-    [Developer("AstrorEnales")]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public enum TextureFilter
     {

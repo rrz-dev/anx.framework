@@ -12,7 +12,7 @@ namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(100)]
 	[TestState(TestStateAttribute.TestState.Untested)]
-	[Developer("Glatzemann, AstrorEnales")]
+	[Developer("Glatzemann")]
     public class SpriteBatch : GraphicsResource
 	{
 		private const int InitialBatchSize = 1024;

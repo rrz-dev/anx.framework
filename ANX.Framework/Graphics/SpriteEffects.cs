@@ -9,7 +9,7 @@ namespace ANX.Framework.Graphics
 {
     [Flags]
     [PercentageComplete(100)]
-    [Developer("AstrorEnales")]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public enum SpriteEffects
     {

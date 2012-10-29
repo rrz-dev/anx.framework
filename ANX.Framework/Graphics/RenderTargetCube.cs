@@ -9,6 +9,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Graphics
 {
 	[PercentageComplete(0)]
+    [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
 	public class RenderTargetCube : TextureCube, IDynamicGraphicsResource
 	{
