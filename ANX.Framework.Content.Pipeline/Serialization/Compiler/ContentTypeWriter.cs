@@ -156,10 +156,6 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         internal string GetGenericArgumentRuntimeTypes(TargetPlatform targetPlatform)
         {
-            //TODO: implement
-            //System.Diagnostics.Debugger.Break();
-            //return "";
-
             if (_genericArgumentWriters == null)
             {
                 return string.Empty;

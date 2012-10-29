@@ -15,30 +15,73 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 {
     public sealed class ContentCompiler
     {
+        #region Private Members
         private Dictionary<Type, ContentTypeWriter> writerInstances = new Dictionary<Type, ContentTypeWriter>();
+        private Dictionary<Type, Type> genericHandlers = new Dictionary<Type, Type>();
+
+        #endregion
 
         public ContentCompiler()
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+                AddContentWriterAssembly(assembly);
+            }
+        }
+
+        public ContentTypeWriter GetTypeWriter(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            ContentTypeWriter contentTypeWriter;
+            if (!this.writerInstances.TryGetValue(type, out contentTypeWriter))
+            {
+                if (type.IsGenericType)
                 {
-                    ContentTypeWriterAttribute[] value = (ContentTypeWriterAttribute[])type.GetCustomAttributes(typeof(ContentTypeWriterAttribute), true);
-                    if (value.Length > 0)
+                    Type genericTypeDefinition = type.GetGenericTypeDefinition();
+                    Type handler;
+                    if (this.genericHandlers.TryGetValue(genericTypeDefinition, out handler))
                     {
-                        if (!type.ContainsGenericParameters)
-                        {
-                            ContentTypeWriter writer = (ContentTypeWriter)Activator.CreateInstance(type);
-                            writerInstances[writer.TargetType] = writer;
-                        }
-                        else
-                        {
-                            //TODO: implement generic writer instances...
-                            System.Diagnostics.Debugger.Break();
-                        }
+                        Type genericType = handler.MakeGenericType(type.GetGenericArguments());
+                        contentTypeWriter = ((object)Activator.CreateInstance(genericType)) as ContentTypeWriter;
                     }
                 }
+                else
+                {
+                    contentTypeWriter = default(ContentTypeWriter);
+                }
+
+                if (contentTypeWriter == null)
+                {
+                    if (type.IsArray)
+                    {
+                        if (type.GetArrayRank() != 1)
+                        {
+                            throw new RankException("can't serialize multidimensional arrays");
+                        }
+
+                        contentTypeWriter = Activator.CreateInstance(typeof(ArrayWriter<>).MakeGenericType(new Type[] { type.GetElementType() })) as ContentTypeWriter;
+                    }
+
+                    if (type.IsEnum)
+                    {
+                        contentTypeWriter = Activator.CreateInstance(typeof(EnumWriter<>).MakeGenericType(new Type[] { type.GetElementType() })) as ContentTypeWriter;
+                    }
+
+                    //TODO: return new ReflectiveWriter(type);
+                }
+
+                if (contentTypeWriter != null)
+                {
+                    this.writerInstances.Add(type, contentTypeWriter);
+                    contentTypeWriter.DoInitialize(this);
+                }
             }
+
+            return contentTypeWriter;
         }
 
         internal void Compile(Stream output, object value, TargetPlatform targetPlatform, GraphicsProfile targetProfile, bool compressContent, string rootDirectory, string referenceRelocationPath)
@@ -84,31 +127,6 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             }
         }
 
-        public ContentTypeWriter GetTypeWriter(Type type)
-        {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
-            ContentTypeWriter typeWriterInternal = this.GetTypeWriterInternal(type);
-            //TODO: this.RecordDependency(typeWriterInternal.TargetType);
-            return typeWriterInternal;
-        }
-
-        private ContentTypeWriter GetTypeWriterInternal(Type type)
-        {
-            ContentTypeWriter contentTypeWriter;
-            if (!this.writerInstances.TryGetValue(type, out contentTypeWriter))
-            {
-                //contentTypeWriter = this.typeWriterFactory.CreateWriter(type);
-                //this.AddTypeWriter(contentTypeWriter);
-                //this.InitializeTypeWriter(contentTypeWriter);
-            }
-
-            return contentTypeWriter;
-        }
-
         private bool ShouldCompressContent(TargetPlatform targetPlatform, object value)
         {
             if (targetPlatform == TargetPlatform.WindowsPhone)
@@ -116,9 +134,37 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                 return false;
             }
 
-            ContentTypeWriter typeWriterInternal = this.GetTypeWriterInternal(value.GetType());
+            ContentTypeWriter typeWriterInternal = this.GetTypeWriter(value.GetType());
             
             return typeWriterInternal.ShouldCompressContent(targetPlatform, value);
+        }
+
+        public void AddContentWriterAssembly(Assembly assembly)
+        {
+            foreach (Type type in assembly.GetTypes())
+            {
+                ContentTypeWriterAttribute[] value = (ContentTypeWriterAttribute[])type.GetCustomAttributes(typeof(ContentTypeWriterAttribute), true);
+                if (value.Length > 0)
+                {
+                    if (!type.ContainsGenericParameters)
+                    {
+                        ContentTypeWriter writer = (ContentTypeWriter)Activator.CreateInstance(type);
+                        writerInstances[writer.TargetType] = writer;
+                    }
+                    else
+                    {
+                        Type baseType = type.BaseType;
+                        while (!baseType.IsGenericType || baseType.GetGenericTypeDefinition() != typeof(ContentTypeWriter<>))
+                        {
+                            baseType = baseType.BaseType;
+                        }
+
+                        Type genericType = baseType.GetGenericArguments()[0];
+                        Type genericTypeDefinition = genericType.GetGenericTypeDefinition();
+                        genericHandlers.Add(genericTypeDefinition, type);
+                    }
+                }
+            }
         }
     }
 }
