@@ -28,24 +28,20 @@
     <delete>
       <fileset>
         <include name="../bin/**" />
+        <include name="${build.dir}/**" />
         <include name="${build.dir}/${build.configuration}/installer/**" />
         <include name="${project.anx.path}/obj/**" />
-        <include name="${project.anx.path.inputsystem.standard}/obj/**" />
-        <include name="${project.anx.path.inputsystem.recording}/obj/**" />
-        <include name="${project.anx.path.inputdevices.xinput}/obj/**" />
-        <include name="${project.anx.path.inputdevices.kinect}/obj/**" />
-        <include name="${project.anx.path.inputdevices.opentk}/obj/**" />
-        <include name="${project.anx.path.soundsystem.xaudio}/obj/**" />
-        <include name="${project.anx.path.soundsystem.openal}/obj/**" />
-        <include name="${project.anx.path.rendersystem.dx10}/obj/**" />
-        <include name="${project.anx.path.rendersystem.dx11}/obj/**" />
-        <include name="${project.anx.path.rendersystem.gl3}/obj/**" />
-        <include name="${project.anx.path.rendersystem.metro}/obj/**" />
         <include name="${project.anxcontent.path}/obj/**" />
+        <include name="Samples/${build.dir}/samples/${build.configuration}/**" />
+        <include name="${build.solution_dir}/**/obj/**" />
       </fileset>
     </delete>
   </target>
 
+  <target name="debug">
+    <property name="build.configuration" value="Debug" />
+  </target>
+  
   <target name="VS2010">
     <property name="project.anx.build_env" value="VS2010" />
   </target>
@@ -490,7 +486,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/samples/${build.configuration}" />
+          <arg value="/p:OutputPath=Samples/${build.dir}/samples/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
