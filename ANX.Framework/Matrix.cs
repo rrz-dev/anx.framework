@@ -521,11 +521,73 @@ namespace ANX.Framework
         public static void CreateConstrainedBillboard(ref Vector3 objectPosition,
             ref Vector3 cameraPosition,
             ref Vector3 rotateAxis,
-            Nullable<Vector3> cameraForwardVector,
-            Nullable<Vector3> objectForwardVector,
+            Vector3? cameraForwardVector,
+            Vector3? objectForwardVector,
             out Matrix result)
         {
-            throw new NotImplementedException();
+            Vector3 vector;
+            vector.X = objectPosition.X - cameraPosition.X;
+            vector.Y = objectPosition.Y - cameraPosition.Y;
+            vector.Z = objectPosition.Z - cameraPosition.Z;
+            var num = vector.LengthSquared();
+            if (num < 0.0001f)
+            {
+                vector = (cameraForwardVector.HasValue ? (-cameraForwardVector.Value) : Vector3.Forward);
+            }
+            else
+            {
+                Vector3.Multiply(ref vector, 1f / (float)Math.Sqrt(num), out vector);
+            }
+            var vector2 = rotateAxis;
+            float value;
+            Vector3.Dot(ref rotateAxis, ref vector, out value);
+            Vector3 vector3;
+            Vector3 vector4;
+            if (Math.Abs(value) > 0.998254657f)
+            {
+                if (objectForwardVector.HasValue)
+                {
+                    vector3 = objectForwardVector.Value;
+                    Vector3.Dot(ref rotateAxis, ref vector3, out value);
+                    if (Math.Abs(value) > 0.998254657f)
+                    {
+                        value = rotateAxis.X * Vector3.Forward.X + rotateAxis.Y * Vector3.Forward.Y + rotateAxis.Z * Vector3.Forward.Z;
+                        vector3 = ((Math.Abs(value) > 0.998254657f) ? Vector3.Right : Vector3.Forward);
+                    }
+                }
+                else
+                {
+                    value = rotateAxis.X * Vector3.Forward.X + rotateAxis.Y * Vector3.Forward.Y + rotateAxis.Z * Vector3.Forward.Z;
+                    vector3 = ((Math.Abs(value) > 0.998254657f) ? Vector3.Right : Vector3.Forward);
+                }
+                Vector3.Cross(ref rotateAxis, ref vector3, out vector4);
+                vector4.Normalize();
+                Vector3.Cross(ref vector4, ref rotateAxis, out vector3);
+                vector3.Normalize();
+            }
+            else
+            {
+                Vector3.Cross(ref rotateAxis, ref vector, out vector4);
+                vector4.Normalize();
+                Vector3.Cross(ref vector4, ref vector2, out vector3);
+                vector3.Normalize();
+            }
+            result.M11 = vector4.X;
+            result.M12 = vector4.Y;
+            result.M13 = vector4.Z;
+            result.M14 = 0f;
+            result.M21 = vector2.X;
+            result.M22 = vector2.Y;
+            result.M23 = vector2.Z;
+            result.M24 = 0f;
+            result.M31 = vector3.X;
+            result.M32 = vector3.Y;
+            result.M33 = vector3.Z;
+            result.M34 = 0f;
+            result.M41 = objectPosition.X;
+            result.M42 = objectPosition.Y;
+            result.M43 = objectPosition.Z;
+            result.M44 = 1f;
         }
 
         public static Matrix CreateFromAxisAngle(Vector3 axis, float angle)
@@ -537,7 +599,33 @@ namespace ANX.Framework
 
         public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Matrix result)
         {
-            throw new NotImplementedException();
+            var x = axis.X;
+            var y = axis.Y;
+            var z = axis.Z;
+            var num = (float)Math.Sin(angle);
+            var num2 = (float)Math.Cos(angle);
+            var num3 = x * x;
+            var num4 = y * y;
+            var num5 = z * z;
+            var num6 = x * y;
+            var num7 = x * z;
+            var num8 = y * z;
+            result.M11 = num3 + num2 * (1f - num3);
+            result.M12 = num6 - num2 * num6 + num * z;
+            result.M13 = num7 - num2 * num7 - num * y;
+            result.M14 = 0f;
+            result.M21 = num6 - num2 * num6 - num * z;
+            result.M22 = num4 + num2 * (1f - num4);
+            result.M23 = num8 - num2 * num8 + num * x;
+            result.M24 = 0f;
+            result.M31 = num7 - num2 * num7 + num * y;
+            result.M32 = num8 - num2 * num8 - num * x;
+            result.M33 = num5 + num2 * (1f - num5);
+            result.M34 = 0f;
+            result.M41 = 0f;
+            result.M42 = 0f;
+            result.M43 = 0f;
+            result.M44 = 1f;
         }
 
         public static Matrix CreateFromQuaternion(Quaternion quaternion)
@@ -589,17 +677,9 @@ namespace ANX.Framework
             float roll,
             out Matrix result)
         {
-            Matrix yawRotation = Matrix.Identity;
-            Matrix pitchRotation = Matrix.Identity;
-            Matrix rollRotation = Matrix.Identity;
-
-            Matrix.CreateRotationY(yaw, out yawRotation);
-            Matrix.CreateRotationX(pitch, out pitchRotation);
-            Matrix.CreateRotationZ(roll, out rollRotation);
-
-            Matrix tmp = Matrix.identity;
-            Matrix.Multiply(ref yawRotation, ref pitchRotation, out tmp);
-            Matrix.Multiply(ref tmp, ref rollRotation, out result);
+            Quaternion quaternion;
+            Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll, out quaternion);
+            CreateFromQuaternion(ref quaternion, out result);
         }
 
         public static Matrix CreateLookAt(Vector3 cameraPosition,
@@ -678,18 +758,18 @@ namespace ANX.Framework
 
             float nPmfP = zNearPlane - zFarPlane;
 
-            result.M11 = width * 0.5f;
+            result.M11 = 2f / width;
             result.M12 = 0f;
             result.M13 = 0f;
             result.M14 = 0f;
             result.M21 = 0f;
-            result.M22 = height * 0.5f;
+            result.M22 = 2f / height;
             result.M23 = 0f;
             result.M24 = 0f;
             result.M31 = 0f;
             result.M32 = 0f;
             result.M33 = 1f / nPmfP;
-            result.M34 = -1f;
+            result.M34 = 0f;
             result.M41 = 0f;
             result.M42 = 0f;
             result.M43 = zNearPlane / nPmfP;
@@ -720,12 +800,12 @@ namespace ANX.Framework
 
             float nPmfP = zNearPlane - zFarPlane;
 
-            result.M11 = (right - left) * 0.5f;
+            result.M11 = 2f / (right - left);
             result.M12 = 0f;
             result.M13 = 0f;
             result.M14 = 0f;
             result.M21 = 0f;
-            result.M22 = (top - bottom) * 0.5f;
+            result.M22 = 2f / (top - bottom);
             result.M23 = 0f;
             result.M24 = 0f;
             result.M31 = 0f;
@@ -886,7 +966,31 @@ namespace ANX.Framework
 
         public static void CreateReflection(ref Plane value, out Matrix result)
         {
-            throw new NotImplementedException();
+            Plane plane;
+            Plane.Normalize(ref value, out plane);
+            value.Normalize();
+            var x = plane.Normal.X;
+            var y = plane.Normal.Y;
+            var z = plane.Normal.Z;
+            var num = -2f * x;
+            var num2 = -2f * y;
+            var num3 = -2f * z;
+            result.M11 = num * x + 1f;
+            result.M12 = num2 * x;
+            result.M13 = num3 * x;
+            result.M14 = 0f;
+            result.M21 = num * y;
+            result.M22 = num2 * y + 1f;
+            result.M23 = num3 * y;
+            result.M24 = 0f;
+            result.M31 = num * z;
+            result.M32 = num2 * z;
+            result.M33 = num3 * z + 1f;
+            result.M34 = 0f;
+            result.M41 = num * plane.D;
+            result.M42 = num2 * plane.D;
+            result.M43 = num3 * plane.D;
+            result.M44 = 1f;
         }
 
         public static Matrix CreateRotationX(float radians)
@@ -995,7 +1099,29 @@ namespace ANX.Framework
 
         public static void CreateShadow(ref Vector3 lightDirection, ref Plane plane, out Matrix result)
         {
-            throw new NotImplementedException();
+            Plane planeResult;
+            Plane.Normalize(ref plane, out planeResult);
+            var num = planeResult.Normal.X * lightDirection.X + planeResult.Normal.Y * lightDirection.Y + planeResult.Normal.Z * lightDirection.Z;
+            var num2 = -planeResult.Normal.X;
+            var num3 = -planeResult.Normal.Y;
+            var num4 = -planeResult.Normal.Z;
+            var num5 = -planeResult.D;
+            result.M11 = num2 * lightDirection.X + num;
+            result.M21 = num3 * lightDirection.X;
+            result.M31 = num4 * lightDirection.X;
+            result.M41 = num5 * lightDirection.X;
+            result.M12 = num2 * lightDirection.Y;
+            result.M22 = num3 * lightDirection.Y + num;
+            result.M32 = num4 * lightDirection.Y;
+            result.M42 = num5 * lightDirection.Y;
+            result.M13 = num2 * lightDirection.Z;
+            result.M23 = num3 * lightDirection.Z;
+            result.M33 = num4 * lightDirection.Z + num;
+            result.M43 = num5 * lightDirection.Z;
+            result.M14 = 0f;
+            result.M24 = 0f;
+            result.M34 = 0f;
+            result.M44 = num;
         }
 
         public static Matrix CreateTranslation(float xPosition, float yPosition, float zPosition)
