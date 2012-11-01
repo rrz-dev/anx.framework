@@ -31,10 +31,18 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         public ContentTypeWriter GetTypeWriter(Type type)
         {
+            IEnumerable<Type> dependencies;
+            return GetTypeWriter(type, out dependencies);
+        }
+
+        public ContentTypeWriter GetTypeWriter(Type type, out IEnumerable<Type> dependencies)
+        {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
+
+            dependencies = new List<Type>();
 
             ContentTypeWriter contentTypeWriter;
             if (!this.writerInstances.TryGetValue(type, out contentTypeWriter))
@@ -47,6 +55,14 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                     {
                         Type genericType = handler.MakeGenericType(type.GetGenericArguments());
                         contentTypeWriter = ((object)Activator.CreateInstance(genericType)) as ContentTypeWriter;
+
+                        foreach (Type dependentType in type.GetGenericArguments())
+                        {
+                            if (!((List<Type>)dependencies).Contains(dependentType))
+                            {
+                                ((List<Type>)dependencies).Add(dependentType);
+                            }
+                        }
                     }
                 }
                 else

@@ -235,6 +235,12 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
             writer.Write(this, value);
         }
 
+        private ContentTypeWriter GetTypeWriter(Type type)
+        {
+            int typeIndex;
+            return GetTypeWriter(type, out typeIndex);
+        }
+
         private ContentTypeWriter GetTypeWriter(Type type, out int typeIndex)
         {
             if (this.typeTable.TryGetValue(type, out typeIndex))
@@ -242,21 +248,19 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                 return this.typeWriters[typeIndex];
             }
 
-            IEnumerable<Type> enumerable = null;
-            ContentTypeWriter typeWriter = this.compiler.GetTypeWriter(type); //TODO:, out enumerable);
+            IEnumerable<Type> dependencies = null;
+            ContentTypeWriter typeWriter = this.compiler.GetTypeWriter(type, out dependencies);
             typeIndex = this.typeWriters.Count;
             this.typeWriters.Add(typeWriter);
             this.typeTable.Add(type, typeIndex);
 
-            //TODO: what is this for?
-            //foreach (Type current in enumerable)
-            //{
-            //    if (!(current == typeof(object)))
-            //    {
-            //        int num;
-            //        this.GetTypeWriter(current, out num);
-            //    }
-            //}
+            foreach (Type dependentType in dependencies)
+            {
+                if (!(dependentType == typeof(object)))
+                {
+                    this.GetTypeWriter(dependentType);
+                }
+            }
 
             return typeWriter;
         }

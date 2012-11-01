@@ -7,7 +7,7 @@
 namespace ANX.Framework.Content.Pipeline.Serialization.Compiler.SystemTypeWriters
 {
 	[ContentTypeWriter]
-	internal class ByteWriter : BuiltinTypeWriter<char>
+	internal class CharWriter : BuiltinTypeWriter<Char>
 	{
 		protected internal override void Write(ContentWriter output, char value)
 		{
