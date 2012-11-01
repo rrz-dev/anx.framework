@@ -125,7 +125,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
                                                 startElement.Value + " - " + endElement.Value);
                 }
                 //add each char from the range to the list
-                for (var i = startChar; i < endChar - 1; i++)
+                for (var i = startChar; i < endChar; i++)
                 {
                     characters.Add(Convert.ToChar(i));
                 }
@@ -136,7 +136,8 @@ namespace ANX.Framework.Content.Pipeline.Importer
             _logger.LogMessage("Import of SpriteFont finished.");
             var result = new FontDescription(fontName, fontSize, fontSpacing, fontStyle)
                                          {
-                                             Characters = characters
+                                             Characters = characters/*, 
+                                             DefaultCharacter = '*'*/  //Currently disabled because the ContentLoader does not like this (Bad XNB)
                                          };
 
             return result;

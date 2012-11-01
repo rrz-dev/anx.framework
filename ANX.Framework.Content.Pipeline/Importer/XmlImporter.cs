@@ -85,7 +85,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
                 }
                 catch (Exception ex)
                 {
-                    Debugger.Break(); //Go and check whats wrong
+                    //Debugger.Break(); //Go and check whats wrong
                 }
             }
             Type t = Type.GetType(typeString);
