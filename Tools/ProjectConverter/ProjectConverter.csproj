@@ -33,7 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\NUnit-2.6.1\bin\nunit.framework.dll</HintPath>
     </Reference>
