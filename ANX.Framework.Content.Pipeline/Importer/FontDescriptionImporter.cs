@@ -89,6 +89,18 @@ namespace ANX.Framework.Content.Pipeline.Importer
             FontDescriptionStyle fontStyle;
             Enum.TryParse(styleElement.Value, out fontStyle);
 
+            //Check for default character element and try to parse it
+            var defaultCharElement = assetNode.Element("DefaultCharacter");
+            char? defaultChar = null;
+            if (defaultCharElement != null)
+            {
+                char c;
+                if (Char.TryParse(defaultCharElement.Value, out c))
+                {
+                    defaultChar = c;
+                }
+            }
+
             //Get the character regions element to iterate through the character regions
             var charRegionsElement = assetNode.Element("CharacterRegions");
             if (charRegionsElement == null)
@@ -136,8 +148,8 @@ namespace ANX.Framework.Content.Pipeline.Importer
             _logger.LogMessage("Import of SpriteFont finished.");
             var result = new FontDescription(fontName, fontSize, fontSpacing, fontStyle)
                                          {
-                                             Characters = characters/*, 
-                                             DefaultCharacter = '*'*/  //Currently disabled because the ContentLoader does not like this (Bad XNB)
+                                             Characters = characters, 
+                                             DefaultCharacter = defaultChar  //Currently disabled because the ContentLoader does not like this (Bad XNB)
                                          };
 
             return result;

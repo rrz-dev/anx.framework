@@ -24,7 +24,12 @@ namespace ANX.Framework.Content
             int verticalLineSpacing = input.ReadInt32();
             float horizontalSpacing = input.ReadSingle();
             List<Vector3> kerning = input.ReadObject<List<Vector3>>();
-            char? defaultCharacter = input.ReadObject<char?>();
+
+            char? defaultCharacter = null;
+            if (input.ReadBoolean())
+            {
+                defaultCharacter = new char?(input.ReadChar());
+            }
 
             SpriteFont spriteFont = new SpriteFont(
                 texture, glyphs, cropping, characterMap, 

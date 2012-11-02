@@ -41,7 +41,7 @@ sind.
     Wenn Sie den Kommentar von dieser Zeile entfernen, wird das Standardzeichen ersetzt, wenn Sie zeichnen
     oder Text messen, der Zeichen enthält, die in der Schriftart nicht enthalten sind.
     -->
-    <!-- <DefaultCharacter>*</DefaultCharacter> -->
+    <DefaultCharacter>*</DefaultCharacter>
 
     <!--
     CharacterRegions steuert, welche Buchstaben in der Schriftart verfügbar sind. Jedes
