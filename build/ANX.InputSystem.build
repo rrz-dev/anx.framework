@@ -1,0 +1,72 @@
+<project name="ANX.Framework InputSystem" default="inputsystem" basedir="./">
+  <target name="inputsystem" description="Build ANX.Framework InputSystems">
+    <!-- default windows fileset -->
+    <fileset id="inputsystem_files" basedir="../InputSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*ModernUI*.csproj" />
+      <exclude name="**/*Kinect*.csproj" />
+      <exclude name="**/*_Linux.csproj" />
+      <exclude name="**/ANX.InputDevices.Test*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*_Linux.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*ModernUI*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*PSVITA*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*_PSVITA.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*ModernUI*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenTK*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="inputsystem_files" basedir="../InputSystems/">
+        <include name="**/*ModernUI*_WindowsMetro.csproj" />
+        <exclude name="**/*PsVita*.csproj" />
+        <exclude name="**/*Kinect*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenTK*.csproj" />
+        <exclude name="**/ANX.InputDevices.Test*.csproj" />
+      </fileset>
+    </if>
+
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="inputsystem_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+</project>

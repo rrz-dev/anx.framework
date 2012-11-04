@@ -31,7 +31,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void GetHashCode()
+        public void GetHashCodeTest()
         {
             var xna = new XNAVertexPositionColor(new XNAVector3(1f, 2f, 3f), XNAColor.CornflowerBlue);
             var anx = new VertexPositionColor(new Vector3(1f, 2f, 3f), Color.CornflowerBlue);
@@ -40,7 +40,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void ToString()
+        public void ToStringTest()
         {
             var xna = new XNAVertexPositionColor(new XNAVector3(1f, 2f, 3f), XNAColor.CornflowerBlue);
             var anx = new VertexPositionColor(new Vector3(1f, 2f, 3f), Color.CornflowerBlue);
@@ -70,9 +70,11 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         public void Equals2()
         {
             var xna = new XNAVertexPositionColor(new XNAVector3(1f, 2f, 3f), XNAColor.CornflowerBlue);
+            var xna2 = new XNAVertexPositionColor(new XNAVector3(1f, 2f, 3f), XNAColor.CornflowerBlue);
             var anx = new VertexPositionColor(new Vector3(1f, 2f, 3f), Color.CornflowerBlue);
+            var anx2 = new VertexPositionColor(new Vector3(1f, 2f, 3f), Color.CornflowerBlue);
 
-            AssertHelper.ConvertEquals(xna != xna, anx != anx, "Equals2");
+            AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "Equals2");
         }
 
         [Test]

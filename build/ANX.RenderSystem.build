@@ -1,0 +1,55 @@
+<project name="ANX.Framework RenderSystem" default="rendersystem" basedir="./">
+  <target name="rendersystem" description="Build ANX.Framework RenderSystems">
+    <!-- default windows fileset -->
+    <fileset id="rendersystem_files" basedir="../RenderSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*GL*_Linux.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*.PSVITA*_PSVITA.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="rendersystem_files" basedir="../RenderSystems/">
+        <include name="**/*.Metro*_WindowsMetro.csproj" />
+      </fileset>
+    </if>
+
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="rendersystem_files" />
+      </in>
+      <do>
+        <property name="additional_directives" value="${path::get-file-name-without-extension(projectFile)}" />
+        <property name="additional_directives" value="${string::replace(additional_directives, 'ANX.RenderSystem.', '')}" />
+        <property name="additional_directives" value="${string::replace(additional_directives, 'Windows.', '')}" />
+
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)} (directives: ${additional_directives})" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives} ${additional_directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+</project>

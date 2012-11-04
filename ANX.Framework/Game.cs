@@ -395,7 +395,7 @@ namespace ANX.Framework
 				IGraphicsDeviceService graphicsDeviceService = this.graphicsDeviceService;
 				if (graphicsDeviceService == null)
 				{
-					graphicsDeviceService = this.Services.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
+					this.graphicsDeviceService = graphicsDeviceService = this.Services.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
 
 					//TODO: exception if null
 				}

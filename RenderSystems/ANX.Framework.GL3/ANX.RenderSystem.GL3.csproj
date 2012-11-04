@@ -20,7 +20,7 @@
     <DefineConstants>TRACE;DEBUG;XNAEXT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE;XNAEXT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -62,13 +62,15 @@
     <Compile Include="SamplerStateGL3.cs" />
     <Compile Include="ShaderAttributeGL3.cs" />
     <Compile Include="ShaderByteCode.cs" />
-    <Compile Include="ShaderData.cs" />
-    <Compile Include="ShaderHelper.cs" />
     <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
+      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
+      <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
       <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
       <Name>ANX.Framework</Name>

@@ -30,7 +30,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void ToString()
+        public void ToStringTest()
         {
             var xnaParameters = new object[] { 800, 600, XNASurfaceFormat.Color };
             var xna = (XNADisplayMode)Activator.CreateInstance(typeof(XNADisplayMode),

@@ -60,6 +60,23 @@
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="ContentProcessorAttribute.cs" />
     <Compile Include="ContentProcessorContext.cs" />
+    <Compile Include="Helpers\DX11MetroShaderCodeGenerator\CompiledPass.cs" />
+    <Compile Include="Helpers\DX11MetroShaderCodeGenerator\MetroCodeGenerator.cs" />
+    <Compile Include="Helpers\GL3\ShaderHelper.cs" />
+    <Compile Include="Helpers\GL3\ShaderData.cs" />
+    <Compile Include="Helpers\HLSLParser\CommentRemover.cs" />
+    <Compile Include="Helpers\HLSLParser\EffectBuffer.cs" />
+    <Compile Include="Helpers\HLSLParser\EffectFile.cs" />
+    <Compile Include="Helpers\HLSLParser\IShaderElement.cs" />
+    <Compile Include="Helpers\HLSLParser\Method.cs" />
+    <Compile Include="Helpers\HLSLParser\Parser.cs" />
+    <Compile Include="Helpers\HLSLParser\ParseTextWalker.cs" />
+    <Compile Include="Helpers\HLSLParser\Pass.cs" />
+    <Compile Include="Helpers\HLSLParser\Sampler.cs" />
+    <Compile Include="Helpers\HLSLParser\Structure.cs" />
+    <Compile Include="Helpers\HLSLParser\Technique.cs" />
+    <Compile Include="Helpers\HLSLParser\TypeDef.cs" />
+    <Compile Include="Helpers\HLSLParser\Variable.cs" />
     <Compile Include="Importer\EffectImporter.cs" />
     <Compile Include="ExternalReference.cs" />
     <Compile Include="Importer\FbxImporter.cs" />
@@ -202,10 +219,6 @@
     <ProjectReference Include="..\ANX.Framework\ANX.Framework.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.GL3</Name>
     </ProjectReference>
     <ProjectReference Include="..\Support\WaveUtils\WaveUtils.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>

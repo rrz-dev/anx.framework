@@ -11,9 +11,9 @@ namespace WaveUtils
 	{
 		private WaveInfo loadedData;
 
-		public WaveConverter(WaveInfo setLoadedData)
+		public WaveConverter(WaveInfo loadedData)
 		{
-			setLoadedData = loadedData;
+			this.loadedData = loadedData;
 		}
 
 		public void ConvertToPcm()

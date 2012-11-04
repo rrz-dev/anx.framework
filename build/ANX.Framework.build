@@ -1,10 +1,11 @@
 <project name="ANX.Framework Build" default="build" basedir="./">
   <property name="build.platform" value="Any CPU" />
-  <property name="build.dir" value="../../bin" />
-  <property name="build.dir.base" value="${build.dir}" />
-  <property name="build.dir.tools" value="../bin" />
-  <property name="build.solution_dir" value="../" />  
+  <property name="build.solution_dir" value="../" />
 
+  <property name="build.dir" value="${path::get-full-path('../bin')}" />
+  <property name="build.dir.base" value="${build.dir}" />
+  <property name="build.dir.tools" value="${build.dir}/tools" />
+  
   <property name="project.anx.path" value="../ANX.Framework" />
   <property name="project.anx.name" value="ANX.Framework" />
 
@@ -27,13 +28,14 @@
   <target name="clean" description="Cleans all targets.">
     <delete>
       <fileset>
-        <include name="../bin/**" />
         <include name="${build.dir}/**" />
+        <include name="${build.dir.base}/**" />
+        <include name="${build.dir.tools}/**" />
+        <include name="${build.solution_dir}/**/obj/**" />
+        <include name="${build.dir}/samples/**/**" />
         <include name="${build.dir}/${build.configuration}/installer/**" />
         <include name="${project.anx.path}/obj/**" />
         <include name="${project.anxcontent.path}/obj/**" />
-        <include name="Samples/${build.dir}/samples/${build.configuration}/**" />
-        <include name="${build.solution_dir}/**/obj/**" />
       </fileset>
     </delete>
   </target>
@@ -99,6 +101,7 @@
     <echo message="Build environment  : ${project.anx.build_env}" />
     <echo message="Build configuration: ${build.configuration}" />
     <echo message="Target platform    : ${project.anx.platform}" />
+    <echo message="Target build dir   : ${build.dir.base}" />
     <echo message="" />
 
     <if test="${project.anx.extended}">
@@ -122,7 +125,7 @@
     <call target="samples" />
   </target>
 
-  <target name="anx" description="Build ANX.Framework core">
+  <target name="anx" description="Build ANX.Framework core" unless="${target::has-executed('anx')}">
     <echo message="building: ANX.Framework" />
 
     <exec program="msbuild.exe" >
@@ -176,7 +179,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
@@ -187,192 +190,13 @@
       </do>
     </foreach>
   </target>
+
+  <include buildfile="ANX.RenderSystem.build" />
+
+  <include buildfile="ANX.InputSystem.build" />
+
+  <include buildfile="ANX.SoundSystem.build" />
   
-  <target name="rendersystem" description="Build ANX.Framework RenderSystems">
-    <!-- default windows fileset -->
-    <fileset id="rendersystem_files" basedir="../RenderSystems/">
-      <include name="**/*.csproj" />
-      <exclude name="**/*PSVita*.csproj" />
-      <exclude name="**/*Metro*.csproj" />
-      <exclude name="**/*Linux*.csproj" />
-    </fileset>
-
-    <if test="${project.anx.linux}">
-      <fileset id="rendersystem_files" basedir="../RenderSystems/">
-        <include name="**/*GL*_Linux.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.psvita}">
-      <fileset id="rendersystem_files" basedir="../RenderSystems/">
-        <include name="**/*.PSVITA*_PSVITA.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.metro}">
-      <fileset id="rendersystem_files" basedir="../RenderSystems/">
-        <include name="**/*.Metro*_WindowsMetro.csproj" />
-      </fileset>
-    </if>
-    
-    <foreach item="File" property="projectFile">
-      <in>
-        <items refid="rendersystem_files" />
-      </in>
-      <do>
-        <property name="additional_directives" value="${path::get-file-name-without-extension(projectFile)}" />
-        <property name="additional_directives" value="${string::replace(additional_directives, 'ANX.RenderSystem.', '')}" />
-        <property name="additional_directives" value="${string::replace(additional_directives, 'Windows.', '')}" />
-
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)} (directives: ${additional_directives})" />
-
-        <exec program="msbuild.exe" >
-          <arg value="/t:Build"/>
-          <arg value="/p:Configuration=${build.configuration}"/>
-          <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
-          <arg value="/p:AllowUnsafeBlocks=true" />
-          <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives} ${additional_directives}"' />
-          <arg value="/clp:ErrorsOnly" />
-          <arg value="/nologo" />
-          <arg value="${projectFile}" />
-        </exec>
-      </do>
-    </foreach>
-  </target>
-
-  <target name="inputsystem" description="Build ANX.Framework InputSystems">
-    <!-- default windows fileset -->
-    <fileset id="inputsystem_files" basedir="../InputSystems/">
-      <include name="**/*.csproj" />
-      <exclude name="**/*PSVita*.csproj" />
-      <exclude name="**/*Metro*.csproj" />
-      <exclude name="**/*ModernUI*.csproj" />
-      <exclude name="**/*Kinect*.csproj" />
-      <exclude name="**/*_Linux.csproj" />
-      <exclude name="**/ANX.InputDevices.Test*.csproj" />
-    </fileset>
-
-    <if test="${project.anx.linux}">
-      <fileset id="inputsystem_files" basedir="../InputSystems/">
-        <include name="**/*_Linux.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*ModernUI*.csproj" />
-        <exclude name="**/*Kinect*.csproj" />
-        <exclude name="**/*PSVITA*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
-        <exclude name="**/ANX.InputDevices.Test*.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.psvita}">
-      <fileset id="inputsystem_files" basedir="../InputSystems/">
-        <include name="**/*_PSVITA.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*ModernUI*.csproj" />
-        <exclude name="**/*Kinect*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenTK*.csproj" />
-        <exclude name="**/ANX.InputDevices.Test*.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.metro}">
-      <fileset id="inputsystem_files" basedir="../InputSystems/">
-        <include name="**/*ModernUI*_WindowsMetro.csproj" />
-        <exclude name="**/*PsVita*.csproj" />
-        <exclude name="**/*Kinect*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenTK*.csproj" />
-        <exclude name="**/ANX.InputDevices.Test*.csproj" />
-      </fileset>
-    </if>
-    
-    <foreach item="File" property="projectFile">
-      <in>
-        <items refid="inputsystem_files" />
-      </in>
-      <do>
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
-
-        <exec program="msbuild.exe" >
-          <arg value="/t:Build"/>
-          <arg value="/p:Configuration=${build.configuration}"/>
-          <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
-          <arg value="/p:AllowUnsafeBlocks=true" />
-          <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives}"' />
-          <arg value="/clp:ErrorsOnly" />
-          <arg value="/nologo" />
-          <arg value="${projectFile}" />
-        </exec>
-      </do>
-    </foreach>
-  </target>
- 
-  <target name="soundsystem" description="Build ANX.Framework SoundSystems" depends="support">
-    <!-- default windows fileset -->
-    <fileset id="soundsystem_files" basedir="../SoundSystems/">
-      <include name="**/*.csproj" />
-      <exclude name="**/*PSVita*.csproj" />
-      <exclude name="**/*Metro*.csproj" />
-      <exclude name="**/*Linux*.csproj" />
-    </fileset>
-
-    <if test="${project.anx.linux}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_Linux.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*PSVITA*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.psvita}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_PsVita.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenAL*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.metro}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_WindowsMetro.csproj" />
-        <exclude name="**/*PSVita*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenAL*.csproj" />
-      </fileset>
-    </if>
-
-    <foreach item="File" property="projectFile">
-      <in>
-        <items refid="soundsystem_files" />
-      </in>
-      <do>
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
-
-        <exec program="msbuild.exe" >
-          <arg value="/t:Build"/>
-          <arg value="/p:Configuration=${build.configuration}"/>
-          <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
-          <arg value="/p:AllowUnsafeBlocks=true" />
-          <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives}"' />
-          <arg value="/clp:ErrorsOnly" />
-          <arg value="/nologo" />
-          <arg value="${projectFile}" />
-        </exec>
-      </do>
-    </foreach>
-  </target>
-
   <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
     <!-- default windows fileset -->
     <fileset id="platformsystem_files" basedir="../PlatformSystems/">
@@ -486,7 +310,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=Samples/${build.dir}/samples/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.base}/samples/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
@@ -513,7 +337,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.tools}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
@@ -525,30 +349,11 @@
     </foreach>
   </target>
   
-  <!--
-    TODO: "depends rendersystem" in the tools target leads to three compilations of all the rendersystems. Currently this is necessary because we have
-    kind of ring dependency. To build a rendersystem we need the StockShaderCodeGenerator. This is used to embed the stock shaders into the 
-    rendersystem. To compile a stock shader the rendersystem is needed because the compile methods are embedded into the rendersytem.
-    
-    A possible solution is:
-    
-    - compile render system
-    - compile stock shader code generator
-    - generate stock shaders
-    - compile stock shader assembly
-    - merge render system and stock shader assembly to one file
-    
-    Another possible solution is:
-    
-    - don't use sscg or remove rendersystem dependency from sscg
-  -->
-  <target name="tools" description="Build ANX.Framework tools" depends="support, rendersystem" unless="${target::has-executed('tools')}">
+  <target name="tools" description="Build ANX.Framework tools" depends="anx, content_pipeline, support" unless="${target::has-executed('tools')}">
     <foreach item="File" property="projectFile">
       <in>
         <items basedir="../Tools/">
           <include name="**/*.csproj" />
-          <exclude name="**/HLSLParser*.csproj" />
-          <exclude name="**/DX11MetroShaderGenerator.csproj" />
           <exclude name="**/ProjectConverter.csproj" />
 
           <exclude name="**/*ANX.ContentCompiler.GUI*.csproj" if="${project.anx.metro}" />
@@ -579,7 +384,7 @@
 
   </target>
 
-  <target name="content_pipeline" description="Build ANX.Framework ContentPipeline extensions" depends="support">
+  <target name="content_pipeline" description="Build ANX.Framework ContentPipeline extensions" depends="anx, support" unless="${target::has-executed('content_pipeline')}">
     <echo message="building: Content.Pipeline.Extensions" />
 <!--
     <exec program="msbuild.exe" >
@@ -655,6 +460,7 @@
   <target name="generate_project_files" depends="build_tools">
     <fileset id="project_files" basedir="../">
       <include name="**/${project.anx.name}/*.csproj" />
+      <include name="ANX.Framework.Content.Pipeline/**/*.csproj" />
       <include name="RenderSystems/**/*.csproj" />
       <include name="InputSystems/**/*.csproj" />
       <include name="PlatformSystems/**/*.csproj" />
@@ -672,7 +478,7 @@
       <do>
         <echo message="create project file: ${path::get-file-name-without-extension(projectFile)}" />
 
-        <exec program="${build.dir.tools}/${build.configuration}/ProjectConverter.exe" >
+        <exec program="${build.dir.tools}/ProjectConverter.exe" >
           <arg value="&quot;${projectFile}&quot;" />
           <arg value="/linux" if="${project.anx.linux}" />
           <arg value="/psvita" if="${project.anx.psvita}" />

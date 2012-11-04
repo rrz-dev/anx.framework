@@ -133,17 +133,9 @@
       <Project>{E5D69E75-D77C-493F-BBDA-6F9E73B82549}</Project>
       <Name>ANX.InputDevices.Windows.Kinect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_Linux.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_Linux.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_Linux.csproj">
-      <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>

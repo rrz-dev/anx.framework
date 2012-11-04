@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 // This file is part of the ANX.Framework created by the
@@ -32,8 +33,54 @@ namespace ProjectConverter.Platforms
 		}
 		#endregion
 
-		#region ConvertMainPropertyGroup
-		protected override void ConvertMainPropertyGroup(XElement element)
+        private string[] referencesToRemove = new string[] { "ANX.RenderSystem.Windows.DX10",
+                                                             "ANX.RenderSystem.Windows.DX11",
+                                                             "XInput",
+                                                             "XAudio",
+                                                             "SharpDX",
+                                                             "ANX.PlatformSystem.Windows",
+                                                           };
+
+        #region ConvertReference
+        protected override void ConvertReference(XElement element)
+        {
+            XAttribute includeAttribute = element.Attribute("Include");
+            if (includeAttribute != null)
+            {
+                string value = includeAttribute.Value;
+                foreach (var reference in referencesToRemove)
+                {
+                    if (value.ToLowerInvariant().Contains(reference.ToLowerInvariant()))
+                    {
+                        element.Remove();
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region ConvertReference
+        protected override void ConvertProjectReference(XElement element)
+        {
+            XAttribute includeAttribute = element.Attribute("Include");
+            if (includeAttribute != null)
+            {
+                string value = includeAttribute.Value;
+                foreach (var reference in referencesToRemove)
+                {
+                    if (value.ToLowerInvariant().Contains(reference.ToLowerInvariant()))
+                    {
+                        element.Remove();
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region ConvertMainPropertyGroup
+        protected override void ConvertMainPropertyGroup(XElement element)
 		{
 			DeleteNodeIfExists(element, "ProjectTypeGuids");
 			DeleteNodeIfExists(element, "TargetFrameworkProfile");

@@ -2,7 +2,6 @@
 using System;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
-using ANX.Framework.NonXNA.Development;
 
 #endregion // Using Statements
 

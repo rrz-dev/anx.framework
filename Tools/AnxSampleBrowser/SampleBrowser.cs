@@ -108,7 +108,7 @@ namespace AnxSampleBrowser
             {
                 sampleDescription.Load(SamplePath+"SampleCatalog.xml");
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 OpenFileDialog openSampleXML = new OpenFileDialog();
                 openSampleXML.Filter = "xml files (*.xml)|*.xml";

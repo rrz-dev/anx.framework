@@ -22,7 +22,7 @@ namespace ANX.Framework.Content.Pipeline
         private ContentBuildLogger contentBuildLogger;
         private string outputDirectory;
         private string outputFilename;
-        private OpaqueDataDictionary parameters;
+        private OpaqueDataDictionary parameters = new OpaqueDataDictionary();
         private TargetPlatform targetPlatform;
         private GraphicsProfile targetProfile;
 

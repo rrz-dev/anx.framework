@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework and originally taken from
 // the AC.AL OpenAL library, released under the MIT License.
@@ -129,7 +128,7 @@ namespace WaveUtils
 
 			if (result.Data == null)
 			{
-				Logger.Error("There was no data chunk available. Unable to load!");
+				//Logger.Error("There was no data chunk available. Unable to load!");
 				return null;
 			}
 

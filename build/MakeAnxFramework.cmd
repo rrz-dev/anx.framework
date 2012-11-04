@@ -39,7 +39,7 @@ if "%1"=="" (
 )
 
 echo calling nant with %ENV% %FIRST_TARGET% %2 %3 %4 %5 %6
-nant %ENV% %FIRST_TARGET% %2 %3 %4 %5 %6
+nant -buildfile:ANX.Framework.build %ENV% %FIRST_TARGET% %2 %3 %4 %5 %6
 goto pause
 
 :error_msg

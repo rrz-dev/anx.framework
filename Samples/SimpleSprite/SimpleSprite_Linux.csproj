@@ -81,33 +81,13 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput_Linux.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_Linux.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PlatformSystems\ANX.PlatformSystem.Windows\ANX.PlatformSystem.Windows_Linux.csproj">
-      <Project>{068EB2E9-963C-4E1B-8831-E25011F11FFE}</Project>
-      <Name>ANX.PlatformSystem.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10_Linux.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11_Linux.csproj">
-      <Project>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</Project>
-      <Name>ANX.RenderSystem.Windows.DX11</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.OpenAL\ANX.SoundSystem.OpenAL_Linux.csproj">
       <Project>{14EF49AB-6D3F-458D-9D5C-D120B86EDD7A}</Project>
       <Name>ANX.SoundSystem.OpenAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_Linux.csproj">
-      <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>

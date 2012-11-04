@@ -181,7 +181,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             source.CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public new IEnumerator<T> GetEnumerator()
         {
             return source.GetEnumerator();
         }

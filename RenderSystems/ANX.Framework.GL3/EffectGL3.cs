@@ -5,6 +5,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using ANX.RenderSystem.GL3.Helpers;
 using OpenTK.Graphics.OpenGL;
+using ANX.Framework.Content.Pipeline.Helpers.GL3;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

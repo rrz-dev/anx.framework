@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using HLSLParser;
+using ANX.Framework.Content.Pipeline.Helpers.HLSLParser;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace DX11MetroShaderGenerator
+namespace ANX.Framework.Content.Pipeline.Helpers.DX11MetroShaderGenerator
 {
 	public class MetroCodeGenerator
 	{

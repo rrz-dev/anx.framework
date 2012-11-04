@@ -4,7 +4,7 @@
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace DX11MetroShaderGenerator
+namespace ANX.Framework.Content.Pipeline.Helpers.DX11MetroShaderGenerator
 {
 	public class CompiledPass
 	{

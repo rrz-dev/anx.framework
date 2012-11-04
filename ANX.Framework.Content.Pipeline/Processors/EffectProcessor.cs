@@ -1,12 +1,9 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ANX.Framework.Content.Pipeline.Graphics;
-using System.IO;
 using System.ComponentModel;
-using ANX.RenderSystem.GL3;
+using System.Linq;
+using ANX.Framework.Content.Pipeline.Graphics;
+using ANX.Framework.Content.Pipeline.Helpers.GL3;
 
 #endregion
 

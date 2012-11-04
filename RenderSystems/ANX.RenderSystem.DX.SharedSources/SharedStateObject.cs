@@ -42,7 +42,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		#endregion
 
 		#region SetValueIfDifferentAndMarkDirty
-		protected void SetValueIfDifferentAndMarkDirty<T>(ref T oldValue, ref T newValue)
+		protected void SetValueIfDifferentAndMarkDirty<Tv>(ref Tv oldValue, ref Tv newValue)
 		{
 			if (oldValue.Equals(newValue) == false)
 			{

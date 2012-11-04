@@ -1,3 +1,5 @@
+//#define UseMusicPlayback
+
 using System.IO;
 using ANX.Framework;
 using ANX.Framework.Audio;
@@ -19,7 +21,7 @@ namespace AudioSample
         private float timer;
         private float duration;
 
-        private const bool UseMusicPlayback = false;
+        //private const bool UseMusicPlayback = false;
 
         public Game1()
         {
@@ -45,14 +47,14 @@ namespace AudioSample
             if (timer >= duration)
             {
                 timer -= duration;
-                if (UseMusicPlayback)
-                    MediaPlayer.Play(song);
-                else
-                    sound.Play(1f, 1f, 0f);
+#if UseMusicPlayback
+                MediaPlayer.Play(song);
+#else
+                sound.Play(1f, 1f, 0f);
+#endif
             }
 
-            if (UseMusicPlayback)
-            {
+#if UseMusicPlayback
                 Window.Title = "PlayTime = " + MediaPlayer.PlayPosition;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -60,7 +62,7 @@ namespace AudioSample
 
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                     MediaPlayer.Resume();
-            }
+#endif
 
             base.Update(gameTime);
         }

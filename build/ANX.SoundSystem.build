@@ -1,0 +1,61 @@
+<project name="ANX.Framework SoundSystem" default="soundsystem" basedir="./">
+  <target name="soundsystem" description="Build ANX.Framework SoundSystems" depends="support">
+    <!-- default windows fileset -->
+    <fileset id="soundsystem_files" basedir="../SoundSystems/">
+      <include name="**/*.csproj" />
+      <exclude name="**/*PSVita*.csproj" />
+      <exclude name="**/*Metro*.csproj" />
+      <exclude name="**/*Linux*.csproj" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_Linux.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*PSVITA*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_PsVita.csproj" />
+        <exclude name="**/*Metro*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenAL*.csproj" />
+        <exclude name="**/*Windows*.csproj" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="soundsystem_files" basedir="../SoundSystems/">
+        <include name="**/*_WindowsMetro.csproj" />
+        <exclude name="**/*PSVita*.csproj" />
+        <exclude name="**/*Linux*.csproj" />
+        <exclude name="**/*OpenAL*.csproj" />
+      </fileset>
+    </if>
+
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="soundsystem_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:AllowUnsafeBlocks=true" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+</project>

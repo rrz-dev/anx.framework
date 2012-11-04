@@ -1,20 +1,20 @@
 #region Using Statements
 using System;
 using System.IO;
-using ANX.RenderSystem.Windows.DX10;
-using ANX.RenderSystem.Windows.DX11;
-using ANX.RenderSystem.GL3;
-using DX11MetroShaderGenerator;
+using ANX.Framework.Content.Pipeline.Helpers.DX11MetroShaderGenerator;
+using ANX.Framework.Content.Pipeline.Helpers.GL3;
 using System.Diagnostics;
+using ANX.Framework.Content.Pipeline.Graphics;
+using ANX.Framework.Content.Pipeline;
+using ANX.Framework.NonXNA;
+using ANX.Framework.Content.Pipeline.Tasks;
+using ANX.Framework.Content.Pipeline.Processors;
 
 #endregion // Using Statements
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
-
-using EffectDX10 = ANX.RenderSystem.Windows.DX10.EffectDX;
-using EffectDX11 = ANX.RenderSystem.Windows.DX11.EffectDX;
 
 namespace StockShaderCodeGenerator
 {
@@ -58,20 +58,18 @@ namespace StockShaderCodeGenerator
 		}
 		#endregion
 
-		#region CompileShader
-		private static Byte[] CompileShader(string RenderSystem,
-			string sourceCode, string directory)
+		private static Byte[] CompileShader(string RenderSystem, string sourceCode, string directory)
 		{
 			byte[] byteCode;
 
 			switch (RenderSystem)
 			{
 				case "ANX.RenderSystem.Windows.DX10":
-					byteCode = EffectDX10.CompileFXShader(sourceCode, directory);
+                    byteCode = CompileDXEffect(sourceCode, directory);
 					break;
 
 				case "ANX.RenderSystem.Windows.DX11":
-					byteCode = EffectDX11.CompileFXShader(sourceCode, directory);
+                    byteCode = CompileDXEffect(sourceCode, directory);
 					break;
 
 				case "ANX.RenderSystem.Windows.Metro":
@@ -90,6 +88,22 @@ namespace StockShaderCodeGenerator
 
 			return byteCode;
 		}
-		#endregion
-	}
+
+        private static byte[] CompileDXEffect(string sourceCode, string directory)
+        {
+            EffectContent effectContent = new EffectContent()
+            {
+                EffectCode = sourceCode,
+                Identity = new ContentIdentity(null, "StockShaderCodeGenerator", null),
+                SourceLanguage = EffectSourceLanguage.HLSL_FX,
+            };
+
+            BuildContent buildContentTask = new BuildContent();
+            IContentProcessor instance = buildContentTask.ProcessorManager.GetInstance("EffectProcessor");
+            CompiledEffectContent effect = instance.Process(effectContent, null) as CompiledEffectContent;
+            
+            return effect.GetEffectCode();
+        }
+
+    }
 }

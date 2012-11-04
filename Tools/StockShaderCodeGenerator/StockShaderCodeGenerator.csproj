@@ -47,25 +47,13 @@
     <Compile Include="ConsoleTraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
+      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
+      <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3.csproj">
-      <Project>{EB8258E0-6741-4DB9-B756-1EBDF67B1ED6}</Project>
-      <Name>ANX.RenderSystem.GL3</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11.csproj">
-      <Project>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</Project>
-      <Name>ANX.RenderSystem.Windows.DX11</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DX11MetroShaderGenerator\DX11MetroShaderGenerator.csproj">
-      <Project>{47B802CC-069D-431E-BF15-E574EDD3BA5D}</Project>
-      <Name>DX11MetroShaderGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

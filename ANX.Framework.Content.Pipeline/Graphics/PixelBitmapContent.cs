@@ -57,9 +57,9 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             return array;
         }
 
-        private static byte[] GetBytes<T>(T value)
+        private static byte[] GetBytes<Tv>(Tv value)
         {
-            byte[] buffer = new byte[Marshal.SizeOf(typeof(T))];
+            byte[] buffer = new byte[Marshal.SizeOf(typeof(Tv))];
 
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             try

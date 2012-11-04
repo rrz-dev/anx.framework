@@ -128,6 +128,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 item.SourceFilename,
                 instance.GetType()
             });
+
             return instance.Import(item.SourceFilename, context);
         }
 

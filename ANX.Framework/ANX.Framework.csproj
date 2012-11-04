@@ -11,6 +11,8 @@
     <ProjectGuid>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</ProjectGuid>
     <RootNamespace>ANX.Framework</RootNamespace>
     <AssemblyName>ANX.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

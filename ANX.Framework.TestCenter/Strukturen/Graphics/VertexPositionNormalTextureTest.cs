@@ -31,7 +31,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void GetHashCode()
+        public void GetHashCodeTest()
         {
             var xna = new XNAVertexPositionNormalTexture(new XNAVector3(1f, 2f, 3f), new XNAVector3(4f, 0f, 1f),
                 new XNAVector2(0.5f, 0.5f));
@@ -42,7 +42,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void ToString()
+        public void ToStringTest()
         {
             var xna = new XNAVertexPositionNormalTexture(new XNAVector3(1f, 2f, 3f), new XNAVector3(4f, 0f, 1f),
                 new XNAVector2(0.5f, 0.5f));
@@ -79,10 +79,12 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         {
             var xna = new XNAVertexPositionNormalTexture(new XNAVector3(1f, 2f, 3f), new XNAVector3(4f, 0f, 1f),
                 new XNAVector2(0.5f, 0.5f));
+            var xna2 = xna;
             var anx = new VertexPositionNormalTexture(new Vector3(1f, 2f, 3f), new Vector3(4f, 0f, 1f),
                 new Vector2(0.5f, 0.5f));
+            var anx2 = anx;
 
-            AssertHelper.ConvertEquals(xna != xna, anx != anx, "Equals2");
+            AssertHelper.ConvertEquals(xna != xna2, anx != anx2, "Equals2");
         }
 
         [Test]

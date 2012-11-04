@@ -35,7 +35,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         }
 
         [Test]
-        public void GetHashCode()
+        public void GetHashCodeTest()
         {
             var xna = new XNAVertexElement(15, XNAVertexElementFormat.Vector2, XNAVertexElementUsage.TextureCoordinate, 0);
             var anx = new ANXVertexElement(15, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
@@ -65,9 +65,11 @@ namespace ANX.Framework.TestCenter.Strukturen.Graphics
         public void Equals2()
         {
             var xna = new XNAVertexElement(15, XNAVertexElementFormat.Vector2, XNAVertexElementUsage.TextureCoordinate, 0);
+            var xna2 = xna;
             var anx = new ANXVertexElement(15, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+            var anx2 = anx;
 
-            AssertHelper.ConvertEquals(xna == xna, anx == anx, "Equals2");
+            AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "Equals2");
         }
 
         [Test]

@@ -17,7 +17,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Input.Touch
     class TouchLocationTest
     {
         [Test]
-        public void ToString()
+        public void ToStringTest()
         {
             var xna = new XNATouchLocation(15, XNATouchLocationState.Moved, new XNAVector2(14f, 3.5f));
             var anx = new ANXTouchLocation(15, TouchLocationState.Moved, new Vector2(14f, 3.5f));
@@ -26,7 +26,7 @@ namespace ANX.Framework.TestCenter.Strukturen.Input.Touch
         }
 
         [Test]
-        public void GetHashCode()
+        public void GetHashCodeTest()
         {
             var xna = new XNATouchLocation(15, XNATouchLocationState.Moved, new XNAVector2(14f, 3.5f));
             var anx = new ANXTouchLocation(15, TouchLocationState.Moved, new Vector2(14f, 3.5f));
@@ -67,9 +67,11 @@ namespace ANX.Framework.TestCenter.Strukturen.Input.Touch
         public void Equals3()
         {
             var xna = new XNATouchLocation(15, XNATouchLocationState.Moved, new XNAVector2(14f, 3.5f));
+            var xna2 = xna;
             var anx = new ANXTouchLocation(15, TouchLocationState.Moved, new Vector2(14f, 3.5f));
+            var anx2 = anx;
 
-            AssertHelper.ConvertEquals(xna == xna, anx == anx, "Equals3");
+            AssertHelper.ConvertEquals(xna == xna2, anx == anx2, "Equals3");
         }
 
         [Test]

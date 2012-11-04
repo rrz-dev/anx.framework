@@ -63,6 +63,18 @@
     <Compile Include="ContentPipeline\SystemTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Nullable.cs" />
     <Compile Include="DataFactory.cs" />
+    <Compile Include="HLSLParser\BufferTests.cs" />
+    <Compile Include="HLSLParser\CommentRemoverTests.cs" />
+    <Compile Include="HLSLParser\HlslTestFile.cs" />
+    <Compile Include="HLSLParser\MethodTests.cs" />
+    <Compile Include="HLSLParser\ParserTests.cs" />
+    <Compile Include="HLSLParser\ParseTextWalkerTests.cs" />
+    <Compile Include="HLSLParser\PassTests.cs" />
+    <Compile Include="HLSLParser\SamplerTests.cs" />
+    <Compile Include="HLSLParser\StructureTests.cs" />
+    <Compile Include="HLSLParser\TechniqueTests.cs" />
+    <Compile Include="HLSLParser\TypeDefTests.cs" />
+    <Compile Include="HLSLParser\VariableTests.cs" />
     <Compile Include="ReflectionLearningTests.cs" />
     <Compile Include="Strukturen\CurveKeyCollectionTest.cs" />
     <Compile Include="Strukturen\CurveKeyTest.cs" />
@@ -157,6 +169,10 @@
     <Folder Include="Strukturen\PackedVector\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ANX.Framework.Content.Pipeline\ANX.Framework.Content.Pipeline.csproj">
+      <Project>{2DAFDFC1-223B-4741-87BB-BE3D0A7617DB}</Project>
+      <Name>ANX.Framework.Content.Pipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
