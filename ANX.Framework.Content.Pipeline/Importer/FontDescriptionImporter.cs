@@ -137,7 +137,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
                                                 startElement.Value + " - " + endElement.Value);
                 }
                 //add each char from the range to the list
-                for (var i = startChar; i < endChar; i++)
+                for (var i = startChar; i <= endChar; i++)
                 {
                     characters.Add(Convert.ToChar(i));
                 }

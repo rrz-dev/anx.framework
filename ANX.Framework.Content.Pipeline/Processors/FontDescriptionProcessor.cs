@@ -19,7 +19,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    [PercentageComplete(90)]
+    [PercentageComplete(95)]
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [TestState(TestStateAttribute.TestState.InProgress)] 
     [ContentProcessor(DisplayName = "FontDescription Processor - ANX Framework")]
@@ -50,7 +50,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
             var font = new Font(input.FontName, input.Size, XnaFontStyleToGdiFontStyle(input.Style));
             try
             {
-                const int padding = 8;
+                const int padding = 4;
 
                 int width = padding;
                 int height = padding;
@@ -86,7 +86,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                 using (var bitmap = new Bitmap(width, height,
                                                PixelFormat.Format32bppArgb))
                 {
-                    // Arrage all the glyphs onto a single larger bitmap.
+                    // Arrange all the glyphs onto a single larger bitmap.
                     using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap))
                     {
                         graphics.Clear(System.Drawing.Color.Magenta);
@@ -94,10 +94,12 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
                         for (int i = 0; i < bitmaps.Count; i++)
                         {
-                            spriteFontContent.Cropping.Add(new Rectangle(xPositions[i], yPositions[i], bitmaps[i].Width,
-                                                                         bitmaps[i].Height));
-                            graphics.DrawImage(bitmaps[i], xPositions[i],
-                                               yPositions[i]);
+                            //cropping defines the dimensions of a single character
+                            spriteFontContent.Cropping.Add(new Rectangle(0, 0, bitmaps[i].Width - 1, //we need to subtract one unit of height and width to suppress nasty rendering artifacts. 
+                                                                             bitmaps[i].Height - 1));
+                            //Glyphs defines the section and dimensions where the character is located on the texture
+                            spriteFontContent.Glyphs.Add(new Rectangle(xPositions[i] + 1, yPositions[i] + 1, bitmaps[i].Width -1, bitmaps[i].Height-1));
+                            graphics.DrawImage(bitmaps[i], xPositions[i], yPositions[i]);
                         }
 
                         graphics.Flush();
@@ -105,13 +107,14 @@ namespace ANX.Framework.Content.Pipeline.Processors
                     spriteFontContent.Texture = ConvertBitmap(bitmap);
                     spriteFontContent.CharacterMap = input.Characters.ToList();
                     spriteFontContent.DefaultCharacter = input.DefaultCharacter;
-                    spriteFontContent.Glyphs = spriteFontContent.Cropping;
                     spriteFontContent.Kerning = new List<Vector3>();
                     for (var i = 0; i < input.Characters.Count; i++)
                     {
                         var value = Vector3.Zero;
                         if (input.UseKerning)
                         {
+                            throw new NotImplementedException("Kerning is not implemented!");
+                            //TODO: Implement!
                         }
                         else
                         {
