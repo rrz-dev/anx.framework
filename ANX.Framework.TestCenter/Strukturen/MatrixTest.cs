@@ -25,6 +25,15 @@ namespace ANX.Framework.TestCenter.Strukturen
     class MatrixTest
     {
         #region Testdata
+        static object[] threefloats =
+        {
+            new object[] {  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f) },
+            new object[] {  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f),  DataFactory.RandomValueMinMax(-1000f, 1000f) },
+        };
+
         static object[] sixteenfloats =
         {
             new object[] {  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000),  DataFactory.RandomValueMinMax(float.Epsilon, 1000) },
@@ -736,12 +745,52 @@ namespace ANX.Framework.TestCenter.Strukturen
             ANXVector3 anxv2 = new ANXVector3();
             ANXVector3 anxv3 = new ANXVector3();
 
-            xnaM1.Decompose(out xnav2, out xnaQ, out xnav3);
-            anxM1.Decompose(out anxv2, out anxQ, out anxv3);
+            bool m1 = xnaM1.Decompose(out xnav2, out xnaQ, out xnav3);
+            bool m2 = anxM1.Decompose(out anxv2, out anxQ, out anxv3);
 
-            AssertHelper.ConvertEquals( xnaM1.Decompose(out xnav2, out xnaQ, out xnav3), anxM1.Decompose(out anxv2, out anxQ, out anxv3), "Decompose4");
+            AssertHelper.ConvertEquals( m1, m2, "Decompose4");
         }
-        
+
+        [Test, TestCaseSource("sixteenfloats")]
+        public void DecomposeTranslation(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        {
+            XNAMatrix xnaM1 = new XNAMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            XNAQuaternion xnaRotation;
+            XNAVector3 xnaScale;
+            XNAVector3 xnaTranslation;
+
+            ANXMatrix anxM1 = new ANXMatrix(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            ANXQuaternion anxRotation;
+            ANXVector3 anxScale;
+            ANXVector3 anxTranslation;
+
+            bool m1 = xnaM1.Decompose(out xnaScale, out xnaRotation, out xnaTranslation);
+            bool m2 = anxM1.Decompose(out anxScale, out anxRotation, out anxTranslation);
+
+            AssertHelper.ConvertEquals(xnaTranslation, anxTranslation, "DecomposeTranslation");
+
+        }
+
+        [Test, TestCaseSource("threefloats")]
+        public void DecomposeScale(float s1, float s2, float s3)
+        {
+            XNAMatrix xnaM1 = XNAMatrix.CreateScale(s1, s2, s3);
+            XNAQuaternion xnaRotation;
+            XNAVector3 xnaScale;
+            XNAVector3 xnaTranslation;
+
+            ANXMatrix anxM1 = ANXMatrix.CreateScale(s1, s2, s3);
+            ANXQuaternion anxRotation;
+            ANXVector3 anxScale;
+            ANXVector3 anxTranslation;
+
+            bool m1 = xnaM1.Decompose(out xnaScale, out xnaRotation, out xnaTranslation);
+            bool m2 = anxM1.Decompose(out anxScale, out anxRotation, out anxTranslation);
+
+            AssertHelper.ConvertEquals(xnaScale, anxScale, "DecomposeScale");
+
+        }
+
         [Test, TestCaseSource("sixteenfloats")]
         public void CreateShadow(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
