@@ -1,4 +1,5 @@
 #region Using Statements
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ANX.Framework.Graphics;
@@ -66,7 +67,15 @@ namespace ANX.RenderSystem.Windows.DX11
 			: this(managedEffect)
 		{
 			var device = ((GraphicsDeviceDX)graphicsDevice.NativeDevice).NativeDevice.Device;
-			NativeEffect = new Dx11.Effect(device, GetByteCode(effectStream));
+
+            try
+            {
+                NativeEffect = new Dx11.Effect(device, GetByteCode(effectStream));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
 		}
 		#endregion
 

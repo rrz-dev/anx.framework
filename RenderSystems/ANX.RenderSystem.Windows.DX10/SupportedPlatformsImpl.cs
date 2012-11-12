@@ -17,6 +17,7 @@ namespace ANX.RenderSystem.Windows.DX10
 				{
 					PlatformName.WindowsVista,
 					PlatformName.Windows7,
+                    PlatformName.Windows8,
 				};
 			}
 		}

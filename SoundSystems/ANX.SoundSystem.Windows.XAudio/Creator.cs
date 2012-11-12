@@ -84,11 +84,12 @@ namespace ANX.SoundSystem.Windows.XAudio
             distanceScale = 1f;
             dopplerScale = 1f;
             speedOfSound = 343.5f;
+
             try
             {
-                device = new XAudio2();
+                device = new XAudio2(XAudio2Flags.DebugEngine, ProcessorSpecifier.AnyProcessor);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 device = null;
                 //TODO: error handling

@@ -32,8 +32,20 @@ namespace ANX.InputDevices.Windows.XInput
 		public GamePad()
 		{
 			controller = new Controller[4];
-			for (int index = 0; index < controller.Length; index++)
-				controller[index] = new Controller((UserIndex)index);
+            for (int index = 0; index < controller.Length; index++)
+            {
+                controller[index] = new Controller((UserIndex)index);
+
+                try
+                {
+                    bool isConnected = controller[index].IsConnected;
+                }
+                catch (System.DllNotFoundException ex)
+                {
+                    controller[index] = null;
+                    Logger.Warning("couldn't initialize GamePad " + index + " because " + ex.Message);
+                }
+            }
 		}
 		#endregion
 
@@ -41,7 +53,7 @@ namespace ANX.InputDevices.Windows.XInput
 		public GamePadCapabilities GetCapabilities(PlayerIndex playerIndex)
 		{
 			var gamepad = controller[(int)playerIndex];
-			if (gamepad.IsConnected == false)
+			if (gamepad == null || gamepad.IsConnected == false)
 				return emptyCaps;
 
 			try
@@ -95,11 +107,14 @@ namespace ANX.InputDevices.Windows.XInput
 
 		public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
 		{
-			bool isConnected = controller[(int)playerIndex].IsConnected;
+            var controller = this.controller[(int)playerIndex];
+            if (controller == null) return new GamePadState();
+
+			bool isConnected = controller.IsConnected;
 			if (isConnected == false)
 				return emptyState;
 
-			State nativeState = controller[(int)playerIndex].GetState();
+			State nativeState = controller.GetState();
 			Vector2 leftThumb = ApplyDeadZone(nativeState.Gamepad.LeftThumbX, nativeState.Gamepad.LeftThumbY,
 				LeftThumbDeadZoneSquare, deadZoneMode);
 			Vector2 rightThumb = ApplyDeadZone(nativeState.Gamepad.RightThumbX, nativeState.Gamepad.RightThumbY,
@@ -117,7 +132,7 @@ namespace ANX.InputDevices.Windows.XInput
 		#region SetVibration
 		public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
 		{
-			if (controller[(int)playerIndex].IsConnected == false)
+			if (controller[(int)playerIndex] == null || controller[(int)playerIndex].IsConnected == false)
 				return false;
 
 			var vib = new Vibration()

@@ -172,47 +172,50 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			PreventSystemChange();
 
-			var factory = new Factory();
-
 			var adapterList = new List<GraphicsAdapter>();
 		    var resultingModes = new List<DisplayMode>();
 
-			for (int i = 0; i < factory.GetAdapterCount(); i++)
-			{
-				using (Adapter adapter = factory.GetAdapter(i))
-				{
-					var ga = new GraphicsAdapter();
-					//ga.CurrentDisplayMode = ;
-					//ga.Description = ;
-					ga.DeviceId = adapter.Description.DeviceId;
-					ga.DeviceName = adapter.Description.Description;
-					ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
-					//ga.IsWideScreen = ;
-					//ga.MonitorHandle = ;
-					ga.Revision = adapter.Description.Revision;
-					ga.SubSystemId = adapter.Description.SubsystemId;
-					//ga.SupportedDisplayModes = ;
-					ga.VendorId = adapter.Description.VendorId;
+            using (Factory factory = new Factory())
+            {
+                for (int i = 0; i < factory.GetAdapterCount(); i++)
+                {
+                    using (Adapter adapter = factory.GetAdapter(i))
+                    {
+                        var ga = new GraphicsAdapter();
+                        //ga.CurrentDisplayMode = ;
+                        //ga.Description = ;
+                        ga.DeviceId = adapter.Description.DeviceId;
+                        ga.DeviceName = adapter.Description.Description;
+                        ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
+                        //ga.IsWideScreen = ;
+                        //ga.MonitorHandle = ;
+                        ga.Revision = adapter.Description.Revision;
+                        ga.SubSystemId = adapter.Description.SubsystemId;
+                        //ga.SupportedDisplayModes = ;
+                        ga.VendorId = adapter.Description.VendorId;
 
-					using (Output adapterOutput = adapter.Outputs[0])
-					{
-						var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm,
-                            DisplayModeEnumerationFlags.Interlaced);
-						foreach (ModeDescription modeDescription in modeList)
-						{
-						    var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height,
-                                DxFormatConverter.Translate(modeDescription.Format));
-							resultingModes.Add(displayMode);
-						}
-					}
+                        resultingModes.Clear();
 
-                    ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
+                        if (adapter.Outputs.Length >= 1)
+                        {
+                            using (Output adapterOutput = adapter.Outputs[0])
+                            {
+                                var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
 
-					adapterList.Add(ga);
-				}
-			}
+                                foreach (ModeDescription modeDescription in modeList)
+                                {
+                                    var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height, DxFormatConverter.Translate(modeDescription.Format));
+                                    resultingModes.Add(displayMode);
+                                }
+                            }
+                        }
 
-			factory.Dispose();
+                        ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
+
+                        adapterList.Add(ga);
+                    }
+                }
+            }
 
 			return new ReadOnlyCollection<GraphicsAdapter>(adapterList);
 		}

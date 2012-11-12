@@ -20,7 +20,7 @@
     <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;XNAEXT DX10</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

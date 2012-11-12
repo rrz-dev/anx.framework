@@ -71,9 +71,9 @@
       <Project>{068eb2e9-963c-4e1b-8831-e25011f11ffe}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX11\ANX.RenderSystem.Windows.DX11.csproj">
-      <Project>{b30de9c2-0926-46b6-8351-9af276c472d5}</Project>
-      <Name>ANX.RenderSystem.Windows.DX11</Name>
+    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
+      <Project>{5be49183-2f6f-4527-ac90-d816911fcf90}</Project>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio.csproj">
       <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>

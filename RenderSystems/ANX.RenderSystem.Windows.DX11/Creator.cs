@@ -165,48 +165,50 @@ namespace ANX.RenderSystem.Windows.DX11
 		{
 			PreventSystemChange();
 
-			var factory = new Factory();
-
             var adapterList = new List<GraphicsAdapter>();
             var resultingModes = new List<DisplayMode>();
 
-			for (int i = 0; i < factory.GetAdapterCount(); i++)
-			{
-				using (Adapter adapter = factory.GetAdapter(i))
-				{
-					GraphicsAdapter ga = new GraphicsAdapter();
-					//ga.CurrentDisplayMode = ;
-					//ga.Description = ;
-					ga.DeviceId = adapter.Description.DeviceId;
-					ga.DeviceName = adapter.Description.Description;
-					ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
-					//ga.IsWideScreen = ;
-					//ga.MonitorHandle = ;
-					ga.Revision = adapter.Description.Revision;
-					ga.SubSystemId = adapter.Description.SubsystemId;
-					//ga.SupportedDisplayModes = ;
-					ga.VendorId = adapter.Description.VendorId;
-
-                    foreach (Output adapterOutput in adapter.Outputs)
+            using (Factory factory = new Factory())
+            {
+                for (int i = 0; i < factory.GetAdapterCount(); i++)
+                {
+                    using (Adapter adapter = factory.GetAdapter(i))
                     {
-                        foreach (ModeDescription modeDescription in adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm,
-                            DisplayModeEnumerationFlags.Interlaced))
+                        GraphicsAdapter ga = new GraphicsAdapter();
+                        //ga.CurrentDisplayMode = ;
+                        //ga.Description = ;
+                        ga.DeviceId = adapter.Description.DeviceId;
+                        ga.DeviceName = adapter.Description.Description;
+                        ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
+                        //ga.IsWideScreen = ;
+                        //ga.MonitorHandle = ;
+                        ga.Revision = adapter.Description.Revision;
+                        ga.SubSystemId = adapter.Description.SubsystemId;
+                        //ga.SupportedDisplayModes = ;
+                        ga.VendorId = adapter.Description.VendorId;
+
+                        resultingModes.Clear();
+
+                        if (adapter.Outputs.Length >= 1)
                         {
-                            var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height,
-                                DxFormatConverter.Translate(modeDescription.Format));
-                            resultingModes.Add(displayMode);
+                            using (Output adapterOutput = adapter.Outputs[0])
+                            {
+                                var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
+
+                                foreach (ModeDescription modeDescription in modeList)
+                                {
+                                    var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height, DxFormatConverter.Translate(modeDescription.Format));
+                                    resultingModes.Add(displayMode);
+                                }
+                            }
                         }
 
-                        break; //TODO: for the moment only adapter output 0 is interesting...
+                        ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
+
+                        adapterList.Add(ga);
                     }
-
-                    ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
-
-					adapterList.Add(ga);
-				}
-			}
-
-			factory.Dispose();
+                }
+            }
 
 			return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);
 		}
