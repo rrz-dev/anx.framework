@@ -20,26 +20,28 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug\ModernUI</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
+    <DefineConstants>XNAEXT;TRACE;DEBUG;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Release\ModernUI</OutputPath>
-    <DefineConstants>TRACE;WINDOWSMETRO;</DefineConstants>
+    <OutputPath>..\bin\Release\ModernUI</OutputPath>
+    <DefineConstants>XNAEXT;TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenTK">
       <HintPath>..\..\lib\OpenTK\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creator.cs" />
@@ -55,10 +57,6 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Support\OggUtils\OggUtils_WindowsMetro.csproj">
-      <Project>{ABECEC14-6BF4-4432-833C-69714EB4E8E6}</Project>
-      <Name>OggUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Support\WaveUtils\WaveUtils_WindowsMetro.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>

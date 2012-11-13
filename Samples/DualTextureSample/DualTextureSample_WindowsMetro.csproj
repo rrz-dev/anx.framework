@@ -48,6 +48,7 @@
     <Compile Include="VertexDualTexture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="anx.ico" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

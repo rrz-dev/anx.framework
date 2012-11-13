@@ -16,22 +16,22 @@
     <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug\ModernUI</OutputPath>
-    <DefineConstants>XNAEXT DX11;DEBUG;TRACE;WINDOWSMETRO;</DefineConstants>
+    <DefineConstants>DX11;XNAEXT;DEBUG;TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release\ModernUI</OutputPath>
-    <DefineConstants>XNAEXT DX11;TRACE;WINDOWSMETRO;</DefineConstants>
+    <DefineConstants>DX11;XNAEXT;TRACE;WINDOWSMETRO;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -43,10 +43,6 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANX.BaseDirectX\ANX.BaseDirectX.csproj">
-      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
-      <Name>ANX.BaseDirectX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

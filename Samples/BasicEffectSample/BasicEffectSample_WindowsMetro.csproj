@@ -81,7 +81,7 @@
     <Compile Include="VertexTypes\VertexPositionNormalColor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game.ico" />
+    <Content Include="anx.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>

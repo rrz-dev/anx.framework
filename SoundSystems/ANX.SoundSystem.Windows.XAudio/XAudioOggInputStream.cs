@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !WINDOWSMETRO
+using System;
 using System.IO;
 using OggUtils;
 using SharpDX;
@@ -42,3 +43,4 @@ namespace ANX.SoundSystem.Windows.XAudio
         }
     }
 }
+#endif

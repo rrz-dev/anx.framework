@@ -17,8 +17,10 @@ namespace ANX.SoundSystem.Windows.XAudio
     [Developer("AstrorEnales")]
     public class XAudioSong : ISong
     {
+#if !WINDOWSMETRO
         private FileStream oggFileStream;
         private XAudioOggInputStream oggStream;
+#endif
         private SourceVoice source;
         private readonly AudioBuffer[] buffers = new AudioBuffer[2];
         private int nextBufferIndex;
@@ -53,6 +55,7 @@ namespace ANX.SoundSystem.Windows.XAudio
             PlayPosition = TimeSpan.Zero;
             State = MediaState.Stopped;
 
+#if !WINDOWSMETRO
             oggFileStream = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             oggStream = new XAudioOggInputStream(oggFileStream);
             var format = new WaveFormat(oggStream.SampleRate, 16, oggStream.Channels);
@@ -61,6 +64,7 @@ namespace ANX.SoundSystem.Windows.XAudio
 
             for (int index = 0; index < buffers.Length; index++)
                 buffers[index] = new AudioBuffer { Stream = new DataStream(XAudioOggInputStream.BufferLength, false, true) };
+#endif
         }
 
         private void StreamBuffer(IntPtr handle)
@@ -126,12 +130,15 @@ namespace ANX.SoundSystem.Windows.XAudio
         internal void Rewind()
         {
             PlayPosition = TimeSpan.Zero;
+#if !WINDOWSMETRO
             oggFileStream.Position = 0;
             oggStream = new XAudioOggInputStream(oggFileStream);
+#endif
         }
 
         internal bool Stream()
         {
+#if !WINDOWSMETRO
             AudioBuffer currentBuffer = buffers[nextBufferIndex];
             currentBuffer.Stream.Position = 0;
             int size = oggStream.Read(currentBuffer.Stream);
@@ -145,15 +152,27 @@ namespace ANX.SoundSystem.Windows.XAudio
             nextBufferIndex = (nextBufferIndex + 1) % buffers.Length;
 
             return true;
+#else
+            return false;
+#endif
         }
 
         public void Dispose()
         {
+#if !WINDOWSMETRO
             if (oggFileStream != null)
+            {
                 oggFileStream.Close();
+                oggFileStream.Dispose();
+                oggFileStream = null;
+            }
 
-            oggFileStream = null;
-            oggStream = null;
+            if (oggStream != null)
+            {
+                oggStream = null;
+            }
+#endif
+
             if (source != null)
             {
                 source.FlushSourceBuffers();

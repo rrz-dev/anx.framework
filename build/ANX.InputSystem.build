@@ -39,6 +39,7 @@
     <if test="${project.anx.metro}">
       <fileset id="inputsystem_files" basedir="../InputSystems/">
         <include name="**/*ModernUI*_WindowsMetro.csproj" />
+        <include name="**/ANX.InputSystem.*_WindowsMetro.csproj" />
         <exclude name="**/*PsVita*.csproj" />
         <exclude name="**/*Kinect*.csproj" />
         <exclude name="**/*Linux*.csproj" />

@@ -62,6 +62,7 @@ namespace ProjectConverter.Platforms
                                                            "ANX.SoundSystem.OpenAL",
                                                            "ANX.InputDevices.Windows.XInput",
                                                            "System.Windows.Forms",
+                                                           "OggUtils",
                                                          };
 
 		protected override void ConvertProjectReference(XElement element)

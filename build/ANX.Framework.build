@@ -340,7 +340,9 @@
           <arg value="/p:OutputPath=${build.dir.tools}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
+<!--          
           <arg value='/p:DefineConstants="${project.anx.directives}"' />
+-->          
           <arg value="/clp:ErrorsOnly" />
           <arg value="/nologo" />
           <arg value="${projectFile}" />
