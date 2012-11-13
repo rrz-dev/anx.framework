@@ -65,11 +65,11 @@ namespace StockShaderCodeGenerator
 			switch (RenderSystem)
 			{
 				case "ANX.RenderSystem.Windows.DX10":
-                    byteCode = CompileDXEffect(sourceCode, directory);
+                    byteCode = CompileDXEffect(sourceCode, directory, EffectSourceLanguage.HLSL_FX ,"fx_4_0");
 					break;
 
 				case "ANX.RenderSystem.Windows.DX11":
-                    byteCode = CompileDXEffect(sourceCode, directory);
+                    byteCode = CompileDXEffect(sourceCode, directory, EffectSourceLanguage.HLSL_FX, "fx_5_0");
 					break;
 
 				case "ANX.RenderSystem.Windows.Metro":
@@ -89,17 +89,18 @@ namespace StockShaderCodeGenerator
 			return byteCode;
 		}
 
-        private static byte[] CompileDXEffect(string sourceCode, string directory)
+        private static byte[] CompileDXEffect(string sourceCode, string directory, EffectSourceLanguage sourceLanguage, String targetProfile)
         {
             EffectContent effectContent = new EffectContent()
             {
                 EffectCode = sourceCode,
                 Identity = new ContentIdentity(null, "StockShaderCodeGenerator", null),
-                SourceLanguage = EffectSourceLanguage.HLSL_FX,
+                SourceLanguage = sourceLanguage,
             };
 
             BuildContent buildContentTask = new BuildContent();
             IContentProcessor instance = buildContentTask.ProcessorManager.GetInstance("EffectProcessor");
+            ((EffectProcessor)instance).TargetProfile = targetProfile;
             CompiledEffectContent effect = instance.Process(effectContent, null) as CompiledEffectContent;
             
             return effect.GetEffectCode();

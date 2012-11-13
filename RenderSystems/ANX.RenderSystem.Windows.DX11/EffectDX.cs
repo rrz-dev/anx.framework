@@ -72,7 +72,7 @@ namespace ANX.RenderSystem.Windows.DX11
             {
                 NativeEffect = new Dx11.Effect(device, GetByteCode(effectStream));
             }
-            catch (Exception ex)
+            catch (SharpDX.SharpDXException ex)
             {
                 System.Diagnostics.Debugger.Break();
             }

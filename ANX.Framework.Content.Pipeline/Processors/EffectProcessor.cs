@@ -48,21 +48,21 @@ namespace ANX.Framework.Content.Pipeline.Processors
         {
             byte[] effectCompiledCode = null;
 
-            if (input.SourceLanguage == NonXNA.EffectSourceLanguage.HLSL_FX)
+            switch (input.SourceLanguage)
             {
-                HLSLCompiler compiler = hlslCompilerFactory.Compilers.Last<HLSLCompiler>();
-                effectCompiledCode = compiler.Compile(input.EffectCode, DebugMode, TargetProfile);
-            }
-            else if (input.SourceLanguage == NonXNA.EffectSourceLanguage.GLSL_FX)
-            {
-                //TODO: parse and split the effect code and save two effect globs
-                // if we do it this way, we don't need to parse the glsl source at runtime when loading it.
+                case NonXNA.EffectSourceLanguage.HLSL_FX:
+                    HLSLCompiler compiler = hlslCompilerFactory.Compilers.Last<HLSLCompiler>();
+                    effectCompiledCode = compiler.Compile(input.EffectCode, DebugMode, TargetProfile);
+                    break;
+                case NonXNA.EffectSourceLanguage.GLSL_FX:
+                    //TODO: parse and split the effect code and save two effect globs
+                    // if we do it this way, we don't need to parse the glsl source at runtime when loading it.
 
-                effectCompiledCode = ShaderHelper.SaveShaderCode(input.EffectCode);
-            }
-            else
-            {
-                throw new InvalidContentException("EffectProcessor is unable to process content with format '" + input.SourceLanguage.ToString() + "'");
+                    effectCompiledCode = ShaderHelper.SaveShaderCode(input.EffectCode);
+                    break;
+                default:
+                    throw new InvalidContentException("EffectProcessor is unable to process content with format '" + input.SourceLanguage.ToString() + "'");
+                    break;
             }
 
             return new CompiledEffectContent(effectCompiledCode)
