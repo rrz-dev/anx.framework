@@ -85,19 +85,7 @@ namespace ANX.SoundSystem.Windows.XAudio
             dopplerScale = 1f;
             speedOfSound = 343.5f;
 
-            try
-            {
-                device = new XAudio2(XAudio2Flags.DebugEngine, ProcessorSpecifier.AnyProcessor);
-            }
-            catch (Exception ex)
-            {
-                device = null;
-                //TODO: error handling
-                System.Diagnostics.Debugger.Break();
-            }
-
-            if (device != null)
-                MasteringVoice = new MasteringVoice(device, XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
+            InitializeDevice();
         }
 
 	    ~Creator()
@@ -106,39 +94,74 @@ namespace ANX.SoundSystem.Windows.XAudio
             {
                 MasteringVoice.DestroyVoice();
                 MasteringVoice.Dispose();
+                MasteringVoice = null;
             }
 
             if (device != null)
+            {
                 device.Dispose();
-
-            MasteringVoice = null;
-            device = null;
+                device = null;
+            }
         }
 	    #endregion
 
+        internal void InitializeDevice()
+        {
+            if (device == null)
+            {
+                try
+                {
+                    device = new XAudio2(XAudio2Flags.None, ProcessorSpecifier.AnyProcessor);
+                }
+                catch (SharpDX.SharpDXException ex)
+                {
+                    if (ex.ResultCode == 0x80040154)
+                    {
+                        // couldn't initialize XAudio: "class not registered"
+                        device = null;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+
+                if (device != null)
+                {
+                    MasteringVoice = new MasteringVoice(device, XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
+                }
+
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+            }
+        }
+
 		public IAudioListener CreateAudioListener()
         {
-            PreventSystemChange();
+            InitializeDevice();
+
 			throw new NotImplementedException();
 		}
 
 		public IAudioEmitter CreateAudioEmitter()
         {
-            PreventSystemChange();
+            InitializeDevice();
+
 			throw new NotImplementedException();
 		}
 
 		#region CreateSoundEffect
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, Stream stream)
 		{
-			PreventSystemChange();
+            InitializeDevice();
+
 			return new XAudioSoundEffect(stream);
 		}
 
 		public ISoundEffect CreateSoundEffect(SoundEffect parent, byte[] buffer, int offset, int count, int sampleRate,
 			AudioChannels channels, int loopStart, int loopLength)
 		{
-			PreventSystemChange();
+            InitializeDevice();
+
 			return new XAudioSoundEffect(buffer, offset, count, sampleRate, channels, loopStart, loopLength);
 		}
 		#endregion
@@ -146,7 +169,8 @@ namespace ANX.SoundSystem.Windows.XAudio
 		#region CreateSoundEffectInstance
 		public ISoundEffectInstance CreateSoundEffectInstance(ISoundEffect nativeSoundEffect)
 		{
-			PreventSystemChange();
+            InitializeDevice();
+
 			return new XAudioSoundEffectInstance(device, nativeSoundEffect as XAudioSoundEffect);
 		}
         #endregion
@@ -154,46 +178,47 @@ namespace ANX.SoundSystem.Windows.XAudio
         #region CreateDynamicSoundEffectInstance
         public IDynamicSoundEffectInstance CreateDynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
         {
-            PreventSystemChange();
+            InitializeDevice();
+
             return new XAudioDynamicSoundEffectInstance(device, sampleRate, channels);
         }
         #endregion
 
 		public IMicrophone CreateMicrophone(Microphone managedMicrophone)
         {
-            PreventSystemChange();
+            InitializeDevice();
+
 			throw new NotImplementedException();
 		}
 
 		public ReadOnlyCollection<Microphone> GetAllMicrophones()
         {
-            PreventSystemChange();
+            InitializeDevice();
+
 			throw new NotImplementedException();
 		}
 
 		public int GetDefaultMicrophone(ReadOnlyCollection<Microphone> allMicrophones)
         {
-            PreventSystemChange();
+            InitializeDevice();
+
 			throw new NotImplementedException();
 		}
 
         #region CreateSong
         public ISong CreateSong(Song parentSong, Uri uri)
         {
-            PreventSystemChange();
+            InitializeDevice();
+
             return new XAudioSong(device, uri);
         }
 
         public ISong CreateSong(Song parentSong, string filepath, int duration)
         {
-            PreventSystemChange();
+            InitializeDevice();
+
             return new XAudioSong(device, filepath, duration);
         }
         #endregion
-
-		private static void PreventSystemChange()
-		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
-		}
     }
 }

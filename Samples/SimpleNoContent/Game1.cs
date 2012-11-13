@@ -18,6 +18,8 @@ namespace SimpleModernUI
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D texture;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,6 +34,9 @@ namespace SimpleModernUI
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData<Color>(new Color[] { Color.White });
         }
 
         protected override void UnloadContent()
@@ -53,6 +58,10 @@ namespace SimpleModernUI
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(texture, new Rectangle(10, 10, 64, 64), Color.Green);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

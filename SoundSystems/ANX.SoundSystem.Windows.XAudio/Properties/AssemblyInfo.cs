@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
 [assembly: AssemblyProduct("ANX.SoundSystem.Windows.XAudio")]
-[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011")]
+[assembly: AssemblyCopyright("Copyright © ANX.Framework Team 2011 - 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.4.*")]
-[assembly: AssemblyFileVersion("0.0.4.0")]
+[assembly: AssemblyVersion("0.4.1.*")]
+[assembly: AssemblyFileVersion("0.4.1.0")]
