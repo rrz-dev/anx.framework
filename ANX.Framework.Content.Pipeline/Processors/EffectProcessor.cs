@@ -62,7 +62,6 @@ namespace ANX.Framework.Content.Pipeline.Processors
                     break;
                 default:
                     throw new InvalidContentException("EffectProcessor is unable to process content with format '" + input.SourceLanguage.ToString() + "'");
-                    break;
             }
 
             return new CompiledEffectContent(effectCompiledCode)

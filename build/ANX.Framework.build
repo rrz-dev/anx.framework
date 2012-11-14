@@ -137,15 +137,15 @@
     <property name="xnasdk32" value="0" />
     <property name="xnasdk64" value="0" />
 
-    <readregistry property="xna32" key="Software\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" />
-    <readregistry property="xna64" key="Software\Wow6432Node\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+    <readregistry property="xna32" key="Software\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" verbose="false" />
+    <readregistry property="xna64" key="Software\Wow6432Node\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" verbose="false" />
 
     <if test="${int::parse(xna32) == 1 or int::parse(xna64) == 1}">
       <property name="xna.installed" value="true" />
     </if>
 
-    <readregistry property="xnasdk32" key="Software\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" />
-    <readregistry property="xnasdk64" key="Software\Wow6432Node\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+    <readregistry property="xnasdk32" key="Software\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" verbose="false" />
+    <readregistry property="xnasdk64" key="Software\Wow6432Node\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" verbose="false" />
 
     <if test="${int::parse(xnasdk32) == 1 or int::parse(xnasdk64) == 1}">
       <property name="xnasdk.installed" value="true" />
