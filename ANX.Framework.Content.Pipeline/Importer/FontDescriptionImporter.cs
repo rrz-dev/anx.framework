@@ -33,12 +33,15 @@ namespace ANX.Framework.Content.Pipeline.Importer
         public override FontDescription Import(string filename, ContentImporterContext context)
         {
             _logger = context.Logger;
-            var doc = XDocument.Load(filename);
-            FontDescription fontDescription = DeserializeFont(doc);
-            fontDescription.Identity = new ContentIdentity(new FileInfo(filename).FullName,
-                                                           "FontDescriptionImporter");
+            using (TextReader tr = File.OpenText(filename))
+            {
+                var doc = XDocument.Load(tr);
+                FontDescription fontDescription = DeserializeFont(doc);
+                fontDescription.Identity = new ContentIdentity(new FileInfo(filename).FullName,
+                                                               "FontDescriptionImporter");
 
-            return fontDescription;
+                return fontDescription;
+            }
         }
 
         

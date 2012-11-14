@@ -14,7 +14,6 @@ namespace ANX.InputDevices.Windows.ModernUI
     [PercentageComplete(80)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("rene87")]
-
     class Mouse : IMouse
     {
         private int _wheel;
@@ -25,16 +24,11 @@ namespace ANX.InputDevices.Windows.ModernUI
         private ButtonState _middle;
         private ButtonState _xButton1;
         private ButtonState _xButton2;
+
         public IntPtr WindowHandle
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public Mouse()
@@ -54,7 +48,6 @@ namespace ANX.InputDevices.Windows.ModernUI
 
         void Mouse_PointerWheelChanged(CoreWindow sender, PointerEventArgs args)
         {
-
             this._wheel += args.CurrentPoint.Properties.MouseWheelDelta;
         }
 
@@ -66,18 +59,22 @@ namespace ANX.InputDevices.Windows.ModernUI
                 {
                     this._left = ButtonState.Released;
                 }
+
                 if (!args.CurrentPoint.Properties.IsMiddleButtonPressed)
                 {
                     this._middle = ButtonState.Released;
                 }
+
                 if (!args.CurrentPoint.Properties.IsRightButtonPressed)
                 {
                     this._right = ButtonState.Released;
                 }
+
                 if (!args.CurrentPoint.Properties.IsXButton1Pressed)
                 {
                     this._xButton1 = ButtonState.Released;
                 }
+
                 if (!args.CurrentPoint.Properties.IsXButton2Pressed)
                 {
                     this._xButton2 = ButtonState.Released;
@@ -97,22 +94,27 @@ namespace ANX.InputDevices.Windows.ModernUI
                 {
                     this._left = ButtonState.Pressed;
                 }
+
                 if (args.CurrentPoint.Properties.IsMiddleButtonPressed)
                 {
                     this._middle = ButtonState.Pressed;
                 }
+
                 if (args.CurrentPoint.Properties.IsRightButtonPressed)
                 {
                     this._right = ButtonState.Pressed;
                 }
+
                 if (args.CurrentPoint.Properties.IsXButton1Pressed)
                 {
                     this._xButton1 = ButtonState.Pressed;
                 }
+
                 if (args.CurrentPoint.Properties.IsXButton2Pressed)
                 {
                     this._xButton2 = ButtonState.Pressed;
                 }
+
                 this._x = (int)args.CurrentPoint.Position.X;
                 this._y = (int)args.CurrentPoint.Position.Y;
             }
@@ -121,7 +123,6 @@ namespace ANX.InputDevices.Windows.ModernUI
                 this._left = ButtonState.Pressed;
                 this._x = (int)args.CurrentPoint.Position.X;
                 this._y = (int)args.CurrentPoint.Position.Y;
-
             }
         }
 
@@ -129,16 +130,13 @@ namespace ANX.InputDevices.Windows.ModernUI
         {
             this._x = args.MouseDelta.X;
             this._y = args.MouseDelta.Y;
-
         }
-
-
 
         public MouseState GetState()
         {
-
             return new MouseState(this._x, this._y, this._wheel, this._left, this._middle, this._right, this._xButton1, this._xButton2);
         }
+
         public void SetPosition(int x, int y)
         {
             throw new NotImplementedException();

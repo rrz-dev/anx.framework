@@ -11,7 +11,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>SimpleNoContent_WindowsMetro_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>1C2E795E3865B788B3FBA2FE1F8BB56353190C08</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,18 +36,6 @@
   <PropertyGroup>
     <ApplicationIcon>anx.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
@@ -81,6 +70,7 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="SimpleNoContent_WindowsMetro_TemporaryKey.pfx" />
     <None Include="Test_TemporaryKey.pfx" />
     <AppxManifest Include="Manifest.appxmanifest">
       <SubType>Designer</SubType>

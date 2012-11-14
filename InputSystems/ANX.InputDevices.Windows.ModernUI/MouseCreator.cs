@@ -1,5 +1,9 @@
-﻿using ANX.Framework.NonXNA;
+﻿#region Using Statements
+using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.InputSystem;
+using ANX.Framework.NonXNA.Development;
+
+#endregion
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -7,13 +11,11 @@ using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.InputDevices.Windows.ModernUI
 {
-    class MouseCreator : IMouseCreator
+    [PercentageComplete(100)]
+    [TestState(TestStateAttribute.TestState.Tested)]
+    [Developer("Glatzemann")]
+    public class MouseCreator : IMouseCreator
     {
-        public IMouse CreateDevice()
-        {
-            return new Mouse();
-        }
-
         public string Name
         {
             get
@@ -28,6 +30,11 @@ namespace ANX.InputDevices.Windows.ModernUI
             {
                 return 10;
             }
+        }
+
+        public IMouse CreateDevice()
+        {
+            return new Mouse();
         }
     }
 }
