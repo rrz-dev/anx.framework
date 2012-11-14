@@ -24,6 +24,9 @@
   <property name="project.anx.psvita" value="false" />
   <property name="project.anx.metro" value="false" />
   <property name="project.anx.winrt" value="false" />
+
+  <property name="xna.installed" value="false" />
+  <property name="xnasdk.installed" value="false" />
   
   <target name="clean" description="Cleans all targets.">
     <delete>
@@ -93,17 +96,20 @@
     <call target="generate_project_files" />
   </target>
 
-  <target name="build">
+  <target name="build" depends="check_xna">
     <echo message="===================================================" />
     <echo message="ANX.Framework build script" />
     <echo message="===================================================" />
     <echo message="" />
-    <echo message="Build environment  : ${project.anx.build_env}" />
-    <echo message="Build configuration: ${build.configuration}" />
-    <echo message="Target platform    : ${project.anx.platform}" />
-    <echo message="Target build dir   : ${build.dir.base}" />
+    <echo message="Build environment        : ${project.anx.build_env}" />
+    <echo message="Build configuration      : ${build.configuration}" />
+    <echo message="Target platform          : ${project.anx.platform}" />
+    <echo message="Target build dir         : ${build.dir.base}" />
     <echo message="" />
-
+    <echo message="XNA runtime installed    : ${xna.installed}" />
+    <echo message="XNA game studio installed: ${xnasdk.installed}" />
+    <echo message="" />
+    
     <if test="${project.anx.extended}">
       <property name="project.anx.directives" value="${project.anx.directives} XNAEXT" />
     </if>
@@ -125,6 +131,27 @@
     <call target="samples" />
   </target>
 
+  <target name="check_xna" description="checks if the XNA framework is installed" unless="${target::has-executed('check_xna')}">
+    <property name="xna32" value="0" />
+    <property name="xna64" value="0" />
+    <property name="xnasdk32" value="0" />
+    <property name="xnasdk64" value="0" />
+
+    <readregistry property="xna32" key="Software\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+    <readregistry property="xna64" key="Software\Wow6432Node\Microsoft\XNA\Framework\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+
+    <if test="${int::parse(xna32) == 1 or int::parse(xna64) == 1}">
+      <property name="xna.installed" value="true" />
+    </if>
+
+    <readregistry property="xnasdk32" key="Software\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+    <readregistry property="xnasdk64" key="Software\Wow6432Node\Microsoft\XNA\Game Studio\v4.0\Installed" hive="LocalMachine" failonerror="false" />
+
+    <if test="${int::parse(xnasdk32) == 1 or int::parse(xnasdk64) == 1}">
+      <property name="xnasdk.installed" value="true" />
+    </if>
+  </target>
+  
   <target name="anx" description="Build ANX.Framework core" unless="${target::has-executed('anx')}">
     <echo message="building: ANX.Framework" />
 
@@ -269,7 +296,8 @@
   <target name="samples" description="Build ANX.Framework samples">
     <!-- default windows fileset -->
     <fileset id="sample_files" basedir="../Samples/">
-      <include name="**/*.csproj" />
+      <include name="**/*.csproj" unless="${not xnasdk.installed}" />
+      <include name="**/SimpleNoContent.csproj" />
 
       <exclude name="**/*Kinect*.csproj" />
 

@@ -65,7 +65,7 @@
                                   Target="[System64Folder]msiexec.exe"
                                   Arguments="/x [ProductCode]"/>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        <RegistryValue Root="HKLM" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
   </Fragment>
@@ -85,6 +85,11 @@
         <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
         <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
         <File Id='anx.framework.contentpipeline' Name='ANX.Framework.ContentPipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.ContentPipeline.dll' />
+
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\.NETFramework\ANX.Framework" Action="createAndRemoveOnUninstall">
+          <RegistryValue Type="string" Value="[APPLICATIONFOLDER]" />
+        </RegistryKey>
+
       </Component>
       <Component Id='SharpDX' Guid='{D6D751D7-A339-4DBB-81BC-D9AC084936C5}'>
         <File Id='sharpdx.d3dcompiler' Name='SharpDX.D3DCompiler.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.D3DCompiler.dll' />

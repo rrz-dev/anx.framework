@@ -76,7 +76,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = executable,
-                Arguments = String.Format("{0} {1} {2} {3}", "/Fo " + tempOutputFile, GetCompilerTargetProfile(targetProfile), GetCompilerDebugFlags(debugMode), tempInputFile),
+                Arguments = String.Format("{0} {1} {2} {3}", "/Fo " + tempOutputFile, GetCompilerTargetProfile(targetProfile), GetCompilerDebugFlags(debugMode, targetProfile), tempInputFile),
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
@@ -117,7 +117,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
             return Version.GetHashCode();
         }
 
-        private string GetCompilerDebugFlags(EffectProcessorDebugMode debugMode)
+        private string GetCompilerDebugFlags(EffectProcessorDebugMode debugMode, string targetProfile)
         {
             if ((debugMode == EffectProcessorDebugMode.Auto && System.Diagnostics.Debugger.IsAttached) || debugMode == EffectProcessorDebugMode.Debug)
             {
@@ -125,7 +125,14 @@ namespace ANX.Framework.Content.Pipeline.Processors
             }
             else
             {
-                return "/O3 /Qstrip_debug";
+                if (targetProfile == "fx_5_0")
+                {
+                    return "/O3";
+                }
+                else
+                {
+                    return "/O3 /Qstrip_debug";
+                }
             }
         }
 
