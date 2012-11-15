@@ -14,22 +14,22 @@
     <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DefineConstants>XNAEXT DX11;DEBUG;TRACE;PSVITA;</DefineConstants>
+    <DefineConstants>DX11;XNAEXT;DEBUG;TRACE;PSVITA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <DefineConstants>XNAEXT DX11;TRACE;PSVITA;</DefineConstants>
+    <DefineConstants>DX11;XNAEXT;TRACE;PSVITA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -41,14 +41,6 @@
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANX.BaseDirectX\ANX.BaseDirectX.csproj">
-      <Project>{A4D3AD34-E49C-4142-8620-2AFF44ED6719}</Project>
-      <Name>ANX.BaseDirectX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10_PSVita.csproj">
-      <Project>{5BE49183-2F6F-4527-AC90-D816911FCF90}</Project>
-      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

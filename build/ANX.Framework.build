@@ -275,12 +275,33 @@
   </target>
   
   <target name="generate_stock_shaders" description="Generate code for stock shaders" depends="tools">
+    <!-- default windows fileset -->
+    <fileset id="stock_shaders" basedir="../shader/">
+      <include name="**/build.xml" />
+      <exclude name="**/*Metro*/build.xml" />
+    </fileset>
+
+    <if test="${project.anx.linux}">
+      <fileset id="stock_shaders" basedir="../shader/">
+        <include name="**/GL3/build.xml" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.psvita}">
+      <fileset id="stock_shaders" basedir="../shader/">
+        <exclude name="**/build.xml" />
+      </fileset>
+    </if>
+
+    <if test="${project.anx.metro}">
+      <fileset id="stock_shaders" basedir="../shader/">
+        <include name="**/*Metro*/build.xml" />
+      </fileset>
+    </if>
+    
     <foreach item="File" property="buildFile">
       <in>
-        <items basedir="../shader/">
-          <include name="**/build.xml" />
-          <exclude name="**/*Metro*/build.xml" unless="${project.anx.metro}" />
-        </items>
+        <items refid="stock_shaders" />
       </in>
       <do>
         <echo message="generating: ${path::get-file-name(path::get-directory-name(buildFile))}" />
