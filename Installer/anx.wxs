@@ -65,7 +65,7 @@
                                   Target="[System64Folder]msiexec.exe"
                                   Arguments="/x [ProductCode]"/>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKLM" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
   </Fragment>
@@ -75,7 +75,7 @@
       <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
         <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../bin/Release/asc.exe' />
         <File Id='ContentBuilder' Name='ContentBuilder.exe' DiskId='1' Source='../bin/Release/ContentBuilder.exe' />
-        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/Release/ProjectConverter.exe' />
+        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/tools/ProjectConverter.exe' />
         <File Id='XNBInspector' Name='ANX.Tools.XNBInspector.exe' DiskId='1' Source='../bin/Release/ANX.Tools.XNBInspector.exe' />
         <File Id='AnxSampleBrowser' Name='ANXSampleBrowser.exe' DiskId='1' Source='../bin/Release/ANXSampleBrowser.exe' />
       </Component>
@@ -84,10 +84,10 @@
       <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
         <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
         <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
-        <File Id='anx.framework.contentpipeline' Name='ANX.Framework.ContentPipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.ContentPipeline.dll' />
+        <File Id='anx.framework.contentpipeline' Name='ANX.Framework.Content.Pipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Content.Pipeline.dll' />
 
-        <RegistryKey Root="HKLM" Key="Software\Microsoft\.NETFramework\ANX.Framework" Action="createAndRemoveOnUninstall">
-          <RegistryValue Type="string" Value="[APPLICATIONFOLDER]" />
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework" >
+          <RegistryValue Type="string" Value="[INSTALLFOLDER]" Action="write" />
         </RegistryKey>
 
       </Component>
@@ -104,7 +104,7 @@
         <File Id='sharpdx_direct3d11_effects_x86' Name='sharpdx_direct3d11_effects_x86.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/sharpdx_direct3d11_effects_x86.dll' />
       </Component>
       <Component Id='OpenTK' Guid='{132664CF-8DD6-4B6A-A200-88D4BE5F2AE9}'>
-        <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../../bin/Release/OpenTK.dll' />
+        <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../lib/OpenTK/OpenTK.dll' />
       </Component>
       <Component Id='ANX.RenderSystem.Windows.DX10' Guid='{34DD167E-084B-464F-9633-B0220E8C4683}'>
         <File Id='anx.RenderSystem.windows.dx10' Name='ANX.RenderSystem.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX10.dll' />
