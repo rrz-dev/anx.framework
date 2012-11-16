@@ -8,6 +8,7 @@
            Manufacturer="ANX.Framework Developer Team" 
            UpgradeCode="{7A54B375-318B-40B7-ABF7-60BB50689361}">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Icon Id="ANX.icon" SourceFile="..\media\anx.ico" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id='1' Cabinet='ANX.Framework.cab' EmbedCab='yes' />
@@ -18,6 +19,7 @@
 
     <Feature Id="Tools" Title="ANX.Framework tools" Level="1">
       <ComponentGroupRef Id="Tools" />
+      <ComponentGroupRef Id="ToolsAnxContentCompiler4" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
     
@@ -50,12 +52,17 @@
                   Name="ANX Status Comparer"
                   Description="compare the development status between ANX and XNA"
                   Target="[TOOLSFOLDER]asc.exe"
-                  WorkingDirectory="TOOLSFOLDER"/>
+                  WorkingDirectory="TOOLSFOLDER" />
         <Shortcut Id="ApplicationStartMenuShortcut2"
                   Name="ProjectConverter"
                   Description="converts XNA projects to ANX"
                   Target="[TOOLSFOLDER]ProjectConverter.exe"
-                  WorkingDirectory="TOOLSFOLDER"/>
+                  WorkingDirectory="TOOLSFOLDER" />
+        <Shortcut Id="ApplicationStartMenuShortcut3"
+                  Name="ANX ContentCompiler 4"
+                  Description="compiles content using the ANX ContentPipeline"
+                  Target="[TOOLSFOLDER]ccompiler4.exe"
+                  WorkingDirectory="TOOLSFOLDER" />
         <util:InternetShortcut Id="OnlineDocumentationShortcut"
                                Name="ANX.Framework WebSite"
                                Target="http://anxframework.codeplex.com/"/>
@@ -80,6 +87,19 @@
         <File Id='AnxSampleBrowser' Name='ANXSampleBrowser.exe' DiskId='1' Source='../bin/Release/ANXSampleBrowser.exe' />
       </Component>
     </ComponentGroup>
+
+    <ComponentGroup Id='ToolsAnxContentCompiler4' Directory='TOOLSFOLDER'>
+      <Component Id='AnxContentCompiler4' Guid='{E3FD4739-B649-4FBF-BBF7-4F46831C7CAF}'>
+        <File Id='AnxContentCompiler4' Name='ccompiler4.exe' DiskId='1' Source='../bin/Release/ccompiler4.exe' />
+
+        <ProgId Id='AnxContentCompiler4' Description='ANX.Framework content project file' Advertise='yes' Icon='ANX.icon'>
+          <Extension Id='cproj' Advertise='yes' ContentType='application/cproj'>
+            <Verb Id='open' Command='Open' Argument='"%1"' />
+          </Extension>
+        </ProgId>
+      </Component>
+    </ComponentGroup>
+    
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
         <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />

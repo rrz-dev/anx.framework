@@ -481,7 +481,7 @@
     <property name="wix.dir" value="${path::combine(environment::get-variable('WIX'), 'bin')}" readonly="true" />
     <loadtasks assembly="${wix.dir}\Microsoft.Tools.WindowsInstallerXml.NAntTasks.dll" />
 
-    <candle out="${build.dir}/${build.configuration}/installer/" exedir="${wix.dir}" extensions="WixUIExtension;WiXUtilExtension">
+    <candle out="${build.dir}/${build.configuration}/installer/" exedir="${wix.dir}" extensions="WixUIExtension;WiXUtilExtension;WixVSExtension">
       <sources>
         <include name="../Installer/anx.wxs" />
       </sources>
