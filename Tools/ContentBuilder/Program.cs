@@ -6,6 +6,7 @@ using System.Text;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.Content.Pipeline;
 using System.IO;
+using System.Reflection;
 
 #endregion
 
@@ -25,6 +26,8 @@ namespace ContentBuilder
             List<BuildItem> itemsToBuild = new List<BuildItem>();
             BuildContent buildContentTask = new BuildContent();
             buildContentTask.BuildLogger = new ConsoleLogger();
+
+            buildContentTask.BuildLogger.LogMessage(String.Format("ANX.Framework {0} v{1}", Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version));
 
             foreach (string arg in args)
             {

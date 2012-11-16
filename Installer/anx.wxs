@@ -30,6 +30,18 @@
     
     <UIRef Id="WixUI_InstallDir" />
 
+    <!--
+    <PropertyRef Id="VS2010_ITEMTEMPLATES_DIR" />
+    <PropertyRef Id="VS2010_PROJECTTEMPLATES_DIR" />
+    <PropertyRef Id="VS2012_ITEMTEMPLATES_DIR" />
+    <PropertyRef Id="VS2012_PROJECTTEMPLATES_DIR" />
+
+    <CustomAction Id="SetItemTemplatesPath2010" Directory="VS2010ITEMTEMPLATESDIR" Value="[VS2010_ITEMTEMPLATES_DIR]\ANX.Framework" />
+    <CustomAction Id="SetProjectTemplatesPath2010" Directory="VS2010PROJECTTEMPLATESDIR" Value="[VS2010_PROJECTTEMPLATES_DIR]\ANX.Framework" />
+    <CustomAction Id="SetItemTemplatesPath2012" Directory="VS2012ITEMTEMPLATESDIR" Value="[VS2012_ITEMTEMPLATES_DIR]\ANX.Framework" />
+    <CustomAction Id="SetProjectTemplatesPath2012" Directory="VS2012PROJECTTEMPLATESDIR" Value="[VS2012_PROJECTTEMPLATES_DIR]\ANX.Framework" />
+    -->
+    
   </Product>
 
 	<Fragment>
@@ -86,6 +98,8 @@
         <File Id='XNBInspector' Name='ANX.Tools.XNBInspector.exe' DiskId='1' Source='../bin/Release/ANX.Tools.XNBInspector.exe' />
         <File Id='AnxSampleBrowser' Name='ANXSampleBrowser.exe' DiskId='1' Source='../bin/Release/ANXSampleBrowser.exe' />
 
+        <Environment Id='ToolsEnvironment' Name='PATH' Part='last' System='yes' Value='[TOOLSFOLDER]' Action='set' Permanent='no' />
+
         <File Id='tools.anxcontentcompiler.anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
         <File Id='tools.anxcontentcompiler.anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
         <File Id='tools.anxcontentcompiler.anx.framework.contentpipeline' Name='ANX.Framework.Content.Pipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Content.Pipeline.dll' />
@@ -112,21 +126,6 @@
             <Verb Id='open' Command='Open' Argument='"%1"' />
           </Extension>
         </ProgId>
-
-        <File Id='tools.anxcontentcompiler.anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
-        <File Id='tools.anxcontentcompiler.anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
-        <File Id='tools.anxcontentcompiler.anx.framework.contentpipeline' Name='ANX.Framework.Content.Pipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Content.Pipeline.dll' />
-        <File Id='tools.anxcontentcompiler.anx.RenderSystem.windows.dx10' Name='ANX.RenderSystem.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX10.dll' />
-        <File Id='tools.anxcontentcompiler.anx.inputsystem.standard' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Standard.dll' />
-        <File Id='tools.anxcontentcompiler.anx.inputdevices.windows.xinput' Name='ANX.InputDevices.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputDevices.Windows.XInput.dll' />
-        <File Id='tools.anxcontentcompiler.anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.d3dcompiler' Name='SharpDX.D3DCompiler.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.D3DCompiler.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.direct3d10' Name='SharpDX.Direct3D10.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.Direct3D10.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.directinput' Name='SharpDX.DirectInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DirectInput.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx' Name='SharpDX.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.dxgi' Name='SharpDX.DXGI.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DXGI.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XAudio2.dll' />
-        <File Id='tools.anxcontentcompiler.sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XInput.dll' />
       </Component>
     </ComponentGroup>
     
