@@ -458,7 +458,10 @@ namespace ANX.Framework.Content
             var service = this.ContentManager.ServiceProvider.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
             if (service == null)
             {
-                throw new ContentLoadException("Service not found: IGraphicsDeviceService");
+                var device2 = ContentManager.ServiceProvider.GetService(typeof (GraphicsDevice)) as GraphicsDevice;
+                if (device2 == null)
+                    throw new ContentLoadException("Service not found: IGraphicsDeviceService");
+                return device2;
             }
             var device = service.GraphicsDevice;
             if (device == null)

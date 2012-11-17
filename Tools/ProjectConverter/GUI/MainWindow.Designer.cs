@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.textBoxSource = new System.Windows.Forms.TextBox();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.comboBoxTarget = new System.Windows.Forms.ComboBox();
@@ -40,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Label();
             this.buttonHelp = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxSource
@@ -126,7 +128,7 @@
             // buttonConvert
             // 
             this.buttonConvert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonConvert.Location = new System.Drawing.Point(100, 221);
+            this.buttonConvert.Location = new System.Drawing.Point(101, 236);
             this.buttonConvert.Name = "buttonConvert";
             this.buttonConvert.Size = new System.Drawing.Size(296, 39);
             this.buttonConvert.TabIndex = 7;
@@ -139,10 +141,11 @@
             this.textBoxDestination.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxDestination.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDestination.ForeColor = System.Drawing.Color.White;
-            this.textBoxDestination.Location = new System.Drawing.Point(59, 193);
+            this.textBoxDestination.Location = new System.Drawing.Point(59, 206);
             this.textBoxDestination.Name = "textBoxDestination";
             this.textBoxDestination.Size = new System.Drawing.Size(321, 22);
             this.textBoxDestination.TabIndex = 9;
+            this.textBoxDestination.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // buttonSearch2
             // 
@@ -150,7 +153,7 @@
             this.buttonSearch2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSearch2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSearch2.ForeColor = System.Drawing.Color.White;
-            this.buttonSearch2.Location = new System.Drawing.Point(386, 193);
+            this.buttonSearch2.Location = new System.Drawing.Point(386, 206);
             this.buttonSearch2.Name = "buttonSearch2";
             this.buttonSearch2.Size = new System.Drawing.Size(68, 22);
             this.buttonSearch2.TabIndex = 10;
@@ -197,12 +200,22 @@
             this.buttonHelp.MouseEnter += new System.EventHandler(this.LabelMouseEnter);
             this.buttonHelp.MouseLeave += new System.EventHandler(this.LabelMouseLeave);
             // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(61, 177);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(393, 27);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "The converted file(s) will be placed in here:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(496, 269);
+            this.ClientSize = new System.Drawing.Size(496, 287);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonHelp);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.label3);
@@ -218,6 +231,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "ANX Project Converter";
@@ -240,5 +254,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label buttonHelp;
         private System.Windows.Forms.Label buttonClose;
+        private System.Windows.Forms.Label label4;
     }
 }

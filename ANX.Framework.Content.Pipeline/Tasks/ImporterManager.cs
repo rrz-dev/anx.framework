@@ -26,6 +26,8 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
 				foreach (Type type in TypeHelper.SafelyExtractTypesFrom(assembly))
                 {
+                    if (type == null)
+                        continue;
                     ContentImporterAttribute[] value = (ContentImporterAttribute[])type.GetCustomAttributes(typeof(ContentImporterAttribute), true);
                     if (value.Length > 0)
                     {

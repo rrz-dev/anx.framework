@@ -103,26 +103,26 @@ namespace ProjectConverter.GUI
                     "All supported files (*.sln, *.csproj, *.contentproj, *.cproj) | *sln; *.csproj; *.contentproj; *.cproj";
                 openFileDialog.Title = "Select project to convert";
                 openFileDialog.Multiselect = false;
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+                textBoxSource.Text = openFileDialog.FileName;
+                string fileExt = Path.GetExtension(openFileDialog.FileName).ToLowerInvariant();
+                switch (fileExt)
                 {
-                    textBoxSource.Text = openFileDialog.FileName;
-                    string fileExt = Path.GetExtension(openFileDialog.FileName).ToLowerInvariant();
-                    switch (fileExt)
-                    {
-                        case ".sln":
-                        case ".csproj":
-                            comboBoxType.SelectedIndex = 0;
-                            break;
-                        case ".contentproject":
-                            comboBoxType.SelectedIndex = 1;
-                            comboBoxTarget.SelectedIndex = 0;
-                            break;
-                        case ".cproj":
-                            comboBoxType.SelectedIndex = 1;
-                            comboBoxTarget.SelectedIndex = 1;
-                            break;
-                    }
+                    case ".sln":
+                    case ".csproj":
+                        comboBoxType.SelectedIndex = 0;
+                        comboBoxTarget.SelectedIndex = 0;
+                        break;
+                    case ".contentproject":
+                        comboBoxType.SelectedIndex = 1;
+                        comboBoxTarget.SelectedIndex = 0;
+                        break;
+                    case ".cproj":
+                        comboBoxType.SelectedIndex = 1;
+                        comboBoxTarget.SelectedIndex = 1;
+                        break;
                 }
+                textBoxDestination.Text = Path.GetDirectoryName(openFileDialog.FileName);
             }
         }
 
@@ -132,6 +132,7 @@ namespace ProjectConverter.GUI
             {
                 folderDialog.ShowNewFolderButton = true;
                 folderDialog.Description = "Select the output folder for the converted project";
+                folderDialog.SelectedPath = textBoxDestination.Text;
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                     textBoxDestination.Text = folderDialog.SelectedPath;
             }
