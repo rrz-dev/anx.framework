@@ -11,6 +11,11 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>anx.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -230,6 +235,7 @@
     <None Include="Resources\arrow1.png" />
     <None Include="Resources\arrow2.png" />
     <None Include="Resources\anx.ico" />
+    <Content Include="anx.ico" />
     <Content Include="Resources\clouds.png" />
   </ItemGroup>
   <ItemGroup>

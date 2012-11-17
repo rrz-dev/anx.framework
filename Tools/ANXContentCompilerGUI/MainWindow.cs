@@ -889,6 +889,8 @@ namespace ANX.ContentCompiler.GUI
         internal void ShowPreview()
         {
             BuildItem buildItem = null;
+            if (treeView.SelectedNode == null)
+                return;
             foreach (var item in _contentProject.BuildItems.Where(item => item.AssetName == treeView.SelectedNode.Text))
             {
                 buildItem = item;

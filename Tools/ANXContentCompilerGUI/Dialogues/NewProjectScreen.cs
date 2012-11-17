@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using ANX.Framework.NonXNA.Development;
@@ -71,15 +72,29 @@ namespace ANX.ContentCompiler.GUI.Dialogues
 
         private void ButtonNextClick(object sender, EventArgs e)
         {
+            
             if (String.IsNullOrEmpty(textBoxName.Text))
                 MessageBox.Show("Give your child a name!", "Missing value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else if (Directory.Exists(textBoxLocation.Text))
-                MessageBox.Show("A project with this name already exists in that path!",
+            {
+                MessageBox.Show("A folder "+ textBoxLocation.Text +" this name already exists in that path!",
                                 "Will not overwrite existing stuff", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
                 DialogResult = DialogResult.OK;
         }
 
+        private void TextBoxLocationTextChanged(object sender, EventArgs e)
+        {
+            if (!textBoxLocation.Text.EndsWith(textBoxName.Text))
+            {
+                if (textBoxLocation.Text.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)))
+                    textBoxLocation.Text += textBoxName.Text;
+                else
+                    textBoxLocation.Text += Path.DirectorySeparatorChar + textBoxName.Text;
+            }
+        }
         #endregion
+
     }
 }

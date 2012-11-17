@@ -130,6 +130,7 @@
             this.textBoxLocation.Name = "textBoxLocation";
             this.textBoxLocation.Size = new System.Drawing.Size(402, 22);
             this.textBoxLocation.TabIndex = 19;
+            this.textBoxLocation.TextChanged += new System.EventHandler(this.TextBoxLocationTextChanged);
             // 
             // labelLocation
             // 
