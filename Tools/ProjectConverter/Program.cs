@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
+using ProjectConverter.GUI;
 using ProjectConverter.Platforms;
 
 #endregion
@@ -14,7 +16,7 @@ namespace ProjectConverter
 {
 	static class Program
 	{
-		private static readonly Converter[] Converters = new Converter[]
+		public static readonly Converter[] Converters = new Converter[]
 		{
 			new LinuxConverter(),
 			new MetroConverter(),
@@ -38,6 +40,16 @@ namespace ProjectConverter
 			//
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+
+            if (args.Length == 0)
+            {
+                using (var gui = new MainWindow())
+                {
+                    Application.EnableVisualStyles();
+                    gui.ShowDialog();
+                }
+                return;
+            }
 
 			foreach (string arg in args)
 			{

@@ -71,6 +71,7 @@
             // 
             // drawSurface
             // 
+            this.drawSurface.BackColor = System.Drawing.Color.Transparent;
             this.drawSurface.Controls.Add(this.labelStatus);
             this.drawSurface.Location = new System.Drawing.Point(12, 27);
             this.drawSurface.Name = "drawSurface";

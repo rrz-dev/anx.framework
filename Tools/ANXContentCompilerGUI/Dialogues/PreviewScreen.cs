@@ -1,13 +1,16 @@
 ﻿#region Using Statements
 using System;
-using System.Drawing;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using ANX.Framework;
+using ANX.Framework.Content;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
+using Point = System.Drawing.Point;
 using Timer = System.Windows.Forms.Timer;
 #endregion
 
@@ -18,7 +21,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace ANX.ContentCompiler.GUI.Dialogues
 {
-    [PercentageComplete(50)]
+    [PercentageComplete(60)]
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class PreviewScreen : Form
@@ -38,6 +41,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         private Timer _tickTimer;
         private readonly GraphicsDevice _graphicsDevice;
         private SpriteBatch _batch;
+        private ContentManager _contentManager;
+        private GameServiceContainer _services;
         #endregion
 
         #region Constructor
@@ -55,6 +60,9 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                     DeviceWindowHandle = drawSurface.Handle,
                     PresentationInterval = PresentInterval.Default,
                 });
+            _services = new GameServiceContainer();
+            _services.AddService(typeof(GraphicsDevice), _graphicsDevice);
+            _contentManager = new ContentManager(_services);
         }
         #endregion
 
@@ -86,7 +94,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         #region Events
         private void ButtonQuitClick(object sender, EventArgs e)
         {
-            Close();
+            Hide();
             DialogResult = DialogResult.Cancel;
         }
 
@@ -120,11 +128,23 @@ namespace ANX.ContentCompiler.GUI.Dialogues
 
         void Tick(object sender, EventArgs e)
         {
+            if (!_outputFile.EndsWith(".xnb") && !File.Exists(_outputFile + ".xnb"))
+            {
+                File.Move(_outputFile, _outputFile + ".xnb");
+            }
             _graphicsDevice.Clear(Framework.Color.CornflowerBlue);
             if (_processor == "TextureProcessor")
             {
                 _batch.Begin();
-
+                var tex = _contentManager.Load<Texture2D>(_outputFile);
+                _batch.Draw(tex, Vector2.Zero, Color.White);
+                _batch.End();
+            }
+            else if (_processor == "FontDescriptionProcessor")
+            {
+                _batch.Begin();
+                var font = _contentManager.Load<SpriteFont>(_outputFile);
+                _batch.DrawString(font, "The quick brown fox jumps over the lazy dog. äöü@", Vector2.One, Color.DarkRed);
                 _batch.End();
             }
         }
@@ -152,15 +172,16 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             }
             _processor = _item.ProcessorName;
             _item.OutputFilename = _outputFile;
-            try
+            builderTask.Execute(new[] { _item });
+            /*try
             {
-                builderTask.Execute(new[] { _item });
+               
             }
             catch (Exception ex)
             {
                 _error = true;
                 _errorMessage = ex.Message;
-            }
+            }*/
         }
 
         public void SetFile(BuildItem item)
