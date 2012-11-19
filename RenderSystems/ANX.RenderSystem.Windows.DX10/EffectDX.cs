@@ -66,8 +66,16 @@ namespace ANX.RenderSystem.Windows.DX10
 		public EffectDX(GraphicsDevice graphicsDevice, Effect managedEffect, Stream effectStream)
 			: this(managedEffect)
 		{
-			var device = ((GraphicsDeviceDX)graphicsDevice.NativeDevice).NativeDevice;
-			NativeEffect = new Dx10.Effect(device, GetByteCode(effectStream));
+            var device = ((GraphicsDeviceDX)graphicsDevice.NativeDevice).NativeDevice;
+
+            try
+            {
+                NativeEffect = new Dx10.Effect(device, GetByteCode(effectStream));
+            }
+            catch (SharpDX.SharpDXException ex)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
         }
 		#endregion
 
