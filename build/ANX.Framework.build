@@ -51,8 +51,8 @@
     <property name="project.anx.build_env" value="VS2010" />
   </target>
 
-  <target name="VS2011">
-    <property name="project.anx.build_env" value="VS2011" />
+  <target name="VS2012">
+    <property name="project.anx.build_env" value="VS2012" />
   </target>
 
   <target name="windows">

@@ -22,6 +22,14 @@
       <ComponentGroupRef Id="ToolsAnxContentCompiler4" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
+
+    <Feature Id="VS2010TemplatesFeature" Title="ANX.Framework project templates for Visual Studio 2010" Level="1">
+      <ComponentGroupRef Id="VS2010Templates" />
+    </Feature>
+
+    <Feature Id="VS2012TemplatesFeature" Title="ANX.Framework project templates for Visual Studio 2012" Level="1">
+      <ComponentGroupRef Id="VS2012Templates" />
+    </Feature>
     
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <WixVariable Id="WixUILicenseRtf" Value="../doc/license.rtf" />
@@ -30,18 +38,33 @@
     
     <UIRef Id="WixUI_InstallDir" />
 
-    <!--
+    <PropertyRef Id="VS2010_ROOT_FOLDER" />
     <PropertyRef Id="VS2010_ITEMTEMPLATES_DIR" />
     <PropertyRef Id="VS2010_PROJECTTEMPLATES_DIR" />
+    <PropertyRef Id="VS2010_SCHEMAS_DIR" />
+    <PropertyRef Id="VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED"/>
+    <PropertyRef Id="VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED"/>
+
+    <PropertyRef Id="VS2012_ROOT_FOLDER" />
     <PropertyRef Id="VS2012_ITEMTEMPLATES_DIR" />
     <PropertyRef Id="VS2012_PROJECTTEMPLATES_DIR" />
+    <PropertyRef Id="VS2012_SCHEMAS_DIR" />
+    <PropertyRef Id="VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED"/>
+    <PropertyRef Id="VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED"/>
 
-    <CustomAction Id="SetItemTemplatesPath2010" Directory="VS2010ITEMTEMPLATESDIR" Value="[VS2010_ITEMTEMPLATES_DIR]\ANX.Framework" />
-    <CustomAction Id="SetProjectTemplatesPath2010" Directory="VS2010PROJECTTEMPLATESDIR" Value="[VS2010_PROJECTTEMPLATES_DIR]\ANX.Framework" />
-    <CustomAction Id="SetItemTemplatesPath2012" Directory="VS2012ITEMTEMPLATESDIR" Value="[VS2012_ITEMTEMPLATES_DIR]\ANX.Framework" />
-    <CustomAction Id="SetProjectTemplatesPath2012" Directory="VS2012PROJECTTEMPLATESDIR" Value="[VS2012_PROJECTTEMPLATES_DIR]\ANX.Framework" />
-    -->
-    
+    <CustomActionRef Id="VS2010InstallVSTemplates" />
+    <CustomActionRef Id="VS2012InstallVSTemplates" />
+
+    <InstallExecuteSequence>
+      <Custom Action="VS2010InstallVSTemplates" Before="InstallFinalize">NOT (Feature_VS2010 = -1)</Custom>
+      <Custom Action="VS2012InstallVSTemplates" Before="InstallFinalize">NOT (Feature_VS2012 = -1)</Custom>
+    </InstallExecuteSequence>
+
+    <UI>
+      <ProgressText Action="VS2010InstallVSTemplates" Template="[1]">Registering Visual Studio 2010 Templates</ProgressText>
+      <ProgressText Action="VS2012InstallVSTemplates" Template="[1]">Registering Visual Studio 2012 Templates</ProgressText>
+
+    </UI>
   </Product>
 
 	<Fragment>
@@ -54,9 +77,100 @@
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="ANX.Framework" />
       </Directory>
+
+      <Directory Id="VS2010_ROOT_FOLDER" Name="Visual Studio 10.0">
+        <Directory Id="VS2010_Common7" Name="Common7">
+          <Directory Id="VS2010_IDE" Name="IDE">
+            <Directory Id="VS2010_ITEMTEMPLATES_DIR" Name="ItemTemplates">
+            </Directory>
+            <Directory Id="VS2010_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
+              <Directory Id="VS2010_CSharp" Name="CSharp">
+                <Directory Id="VS2010_ANX_FRAMEWORK" Name="ANX.Framework">
+                  <Directory Id="WindowsTemplates" Name="Windows">
+
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="VS2012_ROOT_FOLDER" Name="Visual Studio 11.0">
+        <Directory Id="VS2012_Common7" Name="Common7">
+          <Directory Id="VS2012_IDE" Name="IDE">
+            <Directory Id="VS2012_ITEMTEMPLATES_DIR" Name="ItemTemplates">
+            </Directory>
+            <Directory Id="VS2012_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
+              <Directory Id="VS2012_CSharp" Name="CSharp">
+                <Directory Id="VS2012_ANX_FRAMEWORK" Name="ANX.Framework">
+                  <Directory Id="ModernUITemplates" Name="ModernUI">
+                  
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
     </Directory>
   </Fragment>
 
+  <Fragment>
+    <Feature Id="Feature_VS2010" Title="Visual Studio 2010" Level="0">
+      <Condition Level="1">VS2010_ROOT_FOLDER AND (VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED OR VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED)</Condition>
+      <ComponentRef Id="VS2010_XmlSchemas"/>
+      <Feature Id="Feature_VS2010_CSharp" Title="C# Support" Level="0">
+        <Condition Level="1">VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2010_CSharpCodeSnippets" />
+        <ComponentRef Id="VS2010_CSharpItemTemplates" />
+        <ComponentRef Id="VS2010_WebCSharpItemTemplates" />
+      </Feature>
+      <Feature Id="Feature_VS2010_VB" Title="VB Support" Level="0">
+        <Condition Level="1">VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2010_VBCodeSnippets" />
+        <ComponentRef Id="VS2010_VBItemTemplates" />
+        <ComponentRef Id="VS2010_WebVBItemTemplates" />
+      </Feature>
+    </Feature>
+  </Fragment>
+
+  <Fragment>
+    <Feature Id="Feature_VS2012" Title="Visual Studio 2012" Level="0">
+      <Condition Level="1">VS2012_ROOT_FOLDER AND (VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED OR VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED)</Condition>
+      <ComponentRef Id="VS2012_XmlSchemas"/>
+      <Feature Id="Feature_VS2012_CSharp" Title="C# Support" Level="0">
+        <Condition Level="1">VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2012_CSharpCodeSnippets" />
+        <ComponentRef Id="VS2012_CSharpItemTemplates" />
+        <ComponentRef Id="VS2012_WebCSharpItemTemplates" />
+      </Feature>
+      <Feature Id="Feature_VS2012_VB" Title="VB Support" Level="0">
+        <Condition Level="1">VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2012_VBCodeSnippets" />
+        <ComponentRef Id="VS2012_VBItemTemplates" />
+        <ComponentRef Id="VS2012_WebVBItemTemplates" />
+      </Feature>
+    </Feature>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2012Templates" Directory="ModernUITemplates">
+      <Component Id="VS2012_ModernUiProjectTemplates" Guid="{8D9AD7CA-06B3-44BC-8553-E36D7E0D8D3B}">
+        <File Id="VS2012_ModernUI_Game_with_ContentProject.zip" Name="ModernUI Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (with ContentProject).zip" />
+        <File Id="VS2012_ModernUI_Game_without_ContentProject.zip" Name="ModernUI Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2010Templates" Directory="WindowsTemplates">
+      <Component Id="VS2010_WindowsProjectTemplates" Guid="{65E24371-C6E3-4C1D-88FA-C93028CDEC69}">
+        <File Id="VS2010_ModernUI_Game_without_ContentProject.zip" Name="Windows Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2010/Windows/Windows Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
   <Fragment>
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{7A7BEBDF-BE65-413E-A993-8E78311B445D}">
@@ -88,7 +202,7 @@
       </Component>
     </DirectoryRef>
   </Fragment>
-  
+
   <Fragment>
     <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
       <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>

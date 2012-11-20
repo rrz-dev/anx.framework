@@ -15,9 +15,9 @@ goto error_msg
 :vs2011pf
   SET vs11dir = %ProgRoot%\Microsoft Visual Studio 11.0\
 :vs2011
-  echo Visual Studio 2011 build environment
+  echo Visual Studio 2012 build environment
   call "%vs11dir%\vc\vcvarsall.bat" x86
-  SET ENV=VS2011
+  SET ENV=VS2012
   goto start_nant
 
 :vs2011pf
@@ -43,7 +43,7 @@ nant -buildfile:ANX.Framework.build %ENV% %FIRST_TARGET% %2 %3 %4 %5 %6
 goto pause
 
 :error_msg
-echo Couldn't find Visual Studio 2010 or 2011. Exiting.
+echo Couldn't find Visual Studio 2010 or 2012. Exiting.
 goto pause
 
 :error_msg_working_dir
