@@ -29,6 +29,11 @@ namespace ANXStatusComparer.Data
 		/// <param name="filepaths">Filepaths to the assemblies to load.</param>
 		public AssembliesData(string[] filepaths)
 		{
+            if (filepaths == null)
+            {
+                return;
+            }
+
 			Namespaces = new Dictionary<string, NamespaceData>();
 
 			foreach (string file in filepaths)

@@ -24,16 +24,18 @@ namespace ANXStatusComparer
 				"./SampleConfigFile.xml" :
 				args[0];
 
-			if (File.Exists(configFilepath) == false)
+            Configuration config;
+
+            if (File.Exists(configFilepath) == true)
+            {
+                // Load the config
+                config = new Configuration(configFilepath);
+            } 
+            else
 			{
-				throw new FileNotFoundException("Failed to generate the status " +
-					"because the configuration file '" + configFilepath +
-					"' doesn't exist! Aborting.");
+                config = new Configuration(new String[] { Path.Combine(Environment.CurrentDirectory, "ANX.Framework.dll") }, Path.Combine(Environment.CurrentDirectory, "SummaryStyle.css"));
 			}
 			#endregion
-
-			// Load the config
-			Configuration config = new Configuration(configFilepath);
 
 			// Now load the actual assemblies and preparse them:
 			// for xna...
@@ -42,8 +44,7 @@ namespace ANXStatusComparer
 			AssembliesData anxAssemblies = new AssembliesData(config.AnxAssemblies);
 
 			// Everything before was easy...now comes the main part.
-			ResultData result = AssemblyComparer.Compare(xnaAssemblies, anxAssemblies,
-				CheckType.All);
+			ResultData result = AssemblyComparer.Compare(xnaAssemblies, anxAssemblies, CheckType.All);
 
 			switch(config.OutputType)
 			{

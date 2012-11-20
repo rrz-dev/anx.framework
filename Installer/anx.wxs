@@ -207,6 +207,7 @@
     <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
       <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
         <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../bin/Release/asc.exe' />
+        <File Id='ANXStatusComparerStyleSheet' Name='SummaryStyle.css' DiskId='1' Source='../bin/SummaryStyle.css' />
         <File Id='ContentBuilder' Name='ContentBuilder.exe' DiskId='1' Source='../bin/Release/ContentBuilder.exe' />
         <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/tools/ProjectConverter.exe' />
         <File Id='XNBInspector' Name='ANX.Tools.XNBInspector.exe' DiskId='1' Source='../bin/Release/ANX.Tools.XNBInspector.exe' />

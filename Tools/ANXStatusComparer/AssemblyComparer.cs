@@ -79,6 +79,11 @@ namespace ANXStatusComparer
 		/// </summary>
 		private static void CheckNamespaces()
 		{
+            if (xnaAssemblies.Namespaces == null)
+            {
+                return;
+            }
+
 			foreach (string name in xnaAssemblies.Namespaces.Keys)
 			{
 				if (xnaAssemblies.Namespaces[name].IsPublic == false)
@@ -109,6 +114,11 @@ namespace ANXStatusComparer
 		#region CheckInterfaces
 		private static void CheckInterfaces()
 		{
+            if (xnaAssemblies.Namespaces == null)
+            {
+                return;
+            }
+
 			foreach (string key in xnaAssemblies.Namespaces.Keys)
 			{
 				NamespaceData namespaceData = xnaAssemblies.Namespaces[key];
@@ -161,6 +171,11 @@ namespace ANXStatusComparer
 		#region CheckClasses
 		private static void CheckClasses()
 		{
+            if (xnaAssemblies.Namespaces == null)
+            {
+                return;
+            }
+
 			foreach (string key in xnaAssemblies.Namespaces.Keys)
 			{
 				NamespaceData namespaceData = xnaAssemblies.Namespaces[key];
@@ -212,6 +227,11 @@ namespace ANXStatusComparer
 		#region CheckStructs
 		private static void CheckStructs()
 		{
+            if (xnaAssemblies.Namespaces == null)
+            {
+                return;
+            }
+
 			foreach (string key in xnaAssemblies.Namespaces.Keys)
 			{
 				NamespaceData namespaceData = xnaAssemblies.Namespaces[key];
@@ -267,6 +287,11 @@ namespace ANXStatusComparer
 		/// </summary>
 		private static void CheckEnums()
 		{
+            if (xnaAssemblies.Namespaces == null)
+            {
+                return;
+            }
+
 			foreach (string key in xnaAssemblies.Namespaces.Keys)
 			{
 				NamespaceData namespaceData = xnaAssemblies.Namespaces[key];
