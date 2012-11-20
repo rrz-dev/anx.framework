@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -21,7 +22,7 @@ namespace ANX.ContentCompiler.GUI
 {
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [PercentageComplete(90)] //TODO: Preview, Renaming of Folders!
-    [TestState(TestStateAttribute.TestState.Tested)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class MainWindow : Form
     {
         #region Fields
@@ -271,7 +272,8 @@ namespace ANX.ContentCompiler.GUI
                                       TargetProfile = _contentProject.Profile,
                                       CompressContent = false
                                   };
-            foreach (var bI in _contentProject.BuildItems)
+            var buildItems = _contentProject.BuildItems;
+            foreach (var bI in buildItems)
             {
                 if (String.IsNullOrEmpty(bI.ImporterName))
                 {
@@ -336,7 +338,11 @@ namespace ANX.ContentCompiler.GUI
         private void AddFile(string file)
         {
             if (!File.Exists(file))
-                throw new FileNotFoundException();
+            {
+                MessageBox.Show("Sorry, but there is a problem: The file you requested was not found!",
+                                "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             string folder = _contentProject.ContentRoot;
             TreeNode node = treeView.SelectedNode;
@@ -344,9 +350,20 @@ namespace ANX.ContentCompiler.GUI
                 folder = node.Name;
             string absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
                              Path.GetFileName(file);
+            if (String.IsNullOrEmpty(ProjectFolder))
+                absPath = Path.GetDirectoryName(ProjectPath) + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
+                          Path.GetFileName(file);
             if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
                 Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
-            File.Copy(file, absPath, true);
+            try
+            {
+                File.Copy(file, absPath, true);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Sorry, but there is a problem: " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             var item = new BuildItem
                            {
                                AssetName =
@@ -354,7 +371,7 @@ namespace ANX.ContentCompiler.GUI
                                        ? Path.GetFileNameWithoutExtension(file)
                                        : folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") +
                                          Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file),
-                               SourceFilename = absPath,
+                               SourceFilename = folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
                                OutputFilename =
                                    ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
                                    Path.GetFileNameWithoutExtension(file) + ".xnb",   //<- Change this if you want some other extension (i.e. to annoy modders or whatever)
