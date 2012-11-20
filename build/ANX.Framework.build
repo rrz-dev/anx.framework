@@ -307,7 +307,7 @@
         <echo message="generating: ${path::get-file-name(path::get-directory-name(buildFile))}" />
         
         <exec program="../bin/${build.configuration}/sscg.exe" >
-          <arg value="${buildFile}" />
+          <arg value='\"${buildFile}\"' />
           <arg value="/silent" />
         </exec>
       </do>
