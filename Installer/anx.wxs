@@ -9,6 +9,7 @@
            UpgradeCode="{7A54B375-318B-40B7-ABF7-60BB50689361}">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <Icon Id="ANX.icon" SourceFile="..\media\anx.ico" />
+    <Property Id="ARPPRODUCTICON" Value="ANX.icon" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id='1' Cabinet='ANX.Framework.cab' EmbedCab='yes' />
@@ -207,9 +208,9 @@
     <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
       <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
         <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../bin/Release/asc.exe' />
-        <File Id='ANXStatusComparerStyleSheet' Name='SummaryStyle.css' DiskId='1' Source='../bin/SummaryStyle.css' />
+        <File Id='ANXStatusComparerStyleSheet' Name='SummaryStyle.css' DiskId='1' Source='../bin/Release/SummaryStyle.css' />
         <File Id='ContentBuilder' Name='ContentBuilder.exe' DiskId='1' Source='../bin/Release/ContentBuilder.exe' />
-        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/tools/ProjectConverter.exe' />
+        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/Release/ProjectConverter.exe' />
         <File Id='XNBInspector' Name='ANX.Tools.XNBInspector.exe' DiskId='1' Source='../bin/Release/ANX.Tools.XNBInspector.exe' />
         <File Id='AnxSampleBrowser' Name='ANXSampleBrowser.exe' DiskId='1' Source='../bin/Release/ANXSampleBrowser.exe' />
 
@@ -294,9 +295,11 @@
       <Component Id='ANX.PlatformSystem.Windows' Guid='{0D0EBDD1-9F95-40CE-B314-7A502BC84A2F}'>
         <File Id='anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
       </Component>
+<!--
       <Component Id='ANX.PlatformSystem.Linux' Guid='{6781BD15-B2DB-41B7-B628-CAF0D95D584D}'>
         <File Id='anx.platformsystem.linux' Name='ANX.PlatformSystem.Linux.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Linux.dll' />
       </Component>
+-->      
     </ComponentGroup>
 	</Fragment>
 </Wix>

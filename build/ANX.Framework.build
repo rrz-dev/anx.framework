@@ -405,8 +405,9 @@
       <in>
         <items basedir="../Tools/">
           <include name="**/*.csproj" />
+<!--
           <exclude name="**/ProjectConverter.csproj" />
-
+-->
           <exclude name="**/*ANX.ContentCompiler.GUI*.csproj" if="${project.anx.metro}" />
           <exclude name="**/*ContentBuilder*.csproj" if="${project.anx.metro}" />
           <exclude name="**/*ANXStatusComparer*.csproj" if="${project.anx.metro}" />

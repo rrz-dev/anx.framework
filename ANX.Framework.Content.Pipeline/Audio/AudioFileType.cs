@@ -11,8 +11,8 @@ namespace ANX.Framework.Content.Pipeline.Audio
 {
     public enum AudioFileType
     {
-        Mp3,
-        Wav,
-        Wma,
+        Wav = 0,
+        Mp3 = 1,
+        Wma = 2,
     }
 }

@@ -11,10 +11,10 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     public enum MaterialProcessorDefaultEffect
     {
-        AlphaTestEffect,
-        BasicEffect,
-        DualTextureEffect,
-        EnvironmentMapEffect,
-        SkinnedEffect,
+        BasicEffect = 0,
+        SkinnedEffect = 1,
+        EnvironmentMapEffect = 2,
+        DualTextureEffect = 3,
+        AlphaTestEffect = 4,
     }
 }

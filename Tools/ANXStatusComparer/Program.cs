@@ -3,6 +3,10 @@ using System.Diagnostics;
 using System.IO;
 using ANXStatusComparer.Data;
 using ANXStatusComparer.Output;
+using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -33,7 +37,14 @@ namespace ANXStatusComparer
             } 
             else
 			{
-                config = new Configuration(new String[] { Path.Combine(Environment.CurrentDirectory, "ANX.Framework.dll") }, Path.Combine(Environment.CurrentDirectory, "SummaryStyle.css"));
+                string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                config = new Configuration(new String[] { Path.Combine(currentAssemblyDirectoryName, "ANX.Framework.dll"),
+                                                          Path.Combine(currentAssemblyDirectoryName, "ANX.Framework.Content.Pipeline.dll")
+                                                        },
+                                           GetDefaultXnaAssemblies(),
+                                           Path.Combine(currentAssemblyDirectoryName, "SummaryStyle.css")
+                                          );
 			}
 			#endregion
 
@@ -61,5 +72,31 @@ namespace ANXStatusComparer
 			}
 		}
 		#endregion
+
+        private static string[] GetDefaultXnaAssemblies()
+        {
+            HashSet<string> assemblies = new HashSet<string>();
+
+            var xna32 = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\XNA\Game Studio\v4.0", "InstallPath", null);
+            var xna64 = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\XNA\Game Studio\v4.0", "InstallPath", null);
+
+            if (xna32 != null)
+            {
+                foreach (string file in Directory.EnumerateFiles(Path.Combine(xna32.ToString(), @"References\Windows\x86"), "*.dll", SearchOption.AllDirectories))
+                {
+                    assemblies.Add(file);
+                }
+            }
+
+            if (xna64 != null)
+            {
+                foreach (string file in Directory.EnumerateFiles(Path.Combine(xna64.ToString(), @"References\Windows\x86"), "*.dll", SearchOption.AllDirectories))
+                {
+                    assemblies.Add(file);
+                }
+            }
+
+            return assemblies.ToArray();
+        }
 	}
 }

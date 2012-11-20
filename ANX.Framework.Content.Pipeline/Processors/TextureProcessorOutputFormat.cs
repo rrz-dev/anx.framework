@@ -11,8 +11,8 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     public enum TextureProcessorOutputFormat
     {
-        Color,
-        DxtCompressed,
-        NoChange,
+        NoChange = 0,
+        Color = 1,
+        DxtCompressed = 2,
     }
 }

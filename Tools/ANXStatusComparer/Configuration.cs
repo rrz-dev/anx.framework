@@ -55,9 +55,10 @@ namespace ANXStatusComparer
 		#endregion
 
 		#region Constructor
-        public Configuration(String[] anxAssemblies, String stylesheet)
+        public Configuration(String[] anxAssemblies, String[] xnaAssemblies, String stylesheet)
         {
             this.AnxAssemblies = anxAssemblies;
+            this.XnaAssemblies = xnaAssemblies;
             this.OutputType = "html";
             this.StylesheetFile = stylesheet;
         }

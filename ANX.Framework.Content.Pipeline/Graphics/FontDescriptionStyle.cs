@@ -15,8 +15,8 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     [Flags]
     public enum FontDescriptionStyle
     {
-        Bold,
-        Italic,
-        Regular,
+        Regular = 0,
+        Bold = 1,
+        Italic = 2,
     }
 }

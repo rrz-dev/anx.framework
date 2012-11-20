@@ -11,9 +11,9 @@ namespace ANX.Framework.Content.Pipeline.Audio
 {
     public enum ConversionFormat
     {
-        Adpcm,
-        Pcm,
-        WindowsMedia,
-        Xma,
+        Pcm = 0,
+        Adpcm = 1,
+        WindowsMedia = 2,
+        Xma = 3,
     }
 }
