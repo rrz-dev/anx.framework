@@ -87,9 +87,7 @@
             <Directory Id="VS2010_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
               <Directory Id="VS2010_CSharp" Name="CSharp">
                 <Directory Id="VS2010_ANX_FRAMEWORK" Name="ANX.Framework">
-                  <Directory Id="WindowsTemplates" Name="Windows">
-
-                  </Directory>
+                  <Directory Id="VS2010_WindowsTemplates" Name="Windows" />
                 </Directory>
               </Directory>
             </Directory>
@@ -105,9 +103,8 @@
             <Directory Id="VS2012_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
               <Directory Id="VS2012_CSharp" Name="CSharp">
                 <Directory Id="VS2012_ANX_FRAMEWORK" Name="ANX.Framework">
-                  <Directory Id="ModernUITemplates" Name="ModernUI">
-                  
-                  </Directory>
+                  <Directory Id="VS2012_ModernUITemplates" Name="ModernUI" />
+                  <Directory Id="VS2012_WindowsTemplates" Name="Windows" />
                 </Directory>
               </Directory>
             </Directory>
@@ -156,7 +153,7 @@
   </Fragment>
 
   <Fragment>
-    <ComponentGroup Id="VS2012Templates" Directory="ModernUITemplates">
+    <ComponentGroup Id="VS2012Templates" Directory="VS2012_ModernUITemplates">
       <Component Id="VS2012_ModernUiProjectTemplates" Guid="{8D9AD7CA-06B3-44BC-8553-E36D7E0D8D3B}">
         <File Id="VS2012_ModernUI_Game_with_ContentProject.zip" Name="ModernUI Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (with ContentProject).zip" />
         <File Id="VS2012_ModernUI_Game_without_ContentProject.zip" Name="ModernUI Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (without ContentProject).zip" />
@@ -165,8 +162,18 @@
   </Fragment>
 
   <Fragment>
-    <ComponentGroup Id="VS2010Templates" Directory="WindowsTemplates">
+    <ComponentGroup Id="VS2012Templates_Windows" Directory="VS2012_WindowsTemplates">
+      <Component Id="VS2012_WindowsProjectTemplates" Guid="{6FAA269C-CDB7-45F8-9800-B4797D91DEA9}">
+        <File Id="VS2012_ModernUI_Game_with_ContentProject.zip" Name="Windows Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2012/Windows/Windows Game (with ContentProject).zip" />
+        <File Id="VS2012_ModernUI_Game_without_ContentProject.zip" Name="Windows Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2012/Windows/Windows Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2010Templates" Directory="VS2012_WindowsTemplates">
       <Component Id="VS2010_WindowsProjectTemplates" Guid="{65E24371-C6E3-4C1D-88FA-C93028CDEC69}">
+        <File Id="VS2010_ModernUI_Game_with_ContentProject.zip" Name="Windows Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2010/Windows/Windows Game (with ContentProject).zip" />
         <File Id="VS2010_ModernUI_Game_without_ContentProject.zip" Name="Windows Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2010/Windows/Windows Game (without ContentProject).zip" />
       </Component>
     </ComponentGroup>
