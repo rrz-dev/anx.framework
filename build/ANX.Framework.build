@@ -319,7 +319,9 @@
     <fileset id="sample_files" basedir="../Samples/">
       <include name="**/*.csproj" unless="${not xnasdk.installed}" />
       <include name="**/SimpleNoContent.csproj" />
-
+      <include name="**/WindowsFormsEditor.csproj" />
+      <include name="**/WpfEditor.csproj" />
+      
       <exclude name="**/*Kinect*.csproj" />
 
       <exclude name="**/*PSVita*.csproj" />
