@@ -1,7 +1,7 @@
-<project name="ANX.Framework SoundSystem" default="soundsystem" basedir="./">
-  <target name="soundsystem" description="Build ANX.Framework SoundSystems" depends="support">
+<project name="ANX.Framework PlatformSystem" default="platformsystem" basedir="./">
+  <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
     <!-- default windows fileset -->
-    <fileset id="soundsystem_files" basedir="../SoundSystems/">
+    <fileset id="platformsystem_files" basedir="../PlatformSystems/">
       <include name="**/*.csproj" />
       <exclude name="**/*PSVita*.csproj" />
       <exclude name="**/*Metro*.csproj" />
@@ -9,36 +9,26 @@
     </fileset>
 
     <if test="${project.anx.linux}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_Linux.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*PSVITA*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*Linux*_Linux.csproj" />
       </fileset>
     </if>
 
     <if test="${project.anx.psvita}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_PsVita.csproj" />
-        <exclude name="**/*Metro*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenAL*.csproj" />
-        <exclude name="**/*Windows*.csproj" />
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*PsVita*_PsVita.csproj" />
       </fileset>
     </if>
 
     <if test="${project.anx.metro}">
-      <fileset id="soundsystem_files" basedir="../SoundSystems/">
-        <include name="**/*_WindowsMetro.csproj" />
-        <exclude name="**/*PSVita*.csproj" />
-        <exclude name="**/*Linux*.csproj" />
-        <exclude name="**/*OpenAL*.csproj" />
+      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
+        <include name="**/*Metro*_WindowsMetro.csproj" />
       </fileset>
     </if>
 
     <foreach item="File" property="projectFile">
       <in>
-        <items refid="soundsystem_files" />
+        <items refid="platformsystem_files" />
       </in>
       <do>
         <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />

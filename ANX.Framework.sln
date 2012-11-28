@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework", "ANX.Framework\ANX.Framework.csproj", "{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.TestCenter", "ANX.Framework.TestCenter\ANX.Framework.TestCenter.csproj", "{7344BBEB-A1C7-43A8-B68E-D42B81973DA9}"
@@ -83,6 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{82CDEC51
 	ProjectSection(SolutionItems) = preProject
 		build\ANX.Framework.build = build\ANX.Framework.build
 		build\ANX.InputSystem.build = build\ANX.InputSystem.build
+		build\ANX.PlatformSystem.build = build\ANX.PlatformSystem.build
 		build\ANX.RenderSystem.build = build\ANX.RenderSystem.build
 		build\ANX.SoundSystem.build = build\ANX.SoundSystem.build
 		build\create_shaders.bat = build\create_shaders.bat

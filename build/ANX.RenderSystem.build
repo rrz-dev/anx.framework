@@ -41,7 +41,7 @@
           <arg value="/t:Build"/>
           <arg value="/p:Configuration=${build.configuration}"/>
           <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}" />
           <arg value="/p:AllowUnsafeBlocks=true" />
           <arg value="/p:SolutionDir=${build.solution_dir}" />
           <arg value='/p:DefineConstants="${project.anx.directives} ${additional_directives}"' />

@@ -64,6 +64,8 @@
     <property name="project.anx.linux" value="true" />
     <property name="project.anx.platform" value="Linux" />
 
+    <property name="build.dir.base" value="${build.dir}/${project.anx.platform}" />
+
     <call target="generate_project_files" />
   </target>
 
@@ -223,58 +225,10 @@
   <include buildfile="ANX.InputSystem.build" />
 
   <include buildfile="ANX.SoundSystem.build" />
-  
-  <target name="platformsystem" description="Build ANX.Framework PlatformSystems">
-    <!-- default windows fileset -->
-    <fileset id="platformsystem_files" basedir="../PlatformSystems/">
-      <include name="**/*.csproj" />
-      <exclude name="**/*PSVita*.csproj" />
-      <exclude name="**/*Metro*.csproj" />
-      <exclude name="**/*Linux*.csproj" />
-    </fileset>
 
-    <if test="${project.anx.linux}">
-      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
-        <include name="**/*Linux*_Linux.csproj" />
-      </fileset>
-    </if>
+  <include buildfile="ANX.PlatformSystem.build" />
 
-    <if test="${project.anx.psvita}">
-      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
-        <include name="**/*PsVita*_PsVita.csproj" />
-      </fileset>
-    </if>
-
-    <if test="${project.anx.metro}">
-      <fileset id="platformsystem_files" basedir="../PlatformSystems/">
-        <include name="**/*Metro*_WindowsMetro.csproj" />
-      </fileset>
-    </if>
-
-    <foreach item="File" property="projectFile">
-      <in>
-        <items refid="platformsystem_files" />
-      </in>
-      <do>
-        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
-
-        <exec program="msbuild.exe" >
-          <arg value="/t:Build"/>
-          <arg value="/p:Configuration=${build.configuration}"/>
-          <arg value='/p:Platform="${build.platform}"'/>
-          <arg value="/p:OutputPath=${build.dir}/${build.configuration}" />
-          <arg value="/p:AllowUnsafeBlocks=true" />
-          <arg value="/p:SolutionDir=${build.solution_dir}" />
-          <arg value='/p:DefineConstants="${project.anx.directives}"' />
-          <arg value="/clp:ErrorsOnly" />
-          <arg value="/nologo" />
-          <arg value="${projectFile}" />
-        </exec>
-      </do>
-    </foreach>
-  </target>
-  
-  <target name="generate_stock_shaders" description="Generate code for stock shaders" depends="tools">
+  <target name="generate_stock_shaders" description="Generate code for stock shaders" depends="build_tools">
     <!-- default windows fileset -->
     <fileset id="stock_shaders" basedir="../shader/">
       <include name="**/build.xml" />
@@ -306,7 +260,7 @@
       <do>
         <echo message="generating: ${path::get-file-name(path::get-directory-name(buildFile))}" />
         
-        <exec program="../bin/${build.configuration}/sscg.exe" >
+        <exec program="${build.dir.tools}/sscg.exe" >
           <arg value='\"${buildFile}\"' />
           <arg value="/silent" />
         </exec>
@@ -331,7 +285,9 @@
 
     <if test="${project.anx.linux}">
       <fileset id="sample_files" basedir="../Samples/">
-        <include name="**/*_Linux.csproj" />
+        <include name="**/*_Linux.csproj" unless="${not xnasdk.installed}" />
+        <include name="**/SimpleNoContent_Linux.csproj" />
+
       </fileset>
     </if>
 
@@ -379,6 +335,7 @@
       <in>
         <items basedir="../Tools/">
           <include name="**/ProjectConverter.csproj" />
+          <include name="**/StockShaderCodeGenerator.csproj" />
         </items>
       </in>
       <do>
