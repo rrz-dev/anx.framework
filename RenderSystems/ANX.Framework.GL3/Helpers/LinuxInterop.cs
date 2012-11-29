@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenTK.Platform;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -46,9 +47,8 @@ namespace ANX.RenderSystem.GL3.Helpers
 		[DllImport("libX11")]
 		private static extern int XPending(IntPtr diplay);
 
-		[DllImport("libX11")]
-		private static extern void XResizeWindow(IntPtr display, IntPtr window,
-			int width, int height);
+        [DllImport("libX11", EntryPoint = "XResizeWindow")]
+		private static extern void XResizeWindow(IntPtr display, IntPtr window, int width, int height);
 		#endregion
 
 		#region GetStaticFieldValue
@@ -108,10 +108,17 @@ namespace ANX.RenderSystem.GL3.Helpers
 		#endregion
 
 		#region ResizeWindow
-		public static void ResizeWindow(IntPtr windowHandle, int backBufferWidth,
+		public static void ResizeWindow(IntPtr display, IntPtr windowHandle, int backBufferWidth,
 			int backBufferHeight)
 		{
-			XResizeWindow(IntPtr.Zero, windowHandle, backBufferWidth, backBufferHeight);
+            try
+            {
+                XResizeWindow(display, windowHandle, backBufferWidth, backBufferHeight);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("GL3 XResizeWindow", e);
+            }
 		}
 		#endregion
 	}

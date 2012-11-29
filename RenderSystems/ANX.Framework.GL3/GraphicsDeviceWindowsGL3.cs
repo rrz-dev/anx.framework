@@ -6,6 +6,7 @@ using ANX.RenderSystem.GL3.Helpers;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
+using OpenTK.Platform.X11;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -375,9 +376,12 @@ namespace ANX.RenderSystem.GL3
 			}
 			else
 			{
-				LinuxInterop.ResizeWindow(presentationParameters.DeviceWindowHandle,
-					presentationParameters.BackBufferWidth,
-					presentationParameters.BackBufferHeight);
+                if (nativeWindowInfo != null)
+                {
+                    LinuxInterop.ResizeWindow(IntPtr.Zero, presentationParameters.DeviceWindowHandle,
+                        presentationParameters.BackBufferWidth,
+                        presentationParameters.BackBufferHeight);
+                }
 			}
 		}
 		#endregion
