@@ -19,27 +19,107 @@ namespace ANX.Framework.Audio
 		#region Static
 	    public static float DistanceScale
 	    {
-	        get { return GetCreator().DistanceScale; }
-	        set { GetCreator().DistanceScale = value; }
+	        get 
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    return creator.DistanceScale;
+                }
+
+                return 0.0f; 
+            }
+	        set 
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    creator.DistanceScale = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("couldn't set DistanceScale because no supported SoundSystem was found");
+                }
+            }
 	    }
 
 	    public static float DopplerScale
 	    {
-	        get { return GetCreator().DopplerScale; }
-	        set { GetCreator().DopplerScale = value; }
-	    }
+            get
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    return creator.DopplerScale;
+                }
+
+                return 0.0f;
+            }
+            set
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    creator.DopplerScale = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("couldn't set DopplerScale because no supported SoundSystem was found");
+                }
+            }
+        }
 
 	    public static float MasterVolume
 	    {
-	        get { return GetCreator().MasterVolume; }
-	        set { GetCreator().MasterVolume = value; }
+            get
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    return creator.MasterVolume;
+                }
+
+                return 0.0f;
+            }
+            set
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    creator.MasterVolume = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("couldn't set MasterVolume because no supported SoundSystem was found");
+                }
+            }
 	    }
 
 	    public static float SpeedOfSound
 	    {
-	        get { return GetCreator().SpeedOfSound; }
-	        set { GetCreator().SpeedOfSound = value; }
-	    }
+            get
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    return creator.SpeedOfSound;
+                }
+
+                return 0.0f;
+            }
+            set
+            {
+                ISoundSystemCreator creator = GetCreator();
+                if (creator != null)
+                {
+                    creator.SpeedOfSound = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("couldn't set SpeedOfSound because no supported SoundSystem was found");
+                }
+            }
+        }
 		#endregion
 
 		#region Private

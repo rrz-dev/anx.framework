@@ -197,7 +197,7 @@ namespace ANX.Framework.NonXNA
 			Initialize();
 
 			AddInType addInType = GetAddInType(typeof(T));
-			return addInSystems[addInType].GetDefaultCreator<T>(addInType);
+            return addInSystems[addInType].GetDefaultCreator<T>(addInType);
 		}
 		#endregion
 
