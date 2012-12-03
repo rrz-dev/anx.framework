@@ -14,6 +14,12 @@ using ANX.Framework.NonXNA.SoundSystem;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+#region Patch-Log
+
+12/03/2012	#13365 clcrutch
+
+#endregion
+
 namespace ANX.Framework
 {
     [PercentageComplete(60)]
@@ -30,6 +36,7 @@ namespace ANX.Framework
         private bool firstDrawDone;
         private bool drawingSlow;
         private bool inRun;
+        private bool isInitialized;
 
 		private GameHost host;
 		private bool ShouldExit;
@@ -140,9 +147,17 @@ namespace ANX.Framework
 
 		protected virtual void Initialize()
 		{
-			//TODO: implement
+            if (!this.isInitialized)
+            {
+                foreach (GameComponent component in this.Components)
+                {
+                    component.Initialize();
+                }
 
-			this.LoadContent();
+                this.isInitialized = true;
+
+                this.LoadContent();
+            }
 		}
 
 		protected virtual void Update(GameTime gameTime)
@@ -539,7 +554,10 @@ namespace ANX.Framework
                 drawableGameComponents.Add(e.GameComponent);
             }
 
-            e.GameComponent.Initialize();
+            if (isInitialized)
+            {
+                e.GameComponent.Initialize();
+            }
         }
 
         private void HostActivated(object sender, EventArgs e)

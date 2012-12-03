@@ -9,6 +9,12 @@ using ANX.Framework.NonXNA.Development;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+#region Patch-Log
+
+12/03/2012	#13365 clcrutch
+
+#endregion
+
 namespace ANX.Framework
 {
     [PercentageComplete(100)]
@@ -100,7 +106,13 @@ namespace ANX.Framework
                     throw new InvalidOperationException("Service not found: IGraphicsDeviceService");
                 }
                 this.device.DeviceCreated += OnDeviceCreated;
+                this.device.DeviceReset += new EventHandler<EventArgs>(OnDeviceReset);
                 this.device.DeviceDisposing += OnDeviceDisposing;
+
+                if (this.device.GraphicsDevice != null)
+                {
+                    LoadContent();
+                }
             }
             isInitialized = true;
         }
@@ -133,6 +145,11 @@ namespace ANX.Framework
         }
 
         private void OnDeviceCreated(object sender, EventArgs arg)
+        {
+            this.LoadContent();
+        }
+
+        private void OnDeviceReset(object sender, EventArgs e)
         {
             this.LoadContent();
         }
