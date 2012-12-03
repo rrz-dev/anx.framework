@@ -9,12 +9,6 @@ using ANX.Framework.NonXNA.Development;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-#region Patch-Log
-
-12/03/2012	#13365 clcrutch
-
-#endregion
-
 namespace ANX.Framework
 {
     [PercentageComplete(100)]

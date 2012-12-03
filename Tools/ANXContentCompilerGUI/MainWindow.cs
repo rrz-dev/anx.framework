@@ -132,7 +132,7 @@ namespace ANX.ContentCompiler.GUI
                 {
                     ProjectOutputDir = !String.IsNullOrEmpty(dlg2.textBoxLocation.Text)
                                            ? dlg2.textBoxLocation.Text
-                                           : Path.Combine(ProjectFolder, DefaultOutputPath);
+                                           : DefaultOutputPath;
                 }
                 else
                     return;
@@ -193,7 +193,9 @@ namespace ANX.ContentCompiler.GUI
             _contentProject = ContentProject.Load(path);
             ProjectName = _contentProject.Name;
             ProjectOutputDir = _contentProject.OutputDirectory;
-            ProjectFolder = _contentProject.InputDirectory;
+            ProjectFolder = Path.GetDirectoryName(path);
+            if (String.IsNullOrEmpty(_contentProject.InputDirectory))
+                _contentProject.InputDirectory = ProjectFolder;
             ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
             ProjectPath = path;
             if (string.IsNullOrEmpty(_contentProject.Creator))
@@ -223,7 +225,12 @@ namespace ANX.ContentCompiler.GUI
             if (_contentProject == null) return;
             if (String.IsNullOrEmpty(ProjectPath))
                 SaveProjectAs(sender, e);
-
+            foreach (var buildItem in _contentProject.BuildItems)
+            {
+                if (File.Exists(buildItem.SourceFilename))
+                    buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, Path.GetDirectoryName(ProjectPath).Count() + 1);
+            }
+            _contentProject.InputDirectory = ""; //Clear input dir, because we do not need it anymore
             _contentProject.Save(ProjectPath);
             if (RecentProjects.Contains(ProjectPath))
                 RecentProjects.Remove(ProjectPath);
@@ -275,6 +282,10 @@ namespace ANX.ContentCompiler.GUI
             var buildItems = _contentProject.BuildItems;
             foreach (var bI in buildItems)
             {
+                if (!File.Exists(bI.SourceFilename))
+                    bI.SourceFilename = Path.Combine(Path.GetDirectoryName(ProjectPath), bI.SourceFilename);
+                if (!File.Exists(bI.OutputFilename))
+                    bI.OutputFilename = Path.Combine(Path.GetDirectoryName(ProjectPath), bI.OutputFilename);
                 if (String.IsNullOrEmpty(bI.ImporterName))
                 {
                     bI.ImporterName = ImporterManager.GuessImporterByFileExtension(bI.SourceFilename);
@@ -298,6 +309,11 @@ namespace ANX.ContentCompiler.GUI
             {
                 ribbonTextBox.AddMessage("[ERROR] " + ex + "\n Stack: " + ex.StackTrace);
                 EnableUI();
+            }
+            foreach (var buildItem in buildItems)
+            {
+                buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, ProjectFolder.Count() + 1);
+                buildItem.OutputFilename = buildItem.OutputFilename.Remove(0, ProjectFolder.Count() + 1);
             }
             EnableUI();
         }
