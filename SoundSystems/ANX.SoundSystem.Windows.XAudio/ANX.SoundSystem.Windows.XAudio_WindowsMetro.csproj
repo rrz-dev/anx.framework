@@ -36,10 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.xaudio2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

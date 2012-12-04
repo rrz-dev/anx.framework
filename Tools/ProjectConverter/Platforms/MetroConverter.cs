@@ -166,7 +166,7 @@ namespace ProjectConverter.Platforms
 
         protected override void ConvertReference(XElement element)
         {
-            if (element.Value.Contains("Standard-net20"))
+            if (element.Value.ToLowerInvariant().Contains("standard-net20"))
             {
                 var attribute = element.Attribute("Include");
                 attribute.Value = attribute.Value.Split(',').First();
@@ -179,7 +179,7 @@ namespace ProjectConverter.Platforms
                     }
                     if (nodeElement.Name.LocalName == "HintPath")
                     {
-                        nodeElement.Value = nodeElement.Value.Replace("Standard-net20", "Win8Metro");
+                        nodeElement.Value = nodeElement.Value.ToLowerInvariant().Replace("standard-net20", "standard-winrt");
                     }
 
                 }

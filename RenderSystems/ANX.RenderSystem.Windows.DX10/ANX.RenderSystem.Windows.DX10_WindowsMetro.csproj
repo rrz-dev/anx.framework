@@ -38,16 +38,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.D3DCompiler">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.D3DCompiler.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.d3dcompiler.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D10">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.Direct3D10.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.direct3d10.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.dxgi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

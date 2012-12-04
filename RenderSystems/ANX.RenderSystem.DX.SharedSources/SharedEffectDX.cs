@@ -41,11 +41,9 @@ namespace ANX.RenderSystem.Windows.DX11
 		public static byte[] CompileVertexShader(string effectCode, string directory = "")
 		{
 			// TODO: not all entry points are named VS!
-			ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None,
-				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[vertexShaderByteCode.BufferSize];
-			vertexShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
+			ShaderBytecode vertexShaderByteCode = ShaderBytecode.Compile(effectCode, "VS", "vs_4_0", ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
+
+            return vertexShaderByteCode.Data;
 		}
 		#endregion
 
@@ -53,21 +51,17 @@ namespace ANX.RenderSystem.Windows.DX11
 		public static byte[] CompilePixelShader(string effectCode, string directory = "")
 		{
 			// TODO: not all entry points are named PS!
-			ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None,
-				EffectFlags.None, null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[pixelShaderByteCode.BufferSize];
-			pixelShaderByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
+			ShaderBytecode pixelShaderByteCode = ShaderBytecode.Compile(effectCode, "PS", "ps_4_0", ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
+
+            return pixelShaderByteCode.Data;
 		}
 		#endregion
 
 		protected static byte[] CompileShader(string profile, string effectCode, string directory = "")
 		{
-			ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, profile, ShaderFlags.None, EffectFlags.None,
-				null, new IncludeHandler(directory), "unknown");
-			byte[] bytecode = new byte[effectByteCode.BufferSize];
-			effectByteCode.Data.Read(bytecode, 0, bytecode.Length);
-			return bytecode;
+			ShaderBytecode effectByteCode = ShaderBytecode.Compile(effectCode, profile, ShaderFlags.None, EffectFlags.None, null, new IncludeHandler(directory), "unknown");
+
+            return effectByteCode.Data;
 		}
 	}
 }

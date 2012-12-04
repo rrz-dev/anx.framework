@@ -2,11 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-        Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:WpfEditor">
+        Title="MainWindow" Height="350" Width="561" xmlns:my="clr-namespace:WpfEditor">
     <Grid>
         <WindowsFormsHost Margin="10">
             <winForms:Panel x:Name="GamePanel" />
         </WindowsFormsHost>
-        <Label Content="Label" Height="27" HorizontalAlignment="Left" Margin="15,22,0,0" Name="label1" VerticalAlignment="Top" Width="71" />
     </Grid>
 </Window>

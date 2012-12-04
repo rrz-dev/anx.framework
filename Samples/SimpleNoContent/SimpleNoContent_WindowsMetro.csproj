@@ -55,9 +55,9 @@
       <Project>{49066074-3b7b-4a55-b122-6bd33ab73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj">
-      <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
+    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Null\ANX.SoundSystem.Null_WindowsMetro.csproj">
+      <Project>{c4ddffff-595e-4089-b499-06f68caf2566}</Project>
+      <Name>ANX.SoundSystem.Null</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
