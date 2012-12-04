@@ -1006,7 +1006,7 @@
             <unmanaged>unsigned int XInputGetBatteryInformation([In] unsigned int dwUserIndex,[In] BATTERY_DEVTYPE devType,[Out] XINPUT_BATTERY_INFORMATION* pBatteryInformation)</unmanaged>	
             <unmanaged-short>XInputGetBatteryInformation</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.XInput.XInput.XInputEnable(System.Boolean)">
+        <member name="M:SharpDX.XInput.XInput.XInputEnable(SharpDX.Bool)">
             <summary>	
             Sets the reporting state of XInput.	
             </summary>	

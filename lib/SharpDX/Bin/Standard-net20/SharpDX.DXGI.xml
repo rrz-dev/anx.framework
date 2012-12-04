@@ -64,7 +64,7 @@
             <remarks>	
             <p><strong>SetPrivateData</strong> makes a copy of the specified data and stores it with the object.</p><p>Private data that <strong>SetPrivateData</strong> stores in the object occupies the same storage space as private data that is stored by associated Direct3D objects (for example, by a Microsoft Direct3D?11 device through <strong><see cref="!:SharpDX.Direct3D11.Device.SetPrivateData"/></strong> or by a Direct3D?11 child device through <strong><see cref="!:SharpDX.Direct3D11.DeviceChild.SetPrivateData"/></strong>).</p><p>The debug layer reports memory leaks by outputting a list of object interface references along with their friendly names. The default friendly name is "&lt;unnamed&gt;". You can set the friendly name so that you can determine if the corresponding object interface reference caused the leak. To set the friendly name, use the <strong>SetPrivateData</strong> method and the well-known private data <see cref="T:System.Guid"/> (<strong><see cref="F:SharpDX.Direct3D.CommonGuid.DebugObjectName"/></strong>) that is in D3Dcommon.h. For example, to give pContext a friendly name of <em>My name</em>, use the following code:</p><pre><code> static const char c_szName[] = "My name";	
             hr = pContext-&gt;SetPrivateData( <see cref="F:SharpDX.Direct3D.CommonGuid.DebugObjectName"/>, sizeof( c_szName ) - 1, c_szName );	
-            </code></pre><p>You can use <strong><see cref="F:SharpDX.Direct3D.CommonGuid.DebugObjectName"/></strong> to track down memory leaks and understand performance characteristics of your applications. This information is reflected in the output of the debug layer that is related to memory leaks (<strong><see cref="!:SharpDX.Direct3D11.Debug.ReportLiveDeviceObjects"/></strong>) and with the event tracing for Windows events that we've added to Windows Developer Preview.	
+            </code></pre><p>You can use <strong><see cref="F:SharpDX.Direct3D.CommonGuid.DebugObjectName"/></strong> to track down memory leaks and understand performance characteristics of your applications. This information is reflected in the output of the debug layer that is related to memory leaks (<strong><see cref="!:SharpDX.Direct3D11.DeviceDebug.ReportLiveDeviceObjects"/></strong>) and with the event tracing for Windows events that we've added to Windows Developer Preview.	
             </p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIObject::SetPrivateData']/*"/>	
@@ -446,11 +446,11 @@
         </member>
         <member name="P:SharpDX.DXGI.Device.GPUThreadPriority">
             <summary>	
-            <p>Gets the GPU thread priority.</p>	
+            <p>Gets or sets the GPU thread priority.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIDevice::GetGPUThreadPriority']/*"/>	
             <msdn-id>Bb174532</msdn-id>	
-            <unmanaged>GetGPUThreadPriority</unmanaged>	
+            <unmanaged>GetGPUThreadPriority / SetGPUThreadPriority</unmanaged>	
             <unmanaged-short>GetGPUThreadPriority</unmanaged-short>	
             <unmanaged>HRESULT IDXGIDevice::GetGPUThreadPriority([Out] int* pPriority)</unmanaged>
         </member>
@@ -628,7 +628,7 @@
             <param name="swapChainOut">No documentation.</param>	
             <returns><p> <see cref="F:SharpDX.DXGI.ResultCode.InvalidCall"/> if <em>pDesc</em> or <em>ppSwapChain</em> is <strong><c>null</c></strong>, <see cref="F:SharpDX.DXGI.DXGIStatus.Occluded"/> if you request full-screen mode and it is unavailable, or E_OUTOFMEMORY. Other error codes defined by the type of device passed in may also be returned.</p></returns>	
             <remarks>	
-            <p>If you attempt to create a swap chain in full-screen mode, and full-screen mode is unavailable, the swap chain will be created in windowed mode and <see cref="F:SharpDX.DXGI.DXGIStatus.Occluded"/> will be returned.</p><p>If the buffer width or the buffer height is zero, the sizes will be inferred from the output window size in the swap-chain description.</p><p>Because the target output cannot be chosen explicitly when the swap-chain is created, you should not create a full-screen swap chain. This can reduce presentation performance if the swap chain size and the output window size do not match. Here are two ways to ensure that the sizes match:</p><ul> <li>Create a windowed swap chain and then set it full-screen using <strong><see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(System.Boolean,SharpDX.DXGI.Output)"/></strong>.</li> <li>Save a reference to the swap chain immediately after creation, and use it to get the output window size during a WM_SIZE event. Then resize the swap chain buffers (with <strong><see cref="M:SharpDX.DXGI.SwapChain.ResizeBuffers(System.Int32,System.Int32,System.Int32,SharpDX.DXGI.Format,SharpDX.DXGI.SwapChainFlags)"/></strong>) during the transition from windowed to full-screen.</li> </ul><p>If the swap chain is in full-screen mode, before you release it you must use <strong>SetFullscreenState</strong> to switch it to windowed mode. For more information about releasing a swap chain, see the "Destroying a Swap Chain" section of DXGI Overview.</p><p>You can specify <strong><see cref="T:SharpDX.DXGI.SwapEffect"/></strong> and <strong><see cref="T:SharpDX.DXGI.SwapChainFlags"/></strong> values in the swap-chain description that <em>pDesc</em> points to. These values allow you to use features like flip-model presentation and content protection by using pre-Windows Developer Preview APIs.</p><p>However, to use stereo presentation and to change resize behavior for the flip model, applications must use the <strong>IDXGIFactory2::CreateSwapChainForHwnd</strong> method. Otherwise, the back-buffer contents implicitly scale to fit the presentation target size; that is, you can't turn off scaling.</p>Notes for Metro style apps<p>If a Metro style app calls <strong>CreateSwapChain</strong> with full screen specified, <strong>CreateSwapChain</strong> fails.</p><p>Metro style apps call the  <strong>IDXGIFactory2::CreateSwapChainForImmersiveWindow</strong> method to create a swap chain.</p>	
+            <p>If you attempt to create a swap chain in full-screen mode, and full-screen mode is unavailable, the swap chain will be created in windowed mode and <see cref="F:SharpDX.DXGI.DXGIStatus.Occluded"/> will be returned.</p><p>If the buffer width or the buffer height is zero, the sizes will be inferred from the output window size in the swap-chain description.</p><p>Because the target output cannot be chosen explicitly when the swap-chain is created, you should not create a full-screen swap chain. This can reduce presentation performance if the swap chain size and the output window size do not match. Here are two ways to ensure that the sizes match:</p><ul> <li>Create a windowed swap chain and then set it full-screen using <strong><see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(SharpDX.Bool,SharpDX.DXGI.Output)"/></strong>.</li> <li>Save a reference to the swap chain immediately after creation, and use it to get the output window size during a WM_SIZE event. Then resize the swap chain buffers (with <strong><see cref="M:SharpDX.DXGI.SwapChain.ResizeBuffers(System.Int32,System.Int32,System.Int32,SharpDX.DXGI.Format,SharpDX.DXGI.SwapChainFlags)"/></strong>) during the transition from windowed to full-screen.</li> </ul><p>If the swap chain is in full-screen mode, before you release it you must use <strong>SetFullscreenState</strong> to switch it to windowed mode. For more information about releasing a swap chain, see the "Destroying a Swap Chain" section of DXGI Overview.</p><p>You can specify <strong><see cref="T:SharpDX.DXGI.SwapEffect"/></strong> and <strong><see cref="T:SharpDX.DXGI.SwapChainFlags"/></strong> values in the swap-chain description that <em>pDesc</em> points to. These values allow you to use features like flip-model presentation and content protection by using pre-Windows Developer Preview APIs.</p><p>However, to use stereo presentation and to change resize behavior for the flip model, applications must use the <strong>IDXGIFactory2::CreateSwapChainForHwnd</strong> method. Otherwise, the back-buffer contents implicitly scale to fit the presentation target size; that is, you can't turn off scaling.</p>Notes for Metro style apps<p>If a Metro style app calls <strong>CreateSwapChain</strong> with full screen specified, <strong>CreateSwapChain</strong> fails.</p><p>Metro style apps call the  <strong>IDXGIFactory2::CreateSwapChainForImmersiveWindow</strong> method to create a swap chain.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIFactory::CreateSwapChain']/*"/>	
             <msdn-id>bb174537</msdn-id>	
@@ -770,6 +770,61 @@
             </summary>
             <param name="format">The dxgi format.</param>
             <returns>size of in bits</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsValid(SharpDX.DXGI.Format)">
+            <summary>
+            Returns true if the <see cref="T:SharpDX.DXGI.Format"/> is valid.
+            </summary>
+            <param name="format">A format to validate</param>
+            <returns>True if the <see cref="T:SharpDX.DXGI.Format"/> is valid.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsCompressed(SharpDX.DXGI.Format)">
+            <summary>
+            Returns true if the <see cref="T:SharpDX.DXGI.Format"/> is a compressed format.
+            </summary>
+            <param name="fmt">The format to check for compressed.</param>
+            <returns>True if the <see cref="T:SharpDX.DXGI.Format"/> is a compressed format</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsPacked(SharpDX.DXGI.Format)">
+            <summary>
+            Determines whether the specified <see cref="T:SharpDX.DXGI.Format"/> is packed.
+            </summary>
+            <param name="fmt">The DXGI Format.</param>
+            <returns><c>true</c> if the specified <see cref="T:SharpDX.DXGI.Format"/> is packed; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsVideo(SharpDX.DXGI.Format)">
+            <summary>
+            Determines whether the specified <see cref="T:SharpDX.DXGI.Format"/> is video.
+            </summary>
+            <param name="fmt">The <see cref="T:SharpDX.DXGI.Format"/>.</param>
+            <returns><c>true</c> if the specified <see cref="T:SharpDX.DXGI.Format"/> is video; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsSRgb(SharpDX.DXGI.Format)">
+            <summary>
+            Determines whether the specified <see cref="T:SharpDX.DXGI.Format"/> is a SRGB format.
+            </summary>
+            <param name="fmt">The <see cref="T:SharpDX.DXGI.Format"/>.</param>
+            <returns><c>true</c> if the specified <see cref="T:SharpDX.DXGI.Format"/> is a SRGB format; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.IsTypeless(SharpDX.DXGI.Format)">
+            <summary>
+            Determines whether the specified <see cref="T:SharpDX.DXGI.Format"/> is typeless.
+            </summary>
+            <param name="fmt">The <see cref="T:SharpDX.DXGI.Format"/>.</param>
+            <returns><c>true</c> if the specified <see cref="T:SharpDX.DXGI.Format"/> is typeless; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.ComputeScanlineCount(SharpDX.DXGI.Format,System.Int32)">
+            <summary>
+            Computes the scanline count (number of scanlines).
+            </summary>
+            <param name="fmt">The <see cref="T:SharpDX.DXGI.Format"/>.</param>
+            <param name="height">The height.</param>
+            <returns>The scanline count.</returns>
+        </member>
+        <member name="M:SharpDX.DXGI.FormatHelper.#cctor">
+            <summary>
+            Static initializer to speed up size calculation (not sure the JIT is enough "smart" for this kind of thing).
+            </summary>
         </member>
         <member name="T:SharpDX.DXGI.AdapterFlags">
             <summary>	
@@ -2142,7 +2197,7 @@
         </member>
         <member name="F:SharpDX.DXGI.SwapChainFlags.GdiCompatible">
             <summary>	
-            <dd> <p>Set this flag to enable an application to render using GDI on a swap chain or a surface.  This will allow the application to call <strong><see cref="M:SharpDX.DXGI.Surface1.GetDC(System.Boolean)"/></strong> on the 0th back buffer or a surface.</p> </dd>	
+            <dd> <p>Set this flag to enable an application to render using GDI on a swap chain or a surface.  This will allow the application to call <strong><see cref="M:SharpDX.DXGI.Surface1.GetDC(SharpDX.Bool)"/></strong> on the 0th back buffer or a surface.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE']/*"/>	
             <msdn-id>bb173076</msdn-id>	
@@ -2512,14 +2567,14 @@
         </member>
         <member name="P:SharpDX.DXGI.Device1.MaximumFrameLatency">
             <summary>	
-            <p>Gets the number of frames that the system is allowed to queue for rendering.</p>	
+            <p>Gets or sets the number of frames that the system is allowed to queue for rendering.</p>	
             </summary>	
             <remarks>	
             <p>This method is not supported by DXGI 1.0, which shipped in Windows?Vista and Windows Server?2008. DXGI 1.1 support is required, which is available on  Windows?7, Windows Server?2008?R2, and as an update to Windows?Vista with Service Pack?2 (SP2) (KB 971644) and Windows Server?2008 (KB 971512).</p><p>Frame latency is the number of frames that are allowed to be stored in a queue before submission for rendering.  Latency is often  used to control how the CPU chooses between responding to user input and frames that are in the render queue.  It is often beneficial for applications  that have no user input (for example, video playback) to queue more than 3 frames of data.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIDevice1::GetMaximumFrameLatency']/*"/>	
             <msdn-id>ff471332</msdn-id>	
-            <unmanaged>GetMaximumFrameLatency</unmanaged>	
+            <unmanaged>GetMaximumFrameLatency / SetMaximumFrameLatency</unmanaged>	
             <unmanaged-short>GetMaximumFrameLatency</unmanaged-short>	
             <unmanaged>HRESULT IDXGIDevice1::GetMaximumFrameLatency([Out] unsigned int* pMaxLatency)</unmanaged>
         </member>
@@ -2667,7 +2722,7 @@
             <unmanaged>HRESULT IDXGIOutput::WaitForVBlank()</unmanaged>	
             <unmanaged-short>IDXGIOutput::WaitForVBlank</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,System.Boolean)">
+        <member name="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,SharpDX.Bool)">
             <summary>	
             <p>Takes ownership of an output.</p>	
             </summary>	
@@ -2687,7 +2742,7 @@
             <p>Releases ownership of the output.</p>	
             </summary>	
             <remarks>	
-            <p>If you are not using a swap chain, get access to an output by calling <strong><see cref="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,System.Boolean)"/></strong> and release it when you are finished by calling <strong><see cref="M:SharpDX.DXGI.Output.ReleaseOwnership"/></strong>. An application that uses a swap chain will typically not call either of these methods.</p>	
+            <p>If you are not using a swap chain, get access to an output by calling <strong><see cref="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,SharpDX.Bool)"/></strong> and release it when you are finished by calling <strong><see cref="M:SharpDX.DXGI.Output.ReleaseOwnership"/></strong>. An application that uses a swap chain will typically not call either of these methods.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIOutput::ReleaseOwnership']/*"/>	
             <msdn-id>Bb174554</msdn-id>	
@@ -2743,7 +2798,7 @@
             <param name="scanoutSurfaceRef"><dd>  <p>A reference to a surface (see <strong><see cref="T:SharpDX.DXGI.Surface"/></strong>) used for rendering an image to the screen. The surface must have been created as a back buffer (DXGI_USAGE_BACKBUFFER).</p> </dd></param>	
             <returns><p>Returns one of the DXGI_ERROR values.</p></returns>	
             <remarks>	
-            <p><strong><see cref="M:SharpDX.DXGI.Output.SetDisplaySurface(SharpDX.DXGI.Surface)"/></strong> should not be called directly by applications, since results will be unpredictable. It is called implicitly by the DXGI swap chain object during full-screen transitions, and should not be used as a substitute for swap-chain methods.</p><p>This method should only be called between <strong><see cref="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,System.Boolean)"/></strong> and <strong><see cref="M:SharpDX.DXGI.Output.ReleaseOwnership"/></strong> calls.</p>Notes for Metro style apps<p>If a Metro style app uses <strong>SetDisplaySurface</strong>, it fails with <see cref="F:SharpDX.DXGI.ResultCode.NotCurrentlyAvailable"/>.</p>	
+            <p><strong><see cref="M:SharpDX.DXGI.Output.SetDisplaySurface(SharpDX.DXGI.Surface)"/></strong> should not be called directly by applications, since results will be unpredictable. It is called implicitly by the DXGI swap chain object during full-screen transitions, and should not be used as a substitute for swap-chain methods.</p><p>This method should only be called between <strong><see cref="M:SharpDX.DXGI.Output.TakeOwnership(SharpDX.ComObject,SharpDX.Bool)"/></strong> and <strong><see cref="M:SharpDX.DXGI.Output.ReleaseOwnership"/></strong> calls.</p>Notes for Metro style apps<p>If a Metro style app uses <strong>SetDisplaySurface</strong>, it fails with <see cref="F:SharpDX.DXGI.ResultCode.NotCurrentlyAvailable"/>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIOutput::SetDisplaySurface']/*"/>	
             <msdn-id>bb174556</msdn-id>	
@@ -2834,14 +2889,14 @@
         </member>
         <member name="P:SharpDX.DXGI.Output.GammaControl">
             <summary>	
-            <p>Gets the gamma control settings.</p>	
+            <p>Gets or sets the gamma control settings.</p>	
             </summary>	
             <remarks>	
             <p> </p><p><strong>Note</strong>??Calling this method is only supported while in full-screen mode.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIOutput::GetGammaControl']/*"/>	
             <msdn-id>bb174552</msdn-id>	
-            <unmanaged>GetGammaControl</unmanaged>	
+            <unmanaged>GetGammaControl / SetGammaControl</unmanaged>	
             <unmanaged-short>GetGammaControl</unmanaged-short>	
             <unmanaged>HRESULT IDXGIOutput::GetGammaControl([Out] DXGI_GAMMA_CONTROL* pArray)</unmanaged>
         </member>
@@ -2965,14 +3020,14 @@
         </member>
         <member name="P:SharpDX.DXGI.Resource.EvictionPriority">
             <summary>	
-            <p>Get the eviction priority.</p>	
+            <p>Get or sets the eviction priority.</p>	
             </summary>	
             <remarks>	
             <p>The eviction priority is a memory-management variable that is used by DXGI to determine how to manage overcommitted memory.</p><p>Priority levels other than the defined values are used when appropriate. For example, a resource with a priority level of 0x78000001 indicates that the resource is slightly above normal.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDXGIResource::GetEvictionPriority']/*"/>	
             <msdn-id>bb174561</msdn-id>	
-            <unmanaged>GetEvictionPriority</unmanaged>	
+            <unmanaged>GetEvictionPriority / SetEvictionPriority</unmanaged>	
             <unmanaged-short>GetEvictionPriority</unmanaged-short>	
             <unmanaged>HRESULT IDXGIResource::GetEvictionPriority([Out] unsigned int* pEvictionPriority)</unmanaged>
         </member>
@@ -3098,7 +3153,7 @@
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.DXGI.Surface1.GetDC(System.Boolean)">
+        <member name="M:SharpDX.DXGI.Surface1.GetDC(SharpDX.Bool)">
             <summary>	
             <p>Returns a device context (DC) that allows you to render to a Microsoft DirectX Graphics Infrastructure (DXGI) surface using Windows Graphics Device Interface (GDI).</p>	
             </summary>	
@@ -3214,7 +3269,7 @@
             <unmanaged>HRESULT IDXGISwapChain::GetBuffer([In] unsigned int Buffer,[In] const GUID&amp; riid,[Out] void** ppSurface)</unmanaged>	
             <unmanaged-short>IDXGISwapChain::GetBuffer</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.DXGI.SwapChain.SetFullscreenState(System.Boolean,SharpDX.DXGI.Output)">
+        <member name="M:SharpDX.DXGI.SwapChain.SetFullscreenState(SharpDX.Bool,SharpDX.DXGI.Output)">
             <summary>	
             <p>Sets the display state to windowed or full screen.</p>	
             </summary>	
@@ -3229,7 +3284,7 @@
             <unmanaged>HRESULT IDXGISwapChain::SetFullscreenState([In] BOOL Fullscreen,[In, Optional] IDXGIOutput* pTarget)</unmanaged>	
             <unmanaged-short>IDXGISwapChain::SetFullscreenState</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.DXGI.SwapChain.GetFullscreenState(System.Boolean@,SharpDX.DXGI.Output@)">
+        <member name="M:SharpDX.DXGI.SwapChain.GetFullscreenState(SharpDX.Bool@,SharpDX.DXGI.Output@)">
             <summary>	
             <p>Get the state associated with full-screen mode.</p>	
             </summary>	
@@ -3334,12 +3389,15 @@
             Creates a swap chain.	
             </summary>	
             <remarks>	
-            If you attempt to create a swap chain in full-screen mode, and full-screen mode is unavailable, the swap chain will be created in windowed mode and DXGI_STATUS_OCCLUDED will be returned. If the buffer width or the buffer height are zero, the sizes will be inferred from the output window size in the swap-chain description. Since the target output cannot be chosen explicitly when the swap-chain is created, you should not create a full-screen swap chain. This can reduce presentation performance if the swap chain size and the output window size do not match. Here are two ways to ensure the sizes match:  Create a windowed swap chain and then set it full-screen using <see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(System.Boolean,SharpDX.DXGI.Output)"/>. Save a reference to the swap-chain immediately after creation, and use it to get the output window size during a WM_SIZE event. Then resize the swap chain buffers (with <see cref="M:SharpDX.DXGI.SwapChain.ResizeBuffers(System.Int32,System.Int32,System.Int32,SharpDX.DXGI.Format,SharpDX.DXGI.SwapChainFlags)"/>) during the transition from windowed to full-screen.  If the swap chain is in full-screen mode, before you release it, you must use {{SetFullscreenState}} to switch it to windowed mode. For more information about releasing a swap chain, see the Destroying a Swap Chain section of {{DXGI Overview}}. 	
+            If you attempt to create a swap chain in full-screen mode, and full-screen mode is unavailable, the swap chain will be created in windowed mode and DXGI_STATUS_OCCLUDED will be returned. If the buffer width or the buffer height are zero, the sizes will be inferred from the output window size in the swap-chain description. Since the target output cannot be chosen explicitly when the swap-chain is created, you should not create a full-screen swap chain. This can reduce presentation performance if the swap chain size and the output window size do not match. Here are two ways to ensure the sizes match:  Create a windowed swap chain and then set it full-screen using <see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(SharpDX.Bool,SharpDX.DXGI.Output)"/>. Save a reference to the swap-chain immediately after creation, and use it to get the output window size during a WM_SIZE event. Then resize the swap chain buffers (with <see cref="M:SharpDX.DXGI.SwapChain.ResizeBuffers(System.Int32,System.Int32,System.Int32,SharpDX.DXGI.Format,SharpDX.DXGI.SwapChainFlags)"/>) during the transition from windowed to full-screen.  If the swap chain is in full-screen mode, before you release it, you must use {{SetFullscreenState}} to switch it to windowed mode. For more information about releasing a swap chain, see the Destroying a Swap Chain section of {{DXGI Overview}}. 	
             </remarks>	
             <param name="factory">a reference to a <see cref="T:SharpDX.DXGI.Factory"/>.</param>
             <param name="device">A reference to the device that will write 2D images to the swap chain. </param>
             <param name="description">A reference to the swap-chain description (see <see cref="T:SharpDX.DXGI.SwapChainDescription"/>).</param>
             <unmanaged>HRESULT IDXGIFactory::CreateSwapChain([In] IUnknown* pDevice,[In] DXGI_SWAP_CHAIN_DESC* pDesc,[Out] IDXGISwapChain** ppSwapChain)</unmanaged>
+            <msdn-id>bb174537</msdn-id>	
+            <unmanaged>HRESULT IDXGIFactory::CreateSwapChain([In] IUnknown* pDevice,[In] DXGI_SWAP_CHAIN_DESC* pDesc,[Out, Fast] IDXGISwapChain** ppSwapChain)</unmanaged>	
+            <unmanaged-short>IDXGIFactory::CreateSwapChain</unmanaged-short>	
         </member>
         <member name="M:SharpDX.DXGI.SwapChain.GetBackBuffer``1(System.Int32)">
             <summary>
@@ -3350,7 +3408,9 @@
             <returns>
             Returns a reference to a back-buffer interface.
             </returns>
-            <unmanaged>HRESULT IDXGISwapChain::GetBuffer([None] int Buffer,[In] GUID* riid,[Out] void** ppSurface)</unmanaged>
+            <msdn-id>bb174570</msdn-id>	
+            <unmanaged>HRESULT IDXGISwapChain::GetBuffer([In] unsigned int Buffer,[In] const GUID&amp; riid,[Out] void** ppSurface)</unmanaged>	
+            <unmanaged-short>IDXGISwapChain::GetBuffer</unmanaged-short>	
         </member>
         <member name="P:SharpDX.DXGI.SwapChain.Description">
             <summary>	
@@ -3408,6 +3468,9 @@
             <value>
             	<c>true</c> if this swapchain is in fullscreen; otherwise, <c>false</c>.
             </value>
+            <msdn-id>bb174574</msdn-id>	
+            <unmanaged>HRESULT IDXGISwapChain::GetFullscreenState([Out] BOOL* pFullscreen,[Out] IDXGIOutput** ppTarget)</unmanaged>	
+            <unmanaged-short>IDXGISwapChain::GetFullscreenState</unmanaged-short>	
         </member>
         <member name="T:SharpDX.DXGI.AdapterDescription">
             <summary>	
@@ -3713,6 +3776,15 @@
             <unmanaged>DXGI_GAMMA_CONTROL_CAPABILITIES</unmanaged>	
             <unmanaged-short>DXGI_GAMMA_CONTROL_CAPABILITIES</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.DXGI.GammaControlCapabilities.IsScaleAndOffsetSupported">
+            <summary>	
+            <dd> <p>True if scaling and offset operations are supported during gamma correction; otherwise, false.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_GAMMA_CONTROL_CAPABILITIES::ScaleAndOffsetSupported']/*"/>	
+            <msdn-id>bb173062</msdn-id>	
+            <unmanaged>BOOL ScaleAndOffsetSupported</unmanaged>	
+            <unmanaged-short>BOOL ScaleAndOffsetSupported</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.DXGI.GammaControlCapabilities.MaximumConvertedValue">
             <summary>	
             <dd> <p>A value describing the maximum range of the control-point positions.</p> </dd>	
@@ -3739,15 +3811,6 @@
             <msdn-id>bb173062</msdn-id>	
             <unmanaged>unsigned int NumGammaControlPoints</unmanaged>	
             <unmanaged-short>unsigned int NumGammaControlPoints</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.DXGI.GammaControlCapabilities.IsScaleAndOffsetSupported">
-            <summary>	
-            <dd> <p>True if scaling and offset operations are supported during gamma correction; otherwise, false.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_GAMMA_CONTROL_CAPABILITIES::ScaleAndOffsetSupported']/*"/>	
-            <msdn-id>bb173062</msdn-id>	
-            <unmanaged>BOOL ScaleAndOffsetSupported</unmanaged>	
-            <unmanaged-short>BOOL ScaleAndOffsetSupported</unmanaged-short>	
         </member>
         <member name="P:SharpDX.DXGI.GammaControlCapabilities.ControlPoints">
             <summary>	
@@ -3893,6 +3956,15 @@
             <unmanaged>RECT DesktopCoordinates</unmanaged>	
             <unmanaged-short>RECT DesktopCoordinates</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.DXGI.OutputDescription.IsAttachedToDesktop">
+            <summary>	
+            <dd> <p>True if the output is attached to the desktop; otherwise, false.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_OUTPUT_DESC::AttachedToDesktop']/*"/>	
+            <msdn-id>bb173068</msdn-id>	
+            <unmanaged>BOOL AttachedToDesktop</unmanaged>	
+            <unmanaged-short>BOOL AttachedToDesktop</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.DXGI.OutputDescription.Rotation">
             <summary>	
             <dd> <p>A member of the <strong><see cref="T:SharpDX.DXGI.DisplayModeRotation"/></strong> enumerated type describing on how an image is rotated by the output.</p> </dd>	
@@ -3910,15 +3982,6 @@
             <msdn-id>bb173068</msdn-id>	
             <unmanaged>HMONITOR Monitor</unmanaged>	
             <unmanaged-short>HMONITOR Monitor</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.DXGI.OutputDescription.IsAttachedToDesktop">
-            <summary>	
-            <dd> <p>True if the output is attached to the desktop; otherwise, false.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_OUTPUT_DESC::AttachedToDesktop']/*"/>	
-            <msdn-id>bb173068</msdn-id>	
-            <unmanaged>BOOL AttachedToDesktop</unmanaged>	
-            <unmanaged-short>BOOL AttachedToDesktop</unmanaged-short>	
         </member>
         <member name="T:SharpDX.DXGI.Rational">
             <summary>	
@@ -3949,6 +4012,11 @@
             <msdn-id>bb173069</msdn-id>	
             <unmanaged>unsigned int Denominator</unmanaged>	
             <unmanaged-short>unsigned int Denominator</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.DXGI.Rational.Empty">
+            <summary>
+            An empty rational that can be used for comparisons. 
+            </summary>
         </member>
         <member name="M:SharpDX.DXGI.Rational.#ctor(System.Int32,System.Int32)">
             <summary>
@@ -4117,6 +4185,15 @@
             <unmanaged>HWND OutputWindow</unmanaged>	
             <unmanaged-short>HWND OutputWindow</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.DXGI.SwapChainDescription.IsWindowed">
+            <summary>	
+            <dd> <p>A Boolean value that specifies whether the output is in windowed mode. <strong>TRUE</strong> if the output is in windowed mode; otherwise, <strong><see cref="F:SharpDX.Result.False"/></strong>. </p> <p>We recommend that you create a windowed swap chain and allow the end user to change the swap chain to full screen through <strong><see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(SharpDX.Bool,SharpDX.DXGI.Output)"/></strong>; that is, do not set this member to <see cref="F:SharpDX.Result.False"/> to force the swap chain to be full screen. However, if you create the swap chain as full screen, also provide the end user with a list of supported display modes through the <strong>BufferDesc</strong> member because a swap chain that is created with an unsupported display mode might cause the display to go black and prevent the end user from seeing anything. </p> <p>For more information about choosing windowed verses full screen, see <strong><see cref="M:SharpDX.DXGI.Factory.CreateSwapChain(SharpDX.ComObject,SharpDX.DXGI.SwapChainDescription@,SharpDX.DXGI.SwapChain)"/></strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_SWAP_CHAIN_DESC::Windowed']/*"/>	
+            <msdn-id>bb173075</msdn-id>	
+            <unmanaged>BOOL Windowed</unmanaged>	
+            <unmanaged-short>BOOL Windowed</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.DXGI.SwapChainDescription.SwapEffect">
             <summary>	
             <dd> <p>A member of the <strong><see cref="T:SharpDX.DXGI.SwapEffect"/></strong> enumerated type that describes options for handling the contents of the presentation buffer after  presenting a surface.</p> </dd>	
@@ -4134,15 +4211,6 @@
             <msdn-id>bb173075</msdn-id>	
             <unmanaged>DXGI_SWAP_CHAIN_FLAG Flags</unmanaged>	
             <unmanaged-short>DXGI_SWAP_CHAIN_FLAG Flags</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.DXGI.SwapChainDescription.IsWindowed">
-            <summary>	
-            <dd> <p>A Boolean value that specifies whether the output is in windowed mode. <strong>TRUE</strong> if the output is in windowed mode; otherwise, <strong><see cref="F:SharpDX.Result.False"/></strong>. </p> <p>We recommend that you create a windowed swap chain and allow the end user to change the swap chain to full screen through <strong><see cref="M:SharpDX.DXGI.SwapChain.SetFullscreenState(System.Boolean,SharpDX.DXGI.Output)"/></strong>; that is, do not set this member to <see cref="F:SharpDX.Result.False"/> to force the swap chain to be full screen. However, if you create the swap chain as full screen, also provide the end user with a list of supported display modes through the <strong>BufferDesc</strong> member because a swap chain that is created with an unsupported display mode might cause the display to go black and prevent the end user from seeing anything. </p> <p>For more information about choosing windowed verses full screen, see <strong><see cref="M:SharpDX.DXGI.Factory.CreateSwapChain(SharpDX.ComObject,SharpDX.DXGI.SwapChainDescription@,SharpDX.DXGI.SwapChain)"/></strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DXGI_SWAP_CHAIN_DESC::Windowed']/*"/>	
-            <msdn-id>bb173075</msdn-id>	
-            <unmanaged>BOOL Windowed</unmanaged>	
-            <unmanaged-short>BOOL Windowed</unmanaged-short>	
         </member>
         <member name="T:SharpDX.DXGI.ModuleInit">
             <summary>

@@ -62,9 +62,9 @@
       <Project>{068eb2e9-963c-4e1b-8831-e25011f11ffe}</Project>
       <Name>ANX.PlatformSystem.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3.csproj">
-      <Project>{eb8258e0-6741-4db9-b756-1ebdf67b1ed6}</Project>
-      <Name>ANX.RenderSystem.GL3</Name>
+    <ProjectReference Include="..\..\RenderSystems\ANX.RenderSystem.Windows.DX10\ANX.RenderSystem.Windows.DX10.csproj">
+      <Project>{5be49183-2f6f-4527-ac90-d816911fcf90}</Project>
+      <Name>ANX.RenderSystem.Windows.DX10</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Null\ANX.SoundSystem.Null.csproj">
       <Project>{c4ddffff-595e-4089-b499-06f68caf2566}</Project>

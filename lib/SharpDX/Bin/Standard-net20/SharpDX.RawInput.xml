@@ -982,7 +982,7 @@
             <unmanaged>unsigned int dwSampleRate</unmanaged>	
             <unmanaged-short>unsigned int dwSampleRate</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.RawInput.RawDeviceInformationMouse.HasHorizontalWheel">
+        <member name="F:SharpDX.RawInput.RawDeviceInformationMouse.HasHorizontalWheel">
             <summary>	
             <dd> <p><strong>TRUE</strong> if the mouse has a wheel for horizontal scrolling; otherwise, <strong><see cref="F:SharpDX.Result.False"/></strong>. </p> <strong>Windows?XP:??</strong>This member is only supported starting with Windows?Vista. </dd>	
             </summary>	

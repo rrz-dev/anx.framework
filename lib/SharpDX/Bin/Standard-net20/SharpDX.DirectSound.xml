@@ -439,7 +439,7 @@
             <unmanaged>HRESULT IDirectSoundCaptureBuffer::Lock([In] unsigned int dwOffset,[In] unsigned int dwBytes,[Out] void** ppvAudioPtr1,[Out] unsigned int* pdwAudioBytes1,[Out] void** ppvAudioPtr2,[Out, Optional] unsigned int* pdwAudioBytes2,[In] unsigned int dwFlags)</unmanaged>	
             <unmanaged-short>IDirectSoundCaptureBuffer::Lock</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.DirectSound.CaptureBufferBase.Start(System.Boolean)">
+        <member name="M:SharpDX.DirectSound.CaptureBufferBase.Start(SharpDX.Bool)">
             <summary>	
             The Start method begins capturing data into the buffer. If the buffer is already capturing, the method has no effect.	
             </summary>	
@@ -1057,7 +1057,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXChorus::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXChorus::GetAllParameters([Out] DSFXChorus* pDsFxChorus)</unmanaged>
         </member>
@@ -1201,7 +1201,7 @@
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXCompressor::GetAllParameters']/*"/>	
             <msdn-id>ee418216</msdn-id>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXCompressor::GetAllParameters([Out] DSFXCompressor* pDsFxCompressor)</unmanaged>
         </member>
@@ -1668,7 +1668,7 @@
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXDistortion::GetAllParameters']/*"/>	
             <msdn-id>ee418219</msdn-id>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXDistortion::GetAllParameters([Out] DSFXDistortion* pDsFxDistortion)</unmanaged>
         </member>
@@ -1796,7 +1796,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXEcho::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXEcho::GetAllParameters([Out] DSFXEcho* pDsFxEcho)</unmanaged>
         </member>
@@ -2462,7 +2462,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXFlanger::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXFlanger::GetAllParameters([Out] DSFXFlanger* pDsFxFlanger)</unmanaged>
         </member>
@@ -2580,7 +2580,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXGargle::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXGargle::GetAllParameters([Out] DSFXGargle* pDsFxGargle)</unmanaged>
         </member>
@@ -4104,7 +4104,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundCaptureFXAec::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundCaptureFXAec::GetAllParameters([Out] DSCFXAec* pDscFxAec)</unmanaged>
         </member>
@@ -4390,7 +4390,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXI3DL2Reverb::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXI3DL2Reverb::GetAllParameters([Out] DSFXI3DL2Reverb* pDsFxI3DL2Reverb)</unmanaged>
         </member>
@@ -4399,7 +4399,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXI3DL2Reverb::GetPreset']/*"/>	
-            <unmanaged>GetPreset</unmanaged>	
+            <unmanaged>GetPreset / SetPreset</unmanaged>	
             <unmanaged-short>GetPreset</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXI3DL2Reverb::GetPreset([Out] unsigned int* pdwPreset)</unmanaged>
         </member>
@@ -4408,7 +4408,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXI3DL2Reverb::GetQuality']/*"/>	
-            <unmanaged>GetQuality</unmanaged>	
+            <unmanaged>GetQuality / SetQuality</unmanaged>	
             <unmanaged-short>GetQuality</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXI3DL2Reverb::GetQuality([Out] int* plQuality)</unmanaged>
         </member>
@@ -4473,7 +4473,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundCaptureFXNoiseSuppress::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundCaptureFXNoiseSuppress::GetAllParameters([Out] DSCFXNoiseSuppress* pDscFxNoiseSuppress)</unmanaged>
         </member>
@@ -4576,7 +4576,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXParamEq::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXParamEq::GetAllParameters([Out] DSFXParamEq* pDsFxParamEq)</unmanaged>
         </member>
@@ -4896,7 +4896,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundBuffer::GetVolume']/*"/>	
-            <unmanaged>GetVolume</unmanaged>	
+            <unmanaged>GetVolume / SetVolume</unmanaged>	
             <unmanaged-short>GetVolume</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundBuffer::GetVolume([Out] int* plVolume)</unmanaged>
         </member>
@@ -4905,7 +4905,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundBuffer::GetPan']/*"/>	
-            <unmanaged>GetPan</unmanaged>	
+            <unmanaged>GetPan / SetPan</unmanaged>	
             <unmanaged-short>GetPan</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundBuffer::GetPan([Out] int* plPan)</unmanaged>
         </member>
@@ -4914,7 +4914,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundBuffer::GetFrequency']/*"/>	
-            <unmanaged>GetFrequency</unmanaged>	
+            <unmanaged>GetFrequency / SetFrequency</unmanaged>	
             <unmanaged-short>GetFrequency</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundBuffer::GetFrequency([Out] unsigned int* pdwFrequency)</unmanaged>
         </member>
@@ -5505,7 +5505,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundFXWavesReverb::GetAllParameters']/*"/>	
-            <unmanaged>GetAllParameters</unmanaged>	
+            <unmanaged>GetAllParameters / SetAllParameters</unmanaged>	
             <unmanaged-short>GetAllParameters</unmanaged-short>	
             <unmanaged>HRESULT IDirectSoundFXWavesReverb::GetAllParameters([Out] DSFXWavesReverb* pDsFxWavesReverb)</unmanaged>
         </member>
@@ -5520,6 +5520,24 @@
             <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
             <unmanaged>DSCFXAec</unmanaged>	
             <unmanaged-short>DSCFXAec</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.DirectSound.AcousticEchoCancelSettings.Enable">
+            <summary>	
+            <dd> Boolean value that specifies whether the effect is enabled. </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DSCFXAec::fEnable']/*"/>	
+            <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
+            <unmanaged>BOOL fEnable</unmanaged>	
+            <unmanaged-short>BOOL fEnable</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.DirectSound.AcousticEchoCancelSettings.NoiseFill">
+            <summary>	
+            <dd> Boolean value that specifies whether to enable background comfort noise, which makes the capture signal sound more natural by preventing periods of dead silence. By default, background comfort noise is not enabled. </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DSCFXAec::fNoiseFill']/*"/>	
+            <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
+            <unmanaged>BOOL fNoiseFill</unmanaged>	
+            <unmanaged-short>BOOL fNoiseFill</unmanaged-short>	
         </member>
         <member name="F:SharpDX.DirectSound.AcousticEchoCancelSettings.Mode">
             <summary>	
@@ -5537,24 +5555,6 @@
             <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
             <unmanaged>DSCFX_AEC_MODE dwMode</unmanaged>	
             <unmanaged-short>DSCFX_AEC_MODE dwMode</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.DirectSound.AcousticEchoCancelSettings.Enable">
-            <summary>	
-            <dd> Boolean value that specifies whether the effect is enabled. </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DSCFXAec::fEnable']/*"/>	
-            <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
-            <unmanaged>BOOL fEnable</unmanaged>	
-            <unmanaged-short>BOOL fEnable</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.DirectSound.AcousticEchoCancelSettings.NoiseFill">
-            <summary>	
-            <dd> Boolean value that specifies whether to enable background comfort noise, which makes the capture signal sound more natural by preventing periods of dead silence. By default, background comfort noise is not enabled. </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='DSCFXAec::fNoiseFill']/*"/>	
-            <msdn-id>microsoft.directx_sdk.reference.dscfxaec</msdn-id>	
-            <unmanaged>BOOL fNoiseFill</unmanaged>	
-            <unmanaged-short>BOOL fNoiseFill</unmanaged-short>	
         </member>
         <member name="T:SharpDX.DirectSound.BufferCapabilities">
             <summary>	
@@ -6188,7 +6188,7 @@
             <unmanaged>DSCFXNoiseSuppress</unmanaged>	
             <unmanaged-short>DSCFXNoiseSuppress</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.DirectSound.NoiseSuppressSettings.Enable">
+        <member name="F:SharpDX.DirectSound.NoiseSuppressSettings.Enable">
             <summary>	
             <dd> Boolean value that specifies whether the effect is enabled. </dd>	
             </summary>	

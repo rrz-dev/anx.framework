@@ -17,7 +17,7 @@
             <p>Get data from the GPU asynchronously.</p>	
             </summary>	
             <remarks>	
-            <p><strong>GetData</strong> retrieves the data collected between calls to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.Begin"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong>.  Certain queries only require a call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> in which case the data returned by <strong>GetData</strong> is accurate up to the last call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> (See <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>).</p><p>If <em>DataSize</em> is 0, <strong>GetData</strong> is only used to check status where a return value of <see cref="F:SharpDX.Result.Ok"/> indicates that data is available to give to an application, and a return value of S_FALSE indicates data is not yet available.</p><p>It is invalid to invoke this function on a predicate created with the flag D3D10_QUERY_MISCFLAG_PREDICATEHINT.</p><p>If the asynchronous interface that calls this function is <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>, then the following table applies.</p><table> <tr><th>Query Type</th><th>Output Data Type</th><th>Supports Begin Method</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Event"/></td><td><see cref="T:System.Boolean"/></td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/></td><td>UINT64</td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Timestamp"/></td><td>UINT64</td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.TimestampDisjoint"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataTimestampDisjoint"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.PipelineStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataPipelineStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.OcclusionPredicate"/></td><td><see cref="T:System.Boolean"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.StreamOutputStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputOverflowPredicate"/></td><td><see cref="T:System.Boolean"/></td><td>YES</td></tr> </table><p>?</p><p>If the asynchronous interface that calls this API is <strong><see cref="T:SharpDX.Direct3D10.Counter"/> Interface</strong>, then the following applies.</p><table> <tr><th>Counter Type</th><th>Output Data Type</th><th>Units</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.HostAdapterBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.LocalVidmemBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TriangleSetupThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.FillrateThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PostTransformCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TextureCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> </table><p>?</p><p>The value returned by a <see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/>, or <see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/> counter may be different depending on the number of parallel counters that exist on a video card, and those values can be interpreted with the following equation:</p><p></p><p>The number of parallel counters that a video card has is available from <strong>NumDetectableParallelUnits</strong> in <strong><see cref="T:SharpDX.Direct3D10.CounterCapabilities"/></strong>, and it can be retrieved by calling <strong><see cref="M:SharpDX.Direct3D10.Device.GetCounterCapabilities"/></strong>.</p>	
+            <p><strong>GetData</strong> retrieves the data collected between calls to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.Begin"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong>.  Certain queries only require a call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> in which case the data returned by <strong>GetData</strong> is accurate up to the last call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> (See <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>).</p><p>If <em>DataSize</em> is 0, <strong>GetData</strong> is only used to check status where a return value of <see cref="F:SharpDX.Result.Ok"/> indicates that data is available to give to an application, and a return value of S_FALSE indicates data is not yet available.</p><p>It is invalid to invoke this function on a predicate created with the flag D3D10_QUERY_MISCFLAG_PREDICATEHINT.</p><p>If the asynchronous interface that calls this function is <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>, then the following table applies.</p><table> <tr><th>Query Type</th><th>Output Data Type</th><th>Supports Begin Method</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Event"/></td><td><see cref="T:SharpDX.Bool"/></td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/></td><td>UINT64</td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Timestamp"/></td><td>UINT64</td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.TimestampDisjoint"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataTimestampDisjoint"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.PipelineStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataPipelineStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.OcclusionPredicate"/></td><td><see cref="T:SharpDX.Bool"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.StreamOutputStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputOverflowPredicate"/></td><td><see cref="T:SharpDX.Bool"/></td><td>YES</td></tr> </table><p>?</p><p>If the asynchronous interface that calls this API is <strong><see cref="T:SharpDX.Direct3D10.Counter"/> Interface</strong>, then the following applies.</p><table> <tr><th>Counter Type</th><th>Output Data Type</th><th>Units</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.HostAdapterBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.LocalVidmemBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TriangleSetupThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.FillrateThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PostTransformCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TextureCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> </table><p>?</p><p>The value returned by a <see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/>, or <see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/> counter may be different depending on the number of parallel counters that exist on a video card, and those values can be interpreted with the following equation:</p><p></p><p>The number of parallel counters that a video card has is available from <strong>NumDetectableParallelUnits</strong> in <strong><see cref="T:SharpDX.Direct3D10.CounterCapabilities"/></strong>, and it can be retrieved by calling <strong><see cref="M:SharpDX.Direct3D10.Device.GetCounterCapabilities"/></strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Asynchronous']/*"/>	
             <msdn-id>Bb173503</msdn-id>	
@@ -201,7 +201,7 @@
             <param name="getDataFlags"><dd>  <p>Optional flags. Can be 0 or any combination of the flags enumerated by <strong><see cref="T:SharpDX.Direct3D10.AsynchronousFlags"/></strong>.</p> </dd></param>	
             <returns><p>If this function succeeds, it returns <see cref="F:SharpDX.Result.Ok"/>. Otherwise, possible  return values are the following:</p><ul> <li>S_FALSE</li> <li><see cref="F:SharpDX.DXGI.ResultCode.DeviceRemoved"/></li> <li><see cref="F:SharpDX.DXGI.ResultCode.InvalidCall"/></li> </ul></returns>	
             <remarks>	
-            <p><strong>GetData</strong> retrieves the data collected between calls to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.Begin"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong>.  Certain queries only require a call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> in which case the data returned by <strong>GetData</strong> is accurate up to the last call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> (See <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>).</p><p>If <em>DataSize</em> is 0, <strong>GetData</strong> is only used to check status where a return value of <see cref="F:SharpDX.Result.Ok"/> indicates that data is available to give to an application, and a return value of S_FALSE indicates data is not yet available.</p><p>It is invalid to invoke this function on a predicate created with the flag D3D10_QUERY_MISCFLAG_PREDICATEHINT.</p><p>If the asynchronous interface that calls this function is <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>, then the following table applies.</p><table> <tr><th>Query Type</th><th>Output Data Type</th><th>Supports Begin Method</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Event"/></td><td><see cref="T:System.Boolean"/></td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/></td><td>UINT64</td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Timestamp"/></td><td>UINT64</td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.TimestampDisjoint"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataTimestampDisjoint"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.PipelineStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataPipelineStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.OcclusionPredicate"/></td><td><see cref="T:System.Boolean"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.StreamOutputStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputOverflowPredicate"/></td><td><see cref="T:System.Boolean"/></td><td>YES</td></tr> </table><p>?</p><p>If the asynchronous interface that calls this API is <strong><see cref="T:SharpDX.Direct3D10.Counter"/> Interface</strong>, then the following applies.</p><table> <tr><th>Counter Type</th><th>Output Data Type</th><th>Units</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.HostAdapterBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.LocalVidmemBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TriangleSetupThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.FillrateThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PostTransformCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TextureCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> </table><p>?</p><p>The value returned by a <see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/>, or <see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/> counter may be different depending on the number of parallel counters that exist on a video card, and those values can be interpreted with the following equation:</p><p></p><p>The number of parallel counters that a video card has is available from <strong>NumDetectableParallelUnits</strong> in <strong><see cref="T:SharpDX.Direct3D10.CounterCapabilities"/></strong>, and it can be retrieved by calling <strong><see cref="M:SharpDX.Direct3D10.Device.GetCounterCapabilities"/></strong>.</p>	
+            <p><strong>GetData</strong> retrieves the data collected between calls to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.Begin"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong>.  Certain queries only require a call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> in which case the data returned by <strong>GetData</strong> is accurate up to the last call to <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> (See <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>).</p><p>If <em>DataSize</em> is 0, <strong>GetData</strong> is only used to check status where a return value of <see cref="F:SharpDX.Result.Ok"/> indicates that data is available to give to an application, and a return value of S_FALSE indicates data is not yet available.</p><p>It is invalid to invoke this function on a predicate created with the flag D3D10_QUERY_MISCFLAG_PREDICATEHINT.</p><p>If the asynchronous interface that calls this function is <strong><see cref="T:SharpDX.Direct3D10.Query"/> Interface</strong>, then the following table applies.</p><table> <tr><th>Query Type</th><th>Output Data Type</th><th>Supports Begin Method</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Event"/></td><td><see cref="T:SharpDX.Bool"/></td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/></td><td>UINT64</td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.Timestamp"/></td><td>UINT64</td><td>NO</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.TimestampDisjoint"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataTimestampDisjoint"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.PipelineStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.QueryDataPipelineStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.OcclusionPredicate"/></td><td><see cref="T:SharpDX.Bool"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputStatistics"/></td><td><see cref="T:SharpDX.Direct3D10.StreamOutputStatistics"/></td><td>YES</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.QueryType.StreamOutputOverflowPredicate"/></td><td><see cref="T:SharpDX.Bool"/></td><td>YES</td></tr> </table><p>?</p><p>If the asynchronous interface that calls this API is <strong><see cref="T:SharpDX.Direct3D10.Counter"/> Interface</strong>, then the following applies.</p><table> <tr><th>Counter Type</th><th>Output Data Type</th><th>Units</th></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.HostAdapterBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.LocalVidmemBandwidthUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VertexThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TriangleSetupThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.FillrateThroughputUtilization"/></td><td>FLOAT32</td><td>fraction of theoretical maximum</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.VsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.GsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsMemoryLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PsComputationLimited"/></td><td>FLOAT32</td><td>fraction of time</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.PostTransformCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.CounterKind.TextureCacheHitRate"/></td><td>FLOAT32</td><td>fraction</td></tr> </table><p>?</p><p>The value returned by a <see cref="F:SharpDX.Direct3D10.CounterKind.GpuIdle"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.VertexProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.GeometryProcessing"/>, <see cref="F:SharpDX.Direct3D10.CounterKind.PixelProcessing"/>, or <see cref="F:SharpDX.Direct3D10.CounterKind.OtherGpuProcessing"/> counter may be different depending on the number of parallel counters that exist on a video card, and those values can be interpreted with the following equation:</p><p></p><p>The number of parallel counters that a video card has is available from <strong>NumDetectableParallelUnits</strong> in <strong><see cref="T:SharpDX.Direct3D10.CounterCapabilities"/></strong>, and it can be retrieved by calling <strong><see cref="M:SharpDX.Direct3D10.Device.GetCounterCapabilities"/></strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Asynchronous::GetData']/*"/>	
             <msdn-id>bb173503</msdn-id>	
@@ -588,14 +588,14 @@
         </member>
         <member name="P:SharpDX.Direct3D10.Resource.EvictionPriority">
             <summary>	
-            <p>Get the eviction priority of a resource.</p>	
+            <p>Get or sets the eviction priority of a resource.</p>	
             </summary>	
             <remarks>	
             <p>This method is a wrapper for <strong>GetEvictionPriority</strong> and is provided in the <strong><see cref="T:SharpDX.Direct3D10.Resource"/> Interface</strong> interface for convenience.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Resource::GetEvictionPriority']/*"/>	
             <msdn-id>bb173830</msdn-id>	
-            <unmanaged>GetEvictionPriority</unmanaged>	
+            <unmanaged>GetEvictionPriority / SetEvictionPriority</unmanaged>	
             <unmanaged-short>GetEvictionPriority</unmanaged-short>	
             <unmanaged>unsigned int ID3D10Resource::GetEvictionPriority()</unmanaged>
         </member>
@@ -1009,24 +1009,24 @@
         </member>
         <member name="P:SharpDX.Direct3D10.InputAssemblerStage.InputLayout">
             <summary>	
-            <p>Get a reference to the input-layout object that is bound to the input-assembler stage.</p>	
+            <p>Get or sets a reference to the input-layout object that is bound to the input-assembler stage.</p>	
             </summary>	
             <remarks>	
             <p>For information about creating an input-layout object, see Creating the Input-Layout Object.</p><p>Any returned interfaces will have their reference count incremented by one. Applications should call IUnknown::Release on the returned interfaces when they are no longer needed to avoid memory leaks.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::IAGetInputLayout']/*"/>	
             <msdn-id>bb173585</msdn-id>	
-            <unmanaged>IAGetInputLayout</unmanaged>	
+            <unmanaged>IAGetInputLayout / IASetInputLayout</unmanaged>	
             <unmanaged-short>IAGetInputLayout</unmanaged-short>	
             <unmanaged>void ID3D10Device::IAGetInputLayout([Out] ID3D10InputLayout** ppInputLayout)</unmanaged>
         </member>
         <member name="P:SharpDX.Direct3D10.InputAssemblerStage.PrimitiveTopology">
             <summary>	
-            <p>Get information about the primitive type, and data order that describes input data for the input assembler stage.</p>	
+            <p>Get or sets information about the primitive type, and data order that describes input data for the input assembler stage.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::IAGetPrimitiveTopology']/*"/>	
             <msdn-id>bb173586</msdn-id>	
-            <unmanaged>IAGetPrimitiveTopology</unmanaged>	
+            <unmanaged>IAGetPrimitiveTopology / IASetPrimitiveTopology</unmanaged>	
             <unmanaged-short>IAGetPrimitiveTopology</unmanaged-short>	
             <unmanaged>void ID3D10Device::IAGetPrimitiveTopology([Out] D3D_PRIMITIVE_TOPOLOGY* pTopology)</unmanaged>
         </member>
@@ -1120,7 +1120,7 @@
             </summary>
             <value>The description.</value>
         </member>
-        <member name="T:SharpDX.Direct3D10.Debug">
+        <member name="T:SharpDX.Direct3D10.DeviceDebug">
             <summary>	
             <p>A debug interface controls debug settings, validates pipeline state and can only be used if the debug layer is turned on.</p>	
             </summary>	
@@ -1132,52 +1132,52 @@
             <unmanaged>ID3D10Debug</unmanaged>	
             <unmanaged-short>ID3D10Debug</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.#ctor(SharpDX.Direct3D10.Device)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.#ctor(SharpDX.Direct3D10.Device)">
             <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.Debug"/> class.
+            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.DeviceDebug"/> class.
             </summary>
             <param name="device">The device.</param>
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.#ctor(System.IntPtr)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.#ctor(System.IntPtr)">
             <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.Debug"/> class.
+            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.DeviceDebug"/> class.
             </summary>
             <param name="nativePtr">The native pointer.</param>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.op_Explicit(System.IntPtr)~SharpDX.Direct3D10.Debug">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.op_Explicit(System.IntPtr)~SharpDX.Direct3D10.DeviceDebug">
             <summary>
-            Performs an explicit conversion from <see cref="T:System.IntPtr"/> to <see cref="T:SharpDX.Direct3D10.Debug"/>. (This method is a shortcut to <see cref="P:SharpDX.CppObject.NativePointer"/>) 
+            Performs an explicit conversion from <see cref="T:System.IntPtr"/> to <see cref="T:SharpDX.Direct3D10.DeviceDebug"/>. (This method is a shortcut to <see cref="P:SharpDX.CppObject.NativePointer"/>) 
             </summary>
             <param name="nativePointer">The native pointer.</param>
             <returns>
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.SetFeatureFlags(System.Int32)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.SetFeatureFlags(System.Int32)">
             <summary>	
             <p>Set a bitfield of flags that will turn debug features on and off.</p>	
             </summary>	
             <param name="mask"><dd>  <p>Feature-mask flags bitwise ORed together. If a flag is present, then that feature will be set to on, otherwise the feature will be set to off. See remarks for a list of flags.</p> </dd></param>	
             <returns><p>This method returns one of the following Direct3D 10 Return Codes.</p></returns>	
             <remarks>	
-            <p>Setting a feature-mask flag will cause a rendering-operation method (listed below) to do some extra task when called. The possible feature flags are:</p><table> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.FinishPerRender"/></td><td>Application will wait for the GPU to finish processing the rendering operation before continuing.</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.FlushPerRender"/></td><td>Runtime will additionally call <strong><see cref="M:SharpDX.Direct3D10.Device.Flush"/></strong>.</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.PresentPerRender"/></td><td>Runtime will call <strong>Present</strong>. Presentation of render buffers will occur according to the settings established by prior calls to <strong><see cref="M:SharpDX.Direct3D10.Debug.SetSwapChain(SharpDX.DXGI.SwapChain)"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Debug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</td></tr> </table><p>?</p><p>These feature-mask flags apply to the following rendering-operation methods:</p><ul> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.Draw(System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawIndexed(System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawInstanced(System.Int32,System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawIndexedInstanced(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawAuto"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ClearRenderTargetView(SharpDX.Direct3D10.RenderTargetView,System.Drawing.Color)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ClearDepthStencilView(SharpDX.Direct3D10.DepthStencilView,SharpDX.Direct3D10.DepthStencilClearFlags,System.Single,System.Byte)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.CopySubresourceRegion_(SharpDX.Direct3D10.Resource,System.Int32,System.Int32,System.Int32,System.Int32,SharpDX.Direct3D10.Resource,System.Int32,System.Nullable{SharpDX.Direct3D10.ResourceRegion})"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.CopyResource_(SharpDX.Direct3D10.Resource,SharpDX.Direct3D10.Resource)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.UpdateSubresource(SharpDX.DataBox,SharpDX.Direct3D10.Resource,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.GenerateMips(SharpDX.Direct3D10.ShaderResourceView)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ResolveSubresource_(SharpDX.Direct3D10.Resource,System.Int32,SharpDX.Direct3D10.Resource,System.Int32,SharpDX.DXGI.Format)"/></strong> </li> </ul>	
+            <p>Setting a feature-mask flag will cause a rendering-operation method (listed below) to do some extra task when called. The possible feature flags are:</p><table> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.FinishPerRender"/></td><td>Application will wait for the GPU to finish processing the rendering operation before continuing.</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.FlushPerRender"/></td><td>Runtime will additionally call <strong><see cref="M:SharpDX.Direct3D10.Device.Flush"/></strong>.</td></tr> <tr><td><see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.PresentPerRender"/></td><td>Runtime will call <strong>Present</strong>. Presentation of render buffers will occur according to the settings established by prior calls to <strong><see cref="M:SharpDX.Direct3D10.DeviceDebug.SetSwapChain(SharpDX.DXGI.SwapChain)"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.DeviceDebug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</td></tr> </table><p>?</p><p>These feature-mask flags apply to the following rendering-operation methods:</p><ul> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.Draw(System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawIndexed(System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawInstanced(System.Int32,System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawIndexedInstanced(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.DrawAuto"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ClearRenderTargetView(SharpDX.Direct3D10.RenderTargetView,SharpDX.Color4)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ClearDepthStencilView(SharpDX.Direct3D10.DepthStencilView,SharpDX.Direct3D10.DepthStencilClearFlags,System.Single,System.Byte)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.CopySubresourceRegion_(SharpDX.Direct3D10.Resource,System.Int32,System.Int32,System.Int32,System.Int32,SharpDX.Direct3D10.Resource,System.Int32,System.Nullable{SharpDX.Direct3D10.ResourceRegion})"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.CopyResource_(SharpDX.Direct3D10.Resource,SharpDX.Direct3D10.Resource)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.UpdateSubresource(SharpDX.DataBox,SharpDX.Direct3D10.Resource,System.Int32)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.GenerateMips(SharpDX.Direct3D10.ShaderResourceView)"/></strong> </li> <li> <strong><see cref="M:SharpDX.Direct3D10.Device.ResolveSubresource_(SharpDX.Direct3D10.Resource,System.Int32,SharpDX.Direct3D10.Resource,System.Int32,SharpDX.DXGI.Format)"/></strong> </li> </ul>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Debug::SetFeatureMask']/*"/>	
             <msdn-id>bb173520</msdn-id>	
             <unmanaged>HRESULT ID3D10Debug::SetFeatureMask([In] unsigned int Mask)</unmanaged>	
             <unmanaged-short>ID3D10Debug::SetFeatureMask</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.GetFeatureFlags">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.GetFeatureFlags">
             <summary>	
             <p>Get a bitfield of flags that indicates which debug features are on or off.</p>	
             </summary>	
-            <returns><p>Mask of feature-mask flags bitwise ORed together. If a flag is present, then that feature will be set to on, otherwise the feature will be set to off. See <strong><see cref="M:SharpDX.Direct3D10.Debug.SetFeatureFlags(System.Int32)"/></strong> for a list of possible feature-mask flags.</p></returns>	
+            <returns><p>Mask of feature-mask flags bitwise ORed together. If a flag is present, then that feature will be set to on, otherwise the feature will be set to off. See <strong><see cref="M:SharpDX.Direct3D10.DeviceDebug.SetFeatureFlags(System.Int32)"/></strong> for a list of possible feature-mask flags.</p></returns>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Debug::GetFeatureMask']/*"/>	
             <msdn-id>bb173517</msdn-id>	
             <unmanaged>unsigned int ID3D10Debug::GetFeatureMask()</unmanaged>	
             <unmanaged-short>ID3D10Debug::GetFeatureMask</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.SetPresentPerRenderOpDelay(System.Int32)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.SetPresentPerRenderOpDelay(System.Int32)">
             <summary>	
             <p>Set the number of milliseconds to sleep after <strong>Present</strong> is called.</p>	
             </summary>	
@@ -1191,20 +1191,20 @@
             <unmanaged>HRESULT ID3D10Debug::SetPresentPerRenderOpDelay([In] unsigned int Milliseconds)</unmanaged>	
             <unmanaged-short>ID3D10Debug::SetPresentPerRenderOpDelay</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.GetPresentPerRenderOpDelay">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.GetPresentPerRenderOpDelay">
             <summary>	
             <p>Get the number of milliseconds to sleep after <strong>Present</strong> is called.</p>	
             </summary>	
             <returns><p>Number of milliseconds to sleep after Present is called.</p></returns>	
             <remarks>	
-            <p>Value is set with <strong><see cref="M:SharpDX.Direct3D10.Debug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</p>	
+            <p>Value is set with <strong><see cref="M:SharpDX.Direct3D10.DeviceDebug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Debug::GetPresentPerRenderOpDelay']/*"/>	
             <msdn-id>bb173518</msdn-id>	
             <unmanaged>unsigned int ID3D10Debug::GetPresentPerRenderOpDelay()</unmanaged>	
             <unmanaged-short>ID3D10Debug::GetPresentPerRenderOpDelay</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.SetSwapChain(SharpDX.DXGI.SwapChain)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.SetSwapChain(SharpDX.DXGI.SwapChain)">
             <summary>	
             <p>Set a swap chain that the runtime will use for automatically calling <strong>Present</strong>.</p>	
             </summary>	
@@ -1218,7 +1218,7 @@
             <unmanaged>HRESULT ID3D10Debug::SetSwapChain([In, Optional] IDXGISwapChain* pSwapChain)</unmanaged>	
             <unmanaged-short>ID3D10Debug::SetSwapChain</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.GetSwapChain(SharpDX.DXGI.SwapChain@)">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.GetSwapChain(SharpDX.DXGI.SwapChain@)">
             <summary>	
             <p>Get the swap chain that the runtime will use for automatically calling <strong>Present</strong>.</p>	
             </summary>	
@@ -1232,7 +1232,7 @@
             <unmanaged>HRESULT ID3D10Debug::GetSwapChain([Out] IDXGISwapChain** ppSwapChain)</unmanaged>	
             <unmanaged-short>ID3D10Debug::GetSwapChain</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Debug.Validate">
+        <member name="M:SharpDX.Direct3D10.DeviceDebug.Validate">
             <summary>	
             <p>Check the validity of pipeline state.</p>	
             </summary>	
@@ -1245,35 +1245,35 @@
             <unmanaged>HRESULT ID3D10Debug::Validate()</unmanaged>	
             <unmanaged-short>ID3D10Debug::Validate</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.Debug.FeatureFlags">
+        <member name="P:SharpDX.Direct3D10.DeviceDebug.FeatureFlags">
             <summary>
             Gets or sets the feature flags that indicates which debug features are on or off.	
             </summary>
             <value>The feature flags.</value>
         </member>
-        <member name="P:SharpDX.Direct3D10.Debug.PresentPerRenderOpDelay">
+        <member name="P:SharpDX.Direct3D10.DeviceDebug.PresentPerRenderOpDelay">
             <summary>	
-            <p>Get the number of milliseconds to sleep after <strong>Present</strong> is called.</p>	
+            <p>Get or sets the number of milliseconds to sleep after <strong>Present</strong> is called.</p>	
             </summary>	
             <remarks>	
-            <p>Value is set with <strong><see cref="M:SharpDX.Direct3D10.Debug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</p>	
+            <p>Value is set with <strong><see cref="M:SharpDX.Direct3D10.DeviceDebug.SetPresentPerRenderOpDelay(System.Int32)"/></strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Debug::GetPresentPerRenderOpDelay']/*"/>	
             <msdn-id>bb173518</msdn-id>	
-            <unmanaged>GetPresentPerRenderOpDelay</unmanaged>	
+            <unmanaged>GetPresentPerRenderOpDelay / SetPresentPerRenderOpDelay</unmanaged>	
             <unmanaged-short>GetPresentPerRenderOpDelay</unmanaged-short>	
             <unmanaged>unsigned int ID3D10Debug::GetPresentPerRenderOpDelay()</unmanaged>
         </member>
-        <member name="P:SharpDX.Direct3D10.Debug.SwapChain">
+        <member name="P:SharpDX.Direct3D10.DeviceDebug.SwapChain">
             <summary>	
-            <p>Get the swap chain that the runtime will use for automatically calling <strong>Present</strong>.</p>	
+            <p>Get or sets the swap chain that the runtime will use for automatically calling <strong>Present</strong>.</p>	
             </summary>	
             <remarks>	
             <p>The swap chain retrieved by this method will only be used if <see cref="F:SharpDX.Direct3D10.DebugFeatureFlags.PresentPerRender"/> is set in the <strong>feature mask</strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Debug::GetSwapChain']/*"/>	
             <msdn-id>bb173519</msdn-id>	
-            <unmanaged>GetSwapChain</unmanaged>	
+            <unmanaged>GetSwapChain / SetSwapChain</unmanaged>	
             <unmanaged-short>GetSwapChain</unmanaged-short>	
             <unmanaged>HRESULT ID3D10Debug::GetSwapChain([Out] IDXGISwapChain** ppSwapChain)</unmanaged>
         </member>
@@ -1676,17 +1676,6 @@
             <param name="adapter"></param>
             <param name="flags"></param>
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.ClearRenderTargetView(SharpDX.Direct3D10.RenderTargetView,System.Drawing.Color)">
-            <summary>	
-            Set all the elements in a render target to one value.	
-            </summary>	
-            <remarks>	
-            Applications that wish to clear a render target to a specific integer value bit pattern should render a screen-aligned quad instead of using this method.  The reason for this is because this method accepts as input a floating point value, which may not have the same bit pattern as the original integer.   Differences between Direct3D 9 and Direct3D 10: Unlike Direct3D 9, the full extent of the resource view is always cleared. Viewport and scissor settings are not applied.   ? 	
-            </remarks>	
-            <param name="renderTargetViewRef">Pointer to the rendertarget. </param>
-            <param name="color">A 4-component array that represents the color to fill the render target with. </param>
-            <unmanaged>void ID3D10Device::ClearRenderTargetView([In] ID3D10RenderTargetView* pRenderTargetView,[In] const float* ColorRGBA)</unmanaged>
-        </member>
         <member name="M:SharpDX.Direct3D10.Device.CreateWithSwapChain(SharpDX.Direct3D10.DriverType,SharpDX.Direct3D10.DeviceCreationFlags,SharpDX.DXGI.SwapChainDescription,SharpDX.Direct3D10.Device@,SharpDX.DXGI.SwapChain@)">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.Device" /> class along with a new <see cref = "T:SharpDX.DXGI.SwapChain" /> used for rendering.
@@ -1929,7 +1918,7 @@
             <unmanaged>void ID3D10Device::DrawInstanced([In] unsigned int VertexCountPerInstance,[In] unsigned int InstanceCount,[In] unsigned int StartVertexLocation,[In] unsigned int StartInstanceLocation)</unmanaged>	
             <unmanaged-short>ID3D10Device::DrawInstanced</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.SetPredication(SharpDX.Direct3D10.Predicate,System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.Device.SetPredication(SharpDX.Direct3D10.Predicate,SharpDX.Bool)">
             <summary>	
             <p>Set a rendering predicate.</p>	
             </summary>	
@@ -2111,7 +2100,7 @@
             <unmanaged>void ID3D10Device::ResolveSubresource([In] ID3D10Resource* pDstResource,[In] unsigned int DstSubresource,[In] ID3D10Resource* pSrcResource,[In] unsigned int SrcSubresource,[In] DXGI_FORMAT Format)</unmanaged>	
             <unmanaged-short>ID3D10Device::ResolveSubresource</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Device.GetPredication(SharpDX.Direct3D10.Predicate@,System.Boolean@)">
+        <member name="M:SharpDX.Direct3D10.Device.GetPredication(SharpDX.Direct3D10.Predicate@,SharpDX.Bool@)">
             <summary>	
             <p>Get the rendering predicate state.</p>	
             </summary>	
@@ -2655,14 +2644,14 @@
         </member>
         <member name="P:SharpDX.Direct3D10.Device.ExceptionMode">
             <summary>	
-            <p>Get the exception-mode flags.</p>	
+            <p>Get or sets the exception-mode flags.</p>	
             </summary>	
             <remarks>	
             <p>An exception-mode flag is used to elevate an error condition to a non-continuable exception. </p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::GetExceptionMode']/*"/>	
             <msdn-id>bb173572</msdn-id>	
-            <unmanaged>GetExceptionMode</unmanaged>	
+            <unmanaged>GetExceptionMode / SetExceptionMode</unmanaged>	
             <unmanaged-short>GetExceptionMode</unmanaged-short>	
             <unmanaged>unsigned int ID3D10Device::GetExceptionMode()</unmanaged>
         </member>
@@ -2683,7 +2672,7 @@
             Set the target output {{buffers}} for the {{StreamOutput}} stage, which enables/disables the pipeline to stream-out data.	
             </summary>	
             <remarks>	
-            Call ID3D10Device::SOSetTargets (before any draw calls) to stream data out; call SOSetTargets with NULL to stop streaming data out. For an example, see Exercise 01 from the GDC 2007 workshop, which sets the stream output rendertargets before calling draw methods in the RenderInstanceToStream function. An offset of -1 will cause the stream output buffer to be appended, continuing after the last location written to the buffer in a previous stream output pass. Calling this method using a buffer that is currently bound for writing will effectively bind NULL instead because a buffer cannot be bound as both an input and an output at the same time. The {{Debug Layer}} will generate a warning whenever a resource is prevented from being bound simultaneously as an input and an output, but this will not prevent invalid data from being used by the runtime. The method will not hold a reference to the interfaces passed in. For that reason, applications should be careful not to release an interface currently in use by the device. 	
+            Call ID3D10Device::SOSetTargets (before any draw calls) to stream data out; call SOSetTargets with NULL to stop streaming data out. For an example, see Exercise 01 from the GDC 2007 workshop, which sets the stream output rendertargets before calling draw methods in the RenderInstanceToStream function. An offset of -1 will cause the stream output buffer to be appended, continuing after the last location written to the buffer in a previous stream output pass. Calling this method using a buffer that is currently bound for writing will effectively bind NULL instead because a buffer cannot be bound as both an input and an output at the same time. The {{DeviceDebug Layer}} will generate a warning whenever a resource is prevented from being bound simultaneously as an input and an output, but this will not prevent invalid data from being used by the runtime. The method will not hold a reference to the interfaces passed in. For that reason, applications should be careful not to release an interface currently in use by the device. 	
             </remarks>	
             <param name="bufferBindings">an array of output buffers (see <see cref="T:SharpDX.Direct3D10.StreamOutputBufferBinding"/>) to bind to the device. The buffers must have been created with the <see cref="F:SharpDX.Direct3D10.BindFlags.StreamOutput"/> flag. </param>
             <unmanaged>void SOSetTargets([In] int NumBuffers,[In, Buffer, Optional] const ID3D10Buffer** ppSOTargets,[In, Buffer, Optional] const int* pOffsets)</unmanaged>
@@ -3158,14 +3147,14 @@
         </member>
         <member name="P:SharpDX.Direct3D10.RasterizerStage.State">
             <summary>	
-            <p>Get the <strong>rasterizer state</strong> from the rasterizer stage of the pipeline.</p>	
+            <p>Get or sets the <strong>rasterizer state</strong> from the rasterizer stage of the pipeline.</p>	
             </summary>	
             <remarks>	
             <p>Any returned interfaces will have their reference count incremented by one. Applications should call IUnknown::Release on the returned interfaces when they are no longer needed to avoid memory leaks.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Device::RSGetState']/*"/>	
             <msdn-id>bb173609</msdn-id>	
-            <unmanaged>RSGetState</unmanaged>	
+            <unmanaged>RSGetState / RSSetState</unmanaged>	
             <unmanaged-short>RSGetState</unmanaged-short>	
             <unmanaged>void ID3D10Device::RSGetState([Out] ID3D10RasterizerState** ppRasterizerState)</unmanaged>
         </member>
@@ -3359,22 +3348,7 @@
             <unmanaged>ID3D10Effect</unmanaged>	
             <unmanaged-short>ID3D10Effect</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.Effect.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.Effect"/> class.
-            </summary>
-            <param name="device">The device.</param>
-            <param name="effectByteCode">The effect byte code.</param>
-        </member>
-        <member name="M:SharpDX.Direct3D10.Effect.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode,SharpDX.D3DCompiler.EffectFlags)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.Effect"/> class.
-            </summary>
-            <param name="device">The device.</param>
-            <param name="effectByteCode">The effect byte code.</param>
-            <param name="fxFlags">Effect compile options</param>
-        </member>
-        <member name="M:SharpDX.Direct3D10.Effect.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode,SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D10.EffectPool)">
+        <member name="M:SharpDX.Direct3D10.Effect.#ctor(SharpDX.Direct3D10.Device,System.Byte[],SharpDX.D3DCompiler.EffectFlags,SharpDX.Direct3D10.EffectPool)">
             <summary>
             Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.Effect"/> class.
             </summary>
@@ -5047,14 +5021,7 @@
             <unmanaged>ID3D10EffectPool</unmanaged>	
             <unmanaged-short>ID3D10EffectPool</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.EffectPool.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.EffectPool"/> class.
-            </summary>
-            <param name="device">The device.</param>
-            <param name="effectByteCode">The effect byte code.</param>
-        </member>
-        <member name="M:SharpDX.Direct3D10.EffectPool.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode,SharpDX.D3DCompiler.EffectFlags)">
+        <member name="M:SharpDX.Direct3D10.EffectPool.#ctor(SharpDX.Direct3D10.Device,System.Byte[],SharpDX.D3DCompiler.EffectFlags)">
             <summary>
             Initializes a new instance of the <see cref="T:SharpDX.Direct3D10.EffectPool"/> class.
             </summary>
@@ -5343,6 +5310,15 @@
             <unmanaged>const unsigned char* pInputSignature</unmanaged>	
             <unmanaged-short>unsigned char pInputSignature</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.EffectShaderDescription.IsInline">
+            <summary>	
+            <dd> <p><strong>TRUE</strong> is the shader is defined inline; otherwise <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_EFFECT_SHADER_DESC::IsInline']/*"/>	
+            <msdn-id>bb205051</msdn-id>	
+            <unmanaged>BOOL IsInline</unmanaged>	
+            <unmanaged-short>BOOL IsInline</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.EffectShaderDescription.BytecodePointer">
             <summary>	
             <dd> <p>A reference to the compiled shader.</p> </dd>	
@@ -5399,15 +5375,6 @@
             Gets the bytecode from the compiled shader.
             </summary>
             <value>The bytecode.</value>
-        </member>
-        <member name="P:SharpDX.Direct3D10.EffectShaderDescription.IsInline">
-            <summary>	
-            <dd> <p><strong>TRUE</strong> is the shader is defined inline; otherwise <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_EFFECT_SHADER_DESC::IsInline']/*"/>	
-            <msdn-id>bb205051</msdn-id>	
-            <unmanaged>BOOL IsInline</unmanaged>	
-            <unmanaged-short>BOOL IsInline</unmanaged-short>	
         </member>
         <member name="T:SharpDX.Direct3D10.EffectShaderResourceVariable">
             <summary>	
@@ -5770,7 +5737,7 @@
             <unmanaged>HRESULT ID3D10EffectScalarVariable::GetIntArray([Out, Buffer] int* pData,[In] unsigned int Offset,[In] unsigned int Count)</unmanaged>	
             <unmanaged-short>ID3D10EffectScalarVariable::GetIntArray</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.SetBool(System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.SetBool(SharpDX.Bool)">
             <summary>	
             <p>Set a boolean variable.</p>	
             </summary>	
@@ -5781,7 +5748,7 @@
             <unmanaged>HRESULT ID3D10EffectScalarVariable::SetBool([In] BOOL Value)</unmanaged>	
             <unmanaged-short>ID3D10EffectScalarVariable::SetBool</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.GetBool(System.Boolean@)">
+        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.GetBool(SharpDX.Bool@)">
             <summary>	
             <p>Get a boolean variable.</p>	
             </summary>	
@@ -5792,7 +5759,7 @@
             <unmanaged>HRESULT ID3D10EffectScalarVariable::GetBool([Out] BOOL* pValue)</unmanaged>	
             <unmanaged-short>ID3D10EffectScalarVariable::GetBool</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.SetBoolArray(System.Int32[],System.Int32,System.Int32)">
+        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.SetBoolArray(SharpDX.Bool[],System.Int32,System.Int32)">
             <summary>	
             <p>Set an array of boolean variables.</p>	
             </summary>	
@@ -5805,7 +5772,7 @@
             <unmanaged>HRESULT ID3D10EffectScalarVariable::SetBoolArray([In, Buffer] BOOL* pData,[In] unsigned int Offset,[In] unsigned int Count)</unmanaged>	
             <unmanaged-short>ID3D10EffectScalarVariable::SetBoolArray</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.GetBoolArray(System.Int32[],System.Int32,System.Int32)">
+        <member name="M:SharpDX.Direct3D10.EffectScalarVariable.GetBoolArray(SharpDX.Bool[],System.Int32,System.Int32)">
             <summary>	
             <p>Get an array of boolean variables.</p>	
             </summary>	
@@ -6199,7 +6166,7 @@
             <p>The <see cref="T:SharpDX.Direct3D10.Font"/> interface encapsulates the textures and resources needed to render a specific font on a specific device.</p>	
             </summary>	
             <remarks>	
-            <p>The <see cref="T:SharpDX.Direct3D10.Font"/> interface is obtained by calling <strong><see cref="M:SharpDX.Direct3D10.D3DX10.CreateFont(SharpDX.Direct3D10.Device,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32,System.String,SharpDX.Direct3D10.Font)"/></strong> or <strong><see cref="M:SharpDX.Direct3D10.D3DX10.CreateFontIndirect(SharpDX.Direct3D10.Device,SharpDX.Direct3D10.FontDescription@,SharpDX.Direct3D10.Font)"/></strong>.</p><p>The LPD3DX10FONT type is defined as a reference to the <see cref="T:SharpDX.Direct3D10.Font"/> interface.</p><pre><code> typedef interface <see cref="T:SharpDX.Direct3D10.Font"/> <see cref="T:SharpDX.Direct3D10.Font"/>;	
+            <p>The <see cref="T:SharpDX.Direct3D10.Font"/> interface is obtained by calling <strong><see cref="M:SharpDX.Direct3D10.D3DX10.CreateFont(SharpDX.Direct3D10.Device,System.Int32,System.Int32,System.Int32,System.Int32,SharpDX.Bool,System.Int32,System.Int32,System.Int32,System.Int32,System.String,SharpDX.Direct3D10.Font)"/></strong> or <strong><see cref="M:SharpDX.Direct3D10.D3DX10.CreateFontIndirect(SharpDX.Direct3D10.Device,SharpDX.Direct3D10.FontDescription@,SharpDX.Direct3D10.Font)"/></strong>.</p><p>The LPD3DX10FONT type is defined as a reference to the <see cref="T:SharpDX.Direct3D10.Font"/> interface.</p><pre><code> typedef interface <see cref="T:SharpDX.Direct3D10.Font"/> <see cref="T:SharpDX.Direct3D10.Font"/>;	
             typedef interface <see cref="T:SharpDX.Direct3D10.Font"/> *LPD3DX10FONT;	
             </code></pre>	
             </remarks>	
@@ -13154,7 +13121,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="F:SharpDX.Direct3D10.QueryType.Event">
             <summary>	
-            <dd> <p>Determines whether or not the GPU is finished processing commands. When the GPU is finished processing commands <strong>GetData</strong> will return <see cref="F:SharpDX.Result.Ok"/>, and pData will point to a <see cref="T:System.Boolean"/> with a value of <strong>TRUE</strong>. When using this type of query, <strong>Begin</strong> is disabled.</p> </dd>	
+            <dd> <p>Determines whether or not the GPU is finished processing commands. When the GPU is finished processing commands <strong>GetData</strong> will return <see cref="F:SharpDX.Result.Ok"/>, and pData will point to a <see cref="T:SharpDX.Bool"/> with a value of <strong>TRUE</strong>. When using this type of query, <strong>Begin</strong> is disabled.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_QUERY_EVENT']/*"/>	
             <msdn-id>bb205335</msdn-id>	
@@ -13199,7 +13166,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="F:SharpDX.Direct3D10.QueryType.OcclusionPredicate">
             <summary>	
-            <dd> <p>Similar to <see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/>, except <strong>GetData</strong> returns a <see cref="T:System.Boolean"/> indicating whether or not any samples passed the depth and stencil tests - <strong>TRUE</strong> meaning at least one passed, <strong><see cref="F:SharpDX.Result.False"/></strong> meaning none passed.</p> </dd>	
+            <dd> <p>Similar to <see cref="F:SharpDX.Direct3D10.QueryType.Occlusion"/>, except <strong>GetData</strong> returns a <see cref="T:SharpDX.Bool"/> indicating whether or not any samples passed the depth and stencil tests - <strong>TRUE</strong> meaning at least one passed, <strong><see cref="F:SharpDX.Result.False"/></strong> meaning none passed.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_QUERY_OCCLUSION_PREDICATE']/*"/>	
             <msdn-id>bb205335</msdn-id>	
@@ -13217,7 +13184,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="F:SharpDX.Direct3D10.QueryType.StreamOutputOverflowPredicate">
             <summary>	
-            <dd> <p>Determines whether or not any of the streaming output buffers overflowed in between <strong>Begin</strong> and <strong>End</strong>. <strong>GetData</strong> returns a <see cref="T:System.Boolean"/> - <strong>TRUE</strong> meaning there was an overflow, <strong><see cref="F:SharpDX.Result.False"/></strong> meaning there was not an overflow. If streaming output writes to multiple buffers, and one of the buffers overflows, then it will stop writing to all the output buffers. When an overflow is detected by Direct3D it is prevented from happening - no memory is corrupted. This predication may be used in conjunction with an SO_STATISTICS query so that when an overflow occurs the SO_STATISTIC query will let the application know how much memory was needed to prevent an overflow.</p> </dd>	
+            <dd> <p>Determines whether or not any of the streaming output buffers overflowed in between <strong>Begin</strong> and <strong>End</strong>. <strong>GetData</strong> returns a <see cref="T:SharpDX.Bool"/> - <strong>TRUE</strong> meaning there was an overflow, <strong><see cref="F:SharpDX.Result.False"/></strong> meaning there was not an overflow. If streaming output writes to multiple buffers, and one of the buffers overflows, then it will stop writing to all the output buffers. When an overflow is detected by Direct3D it is prevented from happening - no memory is corrupted. This predication may be used in conjunction with an SO_STATISTICS query so that when an overflow occurs the SO_STATISTIC query will let the application know how much memory was needed to prevent an overflow.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_QUERY_SO_OVERFLOW_PREDICATE']/*"/>	
             <msdn-id>bb205335</msdn-id>	
@@ -13410,7 +13377,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="F:SharpDX.Direct3D10.ResourceOptionFlags.GdiCompatible">
             <summary>	
-            <dd> <p>Enables a surface to be used for GDI interoperability.  Setting this flag enables rendering on the surface  via <see cref="M:SharpDX.DXGI.Surface1.GetDC(System.Boolean)"/>.</p> </dd>	
+            <dd> <p>Enables a surface to be used for GDI interoperability.  Setting this flag enables rendering on the surface  via <see cref="M:SharpDX.DXGI.Surface1.GetDC(SharpDX.Bool)"/>.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_RESOURCE_MISC_GDI_COMPATIBLE']/*"/>	
             <msdn-id>bb172412</msdn-id>	
@@ -13977,7 +13944,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>HRESULT D3DX10GetFeatureLevel1([In] ID3D10Device* pDevice,[In] ID3D10Device1** ppDevice1)</unmanaged>	
             <unmanaged-short>D3DX10GetFeatureLevel1</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.D3DX10.CreateFont(SharpDX.Direct3D10.Device,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32,System.String,SharpDX.Direct3D10.Font)">
+        <member name="M:SharpDX.Direct3D10.D3DX10.CreateFont(SharpDX.Direct3D10.Device,System.Int32,System.Int32,System.Int32,System.Int32,SharpDX.Bool,System.Int32,System.Int32,System.Int32,System.Int32,System.String,SharpDX.Direct3D10.Font)">
             <summary>	
             <p>Creates a font object for a device and font.</p>	
             </summary>	
@@ -14963,14 +14930,14 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.GeometryShader.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode)">
+        <member name="M:SharpDX.Direct3D10.GeometryShader.#ctor(SharpDX.Direct3D10.Device,System.Byte[])">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.GeometryShader" /> class.
             </summary>
             <param name = "device">The device used to create the shader.</param>
             <param name = "shaderBytecode">The compiled shader bytecode.</param>
         </member>
-        <member name="M:SharpDX.Direct3D10.GeometryShader.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode,SharpDX.Direct3D10.StreamOutputElement[],System.Int32)">
+        <member name="M:SharpDX.Direct3D10.GeometryShader.#ctor(SharpDX.Direct3D10.Device,System.Byte[],SharpDX.Direct3D10.StreamOutputElement[],System.Int32)">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.GeometryShader" /> class.
             </summary>
@@ -15541,7 +15508,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>HRESULT ID3D10InfoQueue::AddApplicationMessage([In] D3D10_MESSAGE_SEVERITY Severity,[In] const char* pDescription)</unmanaged>	
             <unmanaged-short>ID3D10InfoQueue::AddApplicationMessage</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnCategory(SharpDX.Direct3D10.MessageCategory,System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnCategory(SharpDX.Direct3D10.MessageCategory,SharpDX.Bool)">
             <summary>	
             <p>Set a message category to break on when a message with that category passes through the storage filter.</p>	
             </summary>	
@@ -15553,7 +15520,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>HRESULT ID3D10InfoQueue::SetBreakOnCategory([In] D3D10_MESSAGE_CATEGORY Category,[In] BOOL bEnable)</unmanaged>	
             <unmanaged-short>ID3D10InfoQueue::SetBreakOnCategory</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnSeverity(SharpDX.Direct3D10.MessageSeverity,System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnSeverity(SharpDX.Direct3D10.MessageSeverity,SharpDX.Bool)">
             <summary>	
             <p>Set a message severity level to break on when a message with that severity level passes through the storage filter.</p>	
             </summary>	
@@ -15565,7 +15532,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>HRESULT ID3D10InfoQueue::SetBreakOnSeverity([In] D3D10_MESSAGE_SEVERITY Severity,[In] BOOL bEnable)</unmanaged>	
             <unmanaged-short>ID3D10InfoQueue::SetBreakOnSeverity</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnID(SharpDX.Direct3D10.MessageId,System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.SetBreakOnID(SharpDX.Direct3D10.MessageId,SharpDX.Bool)">
             <summary>	
             <p>Set a message identifier to break on when a message with that identifier passes through the storage filter.</p>	
             </summary>	
@@ -15610,7 +15577,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>BOOL ID3D10InfoQueue::GetBreakOnID([In] D3D10_MESSAGE_ID ID)</unmanaged>	
             <unmanaged-short>ID3D10InfoQueue::GetBreakOnID</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.Direct3D10.InfoQueue.SetMuteDebugOutput(System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.InfoQueue.SetMuteDebugOutput(SharpDX.Bool)">
             <summary>	
             <p>Set a boolean that turns the debug output on or off.</p>	
             </summary>	
@@ -15660,14 +15627,14 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="P:SharpDX.Direct3D10.InfoQueue.MessageCountLimit">
             <summary>	
-            <p>Get the maximum number of messages that can be added to the message queue.</p>	
+            <p>Get or sets the maximum number of messages that can be added to the message queue.</p>	
             </summary>	
             <remarks>	
             <p>When the number of messages in the message queue has reached the maximum limit, new messages coming in will push old messages out.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10InfoQueue::GetMessageCountLimit']/*"/>	
             <msdn-id>bb173791</msdn-id>	
-            <unmanaged>GetMessageCountLimit</unmanaged>	
+            <unmanaged>GetMessageCountLimit / SetMessageCountLimit</unmanaged>	
             <unmanaged-short>GetMessageCountLimit</unmanaged-short>	
             <unmanaged>unsigned longlong ID3D10InfoQueue::GetMessageCountLimit()</unmanaged>
         </member>
@@ -15746,11 +15713,11 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="P:SharpDX.Direct3D10.InfoQueue.MuteDebugOutput">
             <summary>	
-            <p>Get a boolean that turns the debug output on or off.</p>	
+            <p>Get or sets a boolean that turns the debug output on or off.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10InfoQueue::GetMuteDebugOutput']/*"/>	
             <msdn-id>bb173792</msdn-id>	
-            <unmanaged>GetMuteDebugOutput</unmanaged>	
+            <unmanaged>GetMuteDebugOutput / SetMuteDebugOutput</unmanaged>	
             <unmanaged-short>GetMuteDebugOutput</unmanaged-short>	
             <unmanaged>BOOL ID3D10InfoQueue::GetMuteDebugOutput()</unmanaged>
         </member>
@@ -15781,7 +15748,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.InputLayout.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode,SharpDX.Direct3D10.InputElement[])">
+        <member name="M:SharpDX.Direct3D10.InputLayout.#ctor(SharpDX.Direct3D10.Device,System.Byte[],SharpDX.Direct3D10.InputElement[])">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.InputLayout" /> object to describe the
               input-buffer data for the input-assembler stage.
@@ -15790,16 +15757,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <param name = "device">The device used to create the layout.</param>
             <param name = "elements">An array of input elements describing the layout of the input data.</param>
             <param name = "shaderBytecode">The compiled shader used to validate the input elements.</param>
-        </member>
-        <member name="M:SharpDX.Direct3D10.InputLayout.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderSignature,SharpDX.Direct3D10.InputElement[])">
-            <summary>
-              Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.InputLayout" /> object to describe the
-              input-buffer data for the input-assembler stage.
-            </summary>
-            <unmanaged>ID3D10Device::CreateInputLayout</unmanaged>
-            <param name = "device">The device used to create the layout.</param>
-            <param name = "elements">An array of input elements describing the layout of the input data.</param>
-            <param name = "shaderSignature">The shader signature used to validate the input elements.</param>
         </member>
         <member name="T:SharpDX.Direct3D10.Mesh">
             <summary>	
@@ -16095,6 +16052,49 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb173908</msdn-id>	
             <unmanaged>HRESULT ID3DX10Mesh::GenerateAttributeBufferFromTable()</unmanaged>	
             <unmanaged-short>ID3DX10Mesh::GenerateAttributeBufferFromTable</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.Direct3D10.Mesh.Intersect(SharpDX.Vector3,SharpDX.Vector3,System.Int32,System.Int32,System.Single,System.Single,System.Single,SharpDX.Direct3D.Blob@)">
+            <summary>	
+            <p><strong>Applies to: </strong>desktop apps only</p><p>Determines if a ray intersects with this mesh.</p>	
+            </summary>	
+            <param name="rayPosRef"><dd>  <p>Pointer to a <strong><see cref="T:SharpDX.Vector3"/></strong> structure, specifying the point where the ray begins.</p> </dd></param>	
+            <param name="rayDirRef"><dd>  <p>Pointer to a <strong><see cref="T:SharpDX.Vector3"/></strong> structure, specifying the direction of the ray.</p> </dd></param>	
+            <param name="hitCountRef"><dd>  <p>The number of times the ray intersected with the mesh.</p> </dd></param>	
+            <param name="faceIndexRef"><dd>  <p>Pointer to an index value of the face closest to the ray origin, if pHit is <strong>TRUE</strong>.</p> </dd></param>	
+            <param name="uRef"><dd>  <p>Pointer to a barycentric hit coordinate, U.</p> </dd></param>	
+            <param name="vRef"><dd>  <p>Pointer to a barycentric hit coordinate, V.</p> </dd></param>	
+            <param name="distRef"><dd>  <p>Pointer to a ray intersection parameter distance.</p> </dd></param>	
+            <param name="allHitsOut"><dd>  <p>Pointer to an <strong><see cref="T:SharpDX.Direct3D.Blob"/> Interface</strong>, containing an array of <strong>D3DX10_INTERSECT_INFO</strong> structures. This is a list of all the hits that occurred in the intersection test.</p> </dd></param>	
+            <returns><p>The return value is one of the values listed in Direct3D 10 Return Codes.</p></returns>	
+            <remarks>	
+            <p>This API provides a way to understand points in and around a triangle, independent of where the triangle is actually located. This function returns the resulting point by using the following equation: V1 + U(V2 - V1) + V(V3 - V1).</p><p>Any point in the plane V1V2V3 can be represented by the barycentric coordinate (U,V). The parameter U controls how much V2 gets weighted into the result, and the parameter V controls how much V3 gets weighted into the result. Lastly, the value of [1 - (U + V)] controls how much V1 gets weighted into the result.</p><p>Barycentric coordinates are a form of general coordinates. In this context, using barycentric coordinates represents a change in coordinate systems. What holds true for Cartesian coordinates holds true for barycentric coordinates.</p><p>Barycentric coordinates define a point inside a triangle in terms of the triangle's vertices. For a more in-depth description of barycentric coordinates, see Mathworld's Barycentric Coordinates Description.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DX10Mesh::Intersect']/*"/>	
+            <msdn-id>bb173923</msdn-id>	
+            <unmanaged>HRESULT ID3DX10Mesh::Intersect([In] D3DXVECTOR3* pRayPos,[In] D3DXVECTOR3* pRayDir,[In] unsigned int* pHitCount,[In] unsigned int* pFaceIndex,[In] float* pU,[In] float* pV,[In] float* pDist,[In] ID3D10Blob** ppAllHits)</unmanaged>	
+            <unmanaged-short>ID3DX10Mesh::Intersect</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.Direct3D10.Mesh.IntersectSubset(System.Int32,SharpDX.Vector3,SharpDX.Vector3,System.Int32,System.Int32,System.Single,System.Single,System.Single,SharpDX.Direct3D.Blob@)">
+            <summary>	
+            <p><strong>Applies to: </strong>desktop apps only</p><p>Determines if a ray intersects with a subset of this mesh.</p>	
+            </summary>	
+            <param name="attribId"><dd>  <p>Attribute ID identifying the subset of the mesh.</p> </dd></param>	
+            <param name="rayPosRef"><dd>  <p>Pointer to a <strong><see cref="T:SharpDX.Vector3"/></strong> structure, specifying the point where the ray begins.</p> </dd></param>	
+            <param name="rayDirRef"><dd>  <p>Pointer to a <strong><see cref="T:SharpDX.Vector3"/></strong> structure, specifying the direction of the ray.</p> </dd></param>	
+            <param name="hitCountRef"><dd>  <p>The number of times the ray intersected with the mesh.</p> </dd></param>	
+            <param name="faceIndexRef"><dd>  <p>Pointer to an index value of the face closest to the ray origin, if pHit is <strong>TRUE</strong>.</p> </dd></param>	
+            <param name="uRef"><dd>  <p>Pointer to a barycentric hit coordinate, U.</p> </dd></param>	
+            <param name="vRef"><dd>  <p>Pointer to a barycentric hit coordinate, V.</p> </dd></param>	
+            <param name="distRef"><dd>  <p>Pointer to a ray intersection parameter distance.</p> </dd></param>	
+            <param name="allHitsOut"><dd>  <p>Pointer to an <strong><see cref="T:SharpDX.Direct3D.Blob"/> Interface</strong>, containing an array of <strong>D3DX10_INTERSECT_INFO</strong> structures. This is a list of all the hits that occurred in the intersection test.</p> </dd></param>	
+            <returns><p>The return value is one of the values listed in Direct3D 10 Return Codes.</p></returns>	
+            <remarks>	
+            <p>This API provides a way to understand points in and around a triangle, independent of where the triangle is actually located. This function returns the resulting point by using the following equation: V1 + U(V2 - V1) + V(V3 - V1).</p><p>Any point in the plane V1V2V3 can be represented by the barycentric coordinate (U,V). The parameter U controls how much V2 gets weighted into the result, and the parameter V controls how much V3 gets weighted into the result. Lastly, the value of [1 - (U + V)] controls how much V1 gets weighted into the result.</p><p>Barycentric coordinates are a form of general coordinates. In this context, using barycentric coordinates represents a change in coordinate systems. What holds true for Cartesian coordinates holds true for barycentric coordinates.</p><p>Barycentric coordinates define a point inside a triangle in terms of the triangle's vertices. For a more in-depth description of barycentric coordinates, see Mathworld's Barycentric Coordinates Description.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DX10Mesh::IntersectSubset']/*"/>	
+            <msdn-id>bb173924</msdn-id>	
+            <unmanaged>HRESULT ID3DX10Mesh::IntersectSubset([In] unsigned int AttribId,[In] D3DXVECTOR3* pRayPos,[In] D3DXVECTOR3* pRayDir,[In] unsigned int* pHitCount,[In] unsigned int* pFaceIndex,[In] float* pU,[In] float* pV,[In] float* pDist,[In] ID3D10Blob** ppAllHits)</unmanaged>	
+            <unmanaged-short>ID3DX10Mesh::IntersectSubset</unmanaged-short>	
         </member>
         <member name="M:SharpDX.Direct3D10.Mesh.Commit">
             <summary>	
@@ -16428,7 +16428,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.PixelShader.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode)">
+        <member name="M:SharpDX.Direct3D10.PixelShader.#ctor(SharpDX.Direct3D10.Device,System.Byte[])">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.PixelShader" /> class.
             </summary>
@@ -16628,7 +16628,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <p>A predicate interface determines whether geometry should be processed depending on the results of a previous draw call.</p>	
             </summary>	
             <remarks>	
-            <p>A predicate can be created with <strong><see cref="M:SharpDX.Direct3D10.Device.CreatePredicate(SharpDX.Direct3D10.QueryDescription,SharpDX.Direct3D10.Predicate)"/></strong>, and used with <strong><see cref="M:SharpDX.Direct3D10.Device.SetPredication(SharpDX.Direct3D10.Predicate,System.Boolean)"/></strong>.</p><p>There are two types of predicates in Direct3D 10: stream-output-overflow predicates and occlusion predicates. Stream-output-overflow predicates will cause any geometry residing in stream-output buffers that were overflowed to not be processed. Occlusion predicates will cause any geometry that did not have a single sample pass the depth/stencil tests to not be processed.</p><p>For an example of occlusion-predicated rendering, see Draw Predicated Sample. </p>	
+            <p>A predicate can be created with <strong><see cref="M:SharpDX.Direct3D10.Device.CreatePredicate(SharpDX.Direct3D10.QueryDescription,SharpDX.Direct3D10.Predicate)"/></strong>, and used with <strong><see cref="M:SharpDX.Direct3D10.Device.SetPredication(SharpDX.Direct3D10.Predicate,SharpDX.Bool)"/></strong>.</p><p>There are two types of predicates in Direct3D 10: stream-output-overflow predicates and occlusion predicates. Stream-output-overflow predicates will cause any geometry residing in stream-output buffers that were overflowed to not be processed. Occlusion predicates will cause any geometry that did not have a single sample pass the depth/stencil tests to not be processed.</p><p>For an example of occlusion-predicated rendering, see Draw Predicated Sample. </p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3D10Predicate']/*"/>	
             <msdn-id>bb173822</msdn-id>	
@@ -17580,21 +17580,21 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
         </member>
         <member name="P:SharpDX.Direct3D10.Sprite.ViewTransform">
             <summary>	
-            <p>Get the view transform that applies to all sprites.</p>	
+            <p>Get or sets the view transform that applies to all sprites.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DX10Sprite::GetViewTransform']/*"/>	
             <msdn-id>bb205609</msdn-id>	
-            <unmanaged>GetViewTransform</unmanaged>	
+            <unmanaged>GetViewTransform / SetViewTransform</unmanaged>	
             <unmanaged-short>GetViewTransform</unmanaged-short>	
             <unmanaged>HRESULT ID3DX10Sprite::GetViewTransform([Out] D3DXMATRIX* pViewTransform)</unmanaged>
         </member>
         <member name="P:SharpDX.Direct3D10.Sprite.ProjectionTransform">
             <summary>	
-            <p>Get the sprite projection matrix that is applied to all sprites.</p>	
+            <p>Get or sets the sprite projection matrix that is applied to all sprites.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ID3DX10Sprite::GetProjectionTransform']/*"/>	
             <msdn-id>bb205608</msdn-id>	
-            <unmanaged>GetProjectionTransform</unmanaged>	
+            <unmanaged>GetProjectionTransform / SetProjectionTransform</unmanaged>	
             <unmanaged-short>GetProjectionTransform</unmanaged-short>	
             <unmanaged>HRESULT ID3DX10Sprite::GetProjectionTransform([Out] D3DXMATRIX* pProjectionTransform)</unmanaged>
         </member>
@@ -17733,7 +17733,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.SwitchToRef.SetUseRef(System.Boolean)">
+        <member name="M:SharpDX.Direct3D10.SwitchToRef.SetUseRef(SharpDX.Bool)">
             <summary>	
             <p>Switch between a hardware and a software device.</p>	
             </summary>	
@@ -18163,7 +18163,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:SharpDX.Direct3D10.VertexShader.#ctor(SharpDX.Direct3D10.Device,SharpDX.D3DCompiler.ShaderBytecode)">
+        <member name="M:SharpDX.Direct3D10.VertexShader.#ctor(SharpDX.Direct3D10.Device,System.Byte[])">
             <summary>
               Initializes a new instance of the <see cref = "T:SharpDX.Direct3D10.VertexShader" /> class.
             </summary>
@@ -18398,6 +18398,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_BLEND_DESC</unmanaged>	
             <unmanaged-short>D3D10_BLEND_DESC</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.BlendStateDescription.IsAlphaToCoverageEnabled">
+            <summary>	
+            <dd> <p>Determines whether or not to use alpha-to-coverage as a multisampling technique when setting a pixel to a rendertarget.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_BLEND_DESC::AlphaToCoverageEnable']/*"/>	
+            <msdn-id>bb204893</msdn-id>	
+            <unmanaged>BOOL AlphaToCoverageEnable</unmanaged>	
+            <unmanaged-short>BOOL AlphaToCoverageEnable</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.BlendStateDescription.SourceBlend">
             <summary>	
             <dd> <p>This <strong>blend option</strong> specifies the first RGB data source and includes an optional pre-blend operation.</p> </dd>	
@@ -18452,15 +18461,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_BLEND_OP BlendOpAlpha</unmanaged>	
             <unmanaged-short>D3D10_BLEND_OP BlendOpAlpha</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.BlendStateDescription.IsAlphaToCoverageEnabled">
-            <summary>	
-            <dd> <p>Determines whether or not to use alpha-to-coverage as a multisampling technique when setting a pixel to a rendertarget.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_BLEND_DESC::AlphaToCoverageEnable']/*"/>	
-            <msdn-id>bb204893</msdn-id>	
-            <unmanaged>BOOL AlphaToCoverageEnable</unmanaged>	
-            <unmanaged-short>BOOL AlphaToCoverageEnable</unmanaged-short>	
-        </member>
         <member name="P:SharpDX.Direct3D10.BlendStateDescription.IsBlendEnabled">
             <summary>	
             <dd> <p>Enable (or disable) blending. There are eight elements in this array; these correspond to the eight rendertargets that can be set to output-merger stage at one time.</p> </dd>	
@@ -18491,7 +18491,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_BLEND_DESC1</unmanaged>	
             <unmanaged-short>D3D10_BLEND_DESC1</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.BlendStateDescription1.IsAlphaToCoverageEnabled">
+        <member name="F:SharpDX.Direct3D10.BlendStateDescription1.IsAlphaToCoverageEnabled">
             <summary>	
             <dd> <p>Determines whether or not to use the alpha-to-coverage multisampling technique when setting a render-target pixel.</p> </dd>	
             </summary>	
@@ -18500,7 +18500,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>BOOL AlphaToCoverageEnable</unmanaged>	
             <unmanaged-short>BOOL AlphaToCoverageEnable</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.BlendStateDescription1.IndependentBlendEnable">
+        <member name="F:SharpDX.Direct3D10.BlendStateDescription1.IndependentBlendEnable">
             <summary>	
             <dd> <p>Set to <strong>TRUE</strong> to enable independent blending in simultaneous render targets. If set to <strong><see cref="F:SharpDX.Result.False"/></strong>, only the RenderTarget[0] members are used. RenderTarget[1..7] are ignored.</p> </dd>	
             </summary>	
@@ -18640,6 +18640,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_DEPTH_STENCIL_DESC</unmanaged>	
             <unmanaged-short>D3D10_DEPTH_STENCIL_DESC</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.DepthStencilStateDescription.IsDepthEnabled">
+            <summary>	
+            <dd> <p>A Boolean value that enables depth testing.  The default value is <strong>TRUE</strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_DEPTH_STENCIL_DESC::DepthEnable']/*"/>	
+            <msdn-id>bb205036</msdn-id>	
+            <unmanaged>BOOL DepthEnable</unmanaged>	
+            <unmanaged-short>BOOL DepthEnable</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.DepthStencilStateDescription.DepthWriteMask">
             <summary>	
             <dd> <p>A member of the <strong><see cref="T:SharpDX.Direct3D10.DepthWriteMask"/></strong> enumerated type that identifies a portion of the depth-stencil buffer that can be modified by depth data.  The default value is <strong><see cref="F:SharpDX.Direct3D10.DepthWriteMask.All"/></strong>.</p> </dd>	
@@ -18657,6 +18666,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb205036</msdn-id>	
             <unmanaged>D3D10_COMPARISON_FUNC DepthFunc</unmanaged>	
             <unmanaged-short>D3D10_COMPARISON_FUNC DepthFunc</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.Direct3D10.DepthStencilStateDescription.IsStencilEnabled">
+            <summary>	
+            <dd> <p>A Boolean value that enables stencil testing.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_DEPTH_STENCIL_DESC::StencilEnable']/*"/>	
+            <msdn-id>bb205036</msdn-id>	
+            <unmanaged>BOOL StencilEnable</unmanaged>	
+            <unmanaged-short>BOOL StencilEnable</unmanaged-short>	
         </member>
         <member name="F:SharpDX.Direct3D10.DepthStencilStateDescription.StencilReadMask">
             <summary>	
@@ -18693,24 +18711,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb205036</msdn-id>	
             <unmanaged>D3D10_DEPTH_STENCILOP_DESC BackFace</unmanaged>	
             <unmanaged-short>D3D10_DEPTH_STENCILOP_DESC BackFace</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.DepthStencilStateDescription.IsDepthEnabled">
-            <summary>	
-            <dd> <p>A Boolean value that enables depth testing.  The default value is <strong>TRUE</strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_DEPTH_STENCIL_DESC::DepthEnable']/*"/>	
-            <msdn-id>bb205036</msdn-id>	
-            <unmanaged>BOOL DepthEnable</unmanaged>	
-            <unmanaged-short>BOOL DepthEnable</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.DepthStencilStateDescription.IsStencilEnabled">
-            <summary>	
-            <dd> <p>A Boolean value that enables stencil testing.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_DEPTH_STENCIL_DESC::StencilEnable']/*"/>	
-            <msdn-id>bb205036</msdn-id>	
-            <unmanaged>BOOL StencilEnable</unmanaged>	
-            <unmanaged-short>BOOL StencilEnable</unmanaged-short>	
         </member>
         <member name="T:SharpDX.Direct3D10.DepthStencilViewDescription">
             <summary>	
@@ -18960,6 +18960,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_EFFECT_DESC</unmanaged>	
             <unmanaged-short>D3D10_EFFECT_DESC</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.EffectDescription.IsChildEffect">
+            <summary>	
+            <dd> <p><strong>TRUE</strong> if the effect is a child effect; otherwise <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_EFFECT_DESC::IsChildEffect']/*"/>	
+            <msdn-id>bb205047</msdn-id>	
+            <unmanaged>BOOL IsChildEffect</unmanaged>	
+            <unmanaged-short>BOOL IsChildEffect</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.EffectDescription.ConstantBufferCount">
             <summary>	
             <dd> <p>The number of constant buffers.</p> </dd>	
@@ -19004,15 +19013,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb205047</msdn-id>	
             <unmanaged>unsigned int Techniques</unmanaged>	
             <unmanaged-short>unsigned int Techniques</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.EffectDescription.IsChildEffect">
-            <summary>	
-            <dd> <p><strong>TRUE</strong> if the effect is a child effect; otherwise <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_EFFECT_DESC::IsChildEffect']/*"/>	
-            <msdn-id>bb205047</msdn-id>	
-            <unmanaged>BOOL IsChildEffect</unmanaged>	
-            <unmanaged-short>BOOL IsChildEffect</unmanaged-short>	
         </member>
         <member name="T:SharpDX.Direct3D10.EffectTechniqueDescription">
             <summary>	
@@ -19269,6 +19269,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>unsigned int MipLevels</unmanaged>	
             <unmanaged-short>unsigned int MipLevels</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.FontDescription.Italic">
+            <summary>	
+            <dd> <p>Set to <strong>TRUE</strong> for an Italic font.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10_FONT_DESCW::Italic']/*"/>	
+            <msdn-id>bb172693</msdn-id>	
+            <unmanaged>BOOL Italic</unmanaged>	
+            <unmanaged-short>BOOL Italic</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.FontDescription.CharacterSet">
             <summary>	
             <dd> <p>Character set.</p> </dd>	
@@ -19313,15 +19322,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb172693</msdn-id>	
             <unmanaged>wchar_t FaceName[32]</unmanaged>	
             <unmanaged-short>wchar_t FaceName</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.FontDescription.Italic">
-            <summary>	
-            <dd> <p>Set to <strong>TRUE</strong> for an Italic font.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DX10_FONT_DESCW::Italic']/*"/>	
-            <msdn-id>bb172693</msdn-id>	
-            <unmanaged>BOOL Italic</unmanaged>	
-            <unmanaged-short>BOOL Italic</unmanaged-short>	
         </member>
         <member name="T:SharpDX.Direct3D10.ImageInformation">
             <summary>	
@@ -19563,6 +19563,11 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb172696</msdn-id>	
             <unmanaged>D3DX10_IMAGE_INFO* pSrcInfo</unmanaged>	
             <unmanaged-short>D3DX10_IMAGE_INFO pSrcInfo</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.Direct3D10.ImageLoadInformation.Default">
+            <summary>
+            Gets an ImageLoadInformation that is setup with all default values (<see cref="F:SharpDX.Direct3D10.ImageLoadInformation.FileDefaultValue"/>).
+            </summary>
         </member>
         <member name="T:SharpDX.Direct3D10.InfoQueueFilter">
             <summary>	
@@ -20115,7 +20120,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>unsigned longlong Frequency</unmanaged>	
             <unmanaged-short>unsigned longlong Frequency</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.QueryDataTimestampDisjoint.Disjoint">
+        <member name="F:SharpDX.Direct3D10.QueryDataTimestampDisjoint.Disjoint">
             <summary>	
             <dd> <p>If this is <strong>TRUE</strong>, something occurred in between the query's <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.Begin"/></strong> and <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.End"/></strong> calls that caused the timestamp counter to become discontinuous or disjoint, such as unplugging the AC chord on a laptop, overheating, or throttling up/down due to laptop savings events. The timestamp returned by <strong><see cref="M:SharpDX.Direct3D10.Asynchronous.GetData"/></strong> for a timestamp query is only reliable if Disjoint is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
             </summary>	
@@ -20181,6 +20186,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>D3D10_CULL_MODE CullMode</unmanaged>	
             <unmanaged-short>D3D10_CULL_MODE CullMode</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.IsFrontCounterClockwise">
+            <summary>	
+            <dd> <p>Determines if a triangle is front-facing or back-facing. If this parameter is <strong>TRUE</strong>, then a triangle is considered front-facing if its vertices are counter-clockwise on the render target, and considered back-facing if they are clockwise. If this parameter is <strong><see cref="F:SharpDX.Result.False"/></strong>, then the opposite is true.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_RASTERIZER_DESC::FrontCounterClockwise']/*"/>	
+            <msdn-id>bb172408</msdn-id>	
+            <unmanaged>BOOL FrontCounterClockwise</unmanaged>	
+            <unmanaged-short>BOOL FrontCounterClockwise</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.DepthBias">
             <summary>	
             <dd> <p>Specifies the depth value added to a given pixel. The default value is 0. For more information, see Depth Bias.</p> </dd>	
@@ -20208,16 +20222,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>float SlopeScaledDepthBias</unmanaged>	
             <unmanaged-short>float SlopeScaledDepthBias</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.RasterizerStateDescription.IsFrontCounterClockwise">
-            <summary>	
-            <dd> <p>Determines if a triangle is front-facing or back-facing. If this parameter is <strong>TRUE</strong>, then a triangle is considered front-facing if its vertices are counter-clockwise on the render target, and considered back-facing if they are clockwise. If this parameter is <strong><see cref="F:SharpDX.Result.False"/></strong>, then the opposite is true.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_RASTERIZER_DESC::FrontCounterClockwise']/*"/>	
-            <msdn-id>bb172408</msdn-id>	
-            <unmanaged>BOOL FrontCounterClockwise</unmanaged>	
-            <unmanaged-short>BOOL FrontCounterClockwise</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.RasterizerStateDescription.IsDepthClipEnabled">
+        <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.IsDepthClipEnabled">
             <summary>	
             <dd> <p>Enables or disables clipping based on distance.  The default value is <strong>TRUE</strong>.</p> <p>The hardware always performs x and y clipping of rasterized coordinates. When <strong>DepthClipEnable</strong> is set to the default value, the hardware also clips the z value (that is, the hardware performs the last step of the following algorithm).	
             </p> <code> 0 &lt; w	
@@ -20232,7 +20237,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>BOOL DepthClipEnable</unmanaged>	
             <unmanaged-short>BOOL DepthClipEnable</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.RasterizerStateDescription.IsScissorEnabled">
+        <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.IsScissorEnabled">
             <summary>	
             <dd> <p>Enable or disables scissor-rectangle culling. All pixels outside an active scissor rectangle are culled. The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>. For more information, see Set the Scissor Rectangle.</p> </dd>	
             </summary>	
@@ -20241,7 +20246,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>BOOL ScissorEnable</unmanaged>	
             <unmanaged-short>BOOL ScissorEnable</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.RasterizerStateDescription.IsMultisampleEnabled">
+        <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.IsMultisampleEnabled">
             <summary>	
             <dd> <p>Enables or disables multisample antialiasing.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
             </summary>	
@@ -20250,7 +20255,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>BOOL MultisampleEnable</unmanaged>	
             <unmanaged-short>BOOL MultisampleEnable</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.RasterizerStateDescription.IsAntialiasedLineEnabled">
+        <member name="F:SharpDX.Direct3D10.RasterizerStateDescription.IsAntialiasedLineEnabled">
             <summary>	
             <dd> <p>Enable or disables line antialiasing. Note that this option only applies when alpha blending is enabled, you are drawing lines, and the <strong>MultisampleEnable</strong> member is <strong><see cref="F:SharpDX.Result.False"/></strong>.  The default value is <strong><see cref="F:SharpDX.Result.False"/></strong>.</p> </dd>	
             </summary>	
@@ -20270,6 +20275,15 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb694533</msdn-id>	
             <unmanaged>D3D10_RENDER_TARGET_BLEND_DESC1</unmanaged>	
             <unmanaged-short>D3D10_RENDER_TARGET_BLEND_DESC1</unmanaged-short>	
+        </member>
+        <member name="F:SharpDX.Direct3D10.RenderTargetBlendDescription1.IsBlendEnabled">
+            <summary>	
+            <dd> <p>Enable (or disable) blending.</p> </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_RENDER_TARGET_BLEND_DESC1::BlendEnable']/*"/>	
+            <msdn-id>bb694533</msdn-id>	
+            <unmanaged>BOOL BlendEnable</unmanaged>	
+            <unmanaged-short>BOOL BlendEnable</unmanaged-short>	
         </member>
         <member name="F:SharpDX.Direct3D10.RenderTargetBlendDescription1.SourceBlend">
             <summary>	
@@ -20333,15 +20347,6 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <msdn-id>bb694533</msdn-id>	
             <unmanaged>D3D10_COLOR_WRITE_ENABLE RenderTargetWriteMask</unmanaged>	
             <unmanaged-short>D3D10_COLOR_WRITE_ENABLE RenderTargetWriteMask</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.Direct3D10.RenderTargetBlendDescription1.IsBlendEnabled">
-            <summary>	
-            <dd> <p>Enable (or disable) blending.</p> </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D10_RENDER_TARGET_BLEND_DESC1::BlendEnable']/*"/>	
-            <msdn-id>bb694533</msdn-id>	
-            <unmanaged>BOOL BlendEnable</unmanaged>	
-            <unmanaged-short>BOOL BlendEnable</unmanaged-short>	
         </member>
         <member name="T:SharpDX.Direct3D10.RenderTargetViewDescription">
             <summary>	
@@ -21567,7 +21572,7 @@ Flags that defines the behavior of method <see cref="M:SharpDX.Direct3D10.Asynch
             <unmanaged>unsigned int DestOffset</unmanaged>	
             <unmanaged-short>unsigned int DestOffset</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.Direct3D10.SkinningChannel.IsNormal">
+        <member name="F:SharpDX.Direct3D10.SkinningChannel.IsNormal">
             <summary>	
             No documentation.	
             </summary>	

@@ -308,7 +308,7 @@
             <unmanaged>HRESULT IXACT3Cue::GetVariable([In] unsigned short nIndex,[Out] float* nValue)</unmanaged>	
             <unmanaged-short>IXACT3Cue::GetVariable</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.XACT3.Cue.Pause(System.Boolean)">
+        <member name="M:SharpDX.XACT3.Cue.Pause(SharpDX.Bool)">
             <summary>	
             No documentation.	
             </summary>	
@@ -774,7 +774,7 @@
             <unmanaged>HRESULT IXACT3Engine::SetVolume([In] unsigned short nCategory,[In] float nVolume)</unmanaged>	
             <unmanaged-short>IXACT3Engine::SetVolume</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.XACT3.AudioEngine.Pause(System.Int16,System.Boolean)">
+        <member name="M:SharpDX.XACT3.AudioEngine.Pause(System.Int16,SharpDX.Bool)">
             <summary>	
             <p>Pauses or resumes playback of a category.</p><p>[Content-driven]</p>	
             </summary>	
@@ -1572,7 +1572,7 @@
             <unmanaged>HRESULT IXACT3Wave::Stop([In] XACT_STOP_FLAGS dwFlags)</unmanaged>	
             <unmanaged-short>IXACT3Wave::Stop</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.XACT3.Wave.Pause(System.Boolean)">
+        <member name="M:SharpDX.XACT3.Wave.Pause(SharpDX.Bool)">
             <summary>	
             No documentation.	
             </summary>	
@@ -1990,6 +1990,15 @@
             <unmanaged>char friendlyName[255]</unmanaged>	
             <unmanaged-short>char friendlyName</unmanaged-short>	
         </member>
+        <member name="F:SharpDX.XACT3.CueProperties.IsInteractive">
+            <summary>	
+            <dd> TRUE if the cue is an interactive audio cue and <see cref="F:SharpDX.Result.False"/> otherwise. </dd>	
+            </summary>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XACT_CUE_PROPERTIES::interactive']/*"/>	
+            <msdn-id>microsoft.directx_sdk.struct.xact_cue_properties</msdn-id>	
+            <unmanaged>BOOL interactive</unmanaged>	
+            <unmanaged-short>BOOL interactive</unmanaged-short>	
+        </member>
         <member name="F:SharpDX.XACT3.CueProperties.VariableIndex">
             <summary>	
             <dd> For interactive audio cues, the index of the variable to control the cue. </dd>	
@@ -2025,15 +2034,6 @@
             <msdn-id>microsoft.directx_sdk.struct.xact_cue_properties</msdn-id>	
             <unmanaged>unsigned char currentInstances</unmanaged>	
             <unmanaged-short>unsigned char currentInstances</unmanaged-short>	
-        </member>
-        <member name="P:SharpDX.XACT3.CueProperties.IsInteractive">
-            <summary>	
-            <dd> TRUE if the cue is an interactive audio cue and <see cref="F:SharpDX.Result.False"/> otherwise. </dd>	
-            </summary>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='XACT_CUE_PROPERTIES::interactive']/*"/>	
-            <msdn-id>microsoft.directx_sdk.struct.xact_cue_properties</msdn-id>	
-            <unmanaged>BOOL interactive</unmanaged>	
-            <unmanaged-short>BOOL interactive</unmanaged-short>	
         </member>
         <member name="T:SharpDX.XACT3.FileIoCallbacks">
             <summary>	
@@ -2361,7 +2361,7 @@
             <unmanaged>float variableValue</unmanaged>	
             <unmanaged-short>float variableValue</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.XACT3.RawNotificationVariable.Local">
+        <member name="F:SharpDX.XACT3.RawNotificationVariable.Local">
             <summary>	
             <dd> TRUE if a local variable. </dd>	
             </summary>	
@@ -2478,7 +2478,7 @@
             <unmanaged>wchar_t displayName[255]</unmanaged>	
             <unmanaged-short>wchar_t displayName</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.XACT3.RendererDetails.IsDefault">
+        <member name="F:SharpDX.XACT3.RendererDetails.IsDefault">
             <summary>	
             <dd> TRUE if this renderer is the default renderer. Otherwise, <see cref="F:SharpDX.Result.False"/>. </dd>	
             </summary>	
@@ -2715,7 +2715,7 @@
             <unmanaged>float iaVariableMax</unmanaged>	
             <unmanaged-short>float iaVariableMax</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.XACT3.VariationProperties.ShouldLinger">
+        <member name="F:SharpDX.XACT3.VariationProperties.ShouldLinger">
             <summary>	
             <dd> Flag that indicates if the variation should linger. This member is used by interactive variations only. </dd>	
             </summary>	
@@ -3058,7 +3058,7 @@
             <unmanaged>XACT_WAVE_PROPERTIES properties</unmanaged>	
             <unmanaged-short>XACT_WAVE_PROPERTIES properties</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.XACT3.WaveInstanceProperties.IsBackgroundMusic">
+        <member name="F:SharpDX.XACT3.WaveInstanceProperties.IsBackgroundMusic">
             <summary>	
             No documentation.	
             </summary>	
@@ -3111,7 +3111,7 @@
             <unmanaged>WAVEBANKSAMPLEREGION loopRegion</unmanaged>	
             <unmanaged-short>WAVEBANKSAMPLEREGION loopRegion</unmanaged-short>	
         </member>
-        <member name="P:SharpDX.XACT3.WaveProperties.IsStreaming">
+        <member name="F:SharpDX.XACT3.WaveProperties.IsStreaming">
             <summary>	
             <dd> TRUE if the wave is streaming. Otherwise, <see cref="F:SharpDX.Result.False"/>. </dd>	
             </summary>	
