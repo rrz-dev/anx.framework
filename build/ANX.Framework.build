@@ -73,6 +73,8 @@
     <property name="project.anx.psvita" value="true" />
     <property name="project.anx.platform" value="PS Vita" />
 
+    <property name="build.dir.base" value="${build.dir}/${project.anx.platform}" />
+
     <call target="generate_project_files" />
   </target>
 
@@ -92,6 +94,8 @@
     <property name="project.anx.winrt" value="true" />
     <property name="project.anx.platform" value="Windows 8 / Metro / WinRT" />
     <property name="build.platform" value="ARM" />
+
+    <property name="build.dir.base" value="${build.dir}/WinRT" />
 
     <property name="project.anx.directives" value="${project.anx.directives} WINDOWSMETRO ARM WINRT" />
     

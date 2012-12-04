@@ -9,6 +9,14 @@ using ANX.Framework.NonXNA.Development;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+#region Patch-Log
+/*
+
+ * 12/03/2012	#13365 clcrutch
+
+*/
+#endregion
+
 namespace ANX.InputDevices.Windows.XInput
 {
 	[PercentageComplete(100)]
@@ -51,11 +59,18 @@ namespace ANX.InputDevices.Windows.XInput
 		}
 
 		/// <summary>
-		/// Only available on XBox, behaviour regarding MSDN: empty keystate
+		/// Although MSDN states this method returns an emtpy state on Windows,
+        /// Xna functionality has it returning Keyboard.GetState() for PlayerIndex.One.
 		/// </summary>
 		public KeyboardState GetState(PlayerIndex playerIndex)
 		{
-			return emptyState;
+            switch (playerIndex)
+            {
+                case PlayerIndex.One:
+                    return GetState();
+                default:
+			        return emptyState;
+            }
 		}
 
 		public KeyboardState GetState()

@@ -4,6 +4,7 @@ set ProgRoot=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set ProgRoot=%ProgramFiles(x86)%
 
 FOR /F "tokens=2* delims=	 " %%A IN ('REG QUERY "HKEY_USERS\.DEFAULT\Software\Microsoft\VisualStudio\11.0_Config" /v ShellFolder') DO SET vs11dir=%%B
+FOR /F "tokens=2* delims=	 " %%A IN ('REG QUERY "HKEY_USERS\.DEFAULT\Software\Microsoft\WDExpress\11.0_Config" /v ShellFolder') DO SET vs11dir=%%B
 FOR /F "tokens=2* delims=	 " %%A IN ('REG QUERY "HKEY_USERS\.DEFAULT\Software\Microsoft\VisualStudio\10.0_Config" /v ShellFolder') DO SET vs10dir=%%B
 
 if EXIST "%vs11dir%\vc\vcvarsall.bat" goto vs2011
@@ -20,12 +21,20 @@ goto error_msg
   SET ENV=VS2012
   goto start_nant
 
-:vs2011pf
+:vs2010pf
   SET vs10dir = %ProgRoot%\Microsoft Visual Studio 10.0\
 :vs2010
   echo Visual Studio 2010 build environment
   call "%vs10dir%\vc\vcvarsall.bat" x86
   SET ENV=VS2010
+  goto start_nant
+
+:vs2008pf
+  SET vs9dir = %ProgRoot%\Microsoft Visual Studio 9.0\
+:vs2010
+  echo Visual Studio 2008 build environment
+  call "%vs9dir%\vc\vcvarsall.bat" x86
+  SET ENV=VS2008
   goto start_nant
 
 :start_nant
