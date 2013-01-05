@@ -62,6 +62,8 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     textBoxLocation.Text = dlg.FileName;
+					DialogResult = System.Windows.Forms.DialogResult.OK;
+					return;
                 }
             }
             DialogResult = DialogResult.None;
