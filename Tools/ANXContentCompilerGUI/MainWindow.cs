@@ -174,7 +174,8 @@ namespace ANX.ContentCompiler.GUI
         {
             using (var dlg = new OpenProjectScreen())
             {
-                if (dlg.ShowDialog() != DialogResult.OK) return;
+				var result = dlg.ShowDialog();
+                if (result != DialogResult.OK) return;
 
                 if (dlg.listBoxRecentProjects.SelectedItem == null)
                     OpenProject(dlg.textBoxLocation.Text);
@@ -767,6 +768,8 @@ namespace ANX.ContentCompiler.GUI
         #region ContextMenuStuff
         private void FileToolStripMenuItemClick(object sender, EventArgs e)
         {
+			if (_contentProject == null)
+				return;
             using (var dlg = new OpenFileDialog())
             {
                 dlg.Multiselect = true;
@@ -778,6 +781,8 @@ namespace ANX.ContentCompiler.GUI
 
         private void FolderToolStripMenuItemClick(object sender, EventArgs e)
         {
+			if (_contentProject == null)
+				return;
             using (var dlg = new NewFolderScreen())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
@@ -789,6 +794,8 @@ namespace ANX.ContentCompiler.GUI
 
         private void TreeViewItemDeleteClick(object sender, EventArgs e)
         {
+			if (_contentProject == null)
+				return;
             if (treeView.SelectedNode == null) return;
             if (treeView.SelectedNode == treeView.Nodes[0]) return;
             foreach (var buildItem in _contentProject.BuildItems.Where(buildItem => buildItem.AssetName == treeView.SelectedNode.Name))
