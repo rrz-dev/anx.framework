@@ -111,10 +111,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput">
-      <HintPath>..\..\lib\SharpDX\Bin\Win8Metro\SharpDX.XInput.dll</HintPath>
+      <HintPath>..\..\lib\sharpdx\bin\standard-winrt\sharpdx.xinput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

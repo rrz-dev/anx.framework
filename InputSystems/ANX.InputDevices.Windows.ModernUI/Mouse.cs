@@ -14,7 +14,7 @@ namespace ANX.InputDevices.Windows.ModernUI
     [PercentageComplete(80)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("rene87")]
-    class Mouse : IMouse
+    public class Mouse : IMouse
     {
         private int _wheel;
         private int _x;

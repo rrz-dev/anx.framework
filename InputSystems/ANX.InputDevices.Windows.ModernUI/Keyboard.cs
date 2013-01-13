@@ -3,6 +3,9 @@ using ANX.Framework.Input;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
 using System;
+using System.Collections.Generic;
+using Windows.System;
+using Windows.UI.Core;
 
 
 // This file is part of the ANX.Framework created by the
@@ -11,26 +14,54 @@ using System;
 
 namespace ANX.InputDevices.Windows.ModernUI
 {
-    [PercentageComplete(0)]
-    [TestState(TestStateAttribute.TestState.Untested)]
+    [PercentageComplete(80)]
+    [TestState(TestStateAttribute.TestState.InProgress)]
     [Developer("rene87")]
-    class Keyboard : IKeyboard
+    public class Keyboard : IKeyboard
     {
+        private IntPtr windowHandle;
+        KeyboardState _state;
         public IntPtr WindowHandle
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return windowHandle; }
             set
             {
-                throw new NotImplementedException();
+                if (windowHandle != value)
+                {
+                    windowHandle = value;
+                }
+            }
+        }
+
+        public Keyboard()
+        {
+            CoreWindow.GetForCurrentThread().KeyDown += Keyboard_KeyDown;
+            CoreWindow.GetForCurrentThread().KeyUp += Keyboard_KeyUp;
+            _state = new KeyboardState(Keys.None);
+            _state.RemovePressedKey(Keys.None);
+        }
+
+        void Keyboard_KeyUp(CoreWindow sender, KeyEventArgs args)
+        {
+            var key = FormatConverter.Translate(args.VirtualKey);
+
+            _state.RemovePressedKey(key);
+
+        }
+
+        void Keyboard_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            var key = FormatConverter.Translate(args.VirtualKey);
+            if (key != Keys.None)
+            {
+                _state.AddPressedKey(key);
             }
         }
 
         public KeyboardState GetState()
         {
-            throw new NotImplementedException();
+
+            return _state;
         }
 
         public KeyboardState GetState(PlayerIndex playerIndex)
