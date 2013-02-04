@@ -35,8 +35,9 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
 			get
 			{
-				//TODO: this is just a very basic version of test for support
-				return OSInformation.IsWindows;
+                Version vistaVersion = new Version(6, 0);
+
+                return (OSInformation.IsWindows && Environment.OSVersion.Version.CompareTo(vistaVersion) > 0);
 			}
 		}
 

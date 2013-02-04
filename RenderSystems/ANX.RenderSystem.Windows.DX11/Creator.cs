@@ -36,8 +36,22 @@ namespace ANX.RenderSystem.Windows.DX11
 		{
 			get
 			{
-				//TODO: this is just a very basic version of test for support
-				return OSInformation.IsWindows;
+                //Default to false
+                bool isSupported = false;
+                //Vista SP2 build number is 6002
+                Version vistaSP2Version = new Version(6, 0, 002);
+                Version sevenVersion = new Version(6, 1);
+
+                //DirectX 11 is available on Vista SP2 and later
+                if (OSInformation.IsWindows && Environment.OSVersion.Version.CompareTo(vistaSP2Version) > 0)
+                {
+                    //KB971512 installed on Vista SP2 adds library C:\Windows\System32\d3d11.dll.
+                    //This file also exits on Windows 7.
+                    isSupported = (Environment.OSVersion.Version.CompareTo(sevenVersion) > 0 || 
+                                    File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "System32", "d3d11.dll")));
+                }
+
+                return isSupported;
 			}
 		}
 
