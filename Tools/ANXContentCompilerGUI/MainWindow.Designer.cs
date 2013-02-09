@@ -67,28 +67,26 @@ namespace ANX.ContentCompiler.GUI
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.show_timer = new System.Windows.Forms.Timer(this.components);
             this.menuState = new ANX.ContentCompiler.GUI.States.MenuState();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             this.splitContainerMenuLayout.Panel1.SuspendLayout();
             this.splitContainerMenuLayout.Panel2.SuspendLayout();
             this.splitContainerMenuLayout.SuspendLayout();
-#if !MONO
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxErrorLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).BeginInit();
-#endif
             this.splitContainerFileTree.Panel1.SuspendLayout();
             this.splitContainerFileTree.Panel2.SuspendLayout();
             this.splitContainerFileTree.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).BeginInit();
             this.treeViewContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).BeginInit();
             this.splitContainerProperties.Panel1.SuspendLayout();
             this.splitContainerProperties.Panel2.SuspendLayout();
             this.splitContainerProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainerMenuLayout
@@ -569,26 +567,24 @@ namespace ANX.ContentCompiler.GUI
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.splitContainerMenuLayout.Panel1.ResumeLayout(false);
             this.splitContainerMenuLayout.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).EndInit();
             this.splitContainerMenuLayout.ResumeLayout(false);
-            this.splitContainerFileTree.Panel1.ResumeLayout(false);
-            this.splitContainerFileTree.Panel2.ResumeLayout(false);
-            this.splitContainerFileTree.ResumeLayout(false);
-#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxRibbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxErrorLog)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).EndInit();
+            this.splitContainerFileTree.Panel1.ResumeLayout(false);
+            this.splitContainerFileTree.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFileTree)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMenuLayout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).EndInit();
-#endif
+            this.splitContainerFileTree.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxSmiley)).EndInit();
             this.treeViewContextMenu.ResumeLayout(false);
             this.splitContainerProperties.Panel1.ResumeLayout(false);
             this.splitContainerProperties.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperties)).EndInit();
             this.splitContainerProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxProjectExplorer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.show_pictureBoxMainPanel)).EndInit();
             this.ResumeLayout(false);
 
         }

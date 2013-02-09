@@ -199,6 +199,9 @@ namespace ANX.ContentCompiler.GUI
                 _contentProject.InputDirectory = ProjectFolder;
             ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
             ProjectPath = path;
+            if (String.IsNullOrEmpty(_contentProject.Configuration))
+                _contentProject.Configuration = "Debug";
+
             if (string.IsNullOrEmpty(_contentProject.Creator))
                 _contentProject.Creator = "ANX Content Compiler (4.0)";
             ChangeEnvironmentOpenProject();
@@ -228,8 +231,14 @@ namespace ANX.ContentCompiler.GUI
                 SaveProjectAs(sender, e);
             foreach (var buildItem in _contentProject.BuildItems)
             {
+                var dir = Path.GetDirectoryName(ProjectPath);
+                if (String.IsNullOrEmpty(dir))
+                {
+                    MessageBox.Show("Error saving project: ProjectPath not set!", "Error");
+                    return;
+                }
                 if (File.Exists(buildItem.SourceFilename))
-                    buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, Path.GetDirectoryName(ProjectPath).Count() + 1);
+                    buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, dir.Count() + 1);
             }
             _contentProject.InputDirectory = ""; //Clear input dir, because we do not need it anymore
             _contentProject.Save(ProjectPath);

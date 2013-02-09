@@ -289,6 +289,10 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                 {
                                     project.Platform = targetPlatform;
                                 }
+                                else
+                                {
+                                    project.Platform = TargetPlatform.Windows;
+                                }
                             }
                         }
                         break;
