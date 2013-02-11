@@ -1,4 +1,4 @@
-#region Using Statements
+﻿#region Using Statements
 using System;
 using ANX.Framework.NonXNA.Development;
 
@@ -48,7 +48,7 @@ namespace ANX.Framework
         public const float Pi = (float)Math.PI;
         public const float PiOver2 = (float)(Math.PI * 0.5);
         public const float PiOver4 = (float)(Math.PI * 0.25);
-        public const float TwoPi = (float)(Math.PI * Math.PI);
+        public const float TwoPi = (float)(Math.PI + Math.PI);
 
         private const double OneEightyOverPi = 180.0 / Math.PI;
         private const double PiOverOneEighty = Math.PI / 180.0;
