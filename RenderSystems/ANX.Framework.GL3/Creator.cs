@@ -271,6 +271,8 @@ namespace ANX.RenderSystem.GL3
 					    resultingModes.Add(new DisplayMode(res.Width, res.Height, surfaceFormat));
 				}
 
+                DisplayDevice dev = DisplayDevice.GetDisplay(DisplayIndex.Default);
+
 				var newAdapter = new GraphicsAdapter
 				{
                     SupportedDisplayModes = new DisplayModeCollection(resultingModes),
@@ -282,6 +284,7 @@ namespace ANX.RenderSystem.GL3
 					Revision = 0,
 					SubSystemId = 0,
 					VendorId = 0,
+                    CurrentDisplayMode = new DisplayMode(dev.Width, dev.Height, SurfaceFormat.Color)
 				};
 
 				result.Add(newAdapter);

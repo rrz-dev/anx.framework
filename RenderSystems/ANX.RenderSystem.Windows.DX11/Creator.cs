@@ -189,16 +189,13 @@ namespace ANX.RenderSystem.Windows.DX11
                     using (Adapter adapter = factory.GetAdapter(i))
                     {
                         GraphicsAdapter ga = new GraphicsAdapter();
-                        //ga.CurrentDisplayMode = ;
-                        //ga.Description = ;
+                        ga.Description = adapter.Description.Description;
                         ga.DeviceId = adapter.Description.DeviceId;
                         ga.DeviceName = adapter.Description.Description;
                         ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
                         //ga.IsWideScreen = ;
-                        //ga.MonitorHandle = ;
                         ga.Revision = adapter.Description.Revision;
                         ga.SubSystemId = adapter.Description.SubsystemId;
-                        //ga.SupportedDisplayModes = ;
                         ga.VendorId = adapter.Description.VendorId;
 
                         resultingModes.Clear();
@@ -214,6 +211,9 @@ namespace ANX.RenderSystem.Windows.DX11
                                     var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height, DxFormatConverter.Translate(modeDescription.Format));
                                     resultingModes.Add(displayMode);
                                 }
+
+                                ga.CurrentDisplayMode = new DisplayMode(adapterOutput.Description.DesktopBounds.Width, adapterOutput.Description.DesktopBounds.Height, SurfaceFormat.Color);
+                                ga.MonitorHandle = adapterOutput.Description.MonitorHandle;
                             }
                         }
 

@@ -31,22 +31,10 @@ namespace ANX.Framework.Graphics
 		public int Revision { get; set; }
 		public int SubSystemId { get; set; }
 		public int VendorId { get; set; }
-
-		public DisplayMode CurrentDisplayMode
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public string Description
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public string Description { get; set; }
+		public DisplayMode CurrentDisplayMode { get; set; }
+        public DisplayModeCollection SupportedDisplayModes { get; set; }
+		public IntPtr MonitorHandle { get; set; }
 
 		public bool IsWideScreen
 		{
@@ -55,16 +43,6 @@ namespace ANX.Framework.Graphics
 				throw new NotImplementedException();
 			}
 		}
-
-		public IntPtr MonitorHandle
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public DisplayModeCollection SupportedDisplayModes { get; set; }
 
         static GraphicsAdapter()
 		{
