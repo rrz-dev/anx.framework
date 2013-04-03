@@ -34,8 +34,8 @@ namespace ANX.Framework
 		private IGraphicsDeviceService graphicsDeviceService;
 		private GameServiceContainer gameServices;
 
-        private bool firstUpdateDone;
-        private bool firstDrawDone;
+        protected bool firstUpdateDone;
+        protected bool firstDrawDone;
         private bool drawingSlow;
         private bool inRun;
         private bool isInitialized;
@@ -218,7 +218,8 @@ namespace ANX.Framework
 
 		public void ResetElapsedTime()
 		{
-			throw new NotImplementedException();
+            //TODO Check if it works right
+            gameTimeAccu = TimeSpan.MinValue;
 		}
 
 		protected virtual bool BeginDraw()
