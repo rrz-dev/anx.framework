@@ -82,7 +82,7 @@
     <property name="project.anx.metro" value="true" />
     <property name="project.anx.platform" value="Windows 8 / Metro" />
     <property name="build.platform" value="x86" />
-    <property name="build.dir" value="${build.dir}/ModernUI" />
+    <property name="build.dir.base" value="${build.dir}/ModernUI" />
     
     <property name="project.anx.directives" value="${project.anx.directives} WINDOWSMETRO" />
     
@@ -232,6 +232,16 @@
 
   <include buildfile="ANX.PlatformSystem.build" />
 
+  <target name="create_msi_packages_ModernUI">
+    <call target="build"/>
+   <call target="metro"/>
+    <call target="build"/>
+    <property name="build.dir" value="${path::get-full-path('../bin')}" />
+    <call target="winrt"/>
+    <call target="build"/>
+    <call target="create_msi_packages"/>
+  </target>
+  
   <target name="generate_stock_shaders" description="Generate code for stock shaders" depends="build_tools">
     <!-- default windows fileset -->
     <fileset id="stock_shaders" basedir="../shader/">
@@ -306,7 +316,7 @@
         <!--
         <include name="**/*_WindowsMetro.csproj" />
         -->
-        <include name="**/SimpleNoContent_WindowsMetro.csproj" />
+        <!--<include name="**/SimpleNoContent_WindowsMetro.csproj" />-->
       </fileset>
     </if>
 

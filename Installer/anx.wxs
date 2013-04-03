@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<Product Id="{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}" 
-           Name="ANX.Framework" 
-           Language="1033" 
-           Version="$(var.PRODUCTVERSION)" 
-           Manufacturer="ANX.Framework Developer Team" 
+  <Product Id="{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}"
+           Name="ANX.Framework"
+           Language="1033"
+           Version="$(var.PRODUCTVERSION)"
+           Manufacturer="ANX.Framework Developer Team"
            UpgradeCode="{7A54B375-318B-40B7-ABF7-60BB50689361}">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <Icon Id="ANX.icon" SourceFile="..\media\anx.ico" />
     <Property Id="ARPPRODUCTICON" Value="ANX.icon" />
 
@@ -15,8 +15,9 @@
     <Media Id='1' Cabinet='ANX.Framework.cab' EmbedCab='yes' />
 
     <Feature Id="ProductFeature" Title="ANX.Framework assemblies" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-		</Feature>
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ProductComponentsModernUI" />
+    </Feature>
 
     <Feature Id="Tools" Title="ANX.Framework tools" Level="1">
       <ComponentGroupRef Id="Tools" />
@@ -31,12 +32,12 @@
     <Feature Id="VS2012TemplatesFeature" Title="ANX.Framework project templates for Visual Studio 2012" Level="1">
       <ComponentGroupRef Id="VS2012Templates" />
     </Feature>
-    
+
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <WixVariable Id="WixUILicenseRtf" Value="../doc/license.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="../media/ANX.Framework.Logo_493x58.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="../media/Installer_493x312.bmp" />
-    
+
     <UIRef Id="WixUI_InstallDir" />
 
     <PropertyRef Id="VS2010_ROOT_FOLDER" />
@@ -68,13 +69,14 @@
     </UI>
   </Product>
 
-	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="ANX.Framework">
           <Directory Id="TOOLSFOLDER" Name="Tools" />
+          <Directory Id="MODERNUIFOLDER" Name="ModernUI"/>
         </Directory>
-			</Directory>
+      </Directory>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="ANX.Framework" />
       </Directory>
@@ -178,7 +180,7 @@
       </Component>
     </ComponentGroup>
   </Fragment>
-  
+
   <Fragment>
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{7A7BEBDF-BE65-413E-A993-8E78311B445D}">
@@ -251,8 +253,8 @@
         </ProgId>
       </Component>
     </ComponentGroup>
-    
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
         <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
         <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
@@ -302,11 +304,48 @@
       <Component Id='ANX.PlatformSystem.Windows' Guid='{0D0EBDD1-9F95-40CE-B314-7A502BC84A2F}'>
         <File Id='anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
       </Component>
-<!--
+      <!--
       <Component Id='ANX.PlatformSystem.Linux' Guid='{6781BD15-B2DB-41B7-B628-CAF0D95D584D}'>
         <File Id='anx.platformsystem.linux' Name='ANX.PlatformSystem.Linux.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Linux.dll' />
       </Component>
--->      
+-->
     </ComponentGroup>
-	</Fragment>
+    <ComponentGroup Id="ProductComponentsModernUI" Directory="MODERNUIFOLDER">
+      <Component Id='ANX.Framework.M' Guid='{505f7d0e-7d3b-42ef-8279-3668ba471707}'>
+        <File Id='anx.framework.M' Name='ANX.Framework.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.Framework.dll' />
+
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework for WindowsStore" >
+          <RegistryValue Type="string" Value="[MODERNUIFOLDER]" Action="write" />
+        </RegistryKey>
+
+      </Component>
+      <Component Id='SharpDX.M' Guid='{8918b008-3c96-4b80-be82-48ecd8b64a46}'>
+        <File Id='sharpdx.direct3d11.M' Name='SharpDX.Direct3D11.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-winrt/SharpDX.Direct3D11.dll' />
+        <File Id='sharpdx.M' Name='SharpDX.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-winrt/SharpDX.dll' />
+        <File Id='sharpdx.dxgi.M' Name='SharpDX.DXGI.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-winrt/SharpDX.DXGI.dll' />
+        <File Id='sharpdx.xaudio2.M' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-winrt/SharpDX.XAudio2.dll' />
+        <File Id='sharpdx.xinput.M' Name='SharpDX.XInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-winrt/SharpDX.XInput.dll' />
+      </Component>
+
+      <Component Id='ANX.RenderSystem.Windows.Metro.M' Guid='{46395c9d-1f3d-401d-b1ed-b64d7de6ba8d}'>
+        <File Id='anx.RenderSystem.windows.Metro.M' Name='ANX.RenderSystem.Windows.Metro.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.RenderSystem.Windows.Metro.dll' />
+      </Component>
+      <Component Id='ANX.InputSystem.Standard.M' Guid='{40fb787b-ef64-4127-97bf-d02c158b6307}'>
+        <File Id='anx.inputsystem.Standard.M' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.InputSystem.Standard.dll' />
+      </Component>
+      <Component Id='ANX.InputSystem.Recording.M' Guid='{cdab1f5b-733c-43d4-9e2f-f9b3ded3da3b}'>
+        <File Id='anx.inputsystem.Recording.M' Name='ANX.InputSystem.Recording.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.InputSystem.Recording.dll' />
+      </Component>
+      <Component Id='ANX.InputDevices.Windows.ModernUI.M' Guid='{9fef8eac-608a-4875-b1ec-f11e842db709}'>
+        <File Id='ANX.InputDevices.Windows.ModernUI.M' Name='ANX.InputDevices.Windows.ModernUI.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.InputDevices.Windows.ModernUI.dll' />
+      </Component>
+      <Component Id='ANX.SoundSystem.Windows.XAudio.M' Guid='{a210288b-08e9-4143-9c21-a7ded3140405}'>
+        <File Id='anx.soundsystem.windows.xaudio.M' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.SoundSystem.Windows.XAudio.dll' />
+      </Component>
+      <Component Id='ANX.PlatformSystem.Metro.M' Guid='{c3e6d6c2-31c0-40d9-a3d5-435bd202f853}'>
+        <File Id='anx.platformsystem.metro.M' Name='ANX.PlatformSystem.Metro.dll' DiskId='1' Source='../bin/ModernUI/Release/ANX.PlatformSystem.Metro.dll' />
+      </Component>
+
+    </ComponentGroup>
+  </Fragment>
 </Wix>
