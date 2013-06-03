@@ -11,6 +11,7 @@
     <RootNamespace>ANX.Framework.Content.Pipeline</RootNamespace>
     <AssemblyName>ANX.Framework.Content.Pipeline</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <ReleaseVersion>4.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -218,11 +219,11 @@
   <ItemGroup>
     <ProjectReference Include="..\ANX.Framework\ANX.Framework_Linux.csproj">
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
+      <Name>ANX.Framework_Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\Support\WaveUtils\WaveUtils_Linux.csproj">
       <Project>{1986B0ED-3D28-4FEE-82D0-BCC39C87C18C}</Project>
-      <Name>WaveUtils</Name>
+      <Name>WaveUtils_Linux</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

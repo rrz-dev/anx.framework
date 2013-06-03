@@ -21,11 +21,16 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                #if LINUX
+ #if LINUX
                 //Apparently these Assemblies are bad juju, so lets blacklist them as we don't need to check them anyway
-                if (assembly.FullName == "MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f")
+                if (assembly.FullName == "MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f"
+                    || assembly.FullName == "Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null")
                     return;
-                #endif
+
+                Console.WriteLine("ProcessorManager: Checking " + assembly.FullName);
+#endif
+                try
+                {
                 foreach (Type type in assembly.GetTypes())
                 {
                     ContentProcessorAttribute[] value = (ContentProcessorAttribute[]) type.GetCustomAttributes(typeof(ContentProcessorAttribute), true);
@@ -33,6 +38,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                     {
                         processors[type.Name] = (IContentProcessor)Activator.CreateInstance(type);
                     }
+                }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(assembly.FullName);
                 }
             }
         }
