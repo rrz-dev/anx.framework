@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ANX.Framework.Content.Pipeline.Graphics;
 
 #endregion
 
@@ -38,7 +39,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
             internal set;
         }
 
-        public ModelMeshContent SourceMesh
+        public MeshContent SourceMesh
         {
             get;
             internal set;
