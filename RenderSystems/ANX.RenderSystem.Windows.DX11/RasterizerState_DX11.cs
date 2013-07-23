@@ -89,7 +89,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		protected override Dx11.RasterizerState CreateNativeState(GraphicsDevice graphics)
 		{
 			Dx11.DeviceContext context = (graphics.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			return new Dx11.RasterizerState(context.Device, ref description);
+			return new Dx11.RasterizerState(context.Device, description);
 		}
 
 		protected override void ApplyNativeState(GraphicsDevice graphics)

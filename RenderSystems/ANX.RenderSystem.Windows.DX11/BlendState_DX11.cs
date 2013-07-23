@@ -226,7 +226,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		protected override Dx11.BlendState CreateNativeState(GraphicsDevice graphics)
 		{
 			Dx11.DeviceContext context = (graphics.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			return new Dx11.BlendState(context.Device, ref blendStateDescription);
+			return new Dx11.BlendState(context.Device, blendStateDescription);
 		}
 
 		protected override void ApplyNativeState(GraphicsDevice graphics)

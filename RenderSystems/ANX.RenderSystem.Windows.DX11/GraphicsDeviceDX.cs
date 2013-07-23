@@ -435,10 +435,10 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region SetViewport
 		protected void SetViewport(int x, int y, int width, int height, float minDepth, float maxDepth)
 		{
-            nativeDevice.Rasterizer.SetViewports(new Dx11.Viewport(x, y, width, height, minDepth, maxDepth));
+            nativeDevice.Rasterizer.SetViewports(new SharpDX.Viewport(x, y, width, height, minDepth, maxDepth));
 		}
 
-        protected void SetViewport(params Dx11.Viewport[] viewports)
+        protected void SetViewport(params SharpDX.ViewportF[] viewports)
         {
             nativeDevice.Rasterizer.SetViewports(viewports);
         }
@@ -509,7 +509,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 // reset the RenderTarget to backbuffer
                 CreateDepthStencilBuffer(this.depthStencilBuffer.Description.Format, this.backBuffer.Description.Width, this.backBuffer.Description.Height, false);
 				nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-                nativeDevice.Rasterizer.SetViewports(new Dx11.Viewport(0, 0, this.backBuffer.Description.Width, this.backBuffer.Description.Height));
+                nativeDevice.Rasterizer.SetViewports(new SharpDX.Viewport(0, 0, this.backBuffer.Description.Width, this.backBuffer.Description.Height));
 
                 // dispose the old views
                 for (int i = 0; i < renderTargetView.Length; i++)
@@ -526,7 +526,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 int renderTargetCount = renderTargets.Length;
                 RenderTargetView[] renderTargetsToDelete = new RenderTargetView[renderTargetView.Length];
                 Array.Copy(renderTargetView, renderTargetsToDelete, renderTargetView.Length);
-                Dx11.Viewport[] rtViewports = new Dx11.Viewport[renderTargetCount];
+                SharpDX.ViewportF[] rtViewports = new SharpDX.ViewportF[renderTargetCount];
 
                 if (this.renderTargetView.Length != renderTargetCount)
                 {
@@ -554,7 +554,7 @@ namespace ANX.RenderSystem.Windows.DX11
                         }
 
 						renderTargetView[i] = new RenderTargetView(nativeDevice.Device, ((DxTexture2D)nativeRenderTarget).NativeShaderResourceView.Resource);
-                        rtViewports[i] = new Dx11.Viewport(0, 0, width, height);
+                        rtViewports[i] = new SharpDX.Viewport(0, 0, width, height);
                     }
                 }
 

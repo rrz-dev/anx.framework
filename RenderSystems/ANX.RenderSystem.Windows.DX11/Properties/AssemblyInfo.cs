@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX.Framework Team")]
 [assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX11")]
-[assembly: AssemblyCopyright("Copyright (c) ANX.Framework Team 2011-2012")]
+[assembly: AssemblyCopyright("Copyright (c) ANX.Framework Team 2011-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion("0.7.18.*")]
-[assembly: AssemblyFileVersion("0.7.18.0")]
+[assembly: AssemblyVersion("0.7.19.*")]
+[assembly: AssemblyFileVersion("0.7.19.0")]
