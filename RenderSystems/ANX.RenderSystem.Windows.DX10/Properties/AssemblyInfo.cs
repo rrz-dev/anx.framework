@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ANX Developer Team")]
 [assembly: AssemblyProduct("ANX.RenderSystem.Windows.DX10")]
-[assembly: AssemblyCopyright("Copyright © ANX Developer Team 2011-2012")]
+[assembly: AssemblyCopyright("Copyright © ANX Developer Team 2011-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.7.27.*")]
-[assembly: AssemblyFileVersion("0.7.27.0")]
+[assembly: AssemblyVersion("0.7.28.*")]
+[assembly: AssemblyFileVersion("0.7.28.0")]
 
 [assembly: InternalsVisibleTo("ANX.Framework.ContentPipeline")]
