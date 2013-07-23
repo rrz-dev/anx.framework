@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>ANX.RenderSystem.Windows.DX11</id>
+        <version>0.7.19.1</version>
+        <title>ANX.Framework RenderSystem DirectX 11</title>
+        <authors>Roland Rosenkranz</authors>
+        <owners>ANX Developer Team</owners>
+        <licenseUrl>http://anxframework.codeplex.com/license</licenseUrl>
+        <projectUrl>http://anxframework.codeplex.com/</projectUrl>
+        <iconUrl>http://download-codeplex.sec.s-msft.com/Download/SourceControlFileDownload.ashx?ProjectName=anxframework&amp;changeSetId=24089&amp;itemId=137507</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</description>
+        <summary>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</summary>
+        <copyright>Copyright © ANX Developer Team 2011-2013</copyright>
+        <tags>ANX C# DirectX RenderSystem DX11</tags>
+        <dependencies>
+            <dependency id="ANX.Framework" version="0.5.0.1" />
+            <dependency id="SharpDX" version="2.4.2" />
+            <dependency id="SharpDX.DXGI" version="2.4.2" />
+            <dependency id="SharpDX.D3DCompiler" version="2.4.2" />
+            <dependency id="SharpDX.Direct3D11" version="2.4.2" />
+            <dependency id="SharpDX.Direct3D11.Effects" version="2.4.2" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\bin\Release\ANX.RenderSystem.Windows.DX11.dll" target="lib\net40\ANX.RenderSystem.Windows.DX11.dll" />
+        <file src="..\bin\Release\ANX.RenderSystem.Windows.DX11.pdb" target="lib\net40\ANX.RenderSystem.Windows.DX11.pdb" />
+    </files>
+</package>
