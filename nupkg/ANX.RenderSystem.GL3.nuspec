@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>ANX.RenderSystem.GL3</id>
-        <version>0.5.16.1</version>
+        <version>0.5.16.2</version>
         <title>ANX.Framework RenderSystem OpenGL 3</title>
         <authors>Roland Rosenkranz</authors>
         <owners>ANX Developer Team</owners>
         <licenseUrl>http://anxframework.codeplex.com/license</licenseUrl>
         <projectUrl>http://anxframework.codeplex.com/</projectUrl>
-        <iconUrl>http://download-codeplex.sec.s-msft.com/Download/SourceControlFileDownload.ashx?ProjectName=anxframework&amp;changeSetId=24089&amp;itemId=137507</iconUrl>
+        <iconUrl>http://nuget.rtainment.de/img/ANX.Icon_100x100.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</description>
         <summary>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</summary>
@@ -20,7 +20,9 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="lib\net40\ANX.RenderSystem.Windows.DX11.dll" target="lib\net40\ANX.RenderSystem.Windows.DX11.dll" />
-        <file src="lib\net40\ANX.RenderSystem.Windows.DX11.pdb" target="lib\net40\ANX.RenderSystem.Windows.DX11.pdb" />
+        <file src="lib\net40\ANX.Framework.Content.Pipeline.dll" target="lib\net40\ANX.Framework.Content.Pipeline.dll" />
+        <file src="lib\net40\ANX.Framework.Content.Pipeline.pdb" target="lib\net40\ANX.Framework.Content.Pipeline.pdb" />
+        <file src="lib\net40\ANX.RenderSystem.GL3.dll" target="lib\net40\ANX.RenderSystem.GL3.dll" />
+        <file src="lib\net40\ANX.RenderSystem.GL3.pdb" target="lib\net40\ANX.RenderSystem.GL3.pdb" />
     </files>
 </package>

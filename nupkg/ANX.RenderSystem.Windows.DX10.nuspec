@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>ANX.RenderSystem.Windows.DX10</id>
-        <version>0.7.28.2</version>
+        <version>0.7.28.3</version>
         <title>ANX.Framework RenderSystem DirectX 10</title>
         <authors>Roland Rosenkranz</authors>
         <owners>ANX Developer Team</owners>
         <licenseUrl>http://anxframework.codeplex.com/license</licenseUrl>
         <projectUrl>http://anxframework.codeplex.com/</projectUrl>
-        <iconUrl>http://download-codeplex.sec.s-msft.com/Download/SourceControlFileDownload.ashx?ProjectName=anxframework&amp;changeSetId=24089&amp;itemId=137507</iconUrl>
+        <iconUrl>http://nuget.rtainment.de/img/ANX.Icon_100x100.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</description>
         <summary>The ANX.Framework is a platform independent game framework which is source compatible with Microsofts XNA Framework.</summary>
