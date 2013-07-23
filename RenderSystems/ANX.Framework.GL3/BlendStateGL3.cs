@@ -289,13 +289,13 @@ namespace ANX.RenderSystem.GL3
 					return BlendingFactorDest.DstAlpha;
 
 				case Blend.DestinationColor:
-					return BlendingFactorDest.DstColor;
+					return BlendingFactorDest.ConstantColor; //TODO: check, was .DstColor;
 
 				case Blend.InverseDestinationAlpha:
 					return BlendingFactorDest.OneMinusDstAlpha;
 
 				case Blend.InverseDestinationColor:
-					return BlendingFactorDest.OneMinusDstColor;
+					return BlendingFactorDest.OneMinusConstantColor;    //TODO: check, was .OneMinusDstColor;
 
 				case Blend.InverseSourceAlpha:
 					return BlendingFactorDest.OneMinusSrcAlpha;

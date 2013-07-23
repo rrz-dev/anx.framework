@@ -234,12 +234,12 @@ namespace ANX.RenderSystem.GL3
 					TranslateStencilOp(CounterClockwiseStencilPass));
 				ErrorHelper.Check("StencilOpSeparate Back");
 
-				GL.StencilFuncSeparate(StencilFace.Front,
+				GL.StencilFuncSeparate((Version20)StencilFace.Front,
 					TranslateStencilFunction(StencilFunction),
 					ReferenceStencil, StencilMask);
 				ErrorHelper.Check("StencilFuncSeparate Front");
 
-				GL.StencilFuncSeparate(StencilFace.Back,
+				GL.StencilFuncSeparate((Version20)StencilFace.Back,
 					TranslateStencilFunction(CounterClockwiseStencilFunction),
 					ReferenceStencil, StencilMask);
 				ErrorHelper.Check("StencilFuncSeparate Back");
