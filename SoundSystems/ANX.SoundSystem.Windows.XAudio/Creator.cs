@@ -84,8 +84,6 @@ namespace ANX.SoundSystem.Windows.XAudio
             distanceScale = 1f;
             dopplerScale = 1f;
             speedOfSound = 343.5f;
-
-            InitializeDevice();
         }
 
 	    ~Creator()
