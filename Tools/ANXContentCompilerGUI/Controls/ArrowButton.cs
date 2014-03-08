@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using ANX.Framework.NonXNA.Development;
+using System.Drawing;
 #endregion
 
 // This file is part of the EES Content Compiler 4,
@@ -12,9 +13,11 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI.Controls
 {
+    //Reclaimer: on systems other than windows, mono 3.x is needed to make this class not crash on creation.
+    //For ubuntu, see this: http://stackoverflow.com/questions/13365158/installing-mono-3-x-3-0-x-and-or-3-2-x
     [Developer("SilentWarrior/Eagle Eye Studios")]
     [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.Tested)] //TODO: Fix the strange flickering with mono that makes the button unusable as seen on Linux
+    [TestState(TestStateAttribute.TestState.Tested)]
     public partial class ArrowButton : UserControl
     {
         public ArrowButton()
@@ -39,7 +42,13 @@ namespace ANX.ContentCompiler.GUI.Controls
 
         private void ArrowButtonMouseLeave(object sender, EventArgs e)
         {
-            BorderStyle = BorderStyle.None;
+            //Because we trigger this on multiple contained controls and we want to act as they would be one, we have to make sure that we left our main control and
+            //not just the child controls. Otherwise, moving from label to pictureBox would cause the border to disappear.
+            //With this solution, we also don't get any flicker on ubuntu systems, it may cause some ghosting, but otherwise it works fine.
+            if (!this.ClientRectangle.Contains(this.PointToClient(Control.MousePosition)))
+            {
+                BorderStyle = BorderStyle.None;
+            }
         }
 
         private void ArrowButtonMouseDown(object sender, MouseEventArgs e)
