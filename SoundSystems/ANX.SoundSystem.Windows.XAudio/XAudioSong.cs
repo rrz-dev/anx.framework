@@ -34,7 +34,7 @@ namespace ANX.SoundSystem.Windows.XAudio
 
         public XAudioSong(XAudio2 device, Uri uri)
         {
-            filepath = uri.AbsolutePath.Replace("%20", "");
+            filepath = Uri.UnescapeDataString(uri.AbsolutePath);
             this.device = device;
             // TODO: duration
         }
@@ -55,6 +55,7 @@ namespace ANX.SoundSystem.Windows.XAudio
             PlayPosition = TimeSpan.Zero;
             State = MediaState.Stopped;
 
+            //TODO: Provide a Metro implementation.
 #if !WINDOWSMETRO
             oggFileStream = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             oggStream = new XAudioOggInputStream(oggFileStream);
