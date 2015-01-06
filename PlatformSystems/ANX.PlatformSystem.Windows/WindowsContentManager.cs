@@ -13,7 +13,7 @@ namespace ANX.PlatformSystem.Windows
 		#region MakeRootDirectoryAbsolute
 		public string MakeRootDirectoryAbsolute(string relativePath)
 		{
-			var location = Assembly.GetExecutingAssembly().Location;
+			var location = Assembly.GetEntryAssembly().Location;
 			var assemblyFile = new FileInfo(location);
 			return Path.Combine(assemblyFile.Directory.FullName, relativePath);
 		}
