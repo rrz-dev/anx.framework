@@ -10,6 +10,8 @@ using SharpDX;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
+using System.Runtime.InteropServices;
+
 #if DX10
 using Dx = SharpDX.Direct3D10;
 using DxDevice = SharpDX.Direct3D10.Device;
@@ -23,86 +25,106 @@ using DxDevice = SharpDX.Direct3D11.Device;
 namespace ANX.RenderSystem.Windows.DX11
 #endif
 {
-	public partial class DxVertexBuffer : IDisposable 
-	{
-		private int vertexStride;
+    public partial class DxVertexBuffer : IDisposable 
+    {
+        private int vertexStride;
 
-		#region SetData
-		public void SetData<S>(GraphicsDevice graphicsDevice, S[] data) where S : struct
-		{
-			SetData<S>(graphicsDevice, data, 0, data.Length);
-		}
+        #region SetData
+        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data) where S : struct
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
-		public void SetData<S>(GraphicsDevice graphicsDevice, S[] data, int startIndex, int elementCount) where S : struct
-		{
-			SetData<S>(graphicsDevice, 0, data, startIndex, elementCount);
-		}
+            SetData<S>(graphicsDevice, data, 0, data.Length);
+        }
 
-		public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount)
-			where S : struct
-		{
-			//TODO: check offsetInBytes parameter for bounds etc.
+        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data, int startIndex, int elementCount) where S : struct
+        {
+            SetData<S>(graphicsDevice, 0, data, startIndex, elementCount);
+        }
 
-			using (var stream = MapBufferWrite())
-			{
-				if (offsetInBytes > 0)
-					stream.Seek(offsetInBytes, SeekOrigin.Current);
+        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount)
+            where S : struct
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
-				if (startIndex > 0 || elementCount < data.Length)
-					for (int i = startIndex; i < startIndex + elementCount; i++)
-						stream.Write<S>(data[i]);
-				else
-					for (int i = 0; i < data.Length; i++)
-						stream.Write<S>(data[i]);
+            if (startIndex + elementCount > data.Length)
+                throw new ArgumentOutOfRangeException("startIndex must be smaller than elementCount + data.Length.");
 
-				UnmapBuffer();
-			}
-		}
+            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > NativeBuffer.Description.SizeInBytes)
+                throw new ArgumentOutOfRangeException(string.Format("The offset by \"{0}\" plus the byte length described by \"{1}\" is over the bounds of the buffer.", "offsetInBytes", "elementCount"));
 
-		public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount,
-			int vertexStride) where S : struct
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+            using (var stream = MapBufferWrite())
+            {
+                if (offsetInBytes > 0)
+                    stream.Seek(offsetInBytes, SeekOrigin.Current);
 
-		#region GetData
-		public void GetData<S>(S[] data) where S : struct
-		{
-			GetData(data, 0, data.Length);
-		}
+                if (startIndex > 0 || elementCount < data.Length)
+                    for (int i = startIndex; i < startIndex + elementCount; i++)
+                        stream.Write<S>(data[i]);
+                else
+                    for (int i = 0; i < data.Length; i++)
+                        stream.Write<S>(data[i]);
 
-		public void GetData<S>(S[] data, int startIndex, int elementCount) where S : struct
-		{
-			GetData(0, data, startIndex, elementCount, vertexStride);
-		}
+                UnmapBuffer();
+            }
+        }
 
-		public void GetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount, int vertexStride)
-			where S : struct
-		{
-            Dx.Buffer stagingBuffer = CreateStagingBuffer(elementCount * vertexStride);
+        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount,
+            int vertexStride) where S : struct
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region GetData
+        public void GetData<S>(S[] data) where S : struct
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            GetData(data, 0, data.Length);
+        }
+
+        public void GetData<S>(S[] data, int startIndex, int elementCount) where S : struct
+        {
+            GetData(0, data, startIndex, elementCount, vertexStride);
+        }
+
+        public void GetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount, int vertexStride)
+            where S : struct
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (startIndex + elementCount > data.Length)
+                throw new ArgumentOutOfRangeException("startIndex must be smaller than elementCount + data.Length.");
+
+            //TODO: Create a staging buffer only with the needed size that correctly handles startIndex and offsetInBytes.
+            Dx.Buffer stagingBuffer = CreateStagingBuffer();
             CopySubresource(NativeBuffer, stagingBuffer);
 
-			using (var stream = MapBufferRead(stagingBuffer))
-			{
-				if (offsetInBytes > 0)
-					stream.Seek(offsetInBytes, SeekOrigin.Current);
+            using (var stream = MapBufferRead(stagingBuffer))
+            {
+                if (offsetInBytes > 0)
+                    stream.Seek(offsetInBytes, SeekOrigin.Current);
 
-				stream.ReadRange(data, startIndex, elementCount);
-				UnmapBuffer(stagingBuffer);
-			}
-		}
-		#endregion
+                stream.ReadRange(data, startIndex, elementCount);
+                UnmapBuffer(stagingBuffer);
+            }
+        }
+        #endregion
 
-		#region Dispose
-		public void Dispose()
-		{
-			if (NativeBuffer != null)
-			{
-				NativeBuffer.Dispose();
-				NativeBuffer = null;
-			}
-		}
-		#endregion
-	}
+        #region Dispose
+        public void Dispose()
+        {
+            if (NativeBuffer != null)
+            {
+                NativeBuffer.Dispose();
+                NativeBuffer = null;
+            }
+        }
+        #endregion
+    }
 }

@@ -70,6 +70,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\BufferHelper.cs">
+      <Link>BufferHelper.cs</Link>
+    </Compile>
     <Compile Include="BlendState_DX11.cs" />
     <Compile Include="Creator.cs" />
     <Compile Include="DepthStencilState_DX11.cs" />
