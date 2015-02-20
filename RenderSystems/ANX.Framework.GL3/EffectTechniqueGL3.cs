@@ -74,7 +74,7 @@ namespace ANX.RenderSystem.GL3
 		private void GetAttributes()
 		{
 			int attributeCount;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes,
+			GL.GetProgram(programHandle, GetProgramParameterName.ActiveAttributes,
 				out attributeCount);
 			activeAttributes = new ShaderAttributeGL3[attributeCount];
 			for (int index = 0; index < attributeCount; index++)

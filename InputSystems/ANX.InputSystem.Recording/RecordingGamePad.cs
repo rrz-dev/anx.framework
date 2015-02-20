@@ -64,7 +64,19 @@ namespace ANX.InputSystem.Recording
 
         public GamePadState GetState(PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            switch (RecordingState)
+            {
+                case Recording.RecordingState.None:
+                    return realGamePad.GetState(playerIndex);
+                case Recording.RecordingState.Playback:
+                    return ReadGamePadState(playerIndex);
+                case Recording.RecordingState.Recording:
+                    var state = realGamePad.GetState(playerIndex);
+                    WriteGamePadState(state, playerIndex);
+                    return state;
+                default:
+                    throw new InvalidOperationException("The recordingState is invalid!");
+            }
         }
 
         public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
@@ -119,6 +131,16 @@ namespace ANX.InputSystem.Recording
         }
 
         private int GetPaketSize(GamePadRecordInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        private GamePadState ReadGamePadState(PlayerIndex playerIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void WriteGamePadState(GamePadState state, PlayerIndex playerIndex)
         {
             throw new NotImplementedException();
         }

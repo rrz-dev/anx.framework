@@ -113,7 +113,7 @@ namespace ANX.RenderSystem.GL3
 			var colorFormat = DatatypesMapping.SurfaceToColorFormat(presentationParameters.BackBufferFormat);
 			graphicsMode = new GraphicsMode(colorFormat, depth, stencil, presentationParameters.MultiSampleCount);
 
-			CreateWindowInfo(presentationParameters.DeviceWindowHandle, graphicsMode.Index.Value);
+			CreateWindowInfo(presentationParameters.DeviceWindowHandle, graphicsMode.Index);
 			
 			nativeContext = new GraphicsContext(graphicsMode, nativeWindowInfo);
 			nativeContext.MakeCurrent(nativeWindowInfo);
@@ -143,12 +143,12 @@ namespace ANX.RenderSystem.GL3
 		#endregion
 
 		#region CreateWindowInfo
-		private void CreateWindowInfo(IntPtr windowHandle, IntPtr graphicsModeHandle)
+		private void CreateWindowInfo(IntPtr windowHandle, IntPtr? graphicsModeHandle)
 		{
 			if (OpenTK.Configuration.RunningOnWindows)
 				nativeWindowInfo = Utilities.CreateWindowsWindowInfo(windowHandle);
 			else if (OpenTK.Configuration.RunningOnX11)
-				nativeWindowInfo = LinuxInterop.CreateX11WindowInfo(windowHandle, graphicsModeHandle);
+				nativeWindowInfo = LinuxInterop.CreateX11WindowInfo(windowHandle, graphicsModeHandle.Value);
 			else if (OpenTK.Configuration.RunningOnMacOS)
 				nativeWindowInfo = Utilities.CreateMacOSCarbonWindowInfo(windowHandle, false, true);
 			else
