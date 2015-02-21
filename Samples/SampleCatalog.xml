@@ -4,7 +4,8 @@
     <Name>KeyboardSample</Name>
     <Description>Shows ANX keyboard input.</Description>
     <ExecPath>KeyboardSample\bin\x86\Debug\KeyboardSample.exe</ExecPath>
-    <Categorie>Input</Categorie>
+    <ProjectPath>KeyboardSample.sln</ProjectPath>
+    <Category>Input</Category>
     <Tags>
       <Tag>Input</Tag>
       <Tag>Keyboard</Tag>
@@ -15,7 +16,8 @@
     <Name>Kinect</Name>
     <Description>This sample allows you to connect with your Kinect and show the raw stream.</Description>
     <ExecPath>Kinect\bin\x86\Debug\Kinect.exe</ExecPath>
-    <Categorie>Input</Categorie>
+    <ProjectPath>Kinect.sln</ProjectPath>
+    <Category>Input</Category>
     <Tags>
       <Tag>Input</Tag>
       <Tag>Kinect</Tag>
@@ -27,7 +29,8 @@
     <Name>ModelSample</Name>
     <Description>A simple sample, which loads and shows a cube model.</Description>
     <ExecPath>ModelSample\ModelSample\bin\x86\Debug\ModelSample.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>ModelSample.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>3D</Tag>
       <Tag>Model</Tag>
@@ -38,7 +41,8 @@
     <Name>MultiRenderTarget</Name>
     <Description>A sample showing ANX capabilities with multiple render targets.</Description>
     <ExecPath>MultiRenderTarget\bin\x86\Debug\MultiRenderTarget.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>MultiRenderTarget.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>2D</Tag>
     </Tags>
@@ -48,7 +52,8 @@
     <Name>Primitives</Name>
     <Description>Sample which shows the rendering of a handcrafted primitive</Description>
     <ExecPath>Primitives\bin\x86\Debug\Primitives.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>Primitives.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>3D</Tag>
     </Tags>
@@ -58,7 +63,8 @@
     <Name>RecordingSample</Name>
     <Description>A  sample showing the internal input recording system.</Description>
     <ExecPath>RecordingSample\bin\x86\Debug\RecordingSample.exe</ExecPath>
-    <Categorie>Input</Categorie>
+    <ProjectPath>RecordingSample.sln</ProjectPath>
+    <Category>Input</Category>
     <Tags>
       <Tag>Input</Tag>
       <Tag>Recording</Tag>
@@ -69,7 +75,8 @@
     <Name>RenderTarget</Name>
     <Description>A sample of the usage of render targets.</Description>
     <ExecPath>RenderTarget\bin\x86\Debug\RenderTarget.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>RenderTarget.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>2D</Tag>
       <Tag>Render target</Tag>
@@ -80,7 +87,8 @@
     <Name>DualTextureSample</Name>
     <Description>A Sample demonstrating the use of a lightmap combined with a normal texture, fog and vertex color by using the built in DualTextureEffect.</Description>
     <ExecPath>DualTextureSample\bin\x86\Debug\DualTextureSample.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>DualTextureSample.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>3D</Tag>
     </Tags>
@@ -90,7 +98,8 @@
     <Name>BasicEffectSample</Name>
     <Description>A Sample demonstrating all possible uses of the BasicEffect class.</Description>
     <ExecPath>BasicEffectSample\bin\x86\Debug\BasicEffectSample.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>BasicEffectSample.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>3D</Tag>
     </Tags>
@@ -100,7 +109,8 @@
     <Name>SpriteSample</Name>
     <Description>A simple sample showing the rendering of a bunch of sprites.</Description>
     <ExecPath>SimpleSprite\bin\x86\Debug\SimpleSprite.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>SimpleSprite.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>2D</Tag>
       <Tag>Sprite</Tag>
@@ -111,7 +121,8 @@
     <Name>StencilBuffer</Name>
     <Description>A simple sample showing the stencil buffer.</Description>
     <ExecPath>StencilBuffer\bin\x86\Debug\StencilBuffer.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>StencilBuffer.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>2D</Tag>
       <Tag>Stencil buffer</Tag>
@@ -122,7 +133,8 @@
     <Name>TextRendering</Name>
     <Description>Renders some text to your screen.</Description>
     <ExecPath>TextRendering\bin\x86\Debug\TextRendering.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+  <ProjectPath>TextRendering.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>2D</Tag>
       <Tag>Text</Tag>
@@ -133,7 +145,8 @@
     <Name>VertexIndexBuffer</Name>
     <Description>Shows the usage of a vertex- and index buffer</Description>
     <ExecPath>VertexIndexBuffer\bin\x86\Debug\VertexIndexBuffer.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>VertexIndexBuffer.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>3D</Tag>
     </Tags>
@@ -143,7 +156,8 @@
     <Name>WindowsFormsEditor</Name>
     <Description>A sample showing ANX in a winform control</Description>
     <ExecPath>WindowsFormsEditor\bin\Debug\WindowsFormsEditor.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>WindowsFormsEditor.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>Forms</Tag>
     </Tags>
@@ -153,7 +167,8 @@
     <Name>WindowsGame</Name>
     <Description>The ANX convert of the XNA WindowsGame</Description>
     <ExecPath>WindowsGame\bin\x86\Debug\WindowsGame1.exe</ExecPath>
-    <Categorie>Game</Categorie>
+    <ProjectPath>WindowsGame.sln</ProjectPath>
+    <Category>Game</Category>
     <Tags>
      
     </Tags>
@@ -163,7 +178,8 @@
     <Name>WpfEditor</Name>
     <Description>A sample showing ANX in a WPF control</Description>
     <ExecPath>WpfEditor\bin\Debug\WpfEditor.exe</ExecPath>
-    <Categorie>Rendering</Categorie>
+    <ProjectPath>WpfEditor.sln</ProjectPath>
+    <Category>Rendering</Category>
     <Tags>
       <Tag>Forms</Tag>
     </Tags>
@@ -173,13 +189,23 @@
 		<Name>AudioSample</Name>
 		<Description>A sample playing a SoundEffect over and over again</Description>
 		<ExecPath>AudioSample\bin\x86\Debug\AudioSample.exe</ExecPath>
-		<Categorie>Rendering</Categorie>
+    <ProjectPath>AudioSample.sln</ProjectPath>
+		<Category>Audio</Category>
 		<Tags>
 			<Tag>Forms</Tag>
 		</Tags>
 	</Sample>
 
-
+  <Sample>
+    <Name>AlphaTestEffectSample</Name>
+    <Description>A sample showing possible usage and configuration of the AlphaTestEffect</Description>
+    <ExecPath>AlphaTestEffectSample\bin\x86\Debug\AlphaTestEffectSample.exe</ExecPath>
+    <ProjectPath>AlphaTestEffectSample.sln</ProjectPath>
+    <Category>Rendering</Category>
+    <Tags>
+      <Tag>Forms</Tag>
+    </Tags>
+  </Sample>
 
 
 

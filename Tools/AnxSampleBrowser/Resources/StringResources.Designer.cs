@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AnxSampleBrowser.Properties {
+namespace AnxSampleBrowser.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace AnxSampleBrowser.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class StringResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal StringResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace AnxSampleBrowser.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AnxSampleBrowser.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AnxSampleBrowser.Resources.StringResources", typeof(StringResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,52 +61,29 @@ namespace AnxSampleBrowser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        ///   Sucht eine lokalisierte Zeichenfolge, die all ähnelt.
         /// </summary>
-        internal static System.Drawing.Bitmap ANX_Framework_Logo_120x32 {
+        internal static string All {
             get {
-                object obj = ResourceManager.GetObject("ANX.Framework.Logo_120x32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("All", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Category ähnelt.
         /// </summary>
-        internal static System.Drawing.Bitmap ANX_Icon_100x100 {
+        internal static string Category {
             get {
-                object obj = ResourceManager.GetObject("ANX.Icon_100x100", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Category", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
         /// </summary>
-        internal static System.Drawing.Bitmap appbar_arrow_left {
+        internal static string Name {
             get {
-                object obj = ResourceManager.GetObject("appbar.arrow.left", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap appbar_arrow_right {
-            get {
-                object obj = ResourceManager.GetObject("appbar.arrow.right", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap magnifying_glass {
-            get {
-                object obj = ResourceManager.GetObject("magnifying_glass", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
     }

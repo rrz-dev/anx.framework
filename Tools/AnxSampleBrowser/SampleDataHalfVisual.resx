@@ -117,4 +117,175 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;_rDescription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_lName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;_bOpen.Name" xml:space="preserve">
+    <value>_bOpen</value>
+  </data>
+  <data name="&gt;&gt;_lName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bOpen.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_lName.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_pImage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="_rDescription.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe WP, 12pt</value>
+  </data>
+  <data name="&gt;&gt;_bLaunch.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="_rDescription.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="_bLaunch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 30</value>
+  </data>
+  <data name="&gt;&gt;_pImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bLaunch.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SampleDataHalfVisual</value>
+  </data>
+  <data name="_lName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe WP, 15.75pt</value>
+  </data>
+  <data name="_lName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 10</value>
+  </data>
+  <data name="_lName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_bLaunch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_rDescription.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 130</value>
+  </data>
+  <data name="&gt;&gt;_rDescription.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_bLaunch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_bOpen.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe WP, 10pt, style=Bold</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_pImage.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Stretch</value>
+  </data>
+  <data name="&gt;&gt;_rDescription.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_bOpen.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_lName.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;_bOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_bOpen.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 178</value>
+  </data>
+  <data name="&gt;&gt;_lName.Name" xml:space="preserve">
+    <value>_lName</value>
+  </data>
+  <data name="_pImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 10</value>
+  </data>
+  <data name="_bLaunch.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="_pImage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="_bOpen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 103</value>
+  </data>
+  <data name="_lName.Text" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;_pImage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_rDescription.Name" xml:space="preserve">
+    <value>_rDescription</value>
+  </data>
+  <data name="_bOpen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="_pImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 90</value>
+  </data>
+  <data name="_bLaunch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 139</value>
+  </data>
+  <data name="_rDescription.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_rDescription.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 39</value>
+  </data>
+  <data name="_bOpen.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="_bOpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 30</value>
+  </data>
+  <data name="_bLaunch.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe WP, 10pt, style=Bold</value>
+  </data>
+  <data name="_bLaunch.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="&gt;&gt;_bLaunch.Name" xml:space="preserve">
+    <value>_bLaunch</value>
+  </data>
+  <data name="_bOpen.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="_lName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 30</value>
+  </data>
+  <data name="&gt;&gt;_pImage.Name" xml:space="preserve">
+    <value>_pImage</value>
+  </data>
+  <data name="_bOpen.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="_bLaunch.Text" xml:space="preserve">
+    <value>Launch</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>de</value>
+  </metadata>
 </root>

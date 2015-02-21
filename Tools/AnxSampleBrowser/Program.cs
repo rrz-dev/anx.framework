@@ -16,7 +16,10 @@ namespace AnxSampleBrowser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AnxSampleBrowser());
+
+            var window = new AnxSampleBrowser();
+            if (!window.IsDisposed)
+                Application.Run(window);
         }
     }
 

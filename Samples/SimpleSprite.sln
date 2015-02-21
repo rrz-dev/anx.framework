@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContent", "SampleContent\SampleContent.contentproj", "{FA6E229D-4504-47B1-8A23-2D3FCC13F778}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSprite", "SimpleSprite\SimpleSprite.csproj", "{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		DebugWin8|Any CPU = DebugWin8|Any CPU
+		DebugWin8|Mixed Platforms = DebugWin8|Mixed Platforms
+		DebugWin8|x86 = DebugWin8|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+		ReleaseWin8|Any CPU = ReleaseWin8|Any CPU
+		ReleaseWin8|Mixed Platforms = ReleaseWin8|Mixed Platforms
+		ReleaseWin8|x86 = ReleaseWin8|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.DebugWin8|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.DebugWin8|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.DebugWin8|x86.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.Release|x86.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.ReleaseWin8|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.ReleaseWin8|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA6E229D-4504-47B1-8A23-2D3FCC13F778}.ReleaseWin8|x86.ActiveCfg = Debug|Any CPU
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Debug|x86.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Debug|x86.Build.0 = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.DebugWin8|Any CPU.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.DebugWin8|Mixed Platforms.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.DebugWin8|Mixed Platforms.Build.0 = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.DebugWin8|x86.ActiveCfg = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.DebugWin8|x86.Build.0 = Debug|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Release|Any CPU.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Release|x86.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.Release|x86.Build.0 = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.ReleaseWin8|Any CPU.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.ReleaseWin8|Mixed Platforms.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.ReleaseWin8|Mixed Platforms.Build.0 = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.ReleaseWin8|x86.ActiveCfg = Release|x86
+		{AAA20E99-A897-4C91-A23E-D02B8F08ACA5}.ReleaseWin8|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
