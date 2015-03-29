@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="WindowsGame" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="c0e772a2-ced8-4438-8033-fc3c85f4d825" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>WindowsGame</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

@@ -53,10 +53,6 @@
       <Project>{49066074-3b7b-4a55-b122-6bd33ab73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RenderSystems\ANX.Framework.GL3\ANX.RenderSystem.GL3_Linux.csproj">
-      <Project>{eb8258e0-6741-4db9-b756-1ebdf67b1ed6}</Project>
-      <Name>ANX.RenderSystem.GL3</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Null\ANX.SoundSystem.Null_Linux.csproj">
       <Project>{c4ddffff-595e-4089-b499-06f68caf2566}</Project>
       <Name>ANX.SoundSystem.Null</Name>

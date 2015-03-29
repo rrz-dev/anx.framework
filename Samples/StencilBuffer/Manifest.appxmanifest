@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="StencilBuffer" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="b7d3b593-9860-4236-bd42-5f7396a637f2" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>StencilBuffer</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

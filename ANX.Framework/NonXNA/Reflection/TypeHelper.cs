@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -126,8 +127,8 @@ namespace ANX.Framework.NonXNA.Reflection
 		}
 		#endregion
 
-		#region IsValueType
-		public static bool IsValueType(Type type)
+        #region IsValueType
+        public static bool IsValueType(Type type)
 		{
 #if WINDOWSMETRO
 			return type.GetTypeInfo().IsValueType;
@@ -165,5 +166,15 @@ namespace ANX.Framework.NonXNA.Reflection
 			return (T)Activator.CreateInstance(type);
 		}
 		#endregion
-	}
+
+        #region GetCustomAttributes
+        //Windows Metro already has this extension method.
+#if !WINDOWSMETRO
+        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this Assembly assembly)
+        {
+            return assembly.GetCustomAttributes(typeof(TAttribute), true).OfType<TAttribute>();
+        }
+#endif
+        #endregion
+    }
 }

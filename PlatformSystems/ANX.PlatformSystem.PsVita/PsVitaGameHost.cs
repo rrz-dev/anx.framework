@@ -28,7 +28,7 @@ namespace ANX.PlatformSystem.PsVita
 
 		#region Constructor
 		public PsVitaGameHost(Game setGame)
-			: base(setGame)
+			: base()
 		{
 			isQuitting = false;
 			game = setGame;

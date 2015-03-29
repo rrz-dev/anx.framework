@@ -13,73 +13,76 @@ using System.Collections.Generic;
 
 namespace ANX.PlatformSystem.Metro
 {
-	public class MetroPlatformSystem : IPlatformSystem
-	{
-		#region Constructor
-		public MetroPlatformSystem()
-		{
-		}
-		#endregion
+    public class MetroPlatformSystem : IPlatformSystem
+    {
+        #region Constructor
+        public MetroPlatformSystem()
+        {
+        }
+        #endregion
 
-		#region CreateGameHost
-		public GameHost CreateGameHost(Game game)
-		{
-			Logger.Info("creating Windows GameHost");
-			return new WindowsGameHost(game);
-		}
-		#endregion
+        #region CreateGameHost
+        public GameHost CreateGameHost(Game game)
+        {
+            if (WindowsGameHost.Instance == null)
+            {
+                throw new InvalidOperationException("WindowsGameHost must be created before the game gets run.");
+            }
+            return WindowsGameHost.Instance;
+        }
+        #endregion
 
-		#region CreateStorageDevice
-		public INativeStorageDevice CreateStorageDevice(StorageDevice device,
-			PlayerIndex player, int sizeInBytes, int directoryCount)
-		{
-			return new MetroStorageDevice();
-		}
-		#endregion
+        #region CreateStorageDevice
+        public INativeStorageDevice CreateStorageDevice(StorageDevice device,
+            PlayerIndex player, int sizeInBytes, int directoryCount)
+        {
+            return new MetroStorageDevice();
+        }
+        #endregion
 
-		#region CreateStorageContainer
-		public INativeStorageContainer CreateStorageContainer(StorageContainer container)
-		{
-			return new MetroStorageContainer();
-		}
-		#endregion
+        #region CreateStorageContainer
+        public INativeStorageContainer CreateStorageContainer(StorageContainer container)
+        {
+            return new MetroStorageContainer();
+        }
+        #endregion
 
-		#region CreateTitleContainer
-		public INativeTitleContainer CreateTitleContainer()
-		{
-			return new MetroTitleContainer();
-		}
-		#endregion
+        #region CreateTitleContainer
+        public INativeTitleContainer CreateTitleContainer()
+        {
+            return new MetroTitleContainer();
+        }
+        #endregion
 
-		#region CreateGameTimer
-		public INativeGameTimer CreateGameTimer()
-		{
-			return new MetroGameTimer();
-		}
-		#endregion
+        #region CreateGameTimer
+        public INativeGameTimer CreateGameTimer()
+        {
+            return new MetroGameTimer();
+        }
+        #endregion
 
-		#region CreateContentManager
-		public INativeContentManager CreateContentManager()
-		{
-			return new MetroContentManager();
-		}
-		#endregion
+        #region CreateContentManager
+        public INativeContentManager CreateContentManager()
+        {
+            return new MetroContentManager();
+        }
+        #endregion
 
-		#region IPlatformSystemCreator Member
-		public Stream OpenReadFilestream(string filepath)
-		{
-			throw new NotImplementedException();
-		}
+        #region IPlatformSystemCreator Member
+        public Stream OpenReadFilestream(string filepath)
+        {
+            throw new NotImplementedException();
+        }
 
         public INativeMediaLibrary CreateMediaLibrary()
-		{
-			throw new NotImplementedException();
-		}
+        {
+            throw new NotImplementedException();
+        }
 
-		public IList<MediaSource> GetAvailableMediaSources()
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-	}
+        public IList<MediaSource> GetAvailableMediaSources()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
 }

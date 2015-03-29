@@ -122,8 +122,8 @@ namespace ANX.InputDevices.Windows.ModernUI
 
             var vib = new Vibration()
             {
-                LeftMotorSpeed = (short)(Math.Min(Math.Abs(leftMotor), 1f) * short.MaxValue),
-                RightMotorSpeed = (short)(Math.Min(Math.Abs(rightMotor), 1f) * short.MaxValue),
+                LeftMotorSpeed = (ushort)(Math.Min(Math.Abs(leftMotor), 1f) * ushort.MaxValue),
+                RightMotorSpeed = (ushort)(Math.Min(Math.Abs(rightMotor), 1f) * ushort.MaxValue),
             };
             controller[(int)playerIndex].SetVibration(vib);
 

@@ -3,6 +3,7 @@ using ANX.Framework;
 using ANX.Framework.Graphics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using PrimitiveType = ANX.Framework.Graphics.PrimitiveType;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

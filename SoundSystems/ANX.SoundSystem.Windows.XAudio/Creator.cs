@@ -13,7 +13,7 @@ using SharpDX.XAudio2;
 
 namespace ANX.SoundSystem.Windows.XAudio
 {
-	public class Creator : ISoundSystemCreator
+	public class Creator : ISoundSystemCreator, IDisposable
     {
 	    private float distanceScale;
 	    private float dopplerScale;
@@ -86,7 +86,7 @@ namespace ANX.SoundSystem.Windows.XAudio
             speedOfSound = 343.5f;
         }
 
-	    ~Creator()
+        public void Dispose()
         {
             if (MasteringVoice != null)
             {

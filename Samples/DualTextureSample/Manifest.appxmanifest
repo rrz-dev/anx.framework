@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="DualTextureSample" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="b0ef76e4-94ee-44a8-8a29-711e66009be7" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>DualTextureSample</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

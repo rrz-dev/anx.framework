@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using ANX.Framework.NonXNA;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -27,3 +28,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.2.8.*")]
 [assembly: AssemblyFileVersion("0.2.8.0")]
 [assembly: GuidAttribute("855A261E-DB66-4CB2-97F3-34BC9DA4DAA1")]
+
+[assembly: SupportedPlatforms(PlatformName.Windows8ModernUI)]

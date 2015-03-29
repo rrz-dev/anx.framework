@@ -8,68 +8,77 @@ using Windows.ApplicationModel.Core;
 
 namespace ANX.PlatformSystem.Metro
 {
-	public class WindowsGameHost : GameHost, IFrameworkViewSource
-	{
-		public static WindowsGameHost Instance
-		{
-			get;
-			private set;
-		}
+    public class WindowsGameHost : GameHost, IFrameworkViewSource
+    {
+        private Game game;
+        private Func<Game> gameCreationHandler;
 
-		#region Private
-		private Game game;
-		private WindowsGameWindow gameWindow;
-		internal bool ExitRequested
-		{
-			get;
-			private set;
-		}
-		#endregion
+        public static WindowsGameHost Instance
+        {
+            get;
+            private set;
+        }
 
-		#region Public
-		public override GameWindow Window
-		{
-			get
-			{
-				return gameWindow;
-			}
-		}
-		#endregion
+        public Game Game
+        {
+            get { return game; }
+        }
 
-		#region Constructor
-		public WindowsGameHost(Game setGame)
-			: base(setGame)
-		{
-			Instance = this;
-			game = setGame;
-			gameWindow = new WindowsGameWindow(this);
-		}
-		#endregion
+        #region Private
+        private WindowsGameWindow gameWindow;
+        internal bool ExitRequested
+        {
+            get;
+            private set;
+        }
+        #endregion
 
-		#region Run
-		public override void Run()
-		{
-			CoreApplication.Run(this);
-		}
-		#endregion
+        #region Public
+        public override GameWindow Window
+        {
+            get
+            {
+                return gameWindow;
+            }
+        }
+        #endregion
 
-		internal void InvokeOnIdle()
-		{
-			OnIdle();
-		}
+        #region Constructor
+        public WindowsGameHost(Func<Game> gameCreationHandler)
+            : base()
+        {
+            if (gameCreationHandler == null)
+                throw new ArgumentNullException("gameCreationHandler");
 
-		#region Exit
-		public override void Exit()
-		{
-			ExitRequested = true;
-		}
-		#endregion
+            this.gameCreationHandler = gameCreationHandler;
+            Instance = this;
+            gameWindow = new WindowsGameWindow(this);
+        }
+        #endregion
 
-		#region CreateView
-		public IFrameworkView CreateView()
-		{
-			return gameWindow;
-		}
-		#endregion
-	}
+        #region Run
+        public override void Run()
+        {
+            gameWindow.MessageLoop();
+        }
+        #endregion
+
+        internal void InvokeOnIdle()
+        {
+            OnIdle();
+        }
+
+        #region Exit
+        public override void Exit()
+        {
+            ExitRequested = true;
+        }
+        #endregion
+
+        public IFrameworkView CreateView()
+        {
+            this.game = this.gameCreationHandler();
+            return gameWindow;
+        }
+    }
 }

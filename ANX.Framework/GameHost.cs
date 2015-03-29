@@ -13,48 +13,48 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
-	public abstract class GameHost
-	{
-		internal event EventHandler<EventArgs> Activated;
-		internal event EventHandler<EventArgs> Deactivated;
-		internal event EventHandler<EventArgs> Exiting;
-		internal event EventHandler<EventArgs> Idle;
-		internal event EventHandler<EventArgs> Resume;
-		internal event EventHandler<EventArgs> Suspend;
+    public abstract class GameHost
+    {
+        internal event EventHandler<EventArgs> Activated;
+        internal event EventHandler<EventArgs> Deactivated;
+        internal event EventHandler<EventArgs> Exiting;
+        internal event EventHandler<EventArgs> Idle;
+        internal event EventHandler<EventArgs> Resume;
+        internal event EventHandler<EventArgs> Suspend;
 
-		public abstract GameWindow Window { get; }
+        public abstract GameWindow Window { get; }
 
-		public GameHost(Game game)
-		{
-		}
+        public GameHost()
+        {
+        }
 
-		public abstract void Run();
-		public abstract void Exit();
+        public abstract void Run();
+        public abstract void Exit();
 
-		protected void OnActivated()
-		{
-			InvokeIfNotNull(this.Activated);
-		}
+        protected void OnActivated()
+        {
+            InvokeIfNotNull(this.Activated);
+        }
 
-		protected void OnDeactivated()
-		{
-			InvokeIfNotNull(this.Deactivated);
-		}
+        protected void OnDeactivated()
+        {
+            InvokeIfNotNull(this.Deactivated);
+        }
 
-		protected void OnIdle()
-		{
-			InvokeIfNotNull(this.Idle);
-		}
+        protected void OnIdle()
+        {
+            InvokeIfNotNull(this.Idle);
+        }
 
-		protected void OnExiting()
-		{
-			InvokeIfNotNull(this.Exiting);
-		}
+        protected void OnExiting()
+        {
+            InvokeIfNotNull(this.Exiting);
+        }
 
-		private void InvokeIfNotNull(EventHandler<EventArgs> eventHandler)
-		{
-			if (eventHandler != null)
-				eventHandler(this, EventArgs.Empty);
-		}
-	}
+        private void InvokeIfNotNull(EventHandler<EventArgs> eventHandler)
+        {
+            if (eventHandler != null)
+                eventHandler(this, EventArgs.Empty);
+        }
+    }
 }

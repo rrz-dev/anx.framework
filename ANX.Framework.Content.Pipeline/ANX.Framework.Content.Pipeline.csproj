@@ -60,6 +60,7 @@
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="ContentProcessorAttribute.cs" />
     <Compile Include="ContentProcessorContext.cs" />
+    <Compile Include="Helpers\AssemblyHelper.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\CompiledPass.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\MetroCodeGenerator.cs" />
     <Compile Include="Helpers\GL3\ShaderHelper.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Helpers\HLSLParser\Technique.cs" />
     <Compile Include="Helpers\HLSLParser\TypeDef.cs" />
     <Compile Include="Helpers\HLSLParser\Variable.cs" />
+    <Compile Include="Helpers\TypeExtensions.cs" />
     <Compile Include="Importer\EffectImporter.cs" />
     <Compile Include="ExternalReference.cs" />
     <Compile Include="Importer\FbxImporter.cs" />

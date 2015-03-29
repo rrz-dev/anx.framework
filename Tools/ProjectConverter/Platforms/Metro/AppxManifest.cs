@@ -46,7 +46,7 @@ namespace ProjectConverter.Platforms.Metro
 			File.WriteAllText(filepath,
 					@"<?xml version=""1.0"" encoding=""utf-8""?>
 <Package xmlns=""http://schemas.microsoft.com/appx/2010/manifest"">
-  <Identity Name=""" + projectName + @""" Publisher=""CN=ANX-Team"" Version=""1.0.0.0"" />
+  <Identity Name=""" + Guid.NewGuid().ToString() + @""" Publisher=""CN=ANX-Team"" Version=""1.0.0.0"" />
   <Properties>
     <DisplayName>" + projectName + @"</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

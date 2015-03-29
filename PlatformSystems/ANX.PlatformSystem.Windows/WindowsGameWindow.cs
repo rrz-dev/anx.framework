@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using ANX.Framework;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -20,11 +21,11 @@ namespace ANX.PlatformSystem.Windows
 		#endregion
 
 		#region Handle
-		public override IntPtr Handle
+		public override WindowHandle Handle
 		{
 			get
 			{
-				return Form.Handle;
+				return new WindowHandle(Form.Handle);
 			}
 		}
 		#endregion

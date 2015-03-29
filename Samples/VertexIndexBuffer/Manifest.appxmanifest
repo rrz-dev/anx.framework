@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="VertexIndexBuffer" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="64b0b5f0-2e1d-4d13-becf-8e8ec9a93ba6" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>VertexIndexBuffer</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

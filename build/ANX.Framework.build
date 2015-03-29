@@ -1,4 +1,4 @@
-<project name="ANX.Framework Build" default="build" basedir="./">
+<project xmlns="http://nant.sf.net/release/0.91/nant.xsd" name="ANX.Framework Build" default="build" basedir="./">
   <property name="build.platform" value="Any CPU" />
   <property name="build.solution_dir" value="../" />
 
@@ -55,6 +55,10 @@
     <property name="project.anx.build_env" value="VS2012" />
   </target>
 
+  <target name="VS2013">
+    <property name="project.anx.build_env" value="VS2013" />
+  </target>
+
   <target name="windows">
     <property name="project.anx.windows" value="true" />
     <property name="project.anx.platform" value="Windows" />
@@ -63,6 +67,8 @@
   <target name="linux">
     <property name="project.anx.linux" value="true" />
     <property name="project.anx.platform" value="Linux" />
+
+    <property name="project.anx.directives" value="${project.anx.directives} LINUX MONO" />
 
     <property name="build.dir.base" value="${build.dir}/${project.anx.platform}" />
 
@@ -121,7 +127,7 @@
     </if>
 
     <echo message="Compiler directives: ${project.anx.directives}" />
-
+    
     <call target="tools" />
     
     <call target="generate_stock_shaders" />
@@ -135,6 +141,8 @@
     <call target="platformsystem" />
 
     <call target="samples" />
+
+    <call target="collect_xsd" />
   </target>
 
   <target name="check_xna" description="checks if the XNA framework is installed" unless="${target::has-executed('check_xna')}">
@@ -232,9 +240,21 @@
 
   <include buildfile="ANX.PlatformSystem.build" />
 
+  <target name="create_linux_package">
+    <call target="build_tools"/>
+    <call target="linux"/>
+    <call target="build"/>
+  </target>
+
+  <target name="create_metro_package">
+    <call target="build_tools"/>
+    <call target="metro"/>
+    <call target="build"/>
+  </target>
+
   <target name="create_msi_packages_ModernUI">
     <call target="build"/>
-   <call target="metro"/>
+    <call target="metro"/>
     <call target="build"/>
     <property name="build.dir" value="${path::get-full-path('../bin')}" />
     <call target="winrt"/>
@@ -447,41 +467,62 @@
 
   </target>
 
+  <target name="collect_xsd" description="Collect all XSD files and prepare them to be installed with msi">
+    <foreach item="File" property="xsd_file">
+      <in>
+        <items basedir="../">
+          <include name="ANX.Framework/**/*.xsd"/>
+          <include name="ANX.Framework.Content.Pipeline/**/*.xsd"/>
+        </items>
+      </in>
+      <do>
+        <echo message="copying xsd file: ${xsd_file}"/>
+
+        <copy file="${xsd_file}" todir="../bin/${build.configuration}/schemas/"></copy>
+      </do>
+    </foreach>
+  </target>
+
   <target name="create_msi_packages" description="Create the installer package" depends="build">
     <loadfile file="${project.anx.path}/Properties/AssemblyInfo.cs" property="assembly_version_file" />
     <regex pattern="AssemblyVersion\(.(?'assembly_version'\d+\.\d+.\d+)" input="${assembly_version_file}" />
     <property name="build.output.installer_package" value="../package/${project.anx.name}-${build.configuration}-${assembly_version}.msi"/>
 
-    <property name="wix.dir" value="${path::combine(environment::get-variable('WIX'), 'bin')}" readonly="true" />
-    <loadtasks assembly="${wix.dir}\Microsoft.Tools.WindowsInstallerXml.NAntTasks.dll" />
-    
-    <candle out="${build.dir}/${build.configuration}/installer/" 
-            exedir="${wix.dir}" 
-      extensions="WixUIExtension;WiXUtilExtension;WixVSExtension">
-      <sources>
-        <include name="../Installer/anx.wxs" />
-      </sources>
-      <defines>
-        <define name="PRODUCTVERSION" value="${assembly_version}" />
-      </defines>
-    </candle>
+    <property name="wix.dir" value="${path::combine(environment::get-variable('WIX'), 'bin/')}" readonly="true" />
 
-    <light
-      exedir="${wix.dir}"
-      out="${build.output.installer_package}"
-      warningsaserrors="true"
-      suppressices="ICE57"
-      cultures="en-us"
-      extensions="WixUIExtension;WiXUtilExtension;WixVSExtension"
-      rebuild="true"
-      suppresspdb="true">
-      <!-- Specify additional options -->
-      <arg line="-fv" />
-      <sources basedir="${build.dir}/${build.configuration}/installer/">
-        <include name="*.wixobj" />
-      </sources>
-    </light>
+    <exec program="${wix.dir}candle.exe">
+      <arg value="../Installer/anx.wxs"></arg>
+      <arg value="-dPRODUCTVERSION=${assembly_version}"></arg>
+      <arg value="-ext"></arg> <!-- extensions="WixUIExtension;WiXUtilExtension;WixVSExtension" -->
+      <arg value="WixUIExtension"></arg>
+      <arg value="-ext"></arg>
+      <arg value="WiXUtilExtension"></arg>
+      <arg value="-ext"></arg>
+      <arg value="WixVSExtension"></arg>
+      <arg value="-out"></arg>
+      <arg value="${build.dir}/${build.configuration}/installer/"></arg>
+      <arg value="-nologo"></arg>
+    </exec>
 
+    <exec program="${wix.dir}light.exe">
+      <arg value="-out"></arg> <!-- out="${build.output.installer_package}" -->
+      <arg value="${build.output.installer_package}"></arg>
+      <arg value="-wx"></arg> <!-- warningsaserrors="true" -->
+      <arg value="-sice:ICE57"></arg> <!-- suppressices="ICE57" -->
+      <arg value="-cultures:en-us"></arg> <!-- cultures="en-us" -->
+      <arg value="-ext"></arg> <!-- extensions="WixUIExtension;WiXUtilExtension;WixVSExtension" -->
+      <arg value="WixUIExtension"></arg>
+      <arg value="-ext"></arg>
+      <arg value="WiXUtilExtension"></arg>
+      <arg value="-ext"></arg>
+      <arg value="WixVSExtension"></arg>
+      
+      <arg value="-spdb"></arg> <!-- suppresspdb="true"> -->
+
+      <arg value="-fv"></arg> <!-- adds file version to the assembly name table -->
+      <arg value="${build.dir}/${build.configuration}/installer/*.wixobj"></arg>
+      <arg value="-nologo"></arg>
+    </exec>
   </target>
 
   <target name="generate_project_files" depends="build_tools">
@@ -496,7 +537,7 @@
       <exclude name="**/*_Linux.csproj" />
       <exclude name="**/*_PSVita.csproj" />
       <exclude name="**/*_WindowsMetro.csproj" />
-  </fileset>
+    </fileset>
 
     <foreach item="File" property="projectFile">
       <in>
@@ -510,6 +551,8 @@
           <arg value="/linux" if="${project.anx.linux}" />
           <arg value="/psvita" if="${project.anx.psvita}" />
           <arg value="/windowsmetro" if="${project.anx.metro}" />
+          <arg value="/ProjectReferences" />
+          <arg value="/FrameworkPath=../.." />
         </exec>
       </do>
     </foreach>

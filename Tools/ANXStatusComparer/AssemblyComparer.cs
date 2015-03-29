@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ANXStatusComparer.Data;
+using ANXStatusComparer.Excludes;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -20,6 +21,7 @@ namespace ANXStatusComparer
 		/// </summary>
 		private static AssembliesData xnaAssemblies;
 		private static AssembliesData anxAssemblies;
+        private static IEnumerable<Exclude> excludes;
 		private static ResultData result;
 		#endregion
 
@@ -32,10 +34,12 @@ namespace ANXStatusComparer
 		/// <param name="checkType">The type of check to do.</param>
 		/// <returns>Generated result data.</returns>
 		public static ResultData Compare(AssembliesData setXnaAssemblies,
-			AssembliesData setAnxAssemblies, CheckType checkType)
+			AssembliesData setAnxAssemblies, CheckType checkType,
+            IEnumerable<Exclude> setExcludes)
 		{
 			xnaAssemblies = setXnaAssemblies;
 			anxAssemblies = setAnxAssemblies;
+            excludes = setExcludes;
 
 			result = new ResultData();
 
@@ -157,7 +161,7 @@ namespace ANXStatusComparer
 				AnxObject = anxInterface,
 			};
 			// Everything is present, so we do the in-depth checks.
-			if (xnaInterface.IsCorrect(anxInterface, pair) == false)
+			if (xnaInterface.IsCorrect(anxInterface, excludes, pair) == false)
 			{
 				result.WrongInterfaces.Add(pair);
 			}
@@ -213,7 +217,7 @@ namespace ANXStatusComparer
 				AnxObject = anxClass,
 			};
 			// Everything is present, so we do the in-depth checks.
-			if (xnaClass.IsCorrect(anxClass, pair) == false)
+			if (xnaClass.IsCorrect(anxClass, excludes, pair) == false)
 			{
 				result.WrongClasses.Add(pair);
 			}
@@ -270,7 +274,7 @@ namespace ANXStatusComparer
 				AnxObject = anxStruct,
 			};
 			// Everything is present, so we do the in-depth checks.
-			if (xnaStruct.IsCorrect(anxStruct, pair) == false)
+			if (xnaStruct.IsCorrect(anxStruct, excludes, pair) == false)
 			{
 				result.WrongStructs.Add(pair);
 			}

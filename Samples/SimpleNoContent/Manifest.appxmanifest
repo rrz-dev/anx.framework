@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="SimpleNoContent" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="0c1548e0-c9c0-4b1a-9141-d3422e79f17a" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>SimpleNoContent</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

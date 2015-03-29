@@ -32,17 +32,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj">
-      <Project>{ECBF60CB-1CF0-4F92-8963-E73115B04B43}</Project>
-      <Name>ANX.Framework.ContentPipeline.Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Effects\MiniTri.fx">
       <Name>MiniTri</Name>
       <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
-      <ProcessorParameters_OutputFormat>DX10_HLSL</ProcessorParameters_OutputFormat>
+      <Processor>DX10_EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -100,7 +93,7 @@
     <Compile Include="Effects\HardwareInstancing.fx">
       <Name>HardwareInstancing</Name>
       <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
+      <Processor>DX10_EffectProcessor</Processor>
       <ProcessorParameters_OutputFormat>DX10_HLSL</ProcessorParameters_OutputFormat>
     </Compile>
   </ItemGroup>
@@ -115,7 +108,7 @@
     <Compile Include="Effects\MRT.fx">
       <Name>MRT</Name>
       <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
+      <Processor>DX10_EffectProcessor</Processor>
       <ProcessorParameters_OutputFormat>DX10_HLSL</ProcessorParameters_OutputFormat>
     </Compile>
   </ItemGroup>
@@ -123,7 +116,7 @@
     <Compile Include="Effects\SimpleEffect.fx">
       <Name>SimpleEffect</Name>
       <Importer>EffectImporter</Importer>
-      <Processor>AnxEffectProcessor</Processor>
+      <Processor>DX10_EffectProcessor</Processor>
       <ProcessorParameters_OutputFormat>DX10_HLSL</ProcessorParameters_OutputFormat>
     </Compile>
   </ItemGroup>
@@ -182,6 +175,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj">
+      <Project>{ecbf60cb-1cf0-4f92-8963-e73115b04b43}</Project>
+      <Name>ANX.Framework.ContentPipeline.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

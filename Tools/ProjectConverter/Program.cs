@@ -14,30 +14,48 @@ using ProjectConverter.Platforms;
 
 namespace ProjectConverter
 {
-	static class Program
-	{
-		public static readonly Converter[] Converters = new Converter[]
-		{
-			new LinuxConverter(),
-			new MetroConverter(),
-			new PsVitaConverter(),
-            new AnxConverter(),
-            new XnaConverter(),
-            new XnaContentProjectConverter(),
-            new AnxContentProjectConverter(),
-		};
+    static class Program
+    {
+        public static Converter[] Converters;
+
+        public static IEnumerable<string> Switches
+        {
+            get
+            {
+                return switches;
+            }
+        }
+
+        public static IEnumerable<KeyValuePair<string, string>> KeyValueParameters
+        {
+            get
+            {
+                return keyValueParameters;
+            }
+        }
 
         private static readonly List<string> switches = new List<string>();
         private static readonly Dictionary<string, string> keyValueParameters = new Dictionary<string, string>();
         private static readonly List<string> files = new List<string>();
 
-		[STAThread]
-		static void Main(string[] args)
-		{
+        [STAThread]
+        static void Main(string[] args)
+        {
+            Converters = new Converter[]
+            {
+                new LinuxConverter(),
+                new MetroConverter(),
+                new PsVitaConverter(),
+                new AnxConverter(),
+                new XnaConverter(),
+                new XnaContentProjectConverter(),
+                new AnxContentProjectConverter(),
+            };
+
             //
             // To restore "old" behaviour use:
             //   ProjectConverter /linux /psvita /windowsmetro ../../ANX.Framework.sln
-			//
+            //
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
 
@@ -51,11 +69,12 @@ namespace ProjectConverter
                 return;
             }
 
-			foreach (string arg in args)
-			{
+            foreach (string arg in args)
+            {
                 string larg = arg.Trim();
-				if (larg.StartsWith("/") || larg.StartsWith("-"))
-				{
+                if (larg.StartsWith("/") || larg.StartsWith("-"))
+                {
+                    larg = larg.Substring(1);
                     if (larg.Contains("="))
                     {
                         string[] parts = larg.Split('=');
@@ -63,14 +82,14 @@ namespace ProjectConverter
                     }
                     else
                     {
-                        switches.Add(larg.Substring(1).Trim().ToLowerInvariant());
+                        switches.Add(larg.Trim().ToLowerInvariant());
                     }
-				}
+                }
                 else if (File.Exists(larg))
                 {
                     files.Add(larg);
                 }
-			}
+            }
 
             foreach (string file in files)
             {
@@ -97,13 +116,13 @@ namespace ProjectConverter
                     }
                 }
             }
-		}
+        }
 
         private static string TryGetDestinationPath()
         {
             foreach (KeyValuePair<string, string> kvp in keyValueParameters)
             {
-                if (string.Equals(kvp.Key, "/O", StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(kvp.Key, "O", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return Path.GetDirectoryName(kvp.Value);
                 }
@@ -111,5 +130,5 @@ namespace ProjectConverter
 
             return string.Empty;
         }
-	}
+    }
 }

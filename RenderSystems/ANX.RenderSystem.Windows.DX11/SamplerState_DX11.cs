@@ -101,7 +101,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			if (isDirty || nativeState == null)
             {
 				Dispose();
-                nativeState = new Dx11.SamplerState(device, ref description);
+                nativeState = new Dx11.SamplerState(device, description);
                 isDirty = false;
             }
         }

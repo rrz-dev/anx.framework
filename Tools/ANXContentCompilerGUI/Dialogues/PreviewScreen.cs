@@ -57,7 +57,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                     BackBufferWidth = drawSurface.Width,
                     BackBufferHeight = drawSurface.Height,
                     BackBufferFormat = SurfaceFormat.Color,
-                    DeviceWindowHandle = drawSurface.Handle,
+                    DeviceWindowHandle = new Framework.NonXNA.WindowHandle(drawSurface.Handle),
                     PresentationInterval = PresentInterval.Default,
                 });
             _services = new GameServiceContainer();

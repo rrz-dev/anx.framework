@@ -1,0 +1,9 @@
+bin
+/TestResults
+obj
+*.user
+/ANX.Framework_VS2013.sln.ide
+*.suo
+*.cachefile
+/packages/**
+/package

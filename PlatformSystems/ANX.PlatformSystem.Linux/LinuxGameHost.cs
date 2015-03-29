@@ -28,7 +28,7 @@ namespace ANX.PlatformSystem.Linux
 
 		#region Constructor
 		public LinuxGameHost(Game setGame)
-			: base(setGame)
+			: base()
 		{
 			isQuitting = false;
 			game = setGame;

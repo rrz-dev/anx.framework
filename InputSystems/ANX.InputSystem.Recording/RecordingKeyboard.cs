@@ -25,14 +25,14 @@ namespace ANX.InputSystem.Recording
         private Keys[] recordedKeys;
         private byte[] keyBitmasks;
 
-        private IntPtr tmpWindowHandle = IntPtr.Zero;
+        private WindowHandle tmpWindowHandle;
 
-        public IntPtr WindowHandle
+        public WindowHandle WindowHandle
         {
             get
             {
                 if (!isInitialized)
-                    return IntPtr.Zero;
+                    return new WindowHandle();
                 else
                     return realKeyboard.WindowHandle;
             }
@@ -177,7 +177,7 @@ namespace ANX.InputSystem.Recording
             realKeyboard = keyboard;
             recordedKeys = keys;
 
-            if (tmpWindowHandle != IntPtr.Zero)
+            if (tmpWindowHandle.IsValid)
                 WindowHandle = tmpWindowHandle;
 
             PacketLenght = GetPaketSize(); //8bit per byte

@@ -9,7 +9,7 @@ namespace ANX.Framework.NonXNA
 {
 	public interface IMouse
 	{
-		IntPtr WindowHandle { get; set; }
+		WindowHandle WindowHandle { get; set; }
 		MouseState GetState();
 		void SetPosition(int x, int y);
 	}

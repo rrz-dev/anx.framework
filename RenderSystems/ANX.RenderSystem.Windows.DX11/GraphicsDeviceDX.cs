@@ -435,7 +435,7 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region SetViewport
 		protected void SetViewport(int x, int y, int width, int height, float minDepth, float maxDepth)
 		{
-            nativeDevice.Rasterizer.SetViewports(new SharpDX.Viewport(x, y, width, height, minDepth, maxDepth));
+            nativeDevice.Rasterizer.SetViewport(new SharpDX.Viewport(x, y, width, height, minDepth, maxDepth));
 		}
 
         protected void SetViewport(params SharpDX.ViewportF[] viewports)
@@ -509,7 +509,7 @@ namespace ANX.RenderSystem.Windows.DX11
                 // reset the RenderTarget to backbuffer
                 CreateDepthStencilBuffer(this.depthStencilBuffer.Description.Format, this.backBuffer.Description.Width, this.backBuffer.Description.Height, false);
 				nativeDevice.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-                nativeDevice.Rasterizer.SetViewports(new SharpDX.Viewport(0, 0, this.backBuffer.Description.Width, this.backBuffer.Description.Height));
+                nativeDevice.Rasterizer.SetViewport(new SharpDX.Viewport(0, 0, this.backBuffer.Description.Width, this.backBuffer.Description.Height));
 
                 // dispose the old views
                 for (int i = 0; i < renderTargetView.Length; i++)

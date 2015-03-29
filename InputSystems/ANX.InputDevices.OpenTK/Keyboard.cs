@@ -15,18 +15,10 @@ namespace ANX.InputDevices.OpenTK
 {
     public class Keyboard : IKeyboard
     {
-        private IntPtr windowHandle;
-
-        public IntPtr WindowHandle
+        public WindowHandle WindowHandle
         {
-            get
-            {
-                return this.windowHandle;
-            }
-            set
-            {
-                this.windowHandle = value;
-            }
+            get;
+            set;
         }
 
         public Framework.Input.KeyboardState GetState()

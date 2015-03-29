@@ -9,7 +9,7 @@ namespace ANX.Framework.NonXNA
 {
 	public interface IKeyboard : IDisposable
 	{
-		IntPtr WindowHandle { get; set; }
+		WindowHandle WindowHandle { get; set; }
 		KeyboardState GetState();
 		KeyboardState GetState(PlayerIndex playerIndex);
 	}

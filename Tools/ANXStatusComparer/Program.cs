@@ -55,7 +55,7 @@ namespace ANXStatusComparer
 			AssembliesData anxAssemblies = new AssembliesData(config.AnxAssemblies);
 
 			// Everything before was easy...now comes the main part.
-			ResultData result = AssemblyComparer.Compare(xnaAssemblies, anxAssemblies, CheckType.All);
+			ResultData result = AssemblyComparer.Compare(xnaAssemblies, anxAssemblies, CheckType.All, config.Excludes);
 
 			switch(config.OutputType)
 			{

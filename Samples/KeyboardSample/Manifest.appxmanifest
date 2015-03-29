@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="KeyboardSample" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="7b903554-8eda-4dd3-907f-b576ac86c4fd" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>KeyboardSample</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

@@ -225,9 +225,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeBlendState = null;
 				}
 
-				nativeBlendState = new Dx11.BlendState(
-					NativeDxDevice.Current.NativeDevice,
-					ref blendStateDescription);
+				nativeBlendState = new Dx11.BlendState(NativeDxDevice.Current.NativeDevice, blendStateDescription);
 
 				isDirty = false;
 			}

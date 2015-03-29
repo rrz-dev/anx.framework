@@ -21,7 +21,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		private SwapChainMetro swapChain;
 		private Dx11.Device nativeDevice;
 		private Dx11.DeviceContext nativeContext;
-        private Dx11.Viewport viewport;
+        private SharpDX.ViewportF viewport;
 
 		internal Dx11.Device NativeDevice
 		{
@@ -116,7 +116,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				});
 			}
             
-			viewport = new Dx11.Viewport((float)RenderTargetBounds.X, (float)RenderTargetBounds.Y,
+			viewport = new SharpDX.ViewportF((float)RenderTargetBounds.X, (float)RenderTargetBounds.Y,
 					(float)RenderTargetBounds.Width, (float)RenderTargetBounds.Height, 0.0f, 1.0f);
 
             SetDefaultTargets();
@@ -136,7 +136,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetDefaultTargets
 		public void SetDefaultTargets()
         {
-            nativeContext.Rasterizer.SetViewports(viewport);
+            nativeContext.Rasterizer.SetViewport(viewport);
             nativeContext.OutputMerger.SetTargets(depthStencilView, renderTargetView);
         }
 		#endregion

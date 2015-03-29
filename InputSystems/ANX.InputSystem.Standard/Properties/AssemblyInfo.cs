@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using ANX.Framework.NonXNA;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -34,3 +35,17 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.5.0.0")]
 [assembly: AssemblyFileVersion("0.5.0.0")]
+
+[assembly: SupportedPlatforms(
+    PlatformName.Android,
+    PlatformName.IOS,
+    PlatformName.PSVita,
+    PlatformName.Linux,
+    PlatformName.MacOSX,
+    PlatformName.WindowsXP,
+    PlatformName.WindowsVista,
+    PlatformName.Windows7,
+    PlatformName.Windows8,
+    PlatformName.Windows8ModernUI
+)]
+

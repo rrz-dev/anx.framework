@@ -21,7 +21,7 @@ namespace ANX.InputDevices.Windows.XInput
 		private DInput.DirectInput directInput;
 		private DInput.Mouse mouse;
 
-        public IntPtr WindowHandle { get; set; }
+        public WindowHandle WindowHandle { get; set; }
 
         public Mouse()
         {
@@ -37,7 +37,7 @@ namespace ANX.InputDevices.Windows.XInput
 
 			Point cursorPos = new Point();
 			GetCursorPos(ref cursorPos);
-			if (WindowHandle != IntPtr.Zero)
+			if (WindowHandle.IsValid)
 				ScreenToClient(WindowHandle, ref cursorPos);
 
 			ButtonState left = state.Buttons[0] ? ButtonState.Pressed : ButtonState.Released;
@@ -52,7 +52,7 @@ namespace ANX.InputDevices.Windows.XInput
         public void SetPosition(int x, int y)
         {
             Point currentPosition = new Point(x, y);
-            if (WindowHandle != IntPtr.Zero)
+            if (WindowHandle.IsValid)
 				ClientToScreen(WindowHandle, ref currentPosition);
             SetCursorPos(currentPosition.X, currentPosition.Y);
         }

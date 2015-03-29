@@ -7,17 +7,17 @@ using ANX.Framework.Input.Touch;
 
 namespace ANX.Framework.NonXNA
 {
-	public interface ITouchPanel : IDisposable
-	{
-		GestureType EnabledGestures { get; set; }
-		bool IsGestureAvailable { get; }
-		IntPtr WindowHandle { get; set; }
-		DisplayOrientation DisplayOrientation { get; set; }
-		int DisplayWidth { get; set; }
-		int DisplayHeight { get; set; }
+    public interface ITouchPanel : IDisposable
+    {
+        GestureType EnabledGestures { get; set; }
+        bool IsGestureAvailable { get; }
+        WindowHandle WindowHandle { get; set; }
+        DisplayOrientation DisplayOrientation { get; set; }
+        int DisplayWidth { get; set; }
+        int DisplayHeight { get; set; }
 
-		TouchPanelCapabilities GetCapabilities();
-		GestureSample ReadGesture();
-		TouchCollection GetState();
+        TouchPanelCapabilities GetCapabilities();
+        GestureSample ReadGesture();
+        TouchCollection GetState();
     }
 }

@@ -368,6 +368,8 @@
     <Compile Include="Media\AlbumCollection.cs" />
     <Compile Include="Media\Artist.cs" />
     <Compile Include="Media\ArtistCollection.cs" />
+    <Compile Include="Media\FreezableDisposableCollection.cs" />
+    <Compile Include="Media\FreezableDisposableCollectionSkeleton.cs" />
     <Compile Include="Media\Genre.cs" />
     <Compile Include="Media\GenreCollection.cs" />
     <Compile Include="Media\MediaLibrary.cs" />
@@ -413,9 +415,10 @@
     <Compile Include="Net\SendDataOptions.cs" />
     <Compile Include="Net\WriteLeaderboardsEventArgs.cs" />
     <Compile Include="NonXNA\AddIn.cs" />
+    <Compile Include="NonXNA\AddInCollection.cs" />
     <Compile Include="NonXNA\AddInLoadingException.cs" />
-    <Compile Include="NonXNA\AddInTypeCollection.cs" />
     <Compile Include="NonXNA\AddInType.cs" />
+    <Compile Include="NonXNA\AddInTypeCollection.cs" />
     <Compile Include="NonXNA\Development\DeveloperAttribute.cs" />
     <Compile Include="NonXNA\Development\TestStateAttribute.cs" />
     <Compile Include="NonXNA\Development\PercentageCompleteAttribute.cs" />
@@ -432,16 +435,17 @@
     <Compile Include="NonXNA\InputSystem\IMotionSensingDeviceCreator.cs" />
     <Compile Include="NonXNA\InputSystem\ITouchPanel.cs" />
     <Compile Include="NonXNA\InputSystem\ITouchPanelCreator.cs" />
-    <Compile Include="NonXNA\ISupportedPlatforms.cs" />
     <Compile Include="NonXNA\Logger.cs" />
     <Compile Include="NonXNA\ManifestHelper.cs" />
     <Compile Include="NonXNA\PlatformName.cs" />
+    <Compile Include="NonXNA\PlatformSystem\INativeMediaPlayer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeStorageDevice.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeStorageContainer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeTitleContainer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeGameTimer.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeContentManager.cs" />
     <Compile Include="NonXNA\PlatformSystem\INativeMediaLibrary.cs" />
+    <Compile Include="NonXNA\PlatformSystem\IPlatformSystem.cs" />
     <Compile Include="NonXNA\PlatformSystem\PlatformSystem.cs" />
     <Compile Include="NonXNA\PlatformSystem\PlatformSystemInstanceException.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
@@ -452,12 +456,12 @@
     <Compile Include="NonXNA\SoundSystem\IDynamicSoundEffectInstance.cs" />
     <Compile Include="NonXNA\SoundSystem\IMicrophone.cs" />
     <Compile Include="NonXNA\SoundSystem\ISong.cs" />
+    <Compile Include="NonXNA\SupportedPlatformsAttribute.cs" />
     <Compile Include="NonXNA\ThreadHelper.cs" />
     <Compile Include="NonXNA\Windows8\AssetsHelper.cs" />
     <Compile Include="NonXNA\Windows8\IServiceProvider.cs" />
     <Compile Include="NonXNA\NoInputDeviceException.cs" />
     <Compile Include="NonXNA\OSInformation.cs" />
-    <Compile Include="NonXNA\PlatformSystem\IPlatformSystem.cs" />
     <Compile Include="NonXNA\RenderSystem\EffectProcessorOutputFormat.cs" />
     <Compile Include="NonXNA\ICreator.cs" />
     <Compile Include="NonXNA\InputSystem\IGamePad.cs" />
@@ -494,6 +498,7 @@
     <Compile Include="NonXNA\Windows8\FileMode.cs" />
     <Compile Include="NonXNA\Windows8\FileAccess.cs" />
     <Compile Include="NonXNA\Windows8\FileShare.cs" />
+    <Compile Include="NonXNA\Windows8\MetroLogger.cs" />
     <Compile Include="NonXNA\Windows8\ResourceReader.cs" />
     <Compile Include="NonXNA\Windows8\TaskHelper.cs" />
     <Compile Include="Plane.cs" />
@@ -515,7 +520,6 @@
     <Compile Include="Vector3.cs" />
     <Compile Include="Vector4.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

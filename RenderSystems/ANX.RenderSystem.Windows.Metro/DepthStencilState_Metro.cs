@@ -223,8 +223,7 @@ namespace ANX.RenderSystem.Windows.Metro
 					nativeDepthStencilState = null;
 				}
 
-				nativeDepthStencilState = new Dx11.DepthStencilState(
-					NativeDxDevice.Current.NativeDevice, ref description);
+				nativeDepthStencilState = new Dx11.DepthStencilState( NativeDxDevice.Current.NativeDevice, description);
 
 				isDirty = false;
 			}

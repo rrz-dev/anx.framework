@@ -20,7 +20,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region Private
 		internal EffectTechnique_Metro currentTechnique;
 		private VertexBuffer currentVertexBuffer;
-		private Dx11.Viewport currentViewport;
+		private SharpDX.Viewport currentViewport;
 		private uint lastClearColor;
 		private SharpDX.Color4 clearColor;
 		private bool vSyncEnabled;
@@ -61,7 +61,7 @@ namespace ANX.RenderSystem.Windows.Metro
 			
 			ResizeRenderWindow(presentationParameters);
 
-			currentViewport = new Dx11.Viewport(0, 0,
+			currentViewport = new SharpDX.Viewport(0, 0,
 				presentationParameters.BackBufferWidth,
 				presentationParameters.BackBufferHeight);
 		}
@@ -315,7 +315,7 @@ namespace ANX.RenderSystem.Windows.Metro
 		#region SetViewport
 		public void SetViewport(Viewport viewport)
 		{
-			this.currentViewport = new Dx11.Viewport(viewport.X, viewport.Y,
+			this.currentViewport = new SharpDX.Viewport(viewport.X, viewport.Y,
 				viewport.Width, viewport.Height, viewport.MinDepth, viewport.MaxDepth);
 		}
 		#endregion

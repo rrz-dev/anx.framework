@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using ANX.Framework;
 using ANX.Framework.Graphics;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -28,7 +29,7 @@ namespace WindowsFormsEditor
 					BackBufferWidth = panel1.Width,
 					BackBufferHeight = panel1.Height,
 					BackBufferFormat = SurfaceFormat.Color,
-					DeviceWindowHandle = panel1.Handle,
+					DeviceWindowHandle = new WindowHandle(panel1.Handle),
 					PresentationInterval = PresentInterval.Default,
 				});
 		}

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ANXStatusComparer"
+    targetNamespace="https://anxframework.codeplex.com/ANXStatusComparer.xsd"
+    elementFormDefault="qualified"
+    xmlns="https://anxframework.codeplex.com/ANXStatusComparer.xsd"
+    xmlns:anxsc="https://anxframework.codeplex.com/ANXStatusComparer.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:simpleType name="accessModifier">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="public"/>
+      <xs:enumeration value="protected"/>
+      <xs:enumeration value="private"/>
+      <xs:enumeration value="internal"/>
+      <xs:enumeration value="internalProtected"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="Config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ANXAssemblies">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="Assembly" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="XNAAssemblies">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="Assembly" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Output">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="OutputType"/>
+              <xs:element type="xs:string" name="StylesheetFile"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Excludes" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Method" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="access" type="anxsc:accessModifier"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

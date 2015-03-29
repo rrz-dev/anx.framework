@@ -108,7 +108,7 @@ namespace ANX.Framework
                     throw new InvalidOperationException("Service not found: IGraphicsDeviceService");
                 }
                 this.device.DeviceCreated += OnDeviceCreated;
-                this.device.DeviceReset += new EventHandler<EventArgs>(OnDeviceReset);
+                this.device.DeviceReset += OnDeviceReset;
                 this.device.DeviceDisposing += OnDeviceDisposing;
 
                 if (this.device.GraphicsDevice != null)
@@ -127,6 +127,7 @@ namespace ANX.Framework
                 if (this.device != null)
                 {
                     this.device.DeviceCreated -= OnDeviceCreated;
+                    this.device.DeviceReset -= OnDeviceReset;
                     this.device.DeviceDisposing -= OnDeviceDisposing;
                 }
             }

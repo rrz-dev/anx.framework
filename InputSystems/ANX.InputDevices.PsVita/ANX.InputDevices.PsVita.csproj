@@ -46,7 +46,6 @@
     <Compile Include="TouchPanelCreator.cs" />
     <Compile Include="MouseCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">

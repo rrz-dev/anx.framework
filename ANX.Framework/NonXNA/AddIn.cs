@@ -13,7 +13,6 @@ namespace ANX.Framework.NonXNA
 		#region Private
 		private Type creatorType;
 		private ICreator instance;
-		private ISupportedPlatforms supportedPlatforms;
 		#endregion
 
 		#region Public
@@ -21,15 +20,11 @@ namespace ANX.Framework.NonXNA
 		{
 			get
 			{
-				if (supportedPlatforms != null)
-				{
-					PlatformName platformName = OSInformation.GetName();
-					foreach (var platform in supportedPlatforms.Names)
-						if (platformName == platform)
-							return true;
-				}
+                var instance = this.Instance;
+                if (instance == null)
+                    return false;
 
-				return false;
+                return instance.IsSupported;
 			}
 		}
 
@@ -96,7 +91,6 @@ namespace ANX.Framework.NonXNA
 		{
 			this.creatorType = creatorType;
 			Type = AddInSystemFactory.GetAddInType(creatorType);
-			this.supportedPlatforms = TypeHelper.Create<ISupportedPlatforms>(supportedPlatformsType);
 
 			var assembly = TypeHelper.GetAssemblyFrom(creatorType);
 			Version = assembly.GetName().Version;
@@ -113,7 +107,7 @@ namespace ANX.Framework.NonXNA
 		#region CreateInstanceIfPossible
 		private void CreateInstanceIfPossible()
 		{
-			if (instance == null && IsSupported)
+			if (instance == null)
 			{
                 try
 				{

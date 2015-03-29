@@ -12,6 +12,8 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -90,30 +92,22 @@
     <None Include="Resources\ANX.Framework.Logo_459x121.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
-      <Name>ANX.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputDevices.OpenTK\ANX.InputDevices.OpenTK_WindowsMetro.csproj">
-      <Project>{5CA3CDF5-4D2C-42AC-AD08-641BD3992B75}</Project>
-      <Name>ANX.InputDevices.OpenTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Recording\ANX.InputSystem.Recording_WindowsMetro.csproj">
-      <Project>{DB88DDEB-7281-405D-8FCA-5681B6B2BD7A}</Project>
-      <Name>ANX.InputSystem.Recording</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj">
-      <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
-      <Name>ANX.InputSystem.Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Windows.XAudio\ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj">
-      <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
-      <Name>ANX.SoundSystem.Windows.XAudio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SampleContent\SampleContent.contentproj">
       <Project>{FA6E229D-4504-47B1-8A23-2D3FCC13F778}</Project>
       <Name>SampleContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+    <ProjectReference Include="../../ANX.Framework/ANX.Framework_WindowsMetro.csproj">
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../InputSytems/ANX.InputSystem.Standard/ANX.InputSystem.Standard_WindowsMetro.csproj">
+      <Project>{49066074-3b7b-4a55-b122-6bd33ab73558}</Project>
+      <Name>ANX.InputSystem.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../SoundSystems/ANX.SoundSystem.Windows.XAudio/ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj">
+      <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>
+      <Name>ANX.SoundSystem.Windows.XAudio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -148,4 +142,18 @@
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <ItemGroup>
+    <ProjectReference Include="../../InputSystems/ANX.InputDevices.Windows.ModernUI/ANX.InputDevices.Windows.ModernUI_WindowsMetro.csproj">
+      <Project>{628ab80a-b1b9-4878-a810-7a58d4840f60}</Project>
+      <Name>ANX.InputDevices.Windows.ModernUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../PlatformSystems/ANX.PlatformSystem.Metro/ANX.PlatformSystem.Metro_WindowsMetro.csproj">
+      <Project>{04f6041e-475e-4b2a-a889-6a33eabd718b}</Project>
+      <Name>ANX.PlatformSystem.Metro</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../RenderSystems/ANX.RenderSystem.Windows.Metro/ANX.RenderSystem.Windows.Metro_WindowsMetro.csproj">
+      <Project>{ff0ab665-2796-4354-9630-76c2751db3c2}</Project>
+      <Name>ANX.RenderSystem.Windows.Metro</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

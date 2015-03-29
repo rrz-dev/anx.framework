@@ -8,30 +8,22 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.InputDevices.OpenTK
 {
-	public class Mouse : IMouse
-	{
-		private IntPtr windowHandle;
+    public class Mouse : IMouse
+    {
+        public WindowHandle WindowHandle
+        {
+            get;
+            set;
+        }
 
-		public IntPtr WindowHandle
-		{
-			get
-			{
-				return this.windowHandle;
-			}
-			set
-			{
-				this.windowHandle = value;
-			}
-		}
+        public MouseState GetState()
+        {
+            throw new NotImplementedException();
+        }
 
-		public MouseState GetState()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetPosition(int x, int y)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public void SetPosition(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

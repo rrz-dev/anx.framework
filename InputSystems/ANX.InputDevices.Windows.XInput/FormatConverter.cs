@@ -157,7 +157,7 @@ namespace ANX.InputDevices.Windows.XInput
 			keyboardKeyMap.Add(Key.RightAlt, Keys.RightAlt);
 			keyboardKeyMap.Add(Key.Pause, Keys.Pause);
 			keyboardKeyMap.Add(Key.Home, Keys.Home);
-			keyboardKeyMap.Add(Key.UpArrow, Keys.Up);
+			keyboardKeyMap.Add(Key.Up, Keys.Up);
 			keyboardKeyMap.Add(Key.PageUp, Keys.PageUp);
 			keyboardKeyMap.Add(Key.Left, Keys.Left);
 			keyboardKeyMap.Add(Key.Right, Keys.Right);

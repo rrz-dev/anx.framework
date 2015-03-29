@@ -10,30 +10,37 @@ namespace ANX.Framework.Input
 {
     [PercentageComplete(100)]
     [Developer("AstrorEnales")]
-	[TestState(TestStateAttribute.TestState.Tested)]
+    [TestState(TestStateAttribute.TestState.Tested)]
     public static class Mouse
     {
-		private static readonly IMouse mouse;
+        private static IMouse mouse;
 
-	    public static IntPtr WindowHandle
-	    {
-	        get { return mouse.WindowHandle; }
-	        set { mouse.WindowHandle = value; }
-	    }
-
-	    static Mouse()
+        public static WindowHandle WindowHandle
         {
-            mouse = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse;
+            get { return NativeInstance.WindowHandle; }
+            set { NativeInstance.WindowHandle = value; }
+        }
+
+        private static IMouse NativeInstance
+        {
+            get
+            {
+                if (mouse == null)
+                {
+                    mouse = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Mouse;
+                }
+                return mouse;
+            }
         }
 
         public static MouseState GetState() 
         {
-            return mouse.GetState();
+            return NativeInstance.GetState();
         }
 
         public static void SetPosition(int x, int y)
         {
-            mouse.SetPosition(x, y);
+            NativeInstance.SetPosition(x, y);
         }
     }
 }

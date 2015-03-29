@@ -10,7 +10,7 @@ using ANX.Framework.Input;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-namespace SimpleModernUI
+namespace SimpleNoContent
 {
     public class Game1 : ANX.Framework.Game
     {

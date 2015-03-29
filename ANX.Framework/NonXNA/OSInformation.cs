@@ -88,12 +88,14 @@ namespace ANX.Framework.NonXNA
 						{
 							return PlatformName.WindowsVista;
 						}
-                        else if (osVersion.Minor == 2)
+                        else if (osVersion.Minor == 1)
+                        {
+                            return PlatformName.Windows7;
+                        }
+                        else
                         {
                             return PlatformName.Windows8;
                         }
-
-                        return PlatformName.Windows7;
 					}
 
 					return PlatformName.WindowsXP;

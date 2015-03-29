@@ -49,7 +49,6 @@
     <Compile Include="PsVitaRenderTarget2D.cs" />
     <Compile Include="PsVitaTexture2D.cs" />
     <Compile Include="PsVitaSamplerState.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="PsVitaVertexBuffer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -120,8 +120,7 @@ namespace ANX.RenderSystem.Windows.Metro
 				// TODO: otherwise crashes for now
 				description.MaximumLod = float.MaxValue;
 
-				nativeSamplerState = new Dx11.SamplerState(
-					NativeDxDevice.Current.NativeDevice, ref description);
+				nativeSamplerState = new Dx11.SamplerState(NativeDxDevice.Current.NativeDevice, description);
 
 				isDirty = false;
 			}

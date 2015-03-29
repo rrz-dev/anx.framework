@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.Framework.NonXNA.Reflection
@@ -181,36 +182,68 @@ namespace ANX.Framework.NonXNA.Reflection
 		#region SearchForValidAddInTypesInAssembly
 		private static void SearchForValidAddInTypesInAssembly(Assembly assembly)
 		{
+            var assemblyAttributes = assembly.GetCustomAttributes<SupportedPlatformsAttribute>();
+
+            //This step before we are iterating over the types makes the startup faster, around 2 seconds faster.
+            var supportedPlatforms = assemblyAttributes.SelectMany((x) => x.Platforms).ToArray();
+            if (supportedPlatforms.Length == 0)
+            {
+#if !WINDOWSMETRO
+                var ownAssemblyName = TypeHelper.GetAssemblyFrom(typeof(SupportedPlatformsAttribute)).GetName();
+                Version otherVersion = null;
+                //If another version is referenced, we can't load our custom attribute.
+                //Unfortunately it's not possible to check in WinRT if actually the same assembly is referenced.
+
+                if (assembly.GetReferencedAssemblies().Any((x) =>
+                {
+                    otherVersion = x.Version;
+                    return x.Name == ownAssemblyName.Name && x.Version != ownAssemblyName.Version;
+                }))
+                {
+                    Logger.Warning(string.Format("Assembly \"{0}\" can't be correctly loaded because it's referencing another ANX.Framework version than the executing assembly. Current: {1}, Foreign: {2}", assembly.FullName, ownAssemblyName.Version, otherVersion), false);
+                }
+                else
+#endif
+                {
+                    Logger.Info(string.Format("Skipping assembly \"{0}\" because no supported platforms are specified in the assembly meta data.", assembly.FullName));
+                }
+                return;
+            }
+
+            if (!supportedPlatforms.Contains(OSInformation.GetName()))
+            {
+                Logger.Info(string.Format("Skipping assembly \"{0}\" because it doesn't support the current platform.", assembly.FullName));
+                return;
+            }
+
+            Logger.Info("checking assembly \"{0}\".", assembly.FullName);
 			Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
 
 			foreach (Type type in allTypes)
 			{
+                //Can happen if we have types that are incompatible with our Runtime version.
+                //TODO: Maybe we should instead throw an error?
+                //Would be a very annoying error to find for someone who uses the code.
 				if (type == null)
 					continue;
 
 				bool isTypeCreatable = TypeHelper.IsAbstract(type) == false && TypeHelper.IsInterface(type) == false;
+                if (isTypeCreatable)
+                {
+                    bool isTypeValidCreator = TypeHelper.IsTypeAssignableFrom(typeof(ICreator), type);
+                    if (isTypeValidCreator)
+                    {
+                        CreatorTypes.Add(type);
+                        continue;
+                    }
 
-				bool isSupportedPlatformsImpl = TypeHelper.IsTypeAssignableFrom(typeof(ISupportedPlatforms), type);
-				if (isSupportedPlatformsImpl && isTypeCreatable)
-				{
-					SupportedPlatformsTypes.Add(type);
-					continue;
-				}
-
-				bool isTypeValidCreator = TypeHelper.IsAnyTypeAssignableFrom(AddInSystemFactory.ValidAddInCreators, type);
-				if (isTypeValidCreator && isTypeCreatable)
-				{
-					CreatorTypes.Add(type);
-					continue;
-				}
-
-				bool isTypeValidInputDevice = TypeHelper.IsAnyTypeAssignableFrom(InputDeviceFactory.ValidInputDeviceCreators,
-					type);
-				if (isTypeValidInputDevice && isTypeCreatable)
-				{
-					var inputCreator = TypeHelper.Create<IInputDeviceCreator>(type);
-					InputDeviceFactory.Instance.AddCreator(type, inputCreator);
-				}
+                    bool isInputCreator = TypeHelper.IsTypeAssignableFrom(typeof(IInputDeviceCreator), type);
+                    if (isInputCreator)
+                    {
+                        var inputCreator = TypeHelper.Create<IInputDeviceCreator>(type);
+                        InputDeviceFactory.Instance.AddCreator(type, inputCreator);
+                    }
+                }
 			}
 		}
 		#endregion

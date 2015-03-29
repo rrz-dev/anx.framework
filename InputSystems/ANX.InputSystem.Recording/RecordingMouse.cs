@@ -56,14 +56,14 @@ namespace ANX.InputSystem.Recording
         private IMouse realMouse;
         private MouseRecordInfo recordInfo;
 
-        private IntPtr tmpWindowHandle = IntPtr.Zero;
+        private WindowHandle tmpWindowHandle;
 
-        public IntPtr WindowHandle
+        public WindowHandle WindowHandle
         {
             get
             {
                 if (!isInitialized)
-                    return IntPtr.Zero;
+                    return new WindowHandle();
                 else
                     return realMouse.WindowHandle;
             }
@@ -219,7 +219,7 @@ namespace ANX.InputSystem.Recording
         {
             realMouse = mouse;
 
-            if (tmpWindowHandle != IntPtr.Zero)
+            if (tmpWindowHandle.IsValid)
                 WindowHandle = tmpWindowHandle;
 
             recordInfo = info;

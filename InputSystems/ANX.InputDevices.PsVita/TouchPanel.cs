@@ -37,7 +37,7 @@ namespace ANX.InputDevices.PsVita
 			}
 		}
 
-		public IntPtr WindowHandle
+		public WindowHandle WindowHandle
 		{
 			get;
 			set;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SharpDX;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Dx11 = SharpDX.Direct3D11;
 
@@ -8,24 +10,24 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.Metro.Shader
 {
-	public class ParameterBuffer : IDisposable
-	{
-		#region Private
-		private Dx11.Buffer nativeBuffer;
-		private NativeDxDevice graphicsDevice;
-		private Effect_Metro parentEffect;
+    public class ParameterBuffer : IDisposable
+    {
+        #region Private
+        private Dx11.Buffer nativeBuffer;
+        private NativeDxDevice graphicsDevice;
+        private Effect_Metro parentEffect;
 
         private int[] parameterOffsets;
-		private byte[] setData;
-		private int dataSize;
-		#endregion
+        private byte[] setData;
+        private int dataSize;
+        #endregion
 
-		#region Constructor
-		public ParameterBuffer(Effect_Metro setParentEffect,
-				NativeDxDevice setGraphicsDevice)
-		{
-			graphicsDevice = setGraphicsDevice;
-			parentEffect = setParentEffect;
+        #region Constructor
+        public ParameterBuffer(Effect_Metro setParentEffect,
+                NativeDxDevice setGraphicsDevice)
+        {
+            graphicsDevice = setGraphicsDevice;
+            parentEffect = setParentEffect;
             dataSize = 0;
 
             var offsets = new System.Collections.Generic.List<int>();
@@ -38,133 +40,109 @@ namespace ANX.RenderSystem.Windows.Metro.Shader
                 }
             }
 
+            //constant buffers must be aligned to 16 byte
+            dataSize = (dataSize + 15) / 16 * 16;
+
             parameterOffsets = offsets.ToArray();
             setData = new byte[dataSize];
 
-            nativeBuffer = new Dx11.Buffer(graphicsDevice.NativeDevice, dataSize,
-                Dx11.ResourceUsage.Default, Dx11.BindFlags.ConstantBuffer,
-                Dx11.CpuAccessFlags.None, Dx11.ResourceOptionFlags.None, 0);
-		}
-		#endregion
+            var description = new Dx11.BufferDescription()
+            {
+                BindFlags = Dx11.BindFlags.ConstantBuffer,
+                CpuAccessFlags = Dx11.CpuAccessFlags.Write,
+                Usage = Dx11.ResourceUsage.Dynamic,
+                SizeInBytes = dataSize,
+            };
+            
+            nativeBuffer = new Dx11.Buffer(graphicsDevice.NativeDevice, description);
+        }
+        #endregion
 
-		#region SetParameter (T)
-		public void SetParameter<T>(string parameterName, ref T value) where T : struct
-		{
-			int indexOfParameter = FindParameterIndex(parameterName);
-			if (indexOfParameter == -1)
-				return;
+        #region SetParameter (T)
+        public void SetParameter<T>(string parameterName, ref T value) where T : struct
+        {
+            int indexOfParameter = FindParameterIndex(parameterName);
+            if (indexOfParameter == -1)
+                throw new KeyNotFoundException(string.Format("No parameter with name \"{1}\" found.", parameterName));
 
             int size = Marshal.SizeOf(typeof(T));
-            byte[] dataToAdd = new byte[size];
             IntPtr ptr = Marshal.AllocHGlobal(size);
-
-            Marshal.StructureToPtr(value, ptr, true);
-            Marshal.Copy(ptr, setData, parameterOffsets[indexOfParameter], size);
-            Marshal.FreeHGlobal(ptr);
-		}
+            try
+            {
+                Marshal.StructureToPtr(value, ptr, true);
+                Marshal.Copy(ptr, setData, parameterOffsets[indexOfParameter], size);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
         #endregion
 
         #region SetParameter (T[])
         public void SetParameter<T>(string parameterName, T[] value) where T : struct
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+
             int indexOfParameter = FindParameterIndex(parameterName);
             if (indexOfParameter == -1)
-                return;
-            
-            int sizePerItem = Marshal.SizeOf(typeof(T));
-            int offset = 0;
-            IntPtr ptr = Marshal.AllocHGlobal(sizePerItem);
-            for (int index = 0; index < value.Length; index++)
+                throw new KeyNotFoundException(string.Format("No parameter with name \"{1}\" found.", parameterName));
+
+            var handle = GCHandle.Alloc(value, GCHandleType.Pinned);
+            try
             {
-                Marshal.StructureToPtr(value[index], ptr, true);
-                Marshal.Copy(ptr, setData, parameterOffsets[indexOfParameter] + offset, sizePerItem);
-                offset += sizePerItem;
+                Marshal.Copy(handle.AddrOfPinnedObject(), setData, parameterOffsets[indexOfParameter], Marshal.SizeOf(typeof(T)) * value.Length);
             }
-            Marshal.FreeHGlobal(ptr);
+            finally
+            {
+                handle.Free();
+            }
         }
         #endregion
 
-		#region SetParameter (float[])
-		public void SetParameter(string parameterName, float[] value)
-		{
-			int indexOfParameter = FindParameterIndex(parameterName);
-			if (indexOfParameter == -1)
-				return;
-            			
-            byte[] result = UnionArraySerializer.Unify(value);
-            Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
-		}
-		#endregion
-
-		#region SetParameter (int[])
-		public void SetParameter(string parameterName, int[] value)
-		{
-			int indexOfParameter = FindParameterIndex(parameterName);
-			if (indexOfParameter == -1)
-				return;
-            
-            byte[] result = UnionArraySerializer.Unify(value);
-            Array.Copy(result, 0, setData, parameterOffsets[indexOfParameter], result.Length);
-		}
-		#endregion
-
-		#region SetParameter (byte[])
-		public void SetParameter(string parameterName, byte[] value)
-		{
-			int indexOfParameter = FindParameterIndex(parameterName);
-			if (indexOfParameter == -1)
-				return;
-
-            Array.Copy(value, 0, setData, parameterOffsets[indexOfParameter], value.Length);
-		}
-		#endregion
-
-		#region FindParameterIndex
-		private int FindParameterIndex(string parameterName)
-		{
-			int searchIndex = 0;
-			foreach (var parameter in parentEffect.shader.Parameters)
-			{
-				if (parameter.Name == parameterName)
-					return searchIndex;
-
-				searchIndex++;
-			}
-
-			return -1;
-		}
-		#endregion
-        
-		#region Apply
-		public void Apply()
-		{
-            graphicsDevice.NativeContext.VertexShader.SetConstantBuffer(0, nativeBuffer);
-
-            IntPtr dataPtr;
-            unsafe
+        #region FindParameterIndex
+        private int FindParameterIndex(string parameterName)
+        {
+            int searchIndex = 0;
+            foreach (var parameter in parentEffect.shader.Parameters)
             {
-                fixed (byte* ptr = &setData[0])
-                    dataPtr = (IntPtr)ptr;
+                if (parameter.IsTexture)
+                    continue;
+
+                if (parameter.Name == parameterName)
+                    return searchIndex;
+
+                searchIndex++;
             }
 
-            // Reset really needed? evaluate
-            setData = new byte[dataSize];
-            var dataBox = new SharpDX.DataBox(dataPtr);
-            graphicsDevice.NativeContext.UpdateSubresource(dataBox, nativeBuffer);
-		}
-		#endregion
+            return -1;
+        }
+        #endregion
+        
+        #region Apply
+        public void Apply()
+        {
+            DataStream stream;
+            graphicsDevice.NativeContext.MapSubresource(this.nativeBuffer, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None, out stream);
+            stream.WriteRange(setData);
+            graphicsDevice.NativeContext.UnmapSubresource(this.nativeBuffer, 0);
 
-		#region Dispose
-		public void Dispose()
-		{
-			if (nativeBuffer != null)
-			{
-				nativeBuffer.Dispose();
-				nativeBuffer = null;
-			}
+            graphicsDevice.NativeContext.VertexShader.SetConstantBuffer(0, nativeBuffer);
+        }
+        #endregion
 
-			graphicsDevice = null;
-		}
-		#endregion
-	}
+        #region Dispose
+        public void Dispose()
+        {
+            if (nativeBuffer != null)
+            {
+                nativeBuffer.Dispose();
+                nativeBuffer = null;
+            }
+
+            graphicsDevice = null;
+        }
+        #endregion
+    }
 }

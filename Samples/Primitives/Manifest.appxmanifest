@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="Primitives" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="2284a273-7b83-4803-b626-a824fa070807" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>Primitives</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

@@ -21,28 +21,10 @@ namespace ANX.Framework.NonXNA.Windows8
 
 		public static Stream LoadStreamFromAssets(string relativeFilepath)
 		{
-			relativeFilepath = relativeFilepath.Replace("/", "\\");
-			try
-			{
-				var task = installLocation.OpenStreamForReadAsync(relativeFilepath);
-				Stream filestream = TaskHelper.WaitForAsyncOperation(task);
+            relativeFilepath = relativeFilepath.Replace('/', '\\');
 
-				// TODO: this copy is really inefficient!!
-				// Find out why reading from the asset stream causes
-				// the position property to go crazy :/
-				MemoryStream stream = new MemoryStream();
-				filestream.CopyTo(stream);
-				filestream.Dispose();
-				filestream = null;
-
-				stream.Position = 0;
-				return stream;
-			}
-			catch
-			{
-			}
-
-			return null;
+            var getFile = installLocation.OpenStreamForReadAsync(relativeFilepath);
+            return TaskHelper.WaitForAsyncOperation(getFile);
 		}
 	}
 }

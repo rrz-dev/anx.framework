@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>XNAEXT;TRACE;LINUX;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,8 +35,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\lib\OpenTK\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\OpenTK.1.1.1160.61462\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -62,7 +63,6 @@
     <Compile Include="SamplerStateGL3.cs" />
     <Compile Include="ShaderAttributeGL3.cs" />
     <Compile Include="ShaderByteCode.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
   </ItemGroup>
@@ -75,6 +75,9 @@
       <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

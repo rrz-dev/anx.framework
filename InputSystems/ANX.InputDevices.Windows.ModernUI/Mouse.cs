@@ -25,7 +25,7 @@ namespace ANX.InputDevices.Windows.ModernUI
         private ButtonState _xButton1;
         private ButtonState _xButton2;
 
-        public IntPtr WindowHandle
+        public WindowHandle WindowHandle
         {
             get;
             set;

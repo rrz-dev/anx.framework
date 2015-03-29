@@ -20,6 +20,8 @@ namespace AudioSample
         private Song song;
         private float timer;
         private float duration;
+        private bool useMusicPlayback;
+        private KeyboardState previousState;
 
         //private const bool UseMusicPlayback = false;
 
@@ -43,28 +45,44 @@ namespace AudioSample
 
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && previousState.IsKeyUp(Keys.Enter))
+            {
+                useMusicPlayback = !useMusicPlayback;
+                timer = duration; //Reset playback
+            }
+
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timer >= duration)
             {
                 timer -= duration;
-#if UseMusicPlayback
-                MediaPlayer.Play(song);
-#else
-                sound.Play(1f, 1f, 0f);
-#endif
+                if (useMusicPlayback)
+                {
+                    MediaPlayer.Play(song);
+                }
+                else
+                {
+                    sound.Play(1f, 1f, 0f);
+                }
             }
 
-#if UseMusicPlayback
-                Window.Title = "PlayTime = " + MediaPlayer.PlayPosition;
+            if (useMusicPlayback)
+            {
+                Window.Title = "MusicPlayback: PlayTime = " + MediaPlayer.PlayPosition;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                     MediaPlayer.Pause();
 
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                     MediaPlayer.Resume();
-#endif
+            }
+            else
+            {
+                Window.Title = "SoundPlayback";
+            }
 
             base.Update(gameTime);
+
+            previousState = Keyboard.GetState();
         }
 
         protected override void Draw(GameTime gameTime)

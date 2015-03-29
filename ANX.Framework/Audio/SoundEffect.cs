@@ -123,7 +123,8 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Private
-		private static readonly List<SoundEffectInstance> fireAndForgetInstances;
+		private static readonly List<SoundEffectInstance> fireAndForgetInstances = new List<SoundEffectInstance>();
+        private static ISoundSystemCreator creator;
 		private readonly List<WeakReference> children;
 		internal ISoundEffect NativeSoundEffect;
 		#endregion
@@ -151,16 +152,6 @@ namespace ANX.Framework.Audio
 		#endregion
 
 		#region Constructor
-		static SoundEffect()
-		{
-			fireAndForgetInstances = new List<SoundEffectInstance>();
-
-			MasterVolume = 1f;
-			SpeedOfSound = 343.5f;
-			DopplerScale = 1f;
-			DistanceScale = 1f;
-		}
-
 		private SoundEffect()
 		{
 			children = new List<WeakReference>();
@@ -197,7 +188,20 @@ namespace ANX.Framework.Audio
 		#region GetCreator
 		private static ISoundSystemCreator GetCreator()
 		{
-			return AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+            if (creator == null)
+            {
+                creator = AddInSystemFactory.Instance.GetDefaultCreator<ISoundSystemCreator>();
+                AddInSystemFactory.Instance.PreventSystemChange(AddInType.SoundSystem);
+
+                //We are once setting the default values, which means, we don't support chaning the sound system later on, otherwise we would have
+                //uninitiliazed values.
+                MasterVolume = 1f;
+                SpeedOfSound = 343.5f;
+                DopplerScale = 1f;
+                DistanceScale = 1f;
+            }
+
+			return creator;
 		}
 		#endregion
 

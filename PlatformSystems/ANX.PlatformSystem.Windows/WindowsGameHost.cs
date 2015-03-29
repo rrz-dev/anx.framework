@@ -28,7 +28,7 @@ namespace ANX.PlatformSystem.Windows
 
 		#region Constructor
 		public WindowsGameHost(Game setGame)
-			: base(setGame)
+			: base()
 		{
 			isQuitting = false;
 			game = setGame;

@@ -49,7 +49,7 @@ namespace WpfEditor
 					BackBufferWidth = GamePanel.Width,
 					BackBufferHeight = GamePanel.Height,
 					BackBufferFormat = SurfaceFormat.Color,
-					DeviceWindowHandle = GamePanel.Handle,
+					DeviceWindowHandle = new WindowHandle(GamePanel.Handle),
 					PresentationInterval = PresentInterval.Default,
 				});
 		}

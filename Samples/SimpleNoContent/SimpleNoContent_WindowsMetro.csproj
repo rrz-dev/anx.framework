@@ -12,6 +12,8 @@
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>Test_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,21 +45,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_WindowsMetro.csproj">
+    <ProjectReference Include="../../ANX.Framework/ANX.Framework_WindowsMetro.csproj">
       <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard_WindowsMetro.csproj">
+    <ProjectReference Include="../../InputSytems/ANX.InputSystem.Standard/ANX.InputSystem.Standard_WindowsMetro.csproj">
       <Project>{49066074-3b7b-4a55-b122-6bd33ab73558}</Project>
       <Name>ANX.InputSystem.Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SoundSystems\ANX.SoundSystem.Null\ANX.SoundSystem.Null_WindowsMetro.csproj">
-      <Project>{c4ddffff-595e-4089-b499-06f68caf2566}</Project>
-      <Name>ANX.SoundSystem.Null</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -85,4 +81,22 @@
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <ItemGroup>
+    <ProjectReference Include="../../InputSystems/ANX.InputDevices.Windows.ModernUI/ANX.InputDevices.Windows.ModernUI_WindowsMetro.csproj">
+      <Project>{628ab80a-b1b9-4878-a810-7a58d4840f60}</Project>
+      <Name>ANX.InputDevices.Windows.ModernUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../PlatformSystems/ANX.PlatformSystem.Metro/ANX.PlatformSystem.Metro_WindowsMetro.csproj">
+      <Project>{04f6041e-475e-4b2a-a889-6a33eabd718b}</Project>
+      <Name>ANX.PlatformSystem.Metro</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../RenderSystems/ANX.RenderSystem.Windows.Metro/ANX.RenderSystem.Windows.Metro_WindowsMetro.csproj">
+      <Project>{ff0ab665-2796-4354-9630-76c2751db3c2}</Project>
+      <Name>ANX.RenderSystem.Windows.Metro</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../SoundSystems/ANX.SoundSystem.Windows.XAudio/ANX.SoundSystem.Windows.XAudio_WindowsMetro.csproj">
+      <Project>{6a582788-c4d2-410c-96cd-177f75712d65}</Project>
+      <Name>ANX.SoundSystem.Windows.XAudio</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

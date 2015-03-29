@@ -46,6 +46,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlendState_DX11.cs" />
@@ -72,9 +73,15 @@
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedIndexBuffer.cs" />
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedVertexBuffer.cs" />
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedStateObject.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="DxTexture2D.cs" />
     <Compile Include="DxVertexBuffer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\lib\SharpDX\Bin\Standard-net40\sharpdx_direct3d11_effects_x64.dll" />
+    <Content Include="..\..\lib\SharpDX\Bin\Standard-net40\sharpdx_direct3d11_effects_x86.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

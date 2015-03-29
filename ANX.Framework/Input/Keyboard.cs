@@ -8,32 +8,41 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Input
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
     [Developer("AstrorEnales")]
-	[TestState(TestStateAttribute.TestState.Tested)]
-	public static class Keyboard
-	{
-		private static readonly IKeyboard keyboard;
+    [TestState(TestStateAttribute.TestState.Tested)]
+    public static class Keyboard
+    {
+        private static IKeyboard keyboard;
 
-	    internal static IntPtr WindowHandle
-	    {
-	        get { return keyboard.WindowHandle; }
-	        set { keyboard.WindowHandle = value; }
-	    }
+        internal static WindowHandle WindowHandle
+        {
+            get { return NativeInstance.WindowHandle; }
+            set { NativeInstance.WindowHandle = value; }
+        }
 
-	    static Keyboard()
-		{
-			keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
-		}
+        private static IKeyboard NativeInstance
+        {
+            get
+            {
+                if (keyboard == null)
+                {
+                    keyboard = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Keyboard;
+                    AddInSystemFactory.Instance.PreventSystemChange(AddInType.InputSystem);
+                }
 
-		public static KeyboardState GetState()
-		{
-			return keyboard.GetState();
-		}
+                return keyboard;
+            }
+        }
 
-		public static KeyboardState GetState(PlayerIndex playerIndex)
-		{
-			return keyboard.GetState(playerIndex);
-		}
-	}
+        public static KeyboardState GetState()
+        {
+            return NativeInstance.GetState();
+        }
+
+        public static KeyboardState GetState(PlayerIndex playerIndex)
+        {
+            return NativeInstance.GetState(playerIndex);
+        }
+    }
 }

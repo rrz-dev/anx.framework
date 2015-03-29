@@ -64,6 +64,29 @@ namespace ANXStatusComparer.Data
 					isCorrect = false;
 				}
 			}
+            else if (GetMethod == null && other.GetMethod != null)
+            {
+                if (other.GetMethod.IsPublic)
+                {
+                    isCorrect = false;
+                }
+                if (other.GetMethod.IsFamily)
+                {
+                    isCorrect = false;
+                }
+            }
+            else if (GetMethod != null && other.GetMethod == null)
+            {
+                if (GetMethod.IsPublic)
+                {
+                    isCorrect = false;
+                }
+                if (GetMethod.IsFamily)
+                {
+                    isCorrect = false;
+                }
+            }
+
 			if (SetMethod != null &&
 				other.SetMethod != null)
 			{
@@ -81,6 +104,28 @@ namespace ANXStatusComparer.Data
 					isCorrect = false;
 				}
 			}
+            else if (SetMethod == null && other.SetMethod != null)
+            {
+                if (other.SetMethod.IsPublic)
+                {
+                    isCorrect = false;
+                }
+                if (other.SetMethod.IsFamily)
+                {
+                    isCorrect = false;
+                }
+            }
+            else if (SetMethod != null && other.SetMethod == null)
+            {
+                if (SetMethod.IsPublic)
+                {
+                    isCorrect = false;
+                }
+                if (SetMethod.IsFamily)
+                {
+                    isCorrect = false;
+                }
+            }
 
 			return isCorrect;
 		}

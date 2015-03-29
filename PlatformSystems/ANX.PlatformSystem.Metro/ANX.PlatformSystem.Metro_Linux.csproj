@@ -41,7 +41,6 @@
     <Compile Include="MetroTitleContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MetroPlatformSystem.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="WindowsGameHost.cs" />
     <Compile Include="WindowsGameWindow.cs" />
   </ItemGroup>

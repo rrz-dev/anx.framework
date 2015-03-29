@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -14,37 +15,37 @@ namespace ANX.Framework.GamerServices
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public static class GamerServicesDispatcher
-	{
-		public static bool IsInitialized
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+    {
+        public static bool IsInitialized
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-		public static IntPtr WindowHandle
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public static WindowHandle WindowHandle
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-		public static event EventHandler<EventArgs> InstallingTitleUpdate;
+        public static event EventHandler<EventArgs> InstallingTitleUpdate;
 
-		public static void Initialize(IServiceProvider serviceProvider)
-		{
-			throw new NotImplementedException();
-		}
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            throw new NotImplementedException();
+        }
 
-		public static void Update()
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public static void Update()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

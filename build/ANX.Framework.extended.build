@@ -1,0 +1,5 @@
+<project xmlns="http://nant.sf.net/release/0.91/nant.xsd" name="ANX.Framework Extended Build" default="build" basedir="./">
+  <property name="project.anx.extended" value="true"/>
+
+  <include buildfile="ANX.Framework.build" />
+</project>

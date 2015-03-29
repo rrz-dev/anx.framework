@@ -1,3 +1,4 @@
+using ANXStatusComparer.Excludes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +16,15 @@ namespace ANXStatusComparer
 	/// filepaths to the anx and xna assemblies.
 	/// </summary>
 	public class Configuration
-	{
-		#region Public
-		/// <summary>
+    {
+        #region Private
+
+        public const string Namespace = "https://anxframework.codeplex.com/ANXStatusComparer.xsd";
+
+        #endregion
+
+        #region Public
+        /// <summary>
 		/// Array of filepaths to the ANX assemblies.
 		/// </summary>
 		public string[] AnxAssemblies
@@ -52,6 +59,16 @@ namespace ANXStatusComparer
 			get;
 			private set;
 		}
+
+        /// <summary>
+        /// An Array of excludes, for which no check should be run.
+        /// </summary>
+        public Exclude[] Excludes
+        {
+            get;
+            private set;
+        }
+
 		#endregion
 
 		#region Constructor
@@ -82,8 +99,8 @@ namespace ANXStatusComparer
 					"file has no Config-Node as the root element! Aborting.");
 			}
 
-			XElement anxNode = doc.Root.Element("ANXAssemblies");
-			XElement xnaNode = doc.Root.Element("XNAAssemblies");
+			XElement anxNode = doc.Root.Element(localName: "ANXAssemblies");
+            XElement xnaNode = doc.Root.Element(localName: "XNAAssemblies");
 			if (anxNode == null ||
 				xnaNode == null)
 			{
@@ -92,7 +109,7 @@ namespace ANXStatusComparer
 			}
 
 			List<string> anxPaths = new List<string>();
-			foreach (XElement node in anxNode.Elements("Assembly"))
+            foreach (XElement node in anxNode.Elements(localName: "Assembly"))
 			{
 				string assemblyPath = ValidateAssemblyPath(node.Value);
 				anxPaths.Add(assemblyPath);
@@ -100,7 +117,7 @@ namespace ANXStatusComparer
 			AnxAssemblies = anxPaths.ToArray();
 
 			List<string> xnaPaths = new List<string>();
-			foreach (XElement node in xnaNode.Elements("Assembly"))
+            foreach (XElement node in xnaNode.Elements(localName: "Assembly"))
 			{
 				string assemblyPath = ValidateAssemblyPath(node.Value);
 				xnaPaths.Add(assemblyPath);
@@ -111,10 +128,10 @@ namespace ANXStatusComparer
 			OutputType = "text";
 			StylesheetFile = "SummaryStyle.css";
 
-			XElement outputNode = doc.Root.Element("Output");
+            XElement outputNode = doc.Root.Element(localName: "Output");
 			if(outputNode != null)
 			{
-				XElement outputTypeNode = outputNode.Element("OutputType");
+                XElement outputTypeNode = outputNode.Element(localName: "OutputType");
 				if(outputTypeNode != null)
 				{
 					string value = outputTypeNode.Value.ToLower();
@@ -124,7 +141,7 @@ namespace ANXStatusComparer
 					}
 				}
 
-				XElement stylesheetFileNode = outputNode.Element("StylesheetFile");
+                XElement stylesheetFileNode = outputNode.Element(localName: "StylesheetFile");
 				if (stylesheetFileNode != null)
 				{
 					if (File.Exists(stylesheetFileNode.Value) == false)
@@ -133,6 +150,31 @@ namespace ANXStatusComparer
 					}
 				}
 			}
+
+            List<Exclude> excludes = new List<Exclude>();
+
+            XElement excludeNode = doc.Root.Element(localName: "Excludes");
+            if (excludeNode != null)
+            {
+                foreach (XElement methodNode in excludeNode.Elements(localName: "Method"))
+                {
+                    AccessModifier modifier = AccessModifier.Public;
+
+                    XAttribute accessAttribute = methodNode.Attribute("access");
+                    if (accessAttribute != null)
+                    {
+                        modifier = (AccessModifier)Enum.Parse(typeof(AccessModifier), accessAttribute.Value, true);
+                    }
+
+                    excludes.Add(new MethodExclude()
+                        {
+                            Name = methodNode.Value,
+                            Modifier = modifier,
+                        });
+                }
+            }
+
+            this.Excludes = excludes.ToArray();
 		}
 		#endregion
 

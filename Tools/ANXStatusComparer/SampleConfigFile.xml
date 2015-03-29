@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Config>
+<Config xmlns="https://anxframework.codeplex.com/ANXStatusComparer.xsd">
   <ANXAssemblies>
-    <Assembly>..\bin\Debug\ANX.Framework.dll</Assembly>
-    <Assembly>..\bin\Debug\ANX.Framework.Content.Pipeline.dll</Assembly>
+    <Assembly>.\ANX.Framework.dll</Assembly>
+    <Assembly>.\ANX.Framework.Content.Pipeline.dll</Assembly>
   </ANXAssemblies>
   <XNAAssemblies>
     <Assembly>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.dll</Assembly>
@@ -21,4 +21,8 @@
 		<OutputType>html</OutputType>
 		<StylesheetFile>SummaryStyle.css</StylesheetFile>
 	</Output>
+
+  <Excludes>
+    <Method access="protected">Finalize</Method>
+  </Excludes>
 </Config>

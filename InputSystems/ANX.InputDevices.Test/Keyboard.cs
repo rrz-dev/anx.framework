@@ -7,33 +7,27 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.InputDevices.Test
 {
-	public class Keyboard : IKeyboard
-	{
-		public IntPtr WindowHandle
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+    public class Keyboard : IKeyboard
+    {
+        public WindowHandle WindowHandle
+        {
+            get;
+            set;
+        }
 
-		public Framework.Input.KeyboardState GetState()
-		{
-			throw new NotImplementedException();
-		}
+        public Framework.Input.KeyboardState GetState()
+        {
+            throw new NotImplementedException();
+        }
 
-		public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
-		{
-			throw new NotImplementedException();
-		}
+        public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
+        {
+            throw new NotImplementedException();
+        }
 
-		public void Dispose()
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

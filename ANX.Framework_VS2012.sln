@@ -201,6 +201,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaTestEffectSample", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.SoundSystem.Null", "SoundSystems\ANX.SoundSystem.Null\ANX.SoundSystem.Null.csproj", "{C4DDFFFF-595E-4089-B499-06F68CAF2566}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANX.Framework.ContentPipeline.Extensions", "ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj", "{ECBF60CB-1CF0-4F92-8963-E73115B04B43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -998,6 +1000,26 @@ Global
 		{C4DDFFFF-595E-4089-B499-06F68CAF2566}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C4DDFFFF-595E-4089-B499-06F68CAF2566}.Release|x64.ActiveCfg = Release|Any CPU
 		{C4DDFFFF-595E-4089-B499-06F68CAF2566}.Release|x86.ActiveCfg = Release|Any CPU
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Any CPU.Build.0 = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|ARM.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|ARM.Build.0 = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x64.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x64.Build.0 = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x86.ActiveCfg = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Debug|x86.Build.0 = Debug|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Any CPU.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Any CPU.Build.0 = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|ARM.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|ARM.Build.0 = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|Mixed Platforms.Build.0 = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x64.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x64.Build.0 = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.ActiveCfg = Release|x86
+		{ECBF60CB-1CF0-4F92-8963-E73115B04B43}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

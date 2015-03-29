@@ -19,26 +19,21 @@ namespace ANX.InputDevices.Windows.ModernUI
     [Developer("rene87")]
     public class Keyboard : IKeyboard
     {
-        private IntPtr windowHandle;
-        KeyboardState _state;
-        public IntPtr WindowHandle
+        private KeyboardState _state;
+        private KeyboardState _emptyState;
+        public WindowHandle WindowHandle
         {
-            get { return windowHandle; }
-            set
-            {
-                if (windowHandle != value)
-                {
-                    windowHandle = value;
-                }
-            }
+            get;
+            set;
         }
 
         public Keyboard()
         {
+            //CoreWindow.GetForCurrentThread is null
             CoreWindow.GetForCurrentThread().KeyDown += Keyboard_KeyDown;
             CoreWindow.GetForCurrentThread().KeyUp += Keyboard_KeyUp;
-            _state = new KeyboardState(Keys.None);
-            _state.RemovePressedKey(Keys.None);
+            _state = new KeyboardState(new Keys[0]);
+            _emptyState =new KeyboardState(new Keys[0]);
         }
 
         void Keyboard_KeyUp(CoreWindow sender, KeyEventArgs args)
@@ -61,17 +56,24 @@ namespace ANX.InputDevices.Windows.ModernUI
         public KeyboardState GetState()
         {
 
-            return _state;
+            return new KeyboardState(_state.GetPressedKeys());
         }
 
         public KeyboardState GetState(PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            switch (playerIndex)
+            {
+                case PlayerIndex.One:
+                    return GetState();
+                default:
+                    return _emptyState;
+            }
         }
 
         public void Dispose()
         {
             throw new NotImplementedException();
         }
+
     }
 }

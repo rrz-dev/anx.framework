@@ -36,8 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\OpenTK.1.1.1160.61462\lib\NET40\OpenTK.dll</HintPath>
+      <HintPath>..\..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -63,7 +62,6 @@
     <Compile Include="SamplerStateGL3.cs" />
     <Compile Include="ShaderAttributeGL3.cs" />
     <Compile Include="ShaderByteCode.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
     <Compile Include="Texture2DGL3.cs" />
     <Compile Include="VertexBufferGL3.cs" />
   </ItemGroup>

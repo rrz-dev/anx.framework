@@ -28,11 +28,11 @@ namespace ANX.InputDevices.Windows.XInput
 		private DInput.DirectInput directInput;
 		private DInput.Keyboard nativeKeyboard;
 		private DInput.KeyboardState nativeState;
-		private IntPtr windowHandle;
+		private WindowHandle windowHandle;
 		private KeyboardState emptyState;
 		#endregion
 
-		public IntPtr WindowHandle
+		public WindowHandle WindowHandle
 		{
 			get { return windowHandle; }
 			set
@@ -75,7 +75,7 @@ namespace ANX.InputDevices.Windows.XInput
 
 		public KeyboardState GetState()
 		{
-			if (WindowHandle == IntPtr.Zero)
+			if (!WindowHandle.IsValid)
 				return emptyState;
 
 			nativeKeyboard.GetCurrentState(ref nativeState);

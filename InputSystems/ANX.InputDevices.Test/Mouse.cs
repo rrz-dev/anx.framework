@@ -12,7 +12,7 @@ namespace ANX.InputDevices.Test
 		private int x;
 		private int y;
 
-		public IntPtr WindowHandle
+		public WindowHandle WindowHandle
 		{
 			get;
 			set;

@@ -4,6 +4,7 @@ using System.IO;
 using ANX.Framework.Graphics;
 using System.Collections.Generic;
 using System.Reflection;
+using ANX.Framework.Content.Pipeline.Helpers;
 
 #endregion
 
@@ -25,6 +26,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
+                if (!AssemblyHelper.IsValidForPipeline(assembly.GetName()))
+                    continue;
+
                 AddContentWriterAssembly(assembly);
             }
         }
@@ -157,12 +161,6 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         public void AddContentWriterAssembly(Assembly assembly)
         {
-#if LINUX
-            //Apparently these Assemblies are bad juju, so lets blacklist them as we don't need to check them anyway
-            if (assembly.FullName == "MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f"
-                || assembly.FullName == "Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null")
-                return;
-#endif
             foreach (Type type in assembly.GetTypes())
             {
                 ContentTypeWriterAttribute[] value = (ContentTypeWriterAttribute[])type.GetCustomAttributes(typeof(ContentTypeWriterAttribute), true);

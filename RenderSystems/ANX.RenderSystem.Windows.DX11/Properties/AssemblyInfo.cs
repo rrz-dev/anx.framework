@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using ANX.Framework.NonXNA;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -31,3 +32,8 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyVersion("0.7.19.*")]
 [assembly: AssemblyFileVersion("0.7.19.0")]
+
+[assembly: SupportedPlatforms(
+    PlatformName.Windows7,
+	PlatformName.Windows8    
+)]

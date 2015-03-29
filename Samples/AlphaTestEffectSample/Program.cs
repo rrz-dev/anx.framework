@@ -11,7 +11,7 @@ namespace AlphaTestEffectSample
     {
         static void Main(string[] args)
 		{
-            AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
+            //AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
 			//AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX11");
             //AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
 

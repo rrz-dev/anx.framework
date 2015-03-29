@@ -1,4 +1,6 @@
+using ANXStatusComparer.Excludes;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -192,17 +194,17 @@ namespace ANXStatusComparer.Data
 		}
 
 		#region IsCorrect
-		public bool IsCorrect(BaseObject otherObject,
+		public bool IsCorrect(BaseObject otherObject, IEnumerable<Exclude> excludes,
 			ResultData.WrongObjectPair wrongPair)
 		{
 			bool isCorrect = true;
-			if (CompareLists(Methods, otherObject.Methods, wrongPair) == false)
+			if (CompareLists(Methods, otherObject.Methods, excludes, wrongPair) == false)
 				isCorrect = false;
-			if (CompareLists(Events, otherObject.Events, wrongPair) == false)
+            if (CompareLists(Events, otherObject.Events, excludes, wrongPair) == false)
 				isCorrect = false;
-			if (CompareLists(Fields, otherObject.Fields, wrongPair) == false)
+            if (CompareLists(Fields, otherObject.Fields, excludes, wrongPair) == false)
 				isCorrect = false;
-			if (CompareLists(Properties, otherObject.Properties, wrongPair) == false)
+            if (CompareLists(Properties, otherObject.Properties, excludes, wrongPair) == false)
 				isCorrect = false;
 
 			foreach(string parent in ParentNames)
@@ -251,12 +253,17 @@ namespace ANXStatusComparer.Data
 		#endregion
 
 		#region CompareLists
-		private bool CompareLists(Dictionary<string, BaseObjectElement> dictXna, Dictionary<string, BaseObjectElement> dictAnx,
+		private bool CompareLists(Dictionary<string, BaseObjectElement> dictXna, Dictionary<string, BaseObjectElement> dictAnx, IEnumerable<Exclude> excludes,
 			ResultData.WrongObjectPair wrongPair)
 		{
 			bool isCorrect = true;
-			foreach (string methodKey in dictXna.Keys)
+			foreach (var pair in dictXna)
 			{
+                string methodKey = pair.Key;
+
+                if (excludes.Any((x) => x.ShouldExclude(pair.Value)))
+                    continue;
+
 				if (dictAnx.ContainsKey(methodKey) == false)
 				{
 					isCorrect = false;

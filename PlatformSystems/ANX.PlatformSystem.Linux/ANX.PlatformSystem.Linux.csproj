@@ -45,7 +45,6 @@
     <Compile Include="LinuxStorageContainer.cs" />
     <Compile Include="LinuxStorageDevice.cs" />
     <Compile Include="LinuxTitleContainer.cs" />
-    <Compile Include="SupportedPlatformsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">

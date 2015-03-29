@@ -27,12 +27,12 @@ namespace ANX.Framework
     [PercentageComplete(60)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
-	public class Game : IDisposable
+    public class Game : IDisposable
     {
         #region Private Members
         private IGraphicsDeviceManager graphicsDeviceManager;
-		private IGraphicsDeviceService graphicsDeviceService;
-		private GameServiceContainer gameServices;
+        private IGraphicsDeviceService graphicsDeviceService;
+        private GameServiceContainer gameServices;
 
         protected bool firstUpdateDone;
         protected bool firstDrawDone;
@@ -40,20 +40,20 @@ namespace ANX.Framework
         private bool inRun;
         private bool isInitialized;
 
-		private GameHost host;
-		private bool ShouldExit;
+        private GameHost host;
+        private bool ShouldExit;
 
-		private GameTimer gameTimer;
+        private GameTimer gameTimer;
         private TimeSpan gameTimeAccu;
-		private GameTime gameTime;
-		private TimeSpan totalGameTime;
+        private GameTime gameTime;
+        private TimeSpan totalGameTime;
         private long updatesSinceRunningSlowly1;
         private long updatesSinceRunningSlowly2;
         private bool suppressDraw;
 
-		private GameTime gameUpdateTime;
+        private GameTime gameUpdateTime;
 
-		private ContentManager content;
+        private ContentManager content;
 
         private List<IGameComponent> drawableGameComponents;
 
@@ -61,94 +61,86 @@ namespace ANX.Framework
 
         #region Events
         public event EventHandler<EventArgs> Activated;
-		public event EventHandler<EventArgs> Deactivated;
-		public event EventHandler<EventArgs> Disposed;
-		public event EventHandler<EventArgs> Exiting;
+        public event EventHandler<EventArgs> Deactivated;
+        public event EventHandler<EventArgs> Disposed;
+        public event EventHandler<EventArgs> Exiting;
 
         #endregion
 
         public Game()
-		{
-			Logger.Info("created a new Game-Class");
+        {
+            Logger.Info("created a new Game-Class");
 
-			this.gameServices = new GameServiceContainer();
-			this.gameTime = new GameTime();
+            this.gameServices = new GameServiceContainer();
+            this.gameTime = new GameTime();
 
-			try
-			{
-				AddInSystemFactory.Instance.Initialize();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Error while initializing AddInSystem: " + ex);
-				throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
-			}
+            try
+            {
+                AddInSystemFactory.Instance.Initialize();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error while initializing AddInSystem: " + ex);
+                throw new AddInLoadingException("Error while initializing AddInSystem.", ex);
+            }
 
-			AddSystemCreator<IInputSystemCreator>();
-			AddSystemCreator<ISoundSystemCreator>();
-			AddSystemCreator<IRenderSystemCreator>();
+            AddSystemCreator<IInputSystemCreator>();
+            AddSystemCreator<ISoundSystemCreator>();
+            AddSystemCreator<IRenderSystemCreator>();
 
             FrameworkDispatcher.Update();
 
-			CreateGameHost();
+            CreateGameHost();
 
-			Logger.Info("creating ContentManager");
-			this.content = new ContentManager(this.gameServices);
+            Logger.Info("creating ContentManager");
+            this.content = new ContentManager(this.gameServices);
 
-			Logger.Info("creating GameTimer");
-			this.gameTimer = new GameTimer();
-			this.IsFixedTimeStep = true;
-			this.gameUpdateTime = new GameTime();
+            Logger.Info("creating GameTimer");
+            this.gameTimer = new GameTimer();
+            this.IsFixedTimeStep = true;
+            this.gameUpdateTime = new GameTime();
             this.InactiveSleepTime = TimeSpan.FromMilliseconds(20.0); 
             this.TargetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60L);  // default is 1/60s 
 
             //TODO: implement draw- and update-order handling of GameComponents
-			this.Components = new GameComponentCollection();
-			this.Components.ComponentAdded += components_ComponentAdded;
-			this.Components.ComponentRemoved += components_ComponentRemoved;
+            this.Components = new GameComponentCollection();
+            this.Components.ComponentAdded += components_ComponentAdded;
+            this.Components.ComponentRemoved += components_ComponentRemoved;
             this.drawableGameComponents = new List<IGameComponent>();
 
-			Logger.Info("finished initializing new Game class");
+            Logger.Info("finished initializing new Game class");
 
             this.IsActive = true;
-		}
+        }
 
-		~Game()
-		{
-			this.Components.ComponentAdded -= components_ComponentAdded;
-			this.Components.ComponentRemoved -= components_ComponentRemoved;
+        #region CreateGameHost
+        private void CreateGameHost()
+        {
+            Logger.Info("creating GameHost");
+            host = PlatformSystem.Instance.CreateGameHost(this);
 
-			Dispose(false);
-		}
+            host.Activated += HostActivated;
+            host.Deactivated += HostDeactivated;
+            host.Suspend += HostSuspend;
+            host.Resume += HostResume;
+            host.Idle += HostIdle;
+            host.Exiting += HostExiting;
+        }
+        #endregion
 
-		#region CreateGameHost
-		private void CreateGameHost()
-		{
-			Logger.Info("creating GameHost");
-			host = PlatformSystem.Instance.CreateGameHost(this);
+        #region AddSystemCreator
+        private T AddSystemCreator<T>() where T : class, ICreator
+        {
+            T creator = AddInSystemFactory.Instance.GetDefaultCreator<T>();
+            if (creator != null)
+                this.gameServices.AddService(typeof(T), creator);
 
-			host.Activated += HostActivated;
-			host.Deactivated += HostDeactivated;
-			host.Suspend += HostSuspend;
-			host.Resume += HostResume;
-			host.Idle += HostIdle;
-			host.Exiting += HostExiting;
-		}
-		#endregion
+            return creator;
+        }
+        #endregion
 
-		#region AddSystemCreator
-		private T AddSystemCreator<T>() where T : class, ICreator
-		{
-			T creator = AddInSystemFactory.Instance.GetDefaultCreator<T>();
-			if (creator != null)
-				this.gameServices.AddService(typeof(T), creator);
-
-			return creator;
-		}
-		#endregion
-
-		protected virtual void Initialize()
-		{
+        protected virtual void Initialize()
+        {
             if (!this.isInitialized)
             {
                 foreach (GameComponent component in this.Components)
@@ -160,11 +152,11 @@ namespace ANX.Framework
 
                 this.LoadContent();
             }
-		}
+        }
 
-		protected virtual void Update(GameTime gameTime)
-		{
-			foreach (IUpdateable updateable in this.Components)
+        protected virtual void Update(GameTime gameTime)
+        {
+            foreach (IUpdateable updateable in this.Components)
             {
                 if (updateable.Enabled)
                 {
@@ -173,10 +165,10 @@ namespace ANX.Framework
             }
 
             FrameworkDispatcher.Update();
-		}
+        }
 
-		protected virtual void Draw(GameTime gameTime)
-		{
+        protected virtual void Draw(GameTime gameTime)
+        {
             foreach (IDrawable drawable in this.drawableGameComponents)
             {
                 if (drawable.Visible)
@@ -184,75 +176,75 @@ namespace ANX.Framework
                     drawable.Draw(gameTime);
                 }
             }
-		}
+        }
 
-		protected virtual void LoadContent()
-		{
+        protected virtual void LoadContent()
+        {
 
-		}
+        }
 
-		protected virtual void UnloadContent()
-		{
+        protected virtual void UnloadContent()
+        {
 
-		}
+        }
 
-		protected virtual void BeginRun()
-		{
+        protected virtual void BeginRun()
+        {
 
-		}
+        }
 
-		protected virtual void EndRun()
-		{
+        protected virtual void EndRun()
+        {
 
-		}
+        }
 
-		public void RunOneFrame()
-		{
-			throw new NotImplementedException();
-		}
+        public void RunOneFrame()
+        {
+            throw new NotImplementedException();
+        }
 
-		public void SuppressDraw()
-		{
+        public void SuppressDraw()
+        {
             this.suppressDraw = true;
-		}
+        }
 
-		public void ResetElapsedTime()
-		{
+        public void ResetElapsedTime()
+        {
             //TODO Check if it works right
-            gameTimeAccu = TimeSpan.MinValue;
-		}
+            gameTimeAccu = TimeSpan.Zero;
+        }
 
-		protected virtual bool BeginDraw()
-		{
-			if ((this.graphicsDeviceManager != null) && !this.graphicsDeviceManager.BeginDraw())
-			{
-				return false;
-			}
-			//Logger.BeginLogEvent(LoggingEvent.Draw, "");
-			return true;
-		}
+        protected virtual bool BeginDraw()
+        {
+            if ((this.graphicsDeviceManager != null) && !this.graphicsDeviceManager.BeginDraw())
+            {
+                return false;
+            }
+            //Logger.BeginLogEvent(LoggingEvent.Draw, "");
+            return true;
+        }
 
-		protected virtual void EndDraw()
-		{
-			if (this.graphicsDeviceManager != null)
-			{
-				this.graphicsDeviceManager.EndDraw();
-			}
-		}
+        protected virtual void EndDraw()
+        {
+            if (this.graphicsDeviceManager != null)
+            {
+                this.graphicsDeviceManager.EndDraw();
+            }
+        }
 
-		public void Exit()
-		{
-			this.ShouldExit = true;
-			this.host.Exit();
-		}
+        public void Exit()
+        {
+            this.ShouldExit = true;
+            this.host.Exit();
+        }
 
-		public void Run()
-		{
-			this.RunGame();
-		}
+        public void Run()
+        {
+            this.RunGame();
+        }
 
-		public void Tick()
-		{
+        public void Tick()
+        {
             if (this.ShouldExit)
             {
                 return;
@@ -266,6 +258,13 @@ namespace ANX.Framework
 
             gameTimer.Update();
 
+            //Do an additional update cycle at the beginning to be compatible with XNA.
+            if (!firstUpdateDone)
+            {
+                this.Update(this.gameTime);
+                this.firstUpdateDone = true;
+            }
+
             bool skipDraw = IsFixedTimeStep ? DoFixedTimeStep(gameTimer.Elapsed) : DoTimeStep(gameTimer.Elapsed);
             this.suppressDraw = false;
             if (skipDraw == false)
@@ -273,7 +272,7 @@ namespace ANX.Framework
                 DrawFrame();
             }
 
-		}
+        }
 
         private bool DoFixedTimeStep(TimeSpan time)
         {
@@ -342,25 +341,25 @@ namespace ANX.Framework
         }
 
         private void RunGame()
-		{
-			this.graphicsDeviceManager = this.Services.GetService(typeof(IGraphicsDeviceManager)) as IGraphicsDeviceManager;
-			if (this.graphicsDeviceManager != null)
-				this.graphicsDeviceManager.CreateDevice();
+        {
+            this.graphicsDeviceManager = this.Services.GetService(typeof(IGraphicsDeviceManager)) as IGraphicsDeviceManager;
+            if (this.graphicsDeviceManager != null)
+                this.graphicsDeviceManager.CreateDevice();
 
-			this.Initialize();
-			this.inRun = true;
-			this.BeginRun();
-			this.gameTime.ElapsedGameTime = TimeSpan.Zero;
-			this.gameTime.TotalGameTime = this.totalGameTime;
-			this.gameTime.IsRunningSlowly = false;
-			this.Update(this.gameTime);
-			this.firstUpdateDone = true;
-			this.host.Run();
-			this.EndRun();
-		}
+            this.Initialize();
+            this.inRun = true;
+            this.BeginRun();
+            this.gameTime.ElapsedGameTime = TimeSpan.Zero;
+            this.gameTime.TotalGameTime = this.totalGameTime;
+            this.gameTime.IsRunningSlowly = false;
+            
+            this.host.Run();
 
-		private void DrawFrame()
-		{
+            this.EndRun();
+        }
+
+        private void DrawFrame()
+        {
             if (!this.ShouldExit)
             {
                 if (this.firstUpdateDone)
@@ -380,93 +379,93 @@ namespace ANX.Framework
                     }
                 }
             }
-		}
+        }
 
         #region Public Properties
         public GameServiceContainer Services
-		{
-			get
-			{
-				return this.gameServices;
-			}
-		}
+        {
+            get
+            {
+                return this.gameServices;
+            }
+        }
 
-		public ContentManager Content
-		{
-			get
-			{
-				return this.content;
-			}
-			set
-			{
-				this.content = value;
-			}
-		}
+        public ContentManager Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+            }
+        }
 
-		public GraphicsDevice GraphicsDevice
-		{
-			get
-			{
-				//TODO: GraphicsDevice property is heavily used. Maybe it is better to hook an event to the services container and
-				//      cache the reference to the GraphicsDeviceService to prevent accessing the dictionary of the services container
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                //TODO: GraphicsDevice property is heavily used. Maybe it is better to hook an event to the services container and
+                //      cache the reference to the GraphicsDeviceService to prevent accessing the dictionary of the services container
 
-				IGraphicsDeviceService graphicsDeviceService = this.graphicsDeviceService;
-				if (graphicsDeviceService == null)
-				{
-					this.graphicsDeviceService = graphicsDeviceService = this.Services.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
+                IGraphicsDeviceService graphicsDeviceService = this.graphicsDeviceService;
+                if (graphicsDeviceService == null)
+                {
+                    this.graphicsDeviceService = graphicsDeviceService = this.Services.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
 
-					//TODO: exception if null
-				}
+                    //TODO: exception if null
+                }
 
-				return graphicsDeviceService.GraphicsDevice;
-			}
-		}
+                return graphicsDeviceService.GraphicsDevice;
+            }
+        }
 
-		public GameWindow Window
-		{
-			get
-			{
+        public GameWindow Window
+        {
+            get
+            {
                 return (host != null) ? host.Window : null;
-			}
-		}
+            }
+        }
 
-		public bool IsFixedTimeStep
-		{
-			get;
-			set;
-		}
+        public bool IsFixedTimeStep
+        {
+            get;
+            set;
+        }
 
-		public TimeSpan TargetElapsedTime
-		{
-			get;
-			set;
-		}
+        public TimeSpan TargetElapsedTime
+        {
+            get;
+            set;
+        }
 
-		public TimeSpan InactiveSleepTime
-		{
-			get;
-			set;
-		}
+        public TimeSpan InactiveSleepTime
+        {
+            get;
+            set;
+        }
 
-		public bool IsActive
-		{
-			get;
+        public bool IsActive
+        {
+            get;
             internal set;
         }
 
-		public bool IsMouseVisible
-		{
-			get;
-			set;
-		}
+        public bool IsMouseVisible
+        {
+            get;
+            set;
+        }
 
-		public LaunchParameters LaunchParameters
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public LaunchParameters LaunchParameters
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public GameComponentCollection Components
         {
@@ -484,34 +483,37 @@ namespace ANX.Framework
             }
         }
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				IDisposable disposable;
-				var array = new IGameComponent[Components.Count];
-				Components.CopyTo(array, 0);
-				for (int i = 0; i < array.Length; i++)
-				{
-					disposable = (IDisposable)array[i];
-					if (disposable != null)
-						disposable.Dispose();
-				}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Components.ComponentAdded -= components_ComponentAdded;
+                this.Components.ComponentRemoved -= components_ComponentRemoved;
 
-				disposable = (IDisposable)graphicsDeviceManager;
-				if (disposable != null)
-					disposable.Dispose();
+                IDisposable disposable;
+                var array = new IGameComponent[Components.Count];
+                Components.CopyTo(array, 0);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    disposable = (IDisposable)array[i];
+                    if (disposable != null)
+                        disposable.Dispose();
+                }
 
-				if (Disposed != null)
-					Disposed(this, EventArgs.Empty);
-			}
-		}
+                disposable = (IDisposable)graphicsDeviceManager;
+                if (disposable != null)
+                    disposable.Dispose();
+
+                if (Disposed != null)
+                    Disposed(this, EventArgs.Empty);
+            }
+        }
 
         protected virtual bool ShowMissingRequirementMessage(Exception exception)
         {
@@ -520,19 +522,19 @@ namespace ANX.Framework
 
         #region Event Handling
         protected virtual void OnActivated(Object sender, EventArgs args)
-		{
+        {
             RaiseIfNotNull(this.Activated, sender, args);
-		}
+        }
 
-		protected virtual void OnDeactivated(Object sender, EventArgs args)
-		{
+        protected virtual void OnDeactivated(Object sender, EventArgs args)
+        {
             RaiseIfNotNull(this.Deactivated, sender, args);
-		}
+        }
 
-		protected virtual void OnExiting(Object sender, EventArgs args)
-		{
+        protected virtual void OnExiting(Object sender, EventArgs args)
+        {
             RaiseIfNotNull(this.Exiting, sender, args);
-		}
+        }
 
         private void RaiseIfNotNull(EventHandler<EventArgs> eventDelegate, Object sender, EventArgs args)
         {

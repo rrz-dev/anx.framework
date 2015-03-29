@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using ANX.Framework.NonXNA;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -36,3 +37,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.7.28.0")]
 
 [assembly: InternalsVisibleTo("ANX.Framework.ContentPipeline")]
+
+[assembly: SupportedPlatforms(
+    PlatformName.WindowsVista,
+	PlatformName.Windows7,
+    PlatformName.Windows8
+)]
