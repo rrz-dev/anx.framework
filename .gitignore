@@ -7,3 +7,4 @@ obj
 *.cachefile
 /packages/**
 /package
+/UpgradeLog.htm

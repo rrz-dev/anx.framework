@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ANX.Framework\ANX.Framework.csproj">
-      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Project>{6899f0c9-70b9-4eb0-9dd3-e598d4be3e35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Support\OggUtils\OggUtils.csproj">

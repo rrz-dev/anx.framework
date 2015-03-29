@@ -56,10 +56,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertHelper.cs" />
+    <Compile Include="ContentPipeline\Helper\Comparer.cs" />
     <Compile Include="ContentPipeline\Helper\SharedResource.cs" />
     <Compile Include="ContentPipeline\MathTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Compiler.cs" />
     <Compile Include="ContentPipeline\PrimitiveTypesTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\CollectionSerializerTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\CurveSerializerTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\InterfaceSerializerTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\NestedClassTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\NullableTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\RecursionTests.cs" />
+    <Compile Include="ContentPipeline\Serialization\Intermediate\ReflectiveSerializerTests.cs" />
     <Compile Include="ContentPipeline\SystemTypesTests.cs" />
     <Compile Include="ContentPipeline\Helper\Nullable.cs" />
     <Compile Include="DataFactory.cs" />
@@ -177,9 +185,9 @@
       <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
       <Name>ANX.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InputSystems\ANX.InputDevices.Windows.XInput\ANX.InputDevices.Windows.XInput.csproj">
-      <Project>{60D08399-244F-46A3-91F1-4CFD26D961A3}</Project>
-      <Name>ANX.InputDevices.Windows.XInput</Name>
+    <ProjectReference Include="..\InputSystems\ANX.InputDevices.Test\ANX.InputDevices.Test.csproj">
+      <Project>{5040a9c7-6dec-4613-8586-a598c4070b35}</Project>
+      <Name>ANX.InputDevices.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\InputSystems\ANX.InputSystem.Standard\ANX.InputSystem.Standard.csproj">
       <Project>{49066074-3B7B-4A55-B122-6BD33AB73558}</Project>
@@ -193,6 +201,9 @@
       <Project>{6A582788-C4D2-410C-96CD-177F75712D65}</Project>
       <Name>ANX.SoundSystem.Windows.XAudio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

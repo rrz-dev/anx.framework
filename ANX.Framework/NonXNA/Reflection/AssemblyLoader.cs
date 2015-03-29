@@ -7,33 +7,33 @@ using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.Framework.NonXNA.Reflection
 {
-	internal static class AssemblyLoader
-	{
-		#region Constants
-		private static readonly string[] IgnoreAssemblies =
-		{
-			"OpenTK.dll",
-			"OpenTK.GLControl.dll",
-			"OpenTK.Compatibility.dll",
-			"sharpdx_direct3d11_effects_x86.dll",
-			"sharpdx_direct3d11_effects_x64.dll",
-			"SharpDX.dll",
-			"SharpDX.Direct3D11.dll",
-			"SharpDX.Direct3D10.dll",
-			"SharpDX.D3DCompiler.dll",
-			"SharpDX.DXGI.dll",
-			"SharpDX.XInput.dll",
-			"SharpDX.DirectInput.dll",
-			"WaveUtils.dll",
-			"SharpDX.XAudio2.dll",
-			"System.dll",
-			"System.Core.dll",
-			"System.Xml.dll",
-			"System.Xml.Linq.dll",
-			"mscorlib.dll",
-			"Sce.PlayStation.Core.dll",
-			"wrap_oal.dll",
-			"OpenAL32.dll",
+    internal static class AssemblyLoader
+    {
+        #region Constants
+        private static readonly string[] IgnoreAssemblies =
+        {
+            "OpenTK.dll",
+            "OpenTK.GLControl.dll",
+            "OpenTK.Compatibility.dll",
+            "sharpdx_direct3d11_effects_x86.dll",
+            "sharpdx_direct3d11_effects_x64.dll",
+            "SharpDX.dll",
+            "SharpDX.Direct3D11.dll",
+            "SharpDX.Direct3D10.dll",
+            "SharpDX.D3DCompiler.dll",
+            "SharpDX.DXGI.dll",
+            "SharpDX.XInput.dll",
+            "SharpDX.DirectInput.dll",
+            "WaveUtils.dll",
+            "SharpDX.XAudio2.dll",
+            "System.dll",
+            "System.Core.dll",
+            "System.Xml.dll",
+            "System.Xml.Linq.dll",
+            "mscorlib.dll",
+            "Sce.PlayStation.Core.dll",
+            "wrap_oal.dll",
+            "OpenAL32.dll",
             "nunit.framework.dll",
             "OggUtils.dll",
             "Microsoft.Research.Kinect.dll",
@@ -42,146 +42,157 @@ namespace ANX.Framework.NonXNA.Reflection
             "Microsoft.Xna.Framework.Content.Pipeline.dll",
             "OggUtils.dll",
             "OggUtils.dll",
-		};
-		#endregion
+        };
+        #endregion
 
-		#region Private
-		private static List<Assembly> allAssemblies;
-		#endregion
+        #region Private
+        private static List<Assembly> allAssemblies = new List<Assembly>();
+        private static bool initialized = false;
+        private static List<Type> creatorTypes = new List<Type>();
+        private static List<Type> supportedPlatformsTypes = new List<Type>();
+        #endregion
 
-		#region Public
-		public static List<Type> CreatorTypes
-		{
-			get;
-			private set;
-		}
+        #region Public
+        public static List<Type> CreatorTypes
+        {
+            get
+            {
+                InitializeIfNotInitializedYet();
+                return creatorTypes;
+            }
+        }
 
-		public static List<Type> SupportedPlatformsTypes
-		{
-			get;
-			private set;
-		}
-		#endregion
+        public static List<Type> SupportedPlatformsTypes
+        {
+            get
+            {
+                InitializeIfNotInitializedYet();
+                return supportedPlatformsTypes;
+            }
+        }
+        #endregion
 
-		#region Constructor
-		static AssemblyLoader()
-		{
-			allAssemblies = new List<Assembly>();
-			CreatorTypes = new List<Type>();
-			SupportedPlatformsTypes = new List<Type>();
+        private static void InitializeIfNotInitializedYet()
+        {
+            if (initialized)
+                return;
 
-			LoadAllAssemblies();
-			SearchForValidAddInTypes();
-		}
-		#endregion
+            LoadAllAssemblies();
+            SearchForValidAddInTypes();
+            initialized = true;
+        }
 
-		#region LoadAllAssemblies
-		private static void LoadAllAssemblies()
-		{
-			LoadAssembliesFromFile();
-			LoadAssembliesFromNames();
+        #region LoadAllAssemblies
+        private static void LoadAllAssemblies()
+        {
+            LoadAssembliesFromFile();
+            LoadAssembliesFromNames();
 
-			// Also load the current assembly. This is needed when we run on android or win8 with merged assemblies.
+            // Also load the current assembly. This is needed when we run on android or win8 with merged assemblies.
 #if !WINDOWSMETRO
-			allAssemblies.Add(Assembly.GetEntryAssembly());
+            var entryAssembly = Assembly.GetEntryAssembly();
+            //Entry assembly could be null if the managed code was called directly from native code without going through a Main entry point.
+            //Which would for example happen when the tests are run via NUnit.
+            if (entryAssembly != null)
+                allAssemblies.Add(entryAssembly);
 #else
-			// TODO: a lot of testing is required!
-			allAssemblies.Add(typeof(AssemblyLoader).GetTypeInfo().Assembly);
+            // TODO: a lot of testing is required!
+            allAssemblies.Add(typeof(AssemblyLoader).GetTypeInfo().Assembly);
 #endif
-		}
-		#endregion
+        }
+        #endregion
 
-		#region LoadAssembliesFromFile
-		private static void LoadAssembliesFromFile()
-		{
+        #region LoadAssembliesFromFile
+        private static void LoadAssembliesFromFile()
+        {
 #if !ANDROID && !WINDOWSMETRO
-			string executingAssemblyFilepath = Assembly.GetExecutingAssembly().Location;
-			string basePath = Path.GetDirectoryName(executingAssemblyFilepath);
+            string executingAssemblyFilepath = Assembly.GetExecutingAssembly().Location;
+            string basePath = Path.GetDirectoryName(executingAssemblyFilepath);
 
-			List<string> assembliesInPath = new List<string>();
-			assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.dll", SearchOption.TopDirectoryOnly));
-			assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.exe", SearchOption.TopDirectoryOnly));
+            List<string> assembliesInPath = new List<string>();
+            assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.dll", SearchOption.TopDirectoryOnly));
+            assembliesInPath.AddRange(Directory.GetFiles(basePath, "*.exe", SearchOption.TopDirectoryOnly));
 
-			foreach (string file in assembliesInPath)
-			{
-				bool ignore = false;
-				foreach (string ignoreName in IgnoreAssemblies)
-				{
-					if (file.EndsWith(ignoreName, StringComparison.InvariantCultureIgnoreCase))
-					{
-						ignore = true;
-						break;
-					}
-				}
+            foreach (string file in assembliesInPath)
+            {
+                bool ignore = false;
+                foreach (string ignoreName in IgnoreAssemblies)
+                {
+                    if (file.EndsWith(ignoreName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        ignore = true;
+                        break;
+                    }
+                }
 
-				if (ignore)
-					continue;
+                if (ignore)
+                    continue;
 
-				Logger.Info("[ANX] trying to load '" + file + "'...");
-				try
-				{
-					Assembly assembly = Assembly.LoadFrom(file);
-					allAssemblies.Add(assembly);
-				}
-				catch
-				{
-				}
-			}
+                Logger.Info("[ANX] trying to load '" + file + "'...");
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    allAssemblies.Add(assembly);
+                }
+                catch
+                {
+                }
+            }
 #endif
-		}
-		#endregion
+        }
+        #endregion
 
-		#region LoadAssembliesFromNames
-		private static void LoadAssembliesFromNames()
-		{
-			List<string> allAssemblyNames = new List<string>();
+        #region LoadAssembliesFromNames
+        private static void LoadAssembliesFromNames()
+        {
+            List<string> allAssemblyNames = new List<string>();
 
 #if WINDOWSMETRO
-			allAssemblyNames.Add("ANX.PlatformSystem.Metro");
-			allAssemblyNames.Add("ANX.RenderSystem.Windows.Metro");
-			allAssemblyNames.Add("ANX.InputSystem.Standard");
-			allAssemblyNames.Add("ANX.InputDevices.Windows.ModernUI");
-			allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
+            allAssemblyNames.Add("ANX.PlatformSystem.Metro");
+            allAssemblyNames.Add("ANX.RenderSystem.Windows.Metro");
+            allAssemblyNames.Add("ANX.InputSystem.Standard");
+            allAssemblyNames.Add("ANX.InputDevices.Windows.ModernUI");
+            allAssemblyNames.Add("ANX.SoundSystem.Windows.XAudio");
 #endif
 
-			foreach (string assemblyName in allAssemblyNames)
-			{
-				Assembly loadedAssembly = LoadAssemblyByName(assemblyName);
-				if (loadedAssembly != null)
-					allAssemblies.Add(loadedAssembly);
-			}
-		}
-		#endregion
+            foreach (string assemblyName in allAssemblyNames)
+            {
+                Assembly loadedAssembly = LoadAssemblyByName(assemblyName);
+                if (loadedAssembly != null)
+                    allAssemblies.Add(loadedAssembly);
+            }
+        }
+        #endregion
 
-		#region LoadAssemblyByName
-		private static Assembly LoadAssemblyByName(string assemblyName)
-		{
-			try
-			{
+        #region LoadAssemblyByName
+        private static Assembly LoadAssemblyByName(string assemblyName)
+        {
+            try
+            {
 #if WINDOWSMETRO
-				return Assembly.Load(new AssemblyName(assemblyName));
+                return Assembly.Load(new AssemblyName(assemblyName));
 #else
-				return Assembly.Load(assemblyName);
+                return Assembly.Load(assemblyName);
 #endif
-			}
-			catch
-			{
-				return null;
-			}
-		}
-		#endregion
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
 
-		#region SearchForValidAddInTypes
-		private static void SearchForValidAddInTypes()
-		{
-			foreach (Assembly assembly in allAssemblies)
-				SearchForValidAddInTypesInAssembly(assembly);
-		}
-		#endregion
+        #region SearchForValidAddInTypes
+        private static void SearchForValidAddInTypes()
+        {
+            foreach (Assembly assembly in allAssemblies)
+                SearchForValidAddInTypesInAssembly(assembly);
+        }
+        #endregion
 
-		#region SearchForValidAddInTypesInAssembly
-		private static void SearchForValidAddInTypesInAssembly(Assembly assembly)
-		{
+        #region SearchForValidAddInTypesInAssembly
+        private static void SearchForValidAddInTypesInAssembly(Assembly assembly)
+        {
             var assemblyAttributes = assembly.GetCustomAttributes<SupportedPlatformsAttribute>();
 
             //This step before we are iterating over the types makes the startup faster, around 2 seconds faster.
@@ -217,23 +228,23 @@ namespace ANX.Framework.NonXNA.Reflection
             }
 
             Logger.Info("checking assembly \"{0}\".", assembly.FullName);
-			Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
+            Type[] allTypes = TypeHelper.SafelyExtractTypesFrom(assembly);
 
-			foreach (Type type in allTypes)
-			{
+            foreach (Type type in allTypes)
+            {
                 //Can happen if we have types that are incompatible with our Runtime version.
                 //TODO: Maybe we should instead throw an error?
                 //Would be a very annoying error to find for someone who uses the code.
-				if (type == null)
-					continue;
+                if (type == null)
+                    continue;
 
-				bool isTypeCreatable = TypeHelper.IsAbstract(type) == false && TypeHelper.IsInterface(type) == false;
+                bool isTypeCreatable = TypeHelper.IsAbstract(type) == false && TypeHelper.IsInterface(type) == false;
                 if (isTypeCreatable)
                 {
                     bool isTypeValidCreator = TypeHelper.IsTypeAssignableFrom(typeof(ICreator), type);
                     if (isTypeValidCreator)
                     {
-                        CreatorTypes.Add(type);
+                        creatorTypes.Add(type);
                         continue;
                     }
 
@@ -244,8 +255,8 @@ namespace ANX.Framework.NonXNA.Reflection
                         InputDeviceFactory.Instance.AddCreator(type, inputCreator);
                     }
                 }
-			}
-		}
-		#endregion
-	}
+            }
+        }
+        #endregion
+    }
 }

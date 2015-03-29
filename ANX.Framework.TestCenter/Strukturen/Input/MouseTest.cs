@@ -46,13 +46,5 @@ namespace ANX.Framework.TestCenter.Strukturen.Input
             AssertHelper.ConvertEquals(new ANXMouseState(x, y, 0, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released, ANXButtonState.Released), ANXMouse.GetState(), "GetState");
 
         }
-        [TestCaseSource("twoInt")]
-        public void WindowHandle(int x, int y)
-        {
-            ANXMouse.SetPosition(x, y);
-            ANXMouse.WindowHandle = new IntPtr(x);
-            AssertHelper.ConvertEquals((int)ANXMouse.WindowHandle, x, "WindowHandle");
-
-        }
     }
 }

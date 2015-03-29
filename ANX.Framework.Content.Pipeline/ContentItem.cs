@@ -19,18 +19,21 @@ namespace ANX.Framework.Content.Pipeline
             // nothing to do here
         }
 
+        [ContentSerializer(Optional = true)]
         public ContentIdentity Identity
         {
             get;
             set;
         }
 
+        [ContentSerializer(Optional = true)]
         public string Name
         {
             get;
             set;
         }
 
+        [ContentSerializer(Optional = true)]
         public OpaqueDataDictionary OpaqueData
         {
             get;

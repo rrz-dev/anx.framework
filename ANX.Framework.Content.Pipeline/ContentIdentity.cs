@@ -38,19 +38,22 @@ namespace ANX.Framework.Content.Pipeline
             FragmentIdentifier = fragmentIdentifier;
         }
 
-        public string FragmentIdentifier
-        {
-            get;
-            set;
-        }
-
+        [ContentSerializer(Optional = true)]
         public string SourceFilename
         {
             get;
             set;
         }
 
+        [ContentSerializer(Optional = true)]
         public string SourceTool
+        {
+            get;
+            set;
+        }
+
+        [ContentSerializer(Optional = true)]
+        public string FragmentIdentifier
         {
             get;
             set;

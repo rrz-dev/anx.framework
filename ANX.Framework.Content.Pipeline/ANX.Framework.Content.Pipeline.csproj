@@ -16,7 +16,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,6 +63,7 @@
     <Compile Include="Helpers\AssemblyHelper.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\CompiledPass.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\MetroCodeGenerator.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\GL3\ShaderHelper.cs" />
     <Compile Include="Helpers\GL3\ShaderData.cs" />
     <Compile Include="Helpers\HLSLParser\CommentRemover.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Processors\VertexBufferContent.cs" />
     <Compile Include="Processors\VertexDeclarationContent.cs" />
     <Compile Include="Processors\VideoProcessor.cs" />
+    <Compile Include="ReferenceEqualityComparer.cs" />
     <Compile Include="Serialization\Compiler\ArrayWriter.cs" />
     <Compile Include="Serialization\Compiler\BuiltInTypeWriter.cs" />
     <Compile Include="Serialization\Compiler\ContentCompiler.cs" />
@@ -205,6 +207,56 @@
     <Compile Include="Serialization\Compiler\SystemTypeWriters\DecimalWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\NullableWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\TimeSpanWriter.cs" />
+    <Compile Include="Serialization\Intermediate\ContentInterfaceSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\ContentTypeSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\ContentTypeSerializerAttribute.cs" />
+    <Compile Include="Serialization\Intermediate\EmptyElementReader.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateReader.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateWriter.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateXmlReader.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateXmlReader.Parts.cs" />
+    <Compile Include="Serialization\Intermediate\IntermediateXmlWriter.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\BoundingFrustumSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\ColorSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\CurveKeySerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\MatrixSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\PackedVectorSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\PlaneSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\PointSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\QuaternionSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\RectangleSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\Vector2Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\Vector3Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\MathTypeSerializers\Vector4Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\MediaTypeSerializers\ExternalReferenceSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\BooleanSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\ByteSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\CharSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\DoubleSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\Int16Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\Int32Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\Int64Serializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\SingleSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\PrimitiveTypeSerializers\StringSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\ReflectiveSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\ReflectiveSerializerFieldHelper.cs" />
+    <Compile Include="Serialization\Intermediate\ReflectiveSerializerMemberHelper.cs" />
+    <Compile Include="Serialization\Intermediate\ReflectiveSerializerPropertyHelper.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\ArraySerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\CollectionSerializerBase.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\DateTimeSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\DecimalSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\EnumSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\ICollectionSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\IDictionarySerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\ListSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\NullableSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\TimeSpanSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\SystemTypeSerializers\TypeSerializer.cs" />
+    <Compile Include="Serialization\Intermediate\XmlTypeNameContainer.cs" />
+    <Compile Include="Serialization\Intermediate\XmlTypeNameReader.cs" />
+    <Compile Include="Serialization\Intermediate\XmlTypeNameWriter.cs" />
     <Compile Include="TargetPlatform.cs" />
     <Compile Include="Tasks\BuildContent.cs" />
     <Compile Include="Tasks\BuildItem.cs" />

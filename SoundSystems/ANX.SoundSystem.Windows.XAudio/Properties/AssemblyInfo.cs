@@ -38,8 +38,8 @@ using System.Runtime.InteropServices;
 
 [assembly: SupportedPlatforms(
     PlatformName.Windows7,
-	PlatformName.WindowsXP,
-	PlatformName.WindowsVista,
-	PlatformName.Windows8,
+    PlatformName.WindowsXP,
+    PlatformName.WindowsVista,
+    PlatformName.Windows8,
     PlatformName.Windows8ModernUI
 )]
