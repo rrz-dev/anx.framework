@@ -2,6 +2,9 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.Design;
+using System.ComponentModel;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -14,6 +17,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("xToast, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(Vector3Converter))]
+#endif
     public struct Vector3 : IEquatable<Vector3>
     {
         #region Private Static Fields
@@ -305,6 +312,33 @@ namespace ANX.Framework
             result.Y = value.Y * factor;
             result.Z = value.Z * factor;
         }
+        #endregion
+
+        #region SafeNormalize
+
+        public static Vector3 SafeNormalize(Vector3 value)
+        {
+            Vector3 result;
+            SafeNormalize(ref value, out result);
+            return result;
+        }
+
+        public static void SafeNormalize(ref Vector3 value, out Vector3 result)
+        {
+            //With length squared, we skip a square root until we need it. The check for zero is the same either way.
+            float lengthSquared = value.LengthSquared();
+            if (lengthSquared == 0f)
+            {
+                result = Vector3.Zero;
+                return;
+            }
+
+            float factor = 1f / (float)Math.Sqrt(lengthSquared);
+            result.X = value.X * factor;
+            result.Y = value.Y * factor;
+            result.Z = value.Z * factor;
+        }
+
         #endregion
 
         #region Distance

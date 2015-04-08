@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="e1f9b9bd-d5a6-4635-b03f-4424050c3f09" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="dc914a47-22cd-4492-94db-ad401d38ef47" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>Kinect</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

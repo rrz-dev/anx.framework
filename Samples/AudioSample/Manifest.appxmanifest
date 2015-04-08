@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="e7fc18b9-6326-4c7c-a9a8-4119034de06f" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="68cd301d-9833-4b28-a394-e78c16c9eac8" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>AudioSample</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

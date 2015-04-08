@@ -145,7 +145,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Intermediate
             object obj = existingInstance;
             if (obj == null)
             {
-                obj = Activator.CreateInstance(this.TargetType);
+                obj = Activator.CreateInstance(this.TargetType, nonPublic: true);
             }
 
             if (this.baseSerializer != null)

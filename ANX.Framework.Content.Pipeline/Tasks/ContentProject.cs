@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Xml;
-using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
+using System.Runtime.Versioning;
+using ANX.Framework.Content.Pipeline.Tasks.References;
+using ANX.Framework.Graphics;
 #endregion
 
 // This file is part of the ANX.Framework created by the
@@ -16,11 +19,11 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
     //comment by author: if you find any mistakes in my language, go fix them ;-)
-    [Developer("SilentWarrior/Eagle Eye Studios")]
-    [PercentageComplete(100)]
-    [TestState(TestStateAttribute.TestState.InProgress)]
+    [Serializable]
     public class ContentProject
     {
+        public const string XmlNamespace = "https://anxframework.codeplex.com/AnxContentProject.xsd";
+
         #region Properties
         /// <summary>
         /// Name of the Content Project
@@ -31,29 +34,15 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// Major version of the project format
         /// </summary>
         [Browsable(false)]
-        public int VersionMajor { get { return 1; } }
+        public int VersionMajor { get { return 1; } } 
 
         /// <summary>
         /// Minor version of the project format.
         /// Used to keep backwards compatibility
         /// </summary>
         [Browsable(false)]
-        public int VersionMinor { get { return 2; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
-
-        /// <summary>
-        /// The directory where the compiled output will be placed
-        /// </summary>
-        public String OutputDirectory { get; set; }
-
-        /// <summary>
-        /// The Source root directory where the majority of files is located in.
-        /// </summary>
-        public String InputDirectory { get; set; }
-
-        /// <summary>
-        /// The Content Root Directory. Default value is "Content".
-        /// </summary>
-        public String ContentRoot { get; set; }
+        public int VersionMinor { get { return 3; } } //before you commit your changes, please increase this value by one (and if you added stuff, please check the version before you read anything out of a file).
+        //And update the project template files, if necessary.
 
         /// <summary>
         /// A list containing all build items of this project
@@ -61,14 +50,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         public List<BuildItem> BuildItems { get; private set; }
 
         /// <summary>
-        /// A custom directory to look for custom importers/processors
+        /// A list containing all configurations of this project.
         /// </summary>
-        public String ReferenceIncludeDirectory { get; set; }
+        public ConfigurationCollection Configurations { get; private set; }
 
         /// <summary>
         /// List which holds Assemblies that contain custom importers/processors
         /// </summary>
-        public List<String> References { get; set; }
+        public List<Reference> References { get; private set; }
 
         /// <summary>
         /// Name of the tool that generated the resulting file. Might be useful for tracking down
@@ -76,21 +65,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         /// </summary>
         public String Creator { get; set; }
 
-        /// <summary>
-        /// Target Graphics Profile
-        /// </summary>
-        public GraphicsProfile Profile { get; set; }
-
-        /// <summary>
-        /// The configuration. Can be "Debug" or "Release".
-        /// </summary>
-        [TypeConverter(typeof(BuildModeConverter))]
-        public String Configuration { get; set; }
-
-        /// <summary>
-        /// The platform the content will be compiled for.
-        /// </summary>
-        public TargetPlatform Platform { get; set; }
         #endregion
 
         /// <summary>
@@ -100,9 +74,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         public ContentProject(String name)
         {
             Name = name;
-            OutputDirectory = "bin";
+            Configurations = new ConfigurationCollection();
             BuildItems = new List<BuildItem>();
-            References = new List<string>();
+            References = new List<Reference>();
         }
 
         #region Save
@@ -116,125 +90,143 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
             if (!Directory.Exists(Path.GetDirectoryName(path)))
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
-            XmlWriter writer = XmlTextWriter.Create(path, new XmlWriterSettings() {Encoding = Encoding.UTF8, Indent = true, NewLineHandling = NewLineHandling.Entitize} );
-            writer.WriteStartDocument();
 
-            // <ContentProject Version="4.0">
-            writer.WriteStartElement("ContentProject"); 
-            writer.WriteStartAttribute("Version");
-            writer.WriteValue(VersionMajor + "." + VersionMinor);
-            writer.WriteEndAttribute();
-            writer.WriteStartAttribute("Creator");
-            writer.WriteValue(Creator);
-            writer.WriteEndAttribute();
-
-            //<ProjectName>Name</ProjectName>
-            writer.WriteStartElement("ProjectName");
-            writer.WriteValue(Name);
-            writer.WriteEndElement();
-
-            //<Configuration>Debug</Configuration>
-            writer.WriteStartElement("Configuration");
-            writer.WriteValue(Configuration);
-            writer.WriteEndElement();
-
-            //<Profile>Reach</Profile>
-            writer.WriteStartElement("Profile");
-            writer.WriteValue(Profile.ToString());
-            writer.WriteEndElement();
-
-            //<Platform>Windows</Platform>
-            writer.WriteStartElement("Platform");
-            writer.WriteValue(Platform.ToString());
-            writer.WriteEndElement();
-
-            //<OutputPath>A:\Somewhere</OutputPath>
-            writer.WriteStartElement("OutputPath");
-            writer.WriteValue(OutputDirectory);
-            writer.WriteEndElement();
-
-            //<InputPath>A:\Somewhere</InputPath>
-            writer.WriteStartElement("InputPath");
-            writer.WriteValue(InputDirectory);
-            writer.WriteEndElement();
-
-            //<ContentRoot>Content</ContentRoot>
-            writer.WriteStartElement("ContentRoot");
-            writer.WriteValue(ContentRoot);
-            writer.WriteEndElement();
-
-            //<References IncludeDir="B:\Pipeline">
-            //  <Reference>ANX.Framework.Content.Pipeline.SomewhatImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=blah, ProcessorArch=MSIL</Reference>
-            //</References>
-            writer.WriteStartElement("References");
-            writer.WriteStartAttribute("IncludeDir");
-            writer.WriteString(ReferenceIncludeDirectory);
-            writer.WriteEndAttribute();
-            foreach (var reference in References)
+            //Write only in memory first, to make sure we don't lose the file if something went wrong while saving.
+            using (var stream = new MemoryStream())
             {
-                writer.WriteStartElement("Reference");
-                writer.WriteValue(reference);
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
+                XmlWriter writer = XmlTextWriter.Create(stream, new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true, NewLineHandling = NewLineHandling.Entitize, CloseOutput = false });
+                writer.WriteStartDocument();
 
-            //<BuildItems>
-            //  <BuildItem AssetName="Content/MyPicture" OutputFilename="Content/MyPicture.xnb" Importer="TextureImporter" Processor="TextureProcessor">
-            //      <SourceFile>A:\MyPicture.png</SourceFile>
-            //      <ProcessorParams>
-            //          <Parameter Name="DoThis">True</Parameter>
-            //      <ProcessorParams>
-            //  </BuildItem>
-            //</BuildItems>
-            writer.WriteStartElement("BuildItems");
-            foreach (var buildItem in BuildItems)
-            {
-                writer.WriteStartElement("BuildItem");
-                writer.WriteStartAttribute("AssetName");
-                writer.WriteValue(buildItem.AssetName);
+                // <ContentProject Version="4.0">
+                writer.WriteStartElement("ContentProject", XmlNamespace);
+                writer.WriteStartAttribute("Version");
+                writer.WriteValue(VersionMajor + "." + VersionMinor);
                 writer.WriteEndAttribute();
-                writer.WriteStartAttribute("OutputFilename");
-                writer.WriteValue(buildItem.OutputFilename);
+                writer.WriteStartAttribute("Creator");
+                writer.WriteValue(Creator);
                 writer.WriteEndAttribute();
-                writer.WriteStartAttribute("Importer");
-                writer.WriteValue(buildItem.ImporterName);
-                writer.WriteEndAttribute();
-                writer.WriteStartAttribute("Processor");
-                writer.WriteValue(buildItem.ProcessorName);
-                writer.WriteEndAttribute();
-                writer.WriteStartElement("SourceFile");
-                writer.WriteValue(buildItem.SourceFilename);
+
+                //<ProjectName>Name</ProjectName>
+                writer.WriteStartElement("ProjectName");
+                writer.WriteValue(Name);
                 writer.WriteEndElement();
-                writer.WriteStartElement("ProcessorParams");
-                foreach (var pair in buildItem.ProcessorParameters)
+
+                writer.WriteStartElement("Configurations");
+                foreach (var config in Configurations)
                 {
-                    writer.WriteStartElement("Parameter");
+                    //<Configuration Name="Debug" Platform="Windows">
+                    writer.WriteStartElement("Configuration");
+
                     writer.WriteStartAttribute("Name");
-                    writer.WriteValue(pair.Key);
+                    writer.WriteString(config.Name);
                     writer.WriteEndAttribute();
-                    writer.WriteValue(pair.Value);
+
+                    writer.WriteStartAttribute("Platform");
+                    writer.WriteValue(config.Platform.ToString());
+                    writer.WriteEndAttribute();
+
+                    //<Profile>Reach</Profile>
+                    writer.WriteStartElement("Profile");
+                    writer.WriteValue(config.Profile.ToString());
+                    writer.WriteEndElement();
+
+                    //<OutputPath>A:\Somewhere</OutputPath>
+                    writer.WriteStartElement("OutputPath");
+                    writer.WriteValue(config.OutputDirectory);
+                    writer.WriteEndElement();
+
+                    //<CompressContent>False</CompressContent>
+                    writer.WriteStartElement("CompressContent");
+                    writer.WriteValue(config.CompressContent);
+                    writer.WriteEndElement();
+
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
 
-            writer.Flush();
-            writer.Close();
+                //<References IncludeDir="B:\Pipeline">
+                //  <Reference>ANX.Framework.Content.Pipeline.SomewhatImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=blah, ProcessorArch=MSIL</Reference>
+                //</References>
+                writer.WriteStartElement("References");
+                foreach (var reference in References)
+                {
+                    if (reference is GACReference)
+                        writer.WriteStartElement("AssemblyCacheReference");
+                    else if (reference is AssemblyReference)
+                        writer.WriteStartElement("AssemblyReference");
+                    else if (reference is ProjectReference)
+                        writer.WriteStartElement("ProjectReference");
+
+                    reference.Write(writer);
+
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+
+                //<BuildItems>
+                //  <BuildItem AssetName="Content/MyPicture" OutputFilename="Content/MyPicture.xnb" Importer="TextureImporter" Processor="TextureProcessor">
+                //      <SourceFile>A:\MyPicture.png</SourceFile>
+                //      <ProcessorParams>
+                //          <Parameter Name="DoThis">True</Parameter>
+                //      <ProcessorParams>
+                //  </BuildItem>
+                //</BuildItems>
+                writer.WriteStartElement("BuildItems");
+                foreach (var buildItem in BuildItems)
+                {
+                    writer.WriteStartElement("BuildItem");
+                    writer.WriteStartAttribute("AssetName");
+                    writer.WriteValue(buildItem.AssetName);
+                    writer.WriteEndAttribute();
+                    writer.WriteStartAttribute("Importer");
+                    writer.WriteValue(buildItem.ImporterName);
+                    writer.WriteEndAttribute();
+                    writer.WriteStartAttribute("Processor");
+                    writer.WriteValue(buildItem.ProcessorName);
+                    writer.WriteEndAttribute();
+                    writer.WriteStartElement("SourceFile");
+                    writer.WriteValue(buildItem.SourceFilename);
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("ProcessorParams");
+                    foreach (var pair in buildItem.ProcessorParameters)
+                    {
+                        writer.WriteStartElement("Parameter");
+                        writer.WriteStartAttribute("Name");
+                        writer.WriteValue(pair.Key);
+                        writer.WriteEndAttribute();
+                        writer.WriteValue(pair.Value);
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+
+                writer.Flush();
+                writer.Close();
+
+                using (FileStream file = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    file.Position = 0;
+                    file.SetLength(0);
+                    stream.WriteTo(file);
+                    file.Flush();
+                }
+            }
         }
         #endregion
 
         #region Load
-        private static BuildItem lastBuildItem = null;
         public static ContentProject Load(string path)
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException("The content project you tried to load does not exist: ", path);
 
+            BuildItem lastBuildItem = null;
             var reader = XmlTextReader.Create(path);
             ContentProject project = null;
             String creator = null;
+            Configuration currentConfig = new Configuration("Debug", TargetPlatform.Windows);
             int versionMajor = 0;
             int versionMinor = 0;
             while (!reader.EOF)
@@ -257,69 +249,103 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         if (reader.NodeType == XmlNodeType.Attribute)
                             creator = reader.ReadContentAsString();
                         break;
+                        //<Configurations>
                     case "Configuration":
                         if (reader.NodeType == XmlNodeType.Element)
-                            if (versionMajor == 1 && versionMinor >= 0)
-                                project.Configuration = reader.ReadElementContentAsString();
+                            if (versionMajor == 1)
+                            {
+                                string name;
+                                string platform;
+                                if (versionMinor < 3)
+                                {
+                                    name = reader.ReadElementContentAsString();
+                                    platform = "Windows"; //With the current struct, we just can't load the platform the old way because Configuration is written before Platform.
+                                }
+                                else
+                                {
+                                    name = reader.GetAttribute("Name");
+                                    platform = reader.GetAttribute("Platform");
+                                }
+
+                                if (!currentConfig.IsEmpty)
+                                {
+                                    project.Configurations.Add(currentConfig);
+                                }
+
+                                currentConfig = new Configuration(name, (TargetPlatform)Enum.Parse(typeof(TargetPlatform), platform, true));
+                            }
                         break;
                     case "Profile":
                         if (reader.NodeType == XmlNodeType.Element)
                         {
                             if (versionMinor < 2)
-                                project.Profile = GraphicsProfile.Reach;
+                                currentConfig.Profile = GraphicsProfile.Reach;
                             else
                             {
-                                string profileElement = reader.ReadElementContentAsString();
-                                GraphicsProfile profile;
-                                if (Enum.TryParse<GraphicsProfile>(profileElement, true, out profile))
+                                string text = reader.ReadElementContentAsString();
+                                if (!string.IsNullOrWhiteSpace(text))
                                 {
-                                    project.Profile = profile;
-                                }
-                            }
-                        }
-                        break;
-                    case "Platform":
-                        if (reader.NodeType == XmlNodeType.Element)
-                        {
-                            if (versionMajor == 1 && versionMinor >= 0)
-                            {
-                                string platformElement = reader.ReadElementContentAsString();
-                                TargetPlatform targetPlatform;
-                                if (Enum.TryParse<TargetPlatform>(platformElement, true, out targetPlatform))
-                                {
-                                    project.Platform = targetPlatform;
+                                    currentConfig.Profile = (GraphicsProfile)Enum.Parse(typeof(GraphicsProfile), text, true);
                                 }
                                 else
-                                {
-                                    project.Platform = TargetPlatform.Windows;
-                                }
+                                    currentConfig.Profile = GraphicsProfile.HiDef;
                             }
                         }
                         break;
                     case "OutputPath":
                         if (reader.NodeType == XmlNodeType.Element)
                             if (versionMajor == 1 && versionMinor >= 0)
-                                project.OutputDirectory = reader.ReadElementContentAsString();
+                                currentConfig.OutputDirectory = reader.ReadElementContentAsString();
                         break;
-                    case "InputPath":
+                    case "CompressContent":
                         if (reader.NodeType == XmlNodeType.Element)
-                            if (versionMajor == 1 && versionMinor >= 0)
-                                project.InputDirectory = reader.ReadElementContentAsString();
+                            if (versionMajor == 1 && versionMinor >= 3)
+                                currentConfig.CompressContent = reader.ReadElementContentAsBoolean();
                         break;
-                    case "ContentRoot":
-                        if (reader.NodeType == XmlNodeType.Element)
-                            if (versionMajor == 1 && versionMinor >= 0)
-                                project.ContentRoot = reader.ReadElementContentAsString();
-                        break;
-                    case "IncludeDir":
-                        if (reader.NodeType == XmlNodeType.Attribute)
-                            project.ReferenceIncludeDirectory = reader.ReadContentAsString();
-                        break;
+                        //</Configurations>
+                        //<References>
                     case "Reference":
                         if (reader.NodeType == XmlNodeType.Element)
-                            if (versionMajor == 1 && versionMinor >= 0)
-                                project.References.Add(reader.ReadElementContentAsString());
+                            if (versionMajor == 1)
+                            {
+                                //From version 1.3 onwards, references are divided into different types depending on the element name.
+                                if (versionMinor < 3)
+                                {
+                                    project.References.Add(new AssemblyReference() { AssemblyPath = reader.ReadElementContentAsString() });
+                                }
+                            }
                         break;
+                    case "AssemblyReference":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 3)
+                            {
+                                Reference reference = new AssemblyReference();
+                                reference.Load(reader);
+
+                                project.References.Add(reference);
+                            }
+                        break;
+                    case "ProjectReference":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 3)
+                            {
+                                Reference reference = new ProjectReference();
+                                reference.Load(reader);
+
+                                project.References.Add(reference);
+                            }
+                        break;
+                    case "AssemblyCacheReference":
+                        if (reader.NodeType == XmlNodeType.Element)
+                            if (versionMajor == 1 && versionMinor >= 3)
+                            {
+                                Reference reference = new GACReference();
+                                reference.Load(reader);
+
+                                project.References.Add(reference);
+                            }
+                        break;
+                        //</References>
                     case "BuildItem":
                         if (versionMajor == 1 && versionMinor >= 0)
                         {
@@ -336,10 +362,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                         buildItem.AssetName = reader.ReadContentAsString();
                                         reader.MoveToNextAttribute();
                                         break;
-                                    case "OutputFilename":
-                                        buildItem.OutputFilename = reader.ReadContentAsString();
-                                        reader.MoveToNextAttribute();
-                                        break;
                                     case "Importer":
                                         buildItem.ImporterName = reader.ReadContentAsString();
                                         reader.MoveToNextAttribute();
@@ -351,7 +373,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                         else
                                             reader.Read();
                                         break;
-                                    case "":
+                                    default:
                                         reader.Read();
                                         break;
                                 }
@@ -382,12 +404,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 reader.Read();
             }
             reader.Close();
-            //Check for features that were added in format version 1.1
-            if (project.InputDirectory == null)
-                project.InputDirectory = "";
-            if (project.ReferenceIncludeDirectory == null)
-                project.ReferenceIncludeDirectory = "";
-            
+
+            project.Configurations.Add(currentConfig);
+
             return project;
         }
         #endregion

@@ -16,14 +16,7 @@ namespace ANX.Framework.Content.Pipeline
     {
         public ContentItem()
         {
-            // nothing to do here
-        }
-
-        [ContentSerializer(Optional = true)]
-        public ContentIdentity Identity
-        {
-            get;
-            set;
+            OpaqueData = new OpaqueDataDictionary();
         }
 
         [ContentSerializer(Optional = true)]
@@ -34,12 +27,17 @@ namespace ANX.Framework.Content.Pipeline
         }
 
         [ContentSerializer(Optional = true)]
-        public OpaqueDataDictionary OpaqueData
+        public ContentIdentity Identity
         {
             get;
             set;
         }
 
-
+        [ContentSerializer(Optional = true)]
+        public OpaqueDataDictionary OpaqueData
+        {
+            get;
+            private set;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         #region Properties
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return indices.Count; }
         }
 
         public bool IsReadOnly

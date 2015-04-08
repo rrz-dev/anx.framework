@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,6 +13,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("Glatzemann, GinieDp")]
     [TestState(TestStateAttribute.TestState.Tested)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(RectangleConverter))]
+#endif
     public struct Rectangle : IEquatable<Rectangle>
     {
         #region fields
@@ -42,9 +48,9 @@ namespace ANX.Framework
             get
             {
                 return (this.X == 0) &&
-									(this.Y == 0) &&
-									(this.Width == 0) &&
-									(this.Height == 0);
+                        (this.Y == 0) &&
+                        (this.Width == 0) &&
+                        (this.Height == 0);
             }
         }
 

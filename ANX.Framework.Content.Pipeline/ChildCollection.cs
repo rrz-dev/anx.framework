@@ -26,6 +26,17 @@ namespace ANX.Framework.Content.Pipeline
             this.parent = parent;
         }
 
+        public void AddRange(IEnumerable<TChild> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            foreach (var child in enumerable)
+            {
+                this.Add(child);
+            }
+        }
+        
         protected override void ClearItems()
         {
             foreach (var child in this)

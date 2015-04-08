@@ -58,5 +58,21 @@ namespace ANX.Framework.Content.Pipeline
             get;
             set;
         }
+
+        public bool TryGetLineAndColumn(out int line, out int column)
+        {
+            if (FragmentIdentifier != null)
+            {
+                var text = this.FragmentIdentifier.Split(',');
+                if (text.Length == 2 && int.TryParse(text[0], out line) && int.TryParse(text[1], out column))
+                {
+                    return true;
+                }
+            }
+
+            line = 0;
+            column = 0;
+            return false;
+        }
     }
 }

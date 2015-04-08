@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentProject Version="1.3" Creator="" xmlns="https://anxframework.codeplex.com/AnxContentProject.xsd">
+  <ProjectName>SampleContent</ProjectName>
+  <Configurations>
+    <Configuration Name="Debug" Platform="Windows">
+      <Profile>HiDef</Profile>
+      <OutputPath>bin\Debug\</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="Windows">
+      <Profile>HiDef</Profile>
+      <OutputPath>bin\Release\</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="WindowsMetro">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Windows Metro\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="WindowsMetro">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Windows Metro\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="Android">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Android\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="Android">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Android\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="IOS">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\iOS\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="IOS">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\iOS\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="Linux">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Linux\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="Linux">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Linux\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="WindowsPhone">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Windows Phone\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="WindowsPhone">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Windows Phone\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="MacOs">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Mac OS\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="MacOs">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Mac OS\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="PsVita">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\PS Vita\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="PsVita">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\PS Vita\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="XBox360">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Xbox 360\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="XBox360">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Xbox 360\Release</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Debug" Platform="0">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+  </Configurations>
+  <References>
+    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline.Assimp\ANX.Framework.Content.Pipeline.Assimp.csproj" Guid="{8b0d9390-6f41-4cdb-810b-46a9ee3c3f1b}" Name="ANX.Framework.Content.Pipeline.Assimp">../../bin/Debug/ANX.Framework.Content.Pipeline.Assimp.dll</ProjectReference>
+    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj" Guid="{ecbf60cb-1cf0-4f92-8963-e73115b04b43}" Name="ANX.Framework.ContentPipeline.Extensions">../../bin/Debug/ANX.Framework.ContentPipeline.dll</ProjectReference>
+  </References>
+  <BuildItems>
+    <BuildItem AssetName="HardwareInstancing" Importer="EffectImporter" Processor="EffectProcessor">
+      <SourceFile>Effects\HardwareInstancing.fx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="MiniTri" Importer="EffectImporter" Processor="EffectProcessor">
+      <SourceFile>Effects\MiniTri.fx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="MRT" Importer="EffectImporter" Processor="EffectProcessor">
+      <SourceFile>Effects\MRT.fx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="SimpleEffect" Importer="EffectImporter" Processor="EffectProcessor">
+      <SourceFile>Effects\SimpleEffect.fx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="Debug" Importer="FontDescriptionImporter" Processor="FontDescriptionProcessor">
+      <SourceFile>Fonts\Debug.spritefont</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="ANX_vertex_color" Importer="" Processor="">
+      <SourceFile>Models\ANX_vertex_color.fbx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="Cube" Importer="" Processor="">
+      <SourceFile>Models\Cube.fbx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="Sphere" Importer="" Processor="">
+      <SourceFile>Models\Sphere.fbx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="SphereAndCube" Importer="" Processor="">
+      <SourceFile>Models\SphereAndCube.fbx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="TestGrid1024" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Models\TestGrid1024.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="TwoCubes" Importer="" Processor="">
+      <SourceFile>Models\TwoCubes.fbx</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="testsound" Importer="WavImporter" Processor="SoundEffectProcessor">
+      <SourceFile>Sounds\testsound.wav</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="alpha_test" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\alpha_test.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="ANX.Framework.Logo_459x121" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\ANX.Framework.Logo_459x121.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="ANX.logo" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\ANX.logo.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="chest" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\chest.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="dds-test" Importer="" Processor="">
+      <SourceFile>Textures\dds-test.dds</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="DotColor4x4" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\DotColor4x4.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="DotWhiteTopLeft5x5" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\DotWhiteTopLeft5x5.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="lightmap" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\lightmap.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="stone_tile" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\stone_tile.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+    <BuildItem AssetName="Test_100x100" Importer="TextureImporter" Processor="TextureProcessor">
+      <SourceFile>Textures\Test_100x100.png</SourceFile>
+      <ProcessorParams />
+    </BuildItem>
+  </BuildItems>
+</ContentProject>

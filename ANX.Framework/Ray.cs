@@ -1,5 +1,7 @@
 using System;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,6 +12,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("floAr")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(RayConverter))]
+#endif
     public struct Ray : IEquatable<Ray>
     {
         #region fields
@@ -71,7 +77,7 @@ namespace ANX.Framework
         /// <param name="result">The result.</param>
         public void Intersects(ref BoundingBox box, out Nullable<float> result)
         {
-					box.Intersects(ref this, out result);
+            box.Intersects(ref this, out result);
         }
         /// <summary>
         /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingFrustum"/>.
@@ -80,11 +86,11 @@ namespace ANX.Framework
         /// <returns>Distance from <see cref="Ray"/> start to interesection points</returns>
         public Nullable<float> Intersects(BoundingFrustum frustum)
         {
-					if (frustum == null)
-					{
-						throw new ArgumentNullException("frustum");
-					}
-					return frustum.Intersects(this); 
+            if (frustum == null)
+            {
+                throw new ArgumentNullException("frustum");
+            }
+            return frustum.Intersects(this); 
         }
         /// <summary>
         /// Test if this <see cref="Ray"/> intersects with the specified <see cref="BoundingSphere"/>.
@@ -154,7 +160,7 @@ namespace ANX.Framework
             //http://www.cs.toronto.edu/~smalik/418/tutorial8_ray_primitive_intersections.pdf
 
             float vd = Vector3.Dot(plane.Normal, this.Direction);
-          //As plane and Ray are infinitiv it intersects in every case, except the ray is parrales to the plane
+            //As plane and Ray are infinite it intersects in every case, except if the ray is parallel to the plane
             //no intersection if ray direction and plane normal are orthogional to each other
             if (vd == 0)
             {
@@ -163,7 +169,7 @@ namespace ANX.Framework
             }
             float v0 = -Vector3.Dot(plane.Normal, this.Position) + plane.D;
             float t = v0 / vd;
-            result=(this.Direction*t).Length();
+            result = (this.Direction*t).Length();
         }
 
         /// <summary>

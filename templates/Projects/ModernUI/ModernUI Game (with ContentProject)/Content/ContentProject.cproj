@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentProject Version="1.3" Creator="ANX Visual Studio Extension" xmlns="https://anxframework.codeplex.com/AnxContentProject.xsd">
+  <ProjectName>$projectname$</ProjectName>
+  <Configurations>
+    <Configuration Name="Debug" Platform="Windows">
+      <Profile>HiDef</Profile>
+      <OutputPath>bin\Debug\</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+    <Configuration Name="Release" Platform="Windows">
+      <Profile>HiDef</Profile>
+      <OutputPath>bin\Release\</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
+  </Configurations>
+  <References>
+  </References>
+  <BuildReferences>
+    <BuildReference Include="../$safeprojectname$/$safeprojectname$.csproj" Guid="$guid1$" ContentRoot="Assets" Name="$projectName$"/>
+  </BuildReferences>
+  <BuildItems>
+  </BuildItems>
+</ContentProject>

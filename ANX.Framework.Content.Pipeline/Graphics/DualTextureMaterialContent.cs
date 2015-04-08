@@ -14,11 +14,11 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class DualTextureMaterialContent : MaterialContent 
     {
-        public const string AlphaKey = "";
-        public const string DiffuseColorKey = "";
-        public const string Texture2Key = "";
-        public const string TextureKey = "";
-        public const string VertexColorEnabledKey = "";
+        public const string AlphaKey = "Alpha";
+        public const string DiffuseColorKey = "DiffuseColor";
+        public const string Texture2Key = "Texture2";
+        public const string TextureKey = "Texture";
+        public const string VertexColorEnabledKey = "VertexColorEnabled";
 
         public DualTextureMaterialContent()
         {
@@ -26,32 +26,32 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public Nullable<float> Alpha
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(AlphaKey); }
+            set { this.SetProperty(AlphaKey, value); }
         }
 
         public Nullable<Vector3> DiffuseColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(DiffuseColorKey); }
+            set { this.SetProperty(DiffuseColorKey, value); }
         }
 
         public ExternalReference<TextureContent> Texture
         {
-            get;
-            set;
+            get { return this.GetTexture(TextureKey); }
+            set { this.SetTexture(TextureKey, value); }
         }
 
         public ExternalReference<TextureContent> Texture2 
-        { 
-            get; 
-            set; 
+        {
+            get { return this.GetTexture(Texture2Key); }
+            set { this.SetTexture(Texture2Key, value); }
         }
 
         public Nullable<bool> VertexColorEnabled
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<bool>(VertexColorEnabledKey); }
+            set { this.SetProperty(VertexColorEnabledKey, value); }
         }
     }
 }

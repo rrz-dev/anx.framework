@@ -11,7 +11,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Graphics
 {
-	[PercentageComplete(100)]
+    [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
     public struct VertexElement
@@ -21,33 +21,33 @@ namespace ANX.Framework.Graphics
         private VertexElementFormat elementFormat;
         private VertexElementUsage elementUsage;
         private int usageIndex;
-		#endregion
+        #endregion
 
-		#region Public
-	    public int Offset
-	    {
-	        get { return this.offset; }
-	        set { this.offset = value; }
-	    }
+        #region Public
+        public int Offset
+        {
+            get { return this.offset; }
+            set { this.offset = value; }
+        }
 
-	    public VertexElementFormat VertexElementFormat
-	    {
-	        get { return this.elementFormat; }
-	        set { this.elementFormat = value; }
-	    }
+        public VertexElementFormat VertexElementFormat
+        {
+            get { return this.elementFormat; }
+            set { this.elementFormat = value; }
+        }
 
-	    public VertexElementUsage VertexElementUsage
-	    {
-	        get { return this.elementUsage; }
-	        set { this.elementUsage = value; }
-	    }
+        public VertexElementUsage VertexElementUsage
+        {
+            get { return this.elementUsage; }
+            set { this.elementUsage = value; }
+        }
 
-	    public int UsageIndex
-	    {
-	        get { return this.usageIndex; }
-	        set { this.usageIndex = value; }
-	    }
-	    #endregion
+        public int UsageIndex
+        {
+            get { return this.usageIndex; }
+            set { this.usageIndex = value; }
+        }
+        #endregion
 
         public VertexElement(int offset, VertexElementFormat elementFormat, VertexElementUsage elementUsage, int usageIndex)
         {
@@ -65,7 +65,7 @@ namespace ANX.Framework.Graphics
         public override string ToString()
         {
             return String.Format("{{Offset:{0} Format:{1} Usage:{2} UsageIndex:{3}}}", offset, elementFormat, elementUsage,
-				usageIndex);
+                usageIndex);
         }
 
         public override bool Equals(object obj)
@@ -73,16 +73,16 @@ namespace ANX.Framework.Graphics
             return obj is VertexElement && this == (VertexElement)obj;
         }
 
-	    public static bool operator ==(VertexElement lhs, VertexElement rhs)
+        public static bool operator ==(VertexElement lhs, VertexElement rhs)
         {
             return lhs.offset == rhs.offset && lhs.elementFormat == rhs.elementFormat && lhs.elementUsage == rhs.elementUsage &&
-				lhs.usageIndex == rhs.usageIndex;
+                lhs.usageIndex == rhs.usageIndex;
         }
 
         public static bool operator !=(VertexElement lhs, VertexElement rhs)
         {
             return lhs.offset != rhs.offset || lhs.elementFormat != rhs.elementFormat || lhs.elementUsage != rhs.elementUsage ||
-				lhs.usageIndex == rhs.usageIndex;
+                lhs.usageIndex == rhs.usageIndex;
         }
     }
 }

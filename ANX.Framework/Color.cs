@@ -1,6 +1,8 @@
 ﻿using System;
 using ANX.Framework.Graphics.PackedVector;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,13 +13,17 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("Glatzemann, SilentWarrior")]
     [TestState(TestStateAttribute.TestState.Tested)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(ColorConverter))]
+#endif
     public struct Color : IPackedVector<uint>, IPackedVector, IEquatable<Color>
     {
         #region Private Members
-		/// <summary>
-		/// Marcel NOTE: I made this internal and befriend the ANX.Framework
-		/// with the OGL Module so the datatype conversion can be made faster.
-		/// </summary>
+        /// <summary>
+        /// Marcel NOTE: I made this internal and befriend the ANX.Framework
+        /// with the OGL Module so the datatype conversion can be made faster.
+        /// </summary>
         internal uint packedValue;
 
         #endregion // Private Members
@@ -743,10 +749,10 @@ namespace ANX.Framework
             get { return new Color(255, 99, 71, 255); }
         }
 
-		public static Color Transparent
-		{
-			get { return new Color(0, 0, 0, 0); }
-		}
+        public static Color Transparent
+        {
+            get { return new Color(0, 0, 0, 0); }
+        }
 
         public static Color Turquoise
         {
@@ -871,7 +877,7 @@ namespace ANX.Framework
         }
         #endregion
 
-		#region Multiply
+        #region Multiply
         public static Color Multiply(Color value, float scale)
         {
             Color color;

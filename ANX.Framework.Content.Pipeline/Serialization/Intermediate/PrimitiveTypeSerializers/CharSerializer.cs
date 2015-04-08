@@ -19,22 +19,14 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Intermediate.PrimitiveTyp
 
         }
 
-        public override bool HasOnlyFlatContent
-        {
-            get
-            {
-                return true;
-            }
-        }
-
         protected override void Serialize(IntermediateWriter output, char value, ContentSerializerAttribute format)
         {
-            output.Xml.WritePart(value);
+            output.Xml.WriteString(XmlConvert.ToString(value));
         }
 
         protected override char Deserialize(IntermediateReader input, ContentSerializerAttribute format, char existingInstance)
         {
-            return input.Xml.ReadCharPart();
+            return XmlConvert.ToChar(input.Xml.ReadContentAsString());
         }
     }
 }

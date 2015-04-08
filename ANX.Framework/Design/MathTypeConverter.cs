@@ -6,6 +6,7 @@ using System.ComponentModel.Design.Serialization;
 #endif
 using System.Globalization;
 using System.Text;
+using System.Linq;
 using ANX.Framework.NonXNA.Reflection;
 using ANX.Framework.NonXNA.Development;
 
@@ -18,7 +19,7 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO      //TODO: search replacement for Win8
-    [Developer("GinieDP")]
+    [Developer("GinieDP, Konstantin Koch")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public class MathTypeConverter : ExpandableObjectConverter
     {
@@ -53,7 +54,7 @@ namespace ANX.Framework.Design
         }
 
         public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value,
-			Attribute[] attributes)
+            Attribute[] attributes)
         {
             return propertyDescriptions;
         }
@@ -77,10 +78,10 @@ namespace ANX.Framework.Design
             {
                 descriptor[i] = new ANXPropertyDescriptor(type.GetProperty(fields[i]));
             }
-            return new PropertyDescriptorCollection(descriptor);
+            return new PropertyDescriptorCollection(descriptor).Sort(fields);
         }
 
-        protected static string ConvertToString<T>(ITypeDescriptorContext context, CultureInfo culture, T[] values)
+        protected string ConvertToString<T>(ITypeDescriptorContext context, CultureInfo culture, T[] values)
         {
             string separator = "; ";
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
@@ -96,40 +97,48 @@ namespace ANX.Framework.Design
             return builder.ToString();
         }
 
-        protected static T[] ConvertFromString<T>(ITypeDescriptorContext context, CultureInfo culture, string value)
+        protected T[] ConvertFromString<T>(ITypeDescriptorContext context, CultureInfo culture, string value)
         {
             if (value == null)
                 return null;
-
-            if (culture == null)
-                throw new ArgumentNullException("culture");
 
             value = value.Trim();
 
             string[] values = value.Split(';');
             T[] result = new T[values.Length];
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
-            for (int i = 0; i < values.Length; i++)
+            try
             {
-                result[i] = (T)converter.ConvertFromString(context, culture, values[i]);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    result[i] = (T)converter.ConvertFromString(context, culture, values[i]);
+                }
             }
+            catch (Exception exc)
+            {
+                throw new ArgumentException(string.Format("Invalid string format. Expected a string in the format \"{0}\".", string.Join(";", propertyDescriptions.Cast<PropertyDescriptor>().Select((x) => x.DisplayName))), exc);
+            }
+
+            if (propertyDescriptions.Count != values.Length)
+                throw new ArgumentException(string.Format("Invalid string format. Expected a string in the format \"{0}\".", string.Join(";", propertyDescriptions.Cast<PropertyDescriptor>().Select((x) => x.DisplayName))));
+
             return result;
         }
 
-		protected InstanceDescriptor CreateInstanceDescriptor<T>(object[] parameters)
-		{
-			Type[] paramTypes = new Type[parameters.Length];
-			for (int index = 0; index < parameters.Length; index++)
-				paramTypes[index] = parameters[index].GetType();
+        protected InstanceDescriptor CreateInstanceDescriptor<T>(object[] parameters)
+        {
+            Type[] paramTypes = new Type[parameters.Length];
+            for (int index = 0; index < parameters.Length; index++)
+                paramTypes[index] = parameters[index].GetType();
 
-			var constructor = TypeHelper.GetConstructor(typeof(T), paramTypes);
-			return new InstanceDescriptor(constructor, parameters);
-		}
+            var constructor = TypeHelper.GetConstructor(typeof(T), paramTypes);
+            return new InstanceDescriptor(constructor, parameters);
+        }
 
-		protected bool IsTypeInstanceDescriptor(Type type)
-		{
-			return type == typeof(InstanceDescriptor);
-		}
+        protected bool IsTypeInstanceDescriptor(Type type)
+        {
+            return type == typeof(InstanceDescriptor);
+        }
     }
 
 #endif

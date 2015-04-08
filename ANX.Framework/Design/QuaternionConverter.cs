@@ -22,7 +22,7 @@ namespace ANX.Framework.Design
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            float[] values = MathTypeConverter.ConvertFromString<float>(context, culture, value as String);
+            float[] values = ConvertFromString<float>(context, culture, value as String);
             if (values != null && values.Length == 4)
             {
                 return new Quaternion(values[0], values[1], values[2], values[3]);
@@ -40,11 +40,11 @@ namespace ANX.Framework.Design
                 Quaternion instance = (Quaternion)value;
 
                 if (destinationType == typeof(string))
-                    return MathTypeConverter.ConvertToString<float>(context, culture,
-						new float[] { instance.X, instance.Y, instance.Z, instance.W });
+                    return ConvertToString<float>(context, culture,
+                        new float[] { instance.X, instance.Y, instance.Z, instance.W });
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Quaternion>(new object[] { instance.X, instance.Y, instance.Z, instance.W });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Quaternion>(new object[] { instance.X, instance.Y, instance.Z, instance.W });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

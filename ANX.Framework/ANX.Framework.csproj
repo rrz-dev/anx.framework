@@ -446,6 +446,7 @@
     <Compile Include="NonXNA\PlatformSystem\IPlatformSystem.cs" />
     <Compile Include="NonXNA\PlatformSystem\PlatformSystem.cs" />
     <Compile Include="NonXNA\PlatformSystem\PlatformSystemInstanceException.cs" />
+    <Compile Include="NonXNA\PreloadAttribute.cs" />
     <Compile Include="NonXNA\Reflection\AssemblyLoader.cs" />
     <Compile Include="NonXNA\RenderSystem\INativeConstantBuffer.cs" />
     <Compile Include="NonXNA\RenderSystem\IOcclusionQuery.cs" />

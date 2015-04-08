@@ -17,6 +17,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [ContentProcessor]
     public class FontTextureProcessor : ContentProcessor<Texture2DContent, SpriteFontContent>
     {
+        [DefaultValue(' ')]
         public virtual char FirstCharacter
         {
             get;
@@ -30,10 +31,18 @@ namespace ANX.Framework.Content.Pipeline.Processors
             set;
         }
 
+        [DefaultValue(TextureProcessorOutputFormat.Color)]
         public virtual TextureProcessorOutputFormat TextureFormat
         {
             get;
             set;
+        }
+
+        public FontTextureProcessor()
+        {
+            FirstCharacter = ' ';
+            PremultiplyAlpha = true;
+            TextureFormat = TextureProcessorOutputFormat.Color;
         }
 
         public override SpriteFontContent Process(Texture2DContent input, ContentProcessorContext context)

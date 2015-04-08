@@ -25,6 +25,9 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [ContentProcessor(DisplayName = "FontDescription Processor - ANX Framework")]
     public class FontDescriptionProcessor : ContentProcessor<FontDescription, SpriteFontContent>
     {
+        //Default GDI transparent is a white transparent, but in ANX we use a black transparent.
+        private static readonly System.Drawing.Color TransparentBlack = System.Drawing.Color.FromArgb(0);
+
         public override SpriteFontContent Process(FontDescription input, ContentProcessorContext context)
         {
             context.Logger.LogMessage("Processing of FontDescription started.");
@@ -84,7 +87,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                 }
 
                 using (var bitmap = new Bitmap(width, height,
-                                               PixelFormat.Format32bppArgb))
+                                               PixelFormat.Format32bppPArgb))
                 {
                     // Arrange all the glyphs onto a single larger bitmap.
                     using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap))
@@ -162,7 +165,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                                                  ? TextRenderingHint.AntiAliasGridFit
                                                  : TextRenderingHint.SingleBitPerPixelGridFit;
 
-                graphics.Clear(System.Drawing.Color.Transparent);
+                graphics.Clear(TransparentBlack);
 
                 using (Brush brush = new SolidBrush(System.Drawing.Color.White))
                 using (var format = new StringFormat())
@@ -214,6 +217,8 @@ namespace ANX.Framework.Content.Pipeline.Processors
 
             using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(croppedBitmap))
             {
+                graphics.Clear(TransparentBlack);
+
                 graphics.CompositingMode = CompositingMode.SourceCopy;
 
                 graphics.DrawImage(bitmap, 0, 0,
@@ -245,7 +250,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
         {
             var bitmapContent = new PixelBitmapContent<Color>(bitmap.Width, bitmap.Height);
             var destColor = new Color();
-
+            
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)

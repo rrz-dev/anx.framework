@@ -141,6 +141,14 @@
     <call target="platformsystem" />
 
     <call target="samples" />
+    
+    <if test="${project.anx.platform == 'Windows' or project.anx.platform == 'Linux'}">
+      <call target="templates_VS2010"/>
+    </if>
+    
+    <if test="${project.anx.platform == 'Windows' and project.anx.build_env == 'VS2012'}">
+      <call target="VSExtension2012"/>
+    </if>
 
     <call target="collect_xsd" />
   </target>
@@ -363,7 +371,94 @@
     </foreach>
 
   </target>
+      
+  <target name="templates_VS2010" description="Build ANX.Framework templates for Visual Studio 2010">
+    <fileset id="template_files" basedir="../Templates">
+      <include name="Projects/Windows/**/*.csproj"/>
+      <include name="Projects/Content/**/*.csproj"/>
+      <!-- no modern UI template -->
+      
+      <include name="Items/**/*.csproj"/>
 
+      <exclude name="**/ProjectTemplate.csproj" /> <!-- child projects of multi project templates -->
+    </fileset>
+  
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="template_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}/VS2010" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <!--
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          -->
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+    
+  <target name="templates_VS2012" description="Build ANX.Framework templates for Visual Studio 2012">
+    <fileset id="template_files" basedir="../Templates">
+      <include name="**/*.csproj"/>
+
+      <exclude name="**/ProjectTemplate.csproj" /> <!-- child projects of multi project templates -->
+    </fileset>
+  
+    <foreach item="File" property="projectFile">
+      <in>
+        <items refid="template_files" />
+      </in>
+      <do>
+        <echo message="building: ${path::get-file-name-without-extension(projectFile)}" />
+
+        <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}/VS2012" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <!--
+          <arg value='/p:DefineConstants="${project.anx.directives}"' />
+          -->
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${projectFile}" />
+        </exec>
+      </do>
+    </foreach>
+  </target>
+  
+  <target name="VSExtension2012" description="Build ANX extension for Visual Studio 2012">
+    <property name="VSExtensionConstants" value=""/>
+    <if test="${project.anx.build_env == 'VS2012'}">
+      <property name="VSExtensionConstants" value="DEV11;DEV11_OR_LATER"/>
+    </if>
+
+    <echo message="building: ANXVisualStudioPackage"/>
+    
+    <exec program="msbuild.exe" >
+          <arg value="/t:Build"/>
+          <arg value="/p:Configuration=${build.configuration}"/>
+          <arg value='/p:Platform="${build.platform}"'/>
+          <arg value="/p:OutputPath=${build.dir.base}/${build.configuration}/VS2012" />
+          <arg value="/p:SolutionDir=${build.solution_dir}" />
+          <arg value='/p:DefineConstants="${VSExtensionConstants}"' />
+          <arg value="/clp:ErrorsOnly" />
+          <arg value="/nologo" />
+          <arg value="${build.solution_dir}/Visual Studio/ANXVisualStudioPackage/ANXVisualStudioPackage.csproj" />
+        </exec>
+  </target>
+    
   <target name="build_tools" description="Tools supporting the build process of ANX.Framework" unless="${target::has-executed('build_tools')}">
     <foreach item="File" property="projectFile">
       <in>

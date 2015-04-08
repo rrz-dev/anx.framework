@@ -20,6 +20,13 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         }
 
+        public void AddRange(IEnumerable<Vector3> enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
 
+            foreach (var obj in enumerable)
+                this.Add(obj);
+        }
     }
 }

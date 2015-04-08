@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public sealed class ModelContent
+    public class ModelContent
     {
         public ModelBoneContentCollection Bones
         {
@@ -36,6 +36,13 @@ namespace ANX.Framework.Content.Pipeline.Processors
         {
             get;
             set;
+        }
+
+        public ModelContent(ModelBoneContent rootBone, IList<ModelBoneContent> bones, IList<ModelMeshContent> meshes)
+        {
+            Root = rootBone;
+            Meshes = new ModelMeshContentCollection(meshes);
+            Bones = new ModelBoneContentCollection(bones);
         }
     }
 }

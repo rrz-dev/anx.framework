@@ -13,11 +13,8 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public sealed class ModelMeshPartContentCollection : ReadOnlyCollection<ModelMeshPartContent>
+    public sealed class ModelMeshPartContentCollection : Collection<ModelMeshPartContent>
     {
-        public ModelMeshPartContentCollection(IList<ModelMeshPartContent> content)
-            : base(content)
-        {
-        }
+
     }
 }

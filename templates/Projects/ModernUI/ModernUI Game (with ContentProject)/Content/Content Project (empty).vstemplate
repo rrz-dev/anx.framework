@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Content Project (empty)</Name>
+    <Description>Creates a new empty Content Project to be used with ANX.</Description>
+    <Icon>__TemplateIcon.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>79a59adc-e4bc-4e09-b97b-090d9c2ec166</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Content Project</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="ContentProject.cproj" ReplaceParameters="true" TargetFileName="$safeprojectname$.cproj">
+      <Folder Name="Properties" TargetFolderName="Properties"></Folder><!--Needed any content or it would not output the project file-->
+    </Project>
+  </TemplateContent>
+</VSTemplate>

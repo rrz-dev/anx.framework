@@ -30,8 +30,8 @@ namespace ANX.Framework.Design
             {
                 Plane instance = (Plane)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Plane>(new object[] { instance.Normal, instance.D });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Plane>(new object[] { instance.Normal, instance.D });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

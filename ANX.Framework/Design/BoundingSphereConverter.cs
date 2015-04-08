@@ -36,8 +36,8 @@ namespace ANX.Framework.Design
             {
                 BoundingSphere instance = (BoundingSphere)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<BoundingSphere>(new object[] { instance.Center, instance.Radius });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<BoundingSphere>(new object[] { instance.Center, instance.Radius });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

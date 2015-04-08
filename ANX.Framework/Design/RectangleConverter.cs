@@ -30,9 +30,9 @@ namespace ANX.Framework.Design
             {
                 Rectangle instance = (Rectangle)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Rectangle>(new object[] { instance.X, instance.Y, instance.Width,
-						instance.Height });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Rectangle>(new object[] { instance.X, instance.Y, instance.Width,
+                        instance.Height });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

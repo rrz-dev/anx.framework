@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using ANX.Framework.NonXNA.Reflection;
+using ANX.Framework.Content.Pipeline.Helpers;
+using ANX.Framework.NonXNA.Development;
 
 #endregion
 
@@ -14,24 +16,23 @@ using ANX.Framework.NonXNA.Reflection;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
+    
     public class ImporterManager
     {
         private Dictionary<String, Type> importerTypes = new Dictionary<string,Type>();
         private Dictionary<String, String> defaultProcessor = new Dictionary<string, string>();
 
+        
         public ImporterManager()
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
+                if (!AssemblyHelper.IsValidForPipeline(assembly.GetName()))
+                    continue;
 #if LINUX
-                //Apparently these Assemblies are bad juju, so lets blacklist them as we don't need to check them anyway
-                if (assembly.FullName == "MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f"
-                    || assembly.FullName == "Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" || assembly.FullName == "MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null")
-                    return;
-
                 Console.WriteLine("ImporterManager: Checking " + assembly.FullName);
 #endif
-				foreach (Type type in TypeHelper.SafelyExtractTypesFrom(assembly))
+				foreach (Type type in ANX.Framework.NonXNA.Reflection.TypeHelper.SafelyExtractTypesFrom(assembly))
                 {
                     if (type == null)
                         continue;
@@ -52,6 +53,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             }
         }
 
+        
         public IContentImporter GetInstance(string importerName)
         {
             Type type;
@@ -62,6 +64,41 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             return (IContentImporter)Activator.CreateInstance(type);
         }
 
+
+        public string GetImporterDisplayName(string importerName)
+        {
+            var value = this.AvailableImporters.FirstOrDefault((x) => x.Key == importerName);
+            if (value.Value != null)
+            {
+                var attribute = value.Value.GetCustomAttributes(typeof(ContentImporterAttribute), true).Cast<ContentImporterAttribute>().FirstOrDefault();
+                if (attribute != null && !string.IsNullOrEmpty(attribute.DisplayName))
+                {
+                    return attribute.DisplayName;
+                }
+            }
+
+            return importerName;
+        }
+
+
+        public string GetImporterName(string displayName)
+        {
+            foreach (var value in this.AvailableImporters)
+            {
+                var attribute = value.Value.GetCustomAttributes(typeof(ContentImporterAttribute), true).Cast<ContentImporterAttribute>().FirstOrDefault();
+                if (attribute != null)
+                {
+                    if (attribute.DisplayName == displayName)
+                    {
+                        return value.Key;
+                    }
+                }
+            }
+
+            return displayName;
+        }
+
+        
         public String GetDefaultProcessor(string importerName)
         {
             if (defaultProcessor.ContainsKey(importerName))
@@ -72,6 +109,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             return String.Empty;
         }
 
+        
         public static String GuessImporterByFileExtension(string filename)
         {
             String extension = System.IO.Path.GetExtension(filename);
@@ -97,6 +135,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             return String.Empty;
         }
 
+        
         public IEnumerable<KeyValuePair<string, Type>> AvailableImporters
         {
             get 

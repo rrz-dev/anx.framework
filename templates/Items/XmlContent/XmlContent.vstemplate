@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name Package="{b1437ba8-a8c6-48c4-af58-47ba72b2a7c8}" ID="1021"/>
+    <Description Package="{b1437ba8-a8c6-48c4-af58-47ba72b2a7c8}" ID="1022"/>
+    <Icon>XmlContent.ico</Icon>
+    <TemplateID>ANX.Framework-Content-Xml</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <TemplateGroupID>ANX.Framework-Content</TemplateGroupID>
+    <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>content.xml</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <References>
+      <Reference>
+        <Assembly>System</Assembly>
+      </Reference>
+    </References>
+    <ProjectItem ReplaceParameters="true">content.xml</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

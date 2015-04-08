@@ -22,7 +22,7 @@ namespace ANX.Framework.Design
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            float[] values = MathTypeConverter.ConvertFromString<float>(context, culture, value as String);
+            float[] values = ConvertFromString<float>(context, culture, value as String);
             if (values != null && values.Length == 2)
             {
                 return new Vector2(values[0], values[1]);
@@ -40,10 +40,10 @@ namespace ANX.Framework.Design
                 Vector2 vecValue = (Vector2)value;
 
                 if (destinationType == typeof(string))
-                    return MathTypeConverter.ConvertToString<float>(context, culture, new float[] { vecValue.X, vecValue.Y });
+                    return ConvertToString<float>(context, culture, new float[] { vecValue.X, vecValue.Y });
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Vector2>(new object[] { vecValue.X, vecValue.Y });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Vector2>(new object[] { vecValue.X, vecValue.Y });
             }
             
             return base.ConvertTo(context, culture, value, destinationType);

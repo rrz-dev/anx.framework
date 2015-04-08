@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="f87fc8f1-2bb6-45bb-8cdb-091ccfe00dbc" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="e1bc5b54-ea9c-4eb7-ac45-ed3588ce694c" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>SimpleSprite</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

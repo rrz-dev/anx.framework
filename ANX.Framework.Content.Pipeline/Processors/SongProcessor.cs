@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Content.Pipeline.Audio;
+using System.ComponentModel;
 
 #endregion
 
@@ -16,10 +17,16 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [ContentProcessor]
     public class SongProcessor : ContentProcessor<AudioContent, SongContent>
     {
+        [DefaultValue(ConversionQuality.Best)]
         public ConversionQuality Quality
         {
             get;
             set;
+        }
+
+        public SongProcessor()
+        {
+            Quality = ConversionQuality.Best;
         }
 
         public override SongContent Process(AudioContent input, ContentProcessorContext context)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="74fcdb11-9ee1-4671-873d-b5bcbdb03554" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="5d74c14b-4127-45a0-b5af-934ac57973ec" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>ModelSample</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

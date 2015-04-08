@@ -13,18 +13,20 @@ using ANX.Framework.Content.Pipeline.Helpers.GL3;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    [ContentProcessor]
+    [ContentProcessor(DisplayName = "EffectProcessor - ANX Framework")]
     public class EffectProcessor : ContentProcessor<EffectContent, CompiledEffectContent>
     {
         HLSLCompilerFactory hlslCompilerFactory = new HLSLCompilerFactory();
         private string targetProfile = "fx_4_0";
 
+        [DefaultValue(EffectProcessorDebugMode.Auto)]
         public virtual EffectProcessorDebugMode DebugMode
         {
             get;
             set;
         }
 
+        [DefaultValue(null)]
         public virtual string Defines
         {
             get;
@@ -42,6 +44,12 @@ namespace ANX.Framework.Content.Pipeline.Processors
             {
                 targetProfile = value;
             }
+        }
+
+        public EffectProcessor()
+        {
+            DebugMode = EffectProcessorDebugMode.Auto;
+            Defines = null;
         }
 
         public override CompiledEffectContent Process(EffectContent input, ContentProcessorContext context)
@@ -64,13 +72,16 @@ namespace ANX.Framework.Content.Pipeline.Processors
                     throw new InvalidContentException("EffectProcessor is unable to process content with format '" + input.SourceLanguage.ToString() + "'");
             }
 
-            return new CompiledEffectContent(effectCompiledCode)
+            var result = new CompiledEffectContent(effectCompiledCode)
             {
                 Identity = input.Identity,
                 Name = input.Name,
-                OpaqueData = input.OpaqueData,
                 SourceLanguage = input.SourceLanguage,
             };
+
+            result.OpaqueData.AddRange(input.OpaqueData);
+
+            return result;
         }
 
 

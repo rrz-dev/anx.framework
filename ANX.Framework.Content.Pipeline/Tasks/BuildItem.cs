@@ -13,9 +13,22 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
-    public class BuildItem
+    [Serializable]
+    public class BuildItem : ICloneable
     {
-        public readonly OpaqueDataDictionary ProcessorParameters = new OpaqueDataDictionary();
+        public BuildItem()
+        {
+            ProcessorParameters = new OpaqueDataDictionary();
+        }
+
+        protected BuildItem(BuildItem original)
+        {
+            this.SourceFilename = original.SourceFilename;
+            this.AssetName = original.AssetName;
+            this.ImporterName = original.ImporterName;
+            this.ProcessorName = original.ProcessorName;
+            this.ProcessorParameters = new OpaqueDataDictionary(original.ProcessorParameters);
+        }
 
         public String SourceFilename
         {
@@ -29,24 +42,27 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             set;
         }
 
-        [TypeConverter(typeof(ImporterConverter))]
         public string ImporterName
         {
             get;
             set;
         }
 
-        [TypeConverter(typeof(ProcessorConverter))]
         public string ProcessorName
         {
             get;
             set;
         }
 
-        public string OutputFilename
+        public OpaqueDataDictionary ProcessorParameters
         {
             get;
-            set;
+            private set;
+        }
+
+        public virtual object Clone()
+        {
+            return new BuildItem(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="803d9dea-ef5e-4d9e-8d58-12e051d9fb4c" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="a8763143-0447-44ff-888e-a2929b1b597d" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>MultiRenderTarget</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

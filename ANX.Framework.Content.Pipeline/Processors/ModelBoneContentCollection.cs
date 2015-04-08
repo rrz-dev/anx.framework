@@ -13,11 +13,17 @@ using System.Collections.ObjectModel;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public sealed class ModelBoneContentCollection : ReadOnlyCollection<ModelBoneContent>
+    public sealed class ModelBoneContentCollection : Collection<ModelBoneContent>
     {
-        public ModelBoneContentCollection(IList<ModelBoneContent> content)
-            : base(content)
+        public ModelBoneContentCollection()
         {
+
+        }
+
+        public ModelBoneContentCollection(IList<ModelBoneContent> list)
+            : base(list)
+        {
+
         }
     }
 }

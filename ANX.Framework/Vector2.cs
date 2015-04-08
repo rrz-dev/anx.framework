@@ -1,6 +1,9 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,6 +14,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("xToast, GinieDp")]
     [TestState(TestStateAttribute.TestState.Tested)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(Vector2Converter))]
+#endif
     public struct Vector2 : IEquatable<Vector2>
     {
         #region fields
@@ -372,9 +379,9 @@ namespace ANX.Framework
         #endregion
 
         /*
-		Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
-		Formula from : http://www.gamedev.net/topic/165537-2d-vector-reflection-/
-		*/
+        Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
+        Formula from : http://www.gamedev.net/topic/165537-2d-vector-reflection-/
+        */
         #region Reflect
         public static Vector2 Reflect(Vector2 vector, Vector2 normal)
         {

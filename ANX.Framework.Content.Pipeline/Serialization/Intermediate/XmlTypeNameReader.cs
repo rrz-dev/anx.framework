@@ -58,40 +58,14 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Intermediate
             if (genericArguments.Length > 0)
             {
                 baseName += "`" + genericArguments.Length;
-                Type genericType = FindType(baseName);
+                Type genericType = TypeHelper.GetType(baseName);
 
                 return genericType.MakeGenericType(genericArguments);
             }
             else
             {
-                return FindType(baseName);
+                return TypeHelper.GetType(baseName);
             }
-        }
-
-        /// <summary>
-        /// Returns the type with the given clr type name.
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        private Type FindType(string typeName)
-        {
-            Type type = Type.GetType(typeName);
-            if (type != null)
-                return type;
-
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (!AssemblyHelper.IsValidForPipeline(assembly.GetName()))
-                    continue;
-
-                type = assembly.GetType(typeName);
-                if (type != null)
-                {
-                    return type;
-                }
-            }
-
-            throw new ArgumentException(string.Format("Cannot find type \"{0}\".", typeName));
         }
 
         private string[] ExtractGenericArgumentList(string xmlTypeName, out string genericTypeName)

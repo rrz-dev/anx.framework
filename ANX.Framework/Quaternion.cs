@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 #endregion // Using Statements
 
@@ -14,6 +16,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("floAr, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(QuaternionConverter))]
+#endif
     public struct Quaternion : IEquatable<Quaternion>
     {
         #region fields

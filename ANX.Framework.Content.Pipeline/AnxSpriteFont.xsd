@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SpriteFont"
+    targetNamespace="https://anxframework.codeplex.com/AnxSpriteFont.xsd"
+    elementFormDefault="qualified"
+    xmlns="https://anxframework.codeplex.com/AnxSpriteFont.xsd"
+    xmlns:anxsf="https://anxframework.codeplex.com/AnxSpriteFont.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:simpleType name="fontStyle">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Regular"/>
+      <xs:enumeration value="Bold"/>
+      <xs:enumeration value="Italic"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="singleChar">
+    <xs:restriction base="xs:string">
+      <xs:length value="1" fixed="true"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:group name="SpriteFontAsset">
+    <xs:sequence>
+      <xs:element name="Asset">
+        <xs:complexType>
+          <xs:all>
+            <xs:element type="xs:string" name="FontName" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation>Name of the font that will be imported.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:float" name="Size" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation>
+                  Float value, measured in points.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:float" name="Spacing" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Float value, measured in pixels. Represents the amount of spacing in between characters.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:boolean" name="UseKerning" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Controls the layout of the font. If this value is true, kerning information
+                  will be used when placing characters.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element type="anxsf:fontStyle" name="Style" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation>
+                  Controls the style of the font.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element type="anxsf:singleChar" name="DefaultCharacter" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  The default character will be substituted if you draw
+                  or measure text that contains characters which were not included in the font.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="CharacterRegions" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation>
+                  CharacterRegions control what letters are available in the font. Every
+                  character from Start to End will be built and made available for drawing.
+                  The characters are ordered according to the Unicode standard.
+                </xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="CharacterRegion" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:sequence minOccurs="1">
+                        <xs:element type="anxsf:singleChar" name="Start" minOccurs="1"/>
+                        <xs:element type="anxsf:singleChar" name="End" minOccurs="1"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:all>
+          <xs:attribute type="xs:QName" name="Type" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  
+  <!-- Either of them are allowed -->
+
+  <xs:element name="AnxContent">
+    <xs:complexType>
+      <xs:group ref="anxsf:SpriteFontAsset" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="XnaContent">
+    <xs:complexType>
+      <xs:group ref="anxsf:SpriteFontAsset" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

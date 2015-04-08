@@ -35,8 +35,8 @@ namespace ANX.Framework.Design
             {
                 BoundingBox instance = (BoundingBox)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<BoundingBox>(new object[] { instance.Min, instance.Max });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<BoundingBox>(new object[] { instance.Min, instance.Max });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

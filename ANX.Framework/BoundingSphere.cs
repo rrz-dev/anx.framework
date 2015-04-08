@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 #endregion // Using Statements
 
@@ -15,6 +17,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("xToast")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(BoundingSphereConverter))]
+#endif
     public struct BoundingSphere : IEquatable<BoundingSphere>
     {
         #region fields
@@ -414,7 +420,7 @@ namespace ANX.Framework
             result.Center.Y += matrix.M42;
             result.Center.Z += matrix.M43;
         }
-				#endregion
+                #endregion
 
         #region ToString
         public override string ToString()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="01615fe9-8417-46ad-8fae-6c6cbcb4f786" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="00e938d3-5521-41fa-acfe-97bdeb935012" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>WpfEditor</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

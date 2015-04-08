@@ -150,5 +150,10 @@ namespace ANX.Framework
             return angle;
         }
 
+
+        public static int Multiple(int number, int multiplier)
+        {
+            return (number + multiplier - 1) / multiplier * multiplier;
+        }
     }
 }

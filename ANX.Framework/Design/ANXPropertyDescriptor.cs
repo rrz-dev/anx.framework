@@ -10,35 +10,35 @@ using ANX.Framework.NonXNA.Development;
 namespace ANX.Framework.Design
 {
 #if !WINDOWSMETRO
-    [Developer("AstrorEnales")]
+    [Developer("AstrorEnales, Konstantin Koch")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public class ANXPropertyDescriptor : PropertyDescriptor
     {
-		private PropertyInfo property;
+        private PropertyInfo property;
 
-		public override Type ComponentType
-		{
-			get
-			{
-				return property.DeclaringType;
-			}
-		}
+        public override Type ComponentType
+        {
+            get
+            {
+                return property.DeclaringType;
+            }
+        }
 
-		public override bool IsReadOnly
-		{
-			get
-			{
-				return false;
-			}
-		}
+        public override bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-		public override Type PropertyType
-		{
-			get
-			{
-				return property.PropertyType;
-			}
-		}
+        public override Type PropertyType
+        {
+            get
+            {
+                return property.PropertyType;
+            }
+        }
 
         public ANXPropertyDescriptor(PropertyInfo property)
             : base(property.Name, (Attribute[])property.GetCustomAttributes(typeof(Attribute), true))
@@ -56,6 +56,9 @@ namespace ANX.Framework.Design
 
         public override object GetValue(object component)
         {
+            if (component == null)
+                return null;
+
             return property.GetValue(component, null);
         }
 
@@ -65,6 +68,9 @@ namespace ANX.Framework.Design
 
         public override void SetValue(object component, object value)
         {
+            if (component == null)
+                return;
+
             this.property.SetValue(component, value, null);
             this.OnValueChanged(component, EventArgs.Empty);
         }

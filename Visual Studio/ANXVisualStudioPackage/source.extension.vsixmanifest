@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="b1437ba8-a8c6-48c4-af58-47ba72b2a7c8" Version="0.7.5" Language="en-US" Publisher="ANX.Framework Development Group" />
+    <DisplayName>ANX.Framework</DisplayName>
+    <Description>Provides support for building and creating ANX content projects.</Description>
+    <MoreInfo>http://anxframework.codeplex.com</MoreInfo>
+    <Icon>anx.ico</Icon>
+    <PreviewImage>anx.ico</PreviewImage>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.VSWinExpress" Version="[10.0,12.0]" />
+    <InstallationTarget Version="[10.0,12.0]" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[10.0,12.0]" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Version="[10.0,12.0]" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Version="[10.0,12.0]" Id="Microsoft.VisualStudio.VSWinDesktopExpress" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
+    <Dependency d:Source="Installed" Id="Microsoft.VisualStudio.ReferenceManager" DisplayName="Microsoft Visual Studio Reference Manager" Version="[10.0,12.0]" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="Content Project (empty)" d:TargetPath="|Content Project (empty);TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="ModernUI Game (with ContentProject)" d:TargetPath="|ModernUI Game (with ContentProject);TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="ModernUI Game (without ContentProject)" d:TargetPath="|ModernUI Game (without ContentProject);TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="Windows Game (with ContentProject)" d:TargetPath="|Windows Game (with ContentProject);TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="Windows Game (without ContentProject)" d:TargetPath="|Windows Game (without ContentProject);TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="Effect" d:TargetPath="|Effect;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="SpriteFont" d:TargetPath="|SpriteFont;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="XmlContent" d:TargetPath="|XmlContent;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+
+  </Assets>
+</PackageManifest>

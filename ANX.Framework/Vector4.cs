@@ -2,6 +2,9 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -14,6 +17,10 @@ namespace ANX.Framework
     [PercentageComplete(100)]
     [Developer("xToast, GinieDp")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(Vector4Converter))]
+#endif
     public struct Vector4 : IEquatable<Vector4>
     {
         #region Fields
