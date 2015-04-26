@@ -23,7 +23,7 @@ namespace ANX.Framework.Content.Pipeline.Importer
     [PercentageComplete(90)]
     [Developer("SilentWarrior/Eagle Eye Studios, KorsarNek")]
     [TestState(TestStateAttribute.TestState.InProgress)] //Works but there should be a check whether the characters are supported
-    [ContentImporter("Spritefont", ".spritefont", DefaultProcessor = "FontDescriptionProcessor", DisplayName = "FontDescription Importer - ANX Framework")]
+    [ContentImporter("Spritefont", ".spritefont", DefaultProcessor = "FontDescriptionProcessor", DisplayName = "FontDescription Importer - ANX Framework", Category = "Font Files")]
     public class FontDescriptionImporter : ContentImporter<FontDescription>
     {
         /// <summary>

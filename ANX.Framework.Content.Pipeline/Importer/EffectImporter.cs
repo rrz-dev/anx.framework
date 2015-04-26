@@ -11,7 +11,7 @@ using ANX.Framework.NonXNA;
 
 namespace ANX.Framework.Content.Pipeline
 {
-    [ContentImporter(new string[] { ".fx", ".fxg", ".hlsl", ".glsl" })]
+    [ContentImporter(new string[] { ".fx", ".fxg", ".hlsl", ".glsl" }, Category = "Effect Files")]
     public class EffectImporter : ContentImporter<EffectContent>
     {
         public override EffectContent Import(string filename, ContentImporterContext context)

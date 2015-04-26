@@ -27,7 +27,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         {
             if (output.TargetPlatform != TargetPlatform.Windows)
             {
-                throw new InvalidOperationException("currently only HLSL windows effects are supported by EffectWriter");
+                throw new InvalidOperationException("Currently only HLSL effects for windows are supported by EffectWriter.");
             }
 
             byte[] effectCode = value.GetEffectCode();

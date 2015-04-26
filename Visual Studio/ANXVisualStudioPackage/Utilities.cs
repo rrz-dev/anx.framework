@@ -18,6 +18,8 @@ namespace ANX.Framework.VisualStudio
     {
         private static EnvDTE.DTE _dte;
 
+        private static Dictionary<string, TargetPlatform> _displayNames;
+
         public static void Initialize(EnvDTE.DTE dte)
         {
             if (dte == null)
@@ -55,59 +57,49 @@ namespace ANX.Framework.VisualStudio
             return null;
         }
 
+        private static void InitializeTargetPlatforms()
+        {
+            if (_displayNames == null)
+            {
+                _displayNames = new Dictionary<string, TargetPlatform>();
+                foreach (var enumValue in typeof(TargetPlatform).GetEnumValues())
+                {
+                    var enumInstance = (TargetPlatform)Enum.ToObject(typeof(TargetPlatform), enumValue);
+                    _displayNames.Add(enumInstance.ToDisplayName(), enumInstance);
+                }
+            }
+        }
+
         public static TargetPlatform ParseTargetPlatform(string displayName)
         {
-            string[] names = Enum.GetNames(typeof(TargetPlatform));
-            for (int i = 0; i < names.Length; i++)
-            {
-                if (displayName == names[i])
-                    return (TargetPlatform)Enum.Parse(typeof(TargetPlatform), names[i]);
+            InitializeTargetPlatforms();
 
-                var attribute = typeof(TargetPlatform).GetMember(names[i]).FirstOrDefault().GetCustomAttribute<DescriptionAttribute>(false);
-                if (attribute != null && displayName == attribute.Description)
-                    return (TargetPlatform)Enum.Parse(typeof(TargetPlatform), names[i]);
-            }
+            TargetPlatform targetPlatform;
+            if (_displayNames.TryGetValue(displayName, out targetPlatform))
+                return targetPlatform;
+
             return default(TargetPlatform);
         }
 
         public static string[] GetTargetPlatformDisplayNames()
         {
-            string[] names = Enum.GetNames(typeof(TargetPlatform));
-            string[] displayNames = new string[names.Length];
-            for (int i = 0; i < names.Length; i++)
-            {
-                var attribute = typeof(TargetPlatform).GetMember(names[i]).FirstOrDefault().GetCustomAttribute<DescriptionAttribute>(false);
-                if (attribute != null)
-                    displayNames[i] = attribute.Description;
-                else
-                    displayNames[i] = names[i];
-            }
+            InitializeTargetPlatforms();
 
-            return displayNames;
+            return _displayNames.Keys.ToArray();
         }
 
         public static string GetDisplayName(TargetPlatform platform)
         {
-            string name = Enum.GetName(typeof(TargetPlatform), platform);
-            if (string.IsNullOrEmpty(name))
-                return name;
-
-            var attribute = typeof(TargetPlatform).GetMember(name).FirstOrDefault().GetCustomAttribute<DescriptionAttribute>(false);
-            if (attribute != null)
-                return attribute.Description;
-            else
-                return name;
+            return platform.ToDisplayName();
         }
 
         public static string GetTargetPlatformName(string displayName)
         {
-            string[] names = Enum.GetNames(typeof(TargetPlatform));
-            for (int i = 0; i < names.Length; i++)
-            {
-                var attribute = typeof(TargetPlatform).GetMember(names[i]).FirstOrDefault().GetCustomAttribute<DescriptionAttribute>(false);
-                if (attribute != null && displayName == attribute.Description)
-                    return names[i];
-            }
+            InitializeTargetPlatforms();
+
+            TargetPlatform targetPlatform;
+            if (_displayNames.TryGetValue(displayName, out targetPlatform))
+                return targetPlatform.ToString();
 
             return displayName;
         }

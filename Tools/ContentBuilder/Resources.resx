@@ -133,7 +133,7 @@
     <value>"{0}" missed a content importer, using "{1}".</value>
   </data>
   <data name="MissedProcessorUsingDefault" xml:space="preserve">
-    <value>"{0}" missed a content processor, using "{2}".</value>
+    <value>"{0}" missed a content processor, using "{1}".</value>
   </data>
   <data name="NoItemsSpecified" xml:space="preserve">
     <value>No items specified. Closing application.</value>

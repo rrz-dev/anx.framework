@@ -78,11 +78,13 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         public string GetProcessorDisplayName(string proccessorName)
         {
-            var attribute = this.GetInstance(proccessorName).GetType().GetCustomAttributes(typeof(ContentProcessorAttribute), true).Cast<ContentProcessorAttribute>().FirstOrDefault();
-            if (attribute != null && !string.IsNullOrEmpty(attribute.DisplayName))
-                return attribute.DisplayName;
-            else
-                return proccessorName;
+            if (this.processors.ContainsKey(proccessorName))
+            {
+                var attribute = this.GetInstance(proccessorName).GetType().GetCustomAttributes(typeof(ContentProcessorAttribute), true).Cast<ContentProcessorAttribute>().FirstOrDefault();
+                if (attribute != null && !string.IsNullOrEmpty(attribute.DisplayName))
+                    return attribute.DisplayName;
+            }
+            return proccessorName;
         }
         
         public String GetProcessorForType(Type inputType)

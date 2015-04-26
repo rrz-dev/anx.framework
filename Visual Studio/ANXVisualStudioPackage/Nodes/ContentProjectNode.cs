@@ -191,11 +191,12 @@ namespace ANX.Framework.VisualStudio.Nodes
         {
             get
             {
-                var activeConfig = ((OAProject)this.GetAutomationObject()).ConfigurationManager.ActiveConfiguration;
-                
-                var config = this.ConfigProvider.FirstOrDefault((x) => x.ConfigName == activeConfig.ConfigurationName && x.PlatformName == activeConfig.PlatformName) as ContentConfig;
+                var activeConfig = this.GetProjectProperty(ProjectFileConstants.Configuration);
+                var activePlatform = this.GetProjectProperty(ProjectFileConstants.Platform);
+
+                var config = this.ConfigProvider.FirstOrDefault((x) => x.ConfigName == activeConfig && x.PlatformName == activePlatform) as ContentConfig;
                 if (config == null)
-                    throw new KeyNotFoundException(string.Format("Error when searching for configuration with name \"{0}\" and platform \"{1}\".", activeConfig.ConfigurationName, activeConfig.PlatformName));
+                    throw new KeyNotFoundException(string.Format("Error when searching for configuration with name \"{0}\" and platform \"{1}\".", activeConfig, activePlatform));
 
                 return config.Configuration;
             }

@@ -235,8 +235,7 @@ namespace ContentBuilder
 
                         if (string.IsNullOrWhiteSpace(intermediateDirectory))
                         {
-                            intermediateDirectory = new string(config.Name.Select((x) => !Path.GetInvalidPathChars().Contains(x) ? x : '_').ToArray());
-                            intermediateDirectory = Path.Combine(Path.GetDirectoryName(projectFile), "obj", intermediateDirectory);
+                            intermediateDirectory = Path.Combine(Path.GetDirectoryName(projectFile), "obj", CreateSafeFileName(config.Platform.ToDisplayName()), CreateSafeFileName(config.Name));
                         }
                     }
                     else
@@ -285,11 +284,11 @@ namespace ContentBuilder
                 {
                     if (string.IsNullOrEmpty(x.ImporterName))
                     {
-                        x.ImporterName = ImporterManager.GuessImporterByFileExtension(x.SourceFilename);
+                        x.ImporterName = buildContentTask.ImporterManager.GuessImporterByFileExtension(x.SourceFilename);
                         buildContentTask.BuildLogger.LogMessage(string.Format(Resources.MissedImporterUsingDefault, x.AssetName, x.ImporterName));
                     }
 
-                    if (string.IsNullOrEmpty(x.ProcessorName))
+                    if (string.IsNullOrEmpty(x.ProcessorName) && !string.IsNullOrEmpty(x.ImporterName))
                     {
                         x.ProcessorName = buildContentTask.ImporterManager.GetDefaultProcessor(x.ImporterName);
                         buildContentTask.BuildLogger.LogMessage(string.Format(Resources.MissedProcessorUsingDefault, x.AssetName, x.ProcessorName));
@@ -521,6 +520,14 @@ namespace ContentBuilder
 
             intermediateDirectory = TrailingSlash(intermediateDirectory);
             intermediateDirectoryUri = new Uri(intermediateDirectory, UriKind.Absolute);
+        }
+
+        private static string CreateSafeFileName(string text)
+        {
+            foreach (var invalidChar in Path.GetInvalidFileNameChars())
+                text = text.Replace(invalidChar, '_');
+
+            return text;
         }
 
         static Uri anxFrameworkPath;

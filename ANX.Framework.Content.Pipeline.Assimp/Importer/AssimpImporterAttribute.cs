@@ -12,7 +12,7 @@ namespace ANX.Framework.Content.Pipeline
         {
             try
             {
-                //AssimpDeploy.DeployLibraries();
+                AssimpDeploy.DeployLibraries();
                 
                 Assimp.AssimpContext context = new Assimp.AssimpContext();
 

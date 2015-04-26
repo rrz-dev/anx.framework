@@ -72,7 +72,7 @@ namespace ANX.Framework.VisualStudio
         /// <returns>If the method succeeds, it returns S_OK. If it fails, it returns an error code.</returns>
         public override int GetSupportedPlatformNames(uint celt, string[] names, uint[] actual)
         {
-            return GetPlatforms(celt, names, actual, contentProjectNode.ContentProject.Configurations.GetUniquePlatforms().Select((x) => x.ToString()).ToArray());
+            return GetPlatforms(celt, names, actual, GetPlatformNames());
         }
 
         protected override Config GetProjectConfiguration(string configName, string platformName)
@@ -260,11 +260,6 @@ namespace ANX.Framework.VisualStudio
             }
 
             return VSConstants.S_OK;
-        }
-
-        public override IEnumerator<Config> GetEnumerator()
-        {
-            return this.configurationsList.GetEnumerator();
         }
     }
 }

@@ -32,8 +32,8 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             //Data in a DXT texture is compressed in blocks of 4x4 pixels, the block size is the resolution for this blocks.
             //The block size is also the reason why width and height must be a multiple of four.
             width = (width + 3) / 4;
-			height = (height + 3) / 4;
-			_pixelData = new byte[width * height * blockSize];
+            height = (height + 3) / 4;
+            _pixelData = new byte[width * height * blockSize];
         }
 
         public override byte[] GetPixelData()

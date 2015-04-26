@@ -186,7 +186,7 @@ namespace ANX.Framework.VisualStudio
             var activeContentConfig = this.config.ProjectMgr.ActiveContentConfiguration;
             
             IVsCfg cfg;
-            ErrorHandler.ThrowOnFailure(this.config.ProjectMgr.ConfigProvider.GetCfgOfName(activeContentConfig.Name, activeContentConfig.Platform.ToString(), out cfg));
+            ErrorHandler.ThrowOnFailure(this.config.ProjectMgr.ConfigProvider.GetCfgOfName(activeContentConfig.Name, activeContentConfig.Platform.ToDisplayName(), out cfg));
             Config activeConfig = (Config)cfg;
 
             if (config.ProjectMgr.PendingBuild != null && config.ProjectMgr.PendingBuild.IsFileBuild)

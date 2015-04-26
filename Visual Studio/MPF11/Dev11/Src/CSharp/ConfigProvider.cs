@@ -595,11 +595,21 @@ namespace Microsoft.VisualStudio.Project
             return (configurations == null) ? new string[] { } : configurations.ToArray();
         }
 
-        public virtual IEnumerator<Config> GetEnumerator()
+        public IEnumerator<Config> GetEnumerator()
         {
-            foreach (var value in this.configurationsList.Values)
+            uint[] elementsCountHolder = new uint[1] { 0 };
+            if (this.GetCfgs(0, null, elementsCountHolder, null) == VSConstants.S_OK)
             {
-                yield return value;
+                var elementsCount = elementsCountHolder[0];
+                IVsCfg[] configs = new IVsCfg[elementsCount];
+
+                if (this.GetCfgs(elementsCount, configs, null, null) == VSConstants.S_OK)
+                {
+                    foreach (Config config in configs)
+                    {
+                        yield return config;
+                    }
+                }
             }
         }
 

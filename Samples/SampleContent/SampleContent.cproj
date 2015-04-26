@@ -92,15 +92,15 @@
       <OutputPath>bin\Xbox 360\Release</OutputPath>
       <CompressContent>false</CompressContent>
     </Configuration>
-    <Configuration Name="Debug" Platform="0">
-      <Profile>Reach</Profile>
-      <OutputPath>bin\Debug</OutputPath>
-      <CompressContent>false</CompressContent>
-    </Configuration>
   </Configurations>
   <References>
-    <ProjectReference Include="..\..\ANX.Framework.Content.Pipeline.Assimp\ANX.Framework.Content.Pipeline.Assimp.csproj" Guid="{8b0d9390-6f41-4cdb-810b-46a9ee3c3f1b}" Name="ANX.Framework.Content.Pipeline.Assimp">../../bin/Debug/ANX.Framework.Content.Pipeline.Assimp.dll</ProjectReference>
-    <ProjectReference Include="..\..\ANX.Framework.ContentPipeline\ANX.Framework.ContentPipeline.Extensions.csproj" Guid="{ecbf60cb-1cf0-4f92-8963-e73115b04b43}" Name="ANX.Framework.ContentPipeline.Extensions">../../bin/Debug/ANX.Framework.ContentPipeline.dll</ProjectReference>
+    <AssemblyReference Name="ANX.Framework.Content.Pipeline.Assimp">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.Framework.Content.Pipeline.Assimp.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.Framework.ContentPipeline">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.Framework.ContentPipeline.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.InputSystem.Standard">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.InputSystem.Standard.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.PlatformSystem.Windows">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.PlatformSystem.Windows.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.RenderSystem.Windows.DX10">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.RenderSystem.Windows.DX10.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.RenderSystem.Windows.DX11">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.RenderSystem.Windows.DX11.dll</AssemblyReference>
+    <AssemblyReference Name="AssimpNet">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\AssimpNet.dll</AssemblyReference>
   </References>
   <BuildItems>
     <BuildItem AssetName="HardwareInstancing" Importer="EffectImporter" Processor="EffectProcessor">
@@ -123,19 +123,19 @@
       <SourceFile>Fonts\Debug.spritefont</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="ANX_vertex_color" Importer="" Processor="">
+    <BuildItem AssetName="ANX_vertex_color" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\ANX_vertex_color.fbx</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="Cube" Importer="" Processor="">
+    <BuildItem AssetName="Cube" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\Cube.fbx</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="Sphere" Importer="" Processor="">
+    <BuildItem AssetName="Sphere" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\Sphere.fbx</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="SphereAndCube" Importer="" Processor="">
+    <BuildItem AssetName="SphereAndCube" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\SphereAndCube.fbx</SourceFile>
       <ProcessorParams />
     </BuildItem>
@@ -143,7 +143,7 @@
       <SourceFile>Models\TestGrid1024.png</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="TwoCubes" Importer="" Processor="">
+    <BuildItem AssetName="TwoCubes" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\TwoCubes.fbx</SourceFile>
       <ProcessorParams />
     </BuildItem>
@@ -167,7 +167,7 @@
       <SourceFile>Textures\chest.png</SourceFile>
       <ProcessorParams />
     </BuildItem>
-    <BuildItem AssetName="dds-test" Importer="" Processor="">
+    <BuildItem AssetName="dds-test" Importer="TextureImporter" Processor="TextureProcessor">
       <SourceFile>Textures\dds-test.dds</SourceFile>
       <ProcessorParams />
     </BuildItem>

@@ -46,7 +46,7 @@ namespace ANX.Framework.Content.Pipeline
 
             this.identity = new ContentIdentity(filename, this.GetType().Name);
 
-            //AssimpDeploy.DeployLibraries();
+            AssimpDeploy.DeployLibraries();
 
             Assimp.AssimpContext assimpContext = new AssimpContext();
             

@@ -32,7 +32,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 #if LINUX
                 Console.WriteLine("ImporterManager: Checking " + assembly.FullName);
 #endif
-				foreach (Type type in ANX.Framework.NonXNA.Reflection.TypeHelper.SafelyExtractTypesFrom(assembly))
+                foreach (Type type in ANX.Framework.NonXNA.Reflection.TypeHelper.SafelyExtractTypesFrom(assembly))
                 {
                     if (type == null)
                         continue;
@@ -110,23 +110,20 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         }
 
         
-        public static String GuessImporterByFileExtension(string filename)
+        public String GuessImporterByFileExtension(string filename)
         {
             String extension = System.IO.Path.GetExtension(filename);
 
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var type in this.importerTypes.Values)
             {
-                foreach (Type type in assembly.GetTypes())
+                ContentImporterAttribute[] value = (ContentImporterAttribute[])type.GetCustomAttributes(typeof(ContentImporterAttribute), true);
+                foreach (ContentImporterAttribute cia in value)
                 {
-                    ContentImporterAttribute[] value = (ContentImporterAttribute[])type.GetCustomAttributes(typeof(ContentImporterAttribute), true);
-                    foreach (ContentImporterAttribute cia in value)
+                    foreach (string fe in cia.FileExtensions)
                     {
-                        foreach (string fe in cia.FileExtensions)
+                        if (string.Equals(fe, extension, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            if (string.Equals(fe, extension, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                return type.Name;
-                            }
+                            return type.Name;
                         }
                     }
                 }

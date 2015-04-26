@@ -332,7 +332,12 @@ namespace ANX.Framework.Build
 
             public string GuessImporterByFileExtension(string fileName)
             {
-                return ImporterManager.GuessImporterByFileExtension(fileName);
+                if (importerManager == null)
+                {
+                    importerManager = new ImporterManager();
+                }
+
+                return importerManager.GuessImporterByFileExtension(fileName);
             }
 
             public string GetDefaultProcessorForImporter(string importer)
@@ -495,8 +500,7 @@ namespace ANX.Framework.Build
 
                 task.BuildCache = buildCache;
 
-                string intermediateDirectory = new string(activeConfiguration.Name.Select((x) => !Path.GetInvalidPathChars().Contains(x) ? x : '_').ToArray());
-                intermediateDirectory = Path.Combine(projectHome, "obj", intermediateDirectory) + Path.DirectorySeparatorChar;
+                string intermediateDirectory = Path.Combine(projectHome, "obj", CreateSafeFileName(activeConfiguration.Platform.ToDisplayName()), CreateSafeFileName(activeConfiguration.Name)) + Path.DirectorySeparatorChar;
 
                 var buildCacheUri = new Uri(new Uri(intermediateDirectory, UriKind.Absolute), new Uri("build.cache", UriKind.Relative));
 
@@ -516,6 +520,14 @@ namespace ANX.Framework.Build
                 }
 
                 return true;
+            }
+
+            private string CreateSafeFileName(string text)
+            {
+                foreach (var unsafeChar in Path.GetInvalidFileNameChars())
+                    text = text.Replace(unsafeChar, '_');
+
+                return text;
             }
         }
 

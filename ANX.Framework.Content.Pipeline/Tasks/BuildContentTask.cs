@@ -246,9 +246,16 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
                     if (compiledItem != null)
                     {
-                        SerializeAsset(buildItem, compiledItem, outputFilename.LocalPath);
+                        try
+                        {
+                            SerializeAsset(buildItem, compiledItem, outputFilename.LocalPath);
 
-                        compiled = new CompiledBuildItem(compiledItem, buildItem, outputFilename.LocalPath, true);
+                            compiled = new CompiledBuildItem(compiledItem, buildItem, outputFilename.LocalPath, true);
+                        }
+                        catch (Exception exc)
+                        {
+                            LogException(exc, absoluteFilename);
+                        }
                     }
                 }
 
@@ -323,7 +330,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             }
 
             IContentImporter importer = this.ImporterManager.GetInstance(importerName);
-            buildLogger.LogMessage("importing {0} with importer {1}", Uri.EscapeUriString(item.SourceFilename.ToString()), importer.GetType());
+            buildLogger.LogMessage("importing {0} with importer {1}", item.SourceFilename.ToString(), importer.GetType());
 
             object result = importer.Import(absoluteFilename, context);
 

@@ -5,7 +5,7 @@ Framework Inhalts-Pipeline gelesen. Befolgen Sie die Kommentare zur Anpassung de
 der Schriftart in Ihrem Spiel und zum Ändern der Zeichen, die für das Zeichnen verfügbar
 sind.
 -->
-<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+<AnxContent xmlns:Graphics="ANX.Framework.Content.Pipeline.Graphics">
   <Asset Type="Graphics:FontDescription">
 
     <!--
@@ -57,4 +57,4 @@ sind.
       </CharacterRegion>
     </CharacterRegions>
   </Asset>
-</XnaContent>
+</AnxContent>
