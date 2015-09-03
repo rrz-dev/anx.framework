@@ -98,7 +98,7 @@ namespace StockShaderCodeGenerator
                 SourceLanguage = sourceLanguage,
             };
 
-            BuildContent buildContentTask = new BuildContent();
+            var buildContentTask = new BuildContentTask();
             IContentProcessor instance = buildContentTask.ProcessorManager.GetInstance("EffectProcessor");
             ((EffectProcessor)instance).TargetProfile = targetProfile;
             CompiledEffectContent effect = instance.Process(effectContent, null) as CompiledEffectContent;

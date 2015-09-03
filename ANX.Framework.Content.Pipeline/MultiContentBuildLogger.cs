@@ -11,21 +11,10 @@ namespace ANX.Framework.Content.Pipeline
     public class MultiContentBuildLogger : ContentBuildLogger
     {
         private List<IContentBuildLogger> _childs = new List<IContentBuildLogger>();
-        private string _name;
 
         public IList<IContentBuildLogger> Childs
         {
             get { return _childs; }
-        }
-
-        public override string Name
-        {
-            get { return this._name; }
-        }
-
-        public MultiContentBuildLogger(string name)
-        {
-            this._name = name;
         }
 
         public override void LogImportantMessage(string message, params object[] messageArgs)
@@ -140,7 +129,7 @@ namespace ANX.Framework.Content.Pipeline
             {
                 try
                 {
-                    child.LogMessage(string.Format("Logger \"{0}\" had an error executing {1}: {2}", faultyLogger.Name, methodName, exc.Message));
+                    child.LogMessage(string.Format("Logger \"{0}\" had an error executing {1}: {2}", faultyLogger.GetType().Name, methodName, exc.Message));
                 }
                 catch
                 {

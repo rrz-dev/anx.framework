@@ -18,11 +18,10 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         private ImporterManager importerManager;
         private ProcessorManager processorManager;
         private ContentCompiler contentCompiler;
-        private MultiContentBuildLogger buildLogger = new MultiContentBuildLogger("BuildContent main logger");
+        private MultiContentBuildLogger buildLogger = new MultiContentBuildLogger();
 
         public BuildContentTask()
         {
-            OutputDirectory = Environment.CurrentDirectory;
             TargetPlatform = TargetPlatform.Windows;
             CompressContent = false;
             TargetProfile = GraphicsProfile.HiDef;
@@ -106,12 +105,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             set;
         }
 
-        public string OutputDirectory
-        {
-            get;
-            set;
-        }
-
         public TargetPlatform TargetPlatform
         {
             get;
@@ -141,11 +134,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             get { return buildLogger; }
         }
 
-        public Uri GetOutputFileName(BuildItem buildItem)
-        {
-            return new Uri(Path.Combine(OutputDirectory, buildItem.AssetName) + ".xnb", UriKind.Absolute);
-        }
-
         public CompiledBuildItem Execute(BuildItem item)
         {
             if (item == null)
@@ -168,7 +156,11 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 if (buildItem == null)
                     throw new ArgumentNullException("An element of the parameter itemsToBuild is null.");
 
-                Uri outputFilename = GetOutputFileName(buildItem);
+                ContentImporterContext importerContext;
+                ContentProcessorContext processorContext;
+                PrepareAssetBuildCallback(this, buildItem, out importerContext, out processorContext);
+
+                Uri outputFilename = new Uri(processorContext.OutputFilename, UriKind.Absolute);
                 if (BuildCache != null)
                 {
                     if (throwExceptions)
@@ -189,10 +181,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         }
                     }
                 }
-
-                ContentImporterContext importerContext;
-                ContentProcessorContext processorContext;
-                PrepareAssetBuildCallback(this, buildItem, out importerContext, out processorContext);
 
                 var absoluteFilename = MakeAbsolute(buildItem.SourceFilename);
 
@@ -248,7 +236,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                     {
                         try
                         {
-                            SerializeAsset(buildItem, compiledItem, outputFilename.LocalPath);
+                            SerializeAsset(buildItem, compiledItem, processorContext.OutputDirectory, outputFilename.LocalPath);
 
                             compiled = new CompiledBuildItem(compiledItem, buildItem, outputFilename.LocalPath, true);
                         }
@@ -380,7 +368,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             }
         }
 
-        private void SerializeAsset(BuildItem item, object assetData, string outputFilename)
+        private void SerializeAsset(BuildItem item, object assetData, string outputDirectory, string outputFilename)
         {
             string dir =Path.GetDirectoryName(outputFilename);
             if (!Directory.Exists(dir))
@@ -389,7 +377,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             buildLogger.LogMessage("serializing {0}", new object[] { item.AssetName });
             using (Stream stream = new FileStream(outputFilename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                this.ContentCompiler.Compile(stream, assetData, TargetPlatform, TargetProfile, CompressContent, OutputDirectory, outputFilename);
+                this.ContentCompiler.Compile(stream, assetData, TargetPlatform, TargetProfile, CompressContent, outputDirectory, outputFilename);
             }
         }
 

@@ -20,15 +20,6 @@ namespace ANX.Framework.Content.Pipeline
             set;
         }
 
-        /// <summary>
-        /// Returns the name of the logger.
-        /// </summary>
-        string Name
-        {
-            [OperationContract]
-            get;
-        }
-
         [OperationContract(Name = "LogImportantMessage")]
         void LogImportantMessage(string message, params Object[] messageArgs);
 

@@ -280,9 +280,7 @@
     <Compile Include="Tasks\DefaultContentImporterContext.cs" />
     <Compile Include="Tasks\DefaultContentProcessorContext.cs" />
     <Compile Include="Tasks\IBuildCache.cs" />
-    <Compile Include="Tasks\ImporterConverter.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />
-    <Compile Include="Tasks\ProcessorConverter.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
     <Compile Include="Tasks\References\AssemblyReference.cs" />
     <Compile Include="Tasks\References\GACReference.cs" />

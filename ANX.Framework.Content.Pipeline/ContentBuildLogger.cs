@@ -31,14 +31,6 @@ namespace ANX.Framework.Content.Pipeline
             set;
         }
 
-        /// <summary>
-        /// Returns the name of the logger.
-        /// </summary>
-        public abstract string Name
-        {
-            get;
-        }
-
         public abstract void LogImportantMessage(string message, params Object[] messageArgs);
 
         public abstract void LogImportantMessage(string helpLink, ContentIdentity contentIdentity, string message, params Object[] messageArgs);

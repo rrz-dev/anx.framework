@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ANX.Framework.VisualStudio.Nodes;
 using ANX.Framework.Content.Pipeline.Tasks.References;
+using System.Diagnostics;
 
 namespace ANX.Framework.VisualStudio.Nodes
 {
@@ -65,12 +66,7 @@ namespace ANX.Framework.VisualStudio.Nodes
 
                         var reference = (AssemblyReference)item;
 
-                        string path = reference.AssemblyPath;
-                        using (var buildAppDomain = contentProjectNode.BuildAppDomain.Aquire())
-                        {
-                            path = buildAppDomain.MakeAbsoluteFromSearchPaths(path);
-                        }
-                        node = CreateAssemblyReferenceNode(reference.Name, path);
+                        node = CreateAssemblyReferenceNode(reference.Name, reference.AssemblyPath);
                     }
                     else if (item is GACReference)
                     {
@@ -240,61 +236,73 @@ namespace ANX.Framework.VisualStudio.Nodes
                     Dictionary<string, string> assemblyNamesAndPaths = new Dictionary<string, string>();
                     foreach (var reference in references)
                     {
-                        string path = null;
-                        string name = null;
-                        if (reference is AnxAssemblyReferenceNode)
+                        //Running asynchronously, so at least write to console.
+                        //And we also don't want to stop at the first reference that creates problems.
+                        try
                         {
-                            var assemblyReference = (AnxAssemblyReferenceNode)reference;
-                            assemblyReference.RefreshReference();
-
-                            path = assemblyReference.FullPath;
-                            name = assemblyReference.AssemblyName.FullName;
-
-                            if (string.IsNullOrEmpty(path))
-                                path = name;
-                        }
-                        else if (reference is AnxProjectReferenceNode)
-                        {
-                            var projectReference = (AnxProjectReferenceNode)reference;
-                            projectReference.RefreshReference();
-
-                            path = projectReference.ReferencedProjectOutputPath;
-                            if (File.Exists(path))
+                            string path = null;
+                            string name = null;
+                            if (reference is AnxAssemblyReferenceNode)
                             {
-                                name = AssemblyName.GetAssemblyName(path).FullName;
+                                var assemblyReference = (AnxAssemblyReferenceNode)reference;
+                                assemblyReference.RefreshReference();
+
+                                if (assemblyReference.AssemblyName == null)
+                                    continue;
+
+                                path = assemblyReference.FullPath;
+                                name = assemblyReference.AssemblyName.FullName;
+
+                                if (string.IsNullOrEmpty(path))
+                                    path = name;
                             }
-                        }
-
-                        if (name != null && path != null && File.Exists(path))
-                        {
-                            foreach (var assemblyName in buildDomain.Proxy.GetReferencedAssemblies(path))
+                            else if (reference is AnxProjectReferenceNode)
                             {
-                                if (!assemblyNamesAndPaths.ContainsKey(assemblyName.FullName))
+                                var projectReference = (AnxProjectReferenceNode)reference;
+                                projectReference.RefreshReference();
+
+                                path = projectReference.ReferencedProjectOutputPath;
+                                if (File.Exists(path))
                                 {
-                                    string assemblyIdentifier = assemblyName.FullName;
-
-                                    foreach (var referenceEntry in allReferences)
-                                    {
-                                        if (referenceEntry.AssemblyName != null && referenceEntry.AssemblyName.FullName == assemblyName.FullName && File.Exists(referenceEntry.Url))
-                                        {
-                                            assemblyIdentifier = referenceEntry.Url;
-                                            break;
-                                        }
-                                    }
-
-                                    assemblyNamesAndPaths[assemblyName.FullName] = assemblyIdentifier;
+                                    name = AssemblyName.GetAssemblyName(path).FullName;
                                 }
                             }
 
-                            assemblyNamesAndPaths[name] = path;
+                            if (name != null && path != null && File.Exists(path))
+                            {
+                                foreach (var assemblyName in buildDomain.Proxy.GetReferencedAssemblies(path))
+                                {
+                                    if (!assemblyNamesAndPaths.ContainsKey(assemblyName.FullName))
+                                    {
+                                        string assemblyIdentifier = assemblyName.FullName;
+
+                                        foreach (var referenceEntry in allReferences)
+                                        {
+                                            if (referenceEntry.AssemblyName != null && referenceEntry.AssemblyName.FullName == assemblyName.FullName && File.Exists(referenceEntry.Url))
+                                            {
+                                                assemblyIdentifier = referenceEntry.Url;
+                                                break;
+                                            }
+                                        }
+
+                                        assemblyNamesAndPaths[assemblyName.FullName] = assemblyIdentifier;
+                                    }
+                                }
+
+                                assemblyNamesAndPaths[name] = path;
+                            }
+
+                            var callback = new LoadAssembliesCallback(this);
+                            buildDomain.Proxy.LoadProjectAssemblies(assemblyNamesAndPaths.Values, buildDomain.SearchPaths, buildDomain.Redirects, callback.ErrorCallback);
+                        }
+                        catch (Exception exc)
+                        {
+                            Debugger.Break();
+                            Console.WriteLine(exc.Message);
                         }
                     }
-
-                    var callback = new LoadAssembliesCallback(this);
-                    buildDomain.Proxy.LoadProjectAssemblies(assemblyNamesAndPaths.Values, buildDomain.SearchPaths, buildDomain.Redirects, callback.ErrorCallback);
                 }
-            }
-            );
+            });
         }
 
         class LoadAssembliesCallback : MarshalByRefObject

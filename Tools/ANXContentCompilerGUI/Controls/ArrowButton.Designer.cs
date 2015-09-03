@@ -31,10 +31,8 @@
             this.labelText = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-#endif
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -109,10 +107,8 @@
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ArrowButtonMouseUp);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
-#if !MONO
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-#endif
             this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 

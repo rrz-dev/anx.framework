@@ -61,7 +61,7 @@
             this.textBox.Location = new System.Drawing.Point(3, 3);
             this.textBox.Name = "textBox";
             this.textBox.ReadOnly = true;
-            this.textBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.textBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.textBox.Size = new System.Drawing.Size(315, 73);
             this.textBox.TabIndex = 2;
             this.textBox.Text = "";

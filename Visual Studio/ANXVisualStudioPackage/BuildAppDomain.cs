@@ -5,6 +5,7 @@ using ANX.Framework.Design;
 using ANX.Framework.Graphics;
 using ANX.Framework.VisualStudio;
 using ANX.Framework.VisualStudio.Nodes;
+using ContentBuilder;
 using Microsoft.VisualStudio.Project;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -515,7 +516,7 @@ namespace ANX.Framework.Build
 
                 foreach (var buildItem in buildItems)
                 {
-                    if (buildCache.IsValid(buildItem, task.GetOutputFileName(buildItem)))
+                    if (buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(activeConfiguration.OutputDirectory, buildItem))))
                         return false;
                 }
 
@@ -603,7 +604,9 @@ namespace ANX.Framework.Build
                 if (path == null)
                     throw new ArgumentNullException("path");
 
-                var uri = new Uri(path, UriKind.RelativeOrAbsolute);
+                Uri uri;
+                if (!Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out uri))
+                    return path;
 
                 if (uri.IsAbsoluteUri)
                 {

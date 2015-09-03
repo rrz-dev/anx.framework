@@ -42,10 +42,5 @@ namespace ANX.Framework.VisualStudio
         {
  	        loggingHelper.LogWarning(helpLink, contentIdentity, this.GetCurrentFilename(contentIdentity), message, messageArgs);
         }
-
-        public override string Name
-        {
-            get { return "VisualStudio build logger"; }
-        }
     }
 }

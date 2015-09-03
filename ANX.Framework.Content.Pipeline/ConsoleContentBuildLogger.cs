@@ -17,18 +17,6 @@ namespace ANX.Framework.Content.Pipeline
     [Developer("KorsarNek")]
     public class ConsoleContentBuildLogger : ContentBuildLogger
     {
-        private string _name;
-
-        public override string Name
-        {
-            get { return this._name; }
-        }
-
-        public ConsoleContentBuildLogger(string name)
-        {
-            this._name = name;
-        }
-
         public override void LogImportantMessage(string message, params object[] messageArgs)
         {
             var previousColor = Console.ForegroundColor;

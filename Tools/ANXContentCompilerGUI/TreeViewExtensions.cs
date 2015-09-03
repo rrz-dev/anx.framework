@@ -1,7 +1,9 @@
 ﻿#region Using Statements
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using ANX.Framework.NonXNA.Development;
+using System.Collections.Generic;
 #endregion
 
 // This file is part of the EES Content Compiler 4,
@@ -72,6 +74,71 @@ namespace ANX.ContentCompiler.GUI
             {
                 node.RecursivelyReplacePartOfName(old, newString);
             }
+        }
+
+        /// <summary>
+        /// Returns all TreeNodes contained in the given collection and all sub collections depth first.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static IEnumerable<TreeNode> GetAllNodes(this TreeNodeCollection collection)
+        {
+            foreach (TreeNode node in collection)
+            {
+                foreach (TreeNode subNode in node.Nodes.GetAllNodes())
+                    yield return subNode;
+
+                yield return node;
+            }
+        }
+
+        /// <summary>
+        /// Gets the path for a TreeNode, consisting of the text of the nodes originating from the root.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static string GetPath(this TreeNode node)
+        {
+            if (node.Parent != null)
+                return node.Parent.GetPath() + '/' + node.Text;
+            else
+                return node.Text;
+        }
+
+        public static TreeNode FindNode(this TreeNodeCollection collection, string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException("path");
+
+            if (path == "")
+                return null;
+
+            TreeNodeCollection currentCollection = collection;
+            TreeNode targetNode = null;
+            var pathParts = path.Split('/');
+            foreach (var part in pathParts)
+            {
+                int index = currentCollection.IndexOf((x) => x.Text == part);
+                if (index == -1)
+                    return null;
+
+                targetNode = currentCollection[index];
+                currentCollection = targetNode.Nodes;
+            }
+
+            return targetNode;
+        }
+
+        public static int IndexOf(this TreeNodeCollection collection, Predicate<TreeNode> predicate)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
+            for (int i = 0; i < collection.Count; i++)
+                if (predicate(collection[i]))
+                    return i;
+
+            return -1;
         }
     }
 }

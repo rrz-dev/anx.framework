@@ -17,12 +17,20 @@ namespace ANX.ContentCompiler.GUI.Dialogues
     public partial class NewProjectSummaryScreen : Form
     {
         #region Contructor
-        public NewProjectSummaryScreen(String projectName, String projectDir, String outputDir, bool customImporters,
-                                       String customImportersDir, int customImportersFound, int customProcessorsFound)
+        public NewProjectSummaryScreen(String projectName, String projectDir, String outputDir)
         {
             InitializeComponent();
             SetUpColors();
+
             textBox.Text =
+                "Summary for new project " + projectName + Environment.NewLine +
+                "=========================================" + Environment.NewLine +
+                "Name: " + projectName + Environment.NewLine +
+                "Media Directory: " + projectDir + Environment.NewLine + Environment.NewLine +
+                "Output Directory: " + outputDir + Environment.NewLine + Environment.NewLine;
+
+            //TODO: currently no real support for impoters.
+            /*textBox.Text =
                 "Summary for new project " + projectName + Environment.NewLine +
                 "=========================================" + Environment.NewLine +
                 "Name: " + projectName + Environment.NewLine +
@@ -37,7 +45,7 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                     "Importers/Processors found in given Location:" + Environment.NewLine +
                     "Importers: " + customImportersFound + Environment.NewLine +
                     "Processors: " + customProcessorsFound;
-            }
+            }*/
         }
         #endregion
 

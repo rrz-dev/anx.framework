@@ -10,12 +10,36 @@ namespace ANX.Framework.VisualStudio.Nodes
 {
     public class AnxAssemblyReferenceNode : AssemblyReferenceNode
     {
-        ContentProjectNode node;
-
         public AnxAssemblyReferenceNode(ContentProjectNode node, string name, string assemblyPath)
             : base(node, name, assemblyPath)
         {
-            this.node = node;
+            this.OriginalAssemblyPath = assemblyPath;
+        }
+
+        public string OriginalAssemblyPath
+        {
+            get;
+            private set;
+        }
+
+        public new ContentProjectNode ProjectMgr
+        {
+            get
+            {
+                return (ContentProjectNode)base.ProjectMgr;
+            }
+        }
+
+        protected override string ResolveAssemblyPath(string assemblyPath)
+        {
+            if (!File.Exists(assemblyPath))
+            {
+                using (var buildDomain = this.ProjectMgr.BuildAppDomain.Aquire())
+                {
+                    assemblyPath = buildDomain.MakeAbsoluteFromSearchPaths(assemblyPath);
+                }
+            }
+            return assemblyPath;
         }
 
         protected override NodeProperties CreatePropertiesObject()
@@ -29,7 +53,7 @@ namespace ANX.Framework.VisualStudio.Nodes
             {
                 if (this.IsValid)
                 {
-                    using (var domain = node.BuildAppDomain.Aquire())
+                    using (var domain = ProjectMgr.BuildAppDomain.Aquire())
                     {
                         return domain.Proxy.GetAssemblyRuntimeVersion(this.Url);
                     }
@@ -41,22 +65,25 @@ namespace ANX.Framework.VisualStudio.Nodes
 
         public override void RefreshReference(bool fileChanged = false)
         {
-            if (node.BuildAppDomain.IsDisposed)
+            if (ProjectMgr.BuildAppDomain.IsDisposed)
                 return;
 
-
-            using (var buildDomain = node.BuildAppDomain.Aquire())
+            Uri url;
+            if (Uri.TryCreate(this.Url, UriKind.Absolute, out url))
             {
-                if (!File.Exists(this.Url))
+                using (var buildDomain = ProjectMgr.BuildAppDomain.Aquire())
                 {
-                    buildDomain.RemoveShadowCopyDirectory(new Uri(this.Url));
-                }
+                    if (!File.Exists(this.Url))
+                    {
+                        buildDomain.RemoveShadowCopyDirectory(url);
+                    }
 
-                base.RefreshReference(fileChanged);
+                    base.RefreshReference(fileChanged);
 
-                if (File.Exists(this.Url))
-                {
-                    buildDomain.AddShadowCopyDirectory(new Uri(Path.GetDirectoryName(this.Url)));
+                    if (File.Exists(this.Url))
+                    {
+                        buildDomain.AddShadowCopyDirectory(new Uri(Path.GetDirectoryName(this.Url)));
+                    }
                 }
             }
 

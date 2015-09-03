@@ -17,11 +17,11 @@ namespace ANX.ContentCompiler.GUI.Dialogues
     public partial class ErrorLogScreen : Form
     {
         #region Constructor
-        public ErrorLogScreen(string[] errorLog)
+        public ErrorLogScreen(string errorLog)
         {
             InitializeComponent();
             SetUpColors();
-            textBox.Lines = errorLog;
+            textBox.Rtf = errorLog;
         }
         #endregion
 

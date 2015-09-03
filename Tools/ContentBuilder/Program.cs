@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System.ServiceModel;
 using System.Threading;
 using ANX.Framework.Content.Pipeline.Tasks.References;
+using ANX.Framework.Content;
 
 #endregion
 
@@ -35,7 +36,7 @@ namespace ContentBuilder
             #region local var declarations
 
             BuildContentTask buildContentTask = new BuildContentTask();
-            buildContentTask.BuildLogger.Childs.Add(new ConsoleContentBuildLogger("ConsoleLogger"));
+            buildContentTask.BuildLogger.Childs.Add(new ConsoleContentBuildLogger());
 
             string projectFile = null;
             List<string> buildItems = new List<string>();
@@ -109,7 +110,7 @@ namespace ContentBuilder
                         if (parameterChar1 == "o" && parameterChar2 == "d")
                         {
                             // output dir
-                            buildContentTask.OutputDirectory = arg.Substring(4);
+                            outputDirectory = arg.Substring(4);
                         }
                         //current directory
                         else if (parameterChar1 == "c" && parameterChar2 == "d")
@@ -235,7 +236,7 @@ namespace ContentBuilder
 
                         if (string.IsNullOrWhiteSpace(intermediateDirectory))
                         {
-                            intermediateDirectory = Path.Combine(Path.GetDirectoryName(projectFile), "obj", CreateSafeFileName(config.Platform.ToDisplayName()), CreateSafeFileName(config.Name));
+                            intermediateDirectory = Path.Combine(Path.GetDirectoryName(projectFile), "obj", BuildHelper.CreateSafeFileName(config.Platform.ToDisplayName()), BuildHelper.CreateSafeFileName(config.Name));
                         }
                     }
                     else
@@ -266,7 +267,6 @@ namespace ContentBuilder
 
                 buildContentTask.BuildLogger.LogMessage(Resources.FinishedLoadingAssemblies);
 
-                buildContentTask.OutputDirectory = outputDirectory;
                 buildContentTask.TargetPlatform = platform;
                 buildContentTask.TargetProfile = graphics;
                 buildContentTask.TargetPlatform = platform;
@@ -274,8 +274,8 @@ namespace ContentBuilder
 
                 buildContentTask.PrepareAssetBuildCallback = (BuildContentTask sender, BuildItem item, out ContentImporterContext importerContext, out ContentProcessorContext processorContext) =>
                 {
-                    importerContext = new DefaultContentImporterContext(sender.BuildLogger, intermediateDirectory, sender.OutputDirectory);
-                    processorContext = new DefaultContentProcessorContext(sender, configurationName, intermediateDirectory, Path.Combine(sender.OutputDirectory, item.SourceFilename));
+                    importerContext = new DefaultContentImporterContext(sender.BuildLogger, intermediateDirectory, outputDirectory);
+                    processorContext = new DefaultContentProcessorContext(sender, configurationName, intermediateDirectory, outputDirectory, BuildHelper.GetOutputFileName(outputDirectory, item));
                 };
 
 
@@ -314,7 +314,7 @@ namespace ContentBuilder
                     buildContentTask.BuildLogger.LogMessage("Starting up to date check.");
 
                     foreach (var buildItem in itemsToBuild)
-                        if (!buildCache.IsValid(buildItem, buildContentTask.GetOutputFileName(buildItem)))
+                        if (!buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(outputDirectory, buildItem))))
                         {
                             buildContentTask.BuildLogger.LogMessage("{0} is not up to date.", buildItem.SourceFilename);
                             Exit(ExitCode.NotUpToDate);
@@ -436,7 +436,7 @@ namespace ContentBuilder
         private static void LoadReferences(IEnumerable<string> referencedAssemblies, string currentDirectory, ContentBuildLogger buildLogger)
         {
             List<Uri> searchPaths = new List<Uri>();
-            searchPaths.Add(GetAnxFrameworkPath());
+            searchPaths.Add(BuildHelper.GetAnxFrameworkPath());
             searchPaths.Add(new Uri(currentDirectory));
 
             Uri ownDirectory = new Uri(TrailingSlash(Path.GetDirectoryName(typeof(Program).Assembly.Location)), UriKind.Absolute);
@@ -520,36 +520,6 @@ namespace ContentBuilder
 
             intermediateDirectory = TrailingSlash(intermediateDirectory);
             intermediateDirectoryUri = new Uri(intermediateDirectory, UriKind.Absolute);
-        }
-
-        private static string CreateSafeFileName(string text)
-        {
-            foreach (var invalidChar in Path.GetInvalidFileNameChars())
-                text = text.Replace(invalidChar, '_');
-
-            return text;
-        }
-
-        static Uri anxFrameworkPath;
-
-        public static Uri GetAnxFrameworkPath()
-        {
-#if WINDOWS
-            if (anxFrameworkPath == null)
-            {
-                var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework", false);
-                var value = key.GetValue(null) as string;
-                if (value == null)
-                    throw new KeyNotFoundException(Resources.AnxFrameworkRegistryNotFound);
-                else
-                    anxFrameworkPath = new Uri(value);
-            }
-
-            return anxFrameworkPath;
-#else
-            return null;
-#endif
         }
     }
 }

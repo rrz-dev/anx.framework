@@ -129,6 +129,9 @@
   <data name="Menu" xml:space="preserve">
     <value>More detailed actions can be found in the File Menu which you can open by clicking on this button.</value>
   </data>
+  <data name="NoFilesForImporters" xml:space="preserve">
+    <value>Error trying to find files for importers.</value>
+  </data>
   <data name="PropertyGrid" xml:space="preserve">
     <value>In the Property Grid you can change the options or parameters of the object you selected in the Project Explorer.</value>
   </data>

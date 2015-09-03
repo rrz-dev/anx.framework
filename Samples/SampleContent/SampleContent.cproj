@@ -92,15 +92,20 @@
       <OutputPath>bin\Xbox 360\Release</OutputPath>
       <CompressContent>false</CompressContent>
     </Configuration>
+    <Configuration Name="Debug" Platform="0">
+      <Profile>Reach</Profile>
+      <OutputPath>bin\Debug</OutputPath>
+      <CompressContent>false</CompressContent>
+    </Configuration>
   </Configurations>
   <References>
-    <AssemblyReference Name="ANX.Framework.Content.Pipeline.Assimp">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.Framework.Content.Pipeline.Assimp.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.Framework.ContentPipeline">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.Framework.ContentPipeline.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.InputSystem.Standard">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.InputSystem.Standard.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.PlatformSystem.Windows">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.PlatformSystem.Windows.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.RenderSystem.Windows.DX10">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.RenderSystem.Windows.DX10.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.RenderSystem.Windows.DX11">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\ANX.RenderSystem.Windows.DX11.dll</AssemblyReference>
-    <AssemblyReference Name="AssimpNet">C:\Users\Konstantin\Documents\Visual Studio 2013\Projects\anx.framework\bin\Debug\AssimpNet.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.Framework.Content.Pipeline.Assimp">..\..\bin\Debug\ANX.Framework.Content.Pipeline.Assimp.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.Framework.ContentPipeline">..\..\bin\Debug\ANX.Framework.ContentPipeline.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.InputSystem.Standard">..\..\bin\Debug\ANX.InputSystem.Standard.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.PlatformSystem.Windows">..\..\bin\Debug\ANX.PlatformSystem.Windows.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.RenderSystem.Windows.DX10">..\..\bin\Debug\ANX.RenderSystem.Windows.DX10.dll</AssemblyReference>
+    <AssemblyReference Name="ANX.RenderSystem.Windows.DX11">..\..\bin\Debug\ANX.RenderSystem.Windows.DX11.dll</AssemblyReference>
+    <AssemblyReference Name="AssimpNet">..\..\bin\Debug\AssimpNet.dll</AssemblyReference>
   </References>
   <BuildItems>
     <BuildItem AssetName="HardwareInstancing" Importer="EffectImporter" Processor="EffectProcessor">

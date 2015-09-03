@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ANX.ContentCompiler.GUI.Dialogues;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework;
 #endregion
 
 // This file is part of the EES Content Compiler 4,
@@ -29,16 +30,26 @@ namespace ANX.ContentCompiler.GUI.Controls
         #region Public
         public void AddMessage(string msg)
         {
-            List<string> contents = textBox.Lines.ToList();
-            contents.Add(msg);
-            textBox.Lines = contents.ToArray();
+            textBox.AppendText(msg + Environment.NewLine);
+        }
+
+        public void SetTextColor(System.Drawing.Color color)
+        {
+            textBox.SelectionStart = textBox.TextLength;
+            textBox.SelectionLength = 0;
+            textBox.SelectionColor = color;
+        }
+
+        public void ResetTextColor()
+        {
+            textBox.SelectionColor = textBox.ForeColor;
         }
         #endregion
 
         #region Private
         private void ButtonDownClick(object sender, EventArgs e)
         {
-            using (var dlg = new ErrorLogScreen(textBox.Lines))
+            using (var dlg = new ErrorLogScreen(textBox.Rtf))
             {
                 dlg.ShowDialog();
             }

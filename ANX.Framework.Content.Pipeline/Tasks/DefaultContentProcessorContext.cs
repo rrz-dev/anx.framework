@@ -16,13 +16,15 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         string buildConfiguration;
         string intermediateDirectory;
         string outputFilename;
+        string outputDirectory;
 
-        public DefaultContentProcessorContext(BuildContentTask task, string buildConfiguration, string intermediateDirectory, string outputFilename)
+        public DefaultContentProcessorContext(BuildContentTask task, string buildConfiguration, string intermediateDirectory, string outputDirectory, string outputFilename)
         {
             this.task = task;
             this.buildConfiguration = buildConfiguration;
             this.intermediateDirectory = intermediateDirectory;
             this.outputFilename = outputFilename;
+            this.outputDirectory = outputDirectory;
         }
 
         public override string BuildConfiguration
@@ -42,7 +44,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         public override string OutputDirectory
         {
-            get { return task.OutputDirectory; }
+            get { return outputDirectory; }
         }
 
         public override string OutputFilename

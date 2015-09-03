@@ -142,6 +142,8 @@ namespace Microsoft.VisualStudio.Project
 
             this.InitializeFileChangeEvents();
 
+            assemblyPath = ResolveAssemblyPath(assemblyPath);
+
             // The assemblyPath variable can be an actual path on disk or a generic assembly name.
             if (File.Exists(assemblyPath))
             {
@@ -158,7 +160,15 @@ namespace Microsoft.VisualStudio.Project
                 // The file does not exist on disk. This can be because the file / path is not
                 // correct or because this is not a path, but an assembly name.
                 // Try to resolve the reference as an assembly name.
-                this.CreateFromAssemblyName(new System.Reflection.AssemblyName(assemblyPath));
+                try
+                {
+                    this.CreateFromAssemblyName(new System.Reflection.AssemblyName(assemblyPath));
+                }
+                catch (Exception exc)
+                {
+                    this.assemblyPath = assemblyPath;
+                    Console.WriteLine(exc.Message);
+                }
             }
         }
         #endregion
@@ -178,6 +188,11 @@ namespace Microsoft.VisualStudio.Project
             {
                 base.Close();
             }
+        }
+
+        protected virtual string ResolveAssemblyPath(string assemblyPath)
+        {
+            return assemblyPath;
         }
 
         /// <summary>
@@ -447,6 +462,9 @@ namespace Microsoft.VisualStudio.Project
                 Debug.Assert(service != null, "Didn't find service to determine if assembly is part of framework.");
 
                 if (service == null)
+                    return false;
+
+                if (this.AssemblyName == null)
                     return false;
 
                 bool result;

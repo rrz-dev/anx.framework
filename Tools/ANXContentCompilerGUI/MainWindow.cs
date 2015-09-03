@@ -11,6 +11,13 @@ using ANX.ContentCompiler.GUI.Properties;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Tasks;
 using ANX.Framework.NonXNA.Development;
+using ANX.ContentCompiler.GUI.Nodes;
+using ANX.ContentCompiler.GUI.Helpers;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.ServiceModel;
+using ANX.Framework.Content.Pipeline.Tasks.References;
 #endregion
 
 // This file is part of the EES Content Compiler 4,
@@ -20,7 +27,7 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.ContentCompiler.GUI
 {
-    [Developer("SilentWarrior/Eagle Eye Studios")]
+    [Developer("SilentWarrior/Eagle Eye Studios, Konstantin Koch")]
     [PercentageComplete(90)] //TODO: Preview, Renaming of Folders!
     [TestState(TestStateAttribute.TestState.InProgress)]
     public partial class MainWindow : Form
@@ -36,6 +43,7 @@ namespace ANX.ContentCompiler.GUI
         private bool _firstStart = true;
 
         private ContentProject _contentProject;
+        private ContentProjectNodeProperties _contentProjectNodeProperties;
         private Point _lastPos;
         private bool _menuMode;
         private bool _mouseDown;
@@ -51,12 +59,43 @@ namespace ANX.ContentCompiler.GUI
 
         public static MainWindow Instance { get; private set; }
 
-        public String ProjectName { get; set; }
-        public String ProjectPath { get; set; }
-        public String ProjectFolder { get; set; }
-        public String ProjectOutputDir { get; set; }
-        public String ProjectImportersDir { get; set; }
+        public Uri ProjectPath { get; set; }
+        public Uri ProjectFolder { get; set; }
         public RecentProjects RecentProjects { get; set; }
+
+        public Configuration ActiveConfiguration
+        {
+            get 
+            {
+                if (_contentProject == null)
+                    throw new InvalidOperationException("No ContentProject loaded.");
+
+                return GetConfiguration(_contentProject, _contentProjectNodeProperties.ActiveConfiguration, _contentProjectNodeProperties.ActivePlatform);
+            }
+            set 
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                else
+                {
+                    _contentProjectNodeProperties.ActiveConfiguration = value.Name;
+                    _contentProjectNodeProperties.ActivePlatform = value.Platform;
+                }
+            }
+        }
+
+        private static Configuration GetConfiguration(ContentProject project, string configurationName, TargetPlatform configurationPlatform)
+        {
+            if (project == null)
+                throw new ArgumentNullException("project");
+
+            Configuration result;
+            project.Configurations.TryGetConfiguration(configurationName, configurationPlatform, out result);
+
+            return result;
+        }
 
         #endregion
 
@@ -111,15 +150,26 @@ namespace ANX.ContentCompiler.GUI
 
         public void NewProject(object sender, EventArgs e)
         {
+            ContentProject newContentProject;
+
             using (var dlg = new NewProjectScreen())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    ProjectName = dlg.textBoxName.Text;
-                    ProjectFolder = !String.IsNullOrEmpty(dlg.textBoxLocation.Text)
+                    newContentProject = new ContentProject(dlg.textBoxName.Text)
+                        {
+                            Creator = "ANX Content Compiler (4.0)",
+                        };
+
+                    ProjectFolder = new Uri(PathHelper.EnsureTrailingSlash(!String.IsNullOrEmpty(dlg.textBoxLocation.Text)
                                         ? dlg.textBoxLocation.Text
-                                        : Path.Combine(Settings.DefaultProjectPath, ProjectName);
-                    ProjectPath = Path.Combine(ProjectFolder, ProjectName + ".cproj");
+                                        : Path.Combine(Settings.DefaultProjectPath, newContentProject.Name)));
+                    ProjectPath = new Uri(ProjectFolder, new Uri(newContentProject.Name + ".cproj", UriKind.Relative));
+
+                    newContentProject.Configurations.Add(new Configuration("Release", TargetPlatform.Windows)
+                    {
+                        OutputDirectory = Path.Combine(DefaultOutputPath, "Release"),
+                    });
                 }
                 else
                 {
@@ -130,7 +180,9 @@ namespace ANX.ContentCompiler.GUI
             {
                 if (dlg2.ShowDialog() == DialogResult.OK)
                 {
-                    ProjectOutputDir = !String.IsNullOrEmpty(dlg2.textBoxLocation.Text)
+                    var config = GetConfiguration(newContentProject, "Release", TargetPlatform.Windows);
+
+                    config.OutputDirectory = !String.IsNullOrEmpty(dlg2.textBoxLocation.Text)
                                            ? dlg2.textBoxLocation.Text
                                            : DefaultOutputPath;
                 }
@@ -140,30 +192,45 @@ namespace ANX.ContentCompiler.GUI
             using (var dlg3 = new NewProjectImportersScreen())
             {
                 if (dlg3.ShowDialog() == DialogResult.OK)
-                    ProjectImportersDir = dlg3.textBoxLocation.Text;
+                {
+                    //Extend with extensions for other platforms, if necessary.
+                    if (!string.IsNullOrWhiteSpace(dlg3.textBoxLocation.Text))
+                    {
+                        try
+                        {
+                            var files = Directory.GetFiles(dlg3.textBoxLocation.Text, "*.*").Where((x) => Path.GetExtension(x) == ".dll" || Path.GetExtension(x) == ".exe");
+                            foreach (var file in files)
+                            {
+                                newContentProject.References.Add(new AssemblyReference() { AssemblyPath = file, Name = Path.GetFileNameWithoutExtension(file) });
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show(this, ShowStrings.NoFilesForImporters);
+                        }
+                    }
+                }
                 else
                     return;
             }
-            bool importersEnabled = !String.IsNullOrEmpty(ProjectImportersDir);
-            int importers = 0;
-            int processors = 0;
 
-            using (
-                var dlg4 = new NewProjectSummaryScreen(ProjectName, ProjectFolder, ProjectOutputDir, importersEnabled,
-                                                       ProjectImportersDir, importers, processors))
+            using (var dlg4 = new NewProjectSummaryScreen(newContentProject.Name, ProjectFolder.LocalPath, GetConfiguration(newContentProject, "Release", TargetPlatform.Windows).OutputDirectory))
             {
                 dlg4.ShowDialog();
             }
-            _contentProject = new ContentProject(ProjectName)
-                                  {
-                                      OutputDirectory = ProjectOutputDir,
-                                      InputDirectory = ProjectFolder,
-                                      Configuration = "Release",
-                                      Creator = "ANX Content Compiler (4.0)",
-                                      ContentRoot = "Content",
-                                      Platform = TargetPlatform.Windows
-                                  };
+
+            _contentProject = newContentProject;
+            _contentProjectNodeProperties = new ContentProjectNodeProperties(_contentProject);
+            ActiveConfiguration = _contentProject.Configurations[0];
+
+            Directory.CreateDirectory(ProjectFolder.LocalPath);
+
             ChangeEnvironmentOpenProject();
+
+            //Select the rootNode.
+            treeView.SelectedNode = treeView.Nodes[0];
+
+            SaveProject();
         }
 
         #endregion
@@ -192,19 +259,26 @@ namespace ANX.ContentCompiler.GUI
                 return;
             }
             _contentProject = ContentProject.Load(path);
-            ProjectName = _contentProject.Name;
-            ProjectOutputDir = _contentProject.OutputDirectory;
-            ProjectFolder = Path.GetDirectoryName(path);
-            if (String.IsNullOrEmpty(_contentProject.InputDirectory))
-                _contentProject.InputDirectory = ProjectFolder;
-            ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
-            ProjectPath = path;
-            if (String.IsNullOrEmpty(_contentProject.Configuration))
-                _contentProject.Configuration = "Debug";
+            ProjectFolder = new Uri(PathHelper.EnsureTrailingSlash(Path.GetDirectoryName(path)));
+            ProjectPath = new Uri(path);
 
             if (string.IsNullOrEmpty(_contentProject.Creator))
                 _contentProject.Creator = "ANX Content Compiler (4.0)";
+
+            _contentProjectNodeProperties = new ContentProjectNodeProperties(_contentProject);
+
+            if (_contentProject.Configurations.Count > 0)
+            {
+                //TODO: Try to restore previous setting for the project.
+                this.ActiveConfiguration = _contentProject.Configurations[0];
+            }
+
             ChangeEnvironmentOpenProject();
+
+            if (RecentProjects.Contains(ProjectPath.LocalPath))
+                RecentProjects.Remove(ProjectPath.LocalPath);
+            RecentProjects.Add(ProjectPath.LocalPath);
+            RecentProjects.Save();
         }
 
         #endregion
@@ -226,25 +300,21 @@ namespace ANX.ContentCompiler.GUI
 
         public void SaveProject(object sender, EventArgs e)
         {
-            if (_contentProject == null) return;
-            if (String.IsNullOrEmpty(ProjectPath))
+            if (_contentProject == null) 
+                return;
+            if (!File.Exists(ProjectPath.LocalPath))
                 SaveProjectAs(sender, e);
-            foreach (var buildItem in _contentProject.BuildItems)
-            {
-                var dir = Path.GetDirectoryName(ProjectPath);
-                if (String.IsNullOrEmpty(dir))
-                {
-                    MessageBox.Show("Error saving project: ProjectPath not set!", "Error");
-                    return;
-                }
-                if (File.Exists(buildItem.SourceFilename))
-                    buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, dir.Count() + 1);
-            }
-            _contentProject.InputDirectory = ""; //Clear input dir, because we do not need it anymore
-            _contentProject.Save(ProjectPath);
-            if (RecentProjects.Contains(ProjectPath))
-                RecentProjects.Remove(ProjectPath);
-            RecentProjects.Add(ProjectPath);
+
+            SaveProject();
+        }
+
+        private void SaveProject()
+        {
+            _contentProject.Save(ProjectPath.LocalPath);
+            if (RecentProjects.Contains(ProjectPath.LocalPath))
+                RecentProjects.Remove(ProjectPath.LocalPath);
+            RecentProjects.Add(ProjectPath.LocalPath);
+            RecentProjects.Save();
         }
 
         #endregion
@@ -260,7 +330,7 @@ namespace ANX.ContentCompiler.GUI
                 dlg.Filter = "ANX Content Project (*.cproj)|*.cproj|Compressed Content Project (*.ccproj)|*.ccproj";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    ProjectPath = dlg.FileName;
+                    ProjectPath = new Uri(dlg.FileName, UriKind.Absolute);
                     SaveProject(sender, e);
                 }
             }
@@ -271,8 +341,8 @@ namespace ANX.ContentCompiler.GUI
         #region CleanProject
         public void CleanProject()
         {
-            if (Directory.Exists(ProjectOutputDir))
-                Directory.Delete(ProjectOutputDir, true);
+            if (Directory.Exists(ActiveConfiguration.OutputDirectory))
+                Directory.Delete(ActiveConfiguration.OutputDirectory, true);
         }
         #endregion
 
@@ -281,51 +351,56 @@ namespace ANX.ContentCompiler.GUI
         public void BuildProject(object sender, EventArgs e)
         {
             DisableUI();
-            var builderTask = new BuildContent
-                                  {
-                                      BuildLogger = new CCompilerBuildLogger(),
-                                      OutputDirectory = _contentProject.OutputDirectory,
-                                      TargetPlatform = _contentProject.Platform,
-                                      TargetProfile = _contentProject.Profile,
-                                      CompressContent = false
-                                  };
-            var buildItems = _contentProject.BuildItems;
-            foreach (var bI in buildItems)
-            {
-                if (!File.Exists(bI.SourceFilename))
-                    bI.SourceFilename = Path.Combine(Path.GetDirectoryName(ProjectPath), bI.SourceFilename);
-                if (!File.Exists(bI.OutputFilename))
-                    bI.OutputFilename = Path.Combine(Path.GetDirectoryName(ProjectPath), bI.OutputFilename);
-                if (String.IsNullOrEmpty(bI.ImporterName))
-                {
-                    bI.ImporterName = ImporterManager.GuessImporterByFileExtension(bI.SourceFilename);
-                }
 
-                if (String.IsNullOrEmpty(bI.ProcessorName))
+            Task task = new Task(() =>
                 {
-                    bI.ProcessorName = _pManager.GetProcessorForImporter(_iManager.GetInstance(bI.ImporterName));
-                }
-            }
-            try
-            {
-                foreach (var dir in _contentProject.BuildItems.Select(buildItem => Path.GetDirectoryName(buildItem.OutputFilename)).Where(dir => !Directory.Exists(dir)))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-                builderTask.Execute(_contentProject.BuildItems);
-                ribbonTextBox.AddMessage("[Info] Build process successfully finished.");
-            }
-            catch (Exception ex)
-            {
-                ribbonTextBox.AddMessage("[ERROR] " + ex + "\n Stack: " + ex.StackTrace);
-                EnableUI();
-            }
-            foreach (var buildItem in buildItems)
-            {
-                buildItem.SourceFilename = buildItem.SourceFilename.Remove(0, ProjectFolder.Count() + 1);
-                buildItem.OutputFilename = buildItem.OutputFilename.Remove(0, ProjectFolder.Count() + 1);
-            }
-            EnableUI();
+                    List<string> arguments = new List<string>();
+
+                    arguments.Add(ProjectPath.LocalPath);
+                    arguments.Add("-c:" + ActiveConfiguration.Name);
+                    arguments.Add("-t:" + ActiveConfiguration.Platform);
+                    arguments.Add("-cd:" + ProjectFolder.LocalPath);
+
+                    Uri loggerUri = new Uri("net.pipe://localhost/ContentCompilerGui/" + Process.GetCurrentProcess().Id + "/");
+
+                    var loggerServiceHost = new ServiceHost(new CCompilerBuildLogger(), loggerUri);
+                    try
+                    {
+                        loggerServiceHost.AddServiceEndpoint(typeof(IContentBuildLogger), new NetNamedPipeBinding(), "ContentBuildLogger");
+
+                        loggerServiceHost.Open();
+
+                        arguments.Add("-l:" + new Uri(loggerUri, new Uri("ContentBuildLogger", UriKind.RelativeOrAbsolute)).OriginalString);
+
+                        //Prepare the arguments to be used for process start.
+                        arguments = arguments.Select((x) => "\"" + Regex.Replace(x, "(\\\\*)(\\\\$|\")", "$1$1\\$2") + "\"").ToList();
+
+                        string ccompilerPath = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ContentBuilder.*").FirstOrDefault();
+
+                        //TODO: might be an idea to use the normal buildContentTask instead of a separate process. A lot of things could go wrong here.
+                        //Most straight forward one would be a hanging process and processes that are never closed.
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            FileName = ccompilerPath,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            CreateNoWindow = true,
+                            ErrorDialog = true,
+                            Arguments = string.Join(" ", arguments)
+                        }).WaitForExit();
+                    }
+                    finally
+                    {
+                        loggerServiceHost.Close();
+
+                        //Callback to UI thread.
+                        this.BeginInvoke(new Action(() =>
+                        {
+                            EnableUI();
+                        }));
+                    }
+                });
+
+            task.Start();
         }
 
         private void DisableUI()
@@ -370,45 +445,32 @@ namespace ANX.ContentCompiler.GUI
                 return;
             }
 
-            string folder = _contentProject.ContentRoot;
-            TreeNode node = treeView.SelectedNode;
-            if (node != null)
-                folder = node.Name;
-            string absPath = ProjectFolder + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
-                             Path.GetFileName(file);
-            if (String.IsNullOrEmpty(ProjectFolder))
-                absPath = Path.GetDirectoryName(ProjectPath) + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
-                          Path.GetFileName(file);
-            if (!Directory.Exists(Path.Combine(ProjectFolder, folder)))
-                Directory.CreateDirectory(Path.Combine(ProjectFolder, folder));
-            try
+            Uri newFileUri = new Uri(ProjectFolder, new Uri(Path.GetFileName(file), UriKind.Relative));
+            if (file != newFileUri.LocalPath)
             {
-                File.Copy(file, absPath, true);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Sorry, but there is a problem: " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                try
+                {
+                    File.Copy(file, newFileUri.LocalPath, true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Sorry, but there is a problem: " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             var item = new BuildItem
-                           {
-                               AssetName =
-                                   folder.Equals(_contentProject.ContentRoot)
-                                       ? Path.GetFileNameWithoutExtension(file)
-                                       : folder.Replace(_contentProject.ContentRoot + Path.DirectorySeparatorChar, "") +
-                                         Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file),
-                               SourceFilename = folder + Path.DirectorySeparatorChar + Path.GetFileName(file),
-                               OutputFilename =
-                                   ProjectOutputDir + Path.DirectorySeparatorChar + folder + Path.DirectorySeparatorChar +
-                                   Path.GetFileNameWithoutExtension(file) + ".xnb",   //<- Change this if you want some other extension (i.e. to annoy modders or whatever)
-                               ImporterName = ImporterManager.GuessImporterByFileExtension(file),
-                               ProcessorName = _pManager.GetProcessorForImporter(_iManager.GetInstance(ImporterManager.GuessImporterByFileExtension(file)))
-                           };
+            {
+                AssetName = Path.GetFileNameWithoutExtension(file),
+                SourceFilename = ProjectFolder.MakeRelativeUri(newFileUri).OriginalString,
+                ImporterName = _iManager.GuessImporterByFileExtension(file),
+                ProcessorName = _pManager.GetProcessorForImporter(_iManager.GetInstance(_iManager.GuessImporterByFileExtension(file)))
+            };
+
             _contentProject.BuildItems.Add(item);
         }
 
         /// <summary>
-        /// Wrapper for adding moar files! (Just a foreach loop, nothing special)
+        /// Wrapper for adding moar files!
         /// </summary>
         /// <param name="files">files to add</param>
         public void AddFiles(string[] files)
@@ -422,21 +484,18 @@ namespace ANX.ContentCompiler.GUI
 
         public void AddFolder(string name)
         {
-            string folder = _contentProject.ContentRoot;
             TreeNode node = treeView.SelectedNode;
-            if (node != null)
-                if ((string)node.Tag == "Folder")
-                    folder = node.Name;
-                else
-                {
-                    MessageBox.Show("Can not add a file to a file!");
-                    return;
-                }
-            else
-                node = treeView.Nodes[0];
+            if (node == null)
+                return;
 
-            var newFolder = new TreeNode(name) { Name = folder + Path.DirectorySeparatorChar + name };
-            node.Tag = "Folder";
+            //Whitelist
+            if (node.Name != "Folder" && node.Name != "Project")
+            {
+                MessageBox.Show("Can not add a file to a file!");
+                return;
+            }
+
+            var newFolder = new TreeNode(name) { Name = "Folder" };
             node.Nodes.Add(newFolder);
         }
 
@@ -494,85 +553,66 @@ namespace ANX.ContentCompiler.GUI
         {
             startState.Visible = false;
             editingState.Visible = true;
-            Text = ProjectName + " - ANX Content Compiler 4";
-            labelTitle.Text = "ANX Content Compiler 4 - " + ProjectName;
+            Text = _contentProject.Name + " - ANX Content Compiler 4";
+            labelTitle.Text = "ANX Content Compiler 4 - " + _contentProject.Name;
 
-            ProjectFolder = _contentProject.InputDirectory;
+            if (treeView.Nodes.Count > 0)
+            {
+                //The only node that could changed in this method is the one for the Project, we make sure that we will find it later on by renaming it before get the paths of alle the expanded nodes.
+                treeView.Nodes[0].Text = _contentProject.Name;
+            }
+
+            List<string> expandedNodes = new List<string>();
+            foreach (var node in treeView.Nodes.GetAllNodes())
+            {
+                if (node.IsExpanded)
+                {
+                    expandedNodes.Add(node.GetPath());
+                }
+            }
+
+            treeView.BeginUpdate();
+
             treeView.Nodes.Clear();
-            var rootNode = new TreeNode(ProjectName + "(" + _contentProject.ContentRoot + ")") { Name = _contentProject.ContentRoot };
+            var rootNode = new TreeNode(_contentProject.Name);
             treeView.Nodes.Add(rootNode);
-            rootNode.Tag = "Folder";
+            rootNode.Name = "Project";
+            rootNode.Tag = this._contentProject;
             TreeNode lastNode = rootNode;
-            //aaaand here comes the nasty part. Watch out, it bites...um bugs!
-            foreach (
-                var parts in
-                    _contentProject.BuildItems.Select(
-                        buildItem => buildItem.AssetName.Split(Path.DirectorySeparatorChar)).Where(
-                            parts => parts.Length >= 2)) //all BuildItems which names contain more than two elements (ContentRoot + FileName), Split by SeperatorChar (=> platform independent coding :))
+            foreach (var buildItem in _contentProject.BuildItems)
             {
-                string folder = "";
-                string parent = _contentProject.ContentRoot;
-                for (int i = 0; i < parts.Length - 1; i++) //Examine everything between ContentRoot and fileName. If we find something, add a folder!
+                var directories = Path.GetDirectoryName(buildItem.SourceFilename).Split(new [] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+                TreeNode currentNode = rootNode;
+                //Build folder hierarchy in tree view.
+                foreach (string directory in directories)
                 {
-                    if (parts[i] == null) continue;
-                    if (i > 0) //if there is already a path we need to add the new part with a SeperatorChar!
-                        folder += Path.DirectorySeparatorChar + parts[i];
+                    int nodeIndex = currentNode.Nodes.IndexOfKey(directory);
+                    if (nodeIndex == -1)
+                    {
+                        var newNode = new TreeNode(directory) { Name = "Folder" };
+
+                        currentNode.Nodes.Add(newNode);
+                        currentNode = newNode;
+                    }
                     else
-                        folder = parts[0]; //Yay! We are first! Let's make ourselves comfortable here!
-
-
-                    if (parts.Length > 2 && i < parts.Length - 2) // if we have more than two parts we have another parent than the content root! 
-                        parent += Path.DirectorySeparatorChar + parts[i];
-                    //else if (parts.Length == 2)
-                    //  parent += Path.DirectorySeparatorChar + parts[0];
+                    {
+                        currentNode = currentNode.Nodes[nodeIndex];
+                    }
                 }
-                lastNode = treeView.RecursiveSearch(parent); //Search for parent node! Often an Exception Candidate! Check the 'parent' var then.
-                var node = new TreeNode(parts[parts.Length - 2]) { Name = _contentProject.ContentRoot + Path.DirectorySeparatorChar + folder, Tag = "Folder" }; //Finally glue a new folder node together
-                if (!ContainsTreeNode(lastNode, node))
-                {
-                    lastNode.Nodes.Add(node); // If the folder is new, add it - else it's just wasted memory :)
-                }
-                lastNode = rootNode;
+
+                //Create the node for the build item.
+                var node = new TreeNode(buildItem.AssetName) { Name = "Item", Tag = buildItem };
+                currentNode.Nodes.Add(node);
             }
-            if (_contentProject.BuildItems.Count > 0) //Only do this when there are items, it'll get nasty soon if there isn't one!
+
+            foreach (var path in expandedNodes)
             {
-                foreach (BuildItem buildItem in _contentProject.BuildItems)
-                {
-                    String[] parts = null; //Split by seperator char
-                    if (buildItem.AssetName.Contains("\\"))
-                        parts = buildItem.AssetName.Split('\\');
-                    else if (buildItem.AssetName.Contains("/"))
-                        parts = buildItem.AssetName.Split('/');
-                    /*if (parts.Length >= 2)
-                    {
-                        for (int i = 0; i < parts.Length - 1; i++)
-                        {
-                            lastNode = lastNode.Nodes[parts[i]];
-                        }
-                    }*/
-                    //Add the actual files to the tree in their apropriate subdirs
-                    string path = _contentProject.ContentRoot;
-                    if (parts != null)
-                    {
-                        for (int i = 0; i < parts.Length - 1; i++)
-                        {
-                            path += String.IsNullOrEmpty(path) ? parts[i] : Path.DirectorySeparatorChar + parts[i];
-                        }
-                    }
-                    if (parts != null)
-                    {
-                        TreeNode node = treeView.RecursiveSearch(path);
-                        if (node == null) throw new ArgumentNullException("Node not found!");
-                        var item = new TreeNode(parts[parts.Length - 1]) { Name = buildItem.AssetName, Tag = "File" };
-                        node.Nodes.Add(item);
-                    }
-                    else //if the node is "forever alone", put him into the rootNode to make some friends!
-                    {
-                        var item = new TreeNode(buildItem.AssetName) { Name = buildItem.AssetName, Tag = "File" };
-                        treeView.Nodes[0].Nodes.Add(item);
-                    }
-                }
+                TreeNode targetNode = treeView.Nodes.FindNode(path);
+                if (targetNode != null)
+                    targetNode.Expand();
             }
+
+            treeView.EndUpdate();
         }
         #endregion
 
@@ -590,7 +630,7 @@ namespace ANX.ContentCompiler.GUI
 
         private void RibbonButtonCleanClick(object sender, EventArgs e)
         {
-            if (!Directory.Exists(ProjectOutputDir)) return;
+            if (!Directory.Exists(ActiveConfiguration.OutputDirectory)) return;
             if (MessageBox.Show(
                 "You are about to delete stuff you previously built! That already built content will be lost forever (which is a very long time!). Still want to continue?",
                 "Delete Output?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -727,23 +767,30 @@ namespace ANX.ContentCompiler.GUI
 
         private void TreeViewAfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (treeView.SelectedNode == treeView.TopNode)
-                propertyGrid.SelectedObject = _contentProject;
-            else
+            if (_previewScreen != null)
             {
-                foreach (
-                    BuildItem buildItem in
-                        _contentProject.BuildItems.Where(
-                            buildItem => buildItem.AssetName.Equals(treeView.SelectedNode.Name)))
-                {
-                    propertyGrid.SelectedObject = buildItem;
+                _previewScreen.SetFile(null);
+            }
 
-                    if (_previewScreen != null)
-                    {
-                        _previewScreen.SetFile(buildItem);
-                    }
+            if (treeView.SelectedNode.Name == "Project")
+                propertyGrid.SelectedObject = _contentProjectNodeProperties;
+            else if (treeView.SelectedNode.Name == "Folder")
+            {
+                propertyGrid.SelectedObject = new FolderNodeProperties(treeView.SelectedNode.Text);
+            }
+            else if (treeView.SelectedNode.Name == "Item")
+            {
+                var buildItem = (BuildItem)treeView.SelectedNode.Tag;
+
+                propertyGrid.SelectedObject = new BuildItemNodeProperties(buildItem);
+
+                if (_previewScreen != null)
+                {
+                    _previewScreen.SetFile(buildItem);
                 }
             }
+            else
+                throw new NotImplementedException();
         }
 
         private bool ContainsTreeNode(TreeNode haystack, TreeNode needle)
@@ -757,19 +804,60 @@ namespace ANX.ContentCompiler.GUI
 
         private void PropertyGridPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            ProjectName = _contentProject.Name;
-            ProjectImportersDir = _contentProject.ReferenceIncludeDirectory;
-            ProjectFolder = _contentProject.InputDirectory;
-            ProjectOutputDir = _contentProject.OutputDirectory;
-            if (e.ChangedItem.Label.Equals("ContentRoot"))
+            if (e.ChangedItem.Parent == null || e.ChangedItem.Parent.Parent == null)
+                return;
+
+            var parent = e.ChangedItem.Parent.Parent;
+
+            if (parent.Value is ContentProjectNodeProperties)
             {
-                foreach (BuildItem buildItem in _contentProject.BuildItems)
-                {
-                    buildItem.AssetName = buildItem.AssetName.Replace((string) e.OldValue, _contentProject.ContentRoot);
-                }
-                treeView.Nodes[0].RecursivelyReplacePartOfName((string) e.OldValue, _contentProject.ContentRoot);
+                ChangeEnvironmentOpenProject();
             }
-            ChangeEnvironmentOpenProject();
+            else if (parent.Value is FolderNodeProperties)
+            {
+                if (e.ChangedItem.Label == "Name")
+                {
+                    //Collect all folders up the tree until we hit the Project node, wenn that happens, we concat all folders with the project folder path and have our old path.
+                    //We then change the last segment of the path to the new name and rename the folder with that info.
+                    List<string> folderParts = new List<string>();
+
+                    var currentNode = treeView.SelectedNode;
+                    while (currentNode != null && currentNode.Name == "Folder")
+                    {
+                        folderParts.Add(currentNode.Text);
+
+                        currentNode = currentNode.Parent;
+                    }
+
+                    folderParts.Reverse();
+                    string oldRelativePath = Path.Combine(folderParts.ToArray());
+                    Uri oldFolder = new Uri(ProjectFolder, new Uri(oldRelativePath, UriKind.Relative));
+
+                    treeView.SelectedNode.Text = (string)e.ChangedItem.Value;
+
+                    folderParts[folderParts.Count - 1] = treeView.SelectedNode.Text;
+                    string newRelativePath = Path.Combine(folderParts.ToArray());
+                    Uri newFolder = new Uri(ProjectFolder, new Uri(newRelativePath, UriKind.Relative));
+
+                    Directory.Move(oldFolder.LocalPath, newFolder.LocalPath);
+
+                    foreach (var buildItem in treeView.SelectedNode.Nodes.GetAllNodes().Where((x) => x.Name == "Item").Select((x) => (BuildItem)x.Tag))
+                    {
+                        //Should be everyone of them
+                        if (buildItem.SourceFilename.StartsWith(oldRelativePath))
+                        {
+                            buildItem.SourceFilename = newRelativePath + buildItem.SourceFilename.Substring(oldRelativePath.Length);
+                        }
+                        else
+                            throw new InvalidOperationException("Expected all child buildItems of a folder to be contained inside the folder, but apparently that is not the case.");
+                    }
+                }
+            }
+            else if (parent.Value is BuildItemNodeProperties)
+            {
+                if (e.ChangedItem.Label == "AssetName")
+                    treeView.SelectedNode.Text = (string)e.ChangedItem.Value;
+            }
         }
 
         #endregion
@@ -947,7 +1035,7 @@ namespace ANX.ContentCompiler.GUI
 
             if (_previewScreen == null)
                 _previewScreen = new PreviewScreen();
-            if ((string) treeView.SelectedNode.Tag != "File") return;
+            
             _previewScreen.Show();
             _previewScreen.SetFile(buildItem);
         }

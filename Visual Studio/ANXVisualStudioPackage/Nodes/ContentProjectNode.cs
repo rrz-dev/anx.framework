@@ -29,6 +29,7 @@ using ANX.Framework.Content.Pipeline.Tasks.References;
 using ANX.Framework.Content.Pipeline;
 using ANX.Framework.Content.Pipeline.Helpers;
 using Microsoft.VisualStudio.Project.Automation;
+using ContentBuilder;
 
 namespace ANX.Framework.VisualStudio.Nodes
 {
@@ -37,7 +38,6 @@ namespace ANX.Framework.VisualStudio.Nodes
     {
         ContentProject anxContentProject = null;
         BuildAppDomain buildAppDomain;
-        Uri anxFrameworkPath = null;
 
         /// <summary>
         /// List of output groups names and their associated target
@@ -49,7 +49,7 @@ namespace ANX.Framework.VisualStudio.Nodes
         };
 
         public ContentProjectNode(CommonProjectPackage package)
-            : base(package, VsUtilities.GetImageList(typeof(ContentProjectNode).Assembly.GetManifestResourceStream("ANX.Framework.VisualStudio.anx.ico")))
+            : base(package, VsUtilities.GetImageList(File.OpenRead(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "anx.ico"))))
         {
             buildAppDomain = new BuildAppDomain(this);
 
@@ -266,9 +266,9 @@ namespace ANX.Framework.VisualStudio.Nodes
             anxContentProject.References.Clear();
             foreach (var reference in this.GetReferenceContainer().EnumReferences())
             {
-                if (reference is AssemblyReferenceNode)
+                if (reference is AnxAssemblyReferenceNode)
                 {
-                    AssemblyReferenceNode assemblyReference = (AssemblyReferenceNode)reference;
+                    AnxAssemblyReferenceNode assemblyReference = (AnxAssemblyReferenceNode)reference;
 
                     if (assemblyReference.IsFrameworkAssembly)
                     {
@@ -282,20 +282,14 @@ namespace ANX.Framework.VisualStudio.Nodes
                     {
                         AssemblyReference anxReference = new AssemblyReference();
                         anxReference.Name = assemblyReference.Caption;
-                        if (!string.IsNullOrEmpty(assemblyReference.Url))
-                        {
-                            using (var buildDomain = this.BuildAppDomain.Aquire())
-                            {
-                                anxReference.AssemblyPath = buildDomain.MakeRelativeToSearchPaths(assemblyReference.Url);
-                            }
-                        }
+                        anxReference.AssemblyPath = assemblyReference.OriginalAssemblyPath;
 
                         anxContentProject.References.Add(anxReference);
                     }
                 }
-                else if (reference is ProjectReferenceNode)
+                else if (reference is AnxProjectReferenceNode)
                 {
-                    ProjectReferenceNode projectReferenceNode = (ProjectReferenceNode)reference;
+                    AnxProjectReferenceNode projectReferenceNode = (AnxProjectReferenceNode)reference;
 
                     ProjectReference anxReference = new ProjectReference()
                     {
@@ -499,7 +493,14 @@ namespace ANX.Framework.VisualStudio.Nodes
             {
                 buildDomain.SearchPaths.Clear();
                 buildDomain.SearchPaths.Add(new Uri(this.ProjectHome));
-                buildDomain.SearchPaths.Add(GetAnxFrameworkPath());
+                try
+                {
+                    buildDomain.SearchPaths.Add(BuildHelper.GetAnxFrameworkPath());
+                }
+                catch (Exception exc)
+                {
+                    Console.WriteLine(exc.Message);
+                }
 
                 buildDomain.Initialize(this.ProjectGuid.ToString());
             }
@@ -510,22 +511,6 @@ namespace ANX.Framework.VisualStudio.Nodes
             ErrorListProvider = new ErrorListProvider(this.Site);
             ErrorListProvider.ProviderName = this.ContentProject.Name;
             ErrorListProvider.ProviderGuid = new Guid("{90A94AFA-C6E3-42D4-ABD8-B663BEE015F0}"); //custom random guid.
-        }
-
-        public Uri GetAnxFrameworkPath()
-        {
-            if (anxFrameworkPath == null)
-            {
-                var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework", false);
-                var value = key.GetValue(null) as string;
-                if (value == null)
-                    throw new KeyNotFoundException("Unable to find registry key for ANX Framework.");
-                else
-                    anxFrameworkPath = new Uri(value);
-            }
-
-            return anxFrameworkPath;
         }
 
         protected override ReferenceContainerNode CreateReferenceContainerNode()
