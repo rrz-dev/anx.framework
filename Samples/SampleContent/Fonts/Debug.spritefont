@@ -29,7 +29,7 @@ sind.
     UseKerning  steuert das Layout der Schriftart. Wenn dieser Wert wahr ist, werden Kerning-Informationen
     bei der Platzierung von Zeichen verwendet.
     -->
-    <UseKerning>true</UseKerning>
+    <UseKerning>false</UseKerning>
 
     <!--
     Style steuert den Stil der Schriftart. Gültige Einträge sind "Normal", "Fett", "Kursiv"

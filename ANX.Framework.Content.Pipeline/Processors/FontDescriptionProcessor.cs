@@ -249,7 +249,6 @@ namespace ANX.Framework.Content.Pipeline.Processors
         private Texture2DContent ConvertBitmap(Bitmap bitmap)
         {
             var bitmapContent = new PixelBitmapContent<Color>(bitmap.Width, bitmap.Height);
-            var destColor = new Color();
             
             for (int x = 0; x < bitmap.Width; x++)
             {
@@ -257,12 +256,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
                 {
                     System.Drawing.Color sourceColor = bitmap.GetPixel(x, y);
 
-                    destColor.R = sourceColor.R;
-                    destColor.G = sourceColor.G;
-                    destColor.B = sourceColor.B;
-                    destColor.A = sourceColor.A;
-
-                    bitmapContent.SetPixel(x, y, destColor);
+                    bitmapContent.SetPixel(x, y, Color.FromNonPremultiplied(sourceColor.R, sourceColor.G, sourceColor.B, sourceColor.A));
                 }
             }
 

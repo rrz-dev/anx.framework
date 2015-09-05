@@ -39,6 +39,9 @@
     <Reference Include="ANX.Framework">
       <HintPath>..\..\bin\Debug\ANX.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="ANX.InputDevices.Windows.XInput">
+      <HintPath>..\..\bin\Debug\ANX.InputDevices.Windows.XInput.dll</HintPath>
+    </Reference>
     <Reference Include="ANX.InputSystem.Standard">
       <HintPath>..\..\bin\Debug\ANX.InputSystem.Standard.dll</HintPath>
     </Reference>
@@ -47,6 +50,9 @@
     </Reference>
     <Reference Include="ANX.RenderSystem.Windows.DX10">
       <HintPath>..\..\bin\Debug\ANX.RenderSystem.Windows.DX10.dll</HintPath>
+    </Reference>
+    <Reference Include="ANX.SoundSystem.Windows.XAudio">
+      <HintPath>..\..\bin\Debug\ANX.SoundSystem.Windows.XAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
