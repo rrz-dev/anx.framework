@@ -436,7 +436,12 @@ namespace ContentBuilder
         private static void LoadReferences(IEnumerable<string> referencedAssemblies, string currentDirectory, ContentBuildLogger buildLogger)
         {
             List<Uri> searchPaths = new List<Uri>();
-            searchPaths.Add(BuildHelper.GetAnxFrameworkPath());
+
+            Uri anxFrameworkPath;
+            if (BuildHelper.TryGetAnxFrameworkPath(out anxFrameworkPath))
+            {
+                searchPaths.Add(anxFrameworkPath);
+            }
             searchPaths.Add(new Uri(currentDirectory));
 
             Uri ownDirectory = new Uri(TrailingSlash(Path.GetDirectoryName(typeof(Program).Assembly.Location)), UriKind.Absolute);

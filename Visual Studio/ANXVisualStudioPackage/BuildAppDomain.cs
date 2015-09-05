@@ -516,7 +516,7 @@ namespace ANX.Framework.Build
 
                 foreach (var buildItem in buildItems)
                 {
-                    if (buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(activeConfiguration.OutputDirectory, buildItem))))
+                    if (buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(activeConfiguration.OutputDirectory, buildItem), UriKind.Relative)))
                         return false;
                 }
 

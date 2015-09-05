@@ -493,13 +493,11 @@ namespace ANX.Framework.VisualStudio.Nodes
             {
                 buildDomain.SearchPaths.Clear();
                 buildDomain.SearchPaths.Add(new Uri(this.ProjectHome));
-                try
+
+                Uri anxFrameworkPath;
+                if (BuildHelper.TryGetAnxFrameworkPath(out anxFrameworkPath))
                 {
-                    buildDomain.SearchPaths.Add(BuildHelper.GetAnxFrameworkPath());
-                }
-                catch (Exception exc)
-                {
-                    Console.WriteLine(exc.Message);
+                    buildDomain.SearchPaths.Add(anxFrameworkPath);
                 }
 
                 buildDomain.Initialize(this.ProjectGuid.ToString());

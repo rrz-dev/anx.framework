@@ -11,25 +11,32 @@ namespace ContentBuilder
 {
     public static class BuildHelper
     {
-        public static Uri GetAnxFrameworkPath()
+        public static bool TryGetAnxFrameworkPath(out Uri path)
         {
+            path = null;
 #if WINDOWS
             var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
             var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework", false);
+            if (key == null)
+                return false;
+
             var value = key.GetValue(null) as string;
             if (value == null)
-                throw new KeyNotFoundException(Resources.AnxFrameworkRegistryNotFound);
+                return false;
             else
-                return new Uri(value);
+            {
+                path = new Uri(value);
+                return true;
+            }
 
 #else
-            return null;
+            return false;
 #endif
         }
 
         public static string GetOutputFileName(string outputDirectory, BuildItem buildItem)
         {
-            return Path.Combine(outputDirectory, Path.GetDirectoryName(buildItem.AssetName), Path.GetFileNameWithoutExtension(buildItem.AssetName) + ContentManager.Extension);
+            return Path.Combine(outputDirectory, Path.GetDirectoryName(buildItem.SourceFilename), buildItem.AssetName + ContentManager.Extension);
         }
 
         internal static string CreateSafeFileName(string text)
