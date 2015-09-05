@@ -92,11 +92,6 @@
       <OutputPath>bin\Xbox 360\Release</OutputPath>
       <CompressContent>false</CompressContent>
     </Configuration>
-    <Configuration Name="Debug" Platform="0">
-      <Profile>Reach</Profile>
-      <OutputPath>bin\Debug</OutputPath>
-      <CompressContent>false</CompressContent>
-    </Configuration>
   </Configurations>
   <References>
     <AssemblyReference Name="ANX.Framework.Content.Pipeline.Assimp">..\..\bin\Debug\ANX.Framework.Content.Pipeline.Assimp.dll</AssemblyReference>

@@ -545,16 +545,20 @@ namespace ANX.Framework.VisualStudio.Nodes
             var dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
             var configurations = dte.Solution.SolutionBuild.SolutionConfigurations.AsEnumerable();
             var names = configurations.Select((x) => x.Name).Distinct().ToArray();
-
-            var unsupportedConfigurations = anxContentProject.Configurations.GetUniqueNames().Where((x) => !names.Contains(x)).ToArray();
-            foreach (var configName in unsupportedConfigurations)
+            string[] platforms;
+            using (var buildAppDomain = this.BuildAppDomain.Aquire())
             {
-                Console.WriteLine("Removed configuration \"" + configName + "\" because it's not supported by this solution.");
-                foreach (var affectedConfig in anxContentProject.Configurations.Where((x) => x.Name == configName).ToArray())
-                {
-                    anxContentProject.Configurations.Remove(affectedConfig);
-                }
+                platforms = buildAppDomain.Proxy.GetPlatformDisplayNames();
             }
+
+            var unsupportedConfigurations = anxContentProject.Configurations.Where((x) => !names.Contains(x.Name) || !platforms.Contains(Utilities.GetDisplayName(x.Platform))).ToArray();
+            foreach (var config in unsupportedConfigurations)
+            {
+                Console.WriteLine("Removed configuration \"{0}\":\"{1}\" because it's not supported by this solution.", config.Name, config.Platform);
+                anxContentProject.Configurations.Remove(config);
+            }
+
+
         }
 
         public override void ProcessFiles()
