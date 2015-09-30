@@ -17,6 +17,7 @@ namespace ANX.Framework.Graphics.PackedVector
     {
         private ulong packedValue;
 
+        [CLSCompliant(false)]
         public ulong PackedValue
         {
             get { return packedValue; }

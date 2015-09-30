@@ -948,6 +948,7 @@ namespace ANX.Framework
 
         #region Properties
 
+        [CLSCompliant(false)]
         public uint PackedValue
         {
             get

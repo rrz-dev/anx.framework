@@ -17,6 +17,7 @@ namespace ANX.Framework.Graphics.PackedVector
     {
         private UInt16 packedValue;
 
+        [CLSCompliant(false)]
         public ushort PackedValue
         {
             get { return packedValue; }
