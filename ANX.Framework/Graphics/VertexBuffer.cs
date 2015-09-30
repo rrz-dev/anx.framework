@@ -107,7 +107,7 @@ namespace ANX.Framework.Graphics
 
 		public void GetData<T>(T[] data) where T : struct
 		{
-			NativeVertexBuffer.GetData(data);
+            NativeVertexBuffer.GetData(data);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
@@ -119,17 +119,17 @@ namespace ANX.Framework.Graphics
 		#region SetData
 		public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
+			NativeVertexBuffer.SetData(offsetInBytes, data, startIndex, elementCount, vertexStride);
 		}
 
 		public void SetData<T>(T[] data) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, data);
+			NativeVertexBuffer.SetData(data);
 		}
 
 		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+			NativeVertexBuffer.SetData(data, startIndex, elementCount);
 		}
 		#endregion
 

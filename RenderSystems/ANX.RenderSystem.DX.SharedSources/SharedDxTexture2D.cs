@@ -19,194 +19,205 @@ namespace ANX.RenderSystem.Windows.DX11
 {
 	public partial class DxTexture2D : IDisposable 
 	{
-		#region Private
-		protected int mipCount;
-		protected int tempSubresource;
-		protected int pitch;
-		private int formatSize;
+#if DEBUG
+        static int textureCount = 0;
+#endif
+
 		protected SurfaceFormat surfaceFormat;
-		protected bool useRenderTexture;
-		#endregion
+
+        public int Width
+        {
+            get;
+            protected set;
+        }
+
+        public int Height
+        {
+            get;
+            protected set;
+        }
 
 		#region Public
-		public GraphicsDevice GraphicsDevice
+		public GraphicsDeviceDX GraphicsDevice
 		{
 			get;
 			protected set;
 		}
 		#endregion
 
-		#region Constructor
-		protected DxTexture2D(GraphicsDevice graphicsDevice, SurfaceFormat setSurfaceFormat, int setMipCount)
+		public void SetData<T>(T[] data) where T : struct
 		{
-			mipCount = setMipCount;
-			useRenderTexture = mipCount > 1;
-			GraphicsDevice = graphicsDevice;
-			surfaceFormat = setSurfaceFormat;
-
-			// description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
-			// more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
-			formatSize = DxFormatConverter.FormatSize(surfaceFormat);
-		}
-		#endregion
-
-		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
-		{
-			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
+			SetData<T>(0, null, data, 0, data.Length);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			SetData<T>(graphicsDevice, 0, data, startIndex, elementCount);
+			SetData<T>(0, null, data, startIndex, elementCount);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
-			 where T : struct
-		{
-			//TODO: handle offsetInBytes parameter
-			//TODO: handle startIndex parameter
-			//TODO: handle elementCount parameter
+        public void SetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            int formatSize = DxFormatConverter.FormatSize(this.surfaceFormat);
+            int elementSize = Marshal.SizeOf(typeof(T));
 
-			unsafe
-			{
-				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-				byte* colorData = (byte*)handle.AddrOfPinnedObject();
+            Framework.Rectangle realRect;
+            if (rect.HasValue)
+                realRect = rect.Value;
+            else
+            {
+                realRect.X = 0;
+                realRect.Y = 0;
+                realRect.Width = this.Width;
+                realRect.Height = this.Height;
+            }
 
-				switch (surfaceFormat)
-				{
-					case SurfaceFormat.Color:
-						SetDataColor(0, offsetInBytes, colorData, startIndex, elementCount);
-						return;
+            UpdateSubresource(data, _nativeTexture, level, realRect);
+        }
 
-					case SurfaceFormat.Dxt1:
-					case SurfaceFormat.Dxt3:
-					case SurfaceFormat.Dxt5:
-						SetDataDxt(0, offsetInBytes, colorData, startIndex, elementCount, data.Length);
-						return;
-				}
+        public void GetData<T>(T[] data) where T : struct
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
-				handle.Free();
-			}
+            this.GetData<T>(0, null, data, 0, data.Length);
+        }
 
-			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
-		}
-		#endregion
+        public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            this.GetData<T>(0, null, data, startIndex, elementCount);
+        }
 
-		#region SetDataColor
-		private unsafe void SetDataColor(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount)
-		{
-			int mipmapWidth = Math.Max(Width >> level, 1);
-			int mipmapHeight = Math.Max(Height >> level, 1);
+        private Framework.Rectangle ValidateRect<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
-			IntPtr dataPtr = MapWrite(level);
-			int srcIndex = 0;
+            if (startIndex + elementCount > data.Length)
+                throw new ArgumentOutOfRangeException("startIndex + elementCount is bigger than data.Length");
 
-			byte* pTexels = (byte*)dataPtr;
-			for (int row = 0; row < mipmapHeight; row++)
-			{
-				int rowStart = row * pitch;
+            int mipmapWidth = Math.Max(Width >> level, 1);
+            int mipmapHeight = Math.Max(Height >> level, 1);
 
-				for (int col = 0; col < mipmapWidth; col++)
-				{
-					int colStart = rowStart + (col * formatSize);
-					pTexels[colStart++] = colorData[srcIndex++];
-					pTexels[colStart++] = colorData[srcIndex++];
-					pTexels[colStart++] = colorData[srcIndex++];
-					pTexels[colStart++] = colorData[srcIndex++];
-				}
-			}
+            Framework.Rectangle finalRect;
+            if (rect != null)
+            {
+                finalRect = rect.Value;
 
-			Unmap();
-		}
-		#endregion
+                if (finalRect.X < 0 || finalRect.Width <= 0 || finalRect.Y < 0 || finalRect.Height <= 0)
+                    throw new ArgumentException("The given rectangle is invalid.");
 
-		#region SetDataDxt
-		private unsafe void SetDataDxt(int level, int offsetInBytes, byte* colorData, int startIndex, int elementCount,
-			int dataLength)
-		{
-			int mipmapWidth = Math.Max(Width >> level, 1);
-			int mipmapHeight = Math.Max(Height >> level, 1);
+                if (finalRect.Right > mipmapWidth || finalRect.Bottom > mipmapHeight)
+                    throw new ArgumentException("The given rectangle is bigger than the texture on the given mip level.");
+            }
+            else
+                finalRect = new Framework.Rectangle(0, 0, mipmapWidth, mipmapHeight);
 
-			int w = (mipmapWidth + 3) >> 2;
-			int h = (mipmapHeight + 3) >> 2;
-			formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
+            int formatSize = DxFormatConverter.FormatSize(this.surfaceFormat);
 
-			IntPtr dataPtr = MapWrite(level);
-			var ds = new DataStream(dataPtr, mipmapWidth * mipmapHeight * 4 * 2, true, true);
-			int col = 0;
-			int index = 0; // startIndex
-			int count = dataLength; // elementCount
-			int actWidth = w * formatSize;
+            int elementSize = Marshal.SizeOf(typeof(T));
+            if (elementSize * elementCount != formatSize * mipmapWidth * mipmapHeight)
+                throw new ArgumentException("\"data\" has the wrong size.");
 
-			for (int i = 0; i < h; i++)
-			{
-				ds.Position = (i * pitch) + (col * formatSize);
-				if (count <= 0)
-					break;
-				else if (count < actWidth)
-				{
-					for (int idx = index; idx < index + count; idx++)
-						ds.WriteByte(colorData[idx]);
-					break;
-				}
+            return finalRect;
+        }
 
-				for (int idx = index; idx < index + actWidth; idx++)
-					ds.WriteByte(colorData[idx]);
+        public void GetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            var finalRect = ValidateRect(level, rect, data, startIndex, elementCount);
+            
+            using (var texture = CreateStagingTexture(ResourceMapping.Read))
+            {
+                GraphicsDevice.NativeDevice.CopyResource(NativeTexture, texture);
 
-				index += actWidth;
-				count -= actWidth;
-			}
+                int subresource = GetSubresource(level);
+                int pitch;
+                using (var dataStream = Map(texture, subresource, level, ResourceMapping.Read, out pitch))
+                {
+                    try
+                    {
+                        int elementIndex = startIndex;
+                        for (int y = finalRect.Top; y < finalRect.Bottom; y++)
+                        {
+                            int width = Math.Min(finalRect.Width, elementCount);
+                            if (width <= 0)
+                                break;
 
-			Unmap();
-		}
-		#endregion
+                            dataStream.Position = y * pitch;
+                            dataStream.ReadRange(data, elementIndex, width);
 
-		#region SetData (TODO)
-		public void SetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			//TODO: handle rect parameter
-			if (rect != null)
-				throw new Exception("Texture2D SetData with rectangle is not yet implemented!");
+                            elementIndex += finalRect.Width;
+                            elementCount -= width;
+                        }
+                    }
+                    finally
+                    {
+                        Unmap(texture, subresource);
+                    }
+                }
+            }
+        }
 
-			unsafe
-			{
-				GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-				byte* colorData = (byte*)handle.AddrOfPinnedObject();
+        private bool IsDxt
+        {
+            get
+            {
+                return this.surfaceFormat == SurfaceFormat.Dxt1 || this.surfaceFormat == SurfaceFormat.Dxt3 || this.surfaceFormat == SurfaceFormat.Dxt5;
+            }
+        }
 
-				switch (surfaceFormat)
-				{
-					case SurfaceFormat.Color:
-						SetDataColor(level, 0, colorData, startIndex, elementCount);
-						return;
+        protected int SizeInBytes(int level)
+        {
+            int mipmapWidth = Math.Max(Width >> level, 1);
+            int mipmapHeight = Math.Max(Height >> level, 1);
 
-					case SurfaceFormat.Dxt1:
-					case SurfaceFormat.Dxt3:
-					case SurfaceFormat.Dxt5:
-						SetDataDxt(level, 0, colorData, startIndex, elementCount, data.Length);
-						return;
-				}
+            if (this.IsDxt)
+            {
+                //Dxt uses 4x4 blocks and each of this block is 8 bytes in size for dxt1, so on average half a byte per pixel.
+                //For Dxt3 and Dxt5, it's 1 byte per pixel on average.
+			    int w = (mipmapWidth + 3) / 4;
+			    int h = (mipmapHeight + 3) / 4;
+			    var formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
 
-				handle.Free();
-			}
+                return w * h * formatSize;
+            }
+            else
+            {
+                return mipmapWidth * mipmapHeight * DxFormatConverter.FormatSize(this.surfaceFormat);
+            }
+        }
 
-			throw new Exception(String.Format("creating textures of format {0} not yet implemented...", surfaceFormat));
-		}
-		#endregion
+        protected int GetPitch(int level)
+        {
+            int mipmapWidth = Math.Max(Width >> level, 1);
+
+            if (this.IsDxt)
+            {
+                //Dxt uses 4x4 blocks and each of this block is 8 bytes in size for dxt1, so on average half a byte per pixel.
+                //For Dxt3 and Dxt5, it's 1 byte per pixel on average.
+                int w = (mipmapWidth + 3) / 4;
+                var formatSize = (surfaceFormat == SurfaceFormat.Dxt1) ? 8 : 16;
+
+                return w * formatSize;
+            }
+            else
+            {
+                return mipmapWidth * DxFormatConverter.FormatSize(this.surfaceFormat);
+            }
+        }
 
 		#region Dispose
 		public void Dispose()
 		{
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool managed)
+        {
             if (NativeShaderResourceView != null)
             {
                 NativeShaderResourceView.Dispose();
                 NativeShaderResourceView = null;
-            }
-
-            if (NativeTextureStaging != null)
-            {
-                NativeTextureStaging.Dispose();
-                NativeTextureStaging = null;
             }
         }
         #endregion

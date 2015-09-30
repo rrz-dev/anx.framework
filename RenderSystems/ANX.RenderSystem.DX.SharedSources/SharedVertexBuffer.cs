@@ -30,20 +30,20 @@ namespace ANX.RenderSystem.Windows.DX11
         private int vertexStride;
 
         #region SetData
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data) where S : struct
+        public void SetData<S>(S[] data) where S : struct
         {
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            SetData<S>(graphicsDevice, data, 0, data.Length);
+            SetData(data, 0, data.Length);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data, int startIndex, int elementCount) where S : struct
+        public void SetData<S>(S[] data, int startIndex, int elementCount) where S : struct
         {
-            SetData<S>(graphicsDevice, 0, data, startIndex, elementCount);
+            SetData<S>(0, data, startIndex, elementCount, vertexStride);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount)
+        public void SetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount, int vertexStride)
             where S : struct
         {
             if (data == null)
@@ -69,12 +69,6 @@ namespace ANX.RenderSystem.Windows.DX11
 
                 UnmapBuffer();
             }
-        }
-
-        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount,
-            int vertexStride) where S : struct
-        {
-            throw new NotImplementedException();
         }
         #endregion
 

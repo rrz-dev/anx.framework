@@ -9,7 +9,6 @@ namespace ANX.Framework.NonXNA
 {
 	public interface INativeGraphicsDevice : IDisposable
 	{
-		void Clear(ref Color color);
 		void Clear(ClearOptions options, Vector4 color, float depth, int stencil);
 
 		void Present();

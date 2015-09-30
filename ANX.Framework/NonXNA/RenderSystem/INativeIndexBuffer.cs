@@ -9,7 +9,8 @@ namespace ANX.Framework.NonXNA.RenderSystem
 {
 	public interface INativeIndexBuffer : INativeBuffer
 	{
-		void GetData<T>(int offsetInBytes, T[] data, int startIndex,
-			int elementCount) where T : struct;
+		void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct;
+
+        void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct;
 	}
 }

@@ -23,6 +23,8 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region FormatSize (SurfaceFormat)
 		public static int FormatSize(SurfaceFormat format)
 		{
+            // description of texture formats of DX10: http://msdn.microsoft.com/en-us/library/bb694531(v=VS.85).aspx
+            // more helpfull information on DX10 textures: http://msdn.microsoft.com/en-us/library/windows/desktop/bb205131(v=vs.85).aspx
 			switch (format)
 			{
 				case SurfaceFormat.Vector4:
@@ -39,9 +41,6 @@ namespace ANX.RenderSystem.Windows.DX11
 				//case SurfaceFormat.BGR565:
 				//case SurfaceFormat.BGRA5551:
 				//    return 2;
-				case SurfaceFormat.Dxt1:
-				case SurfaceFormat.Dxt3:
-				case SurfaceFormat.Dxt5:
 				case SurfaceFormat.Alpha8:
 					return 1;
 			}

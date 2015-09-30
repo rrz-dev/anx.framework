@@ -107,7 +107,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			int mipCount)
 		{
 			PreventSystemChange();
-			return new DxTexture2D(graphics, width, height, surfaceFormat, mipCount);
+			return new DxTexture2D((GraphicsDeviceDX)graphics.NativeDevice, width, height, surfaceFormat, mipCount);
 		}
 		#endregion
 
@@ -228,7 +228,7 @@ namespace ANX.RenderSystem.Windows.DX10
 			RenderTargetUsage usage)
 		{
 			PreventSystemChange();
-			return new RenderTarget2D_DX10(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
+			return new RenderTarget2D_DX10((GraphicsDeviceDX)graphics.NativeDevice, width, height, mipMap, preferredFormat, preferredDepthFormat,
 				preferredMultiSampleCount, usage);
 		}
 		#endregion

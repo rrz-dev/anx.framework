@@ -20,9 +20,6 @@ namespace ANX.Framework.Graphics
     public class Texture2D : Texture, IGraphicsResource
     {
         #region Private
-        protected internal int width;
-        protected internal int height;
-
         internal float OneOverWidth;
         internal float OneOverHeight;
 
@@ -44,24 +41,20 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return new Rectangle(0, 0, this.width, this.height);
+                return new Rectangle(0, 0, this.Width, this.Height);
             }
         }
 
         public int Width
         {
-            get
-            {
-                return this.width;
-            }
+            get;
+            protected set;
         }
 
         public int Height
         {
-            get
-            {
-                return this.height;
-            }
+            get;
+            protected set;
         }
         #endregion
 
@@ -74,8 +67,8 @@ namespace ANX.Framework.Graphics
         public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
             : base(graphicsDevice)
         {
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
@@ -89,8 +82,8 @@ namespace ANX.Framework.Graphics
             SurfaceFormat format)
             : base(graphicsDevice)
         {
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
@@ -104,8 +97,8 @@ namespace ANX.Framework.Graphics
         internal Texture2D(GraphicsDevice graphicsDevice, int width, int height, int mipCount, SurfaceFormat format)
             : base(graphicsDevice)
         {
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
@@ -154,12 +147,12 @@ namespace ANX.Framework.Graphics
 
         public void SetData<T>(T[] data) where T : struct
         {
-            NativeTexture.SetData<T>(GraphicsDevice, data);
+            NativeTexture.SetData(data);
         }
 
         public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
         {
-            NativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
+            NativeTexture.SetData<T>(data, startIndex, elementCount);
         }
         #endregion
 
@@ -200,7 +193,7 @@ namespace ANX.Framework.Graphics
         private void CreateNativeTextureSurface()
         {
             var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-            nativeTexture2D = creator.CreateTexture(GraphicsDevice, Format, width, height, LevelCount);
+            nativeTexture2D = creator.CreateTexture(GraphicsDevice, Format, Width, Height, LevelCount);
             base.nativeTexture = nativeTexture2D;
         }
         #endregion

@@ -29,10 +29,9 @@ namespace ANX.RenderSystem.Windows.DX11
         private Dx.DeviceContext context;
 
         #region Constructor
-        public DxVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        public DxVertexBuffer(GraphicsDeviceDX graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
         {
-            var gd11 = graphics.NativeDevice as GraphicsDeviceDX;
-            this.context = gd11 != null ? gd11.NativeDevice as Dx.DeviceContext : null;
+            this.context = graphics.NativeDevice;
 
             InitializeBuffer(context.Device, vertexDeclaration, vertexCount, usage);
         }
@@ -50,19 +49,16 @@ namespace ANX.RenderSystem.Windows.DX11
 
             //TODO: translate and use usage
 
-            if (device != null)
+            var description = new Dx.BufferDescription()
             {
-                var description = new Dx.BufferDescription()
-                {
-                    Usage = Dx.ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = Dx.BindFlags.VertexBuffer,
-                    CpuAccessFlags = Dx.CpuAccessFlags.Write,
-                    OptionFlags = Dx.ResourceOptionFlags.None
-                };
+                Usage = Dx.ResourceUsage.Dynamic,
+                SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
+                BindFlags = Dx.BindFlags.VertexBuffer,
+                CpuAccessFlags = Dx.CpuAccessFlags.Write,
+                OptionFlags = Dx.ResourceOptionFlags.None
+            };
 
-                NativeBuffer = new Dx.Buffer(device, description);
-            }
+            NativeBuffer = new Dx.Buffer(device, description);
         }
         #endregion
 

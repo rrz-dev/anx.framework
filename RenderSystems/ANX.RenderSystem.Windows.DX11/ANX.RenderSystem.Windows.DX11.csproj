@@ -73,12 +73,16 @@
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\BufferHelper.cs">
       <Link>BufferHelper.cs</Link>
     </Compile>
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\ResourceMapping.cs">
+      <Link>ResourceMapping.cs</Link>
+    </Compile>
     <Compile Include="BlendState_DX11.cs" />
     <Compile Include="Creator.cs" />
     <Compile Include="DepthStencilState_DX11.cs" />
     <Compile Include="EffectParameter_DX11.cs" />
     <Compile Include="EffectPass_DX11.cs" />
     <Compile Include="EffectTechnique_DX11.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FormatConverter.cs" />
     <Compile Include="GraphicsDeviceDX.cs" />
     <Compile Include="DxIndexBuffer.cs" />

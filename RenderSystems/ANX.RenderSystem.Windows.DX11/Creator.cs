@@ -86,7 +86,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new DxVertexBuffer(graphics, vertexDeclaration, vertexCount, usage);
+            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage);
 		}
 		#endregion
 
@@ -233,7 +233,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			int mipCount)
 		{
 			PreventSystemChange();
-			return new DxTexture2D(graphics, width, height, surfaceFormat, mipCount);
+            return new DxTexture2D((GraphicsDeviceDX)graphics.NativeDevice, width, height, surfaceFormat, mipCount);
 		}
 		#endregion
 
@@ -243,7 +243,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			RenderTargetUsage usage)
 		{
 			PreventSystemChange();
-			return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
+			return new RenderTarget2D_DX11((GraphicsDeviceDX)graphics.NativeDevice, width, height, mipMap, preferredFormat, preferredDepthFormat,
 				preferredMultiSampleCount, usage);
 		}
 		#endregion

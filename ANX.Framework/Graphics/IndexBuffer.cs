@@ -150,7 +150,7 @@ namespace ANX.Framework.Graphics
 
 		public void GetData<T>(T[] data) where T : struct
 		{
-			NativeIndexBuffer.GetData(data);
+            NativeIndexBuffer.GetData(data);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount)
@@ -164,19 +164,18 @@ namespace ANX.Framework.Graphics
 		public void SetData<T>(int offsetInBytes, T[] data, int startIndex,
 			int elementCount) where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, offsetInBytes, data,
-				startIndex, elementCount);
+			NativeIndexBuffer.SetData(offsetInBytes, data, startIndex, elementCount);
 		}
 
 		public void SetData<T>(T[] data) where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, data);
+			NativeIndexBuffer.SetData(data);
 		}
 
 		public void SetData<T>(T[] data, int startIndex, int elementCount)
 			where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+			NativeIndexBuffer.SetData(data, startIndex, elementCount);
 		}
 		#endregion
 

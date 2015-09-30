@@ -22,17 +22,17 @@ namespace ANX.RenderSystem.Windows.DX11
         protected IndexElementSize elementSize;
 
         #region SetData
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data) where S : struct
+        public void SetData<S>(S[] data) where S : struct
         {
-            SetData<S>(graphicsDevice, data, 0, data.Length);
+            SetData<S>(data, 0, data.Length);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data, int startIndex, int elementCount) where S : struct
+        public void SetData<S>(S[] data, int startIndex, int elementCount) where S : struct
         {
-            SetData<S>(graphicsDevice, 0, data, startIndex, elementCount);
+            SetData<S>(0, data, startIndex, elementCount);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount)
+        public void SetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount)
             where S : struct
         {
             if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > NativeBuffer.Description.SizeInBytes)
@@ -58,12 +58,15 @@ namespace ANX.RenderSystem.Windows.DX11
         #region GetData
         public void GetData<S>(S[] data) where S : struct
         {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
             GetData(0, data, 0, data.Length);
         }
 
         public void GetData<S>(S[] data, int startIndex, int elementCount) where S : struct
         {
-            GetData(0, data, 0, data.Length);
+            GetData(0, data, startIndex, elementCount);
         }
 
         public void GetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount) where S : struct

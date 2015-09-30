@@ -30,8 +30,8 @@ namespace ANX.Framework.Graphics
 		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
 			: base(graphicsDevice)
 		{
-			this.width = width;
-			this.height = height;
+			this.Width = width;
+			this.Height = height;
 			OneOverWidth = 1f / width;
 			OneOverHeight = 1f / height;
 
@@ -52,8 +52,8 @@ namespace ANX.Framework.Graphics
 			[MarshalAsAttribute(UnmanagedType.U1)] bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat)
 			: base(graphicsDevice)
 		{
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 
@@ -75,8 +75,8 @@ namespace ANX.Framework.Graphics
 			int preferredMultiSampleCount, RenderTargetUsage usage)
 			: base(graphicsDevice)
 		{
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
             OneOverWidth = 1f / width;
             OneOverHeight = 1f / height;
 

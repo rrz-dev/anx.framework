@@ -69,6 +69,7 @@ namespace MultiRenderTarget
         {
             GraphicsDevice.SetRenderTargets(renderTargets[0], renderTargets[1], renderTargets[2], renderTargets[3]);
             GraphicsDevice.Clear(Color.Black);
+            
             effect.CurrentTechnique.Passes[0].Apply();
             GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, primitives, 0, 2);
 

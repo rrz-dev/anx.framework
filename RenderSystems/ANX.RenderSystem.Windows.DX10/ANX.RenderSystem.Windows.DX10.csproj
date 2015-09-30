@@ -60,11 +60,15 @@
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\BufferHelper.cs">
       <Link>BufferHelper.cs</Link>
     </Compile>
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\ResourceMapping.cs">
+      <Link>ResourceMapping.cs</Link>
+    </Compile>
     <Compile Include="BlendState_DX10.cs" />
     <Compile Include="Creator.cs" />
     <Compile Include="DepthStencilState_DX10.cs" />
     <Compile Include="EffectParameter_DX10.cs" />
     <Compile Include="EffectTechnique_DX10.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="GraphicsDeviceDX.cs" />
     <Compile Include="Helpers\FormatConverter.cs" />
     <Compile Include="DxIndexBuffer.cs" />
