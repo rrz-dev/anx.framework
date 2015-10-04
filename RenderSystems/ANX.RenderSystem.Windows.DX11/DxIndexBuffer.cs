@@ -14,91 +14,44 @@ using Dx11 = SharpDX.Direct3D11;
 
 namespace ANX.RenderSystem.Windows.DX11
 {
-    public partial class DxIndexBuffer : INativeIndexBuffer, IDisposable
+    public partial class DxIndexBuffer : Buffer, INativeIndexBuffer
     {
-        public Dx11.Buffer NativeBuffer { get; protected set; }
+#if DEBUG
+        private static int indexBufferCount = 0;
+        private static int dynamicIndexBufferCount = 0;
+#endif
 
-        #region Constructor
-        public DxIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
+        public DxIndexBuffer(GraphicsDeviceDX graphics, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
+            : base(graphics.NativeDevice.Device, usage, dynamic)
         {
-            elementSize = size;
-            GraphicsDeviceDX gd11 = graphics.NativeDevice as GraphicsDeviceDX;
-            Dx11.DeviceContext context = gd11 != null ? gd11.NativeDevice as Dx11.DeviceContext : null;
-
-            InitializeBuffer(context.Device, size, indexCount, usage);
+            InitializeBuffer(graphics.NativeDevice.Device, size, indexCount, usage, dynamic);
         }
 
-        internal DxIndexBuffer(SharpDX.Direct3D11.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        internal DxIndexBuffer(SharpDX.Direct3D11.Device device, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
+            : base(device, usage, dynamic)
         {
             elementSize = size;
-            InitializeBuffer(device, size, indexCount, usage);
+            InitializeBuffer(device, size, indexCount, usage, dynamic);
         }
-        #endregion
 
-        #region InitializeBuffer
-        private void InitializeBuffer(Dx11.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        private void InitializeBuffer(Dx11.Device device, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
         {
-            //TODO: translate and use usage
             var description = new Dx11.BufferDescription()
             {
-                // TODO: translate usage
-                Usage = Dx11.ResourceUsage.Dynamic,
+                Usage = dynamic ? Dx11.ResourceUsage.Dynamic : Dx11.ResourceUsage.Default,
                 SizeInBytes = GetSizeInBytes(indexCount),
                 BindFlags = Dx11.BindFlags.IndexBuffer,
-                CpuAccessFlags = Dx11.CpuAccessFlags.Write,
+                CpuAccessFlags = dynamic ? Dx11.CpuAccessFlags.Write : Dx11.CpuAccessFlags.None,
                 OptionFlags = Dx11.ResourceOptionFlags.None
             };
 
             NativeBuffer = new SharpDX.Direct3D11.Buffer(device, description);
-        }
-        #endregion
-
-        protected DataStream MapBufferWrite()
-        {
-            Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
-            DataStream stream;
-            context.MapSubresource(NativeBuffer, Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None, out stream);
-            return stream;
-        }
-
-        protected void UnmapBuffer()
-        {
-            Dx11.DeviceContext context = NativeBuffer.Device.ImmediateContext;
-            context.UnmapSubresource(NativeBuffer, 0);
-        }
-
-        private SharpDX.DataStream MapBufferRead(Dx11.Buffer buffer)
-        {
-            Dx11.DeviceContext context = buffer.Device.ImmediateContext;
-            DataStream stream;
-            context.MapSubresource(buffer, Dx11.MapMode.Read, Dx11.MapFlags.None, out stream);
-            return stream;
-        }
-
-        private void UnmapBuffer(Dx11.Buffer buffer)
-        {
-            Dx11.DeviceContext context = buffer.Device.ImmediateContext;
-            context.UnmapSubresource(buffer, 0);
-        }
-
-        private void CopySubresource(Dx11.Buffer source, Dx11.Buffer destination)
-        {
-            BufferHelper.ValidateCopyResource(source, destination);
-
-            this.NativeBuffer.Device.ImmediateContext.CopyResource(source, destination);
-        }
-
-        private Dx11.Buffer CreateStagingBuffer()
-        {
-            var description = new Dx11.BufferDescription()
-            {
-                Usage = Dx11.ResourceUsage.Staging,
-                SizeInBytes = NativeBuffer.Description.SizeInBytes,
-                CpuAccessFlags = Dx11.CpuAccessFlags.Read,
-                OptionFlags = Dx11.ResourceOptionFlags.None,
-            };
-
-            return new Dx11.Buffer(NativeBuffer.Device, description);
+#if DEBUG
+            if (dynamic)
+                NativeBuffer.DebugName = "DynamicIndexBuffer_" + dynamicIndexBufferCount++;
+            else
+                NativeBuffer.DebugName = "IndexBuffer_" + indexBufferCount++;
+#endif
         }
     }
 }

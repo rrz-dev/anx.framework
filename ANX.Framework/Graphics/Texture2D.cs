@@ -170,18 +170,6 @@ namespace ANX.Framework.Graphics
         }
         #endregion
 
-        #region Dispose
-        public override void Dispose()
-        {
-            base.Dispose(true);
-        }
-
-        protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
-            base.Dispose(disposeManaged);
-        }
-        #endregion
-
         #region ReCreateNativeTextureSurface
         internal override void ReCreateNativeTextureSurface()
         {

@@ -50,7 +50,7 @@ namespace ANX.RenderSystem.Windows.DX10
             this.GraphicsDevice = graphicsDevice;
         }
 
-        public DxTexture2D(GraphicsDeviceDX graphicsDevice, Dx10.Texture2D nativeTexture)
+        internal DxTexture2D(GraphicsDeviceDX graphicsDevice, Dx10.Texture2D nativeTexture)
             : this(graphicsDevice)
         {
             if (nativeTexture == null)

@@ -41,24 +41,21 @@ namespace ANX.Framework.Graphics
             base.GraphicsDevice.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
         }
 
-        ~Texture()
-        {
-            base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-            base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-        }
-
-        public override void Dispose()
-        {
-            Dispose(true);
-        }
-
         protected override void Dispose(bool disposeManaged)
         {
-            if (disposeManaged && nativeTexture != null)
+            if (disposeManaged)
             {
-                nativeTexture.Dispose();
-                nativeTexture = null;
+                base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+                base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+
+                if (nativeTexture != null)
+                {
+                    nativeTexture.Dispose();
+                    nativeTexture = null;
+                }
             }
+
+            base.Dispose(disposeManaged);
         }
 
         internal abstract void ReCreateNativeTextureSurface();

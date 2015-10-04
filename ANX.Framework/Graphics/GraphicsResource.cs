@@ -21,15 +21,10 @@ namespace ANX.Framework.Graphics
             GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
         }
 
-		~GraphicsResource()
-		{
-			GraphicsResourceTracker.Instance.UnregisterTrackedObject(this);
-		}
-
 		public GraphicsResource(GraphicsDevice device)
+            : this()
 		{
 			this.GraphicsDevice = device;
-			GraphicsResourceTracker.Instance.RegisterTrackedObject(this);
 		}
 
 		public GraphicsDevice GraphicsDevice
@@ -56,7 +51,11 @@ namespace ANX.Framework.Graphics
 			set;
 		}
 
-		public abstract void Dispose();
+		public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
 		protected void raise_Disposing(object sender, EventArgs args)
 		{
@@ -66,8 +65,14 @@ namespace ANX.Framework.Graphics
 			}
 		}
 
-		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		protected virtual void Dispose(bool disposeManaged)
 		{
+            if (disposeManaged)
+            {
+                raise_Disposing(this, EventArgs.Empty);
+
+                GraphicsResourceTracker.Instance.UnregisterTrackedObject(this);
+            }
 		}
 
 		public override string ToString()

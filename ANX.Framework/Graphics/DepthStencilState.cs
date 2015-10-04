@@ -311,17 +311,17 @@ namespace ANX.Framework.Graphics
                     "You are not allowed to change DepthStencilState properties while it is bound to the GraphicsDevice.");
         }
 
-        public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
         {
-            if (this.nativeDepthStencilState != null)
+            if (disposeManaged)
             {
-                this.nativeDepthStencilState.Dispose();
-                this.nativeDepthStencilState = null;
+                if (this.nativeDepthStencilState != null)
+                {
+                    this.nativeDepthStencilState.Dispose();
+                    this.nativeDepthStencilState = null;
+                }
             }
-        }
 
-				protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
             base.Dispose(disposeManaged);
         }
     }

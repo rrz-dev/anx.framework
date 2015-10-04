@@ -62,12 +62,7 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		public override void Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		protected override void Dispose(bool disposeManaged)
 		{
 			throw new NotImplementedException();
 		}

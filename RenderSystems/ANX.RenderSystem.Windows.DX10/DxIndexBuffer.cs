@@ -14,83 +14,50 @@ using Dx10 = SharpDX.Direct3D10;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    public partial class DxIndexBuffer : INativeIndexBuffer, IDisposable
+    public partial class DxIndexBuffer : Buffer, INativeIndexBuffer, IDisposable
     {
-        public Dx10.Buffer NativeBuffer { get; protected set; }
-
+#if DEBUG
+        private static int indexBufferCount = 0;
+        private static int dynamicIndexBufferCount = 0;
+#endif
         #region Constructor
-        public DxIndexBuffer(GraphicsDevice graphics, IndexElementSize size, int indexCount, BufferUsage usage)
+        public DxIndexBuffer(GraphicsDeviceDX graphics, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
+            : base(graphics.NativeDevice, usage, dynamic)
         {
             elementSize = size;
-            GraphicsDeviceDX gd10 = graphics.NativeDevice as GraphicsDeviceDX;
-            Dx10.Device device = gd10 != null ? gd10.NativeDevice as Dx10.Device : null;
 
-            InitializeBuffer(device, size, indexCount, usage);
+            InitializeBuffer(graphics.NativeDevice, size, indexCount, usage, dynamic);
         }
 
-        internal DxIndexBuffer(Dx10.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        internal DxIndexBuffer(Dx10.Device device, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
+            : base(device, usage, dynamic)
         {
             elementSize = size;
-            InitializeBuffer(device, size, indexCount, usage);
+            InitializeBuffer(device, size, indexCount, usage, dynamic);
         }
         #endregion
 
         #region InitializeBuffer
-        private void InitializeBuffer(Dx10.Device device, IndexElementSize size, int indexCount, BufferUsage usage)
+        private void InitializeBuffer(Dx10.Device device, IndexElementSize size, int indexCount, BufferUsage usage, bool dynamic)
         {
             //TODO: translate and use usage
             var description = new Dx10.BufferDescription()
             {
-                Usage = Dx10.ResourceUsage.Dynamic,
+                Usage = dynamic ? Dx10.ResourceUsage.Dynamic : Dx10.ResourceUsage.Default,
                 SizeInBytes = GetSizeInBytes(indexCount),
                 BindFlags = Dx10.BindFlags.IndexBuffer,
-                CpuAccessFlags = Dx10.CpuAccessFlags.Write,
+                CpuAccessFlags = dynamic ? Dx10.CpuAccessFlags.Write : Dx10.CpuAccessFlags.None,
                 OptionFlags = Dx10.ResourceOptionFlags.None
             };
 
             NativeBuffer = new Dx10.Buffer(device, description);
-            //NativeBuffer.Unmap();
+#if DEBUG
+            if (dynamic)
+                NativeBuffer.DebugName = "DynamicIndexBuffer_" + dynamicIndexBufferCount++;
+            else
+                NativeBuffer.DebugName = "IndexBuffer_" + indexBufferCount++;
+#endif
         }
         #endregion
-
-        protected DataStream MapBufferWrite()
-        {
-            return NativeBuffer.Map(Dx10.MapMode.WriteDiscard);
-        }
-
-        private SharpDX.DataStream MapBufferRead(Dx10.Buffer buffer)
-        {
-            return buffer.Map(Dx10.MapMode.Read);
-        }
-
-        protected void UnmapBuffer(Dx10.Buffer buffer)
-        {
-            buffer.Unmap();
-        }
-
-        protected void UnmapBuffer()
-        {
-            NativeBuffer.Unmap();
-        }
-
-        private void CopySubresource(Dx10.Buffer source, Dx10.Buffer destination)
-        {
-            BufferHelper.ValidateCopyResource(source, destination);
-
-            this.NativeBuffer.Device.CopyResource(source, destination);
-        }
-
-        private Dx10.Buffer CreateStagingBuffer()
-        {
-            var description = new Dx10.BufferDescription()
-            {
-                Usage = Dx10.ResourceUsage.Staging,
-                SizeInBytes = NativeBuffer.Description.SizeInBytes,
-                CpuAccessFlags = Dx10.CpuAccessFlags.Read,
-                OptionFlags = Dx10.ResourceOptionFlags.None,
-            };
-
-            return new Dx10.Buffer(NativeBuffer.Device, description);
-        }
     }
 }

@@ -180,19 +180,18 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region Dispose
-		public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
 		{
-			Dispose(true);
-		}
+            if (disposeManaged)
+            {
+                if (this.nativeIndexBuffer != null)
+                {
+                    this.nativeIndexBuffer.Dispose();
+                    this.nativeIndexBuffer = null;
+                }
+            }
 
-		protected override void Dispose(
-			[MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			if (this.nativeIndexBuffer != null)
-			{
-				this.nativeIndexBuffer.Dispose();
-				this.nativeIndexBuffer = null;
-			}
+            base.Dispose(disposeManaged);
 		}
 		#endregion
 	}

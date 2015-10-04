@@ -364,8 +364,8 @@ namespace ANX.Framework.Graphics
 
             // reset presentation parameters
             NativeDevice.ResizeBuffers(presentationParameters);
-            this.viewport = new Graphics.Viewport(0, 0, presentationParameters.BackBufferWidth,
-                presentationParameters.BackBufferHeight);
+            this.viewport = new Graphics.Viewport(0, 0, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            this.currentPresentationParameters = presentationParameters;
 
             samplerStateCollection.InitializeDeviceState();
 

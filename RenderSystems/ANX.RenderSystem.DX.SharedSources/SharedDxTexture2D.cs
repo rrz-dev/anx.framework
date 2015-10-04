@@ -214,10 +214,19 @@ namespace ANX.RenderSystem.Windows.DX11
 
         protected virtual void Dispose(bool managed)
         {
-            if (NativeShaderResourceView != null)
+            if (managed)
             {
-                NativeShaderResourceView.Dispose();
-                NativeShaderResourceView = null;
+                if (NativeShaderResourceView != null)
+                {
+                    NativeShaderResourceView.Dispose();
+                    NativeShaderResourceView = null;
+                }
+
+                if (NativeTexture != null)
+                {
+                    NativeTexture.Dispose();
+                    NativeTexture = null;
+                }
             }
         }
         #endregion

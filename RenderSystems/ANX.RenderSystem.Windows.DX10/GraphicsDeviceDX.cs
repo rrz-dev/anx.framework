@@ -201,52 +201,57 @@ namespace ANX.RenderSystem.Windows.DX10
             int vertexCount = vertexData.Length;
             int indexCount = indexData.Length;
 
-            VertexBuffer vertexBuffer = new VertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly);
-            vertexBuffer.SetData(vertexData);
-            this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
-
-            IndexBuffer indexBuffer = new IndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly);
-            if (indexData.GetType() == typeof(Int16[]))
+            using (var vertexBuffer = new DynamicVertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly))
+            using (var indexBuffer = new DynamicIndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly))
             {
-                indexBuffer.SetData<short>((short[])indexData);
-            }
-            else
-            {
-                indexBuffer.SetData<int>((int[])indexData);
-            }
+                vertexBuffer.SetData(vertexData);
+                this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
 
-            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
+                if (indexData.GetType() == typeof(Int16[]))
+                {
+                    indexBuffer.SetData<short>((short[])indexData);
+                }
+                else
+                {
+                    indexBuffer.SetData<int>((int[])indexData);
+                }
+
+                DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
+            }
         }
 
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
             int vertexCount = vertexData.Length;
-			DxVertexBuffer vb10 = new DxVertexBuffer(nativeDevice, vertexDeclaration, vertexCount, BufferUsage.None);
-            vb10.SetData<T>(vertexData);
-
-            Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
-
-			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
-
-			//TODO: check for currentEffect null and throw exception
-			// TODO: check for null's and throw exceptions
-			// TODO: get the correct pass index!
-			var technique = currentEffect.GetCurrentTechnique().NativeTechnique;
-			var pass = technique.GetPassByIndex(0);
-			var layout = CreateInputLayout(nativeDevice, pass.Description.Signature, vertexDeclaration);
-
-			nativeDevice.InputAssembler.InputLayout = layout;
-            // Prepare All the stages
-			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
+            //TODO: use a shared vertexBuffer, instead of creating one on every call.
+            using (DxVertexBuffer vb10 = new DxVertexBuffer(nativeDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly, dynamic: true))
             {
-                technique.GetPassByIndex(i).Apply();
-				nativeDevice.Draw(vertexCount, vertexOffset);
-            }
+                vb10.SetData<T>(vertexData);
 
-			nativeDevice.InputAssembler.InputLayout.Dispose();
-			nativeDevice.InputAssembler.InputLayout = null;
+                Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+                nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
+
+                //TODO: check for currentEffect null and throw exception
+                // TODO: check for null's and throw exceptions
+                // TODO: get the correct pass index!
+                var technique = currentEffect.GetCurrentTechnique().NativeTechnique;
+                var pass = technique.GetPassByIndex(0);
+                var layout = CreateInputLayout(nativeDevice, pass.Description.Signature, vertexDeclaration);
+
+                nativeDevice.InputAssembler.InputLayout = layout;
+                // Prepare All the stages
+                nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
+
+                for (int i = 0; i < technique.Description.PassCount; ++i)
+                {
+                    technique.GetPassByIndex(i).Apply();
+                    nativeDevice.Draw(vertexCount, vertexOffset);
+                }
+
+                nativeDevice.InputAssembler.InputLayout.Dispose();
+                nativeDevice.InputAssembler.InputLayout = null;
+            }
         }
 
 		private Dx10.EffectTechnique SetupEffectForDraw()
@@ -466,6 +471,14 @@ namespace ANX.RenderSystem.Windows.DX10
 		{
             if (backBuffer != null)
             {
+                for (int i = 0; i < MAX_RENDER_TARGETS; i++)
+                {
+                    this.renderTargetView[i] = null;
+                    this.depthStencilView[i] = null;
+                }
+
+                nativeDevice.OutputMerger.SetRenderTargets(MAX_RENDER_TARGETS, this.renderTargetView, null);
+
                 backBuffer.Dispose();
                 backBuffer = null;
             }

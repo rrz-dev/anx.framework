@@ -606,30 +606,31 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region Dispose
-		public override void Dispose()
+
+        protected override void Dispose(bool disposeManaged)
         {
-            if (this.spriteBatchEffect != null)
-            {
-                this.spriteBatchEffect.Dispose();
-                this.spriteBatchEffect = null;
-            }
+           if (disposeManaged)
+           {
+               if (this.spriteBatchEffect != null)
+               {
+                   this.spriteBatchEffect.Dispose();
+                   this.spriteBatchEffect = null;
+               }
 
-            if (this.indexBuffer != null)
-            {
-                this.indexBuffer.Dispose();
-                this.indexBuffer = null;
-            }
+               if (this.indexBuffer != null)
+               {
+                   this.indexBuffer.Dispose();
+                   this.indexBuffer = null;
+               }
 
-            if (this.vertexBuffer != null)
-            {
-                this.vertexBuffer.Dispose();
-                this.vertexBuffer = null;
-            }
-        }
+               if (this.vertexBuffer != null)
+               {
+                   this.vertexBuffer.Dispose();
+                   this.vertexBuffer = null;
+               }
+           }
 
-        protected override void Dispose(Boolean disposeManaged)
-        {
-            throw new NotImplementedException();
+           base.Dispose(disposeManaged);
         }
 		#endregion
 

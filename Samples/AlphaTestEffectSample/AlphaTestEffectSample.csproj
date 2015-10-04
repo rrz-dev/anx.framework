@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E1A73436-CD1C-41B8-9295-8F1C20740063}</ProjectGuid>
+    <ProjectGuid>{0005BDAA-F232-45C3-8D37-7E4FF7A1F605}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlphaTestEffectSample</RootNamespace>

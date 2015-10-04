@@ -45,16 +45,6 @@ namespace ANX.Framework.Graphics
 			return elements != null ? (elements.Clone() as VertexElement[]) : null;
 		}
 
-		public override void Dispose()
-		{
-			Dispose(true);
-		}
-
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			// Nothing to dispose
-		}
-
 		private int GetElementStride(VertexElementFormat format)
 		{
 			switch (format)

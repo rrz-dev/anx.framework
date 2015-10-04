@@ -116,25 +116,18 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region Dispose
-		public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
 		{
-			if (nativeEffect != null)
-			{
-				nativeEffect.Dispose();
-				nativeEffect = null;
-			}
-		}
+			if (disposeManaged)
+            {
+                if (nativeEffect != null)
+                {
+                    nativeEffect.Dispose();
+                    nativeEffect = null;
+                }
+            }
 
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			try
-			{
-			    Dispose();
-			}
-			finally
-			{
-				base.Dispose(false);
-			}
+            base.Dispose(disposeManaged);
 		}
 		#endregion
 

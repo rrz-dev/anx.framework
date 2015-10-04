@@ -217,21 +217,23 @@ namespace ANX.RenderSystem.Windows.DX11
             int vertexCount = vertexData.Length;
             int indexCount = indexData.Length;
 
-            VertexBuffer vertexBuffer = new VertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly);
-            vertexBuffer.SetData(vertexData);
-            this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
-
-            IndexBuffer indexBuffer = new IndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly);
-            if (indexData.GetType() == typeof(Int16[]))
+            using (VertexBuffer vertexBuffer = new VertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly))
+            using (IndexBuffer indexBuffer = new IndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly))
             {
-                indexBuffer.SetData<short>((short[])indexData);
-            }
-            else
-            {
-                indexBuffer.SetData<int>((int[])indexData);
-            }
+                vertexBuffer.SetData(vertexData);
+                this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
 
-            DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
+                if (indexData.GetType() == typeof(Int16[]))
+                {
+                    indexBuffer.SetData<short>((short[])indexData);
+                }
+                else
+                {
+                    indexBuffer.SetData<int>((int[])indexData);
+                }
+
+                DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
+            }
         }
 
         #endregion // DrawUserIndexedPrimitives<T>
@@ -240,32 +242,34 @@ namespace ANX.RenderSystem.Windows.DX11
         public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
         {
             int vertexCount = vertexData.Length;
-			DxVertexBuffer vb11 = new DxVertexBuffer(this, vertexDeclaration, vertexCount, BufferUsage.None);
-            vb11.SetData<T>(vertexData);
-
-            Dx11.VertexBufferBinding nativeVertexBufferBindings = new Dx11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
-
-			nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
-
-            Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
-            SetupEffectForDraw(out pass, out technique, out passSignature);
-
-			var layout = CreateInputLayout(nativeDevice.Device, passSignature, vertexDeclaration);
-
-			nativeDevice.InputAssembler.InputLayout = layout;
-            // Prepare All the stages
-			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-			//nativeDevice.Rasterizer.SetViewports(currentViewport);
-            //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
+            using (DxVertexBuffer vb11 = new DxVertexBuffer(this, vertexDeclaration, vertexCount, BufferUsage.WriteOnly, dynamic: true))
             {
-				pass.Apply(nativeDevice);
-				nativeDevice.Draw(primitiveCount, vertexOffset);
-			}
+                vb11.SetData<T>(vertexData);
 
-			layout.Dispose();
-			layout = null;
+                Dx11.VertexBufferBinding nativeVertexBufferBindings = new Dx11.VertexBufferBinding(vb11.NativeBuffer, vertexDeclaration.VertexStride, 0);
+
+                nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
+
+                Dx11.EffectPass pass; Dx11.EffectTechnique technique; ShaderBytecode passSignature;
+                SetupEffectForDraw(out pass, out technique, out passSignature);
+
+                var layout = CreateInputLayout(nativeDevice.Device, passSignature, vertexDeclaration);
+
+                nativeDevice.InputAssembler.InputLayout = layout;
+                // Prepare All the stages
+                nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
+                //nativeDevice.Rasterizer.SetViewports(currentViewport);
+                //device.OutputMerger.SetTargets(this.depthStencilView, this.renderView);
+
+                for (int i = 0; i < technique.Description.PassCount; ++i)
+                {
+                    pass.Apply(nativeDevice);
+                    nativeDevice.Draw(primitiveCount, vertexOffset);
+                }
+
+                layout.Dispose();
+                layout = null;
+            }
         }
 
         #endregion // DrawUserPrimitives<T>
@@ -498,6 +502,14 @@ namespace ANX.RenderSystem.Windows.DX11
         {
             if (backBuffer != null)
             {
+                for (int i = 0; i < MAX_RENDER_TARGETS; i++)
+                {
+                    this.renderTargetView[i] = null;
+                    this.depthStencilView[i] = null;
+                }
+
+                nativeDevice.OutputMerger.SetRenderTargets(null, this.renderTargetView);
+
                 backBuffer.Dispose();
                 backBuffer = null;
             }

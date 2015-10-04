@@ -77,8 +77,14 @@ namespace ANX.RenderSystem.Windows.DX11
 			int indexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new DxIndexBuffer(graphics, size, indexCount, usage);
+			return new DxIndexBuffer((GraphicsDeviceDX)graphics.NativeDevice, size, indexCount, usage, false);
 		}
+
+        public INativeIndexBuffer CreateDynamicIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            PreventSystemChange();
+            return new DxIndexBuffer((GraphicsDeviceDX)graphics.NativeDevice, size, indexCount, usage, true);
+        }
 		#endregion
 
 		#region CreateVertexBuffer
@@ -86,8 +92,14 @@ namespace ANX.RenderSystem.Windows.DX11
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage);
+            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage, false);
 		}
+
+        public INativeVertexBuffer CreateDynamicVertexBuffer(GraphicsDevice graphics, DynamicVertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            PreventSystemChange();
+            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage, true);
+        }
 		#endregion
 
 #if XNAEXT
@@ -277,5 +289,5 @@ namespace ANX.RenderSystem.Windows.DX11
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 		}
 		#endregion
-	}
+    }
 }

@@ -64,6 +64,7 @@
       <Link>ResourceMapping.cs</Link>
     </Compile>
     <Compile Include="BlendState_DX10.cs" />
+    <Compile Include="Buffer.cs" />
     <Compile Include="Creator.cs" />
     <Compile Include="DepthStencilState_DX10.cs" />
     <Compile Include="EffectParameter_DX10.cs" />
