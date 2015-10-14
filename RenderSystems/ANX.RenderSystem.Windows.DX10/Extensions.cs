@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using SharpDX.D3DCompiler;
 using SharpDX.Direct3D10;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,16 @@ namespace ANX.RenderSystem.Windows.DX10
                     Right = rect.Right,
                     Top = rect.Top,
                 };
+        }
+
+        public static ANX.Framework.Graphics.EffectParameterClass ToParameterClass(this ShaderVariableClass variableClass)
+        {
+            return DxFormatConverter.Translate(variableClass);
+        }
+
+        public static ANX.Framework.Graphics.EffectParameterType ToParameterType(this ShaderVariableType variableType)
+        {
+            return DxFormatConverter.Translate(variableType);
         }
     }
 }

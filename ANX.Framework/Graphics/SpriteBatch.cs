@@ -470,9 +470,7 @@ namespace ANX.Framework.Graphics
 
             this.vertexBuffer.SetData<VertexPositionColorTexture>(this.vertices, 0, vertexCount);
 
-            SetRenderStates();
-
-            spriteBatchEffect.Parameters["Texture"].SetValue(this.spriteInfos[offset].texture);
+            SetRenderStates(offset);
 
             GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertexCount, 0, count * 2);
 		}
@@ -568,7 +566,7 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region SetRenderStates
-		private void SetRenderStates()
+		private void SetRenderStates(int offset)
         {
             GraphicsDevice.BlendState = blendState != null ? blendState : BlendState.AlphaBlend;
             GraphicsDevice.DepthStencilState = depthStencilState != null ? depthStencilState : DepthStencilState.None;
@@ -598,7 +596,8 @@ namespace ANX.Framework.Graphics
 			Matrix result;
 			Matrix.Multiply(ref transformMatrix, ref cachedTransformMatrix, out result);
 			this.spriteBatchEffect.Parameters["MatrixTransform"].SetValue(result);
-            spriteBatchEffect.NativeEffect.Apply(GraphicsDevice);
+            spriteBatchEffect.Parameters["Texture"].SetValue(this.spriteInfos[offset].texture);
+            spriteBatchEffect.CurrentTechnique.Passes[0].Apply();
 
             GraphicsDevice.Indices = this.indexBuffer;
             GraphicsDevice.SetVertexBuffer(this.vertexBuffer);

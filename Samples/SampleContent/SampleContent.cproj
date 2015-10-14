@@ -104,7 +104,6 @@
     <AssemblyReference Name="ANX.InputSystem.Standard">..\..\bin\Debug\ANX.InputSystem.Standard.dll</AssemblyReference>
     <AssemblyReference Name="ANX.PlatformSystem.Windows">..\..\bin\Debug\ANX.PlatformSystem.Windows.dll</AssemblyReference>
     <AssemblyReference Name="ANX.RenderSystem.Windows.DX10">..\..\bin\Debug\ANX.RenderSystem.Windows.DX10.dll</AssemblyReference>
-    <AssemblyReference Name="ANX.RenderSystem.Windows.DX11">..\..\bin\Debug\ANX.RenderSystem.Windows.DX11.dll</AssemblyReference>
     <AssemblyReference Name="AssimpNet">..\..\bin\Debug\AssimpNet.dll</AssemblyReference>
   </References>
   <BuildItems>

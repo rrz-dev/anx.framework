@@ -227,55 +227,53 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
         #endregion
 
-        #region Translate (ShaderVariableType)
-        public static EffectParameterType Translate(ShaderVariableType type)
+        public static ANX.Framework.Graphics.EffectParameterClass Translate(this ShaderVariableClass variableClass)
         {
-            switch (type)
+            switch (variableClass)
+            {
+                case ShaderVariableClass.Vector:
+                    return Framework.Graphics.EffectParameterClass.Vector;
+                case ShaderVariableClass.Struct:
+                    return Framework.Graphics.EffectParameterClass.Struct;
+                case ShaderVariableClass.Scalar:
+                    return Framework.Graphics.EffectParameterClass.Scalar;
+                case ShaderVariableClass.Object:
+                    return Framework.Graphics.EffectParameterClass.Object;
+                case ShaderVariableClass.MatrixColumns:
+                case ShaderVariableClass.MatrixRows:
+                    return Framework.Graphics.EffectParameterClass.Matrix;
+                default:
+                    return (Framework.Graphics.EffectParameterClass)(-1);
+            }
+        }
+
+        public static ANX.Framework.Graphics.EffectParameterType Translate(this ShaderVariableType variableType)
+        {
+            switch (variableType)
             {
                 case ShaderVariableType.Bool:
-                    return EffectParameterType.Bool;
-                case ShaderVariableType.Texture1D:
-                    return EffectParameterType.Texture1D;
-                case ShaderVariableType.Texture2D:
-                    return EffectParameterType.Texture2D;
-                case ShaderVariableType.Texture3D:
-                    return EffectParameterType.Texture3D;
-                case ShaderVariableType.Texture:
-                    return EffectParameterType.Texture;
-                case ShaderVariableType.Void:
-                    return EffectParameterType.Void;
+                    return Framework.Graphics.EffectParameterType.Bool;
                 case ShaderVariableType.Int:
-                    return EffectParameterType.Int32;
+                    return Framework.Graphics.EffectParameterType.Int32;
                 case ShaderVariableType.Float:
-                    return EffectParameterType.Single;
+                    return Framework.Graphics.EffectParameterType.Single;
                 case ShaderVariableType.String:
-                    return EffectParameterType.String;
+                    return Framework.Graphics.EffectParameterType.String;
+                case ShaderVariableType.Texture:
+                    return Framework.Graphics.EffectParameterType.Texture;
+                case ShaderVariableType.Texture1D:
+                    return Framework.Graphics.EffectParameterType.Texture1D;
+                case ShaderVariableType.Texture2D:
+                    return Framework.Graphics.EffectParameterType.Texture2D;
+                case ShaderVariableType.Texture3D:
+                    return Framework.Graphics.EffectParameterType.Texture3D;
                 case ShaderVariableType.TextureCube:
-                    return EffectParameterType.TextureCube;
+                    return Framework.Graphics.EffectParameterType.TextureCube;
+                case ShaderVariableType.Void:
+                    return Framework.Graphics.EffectParameterType.Void;
+                default:
+                    return (Framework.Graphics.EffectParameterType)(-1);
             }
-
-            return EffectParameterType.Void;
         }
-        #endregion
-
-        #region Translate (ShaderVariableType)
-        public static EffectParameterClass Translate(ShaderVariableClass type)
-        {
-            switch (type)
-            {
-                case ShaderVariableClass.Scalar:
-                    return EffectParameterClass.Scalar;
-                case ShaderVariableClass.Vector:
-                    return EffectParameterClass.Vector;
-                case ShaderVariableClass.Struct:
-                    return EffectParameterClass.Struct;
-                case ShaderVariableClass.MatrixRows:
-                case ShaderVariableClass.MatrixColumns:
-                    return EffectParameterClass.Matrix;
-            }
-
-            return EffectParameterClass.Object;
-        }
-        #endregion
 	}
 }

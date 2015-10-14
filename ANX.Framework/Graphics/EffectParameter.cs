@@ -14,271 +14,275 @@ namespace ANX.Framework.Graphics
     [Developer("Glatzemann")]
 	public sealed class EffectParameter
 	{
-	    private readonly INativeEffectParameter nativeParameter;
+        internal INativeEffectParameter NativeParameter
+        {
+            get;
+            private set;
+        }
 
 		#region Public
         public EffectAnnotationCollection Annotations
         {
-            get { return nativeParameter.Annotations; }
+            get { return NativeParameter.Annotations; }
         }
 
         public EffectParameterCollection Elements
         {
-            get { return nativeParameter.Elements; }
+            get { return NativeParameter.Elements; }
         }
 
         public EffectParameterCollection StructureMembers
         {
-            get { return nativeParameter.StructureMembers; }
+            get { return NativeParameter.StructureMembers; }
         }
 
 		public int ColumnCount
 		{
-            get { return nativeParameter.ColumnCount; }
+            get { return NativeParameter.ColumnCount; }
 		}
 
 	    public string Name
 	    {
-            get { return nativeParameter.Name; }
+            get { return NativeParameter.Name; }
 	    }
 
 	    public EffectParameterClass ParameterClass
 	    {
-            get { return nativeParameter.ParameterClass; }
+            get { return NativeParameter.ParameterClass; }
 	    }
 
 	    public EffectParameterType ParameterType
 	    {
-            get { return nativeParameter.ParameterType; }
+            get { return NativeParameter.ParameterType; }
 	    }
 
 	    public int RowCount
 	    {
-            get { return nativeParameter.RowCount; }
+            get { return NativeParameter.RowCount; }
 	    }
 
 	    public string Semantic
 	    {
-            get { return nativeParameter.Semantic; }
+            get { return NativeParameter.Semantic; }
 	    }
 		#endregion
 
         internal EffectParameter(INativeEffectParameter nativeParameter)
         {
-            this.nativeParameter = nativeParameter;
+            this.NativeParameter = nativeParameter;
         }
 
 		#region GetValue
 		public bool GetValueBoolean()
 		{
-			return nativeParameter.GetValueBoolean();
+			return NativeParameter.GetValueBoolean();
 		}
 
 		public bool[] GetValueBooleanArray(int count)
 		{
-			return nativeParameter.GetValueBooleanArray(count);
+			return NativeParameter.GetValueBooleanArray(count);
 		}
 
 		public int GetValueInt32()
 		{
-			return nativeParameter.GetValueInt32();
+			return NativeParameter.GetValueInt32();
 		}
 
 		public Int32[] GetValueInt32Array(int count)
 		{
-			return nativeParameter.GetValueInt32Array(count);
+			return NativeParameter.GetValueInt32Array(count);
 		}
 
 		public Matrix GetValueMatrix()
 		{
-			return nativeParameter.GetValueMatrix();
+			return NativeParameter.GetValueMatrix();
 		}
 
 		public Matrix[] GetValueMatrixArray(int count)
 		{
-			return nativeParameter.GetValueMatrixArray(count);
+			return NativeParameter.GetValueMatrixArray(count);
 		}
 
 		public Matrix GetValueMatrixTranspose()
 		{
-			return nativeParameter.GetValueMatrixTranspose();
+			return NativeParameter.GetValueMatrixTranspose();
 		}
 
 		public Matrix[] GetValueMatrixTransposeArray(int count)
 		{
-			return nativeParameter.GetValueMatrixTransposeArray(count);
+			return NativeParameter.GetValueMatrixTransposeArray(count);
 		}
 
 		public Quaternion GetValueQuaternion()
 		{
-			return nativeParameter.GetValueQuaternion();
+			return NativeParameter.GetValueQuaternion();
 		}
 
 		public Quaternion[] GetValueQuaternionArray(int count)
 		{
-			return nativeParameter.GetValueQuaternionArray(count);
+			return NativeParameter.GetValueQuaternionArray(count);
 		}
 
 		public float GetValueSingle()
 		{
-			return nativeParameter.GetValueSingle();
+			return NativeParameter.GetValueSingle();
 		}
 
 		public float[] GetValueSingleArray(int count)
 		{
-			return nativeParameter.GetValueSingleArray(count);
+			return NativeParameter.GetValueSingleArray(count);
 		}
 
 		public string GetValueString()
 		{
-			return nativeParameter.GetValueString();
+			return NativeParameter.GetValueString();
 		}
 
 		public Texture2D GetValueTexture2D()
 		{
-			return nativeParameter.GetValueTexture2D();
+			return NativeParameter.GetValueTexture2D();
 		}
 
 		public Texture3D GetValueTexture3D()
 		{
-			return nativeParameter.GetValueTexture3D();
+			return NativeParameter.GetValueTexture3D();
 		}
 
 		public TextureCube GetValueTextureCube()
 		{
-			return nativeParameter.GetValueTextureCube();
+			return NativeParameter.GetValueTextureCube();
 		}
 
 		public Vector2 GetValueVector2()
 		{
-			return nativeParameter.GetValueVector2();
+			return NativeParameter.GetValueVector2();
 		}
 
 		public Vector2[] GetValueVector2Array(int count)
 		{
-			return nativeParameter.GetValueVector2Array(count);
+			return NativeParameter.GetValueVector2Array(count);
 		}
 
 		public Vector3 GetValueVector3()
 		{
-			return nativeParameter.GetValueVector3();
+			return NativeParameter.GetValueVector3();
 		}
 
 		public Vector3[] GetValueVector3Array(int count)
 		{
-			return nativeParameter.GetValueVector3Array(count);
+			return NativeParameter.GetValueVector3Array(count);
 		}
 
 		public Vector4 GetValueVector4()
 		{
-			return nativeParameter.GetValueVector4();
+			return NativeParameter.GetValueVector4();
 		}
 
 		public Vector4[] GetValueVector4Array(int count)
 		{
-			return nativeParameter.GetValueVector4Array(count);
+			return NativeParameter.GetValueVector4Array(count);
 		}
 		#endregion
 
 		#region SetValue
 		public void SetValue([MarshalAs(UnmanagedType.U1)] bool value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(bool[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(int value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(int[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Matrix value)
 		{
-			nativeParameter.SetValue(value, false);
+			NativeParameter.SetValue(value, false);
 		}
 
 		public void SetValue(Matrix[] value)
 		{
-			nativeParameter.SetValue(value, false);
+			NativeParameter.SetValue(value, false);
 		}
 
 		public void SetValue(Quaternion value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Quaternion[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(float value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(float[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(string value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Texture value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector2 value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector2[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector3 value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector3[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector4 value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValue(Vector4[] value)
 		{
-			nativeParameter.SetValue(value);
+			NativeParameter.SetValue(value);
 		}
 
 		public void SetValueTranspose(Matrix value)
 		{
-			nativeParameter.SetValue(value, true);
+			NativeParameter.SetValue(value, true);
 		}
 
 		public void SetValueTranspose(Matrix[] value)
 		{
-			nativeParameter.SetValue(value, true);
+			NativeParameter.SetValue(value, true);
 		}
 		#endregion
 	}

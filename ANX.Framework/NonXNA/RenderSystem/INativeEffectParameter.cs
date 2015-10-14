@@ -14,7 +14,7 @@ namespace ANX.Framework.NonXNA
     [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.Untested)]
     [Developer("Glatzemann")]
-    public interface INativeEffectParameter
+    public interface INativeEffectParameter : IDisposable
     {
         string Name { get; }
         string Semantic { get; }

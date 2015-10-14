@@ -35,7 +35,7 @@ namespace ANX.RenderSystem.Windows.DX11
         public void SetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount)
             where S : struct
         {
-            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > NativeBuffer.Description.SizeInBytes)
+            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > SizeInBytes)
                 throw new ArgumentOutOfRangeException(string.Format("The offset by \"{0}\" plus the byte length described by \"{1}\" is over the bounds of the buffer.", "offsetInBytes", "elementCount"));
 
             var buffer = this.NativeBuffer;

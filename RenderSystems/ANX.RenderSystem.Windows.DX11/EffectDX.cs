@@ -86,13 +86,6 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
 		#endregion
 
-		#region Apply
-		public void Apply(GraphicsDevice graphicsDevice)
-		{
-			((GraphicsDeviceDX)graphicsDevice.NativeDevice).currentEffect = this;
-		}
-		#endregion
-
 		#region CompileFXShader
 		public static byte[] CompileFXShader(string effectCode, string directory = "")
 		{

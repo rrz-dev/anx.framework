@@ -290,7 +290,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         {
             if (BuildCache.IsValid(buildItem, outputFilename))
             {
-                BuildLogger.LogMessage("---\"{0}\" still valid, skipping build.", buildItem.SourceFilename);
                 return true;
             }
             return false;

@@ -16,7 +16,6 @@ namespace ANX.Framework.Graphics
     public class GraphicsDevice : IDisposable
     {
         #region Private Members
-        private IndexBuffer indexBuffer;
         private SamplerStateCollection samplerStateCollection;
         private Viewport viewport;
         private BlendState blendState;
@@ -116,11 +115,9 @@ namespace ANX.Framework.Graphics
             NativeDevice.Present();
         }
 
-        public void Present(Nullable<Rectangle> sourceRectangle, Nullable<Rectangle> destinationRectangle,
-            WindowHandle overrideWindowHandle)
+        public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, WindowHandle overrideWindowHandle)
         {
-            //TODO: implement
-            throw new NotImplementedException();
+            NativeDevice.Present(sourceRectangle, destinationRectangle, overrideWindowHandle);
         }
 
         #endregion // Present
@@ -128,12 +125,7 @@ namespace ANX.Framework.Graphics
         #region DrawPrimitives & DrawIndexedPrimitives
         public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount)
         {
-            if (this.indexBuffer == null)
-            {
-                throw new InvalidOperationException("you have to set a index buffer before you can draw using DrawIndexedPrimitives");
-            }
-
-            NativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount, this.indexBuffer);
+            NativeDevice.DrawIndexedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex, primitiveCount);
         }
 
         public void DrawPrimitives(PrimitiveType primitiveType, int startVertex, int primitiveCount)
@@ -147,7 +139,7 @@ namespace ANX.Framework.Graphics
             int startIndex, int primitiveCount, int instanceCount)
         {
             NativeDevice.DrawInstancedPrimitives(primitiveType, baseVertex, minVertexIndex, numVertices, startIndex,
-                primitiveCount, instanceCount, this.indexBuffer);
+                primitiveCount, instanceCount);
         }
         #endregion
 
@@ -403,11 +395,11 @@ namespace ANX.Framework.Graphics
         {
             get
             {
-                return this.indexBuffer;
+                return this.NativeDevice.IndexBuffer;
             }
             set
             {
-                this.indexBuffer = value;
+                this.NativeDevice.IndexBuffer = value;
             }
         }
 
@@ -648,9 +640,6 @@ namespace ANX.Framework.Graphics
 
                 raise_ResourceCreated(this, new ResourceCreatedEventArgs(NativeDevice));
                 GraphicsResourceTracker.Instance.UpdateGraphicsDeviceReference(this);
-
-                if (this.indexBuffer != null)
-                    NativeDevice.SetIndexBuffer(this.indexBuffer);
 
                 if (this.currentVertexBufferBindings != null)
                     NativeDevice.SetVertexBuffers(this.currentVertexBufferBindings);

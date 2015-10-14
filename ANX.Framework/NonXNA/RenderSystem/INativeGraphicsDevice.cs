@@ -13,10 +13,11 @@ namespace ANX.Framework.NonXNA
 
 		void Present();
 
-		void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer);
+        void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, WindowHandle overrideWindowHandle);
 
-		void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount, int instanceCount, IndexBuffer indexBuffer);
+		void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount);
+
+		void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, int instanceCount);
 
 		void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
 			Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
@@ -33,7 +34,7 @@ namespace ANX.Framework.NonXNA
 
 		void SetVertexBuffers(VertexBufferBinding[] vertexBuffers);
 
-		void SetIndexBuffer(IndexBuffer indexBuffer);
+		IndexBuffer IndexBuffer { get; set; }
 
 		void SetViewport(Viewport viewport);
 

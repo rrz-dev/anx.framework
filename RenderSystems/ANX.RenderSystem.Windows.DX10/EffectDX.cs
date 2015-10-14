@@ -26,32 +26,17 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region Public
 		internal Dx10.Effect NativeEffect { get; private set; }
 
-		public IEnumerable<EffectTechnique> Techniques
-		{
-			get
-			{
-				for (int i = 0; i < NativeEffect.Description.TechniqueCount; i++)
-				{
-					var teqDx10 = new EffectTechnique_DX10(managedEffect, NativeEffect.GetTechniqueByIndex(i));
-					yield return new EffectTechnique(this.managedEffect, teqDx10);
-				}
-			}
-		}
+        public IEnumerable<EffectTechnique> Techniques
+        {
+            get;
+            private set;
+        }
 
-		public IEnumerable<EffectParameter> Parameters
-		{
-			get
-			{
-                for (int i = 0; i < NativeEffect.Description.GlobalVariableCount; i++)
-                {
-                    var parDx10 = new EffectParameter_DX10
-                    {
-                        NativeParameter = NativeEffect.GetVariableByIndex(i)
-                    };
-                    yield return new EffectParameter(parDx10);
-                }
-			}
-		}
+        public IEnumerable<EffectParameter> Parameters
+        {
+            get;
+            private set;
+        }
 		#endregion
 
 		#region Constructor
@@ -61,6 +46,8 @@ namespace ANX.RenderSystem.Windows.DX10
 			var device = ((GraphicsDeviceDX)graphicsDevice.NativeDevice).NativeDevice;
 			vertexShader = new Dx10.VertexShader(device, GetByteCode(vertexShaderStream));
 			pixelShader = new Dx10.PixelShader(device, GetByteCode(pixelShaderStream));
+
+            this.BufferNativeData();
         }
 
 		public EffectDX(GraphicsDevice graphicsDevice, Effect managedEffect, Stream effectStream)
@@ -76,21 +63,35 @@ namespace ANX.RenderSystem.Windows.DX10
             {
                 System.Diagnostics.Debugger.Break();
             }
+
+            this.BufferNativeData();
         }
 		#endregion
+
+        private void BufferNativeData()
+        {
+            var description = NativeEffect.Description;
+
+            var techniques = new EffectTechnique[description.TechniqueCount];
+            for (int i = 0; i < techniques.Length; i++)
+            {
+                techniques[i] = new EffectTechnique(this.managedEffect, new EffectTechnique_DX10(managedEffect, NativeEffect.GetTechniqueByIndex(i)));
+            }
+            this.Techniques = techniques;
+
+            var parameters = new EffectParameter[description.GlobalVariableCount];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                parameters[i] = new EffectParameter(new EffectParameter_DX10(NativeEffect.GetVariableByIndex(i)));
+            }
+            this.Parameters = parameters;
+        }
 
 		#region GetCurrentTechnique
 		public EffectTechnique_DX10 GetCurrentTechnique()
 		{
 			return managedEffect.CurrentTechnique.NativeTechnique as EffectTechnique_DX10;
 		}
-		#endregion
-
-		#region Apply
-		public void Apply(GraphicsDevice graphicsDevice)
-        {
-            ((GraphicsDeviceDX)graphicsDevice.NativeDevice).currentEffect = this;
-        }
 		#endregion
 
 		#region CompileFXShader
@@ -103,15 +104,30 @@ namespace ANX.RenderSystem.Windows.DX10
 		#region Dispose
 		public void Dispose()
 		{
-			SafeDispose(pixelShader);
-			pixelShader = null;
-
-			SafeDispose(vertexShader);
-			vertexShader = null;
-
-			SafeDispose(NativeEffect);
-			NativeEffect = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
 		}
+
+        protected virtual void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                SafeDispose(pixelShader);
+                pixelShader = null;
+
+                SafeDispose(vertexShader);
+                vertexShader = null;
+
+                SafeDispose(NativeEffect);
+                NativeEffect = null;
+
+                foreach (var technique in this.Techniques)
+                    technique.NativeTechnique.Dispose();
+
+                foreach (var parameter in this.Parameters)
+                    parameter.NativeParameter.Dispose();
+            }
+        }
 
 		private void SafeDispose(IDisposable disposable)
 		{

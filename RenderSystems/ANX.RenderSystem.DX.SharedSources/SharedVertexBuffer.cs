@@ -52,11 +52,11 @@ namespace ANX.RenderSystem.Windows.DX11
             if (startIndex + elementCount > data.Length)
                 throw new ArgumentOutOfRangeException("startIndex must be smaller than elementCount + data.Length.");
 
-            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > NativeBuffer.Description.SizeInBytes)
+            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > this.SizeInBytes)
                 throw new ArgumentOutOfRangeException(string.Format("The offset by \"{0}\" plus the byte length described by \"{1}\" is over the bounds of the buffer.", "offsetInBytes", "elementCount"));
 
             var buffer = this.NativeBuffer;
-            if (!this.WriteNeedsStaging)
+            if (this.WriteNeedsStaging)
             {
                 buffer = CreateStagingBuffer(ResourceMapping.Write);
             }
@@ -80,7 +80,7 @@ namespace ANX.RenderSystem.Windows.DX11
             }
             finally
             {
-                if (!this.WriteNeedsStaging)
+                if (this.WriteNeedsStaging)
                 {
                     CopySubresource(buffer, this.NativeBuffer);
                     buffer.Dispose();

@@ -10,10 +10,31 @@ namespace ANX.RenderSystem.Windows.DX10
 {
     public abstract class Buffer : IDisposable
     {
-        public Dx.Buffer NativeBuffer { get; protected set; }
+        public Dx.Buffer NativeBuffer
+        {
+            get { return nativeBuffer; }
+            protected set 
+            {
+                if (value != null)
+                    SizeInBytes = value.Description.SizeInBytes;
+                else
+                    SizeInBytes = 0;
+
+                nativeBuffer = value;
+            }
+        }
+
+        private Dx.Buffer nativeBuffer;
+
         private Dx.Device device;
         private BufferUsage usage;
         private bool isDynamic;
+
+        public int SizeInBytes
+        {
+            get;
+            private set;
+        }
 
         protected Buffer(Dx.Device device, BufferUsage usage, bool isDynamic)
         {
@@ -25,6 +46,9 @@ namespace ANX.RenderSystem.Windows.DX10
         protected DataStream MapBuffer(Dx.Buffer buffer, ResourceMapping mapping)
         {
             CheckUsage(mapping);
+
+            if (isDynamic && mapping == ResourceMapping.Write)
+                return buffer.Map(Dx.MapMode.WriteDiscard);
 
             return buffer.Map(mapping.ToMapMode());
         }
@@ -59,7 +83,7 @@ namespace ANX.RenderSystem.Windows.DX10
             var description = new Dx.BufferDescription()
             {
                 Usage = Dx.ResourceUsage.Staging,
-                SizeInBytes = NativeBuffer.Description.SizeInBytes,
+                SizeInBytes = this.SizeInBytes,
                 CpuAccessFlags = mapping.ToCpuAccessFlags(),
                 OptionFlags = Dx.ResourceOptionFlags.None
             };

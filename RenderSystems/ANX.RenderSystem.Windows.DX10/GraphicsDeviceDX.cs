@@ -1,5 +1,6 @@
 #region Using Statements
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using ANX.Framework;
 using ANX.Framework.Graphics;
@@ -32,7 +33,7 @@ namespace ANX.RenderSystem.Windows.DX10
         private Dx10.RenderTargetView[] renderTargetView = new RenderTargetView[MAX_RENDER_TARGETS];
         private Dx10.DepthStencilView[] depthStencilView = new DepthStencilView[MAX_RENDER_TARGETS];
         private RenderTarget2D_DX10 backBuffer;
-        internal EffectDX currentEffect;
+        internal EffectPass_DX10 currentPass;
 		#endregion
 
 		#region CreateDevice
@@ -123,186 +124,33 @@ namespace ANX.RenderSystem.Windows.DX10
         {
 			swapChain.Present(VSync ? 1 : 0, PresentFlags.None);
         }
-        #endregion
 
-        #region DrawIndexedPrimitives
-        public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices, int startIndex, int primitiveCount, IndexBuffer indexBuffer)
-		{
-            if (primitiveCount <= 0) throw new ArgumentOutOfRangeException("primitiveCount is less than or equal to zero. When drawing, at least one primitive must be drawn.");
-            if (this.currentVertexBuffer == null || this.currentVertexBufferCount <= 0) throw new InvalidOperationException("you have to set a valid vertex buffer before drawing.");
-
-			Dx10.EffectTechnique technique = SetupEffectForDraw();
-			int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
-
-            nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-
-            if (indexBuffer != null)
-            {
-                SetIndexBuffer(indexBuffer);
-            }
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-			{
-                technique.GetPassByIndex(i).Apply();
-				nativeDevice.DrawIndexed(vertexCount, startIndex, baseVertex);
-			}
-
-            nativeDevice.InputAssembler.InputLayout.Dispose();
-            nativeDevice.InputAssembler.InputLayout = null;
-		}
-		#endregion
-
-		#region DrawPrimitives
-		public void DrawPrimitives(PrimitiveType primitiveType, int vertexOffset, int primitiveCount)
-		{
-			Dx10.EffectTechnique technique = SetupEffectForDraw();
-            int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
-
-			nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-			{
-				technique.GetPassByIndex(i).Apply();
-				nativeDevice.Draw(vertexCount, vertexOffset);
-            }
-
-			nativeDevice.InputAssembler.InputLayout.Dispose();
-			nativeDevice.InputAssembler.InputLayout = null;
+        public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, WindowHandle overrideWindowHandle)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
-        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
+        private void SetupDraw(PrimitiveType primitiveType)
         {
-            Dx10.EffectTechnique technique = SetupEffectForDraw();
-            int vertexCount = DxFormatConverter.CalculateVertexCount(primitiveType, primitiveCount);
+            var inputLayout = this.inputLayoutManager.GetInputLayout(NativeDevice, currentPass.Signature, this.currentVertexBuffer);
 
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-
-            if (indexBuffer != null)
+            if (currentInputLayout != inputLayout)
             {
-                SetIndexBuffer(indexBuffer);
-            }
-
-            for (int i = 0; i < technique.Description.PassCount; ++i)
-            {
-                technique.GetPassByIndex(i).Apply();
-                nativeDevice.DrawIndexedInstanced(vertexCount, instanceCount, startIndex, baseVertex, 0);
-            }
-
-            nativeDevice.InputAssembler.InputLayout.Dispose();
-            nativeDevice.InputAssembler.InputLayout = null;
-        }
-
-        public void DrawUserIndexedPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int numVertices,
-			Array indexData, int indexOffset, int primitiveCount, VertexDeclaration vertexDeclaration,
-			IndexElementSize indexFormat) where T : struct, IVertexType
-        {
-            int vertexCount = vertexData.Length;
-            int indexCount = indexData.Length;
-
-            using (var vertexBuffer = new DynamicVertexBuffer(vertexDeclaration.GraphicsDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly))
-            using (var indexBuffer = new DynamicIndexBuffer(vertexDeclaration.GraphicsDevice, indexFormat, indexCount, BufferUsage.WriteOnly))
-            {
-                vertexBuffer.SetData(vertexData);
-                this.SetVertexBuffers(new[] { new Framework.Graphics.VertexBufferBinding(vertexBuffer, vertexOffset) });
-
-                if (indexData.GetType() == typeof(Int16[]))
-                {
-                    indexBuffer.SetData<short>((short[])indexData);
-                }
-                else
-                {
-                    indexBuffer.SetData<int>((int[])indexData);
-                }
-
-                DrawIndexedPrimitives(primitiveType, 0, vertexOffset, numVertices, indexOffset, primitiveCount, indexBuffer);
+                nativeDevice.InputAssembler.InputLayout = this.inputLayoutManager.GetInputLayout(NativeDevice, currentPass.Signature, this.currentVertexBuffer);
+                currentInputLayout = inputLayout;
             }
         }
-
-        public void DrawUserPrimitives<T>(PrimitiveType primitiveType, T[] vertexData, int vertexOffset, int primitiveCount, VertexDeclaration vertexDeclaration) where T : struct, IVertexType
-        {
-            int vertexCount = vertexData.Length;
-            //TODO: use a shared vertexBuffer, instead of creating one on every call.
-            using (DxVertexBuffer vb10 = new DxVertexBuffer(nativeDevice, vertexDeclaration, vertexCount, BufferUsage.WriteOnly, dynamic: true))
-            {
-                vb10.SetData<T>(vertexData);
-
-                Dx10.VertexBufferBinding nativeVertexBufferBindings = new Dx10.VertexBufferBinding(vb10.NativeBuffer, vertexDeclaration.VertexStride, 0);
-
-                nativeDevice.InputAssembler.SetVertexBuffers(0, nativeVertexBufferBindings);
-
-                //TODO: check for currentEffect null and throw exception
-                // TODO: check for null's and throw exceptions
-                // TODO: get the correct pass index!
-                var technique = currentEffect.GetCurrentTechnique().NativeTechnique;
-                var pass = technique.GetPassByIndex(0);
-                var layout = CreateInputLayout(nativeDevice, pass.Description.Signature, vertexDeclaration);
-
-                nativeDevice.InputAssembler.InputLayout = layout;
-                // Prepare All the stages
-                nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
-
-                for (int i = 0; i < technique.Description.PassCount; ++i)
-                {
-                    technique.GetPassByIndex(i).Apply();
-                    nativeDevice.Draw(vertexCount, vertexOffset);
-                }
-
-                nativeDevice.InputAssembler.InputLayout.Dispose();
-                nativeDevice.InputAssembler.InputLayout = null;
-            }
-        }
-
-		private Dx10.EffectTechnique SetupEffectForDraw()
-        {
-			//TODO: check for currentEffect null and throw exception
-            // TODO: check for null's and throw exceptions
-			// TODO: get the correct pass index!
-			var technique = currentEffect.GetCurrentTechnique().NativeTechnique;
-			var pass = technique.GetPassByIndex(0);
-			SetupInputLayout(pass.Description.Signature);
-
-			return technique;
-        }
-
-		#region SetupInputLayout
-        private InputLayout SetupInputLayout(ShaderBytecode passSignature)
-        {
-            // get the VertexDeclaration from current VertexBuffer to create input layout for the input assembler
-            var layout = CreateInputLayout(nativeDevice, passSignature, currentVertexBuffer);
-
-            nativeDevice.InputAssembler.InputLayout = layout;
-            return layout;
-        }
-		#endregion
-		
-		#region SetIndexBuffer
-        public void SetIndexBuffer(IndexBuffer indexBuffer)
-        {
-            if (indexBuffer == null)
-                throw new ArgumentNullException("indexBuffer");
-
-            this.currentIndexBuffer = indexBuffer;
-
-            DxIndexBuffer nativeIndexBuffer = indexBuffer.NativeIndexBuffer as DxIndexBuffer;
-
-            if (nativeIndexBuffer != null)
-            {
-				nativeDevice.InputAssembler.SetIndexBuffer(nativeIndexBuffer.NativeBuffer, DxFormatConverter.Translate(indexBuffer.IndexElementSize), 0);
-            }
-            else
-            {
-                throw new Exception("couldn't fetch native DirectX10 IndexBuffer");
-            }
-        }
-		#endregion
 
 		#region SetVertexBuffers
         public void SetVertexBuffers(ANX.Framework.Graphics.VertexBufferBinding[] vertexBuffers)
         {
             if (vertexBuffers == null)
                 throw new ArgumentNullException("vertexBuffers");
+
+            if (this.currentVertexBuffer.SequenceEqual(vertexBuffers))
+                return;
 
             this.currentVertexBufferCount = vertexBuffers.Length;
 
@@ -346,67 +194,6 @@ namespace ANX.RenderSystem.Windows.DX10
         protected void SetViewport(params SharpDX.Viewport[] viewports)
         {
             nativeDevice.Rasterizer.SetViewports(viewports);
-        }
-        #endregion
-
-        #region CreateInputLayout
-        /// <summary>
-        /// This method creates a InputLayout which is needed by DirectX 10 for rendering primitives.
-        /// The VertexDeclaration of ANX/XNA needs to be mapped to the DirectX 10 types.
-        /// </summary>
-        private Dx10.InputLayout CreateInputLayout(Dx10.Device device, ShaderBytecode passSignature, params VertexDeclaration[] vertexDeclaration)
-        {
-            if (device == null) throw new ArgumentNullException("device");
-            if (passSignature == null) throw new ArgumentNullException("passSignature");
-            if (vertexDeclaration == null) throw new ArgumentNullException("vertexDeclaration");
-
-            //TODO: try to get rid of the list
-            List<InputElement> inputElements = new List<InputElement>();
-            foreach (VertexDeclaration decl in vertexDeclaration)
-            {
-                foreach (VertexElement vertexElement in decl.GetVertexElements())
-                {
-                    inputElements.Add(CreateInputElementFromVertexElement(vertexElement, 0));
-                }
-            }
-
-			return new Dx10.InputLayout(device, passSignature, inputElements.ToArray());
-		}
-
-        private Dx10.InputLayout CreateInputLayout(Dx10.Device device, ShaderBytecode passSignature, params ANX.Framework.Graphics.VertexBufferBinding[] vertexBufferBindings)
-        {
-            if (device == null) throw new ArgumentNullException("device");
-            if (passSignature == null) throw new ArgumentNullException("passSignature");
-            if (vertexBufferBindings == null) throw new ArgumentNullException("vertexBufferBindings");
-
-            //TODO: try to get rid of the list
-            List<InputElement> inputElements = new List<InputElement>();
-            int slot = 0;
-            foreach (ANX.Framework.Graphics.VertexBufferBinding binding in vertexBufferBindings)
-            {
-                foreach (VertexElement vertexElement in binding.VertexBuffer.VertexDeclaration.GetVertexElements())
-                {
-                    inputElements.Add(CreateInputElementFromVertexElement(vertexElement, binding.InstanceFrequency, slot));
-                }
-                slot++;
-            }
-
-            // Layout from VertexShader input signature
-            return new InputLayout(device, passSignature, inputElements.ToArray());
-        }
-		#endregion
-
-		#region CreateInputElementFromVertexElement
-        private InputElement CreateInputElementFromVertexElement(VertexElement vertexElement, int slot)
-        {
-            return CreateInputElementFromVertexElement(vertexElement, 0, slot);
-        }
-
-        private InputElement CreateInputElementFromVertexElement(VertexElement vertexElement, int instanceFrequency, int slot)
-        {
-            string elementName = DxFormatConverter.Translate(ref vertexElement);
-            Format elementFormat = DxFormatConverter.ConvertVertexElementFormat(vertexElement.VertexElementFormat);
-            return new InputElement(elementName, vertexElement.UsageIndex, elementFormat, vertexElement.Offset, slot, instanceFrequency == 0 ? InputClassification.PerVertexData : InputClassification.PerInstanceData, instanceFrequency);
         }
         #endregion
 
@@ -483,21 +270,6 @@ namespace ANX.RenderSystem.Windows.DX10
                 backBuffer = null;
             }
 		}
-
-		#region Dispose
-		public void Dispose()
-        {
-            if (swapChain != null)
-            {
-				DisposeBackBuffer();
-
-                swapChain.Dispose();
-                swapChain = null;
-            }
-
-            //TODO: dispose everything else
-		}
-		#endregion
 
         internal Dx10.Device NativeDevice
         {

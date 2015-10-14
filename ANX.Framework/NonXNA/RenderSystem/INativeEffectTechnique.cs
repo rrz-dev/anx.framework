@@ -11,7 +11,7 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA
 {
-    public interface INativeEffectTechnique
+    public interface INativeEffectTechnique : IDisposable
     {
         string Name { get; }
         IEnumerable<EffectPass> Passes { get; }

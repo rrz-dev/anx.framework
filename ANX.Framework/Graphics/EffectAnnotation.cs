@@ -13,81 +13,85 @@ namespace ANX.Framework.Graphics
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class EffectAnnotation
     {
-        private readonly INativeEffectAnnotation nativeAnnotation;
+        internal INativeEffectAnnotation NativeAnnotation
+        {
+            get;
+            private set;
+        }
 
 		public int ColumnCount
 		{
-			get { return nativeAnnotation.ColumnCount; }
+			get { return NativeAnnotation.ColumnCount; }
 		}
 
 		public string Name
 		{
-			get { return nativeAnnotation.Name; }
+			get { return NativeAnnotation.Name; }
 		}
 
 		public EffectParameterClass ParameterClass
 		{
-			get { return nativeAnnotation.ParameterClass; }
+			get { return NativeAnnotation.ParameterClass; }
 		}
 
 		public EffectParameterType ParameterType
 		{
-			get { return nativeAnnotation.ParameterType; }
+			get { return NativeAnnotation.ParameterType; }
 		}
 
 		public int RowCount
 		{
-			get { return nativeAnnotation.RowCount; }
+			get { return NativeAnnotation.RowCount; }
 		}
 
 		public string Semantic
 		{
-			get { return nativeAnnotation.Semantic; }
+			get { return NativeAnnotation.Semantic; }
 		}
 
         internal EffectAnnotation(INativeEffectAnnotation setNativeAnnotation)
         {
-            nativeAnnotation = setNativeAnnotation;
+            NativeAnnotation = setNativeAnnotation;
         }
 
         public bool GetValueBoolean()
         {
-            return nativeAnnotation.GetValueBoolean();
+            return NativeAnnotation.GetValueBoolean();
         }
 
         public int GetValueInt32()
         {
-            return nativeAnnotation.GetValueInt32();
+            return NativeAnnotation.GetValueInt32();
         }
 
         public Matrix GetValueMatrix()
         {
-            return nativeAnnotation.GetValueMatrix();
+            return NativeAnnotation.GetValueMatrix();
         }
 
         public float GetValueSingle()
         {
-            return nativeAnnotation.GetValueSingle();
+            return NativeAnnotation.GetValueSingle();
         }
 
         public string GetValueString()
         {
-            return nativeAnnotation.GetValueString();
+            return NativeAnnotation.GetValueString();
         }
 
         public Vector2 GetValueVector2()
         {
-            return nativeAnnotation.GetValueVector2();
+            return NativeAnnotation.GetValueVector2();
         }
 
         public Vector3 GetValueVector3()
         {
-            return nativeAnnotation.GetValueVector3();
+            return NativeAnnotation.GetValueVector3();
         }
 
         public Vector4 GetValueVector4()
         {
-            return nativeAnnotation.GetValueVector4();
+            return NativeAnnotation.GetValueVector4();
         }
     }
 }

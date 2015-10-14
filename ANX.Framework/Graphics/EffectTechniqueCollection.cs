@@ -21,8 +21,6 @@ namespace ANX.Framework.Graphics
     public sealed class EffectTechniqueCollection : IEnumerable<EffectTechnique>, IEnumerable
     {
         #region Private Members
-        private Effect parentEffect;
-        private INativeEffect nativeEffect;
         private List<EffectTechnique> techniques;
 
         #endregion // Private Members
@@ -42,16 +40,9 @@ namespace ANX.Framework.Graphics
             get { return techniques.Count; }
         }
 
-        internal EffectTechniqueCollection(Effect parentEffect, INativeEffect nativeEffect)
+        internal EffectTechniqueCollection(IEnumerable<EffectTechnique> techniques)
         {
-            this.parentEffect = parentEffect;
-            this.nativeEffect = nativeEffect;
-            this.techniques = new List<EffectTechnique>();
-
-            foreach (EffectTechnique teq in nativeEffect.Techniques)
-            {
-                this.techniques.Add(teq);
-            }
+            this.techniques = new List<EffectTechnique>(techniques);
         }
 
 		IEnumerator<EffectTechnique> IEnumerable<EffectTechnique>.GetEnumerator()

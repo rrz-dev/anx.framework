@@ -35,9 +35,9 @@ namespace ANX.Framework.Graphics
             get { return annotations.FirstOrDefault(annotation => annotation.Name == name); }
         }
 
-        internal EffectAnnotationCollection(List<EffectAnnotation> setAnnotations)
+        internal EffectAnnotationCollection(IEnumerable<EffectAnnotation> setAnnotations)
         {
-            annotations = setAnnotations ?? new List<EffectAnnotation>();
+            annotations = new List<EffectAnnotation>(setAnnotations);
         }
 
         IEnumerator<EffectAnnotation> IEnumerable<EffectAnnotation>.GetEnumerator()

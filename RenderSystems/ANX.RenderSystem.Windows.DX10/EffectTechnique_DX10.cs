@@ -17,6 +17,7 @@ namespace ANX.RenderSystem.Windows.DX10
 	public class EffectTechnique_DX10 : INativeEffectTechnique
 	{
 		private readonly Effect parentEffect;
+        private readonly EffectPass[] effectPasses;
 
 		public EffectTechnique_DX10(Effect parentEffect, Dx10.EffectTechnique nativeTechnique)
 		{
@@ -27,34 +28,71 @@ namespace ANX.RenderSystem.Windows.DX10
 
 			this.parentEffect = parentEffect;
 			NativeTechnique = nativeTechnique;
+
+            var description = NativeTechnique.Description;
+
+            this.Name = description.Name;
+
+            var passCounts = description.PassCount;
+            this.effectPasses = new EffectPass[passCounts];
+
+            for (int i = 0; i < passCounts; i++)
+            {
+                this.effectPasses[i] = new EffectPass(new EffectPass_DX10(this.parentEffect, NativeTechnique.GetPassByIndex(i)));
+            }
+            
+            var annotationCount = description.AnnotationCount;
+            var annotations = new EffectAnnotation[annotationCount];
+            for (int i = 0; i < annotationCount; i++)
+                annotations[i] = new EffectAnnotation(new DxEffectAnnotation(nativeTechnique.GetAnnotationByIndex(i)));
+
+            this.Annotations = new EffectAnnotationCollection(annotations);
 		}
 
-        public Dx10.EffectTechnique NativeTechnique { get; protected set; }
-        
+        public Dx10.EffectTechnique NativeTechnique { get; private set; }
+
         public string Name
-		{
-			get
-			{
-				return NativeTechnique.Description.Name;
-			}
-		}
+        {
+            get;
+            private set;
+        }
 
 		public IEnumerable<EffectPass> Passes
 		{
 			get
 			{
-				for (int i = 0; i < NativeTechnique.Description.PassCount; i++)
-				{
-					var passDx10 = new EffectPass_DX10(NativeTechnique.GetPassByIndex(i));
-					// TODO: wire up native pass and managed pass?
-					yield return new EffectPass(this.parentEffect);
-				}
+                return this.effectPasses;
 			}
 		}
 
         public EffectAnnotationCollection Annotations
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
-	}
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                if (NativeTechnique != null)
+                {
+                    NativeTechnique.Dispose();
+                    NativeTechnique = null;
+                }
+
+                foreach (var pass in this.effectPasses)
+                    pass.NativeEffectPass.Dispose();
+
+                foreach (var annotation in this.Annotations)
+                    annotation.NativeAnnotation.Dispose();
+            }
+        }
+    }
 }

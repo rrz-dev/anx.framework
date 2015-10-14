@@ -13,8 +13,6 @@ namespace ANX.Framework.NonXNA
 {
     public interface INativeEffect : IDisposable
     {
-        void Apply(GraphicsDevice graphicsDevice);
-
         IEnumerable<EffectTechnique> Techniques { get; }
         
         IEnumerable<EffectParameter> Parameters { get; }

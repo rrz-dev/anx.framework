@@ -73,6 +73,9 @@
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\BufferHelper.cs">
       <Link>BufferHelper.cs</Link>
     </Compile>
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\InputLayoutManager.cs">
+      <Link>InputLayoutManager.cs</Link>
+    </Compile>
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\ResourceMapping.cs">
       <Link>ResourceMapping.cs</Link>
     </Compile>
