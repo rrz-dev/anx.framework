@@ -45,7 +45,8 @@ namespace ANX.RenderSystem.Windows.DX10
 
         protected DataStream MapBuffer(Dx.Buffer buffer, ResourceMapping mapping)
         {
-            CheckUsage(mapping);
+            if ((mapping & ResourceMapping.Read) != 0 && usage == BufferUsage.WriteOnly)
+                throw new NotSupportedException("Resource was created with WriteOnly, reading from it is not supported.");
 
             if (isDynamic && mapping == ResourceMapping.Write)
                 return buffer.Map(Dx.MapMode.WriteDiscard);
@@ -70,16 +71,8 @@ namespace ANX.RenderSystem.Windows.DX10
             get { return !isDynamic; }
         }
 
-        private void CheckUsage(ResourceMapping mapping)
-        {
-            if ((mapping & ResourceMapping.Write) != 0 && usage == BufferUsage.None)
-                throw new NotSupportedException("Resource was created with WriteOnly, reading from it is not supported.");
-        }
-
         protected Dx.Buffer CreateStagingBuffer(ResourceMapping mapping)
         {
-            CheckUsage(mapping);
-
             var description = new Dx.BufferDescription()
             {
                 Usage = Dx.ResourceUsage.Staging,
