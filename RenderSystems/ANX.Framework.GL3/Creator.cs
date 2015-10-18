@@ -123,6 +123,12 @@ namespace ANX.RenderSystem.GL3
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new IndexBufferGL3(managedBuffer, size, indexCount, usage);
 		}
+
+        public INativeIndexBuffer CreateDynamicIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            return new IndexBufferGL3(managedBuffer, size, indexCount, usage);
+        }
 		#endregion
 
 		#region CreateVertexBuffer
@@ -143,6 +149,13 @@ namespace ANX.RenderSystem.GL3
 			return new VertexBufferGL3(managedBuffer, vertexDeclaration, vertexCount,
 				usage);
 		}
+
+        public INativeVertexBuffer CreateDynamicVertexBuffer(GraphicsDevice graphics, DynamicVertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            return new VertexBufferGL3(managedBuffer, vertexDeclaration, vertexCount,
+                usage);
+        }
 		#endregion
 
 #if XNAEXT
@@ -331,5 +344,6 @@ namespace ANX.RenderSystem.GL3
 			//GL.Uniform1(UniformIndex, 1, ref unitIndex);
 		}
 		#endregion
-	}
+
+    }
 }

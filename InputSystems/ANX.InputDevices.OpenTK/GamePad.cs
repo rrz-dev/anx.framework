@@ -2,6 +2,7 @@ using System;
 using ANX.Framework;
 using ANX.Framework.Input;
 using ANX.Framework.NonXNA;
+using Input = OpenTK.Input;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -18,7 +19,7 @@ namespace ANX.InputDevices.OpenTK
 
         public GamePadState GetState(PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            return Input.GamePad.GetState((int)playerIndex).ToAnx();
         }
 
         public GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZoneMode)
@@ -28,7 +29,7 @@ namespace ANX.InputDevices.OpenTK
 
         public bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
-            throw new NotImplementedException();
+            return Input.GamePad.SetVibration((int)playerIndex, leftMotor, rightMotor);
         }
     }
 }

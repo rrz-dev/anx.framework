@@ -31,11 +31,11 @@ namespace WindowsGame1
             }
             cbRenderSystem.SelectedItem = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>().Name;
 
-            foreach (IInputSystemCreator inputSystemCreator in AddInSystemFactory.Instance.GetAvailableCreators<IInputSystemCreator>())
+            foreach (var providerName in InputDeviceFactory.Instance.Providers.Select((x) => x.Key))
             {
-                cbInputSystem.Items.Add(inputSystemCreator.Name);
+                cbInputSystem.Items.Add(providerName);
             }
-            cbInputSystem.SelectedItem = AddInSystemFactory.Instance.GetDefaultCreator<IInputSystemCreator>().Name;
+            cbInputSystem.SelectedItem = InputDeviceFactory.Instance.Providers.Select((x) => x.Key).First();
 
             foreach (ISoundSystemCreator soundSystemCreator in AddInSystemFactory.Instance.GetAvailableCreators<ISoundSystemCreator>())
             {

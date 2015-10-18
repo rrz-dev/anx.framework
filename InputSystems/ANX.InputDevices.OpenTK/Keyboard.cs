@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.NonXNA;
+using Input = OpenTK.Input;
 
 #endregion // Using Statements
 
@@ -23,12 +24,12 @@ namespace ANX.InputDevices.OpenTK
 
         public Framework.Input.KeyboardState GetState()
         {
-            throw new NotImplementedException();
+            return Input.Keyboard.GetState().ToAnx();
         }
 
         public Framework.Input.KeyboardState GetState(Framework.PlayerIndex playerIndex)
         {
-            throw new NotImplementedException();
+            return Input.Keyboard.GetState((int)playerIndex).ToAnx();
         }
 
         public void Dispose()

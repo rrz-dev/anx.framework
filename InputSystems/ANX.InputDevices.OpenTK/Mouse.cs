@@ -1,6 +1,7 @@
 using System;
 using ANX.Framework.Input;
 using ANX.Framework.NonXNA;
+using Input = OpenTK.Input;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.

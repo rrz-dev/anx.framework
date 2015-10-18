@@ -20,7 +20,7 @@ namespace WindowsGame1
             {
                 AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, selector.cbRenderSystem.Text);
                 AddInSystemFactory.Instance.SetPreferredSystem(AddInType.SoundSystem, selector.cbAudioSystem.Text);
-                AddInSystemFactory.Instance.SetPreferredSystem(AddInType.InputSystem, selector.cbInputSystem.Text);
+                InputDeviceFactory.Instance.PrefferedProvider = selector.cbInputSystem.Text;
 
                 using (Game1 game = new Game1())
                 {

@@ -9,6 +9,9 @@ namespace ANX.Framework.NonXNA.InputSystem
 	public interface IInputDeviceCreator
 	{
 		string Name { get; }
+
+        string Provider { get; }
+
 		int Priority { get; }
 	}
 

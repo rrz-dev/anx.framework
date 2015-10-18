@@ -25,6 +25,7 @@ namespace ANX.RenderSystem.GL3
 		private GraphicsContext nativeContext;
 		private IWindowInfo nativeWindowInfo;
 		private GraphicsMode graphicsMode;
+        private IndexBuffer currentIndexBuffer;
 
 		private int cachedVersionMinor = -1;
 		private int cachedVersionMajor = -1;
@@ -243,17 +244,17 @@ namespace ANX.RenderSystem.GL3
 				nativeContext.SwapBuffers();
 			}
 		}
+
+        public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, WindowHandle overrideWindowHandle)
+        {
+            throw new NotImplementedException();
+        }
 		#endregion
 
 		#region DrawIndexedPrimitives
 		public void DrawIndexedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex, int numVertices,
-			int startIndex, int primitiveCount, IndexBuffer indexBuffer)
+			int startIndex, int primitiveCount)
         {
-            if (indexBuffer != null)
-            {
-                SetIndexBuffer(indexBuffer);
-            }
-
 			// TODO: baseVertex, minVertexIndex, numVertices, startIndex
 			DrawElementsType elementsType = boundIndexBuffer.elementSize == IndexElementSize.SixteenBits ?
 				DrawElementsType.UnsignedShort :
@@ -270,13 +271,8 @@ namespace ANX.RenderSystem.GL3
 		#region DrawInstancedPrimitives (TODO)
 		public void DrawInstancedPrimitives(PrimitiveType primitiveType,
 				int baseVertex, int minVertexIndex, int numVertices, int startIndex,
-				int primitiveCount, int instanceCount, IndexBuffer indexBuffer)
+				int primitiveCount, int instanceCount)
         {
-            if (indexBuffer != null)
-            {
-                SetIndexBuffer(indexBuffer);
-            }
-
 			//GL.DrawArraysInstanced(
 			//  DatatypesMapping.PrimitiveTypeToBeginMode(primitiveType),
 			//  baseVertex, numVertices, instanceCount);
@@ -344,7 +340,6 @@ namespace ANX.RenderSystem.GL3
 #endif
 		#endregion
 
-		#region SetVertexBuffers
 		public void SetVertexBuffers(VertexBufferBinding[] vertexBuffers)
 		{
 			boundVertexBuffers = new VertexBufferGL3[vertexBuffers.Length];
@@ -355,16 +350,22 @@ namespace ANX.RenderSystem.GL3
 				nativeBuffer.Bind(activeEffect);
 			}
 		}
-		#endregion
 
-		#region SetIndexBuffer
-		public void SetIndexBuffer(IndexBuffer indexBuffer)
-		{
-			boundIndexBuffer = (IndexBufferGL3)indexBuffer.NativeIndexBuffer;
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, boundIndexBuffer.BufferHandle);
-			ErrorHelper.Check("BindBuffer");
-		}
-		#endregion
+        public IndexBuffer IndexBuffer
+        {
+            get
+            {
+                return this.currentIndexBuffer;
+            }
+            set
+            {
+                boundIndexBuffer = (IndexBufferGL3)value.NativeIndexBuffer;
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, boundIndexBuffer.BufferHandle);
+                ErrorHelper.Check("BindBuffer");
+
+                this.currentIndexBuffer = value;
+            }
+        }
 
 		#region ResizeRenderWindow
 		private void ResizeRenderWindow(PresentationParameters presentationParameters)
@@ -473,5 +474,5 @@ namespace ANX.RenderSystem.GL3
 			}
 		}
 		#endregion
-	}
+    }
 }

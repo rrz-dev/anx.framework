@@ -27,6 +27,7 @@ namespace ANX.Framework.NonXNA
 		private static AddInSystemFactory instance;
 		private bool initialized;
 		private Dictionary<AddInType, AddInTypeCollection> addInSystems;
+        private AssemblyLoader assemblyLoader;
 		#endregion
 
 		#region Public
@@ -65,15 +66,15 @@ namespace ANX.Framework.NonXNA
 
 			initialized = true;
 			Logger.Info("[ANX] Initializing ANX.Framework AddInSystemFactory...");
+            assemblyLoader = new AssemblyLoader();
 			CreateAllAddIns();
 			SortAddIns();
 		}
 		#endregion
 
-		#region CreateAllAddIns
 		private void CreateAllAddIns()
 		{
-			foreach (Type creatorType in AssemblyLoader.CreatorTypes)
+            foreach (Type creatorType in assemblyLoader.CreatorTypes)
 			{
 				Type matchingSupportedPlatformsType = FindSupportedPlatformsTypeByNamespace(creatorType);
 				if (matchingSupportedPlatformsType == null)
@@ -89,29 +90,24 @@ namespace ANX.Framework.NonXNA
 				    Logger.Info("[ANX] skipped loading file because it is not supported or not a valid AddIn.");
 			}
 		}
-		#endregion
 
-		#region FindSupportedPlatformsTypeByNamespace
 		private Type FindSupportedPlatformsTypeByNamespace(Type creatorType)
 		{
-			foreach (Type spType in AssemblyLoader.SupportedPlatformsTypes)
+            foreach (Type spType in assemblyLoader.SupportedPlatformsTypes)
 				if (spType.Namespace == creatorType.Namespace)
 					return spType;
 			
 			return null;
 		}
-		#endregion
 
-		#region FindSupportedPlatformsTypeByAssembly
 		private Type FindSupportedPlatformsTypeByAssembly(Type creatorType)
 		{
-			foreach (Type spType in AssemblyLoader.SupportedPlatformsTypes)
+            foreach (Type spType in assemblyLoader.SupportedPlatformsTypes)
 				if (TypeHelper.GetAssemblyFrom(spType) == TypeHelper.GetAssemblyFrom(creatorType))
 					return spType;
 
 			return null;
 		}
-		#endregion
 
 		#region AddCreator
 		internal void AddCreator(ICreator creator)

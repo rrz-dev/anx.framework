@@ -26,5 +26,11 @@ namespace ANX.InputDevices.Test
 		{
 			get { return 99; }
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "Test"; }
+        }
+    }
 }

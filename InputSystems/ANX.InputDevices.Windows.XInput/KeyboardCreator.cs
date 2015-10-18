@@ -17,7 +17,7 @@ namespace ANX.InputDevices.Windows.XInput
 		{
 			get
 			{
-				return "DirectInput.DXKeyboard";
+				return "XInput.Keyboard";
 			}
 		}
 
@@ -33,5 +33,11 @@ namespace ANX.InputDevices.Windows.XInput
 		{
 			return new Keyboard();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "XInput"; }
+        }
+    }
 }

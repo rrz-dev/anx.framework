@@ -31,7 +31,7 @@ namespace ANX.RenderSystem.GL3
 		/// </summary>
 		private EffectPass pass;
 
-		private Effect parentEffect;
+        private EffectGL3 parentEffect;
 		#endregion
 
 		#region Public
@@ -52,13 +52,18 @@ namespace ANX.RenderSystem.GL3
         {
             get { throw new NotImplementedException(); }
         }
+
+        public EffectGL3 Parent
+        {
+            get { return parentEffect; }
+        }
 		#endregion
 
 		#region Constructor
 		/// <summary>
 		/// Create a ne effect technique object.
 		/// </summary>
-		internal EffectTechniqueGL3(Effect setParentEffect, string setName, int setProgramHandle)
+		internal EffectTechniqueGL3(EffectGL3 setParentEffect, string setName, int setProgramHandle)
 		{
 			parentEffect = setParentEffect;
 			Name = setName;
@@ -66,7 +71,7 @@ namespace ANX.RenderSystem.GL3
 
 			GetAttributes();
 
-			pass = new EffectPass(parentEffect);
+			pass = new EffectPass(new EffectPassGL3(this));
 		}
 		#endregion
 
@@ -83,5 +88,10 @@ namespace ANX.RenderSystem.GL3
 			}
 		}
 		#endregion
-	}
+
+        public void Dispose()
+        {
+            
+        }
+    }
 }

@@ -597,5 +597,10 @@ namespace ANX.RenderSystem.GL3
 		}
 		#endregion
 		#endregion
-	}
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

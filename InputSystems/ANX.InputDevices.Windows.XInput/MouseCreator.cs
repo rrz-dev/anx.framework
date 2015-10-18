@@ -17,7 +17,7 @@ namespace ANX.InputDevices.Windows.XInput
 		{
 			get
 			{
-				return "DirectInput.Mouse";
+				return "XInput.Mouse";
 			}
 		}
 
@@ -33,5 +33,11 @@ namespace ANX.InputDevices.Windows.XInput
 		{
 			return new Mouse();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "XInput"; }
+        }
+    }
 }
