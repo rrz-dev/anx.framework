@@ -278,7 +278,20 @@ namespace ANX.Framework.VisualStudio.Nodes
 
                                         foreach (var referenceEntry in allReferences)
                                         {
-                                            if (referenceEntry.AssemblyName != null && referenceEntry.AssemblyName.FullName == assemblyName.FullName && File.Exists(referenceEntry.Url))
+                                            if (referenceEntry.AssemblyName == null || !File.Exists(referenceEntry.Url))
+                                                continue;
+
+                                            //Strong assembly name, try to do an exact match for these.
+                                            //If it hasn't a strong name, just match assemblies with the same name and don't care about the version.
+                                            if (referenceEntry.AssemblyName.GetPublicKey() != null)
+                                            {
+                                                if (referenceEntry.AssemblyName.FullName == assemblyName.FullName)
+                                                {
+                                                    assemblyIdentifier = referenceEntry.Url;
+                                                    break;
+                                                }
+                                            }
+                                            else if (referenceEntry.AssemblyName.Name == assemblyName.Name)
                                             {
                                                 assemblyIdentifier = referenceEntry.Url;
                                                 break;
@@ -291,15 +304,23 @@ namespace ANX.Framework.VisualStudio.Nodes
 
                                 assemblyNamesAndPaths[name] = path;
                             }
-
-                            var callback = new LoadAssembliesCallback(this);
-                            buildDomain.Proxy.LoadProjectAssemblies(assemblyNamesAndPaths.Values, buildDomain.SearchPaths, buildDomain.Redirects, callback.ErrorCallback);
                         }
                         catch (Exception exc)
                         {
                             Debugger.Break();
                             Console.WriteLine(exc.Message);
                         }
+                    }
+
+                    try
+                    {
+                        var callback = new LoadAssembliesCallback(this);
+                        buildDomain.Proxy.LoadProjectAssemblies(assemblyNamesAndPaths.Values, buildDomain.SearchPaths, buildDomain.Redirects, callback.ErrorCallback);
+                    }
+                    catch (Exception exc)
+                    {
+                        Debugger.Break();
+                        Console.WriteLine(exc.Message);
                     }
                 }
             });
