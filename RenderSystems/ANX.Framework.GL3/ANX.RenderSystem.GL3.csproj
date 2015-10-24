@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BlendStateGL3.cs" />
     <Compile Include="Creator.cs" />
+    <Compile Include="GraphicsAdapterGL3.cs" />
     <Compile Include="Helpers\DatatypesMapping.cs" />
     <Compile Include="DepthStencilStateGL3.cs" />
     <Compile Include="EffectGL3.cs" />

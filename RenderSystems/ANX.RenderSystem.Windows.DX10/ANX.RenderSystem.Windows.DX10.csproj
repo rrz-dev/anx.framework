@@ -66,6 +66,9 @@
     <Compile Include="..\ANX.RenderSystem.DX.SharedSources\ResourceMapping.cs">
       <Link>ResourceMapping.cs</Link>
     </Compile>
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedGraphicsAdapter.cs">
+      <Link>SharedGraphicsAdapter.cs</Link>
+    </Compile>
     <Compile Include="BlendState_DX10.cs" />
     <Compile Include="Buffer.cs" />
     <Compile Include="Creator.cs" />

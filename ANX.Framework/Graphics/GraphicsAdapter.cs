@@ -11,12 +11,25 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.Framework.Graphics
 {
-    [PercentageComplete(50)]
-    [Developer("Glatzemann")]
+    [PercentageComplete(100)]
+    [Developer("Glatzemann, KorsarNek")]
     [TestState(TestStateAttribute.TestState.Untested)]
     public sealed class GraphicsAdapter
     {
-        public static ReadOnlyCollection<GraphicsAdapter> Adapters { get; private set; }
+        private static ReadOnlyCollection<GraphicsAdapter> _adapters;
+
+        public static ReadOnlyCollection<GraphicsAdapter> Adapters
+        {
+            get
+            {
+                if (_adapters == null)
+                {
+                    var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+                    _adapters = new ReadOnlyCollection<GraphicsAdapter>(creator.GetAdapterList().Select((x) => new GraphicsAdapter(x)).ToArray());
+                }
+                return _adapters;
+            }
+        }
 
         public static GraphicsAdapter DefaultAdapter
         {
@@ -24,49 +37,100 @@ namespace ANX.Framework.Graphics
         }
 
         public static bool UseNullDevice { get; set; }
-		public static bool UseReferenceDevice { get; set; }
-		public int DeviceId { get; set; }
-		public string DeviceName { get; set; }
-		public bool IsDefaultAdapter { get; set; }
-		public int Revision { get; set; }
-		public int SubSystemId { get; set; }
-		public int VendorId { get; set; }
-        public string Description { get; set; }
-		public DisplayMode CurrentDisplayMode { get; set; }
-        public DisplayModeCollection SupportedDisplayModes { get; set; }
-		public IntPtr MonitorHandle { get; set; }
+        public static bool UseReferenceDevice { get; set; }
 
-		public bool IsWideScreen
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+        private INativeGraphicsAdapter nativeAdapter;
 
-        static GraphicsAdapter()
-		{
-			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			Adapters = new ReadOnlyCollection<GraphicsAdapter>(creator.GetAdapterList());
+        #region Public
+        public int DeviceId
+        {
+            get { return nativeAdapter.DeviceId; }
+        }
+
+        public string DeviceName
+        {
+            get { return nativeAdapter.DeviceName; }
+        }
+
+        public bool IsDefaultAdapter
+        {
+            get { return nativeAdapter.IsDefaultAdapter; }
+        }
+
+        public int Revision
+        {
+            get { return nativeAdapter.Revision; }
+        }
+
+        public int SubSystemId
+        {
+            get { return nativeAdapter.SubSystemId; }
+        }
+
+        public int VendorId
+        {
+            get { return nativeAdapter.VendorId; }
+        }
+
+        public string Description
+        {
+            get { return nativeAdapter.Description; }
+        }
+
+        public DisplayMode CurrentDisplayMode
+        {
+            get { return nativeAdapter.CurrentDisplayMode; }
+        }
+
+        public DisplayModeCollection SupportedDisplayModes
+        {
+            get { return nativeAdapter.SupportedDisplayModes; }
+        }
+
+        public IntPtr MonitorHandle
+        {
+            get { return nativeAdapter.MonitorHandle; }
+        }
+
+        public bool IsWideScreen
+        {
+            get
+            {
+                return this.CurrentDisplayMode.AspectRatio > (16 / 10);
+            }
+        }
+        #endregion
+
+        internal INativeGraphicsAdapter NativeAdapter
+        {
+            get { return nativeAdapter; }
+        }
+
+        internal GraphicsAdapter(INativeGraphicsAdapter nativeAdapter)
+        {
+            if (nativeAdapter == null)
+                throw new ArgumentNullException("nativeAdapter");
+
+            this.nativeAdapter = nativeAdapter;
         }
 
         public bool IsProfileSupported(GraphicsProfile graphicsProfile)
         {
-            throw new NotImplementedException();
+            return nativeAdapter.IsProfileSupported(graphicsProfile);
         }
 
         public bool QueryBackBufferFormat(GraphicsProfile graphicsProfile, SurfaceFormat format, DepthFormat depthFormat,
-			int multiSampleCount, out SurfaceFormat selectedFormat, out DepthFormat selectedDepthFormat,
-			out int selectedMultiSampleCount)
+            int multiSampleCount, out SurfaceFormat selectedFormat, out DepthFormat selectedDepthFormat,
+            out int selectedMultiSampleCount)
         {
-            throw new NotImplementedException();
+            return nativeAdapter.QueryBackBufferFormat(graphicsProfile, format, depthFormat, multiSampleCount, out selectedFormat, out selectedDepthFormat, out selectedMultiSampleCount);
         }
 
         public bool QueryRenderTargetFormat(GraphicsProfile graphicsProfile, SurfaceFormat format, DepthFormat depthFormat,
-			int multiSampleCount, out SurfaceFormat selectedFormat, out DepthFormat selectedDepthFormat,
-			out int selectedMultiSampleCount)
+            int multiSampleCount, out SurfaceFormat selectedFormat, out DepthFormat selectedDepthFormat,
+            out int selectedMultiSampleCount)
         {
-            throw new NotImplementedException();
+            return nativeAdapter.QueryRenderTargetFormat(graphicsProfile, format, depthFormat, multiSampleCount, out selectedFormat, out selectedDepthFormat, out selectedMultiSampleCount);
         }
     }
 }
