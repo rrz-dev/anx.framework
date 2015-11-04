@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -59,6 +60,31 @@ namespace ANX.Framework.Content.Pipeline.Helpers
             types.Add(typeName, type);
 
             return type;
+        }
+
+        public static object ConvertFromInvariantString(object value, Type type)
+        {
+            if (value != null)
+            {
+                if (type == value.GetType())
+                    return value;
+
+                if (value.GetType() == typeof(string))
+                    if (type.IsEnum)
+                        return Enum.Parse(type, (string)value);
+                    else
+                        return TypeDescriptor.GetConverter(type).ConvertFromInvariantString((string)value);
+            }
+
+            return null;
+        }
+        
+        public static string ConvertToInvariantString(object value)
+        {
+            if (value == null)
+                return null;
+
+            return TypeDescriptor.GetConverter(value).ConvertToInvariantString(value);
         }
     }
 }

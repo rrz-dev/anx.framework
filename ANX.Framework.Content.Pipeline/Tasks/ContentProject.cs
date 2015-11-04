@@ -194,7 +194,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         writer.WriteStartAttribute("Name");
                         writer.WriteValue(pair.Key);
                         writer.WriteEndAttribute();
-                        writer.WriteValue(pair.Value);
+                        writer.WriteValue(TypeDescriptor.GetConverter(pair.Value).ConvertToInvariantString(pair.Value));
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();

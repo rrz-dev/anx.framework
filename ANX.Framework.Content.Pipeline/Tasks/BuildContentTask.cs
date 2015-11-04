@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Diagnostics;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
@@ -142,7 +143,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             return Execute(new [] { item }).First();
         }
 
-        public CompiledBuildItem[] Execute(IEnumerable<BuildItem> itemsToBuild, bool throwExceptions = false)
+        public CompiledBuildItem[] Execute(IEnumerable<BuildItem> itemsToBuild)
         {
             if (itemsToBuild == null)
                 throw new ArgumentNullException("itemsToBuild");
@@ -160,25 +161,39 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 ContentProcessorContext processorContext;
                 PrepareAssetBuildCallback(this, buildItem, out importerContext, out processorContext);
 
+                if (string.IsNullOrEmpty(buildItem.ProcessorName))
+                    throw new ArgumentNullException(string.Format("Asset \"{0}\" has no processor.", buildItem.AssetName));
+
+                //Has to be done before the cache is checked to make it has all the data it needs.
+                if (string.IsNullOrEmpty(buildItem.ImporterName))
+                    buildItem.ImporterName = this.ImporterManager.GuessImporterByFileExtension(Path.GetExtension(buildItem.SourceFilename));
+
+                foreach (var parameter in this.ProcessorManager.GetProcessorParameters(buildItem.ProcessorName))
+                {
+                    if (!buildItem.ProcessorParameters.ContainsKey(parameter.PropertyName))
+                        buildItem.ProcessorParameters.Add(parameter.PropertyName, parameter.DefaultValue);
+                    else
+                    {
+                        //Make sure the value is of the type it should be.
+                        buildItem.ProcessorParameters[parameter.PropertyName] = TypeHelper.ConvertFromInvariantString(buildItem.ProcessorParameters[parameter.PropertyName], TypeHelper.GetType(parameter.PropertyType));
+                    }
+                }
+
                 Uri outputFilename = new Uri(processorContext.OutputFilename, UriKind.Absolute);
                 if (BuildCache != null)
                 {
-                    if (throwExceptions)
+                    try
                     {
-                        if (CheckIsValid(buildItem, outputFilename))
+                        if (BuildCache.IsValid(buildItem, outputFilename))
+                        {
+                            result.Add(new CompiledBuildItem(null, buildItem, outputFilename.LocalPath, true));
                             continue;
+                        }
                     }
-                    else
+                    catch (Exception exc)
                     {
-                        try
-                        {
-                            if (CheckIsValid(buildItem, outputFilename))
-                                continue;
-                        }
-                        catch (Exception exc)
-                        {
-                            BuildLogger.LogWarning(null, new ContentIdentity() { SourceTool = "BuildCache" }, exc.Message);
-                        }
+                        BuildLogger.LogWarning(null, new ContentIdentity() { SourceTool = "BuildCache" }, exc.Message);
+                        Debugger.Break();
                     }
                 }
 
@@ -187,20 +202,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 object importedObject = null;
                 CompiledBuildItem compiled = null;
 
-                if (throwExceptions)
+                try
                 {
                     importedObject = ImportAsset(buildItem, absoluteFilename, importerContext);
                 }
-                else
+                catch (Exception exc)
                 {
-                    try
-                    {
-                        importedObject = ImportAsset(buildItem, absoluteFilename, importerContext);
-                    }
-                    catch (Exception exc)
-                    {
-                        LogException(exc, absoluteFilename);
-                    }
+                    LogException(exc, absoluteFilename);
+                    Debugger.Break();
                 }
 
                 if (importedObject != null)
@@ -216,20 +225,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
                     object compiledItem = null;
 
-                    if (throwExceptions)
+                    try
                     {
                         compiledItem = Process(buildItem, absoluteFilename, importedObject, processorContext);
                     }
-                    else
+                    catch (Exception exc)
                     {
-                        try
-                        {
-                            compiledItem = Process(buildItem, absoluteFilename, importedObject, processorContext);
-                        }
-                        catch (Exception exc)
-                        {
-                            LogException(exc, absoluteFilename);
-                        }
+                        LogException(exc, absoluteFilename);
+                        Debugger.Break();
                     }
 
                     if (compiledItem != null)
@@ -243,6 +246,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         catch (Exception exc)
                         {
                             LogException(exc, absoluteFilename);
+                            Debugger.Break();
                         }
                     }
                 }
@@ -260,20 +264,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
                     if (BuildCache != null)
                     {
-                        if (throwExceptions)
+                        try
                         {
                             BuildCache.Refresh(compiled.OriginalBuildItem, outputFilename);
                         }
-                        else
+                        catch (Exception exc)
                         {
-                            try
-                            {
-                                BuildCache.Refresh(compiled.OriginalBuildItem, outputFilename);
-                            }
-                            catch (Exception exc)
-                            {
-                                BuildLogger.LogWarning(null, new ContentIdentity() { SourceTool = "BuildCache" }, exc.Message);
-                            }
+                            BuildLogger.LogWarning(null, new ContentIdentity() { SourceTool = "BuildCache" }, exc.Message);
+                            Debugger.Break();
                         }
                     }
                 }
@@ -284,15 +282,6 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             }
 
             return result.ToArray();
-        }
-
-        private bool CheckIsValid(BuildItem buildItem, Uri outputFilename)
-        {
-            if (BuildCache.IsValid(buildItem, outputFilename))
-            {
-                return true;
-            }
-            return false;
         }
 
         private string MakeAbsolute(string filename)
@@ -310,13 +299,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         private object ImportAsset(BuildItem item, string absoluteFilename, ContentImporterContext context)
         {
-            string importerName = item.ImporterName;
-            if (string.IsNullOrEmpty(importerName))
-            {
-                importerName = ImporterManager.GuessImporterByFileExtension(Path.GetExtension(item.SourceFilename));
-            }
-
-            IContentImporter importer = this.ImporterManager.GetInstance(importerName);
+            IContentImporter importer = this.ImporterManager.GetInstance(item.ImporterName);
             buildLogger.LogMessage("importing {0} with importer {1}", item.SourceFilename.ToString(), importer.GetType());
 
             object result = importer.Import(absoluteFilename, context);
@@ -326,7 +309,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 var identity = new ContentIdentity();
                 identity.SourceFilename = absoluteFilename;
 
-                buildLogger.LogWarning("", identity, "importer \"{0}\" didn't return a value.", importerName);
+                buildLogger.LogWarning("", identity, "importer \"{0}\" didn't return a value.", item.ImporterName);
             }
 
             return result;
@@ -334,37 +317,30 @@ namespace ANX.Framework.Content.Pipeline.Tasks
 
         private object Process(BuildItem item, string absoluteFilename, object importedObject, ContentProcessorContext context)
         {
-            if (String.IsNullOrEmpty(item.ProcessorName) == false)
+            IContentProcessor instance = this.ProcessorManager.GetInstance(item.ProcessorName);
+            SetProcessorParameters(instance, item.ProcessorParameters);
+
+            buildLogger.LogMessage("building with processor {0}", instance.GetType());
+
+            if (!instance.InputType.IsAssignableFrom(importedObject.GetType()))
             {
-                IContentProcessor instance = this.ProcessorManager.GetInstance(item.ProcessorName);
-                SetProcessorParameters(instance, item.ProcessorParameters);
-
-                buildLogger.LogMessage("building with processor {0}", instance.GetType());
-
-                if (!instance.InputType.IsAssignableFrom(importedObject.GetType()))
+                ContentIdentity identity = null;
+                if (importedObject is ContentItem)
                 {
-                    ContentIdentity identity = null;
-                    if (importedObject is ContentItem)
-                    {
-                        identity = ((ContentItem)importedObject).Identity;
-                    }
+                    identity = ((ContentItem)importedObject).Identity;
+                }
                     
-                    if (identity == null)
-                    {
-                        identity = new ContentIdentity();
-                        identity.SourceFilename = absoluteFilename;
-                    }
-
-                    buildLogger.LogWarning("", identity, "The input type of the processor \"{0}\" is not assignable from the output type of the importer \"{1}\".", item.ProcessorName, item.ImporterName);
-                    return null;
+                if (identity == null)
+                {
+                    identity = new ContentIdentity();
+                    identity.SourceFilename = absoluteFilename;
                 }
 
-                return instance.Process(importedObject, context);
+                buildLogger.LogWarning("", identity, "The input type of the processor \"{0}\" is not assignable from the output type of the importer \"{1}\".", item.ProcessorName, item.ImporterName);
+                return null;
             }
-            else
-            {
-                return importedObject;
-            }
+
+            return instance.Process(importedObject, context);
         }
 
         private void SerializeAsset(BuildItem item, object assetData, string outputDirectory, string outputFilename)

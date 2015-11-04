@@ -82,6 +82,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
             if (sourceAsset == null)
                 throw new ArgumentNullException("sourceAsset");
 
+            if (string.IsNullOrEmpty(sourceAsset.Filename))
+                throw new ArgumentNullException("sourceAsset.Filename");
+
             var buildItem = new BuildItem()
             {
                 AssetName = Path.GetFileNameWithoutExtension(sourceAsset.Filename),
@@ -109,6 +112,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
         {
             if (sourceAsset == null)
                 throw new ArgumentNullException("sourceAsset");
+
+            if (string.IsNullOrEmpty(sourceAsset.Filename))
+                throw new ArgumentNullException("sourceAsset.Filename");
 
             var buildItem = new BuildItem()
             {

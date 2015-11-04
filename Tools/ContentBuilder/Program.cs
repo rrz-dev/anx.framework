@@ -272,10 +272,17 @@ namespace ContentBuilder
                 buildContentTask.TargetPlatform = platform;
                 buildContentTask.BaseDirectory = new Uri(currentDirectory, UriKind.Absolute);
 
-                buildContentTask.PrepareAssetBuildCallback = (BuildContentTask sender, BuildItem item, out ContentImporterContext importerContext, out ContentProcessorContext processorContext) =>
+                buildContentTask.PrepareAssetBuildCallback = (BuildContentTask task, BuildItem item, out ContentImporterContext importerContext, out ContentProcessorContext processorContext) =>
                 {
-                    importerContext = new DefaultContentImporterContext(sender.BuildLogger, intermediateDirectory, outputDirectory);
-                    processorContext = new DefaultContentProcessorContext(sender, configurationName, intermediateDirectory, outputDirectory, BuildHelper.GetOutputFileName(outputDirectory, item));
+                    if (String.IsNullOrEmpty(item.AssetName))
+                        item.AssetName = Path.GetFileNameWithoutExtension(item.SourceFilename);
+
+                    //Make sure the path is always relative (if possible); is important for the cache.
+                    if (Path.IsPathRooted(item.SourceFilename) && item.SourceFilename.StartsWith(currentDirectory))
+                        item.SourceFilename = item.SourceFilename.Substring(currentDirectory.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+                    importerContext = new DefaultContentImporterContext(task.BuildLogger, intermediateDirectory, outputDirectory);
+                    processorContext = new DefaultContentProcessorContext(task, configurationName, intermediateDirectory, outputDirectory, BuildHelper.GetOutputFileName(outputDirectory, currentDirectory, item));
                 };
 
 
@@ -314,7 +321,7 @@ namespace ContentBuilder
                     buildContentTask.BuildLogger.LogMessage("Starting up to date check.");
 
                     foreach (var buildItem in itemsToBuild)
-                        if (!buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(outputDirectory, buildItem))))
+                        if (!buildCache.IsValid(buildItem, new Uri(BuildHelper.GetOutputFileName(outputDirectory, currentDirectory, buildItem))))
                         {
                             buildContentTask.BuildLogger.LogMessage("{0} is not up to date.", buildItem.SourceFilename);
                             Exit(ExitCode.NotUpToDate);
@@ -338,20 +345,14 @@ namespace ContentBuilder
                 if (!string.IsNullOrWhiteSpace(intermediateDirectory) && !Directory.Exists(intermediateDirectory))
                     Directory.CreateDirectory(intermediateDirectory);
 
-                if (debug)
+                try
                 {
-                    buildContentTask.Execute(itemsToBuild, debug);
+                    buildContentTask.Execute(itemsToBuild);
                 }
-                else
+                catch (Exception exc)
                 {
-                    try
-                    {
-                        buildContentTask.Execute(itemsToBuild, debug);
-                    }
-                    catch (Exception exc)
-                    {
-                        buildContentTask.BuildLogger.LogWarning(null, null, exc.Message + "\n" + exc.StackTrace);
-                    }
+                    buildContentTask.BuildLogger.LogWarning(null, null, exc.Message + "\n" + exc.StackTrace);
+                    Debugger.Break();
                 }
 
                 try

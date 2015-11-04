@@ -9,6 +9,7 @@ using System.Xml;
 using ANX.Framework.Content.Pipeline.Serialization;
 using System.Diagnostics;
 using System.Globalization;
+using ANX.Framework.Content.Pipeline.Helpers;
 
 namespace ANX.Framework.Content.Pipeline.Tasks
 {
@@ -71,19 +72,19 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                 data.outputWriteTime = new DateTime(long.Parse(assetContentNode.InnerText, CultureInfo.InvariantCulture), DateTimeKind.Utc);
                                 break;
                             case "ImporterType":
-                                data.importerType = Type.GetType(assetContentNode.InnerText, false);
+                                data.importerType = TypeHelper.GetType(assetContentNode.InnerText);
                                 break;
                             case "ImporterAssemblyWriteTime":
                                 data.importerAssemblyWriteTime = new DateTime(long.Parse(assetContentNode.InnerText, CultureInfo.InvariantCulture), DateTimeKind.Utc);
                                 break;
                             case "ProcessorType":
-                                data.processorType = Type.GetType(assetContentNode.InnerText, false);
+                                data.processorType = TypeHelper.GetType(assetContentNode.InnerText);
                                 break;
                             case "ProcessorAssemblyWriteTime":
                                 data.processorAssemblyWriteTime = new DateTime(long.Parse(assetContentNode.InnerText, CultureInfo.InvariantCulture), DateTimeKind.Utc);
                                 break;
                             case "CompilerType":
-                                data.compilerType = Type.GetType(assetContentNode.InnerText, false);
+                                data.compilerType = TypeHelper.GetType(assetContentNode.InnerText);
                                 break;
                             case "CompilerAssemblyWriteTime":
                                 data.compilerAssemblyWriteTime = new DateTime(long.Parse(assetContentNode.InnerText, CultureInfo.InvariantCulture), DateTimeKind.Utc);
@@ -92,9 +93,10 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                                 foreach (var paramNode in assetContentNode.ChildNodes.GetAsEnumerable())
                                 {
                                     string paramName = paramNode.Attributes["Key"].Value;
-                                    object paramValue = paramNode.InnerText;
-
-                                    data.processorParameters.Add(paramName, paramValue);
+                                    if (paramNode.Attributes["IsNull"] != null && paramNode.Attributes["IsNull"].InnerText == "true")
+                                        data.processorParameters.Add(paramName, null);
+                                    else
+                                        data.processorParameters.Add(paramName, paramNode.InnerText);
                                 }
                                 break;
                         }
@@ -154,14 +156,17 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                         writer.WriteStartElement("Param");
                         writer.WriteAttributeString("Key", parameterPair.Key);
 
-                        try
-                        {
-                            writer.WriteValue(parameterPair.Value);
-                        }
-                        catch (Exception exc)
-                        {
-                            Trace.WriteLine(string.Format("Error while writing build.cache at processor parameter \"{0}\" for asset \"{1}\": {2}", parameterPair.Key, pair.Key.OriginalString, exc.Message));
-                        }
+                        if (parameterPair.Value == null)
+                            writer.WriteAttributeString("IsNull", "true");
+                        else
+                            try
+                            {
+                                writer.WriteValue(parameterPair.Value);
+                            }
+                            catch (Exception exc)
+                            {
+                                Trace.WriteLine(string.Format("Error while writing build.cache at processor parameter \"{0}\" for asset \"{1}\": {2}", parameterPair.Key, pair.Key.OriginalString, exc.Message));
+                            }
 
                         writer.WriteEndElement();
                     }
@@ -204,9 +209,9 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 //the extension should immediatly try to save the importer, same for the processor.
                 //For additional meta data, we check the write time of the assemblies that contain the used importer and processor. When a dependant assembly changes,
                 //the referencing assembly will have to relink and therefore the write time should change.
-                if (importerType == null || data.importerType != importerType)
+                if (data.importerType != importerType)
                     return false;
-                else
+                else if (importerType != null)
                 {
                     if (!string.IsNullOrEmpty(importerType.Assembly.Location))
                         if (File.GetLastWriteTimeUtc(importerType.Assembly.Location) != data.importerAssemblyWriteTime)
@@ -243,8 +248,14 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 string[] keys = buildItem.ProcessorParameters.Keys.ToArray();
                 for (int i = 0; i < keys.Length; i++)
                 {
-                    string key = keys[i];
-                    if (!data.processorParameters[key].Equals(buildItem.ProcessorParameters[key]))
+                    var key = keys[i];
+
+                    object cachedValue;
+                    if (!data.processorParameters.TryGetValue(key, out cachedValue))
+                        return false;
+
+                    var value = buildItem.ProcessorParameters[key];
+                    if (!string.Equals(cachedValue, TypeHelper.ConvertToInvariantString(value)))
                         return false;
                 }
 
@@ -294,7 +305,7 @@ namespace ANX.Framework.Content.Pipeline.Tasks
                 }
             }
 
-            data.processorParameters.AddRange(buildItem.ProcessorParameters);
+            data.processorParameters.AddRange(buildItem.ProcessorParameters.Select((x) => new KeyValuePair<string,object>(x.Key, TypeHelper.ConvertToInvariantString(x.Value))));
 
             this.cacheData[new Uri(buildItem.SourceFilename, UriKind.RelativeOrAbsolute)] = data;
         }
