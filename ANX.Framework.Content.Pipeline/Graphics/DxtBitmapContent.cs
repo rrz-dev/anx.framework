@@ -1,4 +1,5 @@
 ﻿#region Using Statements
+using ANX.Framework.Graphics.PackedVector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,6 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     {
         private int _blockSize;
         private byte[] _pixelData;
-
-        protected DxtBitmapContent(int blockSize)
-        {
-            //TODO: set _pixelData
-            _blockSize = blockSize;
-        }
 
         protected DxtBitmapContent(int blockSize, int width, int height)
             : base(width, height)

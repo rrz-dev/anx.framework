@@ -48,7 +48,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
             dependencies = new List<Type>();
 
-            ContentTypeWriter contentTypeWriter;
+            ContentTypeWriter contentTypeWriter = null;
             if (!this.writerInstances.TryGetValue(type, out contentTypeWriter))
             {
                 if (type.IsGenericType)
@@ -69,10 +69,6 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
                         }
                     }
                 }
-                else
-                {
-                    contentTypeWriter = default(ContentTypeWriter);
-                }
 
                 if (contentTypeWriter == null)
                 {
@@ -85,13 +81,14 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
                         contentTypeWriter = Activator.CreateInstance(typeof(ArrayWriter<>).MakeGenericType(new Type[] { type.GetElementType() })) as ContentTypeWriter;
                     }
-
-                    if (type.IsEnum)
+                    else if (type.IsEnum)
                     {
                         contentTypeWriter = Activator.CreateInstance(typeof(EnumWriter<>).MakeGenericType(new Type[] { type.GetElementType() })) as ContentTypeWriter;
                     }
-
-                    //TODO: return new ReflectiveWriter(type);
+                    else
+                    {
+                       contentTypeWriter = new ReflectiveWriter(type);
+                    }
                 }
 
                 if (contentTypeWriter != null)
