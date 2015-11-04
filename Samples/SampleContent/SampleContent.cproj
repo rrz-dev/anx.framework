@@ -92,11 +92,6 @@
       <OutputPath>bin\Xbox 360\Release</OutputPath>
       <CompressContent>false</CompressContent>
     </Configuration>
-    <Configuration Name="Debug" Platform="0">
-      <Profile>Reach</Profile>
-      <OutputPath>bin\Debug</OutputPath>
-      <CompressContent>false</CompressContent>
-    </Configuration>
   </Configurations>
   <References>
     <AssemblyReference Name="ANX.Framework.Content.Pipeline.Assimp">..\..\bin\Debug\ANX.Framework.Content.Pipeline.Assimp.dll</AssemblyReference>
@@ -129,27 +124,40 @@
     </BuildItem>
     <BuildItem AssetName="ANX_vertex_color" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\ANX_vertex_color.fbx</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="TextureFormat">Color</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="Cube" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\Cube.fbx</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="TextureFormat">Color</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="Sphere" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\Sphere.fbx</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="TextureFormat">Color</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="SphereAndCube" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\SphereAndCube.fbx</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="TextureFormat">Color</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="TestGrid1024" Importer="TextureImporter" Processor="TextureProcessor">
       <SourceFile>Models\TestGrid1024.png</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="ColorKeyColor">255; 0; 255; 255</Parameter>
+        <Parameter Name="GenerateMipmaps">True</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="TwoCubes" Importer="AssimpImporter" Processor="ModelProcessor">
       <SourceFile>Models\TwoCubes.fbx</SourceFile>
-      <ProcessorParams />
+      <ProcessorParams>
+        <Parameter Name="TextureFormat">Color</Parameter>
+      </ProcessorParams>
     </BuildItem>
     <BuildItem AssetName="testsound" Importer="WavImporter" Processor="SoundEffectProcessor">
       <SourceFile>Sounds\testsound.wav</SourceFile>
