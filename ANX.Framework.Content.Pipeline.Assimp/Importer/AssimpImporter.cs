@@ -298,7 +298,11 @@ namespace ANX.Framework.Content.Pipeline
                 if (string.IsNullOrEmpty(texture.FilePath))
                     continue;
 
-                material.Textures.Add(System.IO.Path.GetFileNameWithoutExtension(texture.FilePath) + " " + texture.TextureIndex, new ExternalReference<TextureContent>(texture.FilePath));
+                var sourcePath = new Uri(texture.FilePath, UriKind.RelativeOrAbsolute);
+                if (!sourcePath.IsAbsoluteUri)
+                    sourcePath = new Uri(new Uri(this.identity.SourceFilename, UriKind.Absolute), sourcePath);
+                    
+                material.Textures.Add(Path.GetFileNameWithoutExtension(texture.FilePath) + " " + texture.TextureIndex, new ExternalReference<TextureContent>(sourcePath.LocalPath));
             }
             
             if (assimpMaterial.HasBlendMode)
