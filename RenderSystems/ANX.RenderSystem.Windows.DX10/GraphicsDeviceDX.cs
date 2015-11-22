@@ -61,7 +61,13 @@ namespace ANX.RenderSystem.Windows.DX10
 #else
             var flags = Dx10.DeviceCreationFlags.None;
 #endif
-			Dx10.Device.CreateWithSwapChain(Dx10.DriverType.Hardware, flags, desc, out nativeDevice, out swapChain);
+            var driverType = Dx10.DriverType.Hardware;
+            if (GraphicsAdapter.UseReferenceDevice)
+                driverType = DriverType.Reference;
+            else if (GraphicsAdapter.UseNullDevice)
+                driverType = DriverType.Null;
+
+            Dx10.Device.CreateWithSwapChain(driverType, flags, desc, out nativeDevice, out swapChain);
 #if DEBUG
             nativeDevice.DebugName = "GraphicsDevice_" + graphicsDeviceCount++;
             swapChain.DebugName = "SwapChain_" + swapChainCount++;
@@ -138,7 +144,7 @@ namespace ANX.RenderSystem.Windows.DX10
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
             if (currentInputLayout != inputLayout)
             {
-                nativeDevice.InputAssembler.InputLayout = this.inputLayoutManager.GetInputLayout(NativeDevice, currentPass.Signature, this.currentVertexBuffer);
+                nativeDevice.InputAssembler.InputLayout = inputLayout;
                 currentInputLayout = inputLayout;
             }
         }

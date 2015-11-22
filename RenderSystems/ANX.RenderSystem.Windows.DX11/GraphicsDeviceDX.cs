@@ -59,8 +59,14 @@ namespace ANX.RenderSystem.Windows.DX11
 #else
             var flags = DeviceCreationFlags.None;
 #endif
+            var driverType = DriverType.Hardware;
+            if (GraphicsAdapter.UseReferenceDevice)
+                driverType = DriverType.Reference;
+            else if (GraphicsAdapter.UseNullDevice)
+                driverType = DriverType.Null;
+
             // http://msdn.microsoft.com/en-us/library/windows/desktop/bb205068(v=vs.85).aspx
-            Device.CreateWithSwapChain(DriverType.Hardware, flags, desc, out dxDevice, out swapChain);
+            Device.CreateWithSwapChain(driverType, flags, desc, out dxDevice, out swapChain);
 
             nativeDevice = dxDevice.ImmediateContext;
 #if DEBUG
@@ -133,7 +139,7 @@ namespace ANX.RenderSystem.Windows.DX11
             nativeDevice.InputAssembler.PrimitiveTopology = DxFormatConverter.Translate(primitiveType);
             if (currentInputLayout != inputLayout)
             {
-                nativeDevice.InputAssembler.InputLayout = this.inputLayoutManager.GetInputLayout(NativeDevice.Device, currentPass.Signature, this.currentVertexBuffer);
+                nativeDevice.InputAssembler.InputLayout = inputLayout;
                 currentInputLayout = inputLayout;
             }
         }

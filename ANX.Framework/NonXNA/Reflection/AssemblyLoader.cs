@@ -79,6 +79,7 @@ namespace ANX.Framework.NonXNA.Reflection
         #region LoadAllAssemblies
         private void LoadAllAssemblies()
         {
+            LoadAssembliesFromMemory();
             LoadAssembliesFromFile();
             LoadAssembliesFromNames();
 
@@ -155,6 +156,17 @@ namespace ANX.Framework.NonXNA.Reflection
                 Assembly loadedAssembly = LoadAssemblyByName(assemblyName);
                 if (loadedAssembly != null && !allAssemblies.Contains(loadedAssembly))
                     allAssemblies.Add(loadedAssembly);
+            }
+        }
+        #endregion
+
+        #region LoadAssembliesFromMemory
+        private void LoadAssembliesFromMemory()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (!IgnoreAssemblies.Contains(assembly.GetName().Name) && !allAssemblies.Contains(assembly))
+                    allAssemblies.Add(assembly);
             }
         }
         #endregion

@@ -57,9 +57,6 @@ namespace ANX.RenderSystem.Windows.DX11
 
         public void SetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
         {
-            int formatSize = DxFormatConverter.FormatSize(this.surfaceFormat);
-            int elementSize = Marshal.SizeOf(typeof(T));
-
             Framework.Rectangle realRect;
             if (rect.HasValue)
                 realRect = rect.Value;
@@ -70,6 +67,10 @@ namespace ANX.RenderSystem.Windows.DX11
                 realRect.Width = this.Width;
                 realRect.Height = this.Height;
             }
+
+            //If we write too much, the graphics driver may break down and we cause a blue screen :(
+            if (SizeInBytes(level, realRect) != data.Length)
+                throw new ArgumentException("Not the correct amount of data to fill the region.");
 
             UpdateSubresource(data, _nativeTexture, level, realRect);
         }
@@ -165,10 +166,18 @@ namespace ANX.RenderSystem.Windows.DX11
             }
         }
 
-        protected int SizeInBytes(int level)
+        protected int SizeInBytes(int level, Framework.Rectangle? rect = null)
         {
-            int mipmapWidth = Math.Max(Width >> level, 1);
-            int mipmapHeight = Math.Max(Height >> level, 1);
+            int width = this.Width;
+            int height = this.Height;
+            if (rect.HasValue)
+            {
+                width = rect.Value.Width;
+                height = rect.Value.Height;
+            }
+
+            int mipmapWidth = Math.Max(width >> level, 1);
+            int mipmapHeight = Math.Max(height >> level, 1);
 
             if (this.IsDxt)
             {

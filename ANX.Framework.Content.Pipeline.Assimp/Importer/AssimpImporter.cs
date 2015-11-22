@@ -48,11 +48,14 @@ namespace ANX.Framework.Content.Pipeline
 
             AssimpDeploy.DeployLibraries();
 
-            Assimp.AssimpContext assimpContext = new AssimpContext();
-            
-            Scene scene = assimpContext.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality | PostProcessSteps.MakeLeftHanded);
-            
-            return ConvertScene(scene);
+            using (Assimp.AssimpContext assimpContext = new AssimpContext())
+            {
+                //Don't use the preset for maximumQuality, on some sytems it causes the graphics driver to break down, which creates a blue screen when we try to draw it :(
+                //Everything works fine with reference device. The blue screen was experienced on a system with a Nvidia GeForce GTX 650.
+                Scene scene = assimpContext.ImportFile(filename, PostProcessPreset.ConvertToLeftHanded | PostProcessSteps.Triangulate | PostProcessSteps.ValidateDataStructure | PostProcessSteps.ImproveCacheLocality | PostProcessSteps.FixInFacingNormals);
+
+                return ConvertScene(scene);
+            }
         }
 
         private NodeContent ConvertScene(Scene scene)

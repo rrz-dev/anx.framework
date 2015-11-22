@@ -32,7 +32,8 @@ namespace ANX.Framework.VisualStudio
             config.PrepareBuild(options, false);
 
             string target = MsBuildTarget.Build;
-            if ((options & (uint)VSConstants.VSStd2KCmdID.Debug) != 0 || (options & 1) != 0)
+            //if ((options & (uint)VSConstants.VSStd2KCmdID.Debug) != 0 || (options & 1) != 0)
+            if ((options & 1) != 0)
                 target = MsBuildTarget.Rebuild;
 
             ((ContentBuildableProjectConfig)buildableConfig).Build(options, pane, target, null);
