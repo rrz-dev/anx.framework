@@ -7,11 +7,13 @@ using ANX.Framework.NonXNA.InputSystem;
 
 namespace ANX.Framework.NonXNA.Reflection
 {
-    internal static class AssemblyLoader
+    internal class AssemblyLoader
     {
         #region Constants
         private static readonly string[] IgnoreAssemblies =
         {
+            "ANX.Framework.dll",
+            "SharpDX.Direct3D11.Effects.dll",
             "OpenTK.dll",
             "OpenTK.GLControl.dll",
             "OpenTK.Compatibility.dll",
@@ -41,50 +43,43 @@ namespace ANX.Framework.NonXNA.Reflection
             "Microsoft.Xna.Framework.Game.dll",
             "Microsoft.Xna.Framework.Content.Pipeline.dll",
             "OggUtils.dll",
-            "OggUtils.dll",
         };
         #endregion
 
         #region Private
-        private static List<Assembly> allAssemblies = new List<Assembly>();
-        private static bool initialized = false;
-        private static List<Type> creatorTypes = new List<Type>();
-        private static List<Type> supportedPlatformsTypes = new List<Type>();
+        private List<Assembly> allAssemblies = new List<Assembly>();
+        private List<Type> creatorTypes = new List<Type>();
+        private List<Type> supportedPlatformsTypes = new List<Type>();
         #endregion
 
         #region Public
-        public static List<Type> CreatorTypes
+        public List<Type> CreatorTypes
         {
             get
             {
-                InitializeIfNotInitializedYet();
                 return creatorTypes;
             }
         }
 
-        public static List<Type> SupportedPlatformsTypes
+        public List<Type> SupportedPlatformsTypes
         {
             get
             {
-                InitializeIfNotInitializedYet();
                 return supportedPlatformsTypes;
             }
         }
         #endregion
 
-        private static void InitializeIfNotInitializedYet()
+        public AssemblyLoader()
         {
-            if (initialized)
-                return;
-
             LoadAllAssemblies();
             SearchForValidAddInTypes();
-            initialized = true;
         }
 
         #region LoadAllAssemblies
-        private static void LoadAllAssemblies()
+        private void LoadAllAssemblies()
         {
+            LoadAssembliesFromMemory();
             LoadAssembliesFromFile();
             LoadAssembliesFromNames();
 
@@ -93,7 +88,7 @@ namespace ANX.Framework.NonXNA.Reflection
             var entryAssembly = Assembly.GetEntryAssembly();
             //Entry assembly could be null if the managed code was called directly from native code without going through a Main entry point.
             //Which would for example happen when the tests are run via NUnit.
-            if (entryAssembly != null)
+            if (entryAssembly != null && !allAssemblies.Contains(entryAssembly))
                 allAssemblies.Add(entryAssembly);
 #else
             // TODO: a lot of testing is required!
@@ -103,7 +98,7 @@ namespace ANX.Framework.NonXNA.Reflection
         #endregion
 
         #region LoadAssembliesFromFile
-        private static void LoadAssembliesFromFile()
+        private void LoadAssembliesFromFile()
         {
 #if !ANDROID && !WINDOWSMETRO
             string executingAssemblyFilepath = Assembly.GetExecutingAssembly().Location;
@@ -118,7 +113,7 @@ namespace ANX.Framework.NonXNA.Reflection
                 bool ignore = false;
                 foreach (string ignoreName in IgnoreAssemblies)
                 {
-                    if (file.EndsWith(ignoreName, StringComparison.InvariantCultureIgnoreCase))
+                    if (Path.GetFileName(file).Equals(ignoreName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         ignore = true;
                         break;
@@ -132,7 +127,8 @@ namespace ANX.Framework.NonXNA.Reflection
                 try
                 {
                     Assembly assembly = Assembly.LoadFrom(file);
-                    allAssemblies.Add(assembly);
+                    if (!allAssemblies.Contains(assembly))
+                        allAssemblies.Add(assembly);
                 }
                 catch
                 {
@@ -143,7 +139,7 @@ namespace ANX.Framework.NonXNA.Reflection
         #endregion
 
         #region LoadAssembliesFromNames
-        private static void LoadAssembliesFromNames()
+        private void LoadAssembliesFromNames()
         {
             List<string> allAssemblyNames = new List<string>();
 
@@ -158,14 +154,25 @@ namespace ANX.Framework.NonXNA.Reflection
             foreach (string assemblyName in allAssemblyNames)
             {
                 Assembly loadedAssembly = LoadAssemblyByName(assemblyName);
-                if (loadedAssembly != null)
+                if (loadedAssembly != null && !allAssemblies.Contains(loadedAssembly))
                     allAssemblies.Add(loadedAssembly);
             }
         }
         #endregion
 
+        #region LoadAssembliesFromMemory
+        private void LoadAssembliesFromMemory()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (!IgnoreAssemblies.Contains(assembly.GetName().Name) && !allAssemblies.Contains(assembly))
+                    allAssemblies.Add(assembly);
+            }
+        }
+        #endregion
+
         #region LoadAssemblyByName
-        private static Assembly LoadAssemblyByName(string assemblyName)
+        private Assembly LoadAssemblyByName(string assemblyName)
         {
             try
             {
@@ -183,7 +190,7 @@ namespace ANX.Framework.NonXNA.Reflection
         #endregion
 
         #region SearchForValidAddInTypes
-        private static void SearchForValidAddInTypes()
+        private void SearchForValidAddInTypes()
         {
             foreach (Assembly assembly in allAssemblies)
                 SearchForValidAddInTypesInAssembly(assembly);
@@ -191,7 +198,7 @@ namespace ANX.Framework.NonXNA.Reflection
         #endregion
 
         #region SearchForValidAddInTypesInAssembly
-        private static void SearchForValidAddInTypesInAssembly(Assembly assembly)
+        private void SearchForValidAddInTypesInAssembly(Assembly assembly)
         {
             var assemblyAttributes = assembly.GetCustomAttributes<SupportedPlatformsAttribute>();
 
@@ -232,11 +239,8 @@ namespace ANX.Framework.NonXNA.Reflection
 
             foreach (Type type in allTypes)
             {
-                //Can happen if we have types that are incompatible with our Runtime version.
-                //TODO: Maybe we should instead throw an error?
-                //Would be a very annoying error to find for someone who uses the code.
                 if (type == null)
-                    continue;
+                    throw new TypeLoadException(string.Format("Can't load a type from {0}, maybe a depdency doesn't exist in the correct version.", assembly.FullName));
 
                 bool isTypeCreatable = TypeHelper.IsAbstract(type) == false && TypeHelper.IsInterface(type) == false;
                 if (isTypeCreatable)

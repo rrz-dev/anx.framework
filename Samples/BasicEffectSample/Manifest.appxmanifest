@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="1bcb5af9-36db-499c-bd2c-4bd66276688d" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="d5497d6e-6c1e-4bc6-a7b6-356c3d726546" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>BasicEffectSample</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

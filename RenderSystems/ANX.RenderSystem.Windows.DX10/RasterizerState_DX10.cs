@@ -18,6 +18,10 @@ namespace ANX.RenderSystem.Windows.DX10
 	{
         private Dx10.RasterizerStateDescription description;
 
+#if DEBUG
+        private static int rasterizerStateCount = 0;
+#endif
+
 		#region Public
 		public CullMode CullMode
 		{
@@ -90,7 +94,11 @@ namespace ANX.RenderSystem.Windows.DX10
 		protected override Dx10.RasterizerState CreateNativeState(GraphicsDevice graphics)
 		{
 			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			return new Dx10.RasterizerState(device, ref description);
+			var state = new Dx10.RasterizerState(device, ref description);
+#if DEBUG
+            state.DebugName = "RasterizerState_" + rasterizerStateCount++;
+#endif
+            return state;
 		}
 
 		protected override void ApplyNativeState(GraphicsDevice graphics)

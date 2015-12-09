@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 using ANX.Framework.NonXNA.Development;
+using System.ComponentModel;
+using ANX.Framework.Design;
 
 #endregion // Using Statements
 
@@ -14,6 +16,10 @@ namespace ANX.Framework
     [PercentageComplete(70)]
     [Developer("Glatzemann, GinieDp, rene87, floAr")]
     [TestState(TestStateAttribute.TestState.InProgress)]
+#if !WINDOWSMETRO
+    [Serializable]
+    [TypeConverter(typeof(MatrixConverter))]
+#endif
     public struct Matrix : IEquatable<Matrix>
     {
         #region Public Fields
@@ -1214,56 +1220,56 @@ namespace ANX.Framework
 
         public static bool operator !=(Matrix matrix1, Matrix matrix2)
         {
-					//obs. return !(matrix1.Equals(matrix2));
-					
-					// This is way faster than the above! First of all we have the
-					// early out optimization in the != way if a single component
-					// is not equal (instead of checking all together and negating
-					// the result).
-					// Secondly we don't copy the matrix2's 16 floats each time we
-					// call Equals above!
-					return (matrix1.M11 != matrix2.M11) ||
-						(matrix1.M12 != matrix2.M12) ||
-						(matrix1.M13 != matrix2.M13) ||
-						(matrix1.M14 != matrix2.M14) ||
-						(matrix1.M21 != matrix2.M21) ||
-						(matrix1.M22 != matrix2.M22) ||
-						(matrix1.M23 != matrix2.M23) ||
-						(matrix1.M24 != matrix2.M24) ||
-						(matrix1.M31 != matrix2.M31) ||
-						(matrix1.M32 != matrix2.M32) ||
-						(matrix1.M33 != matrix2.M33) ||
-						(matrix1.M34 != matrix2.M34) ||
-						(matrix1.M41 != matrix2.M41) ||
-						(matrix1.M42 != matrix2.M42) ||
-						(matrix1.M43 != matrix2.M43) ||
-						(matrix1.M44 != matrix2.M44);
+                    //obs. return !(matrix1.Equals(matrix2));
+                    
+                    // This is way faster than the above! First of all we have the
+                    // early out optimization in the != way if a single component
+                    // is not equal (instead of checking all together and negating
+                    // the result).
+                    // Secondly we don't copy the matrix2's 16 floats each time we
+                    // call Equals above!
+                    return (matrix1.M11 != matrix2.M11) ||
+                        (matrix1.M12 != matrix2.M12) ||
+                        (matrix1.M13 != matrix2.M13) ||
+                        (matrix1.M14 != matrix2.M14) ||
+                        (matrix1.M21 != matrix2.M21) ||
+                        (matrix1.M22 != matrix2.M22) ||
+                        (matrix1.M23 != matrix2.M23) ||
+                        (matrix1.M24 != matrix2.M24) ||
+                        (matrix1.M31 != matrix2.M31) ||
+                        (matrix1.M32 != matrix2.M32) ||
+                        (matrix1.M33 != matrix2.M33) ||
+                        (matrix1.M34 != matrix2.M34) ||
+                        (matrix1.M41 != matrix2.M41) ||
+                        (matrix1.M42 != matrix2.M42) ||
+                        (matrix1.M43 != matrix2.M43) ||
+                        (matrix1.M44 != matrix2.M44);
         }
 
-				public static bool operator ==(Matrix matrix1, Matrix matrix2)
-				{
-					//obs. return (matrix1.Equals(matrix2));
-					
-					// Duplicated code is way faster than the above!
-					// Here we don't copy the matrix2's 16 floats each time we
-					// call Equals above!
-					return (matrix1.M11 == matrix2.M11) &&
-						(matrix1.M12 == matrix2.M12) &&
-						(matrix1.M13 == matrix2.M13) &&
-						(matrix1.M14 == matrix2.M14) &&
-						(matrix1.M21 == matrix2.M21) &&
-						(matrix1.M22 == matrix2.M22) &&
-						(matrix1.M23 == matrix2.M23) &&
-						(matrix1.M24 == matrix2.M24) &&
-						(matrix1.M31 == matrix2.M31) &&
-						(matrix1.M32 == matrix2.M32) &&
-						(matrix1.M33 == matrix2.M33) &&
-						(matrix1.M34 == matrix2.M34) &&
-						(matrix1.M41 == matrix2.M41) &&
-						(matrix1.M42 == matrix2.M42) &&
-						(matrix1.M43 == matrix2.M43) &&
-						(matrix1.M44 == matrix2.M44);
-				}
+                public static bool operator ==(Matrix matrix1, Matrix matrix2)
+                {
+                    //obs. return (matrix1.Equals(matrix2));
+                    
+                    // Duplicated code is way faster than the above!
+                    // Here we don't copy the matrix2's 16 floats each time we
+                    // call Equals above!
+                    return (matrix1.M11 == matrix2.M11) &&
+                        (matrix1.M12 == matrix2.M12) &&
+                        (matrix1.M13 == matrix2.M13) &&
+                        (matrix1.M14 == matrix2.M14) &&
+                        (matrix1.M21 == matrix2.M21) &&
+                        (matrix1.M22 == matrix2.M22) &&
+                        (matrix1.M23 == matrix2.M23) &&
+                        (matrix1.M24 == matrix2.M24) &&
+                        (matrix1.M31 == matrix2.M31) &&
+                        (matrix1.M32 == matrix2.M32) &&
+                        (matrix1.M33 == matrix2.M33) &&
+                        (matrix1.M34 == matrix2.M34) &&
+                        (matrix1.M41 == matrix2.M41) &&
+                        (matrix1.M42 == matrix2.M42) &&
+                        (matrix1.M43 == matrix2.M43) &&
+                        (matrix1.M44 == matrix2.M44);
+                }
 
         public static Matrix operator *(float scaleFactor, Matrix matrix)
         {
@@ -1305,21 +1311,21 @@ namespace ANX.Framework
             Matrix result;
             Add(ref matrix1, ref matrix2, out result);
             return result;
-				}
+                }
 
-				public static Matrix operator -(Matrix matrix1)
-				{
-					Matrix result;
-					Negate(ref matrix1, out result);
-					return result;
-				}
+                public static Matrix operator -(Matrix matrix1)
+                {
+                    Matrix result;
+                    Negate(ref matrix1, out result);
+                    return result;
+                }
 
-				public static Matrix operator -(Matrix matrix1, Matrix matrix2)
-				{
-					Matrix result;
-					Subtract(ref matrix1, ref matrix2, out result);
-					return result;
-				}
+                public static Matrix operator -(Matrix matrix1, Matrix matrix2)
+                {
+                    Matrix result;
+                    Subtract(ref matrix1, ref matrix2, out result);
+                    return result;
+                }
 
         #endregion
 

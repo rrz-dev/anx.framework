@@ -18,7 +18,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
     {
         public VertexDeclarationContent()
         {
-
+            VertexElements = new Collection<VertexElement>();
         }
 
         public Collection<VertexElement> VertexElements

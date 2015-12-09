@@ -19,39 +19,39 @@ namespace WpfEditor
 
 		public MainWindow()
 		{
-			InitializeComponent();
-		    emptyThreadStart = delegate { };
-
             //AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "OpenGL3");
             AddInSystemFactory.Instance.SetPreferredSystem(AddInType.RenderSystem, "DirectX10");
+
+			InitializeComponent();
+		    emptyThreadStart = delegate { };
 		}
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            device = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef,
+                new PresentationParameters
+                {
+                    BackBufferWidth = GamePanel.Width,
+                    BackBufferHeight = GamePanel.Height,
+                    BackBufferFormat = SurfaceFormat.Color,
+                    DeviceWindowHandle = new WindowHandle(GamePanel.Handle),
+                    PresentationInterval = PresentInterval.Default,
+                });
+        }
 
 		protected override void OnActivated(EventArgs e)
 		{
 			base.OnActivated(e);
 
-			Initialize();
-
-			while (IsVisible)
+			while (IsVisible && IsActive)
 			{
 				if (Application.Current != null)
 					Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, emptyThreadStart);
 
 				Tick();
 			}
-		}
-
-		public void Initialize()
-		{
-			device = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef,
-				new PresentationParameters
-				{
-					BackBufferWidth = GamePanel.Width,
-					BackBufferHeight = GamePanel.Height,
-					BackBufferFormat = SurfaceFormat.Color,
-					DeviceWindowHandle = new WindowHandle(GamePanel.Handle),
-					PresentationInterval = PresentInterval.Default,
-				});
 		}
 
 		public void Tick()

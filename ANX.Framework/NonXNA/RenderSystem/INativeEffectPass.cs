@@ -11,8 +11,12 @@ using ANX.Framework.Graphics;
 
 namespace ANX.Framework.NonXNA
 {
-    public interface INativeEffectPass
+    public interface INativeEffectPass : IDisposable
     {
         string Name { get; }
+
+        EffectAnnotationCollection Annotations { get; }
+
+        void Apply();
     }
 }

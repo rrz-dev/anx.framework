@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using ANX.Framework.NonXNA;
 using ANX.Framework.NonXNA.Development;
@@ -19,6 +20,7 @@ namespace ANX.Framework.Graphics
 		private INativeEffect nativeEffect;
         private readonly byte[] byteCode;
 		private EffectSourceLanguage sourceLanguage;
+        private EffectTechnique currentTechnique;
 		#endregion
 
 		#region Public
@@ -26,29 +28,39 @@ namespace ANX.Framework.Graphics
 		{
 			get
 			{
-				if (nativeEffect == null)
-				{
-					CreateNativeEffect(this.sourceLanguage);
-				}
-
 				return this.nativeEffect;
 			}
 		}
 
-        public EffectTechnique CurrentTechnique { get; set; }
+        public EffectTechnique CurrentTechnique
+        {
+            get { return this.currentTechnique; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+
+                if (!Techniques.Contains(value))
+                    throw new InvalidOperationException("CurrentTechnique must be a technique of the same effect instance.");
+
+                this.currentTechnique = value;
+            }
+        }
+
         public EffectParameterCollection Parameters { get; private set; }
         public EffectTechniqueCollection Techniques { get; private set; }
         #endregion
 
-		#region Constructor
 		protected Effect(Effect cloneSource)
 			: this(cloneSource.GraphicsDevice, cloneSource.byteCode)
 		{
+            CreateNativeEffect(cloneSource.sourceLanguage);
 		}
 
 		public Effect(GraphicsDevice graphicsDevice, byte[] byteCode)
 			: this(graphicsDevice, byteCode, EffectSourceLanguage.HLSL_FX)
 		{
+            CreateNativeEffect(EffectSourceLanguage.HLSL_FX);
 		}
 
 		public Effect(GraphicsDevice graphicsDevice, byte[] byteCode, EffectSourceLanguage sourceLanguage)
@@ -66,14 +78,6 @@ namespace ANX.Framework.Graphics
 
 			this.sourceLanguage = sourceLanguage;
 		}
-
-		~Effect()
-		{
-			Dispose();
-			base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-			base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-		}
-		#endregion
 
 		#region GraphicsDevice_ResourceCreated
 		private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
@@ -106,35 +110,40 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		#region PreBindSetParameters
-		/// <summary>
-		/// This is used by the built in effects to set all their parameters only once and not everytime the properties change.
-		/// </summary>
-		internal virtual void PreBindSetParameters()
-		{
-		}
-		#endregion
+        protected internal virtual void OnApply()
+        {
+        }
 
 		#region Dispose
-		public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
 		{
-			if (nativeEffect != null)
-			{
-				nativeEffect.Dispose();
-				nativeEffect = null;
-			}
-		}
+			if (disposeManaged)
+            {
+                if (nativeEffect != null)
+                {
+                    nativeEffect.Dispose();
+                    nativeEffect = null;
+                }
 
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			try
-			{
-			    Dispose();
-			}
-			finally
-			{
-				base.Dispose(false);
-			}
+                if (Parameters != null)
+                {
+                    foreach (var parameter in Parameters)
+                        parameter.NativeParameter.Dispose();
+                    Parameters = null;
+                }
+
+                if (Techniques != null)
+                {
+                    foreach (var technique in Techniques)
+                        technique.NativeTechnique.Dispose();
+                    Techniques = null;
+                }
+
+                base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+                base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+            }
+
+            base.Dispose(disposeManaged);
 		}
 		#endregion
 
@@ -146,8 +155,8 @@ namespace ANX.Framework.Graphics
 			if (creator.IsLanguageSupported(sourceLanguage))
 			{
 				this.nativeEffect = creator.CreateEffect(GraphicsDevice, this, new MemoryStream(this.byteCode, false));
-				this.Techniques = new EffectTechniqueCollection(this, this.nativeEffect);
-				this.Parameters = new EffectParameterCollection(this, this.nativeEffect);
+				this.Techniques = new EffectTechniqueCollection(this.nativeEffect.Techniques);
+				this.Parameters = new EffectParameterCollection(this.nativeEffect.Parameters);
 			}
 			else
 				throw new InvalidOperationException("couldn't create " + sourceLanguage + " native effect using RenderSystem " +

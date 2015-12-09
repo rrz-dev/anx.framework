@@ -117,13 +117,18 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region Dispose
-		public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
 		{
-			if (nativeConstantBuffer != null)
-			{
-				nativeConstantBuffer.Dispose();
-				nativeConstantBuffer = null;
-			}
+            if (disposeManaged)
+            {
+                if (nativeConstantBuffer != null)
+                {
+                    nativeConstantBuffer.Dispose();
+                    nativeConstantBuffer = null;
+                }
+            }
+
+            base.Dispose(disposeManaged);
 		}
 
 		#endregion

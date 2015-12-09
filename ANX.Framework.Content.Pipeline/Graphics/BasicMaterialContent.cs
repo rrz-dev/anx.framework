@@ -14,13 +14,13 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class BasicMaterialContent : MaterialContent 
     {
-        public const string AlphaKey = "";
-        public const string DiffuseColorKey = "";
-        public const string EmissiveColorKey = "";
-        public const string SpecularColorKey = "";
-        public const string SpecularPowerKey = "";
-        public const string TextureKey = "";
-        public const string VertexColorEnabledKey = "";
+        public const string AlphaKey = "Alpha";
+        public const string DiffuseColorKey = "DiffuseColor";
+        public const string EmissiveColorKey = "EmissiveColor";
+        public const string SpecularColorKey = "SpecularColor";
+        public const string SpecularPowerKey = "SpecularPower";
+        public const string TextureKey = "Texture";
+        public const string VertexColorEnabledKey = "VertexColorEnabled";
 
         public BasicMaterialContent()
         {
@@ -28,44 +28,44 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public Nullable<float> Alpha
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(AlphaKey); }
+            set { this.SetProperty(AlphaKey, value); }
         }
 
         public Nullable<Vector3> DiffuseColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(DiffuseColorKey); }
+            set { this.SetProperty(DiffuseColorKey, value); }
         }
 
         public Nullable<Vector3> EmissiveColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(EmissiveColorKey); }
+            set { this.SetProperty(EmissiveColorKey, value); }
         }
 
         public Nullable<Vector3> SpecularColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(SpecularColorKey); }
+            set { this.SetProperty(SpecularColorKey, value); }
         }
 
         public Nullable<float> SpecularPower
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(SpecularPowerKey); }
+            set { this.SetProperty(SpecularPowerKey, value); }
         }
 
         public ExternalReference<TextureContent> Texture
         {
-            get;
-            set;
+            get { return this.GetTexture(TextureKey); }
+            set { this.SetTexture(TextureKey, value); }
         }
 
         public Nullable<bool> VertexColorEnabled
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<bool>(VertexColorEnabledKey); }
+            set { this.SetProperty(VertexColorEnabledKey, value); }
         }
     }
 }

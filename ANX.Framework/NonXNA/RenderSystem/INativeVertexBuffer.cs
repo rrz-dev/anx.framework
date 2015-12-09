@@ -10,10 +10,8 @@ namespace ANX.Framework.NonXNA.RenderSystem
 {
 	public interface INativeVertexBuffer : INativeBuffer
 	{
-		void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount,
-			int vertexStride) where T : struct;
+		void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct;
 
-		void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data,
-			int startIndex, int elementCount, int vertexStride) where T : struct;
+		void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct;
 	}
 }

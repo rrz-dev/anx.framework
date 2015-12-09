@@ -22,7 +22,7 @@ namespace ANX.Framework.Design
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            int[] values = MathTypeConverter.ConvertFromString<int>(context, culture, value as String);
+            int[] values = ConvertFromString<int>(context, culture, value as String);
             if (values != null && values.Length == 2)
             {
                 return new Point(values[0], values[1]);
@@ -40,10 +40,10 @@ namespace ANX.Framework.Design
                 Point instance = (Point)value;
 
                 if (destinationType == typeof(string))
-                    return MathTypeConverter.ConvertToString<int>(context, culture, new int[] { instance.X, instance.Y });
+                    return ConvertToString<int>(context, culture, new int[] { instance.X, instance.Y });
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Point>(new object[] { instance.X, instance.Y });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Point>(new object[] { instance.X, instance.Y });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

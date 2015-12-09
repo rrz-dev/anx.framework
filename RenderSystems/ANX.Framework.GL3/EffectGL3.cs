@@ -195,7 +195,7 @@ namespace ANX.RenderSystem.GL3
                 GL.DeleteShader(vertexShaderHandle);
                 GL.DeleteShader(fragmentShaderHandle);
 
-                EffectTechniqueGL3 technique = new EffectTechniqueGL3(managedEffect, programName, programHandle);
+                EffectTechniqueGL3 technique = new EffectTechniqueGL3((EffectGL3)managedEffect.NativeEffect, programName, programHandle);
                 techniques.Add(new EffectTechnique(managedEffect, technique));
                 AddParametersFrom(programHandle, parameterNames, technique);
             }
@@ -245,15 +245,6 @@ namespace ANX.RenderSystem.GL3
                     parameters.Add(new EffectParameter(new EffectParameterGL3(technique, name, uniformIndex)));
                 }
             }
-        }
-        #endregion
-
-        #region Apply
-        public void Apply(GraphicsDevice graphicsDevice)
-        {
-            GL.UseProgram(CurrentTechnique.programHandle);
-            GraphicsDeviceWindowsGL3.activeEffect = this;
-            ErrorHelper.Check("UseProgram");
         }
         #endregion
 

@@ -17,72 +17,85 @@ namespace ANX.RenderSystem.Windows.DX11
 {
 	public partial class DxTexture2D : INativeTexture2D
 	{
-        private Dx11.Texture2D NativeTextureStaging;
+        private Dx11.Texture2D _nativeTexture;
 
-		public int Width
-		{
-			get
-			{
-				return NativeTexture != null ? NativeTexture.Description.Width : 0;
-			}
-		}
+        public Dx11.ShaderResourceView NativeShaderResourceView { get; private set; }
 
-		public int Height
-		{
-			get
-			{
-				return NativeTexture != null ? NativeTexture.Description.Height : 0;
-			}
-		}
+        public Dx11.Texture2D NativeTexture
+        {
+            get { return _nativeTexture; }
+            set
+            {
+                if (NativeShaderResourceView != null)
+                {
+                    NativeShaderResourceView.Dispose();
+                    NativeShaderResourceView = null;
+                }
 
-		protected internal Dx11.ShaderResourceView NativeShaderResourceView { get; protected set; }
+                _nativeTexture = value;
 
-        internal Dx11.Texture2D NativeTexture { get; set; }
+                if (_nativeTexture != null)
+                {
+                    NativeShaderResourceView = new Dx11.ShaderResourceView(this.GraphicsDevice.NativeDevice.Device, NativeTexture);
+#if DEBUG
+                    NativeShaderResourceView.DebugName = _nativeTexture.DebugName + "_ShaderView";
+#endif
+                }
+            }
+        }
 
 		#region Constructor
-		internal DxTexture2D(GraphicsDevice graphicsDevice, SurfaceFormat surfaceFormat)
-			: this(graphicsDevice, surfaceFormat, 1)
-		{
-		}
+        protected DxTexture2D(GraphicsDeviceDX graphicsDevice)
+        {
+            this.GraphicsDevice = graphicsDevice;
+        }
 
-		public DxTexture2D(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
-			: this(graphicsDevice, surfaceFormat, mipCount)
-		{
-			Dx11.Device device = (graphicsDevice.NativeDevice as GraphicsDeviceDX).NativeDevice.Device;
-			var sampleDescription = new SharpDX.DXGI.SampleDescription(1, 0);
+        internal DxTexture2D(GraphicsDeviceDX graphicsDevice, Dx11.Texture2D nativeTexture)
+            : this(graphicsDevice)
+        {
+            if (nativeTexture == null)
+                throw new ArgumentNullException("nativeTexture");
 
-			if (useRenderTexture)
-			{
-				var descriptionStaging = new Dx11.Texture2DDescription()
-				{
-					Width = width,
-					Height = height,
-					MipLevels = mipCount,
-					ArraySize = mipCount,
-					Format = DxFormatConverter.Translate(surfaceFormat),
-					SampleDescription = sampleDescription,
-					Usage = Dx11.ResourceUsage.Staging,
-					CpuAccessFlags = Dx11.CpuAccessFlags.Write,
-				};
-				NativeTextureStaging = new Dx11.Texture2D(device, descriptionStaging);
-			}
+            this.Width = nativeTexture.Description.Width;
+            this.Height = nativeTexture.Description.Height;
+#if DEBUG
+            if (string.IsNullOrEmpty(nativeTexture.DebugName))
+                nativeTexture.DebugName = "Texture_" + textureCount++;
+#endif
+            this.NativeTexture = nativeTexture;
 
-			var description = new Dx11.Texture2DDescription()
-			{
-				Width = width,
-				Height = height,
-				MipLevels = mipCount,
-				ArraySize = mipCount,
-				Format = DxFormatConverter.Translate(surfaceFormat),
-				SampleDescription = sampleDescription,
-				Usage = useRenderTexture ? Dx11.ResourceUsage.Default : Dx11.ResourceUsage.Dynamic,
-				BindFlags = Dx11.BindFlags.ShaderResource,
-				CpuAccessFlags = useRenderTexture ? Dx11.CpuAccessFlags.None : Dx11.CpuAccessFlags.Write,
-			};
+            this.surfaceFormat = DxFormatConverter.Translate(nativeTexture.Description.Format);
+        }
 
-			NativeTexture = new Dx11.Texture2D(device, description);
-			NativeShaderResourceView = new Dx11.ShaderResourceView(device, NativeTexture);
-		}
+        public DxTexture2D(GraphicsDeviceDX graphicsDevice, int width, int height, SurfaceFormat surfaceFormat, int mipCount)
+            : this(graphicsDevice)
+        {
+            this.surfaceFormat = surfaceFormat;
+
+            Dx11.Device device = graphicsDevice.NativeDevice.Device;
+
+            var description = new Dx11.Texture2DDescription()
+            {
+                Width = width,
+                Height = height,
+                MipLevels = mipCount,
+                ArraySize = mipCount,
+                Format = DxFormatConverter.Translate(surfaceFormat),
+                SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
+                Usage = Dx11.ResourceUsage.Default,
+                BindFlags = Dx11.BindFlags.ShaderResource,
+                CpuAccessFlags = Dx11.CpuAccessFlags.None,
+                OptionFlags = Dx11.ResourceOptionFlags.None,
+            };
+
+            this.Width = width;
+            this.Height = height;
+            var texture = new Dx11.Texture2D(device, description);
+#if DEBUG
+            texture.DebugName = "Texture_" + textureCount++;
+#endif
+            this.NativeTexture = texture;
+        }
 		#endregion
 
 		#region GetHashCode
@@ -108,58 +121,51 @@ namespace ANX.RenderSystem.Windows.DX11
 		}
 		#endregion
 
-		#region GetData (TODO)
-		public void GetData<T>(T[] data) where T : struct
-		{
-			GetData(data, 0, data.Length);
-		}
+        protected DataStream Map(Dx11.Texture2D texture, int subresource, int level, ResourceMapping mapping, out int pitch)
+        {
+            DataStream stream;
+            var box = GraphicsDevice.NativeDevice.MapSubresource(texture, subresource, mapping.ToMapMode(), Dx11.MapFlags.None, out stream);
 
-		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
+            pitch = box.RowPitch;
+            return stream;
+        }
 
-		public void GetData<T>(int level, Framework.Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        protected int GetSubresource(int level)
+        {
+            return Dx11.Texture2D.CalculateSubResourceIndex(level, 0, NativeTexture.Description.MipLevels);
+        }
 
-		#region MapWrite
-		protected IntPtr MapWrite(int level)
-		{
-			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
-			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
-			DataBox box = context.MapSubresource(texture, tempSubresource,
-				useRenderTexture ? Dx11.MapMode.Write : Dx11.MapMode.WriteDiscard, Dx11.MapFlags.None);
-			pitch = box.RowPitch;
-			return box.DataPointer;
-		}
-		#endregion
+        protected void UpdateSubresource<T>(T[] data, Dx11.Texture2D texture, int level, Framework.Rectangle rect) where T : struct
+        {
+            GraphicsDevice.NativeDevice.UpdateSubresource(data, _nativeTexture, this.GetSubresource(level), GetPitch(level), 0, rect.ToResourceRegion());
+        }
 
-		#region MapRead
-		protected IntPtr MapRead(int level)
-		{
-			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			tempSubresource = Dx11.Texture2D.CalculateSubResourceIndex(level, 0, mipCount);
-			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
-			DataBox box = context.MapSubresource(texture, tempSubresource, Dx11.MapMode.Read, Dx11.MapFlags.None);
-			pitch = box.RowPitch;
-			return box.DataPointer;
-		}
-		#endregion
+        protected Dx11.Texture2D CreateStagingTexture(ResourceMapping mapping)
+        {
+            var description = new Dx11.Texture2DDescription()
+            {
+                CpuAccessFlags = mapping.ToCpuAccessFlags(),
+                Usage = Dx11.ResourceUsage.Staging,
+                Format = NativeTexture.Description.Format,
+                Width = this.Width,
+                Height = this.Height,
+                MipLevels = this.NativeTexture.Description.MipLevels,
+                SampleDescription = NativeTexture.Description.SampleDescription,
+                ArraySize = NativeTexture.Description.ArraySize,
+                OptionFlags = Dx11.ResourceOptionFlags.None,
 
-		#region Unmap
-		protected void Unmap()
-		{
-			Dx11.DeviceContext context = (GraphicsDevice.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			var texture = useRenderTexture ? NativeTextureStaging : NativeTexture;
-			context.UnmapSubresource(texture, tempSubresource);
+            };
 
-			if(useRenderTexture)
-				context.CopyResource(NativeTextureStaging, NativeTexture);
-		}
-		#endregion
+            var texture = new Dx11.Texture2D(GraphicsDevice.NativeDevice.Device, description);
+#if DEBUG
+            texture.DebugName = NativeTexture.DebugName + "_Staging";
+#endif
+            return texture;
+        }
+
+        protected void Unmap(Dx11.Texture2D texture, int subresource)
+        {
+            GraphicsDevice.NativeDevice.UnmapSubresource(texture, subresource);
+        }
 	}
 }

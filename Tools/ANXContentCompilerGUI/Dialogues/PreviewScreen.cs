@@ -63,6 +63,13 @@ namespace ANX.ContentCompiler.GUI.Dialogues
             _services = new GameServiceContainer();
             _services.AddService(typeof(GraphicsDevice), _graphicsDevice);
             _contentManager = new ContentManager(_services);
+
+            _checkTimer = new Timer { Interval = 1000 };
+            _checkTimer.Tick += CheckThread;
+
+            _tickTimer = new Timer { Interval = 120 };
+            _tickTimer.Tick += Tick;
+            _batch = new SpriteBatch(_graphicsDevice);
         }
         #endregion
 
@@ -119,33 +126,51 @@ namespace ANX.ContentCompiler.GUI.Dialogues
                 }
                 labelStatus.Text = "Loading successful";
                 labelStatus.Hide();
-                _tickTimer = new Timer { Interval = 120 };
-                _tickTimer.Tick += Tick;
-                _batch = new SpriteBatch(_graphicsDevice);
                 _tickTimer.Start();
             }
         }
 
         void Tick(object sender, EventArgs e)
         {
-            if (!_outputFile.EndsWith(".xnb") && !File.Exists(_outputFile + ".xnb"))
+            try
             {
-                File.Move(_outputFile, _outputFile + ".xnb");
+                if (!_outputFile.EndsWith(".xnb") && !File.Exists(_outputFile + ".xnb"))
+                {
+                    File.Move(_outputFile, _outputFile + ".xnb");
+                }
+                _graphicsDevice.Clear(Framework.Color.CornflowerBlue);
+                if (_processor == "TextureProcessor")
+                {
+                    _batch.Begin();
+                    try
+                    {
+                        var tex = _contentManager.Load<Texture2D>(_outputFile);
+                        _batch.Draw(tex, Vector2.Zero, Color.White);
+                    }
+                    finally
+                    {
+                        _batch.End();
+                    }
+                }
+                else if (_processor == "FontDescriptionProcessor")
+                {
+                    _batch.Begin();
+                    try
+                    {
+                        var font = _contentManager.Load<SpriteFont>(_outputFile);
+                        _batch.DrawString(font, "The quick brown fox jumps over the lazy dog. äöü@", Vector2.One, Color.DarkRed);
+                    }
+                    finally
+                    {
+                        _batch.End();
+                    }
+                }
+                _graphicsDevice.Present();
             }
-            _graphicsDevice.Clear(Framework.Color.CornflowerBlue);
-            if (_processor == "TextureProcessor")
+            catch (Exception exc)
             {
-                _batch.Begin();
-                var tex = _contentManager.Load<Texture2D>(_outputFile);
-                _batch.Draw(tex, Vector2.Zero, Color.White);
-                _batch.End();
-            }
-            else if (_processor == "FontDescriptionProcessor")
-            {
-                _batch.Begin();
-                var font = _contentManager.Load<SpriteFont>(_outputFile);
-                _batch.DrawString(font, "The quick brown fox jumps over the lazy dog. äöü@", Vector2.One, Color.DarkRed);
-                _batch.End();
+                _error = true;
+                _errorMessage = exc.Message;
             }
         }
         #endregion
@@ -153,46 +178,67 @@ namespace ANX.ContentCompiler.GUI.Dialogues
         #region Public methods
         public void CompileFile()
         {
-            var builderTask = new BuildContent
+            //TODO: use ContentBuilder instead
+
+            var builderTask = new BuildContentTask
             {
-                BuildLogger = new FakeBuildLogger(),
-                OutputDirectory = _outputDir,
                 TargetPlatform = TargetPlatform.Windows,
                 TargetProfile = GraphicsProfile.HiDef,
-                CompressContent = false
+                CompressContent = false,
+                BaseDirectory = new Uri(MainWindow.Instance.ProjectFolder, _item.AssetName)
             };
+
+            builderTask.PrepareAssetBuildCallback = (BuildContentTask sender, BuildItem item, out ContentImporterContext importerContext, out ContentProcessorContext processorContext) =>
+            {
+                importerContext = new DefaultContentImporterContext(new CCompilerBuildLogger(), _outputDir, _outputDir);
+                processorContext = new DefaultContentProcessorContext(sender, MainWindow.Instance.ActiveConfiguration.Name, _outputDir, _outputDir, _outputFile);
+            };
+
+            var importerManager = new ImporterManager();
+
             if (String.IsNullOrEmpty(_item.ImporterName))
             {
-                _item.ImporterName = ImporterManager.GuessImporterByFileExtension(_item.SourceFilename);
+                _item.ImporterName = importerManager.GuessImporterByFileExtension(_item.SourceFilename);
             }
             if (String.IsNullOrEmpty(_item.ProcessorName))
             {
                 _item.ProcessorName =
-                    new ProcessorManager().GetProcessorForImporter(new ImporterManager().GetInstance(_item.ImporterName));
+                    new ProcessorManager().GetProcessorForImporter(importerManager.GetInstance(_item.ImporterName));
             }
             _processor = _item.ProcessorName;
-            _item.OutputFilename = _outputFile;
-            builderTask.Execute(new[] { _item });
-            /*try
+            
+            try
             {
-               
+                builderTask.Execute(new[] { _item });
             }
             catch (Exception ex)
             {
                 _error = true;
                 _errorMessage = ex.Message;
-            }*/
+            }
         }
 
         public void SetFile(BuildItem item)
         {
-            labelStatus.Text = "Loading Preview...";
-            _item = item;
-            _outputFile = Path.GetTempFileName();
-            _outputDir = Path.GetTempPath();
-            _checkTimer = new Timer { Interval = 1000 };
-            _checkTimer.Tick += CheckThread;
-            _checkTimer.Start();
+            _tickTimer.Stop();
+            _checkTimer.Stop();
+            _started = false;
+
+            if (item != null)
+            {
+                _item = item;
+                _outputFile = Path.GetTempFileName();
+                _outputDir = Path.GetTempPath();
+                _checkTimer.Start();
+
+                labelStatus.Text = "Loading Preview...";
+            }
+            else
+            {
+                labelStatus.Text = "No item selected";
+            }
+
+            labelStatus.Show();
         }
         #endregion
     }

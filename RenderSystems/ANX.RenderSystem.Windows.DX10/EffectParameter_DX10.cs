@@ -4,6 +4,7 @@ using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA;
 using Dx10 = SharpDX.Direct3D10;
 using ANX.Framework.NonXNA.Development;
+using SharpDX.Direct3D10;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -11,269 +12,214 @@ using ANX.Framework.NonXNA.Development;
 
 namespace ANX.RenderSystem.Windows.DX10
 {
-    [PercentageComplete(50)]
+    [PercentageComplete(80)]
     [TestState(TestStateAttribute.TestState.Untested)]
-    [Developer("Glatzemann")]
-    public class EffectParameter_DX10 : INativeEffectParameter
+    [Developer("Glatzemann, KorsarNek")]
+    public class EffectParameter_DX10 : DxEffectAnnotation, INativeEffectParameter
 	{
 		#region Public
-        public Dx10.EffectVariable NativeParameter { get; internal set; }
+        public Dx10.EffectVariable NativeParameter { get; private set; }
 
-        public string Name
+        public EffectParameter_DX10(Dx10.EffectVariable nativeParameter)
+            : base(nativeParameter)
         {
-            get { return NativeParameter.Description.Name; }
-        }
+            this.NativeParameter = nativeParameter;
 
-        public string Semantic
-        {
-            get { return NativeParameter.Description.Semantic; }
-        }
+            var description = nativeParameter.Description;
+            var typeDescription = nativeParameter.TypeInfo.Description;
 
-        public int ColumnCount
-        {
-            get { return NativeParameter.TypeInfo.Description.Columns; }
-        }
+            var annotations = new EffectAnnotation[description.AnnotationCount];
+            for (int i = 0; i < annotations.Length; i++)
+                annotations[i] = new EffectAnnotation(new DxEffectAnnotation(nativeParameter.GetAnnotationByIndex(i)));
+            this.Annotations = new EffectAnnotationCollection(annotations);
 
-        public int RowCount
-        {
-            get { return NativeParameter.TypeInfo.Description.Rows; }
-        }
+            var elements = new EffectParameter[typeDescription.Elements];
+            for (int i = 0; i < elements.Length; i++)
+                elements[i] = new EffectParameter(new EffectParameter_DX10(nativeParameter.GetElement(i)));
+            this.Elements = new EffectParameterCollection(elements);
 
-        public EffectParameterClass ParameterClass
-        {
-            get { return DxFormatConverter.Translate(NativeParameter.TypeInfo.Description.Class); }
-        }
+            var members = new EffectParameter[typeDescription.Members];
+            for (int i = 0; i < members.Length; i++)
+                members[i] = new EffectParameter(new EffectParameter_DX10(nativeParameter.GetMemberByIndex(i)));
+            this.StructureMembers = new EffectParameterCollection(members);
 
-        public EffectParameterType ParameterType
-        {
-            get { return DxFormatConverter.Translate(NativeParameter.TypeInfo.Description.Type); }
+            this.ShaderResource = nativeParameter.AsShaderResource();
         }
 
         public EffectAnnotationCollection Annotations
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
 
         public EffectParameterCollection Elements
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
 
         public EffectParameterCollection StructureMembers
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
         #endregion
 
-		#region SetValue (bool)
+        protected EffectShaderResourceVariable ShaderResource
+        {
+            get;
+            private set;
+        }
+
+		#region SetValue (TODO)
 		public void SetValue(bool value)
 		{
-			NativeParameter.AsScalar().Set(value);
+			Scalar.Set(value);
 		}
-		#endregion
 
-		#region SetValue (bool[])
 		public void SetValue(bool[] value)
 		{
-			NativeParameter.AsScalar().Set(value);
+            Scalar.Set(value);
 		}
-		#endregion
 
-		#region SetValue (int)
 		public void SetValue(int value)
 		{
-			NativeParameter.AsScalar().Set(value);
+            Scalar.Set(value);
 		}
-		#endregion
 
-		#region SetValue (int[])
 		public void SetValue(int[] value)
 		{
-			NativeParameter.AsScalar().Set(value);
+            Scalar.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Matrix, transpose) (TODO)
 		public void SetValue(Matrix value, bool transpose)
 		{
-            Matrix val = value;
             if (transpose)
-            {
-                Matrix.Transpose(ref val, out val);
-            }
-
-			NativeParameter.AsMatrix().SetMatrix(val);
+                Matrix.SetMatrixTranspose(value);
+            else
+                Matrix.SetMatrix(value);
 		}
-		#endregion
 
-		#region SetValue (Matrix[], transpose) (TODO)
 		public void SetValue(Matrix[] value, bool transpose)
 		{
-			// TODO: handle transpose!
-			NativeParameter.AsMatrix().SetMatrix(value);
+            if (transpose)
+                Matrix.SetMatrixTranspose(value);
+            else
+                Matrix.SetMatrix(value);
 		}
-		#endregion
 
-		#region SetValue (Quaternion)
 		public void SetValue(Quaternion value)
 		{
-			NativeParameter.AsVector().Set(value);
+			Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Quaternion[])
 		public void SetValue(Quaternion[] value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (float)
 		public void SetValue(float value)
 		{
-			NativeParameter.AsScalar().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (float[])
 		public void SetValue(float[] value)
 		{
-			NativeParameter.AsScalar().Set(value);
+			Scalar.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector2)
 		public void SetValue(Vector2 value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector2[])
 		public void SetValue(Vector2[] value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector3)
 		public void SetValue(Vector3 value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector3[])
 		public void SetValue(Vector3[] value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector4)
 		public void SetValue(Vector4 value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Vector4[])
 		public void SetValue(Vector4[] value)
 		{
-			NativeParameter.AsVector().Set(value);
+            Vector.Set(value);
 		}
-		#endregion
 
-		#region SetValue (Texture)
 		public void SetValue(Texture value)
 		{
 			if (value == null)
 				throw new ArgumentNullException("value");
 
-			var tex = value.NativeTexture as DxTexture2D;
-			NativeParameter.AsShaderResource().SetResource(tex.NativeShaderResourceView);
+			ShaderResource.SetResource(((DxTexture2D)value.NativeTexture).NativeShaderResourceView);
 		}
-		#endregion
 
-		#region SetValue (string) (TODO)
 		public void SetValue(string value)
 		{
-			throw new NotImplementedException();
+            throw new NotImplementedException();
 		}
 		#endregion
 
 		#region Get (TODO)
-		public bool GetValueBoolean()
-		{
-			throw new NotImplementedException();
-		}
 
 		public bool[] GetValueBooleanArray(int count)
 		{
-			throw new NotImplementedException();
-		}
-
-		public int GetValueInt32()
-		{
-			throw new NotImplementedException();
+            return Scalar.GetBoolArray(0, count);
 		}
 
 		public int[] GetValueInt32Array(int count)
 		{
-			throw new NotImplementedException();
-		}
-
-		public Matrix GetValueMatrix()
-		{
-			throw new NotImplementedException();
+            return Scalar.GetIntArray(count);
 		}
 
 		public Matrix[] GetValueMatrixArray(int count)
 		{
-			throw new NotImplementedException();
+            return Matrix.GetMatrixArray<Matrix>(count);
 		}
 
-		public Matrix GetValueMatrixTranspose()
-		{
-			throw new NotImplementedException();
-		}
+        public Matrix GetValueMatrixTranspose()
+        {
+            return Matrix.GetMatrixTranspose<Matrix>();
+        }
 
 		public Matrix[] GetValueMatrixTransposeArray(int count)
 		{
-			throw new NotImplementedException();
+            return Matrix.GetMatrixTransposeArray<Matrix>(count);
 		}
 
 		public Quaternion GetValueQuaternion()
 		{
-			throw new NotImplementedException();
+            return Vector.GetVector<Quaternion>();
 		}
 
 		public Quaternion[] GetValueQuaternionArray(int count)
 		{
-			throw new NotImplementedException();
-		}
-
-		public float GetValueSingle()
-		{
-			throw new NotImplementedException();
+            return Vector.GetVectorArray<Quaternion>(count);
 		}
 
 		public float[] GetValueSingleArray(int count)
 		{
-			throw new NotImplementedException();
+            return Scalar.GetFloatArray(count);
 		}
 
-		public string GetValueString()
+		public ANX.Framework.Graphics.Texture2D GetValueTexture2D()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Texture2D GetValueTexture2D()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Texture3D GetValueTexture3D()
+        public ANX.Framework.Graphics.Texture3D GetValueTexture3D()
 		{
 			throw new NotImplementedException();
 		}
@@ -283,35 +229,39 @@ namespace ANX.RenderSystem.Windows.DX10
 			throw new NotImplementedException();
 		}
 
-		public Vector2 GetValueVector2()
-		{
-			throw new NotImplementedException();
-		}
-
 		public Vector2[] GetValueVector2Array(int count)
 		{
-			throw new NotImplementedException();
-		}
-
-		public Vector3 GetValueVector3()
-		{
-			throw new NotImplementedException();
+            return Vector.GetVectorArray<Vector2>(count);
 		}
 
 		public Vector3[] GetValueVector3Array(int count)
 		{
-			throw new NotImplementedException();
-		}
-
-		public Vector4 GetValueVector4()
-		{
-			throw new NotImplementedException();
+            return Vector.GetVectorArray<Vector3>(count);
 		}
 
 		public Vector4[] GetValueVector4Array(int count)
 		{
-			throw new NotImplementedException();
+            return Vector.GetVectorArray<Vector4>(count);
 		}
 		#endregion
-	}
+
+        protected override void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                ShaderResource.Dispose();
+
+                foreach (var annotation in this.Annotations)
+                    annotation.NativeAnnotation.Dispose();
+
+                foreach (var element in this.Elements)
+                    element.NativeParameter.Dispose();
+
+                foreach (var member in this.StructureMembers)
+                    member.NativeParameter.Dispose();
+            }
+
+            base.Dispose(disposeManaged);
+        }
+    }
 }

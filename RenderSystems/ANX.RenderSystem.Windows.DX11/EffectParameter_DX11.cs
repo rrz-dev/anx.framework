@@ -308,5 +308,23 @@ namespace ANX.RenderSystem.Windows.DX11
 			throw new NotImplementedException();
 		}
 		#endregion
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                if (NativeParameter != null)
+                {
+                    NativeParameter.Dispose();
+                    NativeParameter = null;
+                }
+            }
+        }
     }
 }

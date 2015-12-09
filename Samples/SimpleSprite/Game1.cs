@@ -39,6 +39,9 @@ namespace WindowsGame1
 		Texture2D texture;
 		Texture2D alternateTexture;
 
+        KeyboardState previousKeyboardState;
+        Color clearColor;
+
 		Color[] color = new Color[] { Color.White, Color.Green, Color.Blue, Color.Black, Color.White, Color.DarkMagenta };
 		float[] y = new float[] { 10f, 10f, 10f, 10f, 10f, 10f };
 		Random r = new Random();
@@ -136,7 +139,34 @@ namespace WindowsGame1
 				y[i] = MathHelper.Clamp(y[i], 0, 536);
 			}
 
+            if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
+                clearColor = Color.Green;
+            else if (Mouse.GetState().XButton1 == ButtonState.Pressed)
+                clearColor = Color.Chocolate;
+            else
+                clearColor = Color.CornflowerBlue;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+            {
+                if (GraphicsDevice.PresentationParameters.BackBufferWidth != 420)
+                {
+                    PresentationParameters newParams = GraphicsDevice.PresentationParameters.Clone();
+                    newParams.BackBufferWidth = 420;
+                    newParams.BackBufferHeight = 360;
+                    GraphicsDevice.Reset(newParams);
+                }
+                else
+                {
+                    PresentationParameters newParams = GraphicsDevice.PresentationParameters.Clone();
+                    newParams.BackBufferWidth = 800;
+                    newParams.BackBufferHeight = 600;
+                    GraphicsDevice.Reset(newParams);
+                }
+            }
+
 			base.Update(gameTime);
+
+            previousKeyboardState = Keyboard.GetState();
 		}
 
 		/// <summary>
@@ -145,42 +175,7 @@ namespace WindowsGame1
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
-			{
-				GraphicsDevice.Clear(Color.Green);
-			}
-			else
-			{
-				if (Mouse.GetState().XButton1 == ButtonState.Pressed)
-				{
-					GraphicsDevice.Clear(Color.Chocolate);
-				}
-				else
-				{
-					GraphicsDevice.Clear(Color.CornflowerBlue);
-				}
-			}
-
-			if (Keyboard.GetState().IsKeyDown(Keys.Space))
-			{
-				if (GraphicsDevice.PresentationParameters.BackBufferWidth != 420)
-				{
-					PresentationParameters newParams = GraphicsDevice.PresentationParameters.Clone();
-					newParams.BackBufferWidth = 420;
-					newParams.BackBufferHeight = 360;
-					GraphicsDevice.Reset(newParams);
-				}
-			}
-			else
-			{
-				if (GraphicsDevice.PresentationParameters.BackBufferWidth != 800)
-				{
-					PresentationParameters newParams = GraphicsDevice.PresentationParameters.Clone();
-					newParams.BackBufferWidth = 800;
-					newParams.BackBufferHeight = 600;
-					GraphicsDevice.Reset(newParams);
-				}
-			}
+            GraphicsDevice.Clear(clearColor);
 
 			spriteBatch.Begin();
 

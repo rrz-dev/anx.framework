@@ -41,7 +41,6 @@ namespace VertexIndexBuffer
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             miniTriEffect = Content.Load<Effect>(@"Effects/MiniTri");
-            miniTriEffect.Parameters["world"].SetValue(Matrix.CreateTranslation(0.5f, 0.0f, 0.0f));
 
             vb = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, 6, BufferUsage.None);
             VertexPositionColor[] vertices = new[] { new VertexPositionColor( new Vector3(-0.75f,  0.25f, 0.5f), new Color(1.0f, 0.0f, 0.0f, 1.0f)),
@@ -70,9 +69,6 @@ namespace VertexIndexBuffer
             graphics.PreferredBackBufferHeight = 486;
             graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
             graphics.ApplyChanges();
-
-            VertexPositionColor[] vertices23 = new VertexPositionColor[vb.VertexCount];
-            vb.GetData<VertexPositionColor>(vertices23);
         }
 
         protected override void Update(GameTime gameTime)
@@ -86,7 +82,6 @@ namespace VertexIndexBuffer
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer | ClearOptions.Stencil, Color.CornflowerBlue, 1.0f, 0);
 
             miniTriEffect.CurrentTechnique.Passes[0].Apply();
 

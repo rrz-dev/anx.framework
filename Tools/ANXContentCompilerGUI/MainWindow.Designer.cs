@@ -542,7 +542,7 @@ namespace ANX.ContentCompiler.GUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.menuState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.menuState.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuState.Location = new System.Drawing.Point(-2, 23);
+            this.menuState.Location = new System.Drawing.Point(0, 22);
             this.menuState.Name = "menuState";
             this.menuState.Size = new System.Drawing.Size(865, 630);
             this.menuState.TabIndex = 1;

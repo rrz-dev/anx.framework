@@ -21,6 +21,10 @@ namespace ANX.RenderSystem.Windows.DX10
         private SharpDX.Color4 blendFactor;
         private int multiSampleMask;
 
+#if DEBUG
+        private static int blendStateCount = 0;
+#endif
+
 		#region Public
 		public Color BlendFactor
 		{
@@ -141,7 +145,11 @@ namespace ANX.RenderSystem.Windows.DX10
 		protected override Dx10.BlendState CreateNativeState(GraphicsDevice graphics)
 		{
 			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			return new Dx10.BlendState(device, ref description);
+			var blendState = new Dx10.BlendState(device, ref description);
+#if DEBUG
+            blendState.DebugName = "BlendState_" + blendStateCount++;
+#endif
+            return blendState;
 		}
 
 		protected override void ApplyNativeState(GraphicsDevice graphics)

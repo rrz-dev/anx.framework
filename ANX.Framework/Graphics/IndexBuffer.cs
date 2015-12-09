@@ -150,7 +150,7 @@ namespace ANX.Framework.Graphics
 
 		public void GetData<T>(T[] data) where T : struct
 		{
-			NativeIndexBuffer.GetData(data);
+            NativeIndexBuffer.GetData(data);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount)
@@ -164,36 +164,34 @@ namespace ANX.Framework.Graphics
 		public void SetData<T>(int offsetInBytes, T[] data, int startIndex,
 			int elementCount) where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, offsetInBytes, data,
-				startIndex, elementCount);
+			NativeIndexBuffer.SetData(offsetInBytes, data, startIndex, elementCount);
 		}
 
 		public void SetData<T>(T[] data) where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, data);
+			NativeIndexBuffer.SetData(data);
 		}
 
 		public void SetData<T>(T[] data, int startIndex, int elementCount)
 			where T : struct
 		{
-			NativeIndexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+			NativeIndexBuffer.SetData(data, startIndex, elementCount);
 		}
 		#endregion
 
 		#region Dispose
-		public override void Dispose()
+		protected override void Dispose(bool disposeManaged)
 		{
-			Dispose(true);
-		}
+            if (disposeManaged)
+            {
+                if (this.nativeIndexBuffer != null)
+                {
+                    this.nativeIndexBuffer.Dispose();
+                    this.nativeIndexBuffer = null;
+                }
+            }
 
-		protected override void Dispose(
-			[MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			if (this.nativeIndexBuffer != null)
-			{
-				this.nativeIndexBuffer.Dispose();
-				this.nativeIndexBuffer = null;
-			}
+            base.Dispose(disposeManaged);
 		}
 		#endregion
 	}

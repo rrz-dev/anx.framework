@@ -29,5 +29,11 @@ namespace ANX.InputDevices.OpenTK
 		{
 			return new GamePad();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "OpenTK"; }
+        }
+    }
 }

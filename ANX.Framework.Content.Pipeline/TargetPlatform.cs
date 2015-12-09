@@ -24,4 +24,28 @@ namespace ANX.Framework.Content.Pipeline
         WindowsMetro =  (byte)'8',
 
     }
+
+    public static class TargetPlatformExtension
+    {
+        public static string ToDisplayName(this TargetPlatform targetPlatform)
+        {
+            switch (targetPlatform)
+            {
+                case TargetPlatform.IOS:
+                    return "iOS";
+                case TargetPlatform.MacOs:
+                    return "Mac OS";
+                case TargetPlatform.PsVita:
+                    return "PS Vita";
+                case TargetPlatform.WindowsMetro:
+                    return "Windows Metro";
+                case TargetPlatform.WindowsPhone:
+                    return "Windows Phone";
+                case TargetPlatform.XBox360:
+                    return "XBox 360";
+                default:
+                    return targetPlatform.ToString();
+            }
+        }
+    }
 }

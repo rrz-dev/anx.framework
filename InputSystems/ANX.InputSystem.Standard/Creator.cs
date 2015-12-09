@@ -43,7 +43,7 @@ namespace ANX.InputSystem.Standard
                 {
                     Logger.Info(string.Format(CreationLogMessage, "TouchPanel"));
                     PreventSystemChange();
-                    touchPanel = InputDeviceFactory.Instance.GetDefaultTouchPanel();
+                    touchPanel = InputDeviceFactory.Instance.CreateDefaultTouchPanel();
                     if (touchPanel == null)
                         throw new NoInputDeviceException(string.Format(CreationThrowMessage, "touchPanel"));
                 }

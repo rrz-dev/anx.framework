@@ -30,5 +30,11 @@ namespace ANX.InputDevices.PsVita
 		{
 			return new GamePad();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "Sce"; }
+        }
+    }
 }

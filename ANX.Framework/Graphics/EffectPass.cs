@@ -1,5 +1,6 @@
 using System;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -14,21 +15,33 @@ namespace ANX.Framework.Graphics
     {
         private readonly Effect parentEffect;
 
-        public string Name { get; private set; }
-        public EffectAnnotationCollection Annotations { get; private set; }
-
-        internal EffectPass(Effect parentEffect)
+        internal INativeEffectPass NativeEffectPass
         {
-            if (parentEffect == null)
-                throw new ArgumentNullException("parentEffect");
+            get;
+            private set;
+        }
 
-            this.parentEffect = parentEffect;
+        public string Name 
+        {
+            get { return this.NativeEffectPass.Name; }
+        }
+
+        public EffectAnnotationCollection Annotations
+        {
+            get { return this.NativeEffectPass.Annotations; }
+        }
+
+        internal EffectPass(INativeEffectPass nativeEffectPass)
+        {
+            if (nativeEffectPass == null)
+                throw new ArgumentNullException("nativeEffectPass");
+
+            this.NativeEffectPass = nativeEffectPass;
         }
 
         public void Apply()
         {
-			parentEffect.PreBindSetParameters();
-            parentEffect.NativeEffect.Apply(parentEffect.GraphicsDevice);
+            this.NativeEffectPass.Apply();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ANX.Framework.Media;
+using System.ComponentModel;
 
 #endregion
 
@@ -16,6 +17,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
     [ContentProcessor]
     public class VideoProcessor : ContentProcessor<VideoContent, VideoContent>
     {
+        [DefaultValue(VideoSoundtrackType.Music)]
         public VideoSoundtrackType VideoSoundtrackType { get; set; }
 
         public override VideoContent Process(VideoContent input, ContentProcessorContext context)

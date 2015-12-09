@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="370d2fa7-544c-4f4a-9dde-ea72aa747d44" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="20565368-641f-488b-ab8d-0109cc38c6bb" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>WindowsFormsEditor</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

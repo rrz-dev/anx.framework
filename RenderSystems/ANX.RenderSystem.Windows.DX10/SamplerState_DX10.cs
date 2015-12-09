@@ -18,6 +18,10 @@ namespace ANX.RenderSystem.Windows.DX10
     {
         #region Private
 		private Dx10.SamplerStateDescription description;
+
+#if DEBUG
+        private static int samplerStateCount = 0;
+#endif
 		#endregion
 
 		#region Public
@@ -105,6 +109,9 @@ namespace ANX.RenderSystem.Windows.DX10
 				Dispose();
 				nativeState = new Dx10.SamplerState(device, ref description);
                 isDirty = false;
+#if DEBUG
+                nativeState.DebugName = "SamplerState_" + samplerStateCount++;
+#endif
             }
 		}
 		#endregion

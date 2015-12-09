@@ -29,5 +29,11 @@ namespace ANX.InputDevices.Windows.Kinect
 		{
 			return new Kinect();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "Microsoft.Research"; }
+        }
+    }
 }

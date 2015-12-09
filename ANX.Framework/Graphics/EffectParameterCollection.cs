@@ -20,8 +20,6 @@ namespace ANX.Framework.Graphics
     public sealed class EffectParameterCollection : IEnumerable<EffectParameter>
     {
         #region Private Members
-        private Effect parentEffect;
-        private INativeEffect nativeEffect;
         private List<EffectParameter> parameters;
         #endregion
 
@@ -40,16 +38,9 @@ namespace ANX.Framework.Graphics
             get { return parameters.Count; }
         }
 
-        internal EffectParameterCollection(Effect parentEffect, INativeEffect nativeEffect)
+        internal EffectParameterCollection(IEnumerable<EffectParameter> parameters)
         {
-            this.parentEffect = parentEffect;
-            this.nativeEffect = nativeEffect;
-            this.parameters = new List<EffectParameter>();
-
-            foreach (EffectParameter p in nativeEffect.Parameters)
-            {
-                this.parameters.Add(p);
-            }
+            this.parameters = new List<EffectParameter>(parameters);
         }
 
         public EffectParameter GetParameterBySemantic(string semantic)

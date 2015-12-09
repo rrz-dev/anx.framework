@@ -9,7 +9,7 @@ using WaveUtils;
 
 namespace ANX.Framework.Content.Pipeline.Importer
 {
-	[ContentImporter(new string[] { ".wav" }, DefaultProcessor = "SoundEffectProcessor")]
+	[ContentImporter(new string[] { ".wav" }, DefaultProcessor = "SoundEffectProcessor", Category="Sound Files")]
 	public class WavImporter : ContentImporter<AudioContent>
 	{
 		public override AudioContent Import(string filename, ContentImporterContext context)

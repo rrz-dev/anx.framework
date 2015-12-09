@@ -77,8 +77,14 @@ namespace ANX.RenderSystem.Windows.DX11
 			int indexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new DxIndexBuffer(graphics, size, indexCount, usage);
+			return new DxIndexBuffer((GraphicsDeviceDX)graphics.NativeDevice, size, indexCount, usage, false);
 		}
+
+        public INativeIndexBuffer CreateDynamicIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            PreventSystemChange();
+            return new DxIndexBuffer((GraphicsDeviceDX)graphics.NativeDevice, size, indexCount, usage, true);
+        }
 		#endregion
 
 		#region CreateVertexBuffer
@@ -86,8 +92,14 @@ namespace ANX.RenderSystem.Windows.DX11
 			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 		{
 			PreventSystemChange();
-			return new DxVertexBuffer(graphics, vertexDeclaration, vertexCount, usage);
+            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage, false);
 		}
+
+        public INativeVertexBuffer CreateDynamicVertexBuffer(GraphicsDevice graphics, DynamicVertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            PreventSystemChange();
+            return new DxVertexBuffer((GraphicsDeviceDX)graphics.NativeDevice, vertexDeclaration, vertexCount, usage, true);
+        }
 		#endregion
 
 #if XNAEXT
@@ -175,56 +187,27 @@ namespace ANX.RenderSystem.Windows.DX11
 		#endregion
 
 		#region GetAdapterList
-		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+		public ReadOnlyCollection<INativeGraphicsAdapter> GetAdapterList()
 		{
-			PreventSystemChange();
+            PreventSystemChange();
 
-            var adapterList = new List<GraphicsAdapter>();
-            var resultingModes = new List<DisplayMode>();
+            var adapterList = new List<INativeGraphicsAdapter>();
+            bool firstOutput = true;
 
             using (Factory factory = new Factory())
             {
-                for (int i = 0; i < factory.GetAdapterCount(); i++)
+                foreach (Adapter adapter in factory.Adapters)
                 {
-                    using (Adapter adapter = factory.GetAdapter(i))
+                    foreach (Output output in adapter.Outputs)
                     {
-                        GraphicsAdapter ga = new GraphicsAdapter();
-                        ga.Description = adapter.Description.Description;
-                        ga.DeviceId = adapter.Description.DeviceId;
-                        ga.DeviceName = adapter.Description.Description;
-                        ga.IsDefaultAdapter = i == 0; //TODO: how to set default adapter?
-                        //ga.IsWideScreen = ;
-                        ga.Revision = adapter.Description.Revision;
-                        ga.SubSystemId = adapter.Description.SubsystemId;
-                        ga.VendorId = adapter.Description.VendorId;
-
-                        resultingModes.Clear();
-
-                        if (adapter.Outputs.Length >= 1)
-                        {
-                            using (Output adapterOutput = adapter.Outputs[0])
-                            {
-                                var modeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
-
-                                foreach (ModeDescription modeDescription in modeList)
-                                {
-                                    var displayMode = new DisplayMode(modeDescription.Width, modeDescription.Height, DxFormatConverter.Translate(modeDescription.Format));
-                                    resultingModes.Add(displayMode);
-                                }
-
-                                ga.CurrentDisplayMode = new DisplayMode(adapterOutput.Description.DesktopBounds.Width, adapterOutput.Description.DesktopBounds.Height, SurfaceFormat.Color);
-                                ga.MonitorHandle = adapterOutput.Description.MonitorHandle;
-                            }
-                        }
-
-                        ga.SupportedDisplayModes = new DisplayModeCollection(resultingModes);
-
-                        adapterList.Add(ga);
+                        //By definition, the first returned output is always the default adapter.
+                        adapterList.Add(new DirectXGraphicsAdapter(adapter, output, firstOutput));
+                        firstOutput = false;
                     }
                 }
             }
 
-			return new System.Collections.ObjectModel.ReadOnlyCollection<GraphicsAdapter>(adapterList);
+            return new ReadOnlyCollection<INativeGraphicsAdapter>(adapterList);
 		}
 		#endregion
 
@@ -233,7 +216,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			int mipCount)
 		{
 			PreventSystemChange();
-			return new DxTexture2D(graphics, width, height, surfaceFormat, mipCount);
+            return new DxTexture2D((GraphicsDeviceDX)graphics.NativeDevice, width, height, surfaceFormat, mipCount);
 		}
 		#endregion
 
@@ -243,7 +226,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			RenderTargetUsage usage)
 		{
 			PreventSystemChange();
-			return new RenderTarget2D_DX11(graphics, width, height, mipMap, preferredFormat, preferredDepthFormat,
+			return new RenderTarget2D_DX11((GraphicsDeviceDX)graphics.NativeDevice, width, height, mipMap, preferredFormat, preferredDepthFormat,
 				preferredMultiSampleCount, usage);
 		}
 		#endregion
@@ -277,5 +260,5 @@ namespace ANX.RenderSystem.Windows.DX11
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 		}
 		#endregion
-	}
+    }
 }

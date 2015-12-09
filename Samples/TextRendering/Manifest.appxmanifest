@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="84dd2fc8-2ffa-43d9-93b7-b6bcc6c0a5cc" Publisher="CN=ANX-Team" Version="1.0.0.0" />
+  <Identity Name="459b20a3-6cdc-4442-aed0-e3c1583fe1e2" Publisher="CN=ANX-Team" Version="1.0.0.0" />
   <Properties>
     <DisplayName>TextRendering</DisplayName>
     <PublisherDisplayName>ANX Developer Team</PublisherDisplayName>

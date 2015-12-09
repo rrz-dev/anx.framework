@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>ModernUI Game (with ContentProject)</Name>
+    <Description>This is a basic project template for creating a ANX.Framework game with a empty ContentProject for the Windows 8 ModernUI. You are able to sell this game on the Windows Marketplace.</Description>
+    <Icon>__TemplateIcon.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>C67E41F2-74E4-4366-95CC-28A168C0EEA4</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>AnxGame</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="$projectname$">ModernUI Game\ModernUI Game (with ContentProject).vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$ Content">Content\Content Project (empty).vstemplate</ProjectTemplateLink>
+    </ProjectCollection>
+  </TemplateContent>
+</VSTemplate>

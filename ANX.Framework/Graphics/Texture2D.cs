@@ -17,192 +17,173 @@ namespace ANX.Framework.Graphics
     [PercentageComplete(70)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Untested)]
-	public class Texture2D : Texture, IGraphicsResource
-	{
-		#region Private
-		protected internal int width;
-		protected internal int height;
+    public class Texture2D : Texture, IGraphicsResource
+    {
+        #region Private
+        internal float OneOverWidth;
+        internal float OneOverHeight;
 
-		internal float OneOverWidth;
-		internal float OneOverHeight;
+        private INativeTexture2D nativeTexture2D;
+        private INativeTexture2D NativeTexture2D
+        {
+            get
+            {
+                if (nativeTexture2D == null)
+                    CreateNativeTextureSurface();
 
-		private INativeTexture2D nativeTexture2D;
-		private INativeTexture2D NativeTexture2D
-		{
-			get
-			{
-				if (nativeTexture2D == null)
-					CreateNativeTextureSurface();
+                return nativeTexture2D;
+            }
+        }
+        #endregion
 
-				return nativeTexture2D;
-			}
-		}
-		#endregion
+        #region Public
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(0, 0, this.Width, this.Height);
+            }
+        }
 
-		#region Public
-		public Rectangle Bounds
-		{
-			get
-			{
-				return new Rectangle(0, 0, this.width, this.height);
-			}
-		}
+        public int Width
+        {
+            get;
+            protected set;
+        }
 
-		public int Width
-		{
-			get
-			{
-				return this.width;
-			}
-		}
+        public int Height
+        {
+            get;
+            protected set;
+        }
+        #endregion
 
-		public int Height
-		{
-			get
-			{
-				return this.height;
-			}
-		}
-		#endregion
+        #region Constructor (TODO)
+        internal Texture2D(GraphicsDevice graphicsDevice)
+            : base(graphicsDevice)
+        {
+        }
 
-		#region Constructor (TODO)
-		internal Texture2D(GraphicsDevice graphicsDevice)
-			: base(graphicsDevice)
-		{
-		}
+        public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
+            : base(graphicsDevice)
+        {
+            this.Width = width;
+            this.Height = height;
+            OneOverWidth = 1f / width;
+            OneOverHeight = 1f / height;
 
-		public Texture2D(GraphicsDevice graphicsDevice, int width, int height)
-			: base(graphicsDevice)
-		{
-			this.width = width;
-			this.height = height;
-			OneOverWidth = 1f / width;
-			OneOverHeight = 1f / height;
+            base.LevelCount = 1;
+            base.Format = SurfaceFormat.Color;
 
-			base.LevelCount = 1;
-			base.Format = SurfaceFormat.Color;
+            CreateNativeTextureSurface();
+        }
 
-			CreateNativeTextureSurface();
-		}
+        public Texture2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap,
+            SurfaceFormat format)
+            : base(graphicsDevice)
+        {
+            this.Width = width;
+            this.Height = height;
+            OneOverWidth = 1f / width;
+            OneOverHeight = 1f / height;
 
-		public Texture2D(GraphicsDevice graphicsDevice, int width, int height, [MarshalAsAttribute(UnmanagedType.U1)] bool mipMap,
-			SurfaceFormat format)
-			: base(graphicsDevice)
-		{
-			this.width = width;
-			this.height = height;
-			OneOverWidth = 1f / width;
-			OneOverHeight = 1f / height;
+            // TODO: pass the mipmap parameter to the creation of the texture to let the graphics card generate mipmaps!
+            base.LevelCount = 1;
+            base.Format = format;
 
-			// TODO: pass the mipmap parameter to the creation of the texture to let the graphics card generate mipmaps!
-			base.LevelCount = 1;
-			base.Format = format;
+            CreateNativeTextureSurface();
+        }
 
-			CreateNativeTextureSurface();
-		}
+        internal Texture2D(GraphicsDevice graphicsDevice, int width, int height, int mipCount, SurfaceFormat format)
+            : base(graphicsDevice)
+        {
+            this.Width = width;
+            this.Height = height;
+            OneOverWidth = 1f / width;
+            OneOverHeight = 1f / height;
 
-		internal Texture2D(GraphicsDevice graphicsDevice, int width, int height, int mipCount, SurfaceFormat format)
-			: base(graphicsDevice)
-		{
-			this.width = width;
-			this.height = height;
-			OneOverWidth = 1f / width;
-			OneOverHeight = 1f / height;
+            base.LevelCount = mipCount;
+            base.Format = format;
 
-			base.LevelCount = mipCount;
-			base.Format = format;
+            CreateNativeTextureSurface();
+        }
+        #endregion
 
-			CreateNativeTextureSurface();
-		}
-		#endregion
+        #region FromStream (TODO)
+        public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
+        {
+            throw new NotImplementedException();
+        }
 
-		#region FromStream (TODO)
-		public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream)
-		{
-			throw new NotImplementedException();
-		}
+        public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream, int width, int height,
+            [MarshalAsAttribute(UnmanagedType.U1)] bool zoom)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
-		public static Texture2D FromStream(GraphicsDevice graphicsDevice, Stream stream, int width, int height,
-			[MarshalAsAttribute(UnmanagedType.U1)] bool zoom)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
+        #region GetData
+        public void GetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            NativeTexture2D.GetData(level, rect, data, startIndex, elementCount);
+        }
 
-		#region GetData
-		public void GetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			NativeTexture2D.GetData(level, rect, data, startIndex, elementCount);
-		}
+        public void GetData<T>(T[] data) where T : struct
+        {
+            NativeTexture.GetData(data);
+        }
 
-		public void GetData<T>(T[] data) where T : struct
-		{
-			NativeTexture.GetData(data);
-		}
+        public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            NativeTexture.GetData(data, startIndex, elementCount);
+        }
+        #endregion
 
-		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-		{
-			NativeTexture.GetData(data, startIndex, elementCount);
-		}
-		#endregion
+        #region SetData
+        public void SetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
+        {
+            NativeTexture2D.SetData(level, rect, data, startIndex, elementCount);
+        }
 
-		#region SetData
-		public void SetData<T>(int level, Nullable<Rectangle> rect, T[] data, int startIndex, int elementCount) where T : struct
-		{
-			NativeTexture2D.SetData(level, rect, data, startIndex, elementCount);
-		}
+        public void SetData<T>(T[] data) where T : struct
+        {
+            NativeTexture.SetData(data);
+        }
 
-		public void SetData<T>(T[] data) where T : struct
-		{
-			NativeTexture.SetData<T>(GraphicsDevice, data);
-		}
+        public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
+        {
+            NativeTexture.SetData<T>(data, startIndex, elementCount);
+        }
+        #endregion
 
-		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
-		{
-			NativeTexture.SetData<T>(GraphicsDevice, data, startIndex, elementCount);
-		}
-		#endregion
+        #region SaveAsJpeg
+        public void SaveAsJpeg(Stream stream, int width, int height)
+        {
+            NativeTexture2D.SaveAsJpeg(stream, width, height);
+        }
+        #endregion
 
-		#region SaveAsJpeg
-		public void SaveAsJpeg(Stream stream, int width, int height)
-		{
-			NativeTexture2D.SaveAsJpeg(stream, width, height);
-		}
-		#endregion
+        #region SaveAsPng
+        public void SaveAsPng(Stream stream, int width, int height)
+        {
+            NativeTexture2D.SaveAsPng(stream, width, height);
+        }
+        #endregion
 
-		#region SaveAsPng
-		public void SaveAsPng(Stream stream, int width, int height)
-		{
-			NativeTexture2D.SaveAsPng(stream, width, height);
-		}
-		#endregion
+        #region ReCreateNativeTextureSurface
+        internal override void ReCreateNativeTextureSurface()
+        {
+            CreateNativeTextureSurface();
+        }
+        #endregion
 
-		#region Dispose
-		public override void Dispose()
-		{
-			base.Dispose(true);
-		}
-
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-		{
-			base.Dispose(disposeManaged);
-		}
-		#endregion
-
-		#region ReCreateNativeTextureSurface
-		internal override void ReCreateNativeTextureSurface()
-		{
-			CreateNativeTextureSurface();
-		}
-		#endregion
-
-		#region CreateNativeTextureSurface
-		private void CreateNativeTextureSurface()
-		{
-			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			nativeTexture2D = creator.CreateTexture(GraphicsDevice, Format, width, height, LevelCount);
-			base.nativeTexture = nativeTexture2D;
-		}
-		#endregion
-	}
+        #region CreateNativeTextureSurface
+        private void CreateNativeTextureSurface()
+        {
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+            nativeTexture2D = creator.CreateTexture(GraphicsDevice, Format, Width, Height, LevelCount);
+            base.nativeTexture = nativeTexture2D;
+        }
+        #endregion
+    }
 }

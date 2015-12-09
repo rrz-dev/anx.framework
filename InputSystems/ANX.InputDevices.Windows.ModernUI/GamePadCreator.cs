@@ -29,5 +29,11 @@ namespace ANX.InputDevices.Windows.ModernUI
         {
             return new GamePad();
         }
+
+
+        public string Provider
+        {
+            get { return "XInput"; }
+        }
     }
 }

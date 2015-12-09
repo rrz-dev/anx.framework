@@ -10,99 +10,53 @@ using SharpDX;
 // "ANX.Framework developer group" and released under the Ms-PL license.
 // For details see: http://anxframework.codeplex.com/license
 
-#if DX10
 using Dx = SharpDX.Direct3D10;
-using DxDevice = SharpDX.Direct3D10.Device;
 
 namespace ANX.RenderSystem.Windows.DX10
-#endif
-#if DX11
-using Dx = SharpDX.Direct3D11;
-using DxDevice = SharpDX.Direct3D11.Device;
-
-namespace ANX.RenderSystem.Windows.DX11
-#endif
 {
-    public partial class DxVertexBuffer : INativeVertexBuffer, IDisposable
+    public partial class DxVertexBuffer : Buffer, INativeVertexBuffer, IDisposable
     {
-        public Dx.Buffer NativeBuffer { get; protected set; }
-        private Dx.Device device;
+#if DEBUG
+        private static int vertexBufferCount = 0;
+        private static int dynamicVertexBufferCount = 0;
+#endif
 
         #region Constructor
-        public DxVertexBuffer(GraphicsDevice graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        public DxVertexBuffer(GraphicsDeviceDX graphics, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage, bool dynamic)
+            : base(graphics.NativeDevice, usage, dynamic)
         {
-            GraphicsDeviceDX gd10 = graphics.NativeDevice as GraphicsDeviceDX;
-            this.device = gd10 != null ? gd10.NativeDevice as Dx.Device : null;
-
-            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+            InitializeBuffer(graphics.NativeDevice, vertexDeclaration, vertexCount, usage, dynamic);
         }
 
-        internal DxVertexBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        internal DxVertexBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage, bool dynamic)
+            : base(device, usage, dynamic)
         {
-            InitializeBuffer(device, vertexDeclaration, vertexCount, usage);
+            InitializeBuffer(device, vertexDeclaration, vertexCount, usage, dynamic);
         }
         #endregion
 
         #region InitializeBuffer
-        private void InitializeBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        private void InitializeBuffer(Dx.Device device, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage, bool dynamic)
         {
             this.vertexStride = vertexDeclaration.VertexStride;
 
-            //TODO: translate and use usage
-
-            if (device != null)
-            {
-                var description = new Dx.BufferDescription()
-                {
-                    Usage = Dx.ResourceUsage.Dynamic,
-                    SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
-                    BindFlags = Dx.BindFlags.VertexBuffer,
-                    CpuAccessFlags = Dx.CpuAccessFlags.Write,
-                    OptionFlags = Dx.ResourceOptionFlags.None
-                };
-
-                NativeBuffer = new Dx.Buffer(device, description);
-                //NativeBuffer.Unmap();
-            }
-        }
-        #endregion
-
-        private DataStream MapBufferWrite()
-        {
-            return NativeBuffer.Map(Dx.MapMode.WriteDiscard);
-        }
-
-        private SharpDX.DataStream MapBufferRead(Dx.Buffer buffer)
-        {
-            return buffer.Map(Dx.MapMode.ReadWrite);
-        }
-
-        private void UnmapBuffer()
-        {
-            NativeBuffer.Unmap();
-        }
-
-        private void UnmapBuffer(Dx.Buffer buffer)
-        {
-            buffer.Unmap();
-        }
-
-        private void CopySubresource(Dx.Buffer source, Dx.Buffer destination)
-        {
-            this.device.CopyResource(source, destination);
-        }
-
-        private Dx.Buffer CreateStagingBuffer()
-        {
             var description = new Dx.BufferDescription()
             {
-                Usage = Dx.ResourceUsage.Staging,
-                SizeInBytes = NativeBuffer.Description.SizeInBytes,
-                CpuAccessFlags = Dx.CpuAccessFlags.Read | Dx.CpuAccessFlags.Write,
+                Usage = dynamic ? Dx.ResourceUsage.Dynamic : Dx.ResourceUsage.Default,
+                SizeInBytes = vertexDeclaration.VertexStride * vertexCount,
+                BindFlags = Dx.BindFlags.VertexBuffer,
+                CpuAccessFlags = dynamic ? Dx.CpuAccessFlags.Write : Dx.CpuAccessFlags.None,
                 OptionFlags = Dx.ResourceOptionFlags.None
             };
 
-            return new Dx.Buffer(device, description);
+            NativeBuffer = new Dx.Buffer(device, description);
+#if DEBUG
+            if (dynamic)
+                NativeBuffer.DebugName = "DynamicVertexBuffer_" + dynamicVertexBufferCount++;
+            else
+                NativeBuffer.DebugName = "VertexBuffer_" + vertexBufferCount++;
+#endif
         }
+        #endregion
     }
 }

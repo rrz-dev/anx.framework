@@ -45,9 +45,7 @@ namespace ANX.RenderSystem.Windows.DX11
 			{
 				for (int i = 0; i < NativeTechnique.Description.PassCount; i++)
 				{
-					var passDx11 = new EffectPass_DX11(NativeTechnique.GetPassByIndex(i));
-					// TODO: wire up native pass and managed pass?
-					yield return new EffectPass(this.parentEffect);
+					yield return new EffectPass(new EffectPass_DX11(this.parentEffect, NativeTechnique.GetPassByIndex(i)));
 				}
 			}
 		}
@@ -55,6 +53,24 @@ namespace ANX.RenderSystem.Windows.DX11
         public EffectAnnotationCollection Annotations
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                if (NativeTechnique != null)
+                {
+                    NativeTechnique.Dispose();
+                    NativeTechnique = null;
+                }
+            }
         }
     }
 }

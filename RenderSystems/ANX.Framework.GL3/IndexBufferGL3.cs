@@ -102,16 +102,13 @@ namespace ANX.RenderSystem.GL3
 		#endregion
 
 		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data)
+		public void SetData<T>(T[] data)
 			where T : struct
 		{
 			BufferData(data, 0);
 		}
-		#endregion
 
-		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data,
-			int startIndex, int elementCount) where T : struct
+		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
 			if (startIndex != 0 ||
 				elementCount != data.Length)
@@ -125,11 +122,8 @@ namespace ANX.RenderSystem.GL3
 				BufferData(data, 0);
 			}
 		}
-		#endregion
 
-		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes,
-			T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
 		{
 			if (startIndex != 0 ||
 				elementCount != data.Length)

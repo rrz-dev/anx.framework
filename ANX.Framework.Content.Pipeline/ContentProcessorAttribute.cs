@@ -12,6 +12,8 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    [Serializable]
     public class ContentProcessorAttribute : Attribute
     {
         public ContentProcessorAttribute()

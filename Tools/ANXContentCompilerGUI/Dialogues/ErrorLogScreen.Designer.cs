@@ -31,7 +31,7 @@
             this.buttonNext = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.textBox = new System.Windows.Forms.RichTextBox();
             this.labelHeading = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -89,12 +89,11 @@
             this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox.ForeColor = System.Drawing.Color.White;
             this.textBox.Location = new System.Drawing.Point(41, 77);
-            this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
             this.textBox.ReadOnly = true;
-            this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox.Size = new System.Drawing.Size(497, 221);
             this.textBox.TabIndex = 16;
+            this.textBox.Text = "";
             // 
             // labelHeading
             // 
@@ -147,7 +146,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FirstStartScreen";
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -160,6 +158,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelHeading;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.RichTextBox textBox;
     }
 }

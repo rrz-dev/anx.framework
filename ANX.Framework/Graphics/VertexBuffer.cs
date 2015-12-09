@@ -15,23 +15,14 @@ namespace ANX.Framework.Graphics
     [Developer("Glatzemann")]
 	public class VertexBuffer : GraphicsResource, IGraphicsResource
 	{
-		#region Private
-		private INativeVertexBuffer nativeVertexBuffer;
-		#endregion
-
 		#region Public
 		// This is now internal because via befriending the assemblies
 		// it's usable in the modules but doesn't confuse the enduser.
-		internal INativeVertexBuffer NativeVertexBuffer
-		{
-			get
-			{
-				if (nativeVertexBuffer == null)
-					CreateNativeBuffer();
-
-				return nativeVertexBuffer;
-			}
-		}
+        internal INativeVertexBuffer NativeVertexBuffer
+        {
+            get;
+            set;
+        }
 
 		public BufferUsage BufferUsage { get; private set; }
 		public int VertexCount { get; private set; }
@@ -44,8 +35,7 @@ namespace ANX.Framework.Graphics
 		{
 		}
 
-		public VertexBuffer(GraphicsDevice graphicsDevice, VertexDeclaration vertexDeclaration, int vertexCount,
-			BufferUsage usage)
+		public VertexBuffer(GraphicsDevice graphicsDevice, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
 			: base(graphicsDevice)
 		{
 			VertexCount = vertexCount;
@@ -57,22 +47,15 @@ namespace ANX.Framework.Graphics
 
 			CreateNativeBuffer();
 		}
-
-		~VertexBuffer()
-		{
-			Dispose();
-			base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
-			base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
-		}
 		#endregion
 
 		#region GraphicsDevice_ResourceDestroyed
 		private void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
 		{
-			if (nativeVertexBuffer != null)
+			if (NativeVertexBuffer != null)
 			{
-				nativeVertexBuffer.Dispose();
-				nativeVertexBuffer = null;
+                NativeVertexBuffer.Dispose();
+                NativeVertexBuffer = null;
 			}
 		}
 		#endregion
@@ -80,10 +63,10 @@ namespace ANX.Framework.Graphics
 		#region GraphicsDevice_ResourceCreated
 		private void GraphicsDevice_ResourceCreated(object sender, ResourceCreatedEventArgs e)
 		{
-			if (nativeVertexBuffer != null)
+            if (NativeVertexBuffer != null)
 			{
-				nativeVertexBuffer.Dispose();
-				nativeVertexBuffer = null;
+                NativeVertexBuffer.Dispose();
+                NativeVertexBuffer = null;
 			}
 
 			CreateNativeBuffer();
@@ -91,11 +74,10 @@ namespace ANX.Framework.Graphics
 		#endregion
 
 		#region CreateNativeBuffer
-		private void CreateNativeBuffer()
+		internal virtual void CreateNativeBuffer()
 		{
 			var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
-			this.nativeVertexBuffer = creator.CreateVertexBuffer(GraphicsDevice, this, VertexDeclaration, VertexCount,
-				BufferUsage);
+			this.NativeVertexBuffer = creator.CreateVertexBuffer(GraphicsDevice, this, VertexDeclaration, VertexCount, BufferUsage);
 		}
 		#endregion
 
@@ -107,7 +89,7 @@ namespace ANX.Framework.Graphics
 
 		public void GetData<T>(T[] data) where T : struct
 		{
-			NativeVertexBuffer.GetData(data);
+            NativeVertexBuffer.GetData(data);
 		}
 
 		public void GetData<T>(T[] data, int startIndex, int elementCount) where T : struct
@@ -119,41 +101,39 @@ namespace ANX.Framework.Graphics
 		#region SetData
 		public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, int vertexStride) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, offsetInBytes, data, startIndex, elementCount, vertexStride);
+			NativeVertexBuffer.SetData(offsetInBytes, data, startIndex, elementCount, vertexStride);
 		}
 
 		public void SetData<T>(T[] data) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, data);
+			NativeVertexBuffer.SetData(data);
 		}
 
 		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			NativeVertexBuffer.SetData(GraphicsDevice, data, startIndex, elementCount);
+			NativeVertexBuffer.SetData(data, startIndex, elementCount);
 		}
 		#endregion
 
-		#region Dispose
-		public override void Dispose()
-		{
-			if (nativeVertexBuffer != null)
-			{
-				nativeVertexBuffer.Dispose();
-				nativeVertexBuffer = null;
-			}
-
-			// do not dispose the VertexDeclaration here, because it's only a reference
-			if (VertexDeclaration != null)
-				VertexDeclaration = null;
-		}
-
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		protected override void Dispose(bool disposeManaged)
 		{
 			if (disposeManaged)
 			{
-				Dispose();
+                if (NativeVertexBuffer != null)
+                {
+                    NativeVertexBuffer.Dispose();
+                    NativeVertexBuffer = null;
+                }
+
+                // do not dispose the VertexDeclaration here, because it's only a reference
+                if (VertexDeclaration != null)
+                    VertexDeclaration = null;
+
+                base.GraphicsDevice.ResourceCreated -= GraphicsDevice_ResourceCreated;
+                base.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
 			}
+
+            base.Dispose(disposeManaged);
 		}
-		#endregion
 	}
 }

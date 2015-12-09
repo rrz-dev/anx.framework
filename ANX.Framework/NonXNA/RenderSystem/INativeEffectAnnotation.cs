@@ -1,5 +1,6 @@
 using ANX.Framework.Graphics;
 using ANX.Framework.NonXNA.Development;
+using System;
 
 // This file is part of the ANX.Framework created by the
 // "ANX.Framework developer group" and released under the Ms-PL license.
@@ -10,7 +11,7 @@ namespace ANX.Framework.NonXNA.RenderSystem
     [PercentageComplete(100)]
     [Developer("AstrorEnales")]
     [TestState(TestStateAttribute.TestState.Untested)]
-    public interface INativeEffectAnnotation
+    public interface INativeEffectAnnotation : IDisposable
     {
         int ColumnCount { get; }
         string Name { get; }

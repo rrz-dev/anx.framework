@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using ANX.Framework.NonXNA.Development;
+using ANX.Framework.NonXNA;
 
 #endregion // Using Statements
 
@@ -34,9 +35,10 @@ namespace ANX.Framework.Graphics
             graphicsDevice.DeviceReset += graphicsDevice_DeviceReset;
         }
 
-        ~DynamicVertexBuffer()
+        internal override void CreateNativeBuffer()
         {
-            base.GraphicsDevice.DeviceReset -= graphicsDevice_DeviceReset;
+            var creator = AddInSystemFactory.Instance.GetDefaultCreator<IRenderSystemCreator>();
+            this.NativeVertexBuffer = creator.CreateDynamicVertexBuffer(GraphicsDevice, this, VertexDeclaration, VertexCount, BufferUsage);
         }
 
         private void graphicsDevice_DeviceReset(object sender, EventArgs e)
@@ -81,5 +83,14 @@ namespace ANX.Framework.Graphics
             }
         }
 
+        protected override void Dispose(bool disposeManaged)
+        {
+            if (disposeManaged)
+            {
+                base.GraphicsDevice.DeviceReset -= graphicsDevice_DeviceReset;
+            }
+
+            base.Dispose(disposeManaged);
+        }
     }
 }

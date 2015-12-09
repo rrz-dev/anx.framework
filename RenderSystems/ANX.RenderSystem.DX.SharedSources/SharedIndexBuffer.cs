@@ -17,40 +17,55 @@ namespace ANX.RenderSystem.Windows.DX10
 namespace ANX.RenderSystem.Windows.DX11
 #endif
 {
-    public partial class DxIndexBuffer : IDisposable
+    public partial class DxIndexBuffer
     {
         protected IndexElementSize elementSize;
 
         #region SetData
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data) where S : struct
+        public void SetData<S>(S[] data) where S : struct
         {
-            SetData<S>(graphicsDevice, data, 0, data.Length);
+            SetData<S>(data, 0, data.Length);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, S[] data, int startIndex, int elementCount) where S : struct
+        public void SetData<S>(S[] data, int startIndex, int elementCount) where S : struct
         {
-            SetData<S>(graphicsDevice, 0, data, startIndex, elementCount);
+            SetData<S>(0, data, startIndex, elementCount);
         }
 
-        public void SetData<S>(GraphicsDevice graphicsDevice, int offsetInBytes, S[] data, int startIndex, int elementCount)
+        public void SetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount)
             where S : struct
         {
-            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > NativeBuffer.Description.SizeInBytes)
+            if (offsetInBytes + elementCount * Marshal.SizeOf(typeof(S)) > SizeInBytes)
                 throw new ArgumentOutOfRangeException(string.Format("The offset by \"{0}\" plus the byte length described by \"{1}\" is over the bounds of the buffer.", "offsetInBytes", "elementCount"));
 
-            using (var stream = MapBufferWrite())
+            var buffer = this.NativeBuffer;
+            if (this.WriteNeedsStaging)
+                buffer = this.CreateStagingBuffer(ResourceMapping.Write);
+
+            try
             {
-                if (offsetInBytes > 0)
-                    stream.Seek(offsetInBytes, SeekOrigin.Current);
+                using (var stream = MapBuffer(buffer, ResourceMapping.Write))
+                {
+                    if (offsetInBytes > 0)
+                        stream.Seek(offsetInBytes, SeekOrigin.Current);
 
-                if (startIndex > 0 || elementCount < data.Length)
-                    for (int i = startIndex; i < startIndex + elementCount; i++)
-                        stream.Write<S>(data[i]);
-                else
-                    for (int i = 0; i < data.Length; i++)
-                        stream.Write<S>(data[i]);
+                    if (startIndex > 0 || elementCount < data.Length)
+                        for (int i = startIndex; i < startIndex + elementCount; i++)
+                            stream.Write<S>(data[i]);
+                    else
+                        for (int i = 0; i < data.Length; i++)
+                            stream.Write<S>(data[i]);
 
-                UnmapBuffer();
+                    UnmapBuffer(buffer);
+                }
+            }
+            finally
+            {
+                if (this.WriteNeedsStaging)
+                {
+                    CopySubresource(buffer, this.NativeBuffer);
+                    buffer.Dispose();
+                }
             }
         }
         #endregion
@@ -58,12 +73,15 @@ namespace ANX.RenderSystem.Windows.DX11
         #region GetData
         public void GetData<S>(S[] data) where S : struct
         {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
             GetData(0, data, 0, data.Length);
         }
 
         public void GetData<S>(S[] data, int startIndex, int elementCount) where S : struct
         {
-            GetData(0, data, 0, data.Length);
+            GetData(0, data, startIndex, elementCount);
         }
 
         public void GetData<S>(int offsetInBytes, S[] data, int startIndex, int elementCount) where S : struct
@@ -71,16 +89,18 @@ namespace ANX.RenderSystem.Windows.DX11
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            var stagingBuffer = CreateStagingBuffer();
-            CopySubresource(NativeBuffer, stagingBuffer);
-
-            using (var stream = MapBufferRead(stagingBuffer))
+            using (var stagingBuffer = CreateStagingBuffer(ResourceMapping.Read))
             {
-                if (offsetInBytes > 0)
-                    stream.Seek(offsetInBytes, SeekOrigin.Current);
+                CopySubresource(NativeBuffer, stagingBuffer);
 
-                stream.ReadRange(data, startIndex, elementCount);
-                UnmapBuffer(stagingBuffer);
+                using (var stream = MapBuffer(stagingBuffer, ResourceMapping.Read))
+                {
+                    if (offsetInBytes > 0)
+                        stream.Seek(offsetInBytes, SeekOrigin.Current);
+
+                    stream.ReadRange(data, startIndex, elementCount);
+                    UnmapBuffer(stagingBuffer);
+                }
             }
         }
         #endregion
@@ -89,16 +109,5 @@ namespace ANX.RenderSystem.Windows.DX11
         {
             return (elementSize == IndexElementSize.SixteenBits ? 2 : 4) * indexCount;
         }
-
-        #region Dispose
-        public void Dispose()
-        {
-            if (NativeBuffer != null)
-            {
-                NativeBuffer.Dispose();
-                NativeBuffer = null;
-            }
-        }
-        #endregion
     }
 }

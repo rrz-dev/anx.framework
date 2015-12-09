@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AnxContentProject"
+    targetNamespace="https://anxframework.codeplex.com/AnxContentProject.xsd"
+    elementFormDefault="qualified"
+    xmlns="https://anxframework.codeplex.com/AnxContentProject.xsd"
+    xmlns:anxcp="https://anxframework.codeplex.com/AnxContentProject.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:simpleType name="profile">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HiDef"/>
+      <xs:enumeration value="Reach"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="platform">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Windows"/>
+      <xs:enumeration value="WindowsPhone"/>
+      <xs:enumeration value="XBox360"/>
+      <xs:enumeration value="Android"/>
+      <xs:enumeration value="IOS"/>
+      <xs:enumeration value="Linux"/>
+      <xs:enumeration value="MacOs"/>
+      <xs:enumeration value="PsVita"/>
+      <xs:enumeration value="WindowsMetro"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="referenceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Assembly"/>
+      <xs:enumeration value="Project"/>
+      <xs:enumeration value="AssemblyCacheReference"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="referenceBase">
+    <xs:attribute type="xs:string" name="Name" use="required"/>
+  </xs:attributeGroup>
+  
+  <xs:simpleType name="assemblyFilePath">
+    <xs:restriction base="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the relative or absolute file path of the assembly.
+        </xs:documentation>
+      </xs:annotation>
+    <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+    
+  <xs:element name="ContentProject">
+    <xs:complexType>
+      <xs:all>
+        <xs:element type="xs:string" name="ProjectName"/>
+        <xs:element name="Configurations" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Configuration" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="anxcp:profile" name="Profile" minOccurs="0"/>
+                    <xs:element type="xs:string" name="OutputPath" minOccurs="0"/>
+                    <xs:element type="xs:boolean" name="CompressContent" minOccurs="0"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="Name" use="required"/>
+                  <xs:attribute type="anxcp:platform" name="Platform" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="References" minOccurs="0">
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+              <xs:element name="AssemblyReference" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="anxcp:assemblyFilePath">
+                      <xs:attributeGroup ref="anxcp:referenceBase"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ProjectReference">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="anxcp:assemblyFilePath">
+                      <xs:attributeGroup ref="anxcp:referenceBase"/>
+                      <xs:attribute type="xs:string" name="Include" use="required"/>
+                      <xs:attribute type="xs:string" name="Guid" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="AssemblyCacheReference">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attributeGroup ref="anxcp:referenceBase"/>
+                      <xs:attribute type="xs:string" name="AssemblyName" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BuildReferences" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuildReference" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="Name" use="required"/>
+                      <xs:attribute type="xs:string" name="Guid" use="required"/>
+                      <xs:attribute type="xs:string" name="Include" use="required"/>
+                      <xs:attribute type="xs:string" name="ContentRoot" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BuildItems" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuildItem" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element type="xs:string" name="SourceFile" minOccurs="1"/>
+                    <xs:element name="ProcessorParams" minOccurs="0">
+                      <xs:complexType mixed="true">
+                        <xs:sequence>
+                          <xs:element name="Parameter" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="Name" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:all>
+                  <xs:attribute type="xs:string" name="AssetName" use="optional"/>
+                  <xs:attribute type="xs:string" name="Importer" use="optional"/>
+                  <xs:attribute type="xs:string" name="Processor" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute type="xs:float" name="Version"/>
+      <xs:attribute type="xs:string" name="Creator"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

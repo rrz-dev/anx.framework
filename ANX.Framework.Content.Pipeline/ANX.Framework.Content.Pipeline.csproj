@@ -34,17 +34,17 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnxContentImporterContext.cs" />
-    <Compile Include="AnxContentProcessorContext.cs" />
     <Compile Include="Audio\AudioContent.cs" />
     <Compile Include="Audio\AudioFileType.cs" />
     <Compile Include="Audio\AudioFormat.cs" />
     <Compile Include="Audio\ConversionFormat.cs" />
     <Compile Include="Audio\ConversionQuality.cs" />
+    <Compile Include="ConsoleContentBuildLogger.cs" />
     <Compile Include="Graphics\AlphaTestMaterialContent.cs" />
     <Compile Include="Graphics\BasicMaterialContent.cs" />
     <Compile Include="Graphics\BitmapContent.cs" />
@@ -60,12 +60,17 @@
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="ContentProcessorAttribute.cs" />
     <Compile Include="ContentProcessorContext.cs" />
+    <Compile Include="Graphics\CharacterRegion.cs" />
+    <Compile Include="Graphics\FrameAnimationChannel.cs" />
+    <Compile Include="Graphics\KeyAnimationChannel.cs" />
     <Compile Include="Helpers\AssemblyHelper.cs" />
+    <Compile Include="Helpers\ClassPreloader.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\CompiledPass.cs" />
     <Compile Include="Helpers\DX11MetroShaderCodeGenerator\MetroCodeGenerator.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\GL3\ShaderHelper.cs" />
     <Compile Include="Helpers\GL3\ShaderData.cs" />
+    <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\HLSLParser\CommentRemover.cs" />
     <Compile Include="Helpers\HLSLParser\EffectBuffer.cs" />
     <Compile Include="Helpers\HLSLParser\EffectFile.cs" />
@@ -79,10 +84,13 @@
     <Compile Include="Helpers\HLSLParser\Technique.cs" />
     <Compile Include="Helpers\HLSLParser\TypeDef.cs" />
     <Compile Include="Helpers\HLSLParser\Variable.cs" />
+    <Compile Include="Helpers\NodeContentHelper.cs" />
+    <Compile Include="Helpers\PropertyExtensions.cs" />
     <Compile Include="Helpers\TypeExtensions.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
+    <Compile Include="IContentBuildLogger.cs" />
     <Compile Include="Importer\EffectImporter.cs" />
     <Compile Include="ExternalReference.cs" />
-    <Compile Include="Importer\FbxImporter.cs" />
     <Compile Include="Graphics\AnimationChannel.cs" />
     <Compile Include="Graphics\AnimationChannelDictionary.cs" />
     <Compile Include="Graphics\AnimationContent.cs" />
@@ -131,8 +139,11 @@
     <Compile Include="Importer\WavImporter.cs" />
     <Compile Include="Importer\XmlImporter.cs" />
     <Compile Include="InvalidContentException.cs" />
+    <Compile Include="MultiContentBuildLogger.cs" />
     <Compile Include="NamedValueDictionary.cs" />
     <Compile Include="OpaqueDataDictionary.cs" />
+    <Compile Include="ProcessorParameter.cs" />
+    <Compile Include="ProcessorParameterCollection.cs" />
     <Compile Include="Processors\CompiledEffectContent.cs" />
     <Compile Include="Processors\EffectProcessor.cs" />
     <Compile Include="Processors\EffectProcessorDebugMode.cs" />
@@ -173,10 +184,20 @@
     <Compile Include="Serialization\Compiler\EnumWriter.cs" />
     <Compile Include="Serialization\Compiler\GenericContentTypeWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\AlphaTestEffectWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\BasicEffectWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\DualTextureEffectWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\EffectMaterialWriter.cs" />
     <Compile Include="Serialization\Compiler\GraphicTypeWriters\EffectWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\EnvironmentMapEffectWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\IndexBufferWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\ModelWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\SkinnedEffectWriter.cs" />
     <Compile Include="Serialization\Compiler\GraphicTypeWriters\Texture2DWriter.cs" />
     <Compile Include="Serialization\Compiler\GraphicTypeWriters\SpriteFontWriter.cs" />
     <Compile Include="Serialization\Compiler\GraphicTypeWriters\TextureWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\VertexBufferWriter.cs" />
+    <Compile Include="Serialization\Compiler\GraphicTypeWriters\VertexDeclarationWriter.cs" />
     <Compile Include="Serialization\Compiler\ListWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\BoundingBoxWriter.cs" />
     <Compile Include="Serialization\Compiler\MathTypeWriters\BoundingSphereWriter.cs" />
@@ -202,6 +223,7 @@
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\ObjectWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\StringWriter.cs" />
     <Compile Include="Serialization\Compiler\PrimitiveTypeWriters\SingleWriter.cs" />
+    <Compile Include="Serialization\Compiler\ReflectiveWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\CharWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\DateTimeWriter.cs" />
     <Compile Include="Serialization\Compiler\SystemTypeWriters\DecimalWriter.cs" />
@@ -258,14 +280,23 @@
     <Compile Include="Serialization\Intermediate\XmlTypeNameReader.cs" />
     <Compile Include="Serialization\Intermediate\XmlTypeNameWriter.cs" />
     <Compile Include="TargetPlatform.cs" />
-    <Compile Include="Tasks\BuildContent.cs" />
+    <Compile Include="Tasks\AnxBuildCache.cs" />
+    <Compile Include="Tasks\BuildContentTask.cs" />
     <Compile Include="Tasks\BuildItem.cs" />
     <Compile Include="Tasks\BuildModeConverter.cs" />
+    <Compile Include="Tasks\CompiledBuildItem.cs" />
+    <Compile Include="Tasks\Configuration.cs" />
+    <Compile Include="Tasks\ConfigurationCollection.cs" />
     <Compile Include="Tasks\ContentProject.cs" />
-    <Compile Include="Tasks\ImporterConverter.cs" />
+    <Compile Include="Tasks\DefaultContentImporterContext.cs" />
+    <Compile Include="Tasks\DefaultContentProcessorContext.cs" />
+    <Compile Include="Tasks\IBuildCache.cs" />
     <Compile Include="Tasks\ImporterManager.cs" />
-    <Compile Include="Tasks\ProcessorConverter.cs" />
     <Compile Include="Tasks\ProcessorManager.cs" />
+    <Compile Include="Tasks\References\AssemblyReference.cs" />
+    <Compile Include="Tasks\References\GACReference.cs" />
+    <Compile Include="Tasks\References\ProjectReference.cs" />
+    <Compile Include="Tasks\References\Reference.cs" />
     <Compile Include="VideoContent.cs" />
     <Compile Include="Serialization\XmlReaderExtensions.cs" />
   </ItemGroup>
@@ -279,7 +310,17 @@
       <Name>WaveUtils</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="AnxContent.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AnxSpriteFont.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Tasks\AnxContentProject.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

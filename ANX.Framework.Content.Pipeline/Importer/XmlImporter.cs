@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using ANX.Framework.NonXNA.Development;
 using ANX.Framework.NonXNA.Reflection;
 using ANX.Framework.Content.Pipeline.Serialization.Intermediate;
+using System.ComponentModel;
 #endregion
 
 // This file is part of the ANX.Framework created by the
@@ -18,13 +19,12 @@ using ANX.Framework.Content.Pipeline.Serialization.Intermediate;
 
 namespace ANX.Framework.Content.Pipeline.Importer
 {
-    [ContentImporter(new[] { ".xml" })]
+    [ContentImporter(new[] { ".xml" }, Category="XML Files")]
     [Developer("KorsarNek")]
     [PercentageComplete(100)]
     [TestState(TestStateAttribute.TestState.InProgress)]
     public class XmlImporter : ContentImporter<object>
     {
-        private XDocument _doc;
         public override object Import(string filename, ContentImporterContext context)
         {
             using (XmlReader xmlReader = XmlReader.Create(filename))

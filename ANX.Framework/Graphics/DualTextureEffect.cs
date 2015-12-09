@@ -136,8 +136,7 @@ namespace ANX.Framework.Graphics
 		}
 		#endregion
 
-		#region PreBindSetParameters
-		internal override void PreBindSetParameters()
+		protected internal override void OnApply()
 		{
 			Matrix worldView;
 			Matrix.Multiply(ref world, ref view, out worldView);
@@ -158,7 +157,6 @@ namespace ANX.Framework.Graphics
 			else
 				Parameters["FogVector"].SetValue(Vector4.Zero);
 		}
-		#endregion
 
 		#region SelectTechnique
 		private void SelectTechnique()

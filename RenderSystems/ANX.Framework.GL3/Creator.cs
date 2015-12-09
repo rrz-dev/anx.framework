@@ -123,6 +123,12 @@ namespace ANX.RenderSystem.GL3
 			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
 			return new IndexBufferGL3(managedBuffer, size, indexCount, usage);
 		}
+
+        public INativeIndexBuffer CreateDynamicIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            return new IndexBufferGL3(managedBuffer, size, indexCount, usage);
+        }
 		#endregion
 
 		#region CreateVertexBuffer
@@ -143,6 +149,13 @@ namespace ANX.RenderSystem.GL3
 			return new VertexBufferGL3(managedBuffer, vertexDeclaration, vertexCount,
 				usage);
 		}
+
+        public INativeVertexBuffer CreateDynamicVertexBuffer(GraphicsDevice graphics, DynamicVertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage)
+        {
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            return new VertexBufferGL3(managedBuffer, vertexDeclaration, vertexCount,
+                usage);
+        }
 		#endregion
 
 #if XNAEXT
@@ -249,48 +262,31 @@ namespace ANX.RenderSystem.GL3
 		/// Get a list of available graphics adapter information.
 		/// </summary>
 		/// <returns>List of graphics adapters.</returns>
-		public ReadOnlyCollection<GraphicsAdapter> GetAdapterList()
+		public ReadOnlyCollection<INativeGraphicsAdapter> GetAdapterList()
 		{
-			AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
-			
-			var result = new List<GraphicsAdapter>();
-			foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
+            AddInSystemFactory.Instance.PreventSystemChange(AddInType.RenderSystem);
+            
+            var result = new List<INativeGraphicsAdapter>();
+            foreach (DisplayDevice device in DisplayDevice.AvailableDisplays)
             {
                 var resultingModes = new List<DisplayMode>();
-				foreach (string format in Enum.GetNames(typeof(SurfaceFormat)))
-				{
-					SurfaceFormat surfaceFormat = (SurfaceFormat)Enum.Parse(typeof(SurfaceFormat), format);
+                foreach (string format in Enum.GetNames(typeof(SurfaceFormat)))
+                {
+                    SurfaceFormat surfaceFormat = (SurfaceFormat)Enum.Parse(typeof(SurfaceFormat), format);
 
-					// TODO: device.BitsPerPixel
-					if (surfaceFormat != SurfaceFormat.Color)//adapter.Supports(surfaceFormat) == false)
-					{
-						continue;
-					}
+                    // TODO: device.BitsPerPixel
+                    if (surfaceFormat != SurfaceFormat.Color)//adapter.Supports(surfaceFormat) == false)
+                    {
+                        continue;
+                    }
+                }
 
-					foreach (DisplayResolution res in device.AvailableResolutions)
-					    resultingModes.Add(new DisplayMode(res.Width, res.Height, surfaceFormat));
-				}
+                var newAdapter = new GraphicsAdapterGL3(device, SurfaceFormat.Color);
 
-                DisplayDevice dev = DisplayDevice.GetDisplay(DisplayIndex.Default);
+                result.Add(newAdapter);
+            }
 
-				var newAdapter = new GraphicsAdapter
-				{
-                    SupportedDisplayModes = new DisplayModeCollection(resultingModes),
-					IsDefaultAdapter = device.IsPrimary,
-
-					// TODO:
-					DeviceId = 0,
-					DeviceName = "",
-					Revision = 0,
-					SubSystemId = 0,
-					VendorId = 0,
-                    CurrentDisplayMode = new DisplayMode(dev.Width, dev.Height, SurfaceFormat.Color)
-				};
-
-				result.Add(newAdapter);
-			}
-
-			return new ReadOnlyCollection<GraphicsAdapter>(result);
+            return new ReadOnlyCollection<INativeGraphicsAdapter>(result);
 		}
 		#endregion
 
@@ -331,5 +327,6 @@ namespace ANX.RenderSystem.GL3
 			//GL.Uniform1(UniformIndex, 1, ref unitIndex);
 		}
 		#endregion
-	}
+
+    }
 }

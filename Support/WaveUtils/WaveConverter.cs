@@ -41,6 +41,10 @@ namespace WaveUtils
 					MsAdpcm.ConvertToPcm(loadedData);
 					break;
 
+                case WaveFormat.PCM:
+                    //If it's already PCM, don't convert anything.
+                    break;
+
 				default:
 					throw new NotSupportedException("The WAVE format " + loadedData.WaveFormat +
 						" is not supported yet. Unable to load!");

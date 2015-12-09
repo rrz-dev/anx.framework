@@ -72,12 +72,7 @@ namespace ANX.Framework.Graphics
 			throw new NotImplementedException();
 		}
 
-		public override void Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
-		protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
+		protected override void Dispose(bool disposeManaged)
 		{
 			throw new NotImplementedException();
 		}

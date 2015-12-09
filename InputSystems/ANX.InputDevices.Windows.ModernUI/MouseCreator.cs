@@ -36,5 +36,11 @@ namespace ANX.InputDevices.Windows.ModernUI
         {
             return new Mouse();
         }
+
+
+        public string Provider
+        {
+            get { return "XInput"; }
+        }
     }
 }

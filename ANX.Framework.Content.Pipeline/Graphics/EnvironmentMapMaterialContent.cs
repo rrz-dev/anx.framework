@@ -14,14 +14,14 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 {
     public class EnvironmentMapMaterialContent : MaterialContent 
     {
-        public const string AlphaKey = "";
-        public const string DiffuseColorKey = "";
-        public const string EmissiveColorKey = "";
-        public const string EnvironmentMapAmountKey = "";
-        public const string EnvironmentMapKey = "";
-        public const string EnvironmentMapSpecularKey = "";
-        public const string FresnelFactorKey = "";
-        public const string TextureKey = "";
+        public const string AlphaKey = "Alpha";
+        public const string DiffuseColorKey = "DiffuseColor";
+        public const string EmissiveColorKey = "EmissiveColor";
+        public const string EnvironmentMapAmountKey = "EnivornmentMapAmount";
+        public const string EnvironmentMapKey = "EnvironmentMap";
+        public const string EnvironmentMapSpecularKey = "EnvironmentMapSpecular";
+        public const string FresnelFactorKey = "FresnelFactor";
+        public const string TextureKey = "Texture";
 
         public EnvironmentMapMaterialContent()
         {
@@ -29,50 +29,50 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public Nullable<float> Alpha
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(AlphaKey); }
+            set { this.SetProperty(AlphaKey, value); }
         }
 
         public Nullable<Vector3> DiffuseColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(DiffuseColorKey); }
+            set { this.SetProperty(DiffuseColorKey, value); }
         }
 
         public Nullable<Vector3> EmissiveColor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(EmissiveColorKey); }
+            set { this.SetProperty(EmissiveColorKey, value); }
         }
 
         public ExternalReference<TextureContent> EnvironmentMap
         {
-            get;
-            set;
+            get { return this.GetTexture(EnvironmentMapKey); }
+            set { this.SetTexture(EnvironmentMapKey, value); }
         }
 
         public Nullable<float> EnvironmentMapAmount
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(EnvironmentMapAmountKey); }
+            set { this.SetProperty(EnvironmentMapAmountKey, value); }
         }
 
         public Nullable<Vector3> EnvironmentMapSpecular
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<Vector3>(EnvironmentMapSpecularKey); }
+            set { this.SetProperty(EnvironmentMapSpecularKey, value); }
         }
 
         public Nullable<float> FresnelFactor
         {
-            get;
-            set;
+            get { return this.GetValueTypeProperty<float>(FresnelFactorKey); }
+            set { this.SetProperty(FresnelFactorKey, value); }
         }
 
         public ExternalReference<TextureContent> Texture
         {
-            get;
-            set;
+            get { return this.GetTexture(TextureKey); }
+            set { this.SetTexture(TextureKey, value); }
         }
     }
 }

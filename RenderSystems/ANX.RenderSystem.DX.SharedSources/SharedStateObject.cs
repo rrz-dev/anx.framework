@@ -17,14 +17,16 @@ namespace ANX.RenderSystem.Windows.DX11
 		protected const int IntMaxOver16 = int.MaxValue / 16;
 		protected const float ColorByteToFloatFactor = 1f / 255f;
 
-		#region Private
 		protected bool isDirty;
 		protected T nativeState;
-		#endregion
 
-		#region Public
 		public bool IsBound { get; protected set; }
-		#endregion
+
+        protected GraphicsDevice GraphicsDevice
+        {
+            get;
+            private set;
+        }
 
 		#region Constructor
 		protected BaseStateObject()
@@ -75,13 +77,31 @@ namespace ANX.RenderSystem.Windows.DX11
 		#region UpdateNativeBlendState
 		private void UpdateNativeBlendState(GraphicsDevice graphics)
 		{
+            if (graphics != this.GraphicsDevice)
+            {
+                if (this.GraphicsDevice != null)
+                    this.GraphicsDevice.ResourceDestroyed -= GraphicsDevice_ResourceDestroyed;
+
+                if (graphics != null)
+                    graphics.ResourceDestroyed += GraphicsDevice_ResourceDestroyed;
+
+                this.GraphicsDevice = graphics;
+                this.Dispose();
+            }
+
 			if (isDirty || nativeState == null)
 			{
 				Dispose();
+                this.GraphicsDevice = graphics;
 				nativeState = CreateNativeState(graphics);
 				isDirty = false;
 			}
 		}
+
+        void GraphicsDevice_ResourceDestroyed(object sender, ResourceDestroyedEventArgs e)
+        {
+            this.Dispose();
+        }
 		#endregion
 
 		protected virtual void Init() { }

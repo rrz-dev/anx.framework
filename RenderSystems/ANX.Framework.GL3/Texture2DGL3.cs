@@ -85,14 +85,14 @@ namespace ANX.RenderSystem.GL3
 		// TODO: offsetInBytes
 		// TODO: elementCount
 		#region SetData
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data) where T : struct
+		public void SetData<T>(T[] data) where T : struct
 		{
-			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
+			SetData<T>(0, data, 0, data.Length);
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, T[] data, int startIndex, int elementCount) where T : struct
+		public void SetData<T>(T[] data, int startIndex, int elementCount) where T : struct
 		{
-			SetData<T>(graphicsDevice, 0, data, 0, data.Length);
+			SetData<T>(0, data, 0, data.Length);
 		}
 
 		public void SetData<T>(int level, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct
@@ -136,8 +136,7 @@ namespace ANX.RenderSystem.GL3
 			}
 		}
 
-		public void SetData<T>(GraphicsDevice graphicsDevice, int offsetInBytes, T[] data, int startIndex, int elementCount)
-			where T : struct
+		public void SetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
 		{
 			int size = Marshal.SizeOf(typeof(T)) * data.Length;
 			if (size > maxSetDataSize)
@@ -246,7 +245,7 @@ namespace ANX.RenderSystem.GL3
 		internal void RecreateData()
 		{
 			CreateTexture();
-			SetData(null, texData);
+			SetData(texData);
 			texData = null;
 		}
 		#endregion

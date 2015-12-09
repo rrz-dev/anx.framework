@@ -16,14 +16,15 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     public class Dxt3BitmapContent : DxtBitmapContent
     {
         public Dxt3BitmapContent(int width, int height)
-            : base(-1, width, height)   //TODO: blockSize
+            : base(16, width, height)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override bool TryGetFormat(out SurfaceFormat format)
         {
-            throw new NotImplementedException();
+            format = SurfaceFormat.Dxt3;
+            return true;
         }
     }
 }

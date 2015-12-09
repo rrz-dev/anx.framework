@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Extern href="VSDbgCmd.h"/>
+  <Extern href="VsDebugGuids.h"/>
+  <Extern href="sharedids.h"/>
+
+  <!--The Commands section is where we the commands, menus and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidAnxToolsPkg">
+    <!-- Inside this section we have different sub-sections: one for the menus, another  
+    for the menu groups, one for the buttons (the actual commands), one for the combos 
+    and the last one for the bitmaps used. Each element is identified by a command id that  
+    is a unique pair of guid and numeric identifier; the guid part of the identifier is usually  
+    called "command set" and is used to group different command inside a logically related  
+    group; your package should define its own command set in order to avoid collisions  
+    with command ids defined by other packages. -->
+
+    <!-- In this section you can define new menu groups. A menu group is a container for 
+         other menus or buttons (commands); from a visual point of view you can see the 
+         group as the part of a menu contained between two lines. The parent of a group 
+         must be a menu. -->
+    <Groups>
+      <!-- Group on normal project items -->
+      <Group guid="guidAnxToolsCmdSet" id="CodeFileGroup" priority="0x600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      </Group>
+
+      <Group guid="guidAnxToolsCmdSet" id="DebugFileMenuGroup" priority="0x100">
+        <Parent guid="guidAnxToolsCmdSet" id="DebugFileMenu"/>
+      </Group>
+
+      <Group guid="guidAnxToolsCmdSet" id="BuildReferencesMenuGroup" priority="0x100">
+        <Parent guid="guidAnxToolsCmdSet" id="IDM_VS_CTXT_BUILDREFERENCES"/>
+      </Group>
+    </Groups>
+
+    <Menus>
+      <Menu guid="guidAnxToolsCmdSet" id="DebugFileMenu" priority="0x600" type="Context">
+        <Parent guid="guidAnxToolsCmdSet" id="CodeFileGroup" />
+        <Strings>
+          <ButtonText>Einzelne Datei kompilieren</ButtonText>
+        </Strings>
+      </Menu>
+
+      <Menu guid="guidAnxToolsCmdSet" id="IDM_VS_CTXT_BUILDREFERENCES" type="Context">
+        <Strings>
+          <ButtonText>Build-Verweise</ButtonText>
+          <CommandName>Anx.BuildReferences</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+
+    <!--Buttons section: buttons include both buttons on toolbars as well as individual menu items -->
+    <Buttons>
+
+      <!--To define a menu group you have to specify its ID, the parent menu and its display priority. 
+          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
+          the CommandFlag node.
+          You can add more than one CommandFlag node e.g.:
+              <CommandFlag>DefaultInvisible</CommandFlag>
+              <CommandFlag>DynamicVisibility</CommandFlag>
+          If you do not want an image next to your command, remove the Icon node or set it to <Icon guid="guidOfficeIcon" id="msotcidNoIcon" /> -->
+      <Button guid="guidAnxToolsCmdSet" id="cmdidStartDebugging" priority="0x0304" type="Button">
+        <Parent guid="guidAnxToolsCmdSet" id="DebugFileMenuGroup"/>
+        <Icon guid="guidImages" id="startDebugIcon"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>Anx.DebugFile</CommandName>
+          <ButtonText>Debuggen</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidAnxToolsCmdSet" id="cmdidStartWithoutDebugging" priority="0x305" type="Button">
+        <Parent guid="guidAnxToolsCmdSet" id="DebugFileMenuGroup"/>
+        <Icon guid="guidImages" id="startWithoutDebugIcon"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>Anx.BuildFile</CommandName>
+          <ButtonText>Erstellen</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidAnxToolsCmdSet" id="cmdidAddBuildReference" priority="0x100" type="Button">
+        <Parent guid="guidAnxToolsCmdSet" id="BuildReferencesMenuGroup"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>Anx.BuildReferences.Add</CommandName>
+          <ButtonText>Build-Verweis hinzufügen...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidAnxToolsCmdSet" id="cmdidRemoveBuildReference" priority="0x10" type="Button">
+        <Parent guid="guidAnxToolsCmdSet" id="BuildReferencesMenuGroup"/>
+        <Icon guid="guidSharedBmps6" id="bmpid6Remove"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>Anx.BuildReferences.Remove</CommandName>
+          <ButtonText>Entfernen</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
+    <Bitmaps>
+      <!--  The bitmap id is defined in a way that is a little bit different from the others: 
+              the declaration starts with a guid for the bitmap strip, then there is the resource id of the 
+              bitmap strip containing the bitmaps and then there are the numeric ids of the elements used 
+              inside a button definition. An important aspect of this declaration is that the element id 
+              must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
+      <Bitmap guid="guidImages" href="Resources\start.png" usedList="startWithoutDebugIcon, startDebugIcon" />
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidAnxToolsPkg" value="{b1437ba8-a8c6-48c4-af58-47ba72b2a7c8}" />
+
+    <GuidSymbol name="guidAnxToolsCmdSet" value="{9db42e81-d7ba-4245-8f80-1103239437d5}">
+      <IDSymbol name="cmdidStartDebugging" value="0x4005"/>
+      <IDSymbol name="cmdidStartWithoutDebugging" value="0x4004"/>
+      <IDSymbol name="cmdidAddBuildReference" value="0x4006"/>
+      <IDSymbol name="cmdidRemoveBuildReference" value="0x4007"/>
+      <IDSymbol name="CodeFileGroup" value="0x1053" />
+      <IDSymbol name="DebugFileGroup" value="0x4023"/>
+      <IDSymbol name="DebugFileMenu" value="0x5023"/>
+      <IDSymbol name="DebugFileMenuGroup" value="0x0523"/>
+      <IDSymbol name="BuildReferencesMenuGroup" value="0x2675"/>
+      <IDSymbol name="IDM_VS_CTXT_BUILDREFERENCES" value="0x0452"/>
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{60D704F9-3BB0-4968-A8F3-AB116C31EB0D}">
+      <IDSymbol name="startWithoutDebugIcon" value="1"/>
+      <IDSymbol name="startDebugIcon" value="2"/>
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

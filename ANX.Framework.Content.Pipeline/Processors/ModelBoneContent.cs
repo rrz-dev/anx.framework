@@ -13,39 +13,39 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     public sealed class ModelBoneContent
     {
-        public ModelBoneContentCollection Children { get; set; }
+        public ModelBoneContentCollection Children 
+        { 
+            get; 
+            private set; 
+        }
 
         public int Index
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public string Name
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public ModelBoneContent Parent
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public Matrix Transform
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
+        public ModelBoneContent()
+        {
+            Children = new ModelBoneContentCollection();
+        }
     }
 }

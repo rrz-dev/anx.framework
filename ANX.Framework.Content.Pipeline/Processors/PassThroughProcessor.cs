@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    [ContentProcessor]
+    [ContentProcessor(DisplayName="No Processing Required")]
     public class PassThroughProcessor : ContentProcessor<Object, Object>
     {
         public override object Process(object input, ContentProcessorContext context)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.IO;
+using System.Globalization;
 
 #endregion
 
@@ -92,22 +93,89 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public override void SetPixelData(byte[] sourceData)
         {
-            throw new NotImplementedException();
+            if (sourceData == null)
+                throw new ArgumentNullException("sourceData");
+
+            int copiedBytes = Width * Height * pixelSize;
+            if (copiedBytes != sourceData.Length)
+                throw new ArgumentException(string.Format("The length of sourceData (Length: {0}) must be equal to the size of the contained data within the {1} (Length: {2}).", sourceData.Length, this.GetType().FullName, copiedBytes));
+
+            var dataHandle = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            try
+            {
+                var dataPtr = (IntPtr)dataHandle.AddrOfPinnedObject().ToInt64();
+                Marshal.Copy(sourceData, copiedBytes, dataPtr, copiedBytes);
+            }
+            finally
+            {
+                dataHandle.Free();
+            }
         }
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            //The type name would be PixelBitmapContent`1. That's why we have to write the name ourselves.
+            return string.Format(CultureInfo.InvariantCulture, "PixelBitmapContent<{0}>, {1}x{2}", typeof(T).Name, Width, Height);
         }
 
         protected override bool TryCopyFrom(BitmapContent sourceBitmap, Rectangle sourceRegion, Rectangle destinationRegion)
         {
-            throw new NotImplementedException();
+            BitmapContent.ValidateCopyArguments(sourceBitmap, sourceRegion, this, destinationRegion);
+
+            if (sourceRegion.Width != destinationRegion.Width || sourceRegion.Height != destinationRegion.Height)
+            {
+                return Draw(sourceBitmap, sourceRegion, this, destinationRegion, TextureFilter.Anisotropic);
+            }
+
+            if (sourceBitmap is PixelBitmapContent<T>)
+            {
+                PixelBitmapContent<T> pixelBitmapContent = (PixelBitmapContent<T>)sourceBitmap;
+
+                for (int x = 0; x < sourceRegion.Width; x++)
+                    for (int y = 0; y < sourceRegion.Height; y++)
+                    {
+                        this.SetPixel(x + destinationRegion.X, y + destinationRegion.Y, pixelBitmapContent.GetPixel(x + sourceRegion.X, y + sourceRegion.Y));
+                    }
+
+                return true;
+            }
+
+            return false;
         }
 
         protected override bool TryCopyTo(BitmapContent destinationBitmap, Rectangle sourceRegion, Rectangle destinationRegion)
         {
-            throw new NotImplementedException();
+            BitmapContent.ValidateCopyArguments(this, sourceRegion, destinationBitmap, destinationRegion);
+
+            if (sourceRegion.Width != destinationRegion.Width || sourceRegion.Height != destinationRegion.Height)
+            {
+                return Draw(this, sourceRegion, destinationBitmap, destinationRegion, TextureFilter.Anisotropic);
+            }
+
+            if (destinationBitmap is PixelBitmapContent<T>)
+            {
+                PixelBitmapContent<T> pixelBitmapContent = (PixelBitmapContent<T>)destinationBitmap;
+
+                for (int x = 0; x < sourceRegion.Width; x++)
+                    for (int y = 0; y < sourceRegion.Height; y++)
+                    {
+                        pixelBitmapContent.SetPixel(x + destinationRegion.X, y + destinationRegion.Y, this.GetPixel(x + sourceRegion.X, y + sourceRegion.Y));
+                    }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ReplaceColor(T originalColor, T newColor)
+        {
+            for (int x = 0, width = pixels.GetLength(0); x < width; x++)
+                for (int y = 0, height = pixels.GetLength(1); y < height; y++)
+                {
+                    if (pixels[x, y].Equals(originalColor))
+                        pixels[x, y] = newColor;
+                }
         }
 
         public override bool TryGetFormat(out SurfaceFormat format)

@@ -80,9 +80,10 @@
             // 
             // labelStatus
             // 
-            this.labelStatus.Location = new System.Drawing.Point(129, 166);
+            this.labelStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelStatus.Location = new System.Drawing.Point(0, 0);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(337, 78);
+            this.labelStatus.Size = new System.Drawing.Size(595, 410);
             this.labelStatus.TabIndex = 0;
             this.labelStatus.Text = "Loading Preview...";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -100,7 +101,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PreviewScreen";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Preview";
             this.drawSurface.ResumeLayout(false);

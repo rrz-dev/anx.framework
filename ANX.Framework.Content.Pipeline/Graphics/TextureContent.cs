@@ -28,12 +28,47 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public void ConvertBitmapType(Type newBitmapType)
         {
-            throw new NotImplementedException();
+            if (newBitmapType == null)
+                throw new ArgumentNullException("newBitmapType");
+
+            foreach (MipmapChain face in this.Faces)
+            {
+                for (int i = 0; i < face.Count; i++)
+                {
+                    face[i] = BitmapContent.Convert(face[i], newBitmapType);
+                }
+            }
         }
 
         public virtual void GenerateMipmaps(bool overwriteExistingMipmaps)
         {
-            throw new NotImplementedException();
+            foreach (MipmapChain face in this.Faces)
+            {
+                if (face.Count == 0)
+                    continue;
+
+                //If we are overwriting, remove all bitmaps in the MipmapChain except the first one which we will use as base for all following Mipmaps.
+                if (overwriteExistingMipmaps)
+                {
+                    while (face.Count > 1)
+                    {
+                        face.RemoveAt(face.Count - 1);
+                    }
+                }
+            
+                BitmapContent bitmap = face[0];
+                int width = bitmap.Width;
+                int height = bitmap.Height;
+
+                while (width > 1 || height > 1)
+                {
+                    width /= 2;
+                    height /= 2;
+                    bitmap = BitmapContent.Convert(bitmap, bitmap.GetType(), width, height);
+
+                    face.Add(bitmap);
+                }
+            }
         }
 
         public abstract void Validate(Nullable<GraphicsProfile> targetProfile);

@@ -13,10 +13,13 @@ using ANX.Framework.Content.Pipeline.Processors;
 
 namespace ANX.Framework.Content.Pipeline.Graphics
 {
+    /// <summary>
+    /// Provides support for representing DirectX <see cref="Effect"/> materials. 
+    /// </summary>
     public class EffectMaterialContent : MaterialContent
     {
-        public const string CompiledEffectKey = "";
-        public const string EffectKey = "";
+        public const string CompiledEffectKey = "CompiledEffect";
+        public const string EffectKey = "Effect";
 
         public EffectMaterialContent()
         {
@@ -25,14 +28,15 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         [ContentSerializerIgnore]
         public ExternalReference<CompiledEffectContent> CompiledEffect
         {
-            get;
-            set;
+            get { return this.GetReferenceTypeProperty<ExternalReference<CompiledEffectContent>>(CompiledEffectKey); }
+            set { this.SetProperty(CompiledEffectKey, value); }
         }
 
+        [ContentSerializerIgnore]
         public ExternalReference<EffectContent> Effect
         {
-            get;
-            set;
+            get { return this.GetReferenceTypeProperty<ExternalReference<EffectContent>>(EffectKey); }
+            set { this.SetProperty(EffectKey, value); }
         }
     }
 }

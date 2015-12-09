@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ANX.Framework.Graphics;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 #endregion
 
@@ -18,62 +19,42 @@ namespace ANX.Framework.Content.Pipeline.Graphics
     {
         public static string Binormal(int usageIndex)
         {
-            return EncodeName("BINORMAL", usageIndex);
+            return EncodeName(VertexElementUsage.Binormal, usageIndex);
         }
 
         public static string Color(int usageIndex)
         {
-            return EncodeName("COLOR", usageIndex);
+            return EncodeName(VertexElementUsage.Color, usageIndex);
         }
 
         public static string DecodeBaseName(string encodedName)
         {
+            if (encodedName == null)
+                throw new ArgumentNullException("encodedName");
+
             return encodedName.TrimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         }
 
-        public static string DecodeUsageIndex(string encodedName)
+        public static int DecodeUsageIndex(string encodedName)
         {
             string baseName = DecodeBaseName(encodedName);
-            return encodedName.Replace(baseName, "").Trim();
+            return int.Parse(encodedName.Substring(baseName.Length), CultureInfo.InvariantCulture);
         }
 
         public static string EncodeName(string baseName, int usageIndex)
         {
-            return String.Format("{0}{1}", baseName.ToUpperInvariant(), usageIndex);
+            if (baseName == null)
+                throw new ArgumentNullException("baseName");
+
+            if (usageIndex < 0)
+                throw new ArgumentOutOfRangeException("usageIndex");
+
+            return String.Format("{0}{1}", baseName, usageIndex);
         }
 
         public static string EncodeName(VertexElementUsage vertexElementUsage, int usageIndex)
         {
-            string baseName = String.Empty;
-
-            switch (vertexElementUsage)
-            {
-                case VertexElementUsage.Binormal:
-                case VertexElementUsage.BlendIndices:
-                case VertexElementUsage.BlendWeight:
-                case VertexElementUsage.Color:
-                case VertexElementUsage.Normal:
-                case VertexElementUsage.Position:
-                case VertexElementUsage.Tangent:
-                    baseName = vertexElementUsage.ToString().ToUpperInvariant();
-                    break;
-                case VertexElementUsage.PointSize:
-                    baseName = "PSIZE";
-                    break;
-                case VertexElementUsage.TessellateFactor:
-                    baseName = "TESSFACTOR";
-                    break;
-                case VertexElementUsage.TextureCoordinate:
-                    baseName = "TEXCOORD";
-                    break;
-            }
-
-            if (!String.IsNullOrEmpty(baseName))
-            {
-                return EncodeName(baseName, usageIndex);
-            }
-
-            return baseName;
+            return EncodeName(vertexElementUsage.ToString(), usageIndex);
         }
 
         public static string Normal()
@@ -83,58 +64,29 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public static string Normal(int usageIndex)
         {
-            return EncodeName("NORMAL", usageIndex);
+            return EncodeName(VertexElementUsage.Normal, usageIndex);
         }
 
         public static string Tangent(int usageIndex)
         {
-            return EncodeName("TANGENT", usageIndex);
+            return EncodeName(VertexElementUsage.Tangent, usageIndex);
         }
 
         public static string TextureCoordinate(int usageIndex)
         {
-            return EncodeName("TEXCOORD", usageIndex);
+            return EncodeName(VertexElementUsage.TextureCoordinate, usageIndex);
         }
 
         public static bool TryDecodeUsage(string encodedName, out VertexElementUsage usage)
         {
             string baseName = DecodeBaseName(encodedName);
 
-            switch (baseName)
+            if (Enum.TryParse<VertexElementUsage>(baseName, true, out usage))
+                return true;
+            else
             {
-                case "BINORMAL":
-                    usage = VertexElementUsage.Binormal;
-                    return true;
-                case "BLENDINDICES":
-                    usage = VertexElementUsage.BlendIndices;
-                    return true;
-                case "BLENDWEIGHT":
-                    usage = VertexElementUsage.BlendWeight;
-                    return true;
-                case "COLOR":
-                    usage = VertexElementUsage.Color;
-                    return true;
-                case "NORMAL":
-                    usage = VertexElementUsage.Normal;
-                    return true;
-                case "POSITION":
-                    usage = VertexElementUsage.Position;
-                    return true;
-                case "PSIZE":
-                    usage = VertexElementUsage.PointSize;
-                    return true;
-                case "TANGENT":
-                    usage = VertexElementUsage.Tangent;
-                    return true;
-                case "TEXCOORD":
-                    usage = VertexElementUsage.TextureCoordinate;
-                    return true;
-                case "TESSFACTOR":
-                    usage = VertexElementUsage.TessellateFactor;
-                    return true;
-                default:
-                    usage = 0;
-                    return false;
+                usage = 0;
+                return false;
             }
         }
 
@@ -145,7 +97,7 @@ namespace ANX.Framework.Content.Pipeline.Graphics
 
         public static string Weights(int usageIndex)
         {
-            return EncodeName("BLENDWEIGHT", usageIndex);
+            return EncodeName(VertexElementUsage.BlendWeight, usageIndex);
         }
     }
 }

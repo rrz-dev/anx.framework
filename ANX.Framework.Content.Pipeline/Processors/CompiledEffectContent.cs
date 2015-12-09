@@ -15,6 +15,7 @@ namespace ANX.Framework.Content.Pipeline.Processors
 {
     public class CompiledEffectContent : ContentItem
     {
+        [ContentSerializer(ElementName = "EffectCode", AllowNull = false)]
         private byte[] effectCode;
 
         public CompiledEffectContent(byte[] effectCode)

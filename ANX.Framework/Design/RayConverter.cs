@@ -35,8 +35,8 @@ namespace ANX.Framework.Design
             {
                 Ray instance = (Ray)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-					return CreateInstanceDescriptor<Ray>(new object[] { instance.Position, instance.Direction });
+                if (IsTypeInstanceDescriptor(destinationType))
+                    return CreateInstanceDescriptor<Ray>(new object[] { instance.Position, instance.Direction });
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

@@ -8,22 +8,22 @@ namespace ANX.Framework.Graphics.PackedVector
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
-	public interface IPackedVector
-	{
-		void PackFromVector4(Vector4 vector);
+    public interface IPackedVector
+    {
+        void PackFromVector4(Vector4 vector);
 
-		Vector4 ToVector4();
-	}
+        Vector4 ToVector4();
+    }
 
     [PercentageComplete(100)]
     [Developer("Glatzemann")]
     [TestState(TestStateAttribute.TestState.Tested)]
-	public interface IPackedVector<TPacked> : IPackedVector
-	{
-		TPacked PackedValue
-		{
-			get;
-			set;
-		}
-	}
+    public interface IPackedVector<TPacked> : IPackedVector
+    {
+        TPacked PackedValue
+        {
+            get;
+            set;
+        }
+    }
 }

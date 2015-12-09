@@ -13,7 +13,7 @@ using ANX.Framework.Content.Pipeline.Graphics;
 
 namespace ANX.Framework.Content.Pipeline.Processors
 {
-    public sealed class ModelMeshContent
+    public class ModelMeshContent
     {
         public BoundingSphere BoundingSphere
         {
@@ -49,6 +49,11 @@ namespace ANX.Framework.Content.Pipeline.Processors
         {
             get;
             set;
+        }
+
+        public ModelMeshContent()
+        {
+            MeshParts = new ModelMeshPartContentCollection();
         }
     }
 }

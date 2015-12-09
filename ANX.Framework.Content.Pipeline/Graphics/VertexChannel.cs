@@ -57,6 +57,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             get { return Source[index]; }
             set { Source[index] = value; }
         }
+
+        [ContentSerializerIgnore]
+        public abstract Type ElementType
+        {
+            get;
+        }
         #endregion
 
         #region Constructor
@@ -70,6 +76,54 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         int IList.Add(object value)
         {
             throw new NotSupportedException("Size is fixed");
+        }
+
+        internal void AddRange(IEnumerable vertices)
+        {
+            InsertRange(0, vertices);
+        }
+
+        internal void AddRange(int vertexCount)
+        {
+            for (int i = 0; i < vertexCount; i++)
+                Source.Add(Activator.CreateInstance(ElementType));
+        }
+
+        internal void InsertRange(int index, IEnumerable vertices)
+        {
+            if (vertices == null)
+                throw new ArgumentNullException("vertices");
+
+            foreach (object value in vertices)
+            {
+                if (value == null || value.GetType() != this.ElementType)
+                    throw new ArgumentException("The added vertices are not of the same type as the vertex channel \"{0}\"", this.ElementType.Name);
+
+                Source.Insert(index, value);
+                index++;
+            }
+        }
+
+        internal void Insert(int index, object vertex)
+        {
+            if (vertex == null || vertex.GetType() != this.ElementType)
+                throw new ArgumentException("The added vertices are not of the same type as the vertex channel \"{0}\"", this.ElementType.Name);
+
+            Source.Insert(index, vertex);
+        }
+
+        internal void RemoveRange(int startIndex, int count)
+        {
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException("startIndex");
+
+            for (int i = startIndex + count - 1; i >= startIndex; i--)
+                Source.RemoveAt(i);
+        }
+
+        internal void Clear()
+        {
+            Source.Clear();
         }
 
         void IList.Insert(int index, object value)
@@ -111,10 +165,12 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         {
             return Source.GetEnumerator();
         }
+
+        public abstract IEnumerable<TargetType> ReadConvertedContent<TargetType>();
         #endregion
     }
 
-    public sealed class VertexChannel<T> : VertexChannel, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable
+    public class VertexChannel<T> : VertexChannel, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable
     {
         private List<T> source;
 
@@ -128,6 +184,14 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         bool ICollection<T>.IsReadOnly
         {
             get { return false; }
+        }
+
+        public override Type ElementType
+        {
+            get
+            {
+                return typeof(T);
+            }
         }
         #endregion
 
@@ -171,6 +235,11 @@ namespace ANX.Framework.Content.Pipeline.Graphics
             return source.IndexOf(item);
         }
 
+        public int IndexOf(T item, int startIndex)
+        {
+            return source.IndexOf(item, startIndex);
+        }
+
         public bool Contains(T item)
         {
             return source.Contains(item);
@@ -184,6 +253,16 @@ namespace ANX.Framework.Content.Pipeline.Graphics
         public new IEnumerator<T> GetEnumerator()
         {
             return source.GetEnumerator();
+        }
+
+        public override IEnumerable<TargetType> ReadConvertedContent<TargetType>()
+        {
+            Converter<T, TargetType> converter = VectorConverter.GetConverter<T, TargetType>();
+            foreach (T current in this.source)
+            {
+                yield return converter(current);
+            }
+            yield break;
         }
         #endregion
     }

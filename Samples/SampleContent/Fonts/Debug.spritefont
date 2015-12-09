@@ -5,7 +5,7 @@ Framework Inhalts-Pipeline gelesen. Befolgen Sie die Kommentare zur Anpassung de
 der Schriftart in Ihrem Spiel und zum Ändern der Zeichen, die für das Zeichnen verfügbar
 sind.
 -->
-<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+<AnxContent xmlns:Graphics="ANX.Framework.Content.Pipeline.Graphics">
   <Asset Type="Graphics:FontDescription">
 
     <!--
@@ -29,7 +29,7 @@ sind.
     UseKerning  steuert das Layout der Schriftart. Wenn dieser Wert wahr ist, werden Kerning-Informationen
     bei der Platzierung von Zeichen verwendet.
     -->
-    <UseKerning>true</UseKerning>
+    <UseKerning>false</UseKerning>
 
     <!--
     Style steuert den Stil der Schriftart. Gültige Einträge sind "Normal", "Fett", "Kursiv"
@@ -57,4 +57,4 @@ sind.
       </CharacterRegion>
     </CharacterRegions>
   </Asset>
-</XnaContent>
+</AnxContent>

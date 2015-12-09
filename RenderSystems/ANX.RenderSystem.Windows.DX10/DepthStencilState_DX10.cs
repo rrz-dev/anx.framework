@@ -19,6 +19,10 @@ namespace ANX.RenderSystem.Windows.DX10
 		private Dx10.DepthStencilStateDescription description;
         private int referenceStencil;
 
+#if DEBUG
+        private static int depthStencilStateCount = 0;
+#endif
+
 		#region Public (TODO)
 		public StencilOperation CounterClockwiseStencilDepthBufferFail
 		{
@@ -172,7 +176,11 @@ namespace ANX.RenderSystem.Windows.DX10
 		protected override Dx10.DepthStencilState CreateNativeState(GraphicsDevice graphics)
 		{
 			Dx10.Device device = (graphics.NativeDevice as GraphicsDeviceDX).NativeDevice;
-			return new Dx10.DepthStencilState(device, ref description);
+			var state = new Dx10.DepthStencilState(device, ref description);
+#if DEBUG
+            state.DebugName = "DepthStencilState_" + depthStencilStateCount++;
+#endif
+            return state;
 		}
 
 		protected override void ApplyNativeState(GraphicsDevice graphics)

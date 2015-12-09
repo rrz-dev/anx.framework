@@ -29,5 +29,11 @@ namespace ANX.InputDevices.OpenTK
 		{
 			return new Keyboard();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "OpenTK"; }
+        }
+    }
 }

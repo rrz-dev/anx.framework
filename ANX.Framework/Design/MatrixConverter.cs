@@ -30,21 +30,21 @@ namespace ANX.Framework.Design
             if (destinationType == null)
                 throw new ArgumentNullException("destinationType");
 
-			if (value is Matrix)
-			{
-				Matrix instance = (Matrix)value;
+            if (value is Matrix)
+            {
+                Matrix instance = (Matrix)value;
 
-				if (IsTypeInstanceDescriptor(destinationType))
-				{
-					return CreateInstanceDescriptor<Matrix>(new object[]
-					{
-						instance.M11, instance.M12, instance.M13, instance.M14, 
+                if (IsTypeInstanceDescriptor(destinationType))
+                {
+                    return CreateInstanceDescriptor<Matrix>(new object[]
+                    {
+                        instance.M11, instance.M12, instance.M13, instance.M14, 
                         instance.M21, instance.M22, instance.M23, instance.M24,
                         instance.M31, instance.M32, instance.M33, instance.M34,
                         instance.M41, instance.M42, instance.M43, instance.M44
-					});
-				}
-			}
+                    });
+                }
+            }
 
             return base.ConvertTo(context, culture, value, destinationType);
         }

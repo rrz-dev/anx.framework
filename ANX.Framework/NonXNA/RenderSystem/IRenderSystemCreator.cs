@@ -19,11 +19,13 @@ namespace ANX.Framework.NonXNA
 			SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount,
 			RenderTargetUsage usage);
 
-		INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size,
-			int indexCount, BufferUsage usage);
+		INativeIndexBuffer CreateIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage);
 
-		INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer,
-			VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
+        INativeIndexBuffer CreateDynamicIndexBuffer(GraphicsDevice graphics, IndexBuffer managedBuffer, IndexElementSize size, int indexCount, BufferUsage usage);
+
+		INativeVertexBuffer CreateVertexBuffer(GraphicsDevice graphics, VertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
+
+        INativeVertexBuffer CreateDynamicVertexBuffer(GraphicsDevice graphics, DynamicVertexBuffer managedBuffer, VertexDeclaration vertexDeclaration, int vertexCount, BufferUsage usage);
 
 #if XNAEXT
         INativeConstantBuffer CreateConstantBuffer(GraphicsDevice graphics, ConstantBuffer managedBuffer, BufferUsage usage);
@@ -45,7 +47,7 @@ namespace ANX.Framework.NonXNA
 		byte[] GetShaderByteCode(PreDefinedShader type);
         EffectSourceLanguage GetStockShaderSourceLanguage { get; }
 
-		ReadOnlyCollection<GraphicsAdapter> GetAdapterList();
+		ReadOnlyCollection<INativeGraphicsAdapter> GetAdapterList();
 
 		void SetTextureSampler(int index, Texture value);
 	}

@@ -13,13 +13,19 @@ using System.Collections;
 
 namespace ANX.Framework.Content.Pipeline
 {
+    [Serializable]
     public class NamedValueDictionary<T> : IDictionary<string, T>, ICollection<KeyValuePair<string, T>>, IEnumerable<KeyValuePair<string, T>>, IEnumerable
     {
-        private Dictionary<string, T> keyValues = new Dictionary<string, T>();
+        private Dictionary<string, T> keyValues;
 
         public NamedValueDictionary()
         {
-            // nothing to do
+            keyValues = new Dictionary<string, T>();
+        }
+
+        public NamedValueDictionary(IDictionary<string, T> dictionary)
+        {
+            keyValues = new Dictionary<string, T>(dictionary);
         }
 
         public int Count
@@ -69,6 +75,27 @@ namespace ANX.Framework.Content.Pipeline
         public void Add(string key, T value)
         {
             this.keyValues.Add(key, value);
+        }
+
+        public void AddRange(IEnumerable<KeyValuePair<string, T>> enumerable, bool overwrite = false)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException("enumerable");
+
+            if (overwrite == false)
+            {
+                foreach (var item in enumerable)
+                {
+                    this.Add(item.Key, item.Value);
+                }
+            }
+            else
+            {
+                foreach (var item in enumerable)
+                {
+                    this[item.Key] = item.Value;
+                }
+            }
         }
 
         public void Clear()

@@ -245,17 +245,17 @@ namespace ANX.Framework.Graphics
                     "You are not allowed to change BlendState properties while it is bound to the GraphicsDevice.");
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposeManaged)
         {
-            if (this.nativeBlendState != null)
+            if (disposeManaged)
             {
-                this.nativeBlendState.Dispose();
-                this.nativeBlendState = null;
+                if (this.nativeBlendState != null)
+                {
+                    this.nativeBlendState.Dispose();
+                    this.nativeBlendState = null;
+                }
             }
-        }
 
-        protected override void Dispose([MarshalAs(UnmanagedType.U1)] bool disposeManaged)
-        {
             base.Dispose(disposeManaged);
         }
     }

@@ -23,6 +23,7 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
         private string referenceRelocationPath;
         private Dictionary<Type, int> typeTable = new Dictionary<Type, int>();
         private List<ContentTypeWriter> typeWriters = new List<ContentTypeWriter>();
+        private List<object> sharedResources = new List<object>();
 
         private Stream outputStream;
         private MemoryStream header = new MemoryStream();
@@ -122,6 +123,9 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
             int typeIndex;
             ContentTypeWriter typeWriter = this.GetTypeWriter(value.GetType(), out typeIndex);
+            if (typeWriter == null)
+                throw new InvalidOperationException(string.Format("Can't find a type writer for {0}.", value.GetType()));
+
             base.Write7BitEncodedInt(typeIndex + 1);
 
             //TODO: test for recursive cyclic calls
@@ -172,7 +176,21 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         public void WriteSharedResource<T>(T value)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                //Index 0 is reserved for null
+                Write7BitEncodedInt(0);
+            }
+            else
+            {
+                int sharedResourceIndex = sharedResources.IndexOf(value);
+                if (sharedResourceIndex == -1)
+                {
+                    sharedResourceIndex = sharedResources.Count;
+                    sharedResources.Add(value);
+                }
+                base.Write7BitEncodedInt(sharedResourceIndex + 1);
+            }
         }
 
         public TargetPlatform TargetPlatform
@@ -196,16 +214,27 @@ namespace ANX.Framework.Content.Pipeline.Serialization.Compiler
 
         private void WriteData()
         {
+            OutStream = content;
+
+            //We wrote the main object previously in the content stream.
+            //We also have to execute the shared resources writer before we write the typeWriters list, 
+            //because we may add additional type writers here.
+            foreach (var resource in sharedResources)
+            {
+                this.WriteObject(resource);
+            }
+
             OutStream = header;
+
+            //Write type writers
             Write7BitEncodedInt(this.typeWriters.Count);
             foreach (ContentTypeWriter current in this.typeWriters)
             {
                 Write(current.GetRuntimeReader(TargetPlatform));
                 Write(current.TypeVersion);
             }
-            Write7BitEncodedInt((int)0); // number of shared resources
-            //TODO: write shared resources
 
+            Write7BitEncodedInt(sharedResources.Count);
 
             OutStream = outputStream;
 

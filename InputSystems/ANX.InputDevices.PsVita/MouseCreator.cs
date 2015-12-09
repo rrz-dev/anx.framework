@@ -30,5 +30,11 @@ namespace ANX.InputDevices.PsVita
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "Sce"; }
+        }
+    }
 }

@@ -30,5 +30,11 @@ namespace ANX.InputDevices.PsVita
 		{
 			return new TouchPanel();
 		}
-	}
+
+
+        public string Provider
+        {
+            get { return "Sce"; }
+        }
+    }
 }
