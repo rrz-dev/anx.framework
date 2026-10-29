@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B30DE9C2-0926-46B6-8351-9AF276C472D5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ANX.RenderSystem.Windows.DX11</RootNamespace>
+    <AssemblyName>ANX.RenderSystem.Windows.DX11</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DX11;XNAEXT;DEBUG;TRACE;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>DX11;XNAEXT;TRACE;PSVITA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ANX.Framework\ANX.Framework_PSVita.csproj">
+      <Project>{6899F0C9-70B9-4EB0-9DD3-E598D4BE3E35}</Project>
+      <Name>ANX.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpDX\Bin\Standard-net20\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlendState_DX11.cs" />
+    <Compile Include="Creator.cs" />
+    <Compile Include="DepthStencilState_DX11.cs" />
+    <Compile Include="EffectParameter_DX11.cs" />
+    <Compile Include="EffectPass_DX11.cs" />
+    <Compile Include="EffectTechnique_DX11.cs" />
+    <Compile Include="FormatConverter.cs" />
+    <Compile Include="GraphicsDeviceDX.cs" />
+    <Compile Include="DxIndexBuffer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterizerState_DX11.cs" />
+    <Compile Include="RenderTarget2D_DX11.cs" />
+    <Compile Include="SamplerState_DX11.cs" />
+    <Compile Include="ShaderByteCode.cs" />
+    <Compile Include="EffectDX.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedEffectDX.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedGraphicsDeviceDX.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\IncludeHandler.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\WindowHelper.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\DxFormatConverter.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedDxTexture2D.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedIndexBuffer.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedVertexBuffer.cs" />
+    <Compile Include="..\ANX.RenderSystem.DX.SharedSources\SharedStateObject.cs" />
+    <Compile Include="SupportedPlatformsImpl.cs" />
+    <Compile Include="DxTexture2D.cs" />
+    <Compile Include="DxVertexBuffer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

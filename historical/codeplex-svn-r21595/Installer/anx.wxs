@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<Product Id="{B7ABDA84-7163-4892-9AA1-814C6CDAAF54}" 
+           Name="ANX.Framework" 
+           Language="1033" 
+           Version="$(var.PRODUCTVERSION)" 
+           Manufacturer="ANX.Framework Developer Team" 
+           UpgradeCode="{7A54B375-318B-40B7-ABF7-60BB50689361}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Icon Id="ANX.icon" SourceFile="..\media\anx.ico" />
+    <Property Id="ARPPRODUCTICON" Value="ANX.icon" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id='1' Cabinet='ANX.Framework.cab' EmbedCab='yes' />
+
+    <Feature Id="ProductFeature" Title="ANX.Framework assemblies" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+
+    <Feature Id="Tools" Title="ANX.Framework tools" Level="1">
+      <ComponentGroupRef Id="Tools" />
+      <ComponentGroupRef Id="ToolsAnxContentCompiler4" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+
+    <Feature Id="VS2010TemplatesFeature" Title="ANX.Framework project templates for Visual Studio 2010" Level="1">
+      <ComponentGroupRef Id="VS2010Templates" />
+    </Feature>
+
+    <Feature Id="VS2012TemplatesFeature" Title="ANX.Framework project templates for Visual Studio 2012" Level="1">
+      <ComponentGroupRef Id="VS2012Templates" />
+    </Feature>
+    
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <WixVariable Id="WixUILicenseRtf" Value="../doc/license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="../media/ANX.Framework.Logo_493x58.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="../media/Installer_493x312.bmp" />
+    
+    <UIRef Id="WixUI_InstallDir" />
+
+    <PropertyRef Id="VS2010_ROOT_FOLDER" />
+    <PropertyRef Id="VS2010_ITEMTEMPLATES_DIR" />
+    <PropertyRef Id="VS2010_PROJECTTEMPLATES_DIR" />
+    <PropertyRef Id="VS2010_SCHEMAS_DIR" />
+    <PropertyRef Id="VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED"/>
+    <PropertyRef Id="VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED"/>
+
+    <PropertyRef Id="VS2012_ROOT_FOLDER" />
+    <PropertyRef Id="VS2012_ITEMTEMPLATES_DIR" />
+    <PropertyRef Id="VS2012_PROJECTTEMPLATES_DIR" />
+    <PropertyRef Id="VS2012_SCHEMAS_DIR" />
+    <PropertyRef Id="VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED"/>
+    <PropertyRef Id="VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED"/>
+
+    <CustomActionRef Id="VS2010InstallVSTemplates" />
+    <CustomActionRef Id="VS2012InstallVSTemplates" />
+
+    <InstallExecuteSequence>
+      <Custom Action="VS2010InstallVSTemplates" Before="InstallFinalize">NOT (Feature_VS2010 = -1)</Custom>
+      <Custom Action="VS2012InstallVSTemplates" Before="InstallFinalize">NOT (Feature_VS2012 = -1)</Custom>
+    </InstallExecuteSequence>
+
+    <UI>
+      <ProgressText Action="VS2010InstallVSTemplates" Template="[1]">Registering Visual Studio 2010 Templates</ProgressText>
+      <ProgressText Action="VS2012InstallVSTemplates" Template="[1]">Registering Visual Studio 2012 Templates</ProgressText>
+
+    </UI>
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="ANX.Framework">
+          <Directory Id="TOOLSFOLDER" Name="Tools" />
+        </Directory>
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="ANX.Framework" />
+      </Directory>
+
+      <Directory Id="VS2010_ROOT_FOLDER" Name="Visual Studio 10.0">
+        <Directory Id="VS2010_Common7" Name="Common7">
+          <Directory Id="VS2010_IDE" Name="IDE">
+            <Directory Id="VS2010_ITEMTEMPLATES_DIR" Name="ItemTemplates">
+            </Directory>
+            <Directory Id="VS2010_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
+              <Directory Id="VS2010_CSharp" Name="CSharp">
+                <Directory Id="VS2010_ANX_FRAMEWORK" Name="ANX.Framework">
+                  <Directory Id="VS2010_WindowsTemplates" Name="Windows" />
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="VS2012_ROOT_FOLDER" Name="Visual Studio 11.0">
+        <Directory Id="VS2012_Common7" Name="Common7">
+          <Directory Id="VS2012_IDE" Name="IDE">
+            <Directory Id="VS2012_ITEMTEMPLATES_DIR" Name="ItemTemplates">
+            </Directory>
+            <Directory Id="VS2012_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
+              <Directory Id="VS2012_CSharp" Name="CSharp">
+                <Directory Id="VS2012_ANX_FRAMEWORK" Name="ANX.Framework">
+                  <Directory Id="VS2012_ModernUITemplates" Name="ModernUI" />
+                  <Directory Id="VS2012_WindowsTemplates" Name="Windows" />
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <Feature Id="Feature_VS2010" Title="Visual Studio 2010" Level="0">
+      <Condition Level="1">VS2010_ROOT_FOLDER AND (VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED OR VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED)</Condition>
+      <ComponentRef Id="VS2010_XmlSchemas"/>
+      <Feature Id="Feature_VS2010_CSharp" Title="C# Support" Level="0">
+        <Condition Level="1">VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2010_CSharpCodeSnippets" />
+        <ComponentRef Id="VS2010_CSharpItemTemplates" />
+        <ComponentRef Id="VS2010_WebCSharpItemTemplates" />
+      </Feature>
+      <Feature Id="Feature_VS2010_VB" Title="VB Support" Level="0">
+        <Condition Level="1">VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2010_VBCodeSnippets" />
+        <ComponentRef Id="VS2010_VBItemTemplates" />
+        <ComponentRef Id="VS2010_WebVBItemTemplates" />
+      </Feature>
+    </Feature>
+  </Fragment>
+
+  <Fragment>
+    <Feature Id="Feature_VS2012" Title="Visual Studio 2012" Level="0">
+      <Condition Level="1">VS2012_ROOT_FOLDER AND (VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED OR VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED)</Condition>
+      <ComponentRef Id="VS2012_XmlSchemas"/>
+      <Feature Id="Feature_VS2012_CSharp" Title="C# Support" Level="0">
+        <Condition Level="1">VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2012_CSharpCodeSnippets" />
+        <ComponentRef Id="VS2012_CSharpItemTemplates" />
+        <ComponentRef Id="VS2012_WebCSharpItemTemplates" />
+      </Feature>
+      <Feature Id="Feature_VS2012_VB" Title="VB Support" Level="0">
+        <Condition Level="1">VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+        <ComponentRef Id="VS2012_VBCodeSnippets" />
+        <ComponentRef Id="VS2012_VBItemTemplates" />
+        <ComponentRef Id="VS2012_WebVBItemTemplates" />
+      </Feature>
+    </Feature>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2012Templates" Directory="VS2012_ModernUITemplates">
+      <Component Id="VS2012_ModernUiProjectTemplates" Guid="{8D9AD7CA-06B3-44BC-8553-E36D7E0D8D3B}">
+        <File Id="VS2012_ModernUI_Game_with_ContentProject.zip" Name="ModernUI Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (with ContentProject).zip" />
+        <File Id="VS2012_ModernUI_Game_without_ContentProject.zip" Name="ModernUI Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2012/ModernUI/ModernUI Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2012Templates_Windows" Directory="VS2012_WindowsTemplates">
+      <Component Id="VS2012_WindowsProjectTemplates" Guid="{6FAA269C-CDB7-45F8-9800-B4797D91DEA9}">
+        <File Id="VS2012_ModernUI_Game_with_ContentProject.zip" Name="Windows Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2012/Windows/Windows Game (with ContentProject).zip" />
+        <File Id="VS2012_ModernUI_Game_without_ContentProject.zip" Name="Windows Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2012/Windows/Windows Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="VS2010Templates" Directory="VS2012_WindowsTemplates">
+      <Component Id="VS2010_WindowsProjectTemplates" Guid="{65E24371-C6E3-4C1D-88FA-C93028CDEC69}">
+        <File Id="VS2010_ModernUI_Game_with_ContentProject.zip" Name="Windows Game (with ContentProject).zip" DiskId="1" Source="../templates/VS2010/Windows/Windows Game (with ContentProject).zip" />
+        <File Id="VS2010_ModernUI_Game_without_ContentProject.zip" Name="Windows Game (without ContentProject).zip" DiskId="1" Source="../templates/VS2010/Windows/Windows Game (without ContentProject).zip" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{7A7BEBDF-BE65-413E-A993-8E78311B445D}">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="ANX Status Comparer"
+                  Description="compare the development status between ANX and XNA"
+                  Target="[TOOLSFOLDER]asc.exe"
+                  WorkingDirectory="TOOLSFOLDER" />
+        <Shortcut Id="ApplicationStartMenuShortcut2"
+                  Name="ProjectConverter"
+                  Description="converts XNA projects to ANX"
+                  Target="[TOOLSFOLDER]ProjectConverter.exe"
+                  WorkingDirectory="TOOLSFOLDER" />
+        <Shortcut Id="ApplicationStartMenuShortcut3"
+                  Name="ANX ContentCompiler 4"
+                  Description="compiles content using the ANX ContentPipeline"
+                  Target="[TOOLSFOLDER]ccompiler4.exe"
+                  WorkingDirectory="TOOLSFOLDER" />
+        <util:InternetShortcut Id="OnlineDocumentationShortcut"
+                               Name="ANX.Framework WebSite"
+                               Target="http://anxframework.codeplex.com/"/>
+        <Shortcut Id="UninstallProduct"
+                                  Name="Uninstall ANX.Framework"
+                                  Description="Uninstalls the ANX.Framework from your system"
+                                  Target="[System64Folder]msiexec.exe"
+                                  Arguments="/x [ProductCode]"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\ANX.Framework" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Tools" Directory="TOOLSFOLDER">
+      <Component Id='ANX.Tools' Guid='{4EC562B1-DCE2-48C8-A29A-3EC6C1F588E0}'>
+        <File Id='ANXStatusComparer' Name='asc.exe' DiskId='1' Source='../bin/Release/asc.exe' />
+        <File Id='ANXStatusComparerStyleSheet' Name='SummaryStyle.css' DiskId='1' Source='../bin/Release/SummaryStyle.css' />
+        <File Id='ContentBuilder' Name='ContentBuilder.exe' DiskId='1' Source='../bin/Release/ContentBuilder.exe' />
+        <File Id='ProjectConverter' Name='ProjectConverter.exe' DiskId='1' Source='../bin/Release/ProjectConverter.exe' />
+        <File Id='XNBInspector' Name='ANX.Tools.XNBInspector.exe' DiskId='1' Source='../bin/Release/ANX.Tools.XNBInspector.exe' />
+        <File Id='AnxSampleBrowser' Name='ANXSampleBrowser.exe' DiskId='1' Source='../bin/Release/ANXSampleBrowser.exe' />
+
+        <Environment Id='ToolsEnvironment' Name='PATH' Part='last' System='yes' Value='[TOOLSFOLDER]' Action='set' Permanent='no' />
+
+        <File Id='tools.anxcontentcompiler.anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
+        <File Id='tools.anxcontentcompiler.anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
+        <File Id='tools.anxcontentcompiler.anx.framework.contentpipeline' Name='ANX.Framework.Content.Pipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Content.Pipeline.dll' />
+        <File Id='tools.anxcontentcompiler.anx.RenderSystem.windows.dx10' Name='ANX.RenderSystem.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX10.dll' />
+        <File Id='tools.anxcontentcompiler.anx.inputsystem.standard' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Standard.dll' />
+        <File Id='tools.anxcontentcompiler.anx.inputdevices.windows.xinput' Name='ANX.InputDevices.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputDevices.Windows.XInput.dll' />
+        <File Id='tools.anxcontentcompiler.anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.d3dcompiler' Name='SharpDX.D3DCompiler.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.D3DCompiler.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.direct3d10' Name='SharpDX.Direct3D10.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.Direct3D10.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.directinput' Name='SharpDX.DirectInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DirectInput.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx' Name='SharpDX.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.dxgi' Name='SharpDX.DXGI.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DXGI.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XAudio2.dll' />
+        <File Id='tools.anxcontentcompiler.sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XInput.dll' />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id='ToolsAnxContentCompiler4' Directory='TOOLSFOLDER'>
+      <Component Id='AnxContentCompiler4' Guid='{E3FD4739-B649-4FBF-BBF7-4F46831C7CAF}'>
+        <File Id='AnxContentCompiler4' Name='ccompiler4.exe' DiskId='1' Source='../bin/Release/ccompiler4.exe' />
+
+        <ProgId Id='AnxContentCompiler4' Description='ANX.Framework content project file' Advertise='yes' Icon='ANX.icon'>
+          <Extension Id='cproj' Advertise='yes' ContentType='application/cproj'>
+            <Verb Id='open' Command='Open' Argument='"%1"' />
+          </Extension>
+        </ProgId>
+      </Component>
+    </ComponentGroup>
+    
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id='ANX.Framework' Guid='{8A3AA04E-9325-441E-B16A-731676449C0B}'>
+        <File Id='license' Name='license.txt' DiskId='1' Source='../doc/license.txt' />
+        <File Id='anx.framework' Name='ANX.Framework.dll' DiskId='1' Source='../bin/Release/ANX.Framework.dll' />
+        <File Id='anx.framework.contentpipeline' Name='ANX.Framework.Content.Pipeline.dll' DiskId='1' Source='../bin/Release/ANX.Framework.Content.Pipeline.dll' />
+
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\ANX.Framework" >
+          <RegistryValue Type="string" Value="[INSTALLFOLDER]" Action="write" />
+        </RegistryKey>
+
+      </Component>
+      <Component Id='SharpDX' Guid='{D6D751D7-A339-4DBB-81BC-D9AC084936C5}'>
+        <File Id='sharpdx.d3dcompiler' Name='SharpDX.D3DCompiler.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.D3DCompiler.dll' />
+        <File Id='sharpdx.direct3d10' Name='SharpDX.Direct3D10.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.Direct3D10.dll' />
+        <File Id='sharpdx.direct3d11' Name='SharpDX.Direct3D11.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.Direct3D11.dll' />
+        <File Id='sharpdx.directinput' Name='SharpDX.DirectInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DirectInput.dll' />
+        <File Id='sharpdx' Name='SharpDX.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.dll' />
+        <File Id='sharpdx.dxgi' Name='SharpDX.DXGI.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.DXGI.dll' />
+        <File Id='sharpdx.xaudio2' Name='SharpDX.XAudio2.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XAudio2.dll' />
+        <File Id='sharpdx.xinput' Name='SharpDX.XInput.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/SharpDX.XInput.dll' />
+        <File Id='sharpdx_direct3d11_effects_x64' Name='sharpdx_direct3d11_effects_x64.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/sharpdx_direct3d11_effects_x64.dll' />
+        <File Id='sharpdx_direct3d11_effects_x86' Name='sharpdx_direct3d11_effects_x86.dll' DiskId='1' Source='../lib/SharpDX/Bin/Standard-net20/sharpdx_direct3d11_effects_x86.dll' />
+      </Component>
+      <Component Id='OpenTK' Guid='{132664CF-8DD6-4B6A-A200-88D4BE5F2AE9}'>
+        <File Id='opentk' Name='OpenTK.dll' DiskId='1' Source='../lib/OpenTK/OpenTK.dll' />
+      </Component>
+      <Component Id='ANX.RenderSystem.Windows.DX10' Guid='{34DD167E-084B-464F-9633-B0220E8C4683}'>
+        <File Id='anx.RenderSystem.windows.dx10' Name='ANX.RenderSystem.Windows.DX10.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX10.dll' />
+      </Component>
+      <Component Id='ANX.RenderSystem.Windows.DX11' Guid='{0E0CE2E8-9458-4333-9CF7-D60B126F7310}'>
+        <File Id='anx.RenderSystem.windows.dx11' Name='ANX.RenderSystem.Windows.DX11.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.Windows.DX11.dll' />
+      </Component>
+      <Component Id='ANX.Framework.GL3' Guid='{67D57889-559F-4762-95D1-B91014D8D55E}'>
+        <File Id='anx.framework.GL3' Name='ANX.Framework.GL3.dll' DiskId='1' Source='../bin/Release/ANX.RenderSystem.GL3.dll' />
+      </Component>
+      <Component Id='ANX.InputSystem.Standard' Guid='{71A52D93-AE81-4847-A29A-6AA6E16C83FB}'>
+        <File Id='anx.inputsystem.Standard' Name='ANX.InputSystem.Standard.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Standard.dll' />
+      </Component>
+      <Component Id='ANX.InputSystem.Recording' Guid='{F7AF68E6-CFB4-4CCA-8F6C-2C0FD286F258}'>
+        <File Id='anx.inputsystem.Recording' Name='ANX.InputSystem.Recording.dll' DiskId='1' Source='../bin/Release/ANX.InputSystem.Recording.dll' />
+      </Component>
+      <Component Id='ANX.InputDevices.Windows.XInput' Guid='{825A36A3-5071-46C5-B195-E0EB469EDA51}'>
+        <File Id='ANX.InputDevices.Windows.XInput' Name='ANX.InputDevices.Windows.XInput.dll' DiskId='1' Source='../bin/Release/ANX.InputDevices.Windows.XInput.dll' />
+      </Component>
+      <Component Id='ANX.SoundSystem.Windows.XAudio' Guid='{4C4EDC2B-BF6B-437C-874C-1573373DB55E}'>
+        <File Id='anx.soundsystem.windows.xaudio' Name='ANX.SoundSystem.Windows.XAudio.dll' DiskId='1' Source='../bin/Release/ANX.SoundSystem.Windows.XAudio.dll' />
+      </Component>
+      <Component Id='ANX.PlatformSystem.Windows' Guid='{0D0EBDD1-9F95-40CE-B314-7A502BC84A2F}'>
+        <File Id='anx.platformsystem.windows' Name='ANX.PlatformSystem.Windows.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Windows.dll' />
+      </Component>
+<!--
+      <Component Id='ANX.PlatformSystem.Linux' Guid='{6781BD15-B2DB-41B7-B628-CAF0D95D584D}'>
+        <File Id='anx.platformsystem.linux' Name='ANX.PlatformSystem.Linux.dll' DiskId='1' Source='../bin/Release/ANX.PlatformSystem.Linux.dll' />
+      </Component>
+-->      
+    </ComponentGroup>
+	</Fragment>
+</Wix>
